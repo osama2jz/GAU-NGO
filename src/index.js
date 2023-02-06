@@ -11,7 +11,14 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider
-        theme={{ colors: { primary: '#1D203E'}, primaryColor:'blue' }}
+        theme={{
+          colors: {
+            primary: "#1D203E",
+            primaryHover: "rgba(29, 32, 62, 0.8)",
+            gray: "#E7E7E780",
+          },
+          primaryColor: "blue",
+        }}
       >
         <App />
       </MantineProvider>

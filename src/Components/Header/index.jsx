@@ -7,8 +7,12 @@ import {
   Group,
   Text,
   Menu,
+  Badge,
+  Flex,
 } from "@mantine/core";
-import { UserCircle } from "tabler-icons-react/dist";
+import { Bell, UserCircle } from "tabler-icons-react/dist";
+import logo from "../../logo.svg";
+import InputField from "../InputField";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -17,18 +21,27 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    backgroundColor: "red",
+  },
+  headerSub: {
+    width: "80%",
+  },
+  logo: {
+    display: "flex",
+    alignItems: "center",
+    gap: "5px",
+    fontWeight: "600",
+    fontSize: "30px",
   },
 
   user: {
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+    color: "white",
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: theme.radius.sm,
     transition: "background-color 100ms ease",
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+      backgroundColor: theme.colors.gray,
+      // color:'black'
     },
 
     [theme.fn.smallerThan("xs")]: {
@@ -43,33 +56,47 @@ const Index = ({}) => {
 
   return (
     <Container fluid className={classes.header}>
-      <Text>GOU</Text>
-      <Group position="apart" noWrap>
+      <Text className={classes.logo}>
+        <img src={logo} alt="logo" width={"35px"} />
+        GAU
+      </Text>
+      <Group position="apart" noWrap className={classes.headerSub}>
         <Menu
-          width={260}
+          width={"target"}
+          shadow="xl"
           position="bottom-end"
           transition="pop-top-right"
           onClose={() => setUserMenuOpened(false)}
           onOpen={() => setUserMenuOpened(true)}
         >
+          <Container w={700} largerT>
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              borderWhite={true}
+            />
+          </Container>
+          <Bell />
           <Menu.Target>
             <UnstyledButton
               className={cx(classes.user, {
                 [classes.userActive]: userMenuOpened,
               })}
             >
-              <Group spacing={7}>
-                <Avatar src={UserCircle} radius="xl" size={20} />
-                <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                  {"John"}
-                </Text>
+              <Group spacing={7} noWrap>
+                <Avatar src={<UserCircle />} radius="xl" size={30} />
+                <Flex direction={"column"} gap="4px">
+                  <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                    {"Muhammad Usama"}
+                  </Text>
+                  <Badge size="xs">Social Worker</Badge>
+                </Flex>
               </Group>
             </UnstyledButton>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Label>Danger zone</Menu.Label>
-            <Menu.Item>Pause subscription</Menu.Item>
-            <Menu.Item color="red">Delete account</Menu.Item>
+            <Menu.Item>Setting</Menu.Item>
+            <Menu.Item color="red">Logout</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>

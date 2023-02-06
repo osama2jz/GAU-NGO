@@ -21,11 +21,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[7]
-          : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      backgroundColor: "rgba(86, 92, 154, 1)",
     },
   },
 
@@ -37,41 +33,35 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: 31,
     marginLeft: 30,
     fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
+    color: "white",
     borderLeft: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
 
     "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[7]
-          : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      backgroundColor: "rgba(86, 92, 154, 1)",
     },
   },
 
   chevron: {
+    color: "white",
     transition: "transform 200ms ease",
   },
 }));
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links, ind }) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
-  const items = (hasLinks ? links : []).map((link) => (
+  const items = (hasLinks ? links : []).map((link, index) => (
     <Text
       component={Link}
       className={classes.link}
       to={link.link}
       key={link.label}
     >
-      {link.label}
+      {ind + "." + (index + 1) + " " + link.label}
     </Text>
   ));
 
@@ -86,16 +76,14 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }) {
             sx={{ display: "flex", alignItems: "center", color: "white" }}
             fw={"normal"}
           >
-            {/* <ThemeIcon variant="light" size={30}> */}
             <Icon size={18} />
-            {/* </ThemeIcon> */}
-            <Box ml="md">{label}</Box>
+            <Box ml="md">{ind ? ind + ". " + label : label}</Box>
           </Box>
           {hasLinks && (
             <ChevronIcon
               className={classes.chevron}
-              size={14}
-              stroke={1.5}
+              size={12}
+              // stroke={1.5}
               style={{
                 transform: opened
                   ? `rotate(${theme.dir === "rtl" ? -90 : 90}deg)`

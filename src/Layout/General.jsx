@@ -7,6 +7,7 @@ import {
   Text,
   useMantineTheme,
   Group,
+  Container
 } from "@mantine/core";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -39,7 +40,7 @@ const Layout = () => {
       }
       footer={<></>}
       header={
-        <Header height={{ base: 70, md: 70 }} p="md" bg={theme.colors.primary}>
+        <Header height={{ base: 70, md: 70 }} bg={theme.colors.primary}>
           <Group noWrap>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
@@ -55,7 +56,9 @@ const Layout = () => {
         </Header>
       }
     >
-      <Outlet />
+      <Container mt={"md"} h={'80vh'} size="lg">
+        <Outlet />
+      </Container>
     </AppShell>
   );
 };

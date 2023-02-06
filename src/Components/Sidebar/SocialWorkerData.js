@@ -1,12 +1,20 @@
-import { Car, Gauge, ManualGearbox, TruckDelivery } from "tabler-icons-react";
+import {
+  Car,
+  Gauge,
+  Logout,
+  ManualGearbox,
+  Power,
+  Settings,
+  TruckDelivery,
+} from "tabler-icons-react";
 export const socialSideBarData = [
   { label: "Dashboard", icon: Gauge },
   {
     label: "Users",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: "/" },
-      { label: "All Users", link: "/" },
+      { label: "Add Users", link: "/adduser" },
+      { label: "All Users", link: "/allusers" },
     ],
   },
   {
@@ -24,5 +32,13 @@ export const socialSideBarData = [
       { label: "Add Users", link: "/" },
       { label: "All Users", link: "/" },
     ],
+  },
+];
+
+export const bottom = [
+  { label: "Settings", icon: Settings },
+  {
+    label: "Log Out",
+    icon: Power,
   },
 ];
