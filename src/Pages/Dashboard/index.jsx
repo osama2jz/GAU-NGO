@@ -48,6 +48,18 @@ const Dashboard = () => {
         <Text fz={28} fw="bolder" mb="sm">
           Dashboard
         </Text>
+        <Text fz={20} fw="bolder" mt="sm" mb="sm">Users</Text>
+        {/* <hr/> */}
+        <Grid>
+          {a.map((item, index) => (
+            <Grid.Col md={"auto"} lg="3">
+              <Card data={item} />
+            </Grid.Col>
+          ))}
+        </Grid>
+        
+        <Text fz={20} fw="bolder" mt="sm" mb="sm">Appointments</Text>
+        {/* <hr/> */}
         <Grid>
           {a.map((item, index) => (
             <Grid.Col md={"auto"} lg="3">

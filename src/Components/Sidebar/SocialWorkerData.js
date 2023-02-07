@@ -7,7 +7,7 @@ import {
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
-  { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dahsboard },
+  { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dashboard },
   {
     label: "Users",
     icon: TruckDelivery,
@@ -46,7 +46,7 @@ export const socialSideBarData = [
 ];
 
 export const bottom = [
-  { label: "Settings", icon: Settings },
+  { label: "Settings", icon: Settings ,link: routeNames.socialWorker.settings},
   {
     label: "Log Out",
     icon: Power,
