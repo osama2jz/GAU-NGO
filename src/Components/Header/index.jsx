@@ -11,10 +11,11 @@ import {
   Flex,
   MediaQuery,
 } from "@mantine/core";
-import { Bell, Power, Settings, UserCircle } from "tabler-icons-react/dist";
+import { Power, Settings, UserCircle } from "tabler-icons-react/dist";
 import logo from "../../logo.svg";
 import InputField from "../InputField";
 import { useMediaQuery } from "@mantine/hooks";
+import Notifications from "../Notifications";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -54,7 +55,7 @@ const useStyles = createStyles((theme) => ({
 
 const Index = ({}) => {
   const { classes, theme, cx } = useStyles();
-  const matches = useMediaQuery('(min-width: 640px)');
+  const matches = useMediaQuery("(min-width: 640px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   return (
@@ -73,7 +74,7 @@ const Index = ({}) => {
             />
           </Container>
         </MediaQuery>
-        <Bell />
+        <Notifications />
         <Menu
           width={matches && "target"}
           shadow="xl"

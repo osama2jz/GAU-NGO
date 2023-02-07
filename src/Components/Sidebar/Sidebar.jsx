@@ -6,6 +6,7 @@ import {
   Navbar,
   ScrollArea,
 } from "@mantine/core";
+import { useState } from "react";
 import { Logout, Settings } from "tabler-icons-react";
 
 import { LinksGroup } from "./NavBarLinksGroup";
@@ -42,19 +43,25 @@ const useStyles = createStyles((theme) => ({
 
   footer: {
     bottom: "10px",
-    width:'100%',
+    width: "100%",
     position: "absolute",
   },
 }));
 
 export function SideBar({ sideBarLinks }) {
   const { classes } = useStyles();
+  const [globalOpen, setGlobalOpen] = useState("");
   const links = sideBarLinks.map((item, ind) => (
-    <LinksGroup {...item} key={ind} ind={ind + 1} link={item.link} />
+    <LinksGroup
+      {...item}
+      key={ind}
+      ind={ind + 1}
+      link={item.link}
+      globalOpen={globalOpen}
+      setGlobalOpen={setGlobalOpen}
+    />
   ));
-  const bottoms = bottom.map((item, ind) => (
-    <LinksGroup {...item} key={ind} />
-  ));
+  const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} />);
 
   return (
     <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
