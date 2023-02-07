@@ -56,7 +56,7 @@ const Layout = () => {
         </Header>
       }
     >
-      <Container mt={"md"} h={'80vh'} size="lg">
+      <Container mt={"md"} h="min-content" size="lg">
         <Outlet />
       </Container>
     </AppShell>
