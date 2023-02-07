@@ -50,7 +50,7 @@ const useStyles = createStyles((theme) => ({
 export function SideBar({ sideBarLinks }) {
   const { classes } = useStyles();
   const links = sideBarLinks.map((item, ind) => (
-    <LinksGroup {...item} key={ind} ind={ind + 1} />
+    <LinksGroup {...item} key={ind} ind={ind + 1} link={item.link} />
   ));
   const bottoms = bottom.map((item, ind) => (
     <LinksGroup {...item} key={ind} />

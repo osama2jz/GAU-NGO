@@ -8,7 +8,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
@@ -26,7 +26,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   link: {
-    fontWeight: 500,
+    // fontWeight: 500,
     display: "block",
     textDecoration: "none",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
@@ -49,7 +49,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links, ind }) {
+export function LinksGroup({
+  icon: Icon,
+  label,
+  initiallyOpened,
+  links,
+  ind,
+  link,
+}) {
+  const navigate = useNavigate();
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -75,6 +83,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, ind }) {
           <Box
             sx={{ display: "flex", alignItems: "center", color: "white" }}
             fw={"normal"}
+            onClick={() => navigate(link)}
           >
             <Icon size={18} />
             <Box ml="md">{ind ? ind + ". " + label : label}</Box>

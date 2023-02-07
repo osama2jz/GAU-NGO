@@ -8,7 +8,7 @@ import {
   TruckDelivery,
 } from "tabler-icons-react";
 export const socialSideBarData = [
-  { label: "Dashboard", icon: Gauge },
+  { label: "Dashboard", icon: Gauge, link: "/" },
   {
     label: "Users",
     icon: TruckDelivery,

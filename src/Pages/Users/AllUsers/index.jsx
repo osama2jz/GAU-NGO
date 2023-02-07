@@ -1,64 +1,115 @@
-import { Container, Flex, Table, Text } from "@mantine/core";
+import { Container, Flex, Text } from "@mantine/core";
 import { useState } from "react";
-import { Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
+import Table from "../../../Components/Table";
 
 import { useStyles } from "./styles";
+import ViewUser from "./viewUser";
 
 export const AllUser = () => {
   const { classes } = useStyles();
-  const [opened, setOpened] = useState(false);
-  const elements = [
-    { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-    { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-    { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-    { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-    { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
-    { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-    { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-    { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-    { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-    { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
+  let headerData = [
+    {
+      id: "id",
+      numeric: true,
+      disablePadding: true,
+      label: "Sr No.",
+    },
+    {
+      id: "name",
+      numeric: false,
+      disablePadding: true,
+      label: "Name",
+    },
+    {
+      id: "email",
+      numeric: false,
+      disablePadding: true,
+      label: "Email",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Date",
+    },
+    {
+      id: "status",
+      numeric: false,
+      disablePadding: true,
+      label: "Status",
+    },
+    {
+      id: "actions",
+      view: <Eye />,
+      delete: <Trash />,
+      numeric: false,
+      label: "Actions",
+    },
+  ];
+  const rowData = [
+    {
+      id: "1",
+      name: "Muhammad Usama",
+      email: "osama@gmail.com",
+      date: "12 Jan 2022",
+      status: "Processing",
+    },
+    {
+      id: "2",
+      name: "Muhammad UUsama",
+      email: "osama@gmail.com",
+      date: "12 Jan 2022",
+      status: "Processing",
+    },
+    {
+      id: "3",
+      name: "Muhammad Usama",
+      email: "osama@gmail.com",
+      date: "12 Jan 2022",
+      status: "Processing",
+    },
+    {
+      id: "4",
+      name: "Muhammad Usama",
+      email: "osama@gmail.com",
+      date: "12 Jan 2022",
+      status: "Processing",
+    },
+    {
+      id: "5",
+      name: "Muhammad Usama",
+      email: "osama@gmail.com",
+      date: "12 Jan 2022",
+      status: "Processing",
+    },
   ];
 
-  const rows = elements.map((element) => (
-    <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-      <td>{element.symbol}</td>
-      <td>{element.mass}</td>
-      <td>{element.mass}</td>
-      <td>
-        <Eye /> <Trash onClick={() => setOpened(true)} />
-      </td>
-    </tr>
-  ));
   return (
     <Container className={classes.addUser} size="xl">
       <Text fz={"xl"} fw="bolder" align="center">
         All Users
       </Text>
-      <Table striped withBorder className={classes.table}>
-        <thead>
-          <tr>
-            <th>Sr. No.</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      <Container p={"xl"} >
+        <Table
+          headCells={headerData}
+          rowData={rowData}
+          setViewModalState={setOpenViewModal}
+          setDeleteModalState={setOpenDeleteModal}
+        />
+      </Container>
       <DeleteModal
-        opened={opened}
-        setOpened={setOpened}
-        onCancel={() => setOpened(false)}
-        onDelete={() => setOpened(false)}
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={() => setOpenDeleteModal(false)}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
+      <ViewUser opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
   );
 };

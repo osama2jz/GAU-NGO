@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import GeneralLayout from "./Layout/General";
-import { Dashboard } from "./Components/Dashboard";
+import Dashboard from "./Pages/Dashboard";
 import { AddUser } from "./Pages/Users/AddUser";
 import { AllUser } from "./Pages/Users/AllUsers";
 

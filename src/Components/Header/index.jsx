@@ -10,7 +10,7 @@ import {
   Badge,
   Flex,
 } from "@mantine/core";
-import { Bell, UserCircle } from "tabler-icons-react/dist";
+import { Bell, Power, Settings, UserCircle } from "tabler-icons-react/dist";
 import logo from "../../logo.svg";
 import InputField from "../InputField";
 
@@ -95,8 +95,18 @@ const Index = ({}) => {
             </UnstyledButton>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item>Setting</Menu.Item>
-            <Menu.Item color="red">Logout</Menu.Item>
+            <Menu.Item>
+              <Flex gap={'md'}>
+                <Settings />
+                <Text>Settings</Text>
+              </Flex>
+            </Menu.Item>
+            <Menu.Item color="red">
+              <Flex gap={'md'}>
+                <Power />
+                Logout
+              </Flex>
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>

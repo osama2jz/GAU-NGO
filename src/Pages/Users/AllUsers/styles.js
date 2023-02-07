@@ -15,5 +15,6 @@ export const useStyles = createStyles((theme) => ({
   table: {
     width: "90%",
     margin: "auto",
+    // backgroundColor:'white'
   },
 }));
