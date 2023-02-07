@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Badge,
+  Flex,
   Group,
   Paper,
   ScrollArea,
@@ -113,7 +114,7 @@ const Table = ({
                 {headCells?.map((head, index) => {
                   return head.id === "actions" ? (
                     <td key={index}>
-                      <Group position="center">
+                      <Flex justify="center">
                         <ActionIcon
                           onClick={() => {
                             setViewModalState(true);
@@ -144,7 +145,7 @@ const Table = ({
                             {head.delete}
                           </ActionIcon>
                         )}
-                      </Group>
+                      </Flex>
                     </td>
                   ) : head.id === "status" ? (
                     <td key={index} align="center">

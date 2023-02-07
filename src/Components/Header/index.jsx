@@ -69,7 +69,7 @@ const Index = ({}) => {
           onClose={() => setUserMenuOpened(false)}
           onOpen={() => setUserMenuOpened(true)}
         >
-          <Container w={700} largerT>
+          <Container w={700}>
             <InputField
               placeholder="Search"
               leftIcon="search"

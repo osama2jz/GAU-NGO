@@ -4,14 +4,20 @@ import GeneralLayout from "./Layout/General";
 import Dashboard from "./Pages/Dashboard";
 import { AddUser } from "./Pages/Users/AddUser";
 import { AllUser } from "./Pages/Users/AllUsers";
+import routeNames from "./Routes/routeNames";
+import { ScheduleUser } from "./Pages/UserVerification/Schedule";
+import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<GeneralLayout />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/adduser" element={<AddUser />} />
-        <Route path="/allusers" element={<AllUser />} />
+        <Route path={routeNames.socialWorker.dahsboard} element={<Dashboard />} />
+        <Route path={routeNames.socialWorker.addUser} element={<AddUser />} />
+        <Route path={routeNames.socialWorker.allUsers} element={<AllUser />} />
+        <Route path={routeNames.socialWorker.scheduleUser} element={<ScheduleUser />} />
+        <Route path={routeNames.socialWorker.verifyUser} element={<VerifyUser />} />
+        <Route path={routeNames.socialWorker.verifiedUsers} element={<VerifyUser />} />
       </Route>
     </Routes>
   );

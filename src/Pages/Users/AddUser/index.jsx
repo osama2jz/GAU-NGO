@@ -30,7 +30,7 @@ export const AddUser = () => {
       password: (value) =>
         value?.length < 8 ? "Password must at least have 8 characters" : null,
       confirmPassword: (value, values) =>
-        value !== values?.pass ? "Passwords did not match" : null,
+        value !== values?.password ? "Passwords did not match" : null,
     },
   });
   return (

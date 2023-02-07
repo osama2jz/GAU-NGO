@@ -1,36 +1,46 @@
 import {
-  Car,
   Gauge,
   Logout,
-  ManualGearbox,
   Power,
   Settings,
   TruckDelivery,
 } from "tabler-icons-react";
+import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
-  { label: "Dashboard", icon: Gauge, link: "/" },
+  { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dahsboard },
   {
     label: "Users",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: "/adduser" },
-      { label: "All Users", link: "/allusers" },
+      { label: "Add Users", link: routeNames.socialWorker.addUser },
+      { label: "All Users", link: routeNames.socialWorker.allUsers },
     ],
   },
   {
     label: "User Verification",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: "/" },
-      { label: "All Users", link: "/" },
+      { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
+      { label: "Verify User", link: routeNames.socialWorker.verifyUser },
+      { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
     ],
   },
   {
     label: "Appointments",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: "/" },
-      { label: "All Users", link: "/" },
+      { label: "Schedule Appointment", link: "/scheduleappointment" },
+      { label: "View All", link: "/appointmentsAll" },
+      { label: "Start a Session", link: "/session" },
+      { label: "Refer to Export", link: "/refer" },
+    ],
+  },
+  {
+    label: "Reports",
+    icon: TruckDelivery,
+    links: [
+      { label: "Private", link: "/reportspublic" },
+      { label: "Public", link: "/reportsprivate" },
     ],
   },
 ];
