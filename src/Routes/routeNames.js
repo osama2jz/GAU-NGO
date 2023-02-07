@@ -1,11 +1,12 @@
 const routeNames = {
   socialWorker: {
-    dahsboard: "/",
+    dashboard: "/",
     addUser : 'add-user',
     allUsers: 'all-users',
     scheduleUser: 'schedule-user',
     verifyUser: 'verify-user',
-    verifiedUsers: 'verified-users'
+    verifiedUsers: 'verified-users',
+    settings: 'settings',
   },
   
 };
