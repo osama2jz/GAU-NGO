@@ -4,6 +4,7 @@ import {
   Power,
   Settings,
   TruckDelivery,
+  UserPlus,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
@@ -12,7 +13,7 @@ export const socialSideBarData = [
     label: "Users",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: routeNames.socialWorker.addUser },
+      { label: "Add Users", icon:UserPlus ,link: routeNames.socialWorker.addUser },
       { label: "All Users", link: routeNames.socialWorker.allUsers },
     ],
   },

@@ -7,6 +7,7 @@ export const useStyles = createStyles((theme) => ({
     padding: "20px",
     width:'100%',
     height: "100%",
+    border: `0.5px solid rgb(0,0,0,0.1)`,
   },
   form: {
     margin: "auto",

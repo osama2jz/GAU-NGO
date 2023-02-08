@@ -10,7 +10,7 @@ const Cards = ({ data }) => {
     <>
       <Card
         className={classes.card}
-        shadow="md"
+        shadow="lg"
         h={140}
         w={200}
         component="a"

@@ -1,10 +1,12 @@
-import { Anchor, Container, Flex, Grid, Group, Text } from "@mantine/core";
+import { Anchor, Avatar, Container, Flex, Grid, Group, Image, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
 import PassInput from "../../../Components/PassInput";
 import { useStyles } from "./styles";
+import { UserPlus } from "tabler-icons-react";
+import user from "../../../assets/add-user.png";
 import SubmitModal from "./SubmitEmail";
 
 export const AddUser = () => {
@@ -35,9 +37,17 @@ export const AddUser = () => {
   });
   return (
     <Container className={classes.addUser} size="lg">
-      <Text fz={"xl"} fw="bolder" align="center">
-        Add User
+      {/* <Text fz={32} fw={600} align="center" >
+        { <UserPlus size={32} strokeWidth={2} color={"black"} />}  Add User
+      </Text> */}
+      <Flex align="center" justify="center" gap={12}>
+      <Image src={user} width={30} height={32}/> 
+      <Text fz={32} fw={600} align="center" >
+       Add User
       </Text>
+      </Flex>
+      
+     
 
       <form
         className={classes.form}
@@ -89,7 +99,7 @@ export const AddUser = () => {
           <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
         </Text>
         <Group position="right">
-          <Button label="Submit" primary={true} type="submit" />
+          <Button label="Add User" leftIcon="user" primary={true} type="submit" />
         </Group>
       </form>
       <SubmitModal opened={showModal} setOpened={setShowModal} />
