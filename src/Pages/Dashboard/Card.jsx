@@ -1,6 +1,5 @@
-import { Container, Text, Card, Image, Group, Flex } from "@mantine/core";
+import { Text, Card, Flex } from "@mantine/core";
 import { useStyles } from "./styles";
-import { Grid } from "@mantine/core";
 import { Users } from "tabler-icons-react";
 import { Progress } from "@mantine/core";
 

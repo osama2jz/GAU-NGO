@@ -15,6 +15,8 @@ root.render(
           colors: {
             primary: "#1D203E",
             primaryHover: "rgba(29, 32, 62, 0.8)",
+            background: "#E7E7E780",
+            container: "white",
             gray: "#E7E7E780",
           },
           primaryColor: "blue",

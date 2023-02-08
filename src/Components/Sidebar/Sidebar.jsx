@@ -14,7 +14,7 @@ import { bottom } from "./SocialWorkerData";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    backgroundColor: "white",
+    backgroundColor: theme.colors.background,
   },
 
   header: {

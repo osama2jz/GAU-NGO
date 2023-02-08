@@ -22,7 +22,7 @@ const Layout = () => {
     <AppShell
       styles={{
         main: {
-          background: "white",
+          background: theme.colors.background,
         },
       }}
       navbarOffsetBreakpoint="sm"
@@ -56,7 +56,7 @@ const Layout = () => {
         </Header>
       }
     >
-      <Container mt={"md"} h="min-content" size="lg">
+      <Container mt={"md"} mih="100%" size="lg">
         <Outlet />
       </Container>
     </AppShell>

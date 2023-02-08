@@ -45,10 +45,10 @@ const Dashboard = () => {
       {/* <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}> */}
       {/* <Grid.Col span={9}> */}
       <Container className={classes.left} size="lg">
-        <Text fz={28} fw="bolder" mb="sm">
+        <Text fz={28} fw="bolder" mb="sm" align="center">
           Dashboard
         </Text>
-        <Text fz={20} fw="bolder" mt="sm" mb="sm">Users</Text>
+        <Text fz={20} fw="bolder" mt="sm" mb="sm" >Users</Text>
         {/* <hr/> */}
         <Grid>
           {a.map((item, index) => (

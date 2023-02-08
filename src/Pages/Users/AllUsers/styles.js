@@ -2,7 +2,7 @@ import { createStyles } from "@mantine/core";
 
 export const useStyles = createStyles((theme) => ({
   addUser: {
-    backgroundColor: theme.colors.gray,
+    backgroundColor: theme.colors.container,
     borderRadius: "15px",
     padding: "20px",
     height: "100%",
