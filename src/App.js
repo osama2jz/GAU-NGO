@@ -28,6 +28,7 @@ function App() {
         <Route path={routeNames.socialWorker.settings} element={<Settings />} />
         <Route path={routeNames.socialWorker.allAppointments} element={<AllAppointments />} />
         <Route path={routeNames.socialWorker.scheduledAppointments} element={<ScheduledAppointment />} />
+        <Route path={routeNames.socialWorker.userVerification} element={<UserVerification />} />
       </Route>
     </Routes>
   );

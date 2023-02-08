@@ -6,6 +6,7 @@ const routeNames = {
     scheduleUser: '/schedule-user',
     verifyUser: '/verify-user',
     verifiedUsers: '/verified-users',
+    userVerification: '/userVerification',
     settings: '/settings',
     addAppoinment: '/add-appointment',
     allAppointments: '/all-appointments',

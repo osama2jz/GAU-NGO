@@ -4,15 +4,15 @@ import {
   createStyles,
   Group,
   Text,
-  ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, { opened }) => ({
   control: {
+    backgroundColor: opened ? "rgba(86, 92, 154, 1)" : "",
     fontWeight: 500,
     display: "block",
     width: "100%",
@@ -60,9 +60,9 @@ export function LinksGroup({
   setGlobalOpen,
 }) {
   const navigate = useNavigate();
-  const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
+  const { classes, theme } = useStyles({ opened });
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
   useEffect(() => {
     globalOpen !== label && setOpened(false);

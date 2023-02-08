@@ -25,6 +25,7 @@ export const socialSideBarData = [
         link: routeNames.socialWorker.addUser,
       },
       { label: "All Users", link: routeNames.socialWorker.allUsers },
+      { label: "Verification Schedule", link: routeNames.socialWorker.allUsers },
     ],
   },
   // {
