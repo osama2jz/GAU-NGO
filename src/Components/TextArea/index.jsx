@@ -1,4 +1,4 @@
-import { createStyles, TextInput } from "@mantine/core";
+import { createStyles, Textarea as TextareaMantine } from "@mantine/core";
 
 const useStyles = createStyles((theme, { borderWhite }) => ({
   input: {
@@ -9,7 +9,7 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
     color: borderWhite ? "white !important" : "black !important",
     borderRadius: "5px",
   },
-  label:{
+  label: {
     // fontSize:'16px'
   },
   icon: {
@@ -17,39 +17,34 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
   },
 }));
 
-const InputField = ({
+const TextArea = ({
   placeholder,
-  leftIcon,
   required,
-  type="text",
   label,
   pb = "sm",
   borderWhite,
   onChange,
   form,
-  size="md",
+  size = "md",
+  rows="3",
   validateName,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
-    <TextInput
+    <TextareaMantine
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
-      type={type}
+      minRows={rows}
       size={size}
       onChange={onChange}
       {...form?.getInputProps(validateName)}
-      icon={
-        leftIcon ? (
-          <img src={require(`../../assets/${leftIcon}.svg`)} alt="icon" />
-        ) : (
-          ""
-        )
-      }
-      classNames={{ input: classes.input, visibilityToggle: classes.icon, label:classes.label }}
+      classNames={{
+        input: classes.input,
+        label: classes.label,
+      }}
       placeholder={placeholder}
     />
   );
 };
-export default InputField;
+export default TextArea;

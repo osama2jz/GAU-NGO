@@ -21,6 +21,7 @@ const PassInput = ({
   return (
     <PasswordInput
       pb={pb}
+      size="md"
       withAsterisk={required ? true : false}
       label={label}
       {...form?.getInputProps(validateName)}

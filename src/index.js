@@ -18,7 +18,8 @@ root.render(
             background: "#E7E7E780",
             container: "white",
             gray: "#E7E7E780",
-            heading:"#56606E"
+            heading:"#56606E",
+            grayDark: "rgb(0,0,0,0.5)"
           },
           primaryColor: "blue",
         }}

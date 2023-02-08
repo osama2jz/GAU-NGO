@@ -87,11 +87,10 @@ export function LinksGroup({
         }}
         className={classes.control}
       >
-        <Group position="apart" spacing={0}>
+        <Group position="apart" spacing={0} onClick={() => navigate(link)}>
           <Box
             sx={{ display: "flex", alignItems: "center", color: "white" }}
             fw={"normal"}
-            onClick={() => navigate(link)}
           >
             <Icon size={18} />
             <Box ml="md">{ind ? ind + ". " + label : label}</Box>

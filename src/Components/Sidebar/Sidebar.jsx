@@ -64,7 +64,7 @@ export function SideBar({ sideBarLinks }) {
   const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} />);
 
   return (
-    <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar width={{ sm: 320 }} p="md" className={classes.navbar}>
       <Navbar.Section grow className={classes.links} component={ScrollArea}>
         <div className={classes.linksInner}>{links}</div>
         <Flex direction={"column"} className={classes.footer}>

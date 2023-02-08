@@ -7,7 +7,7 @@ import {
   Text,
   useMantineTheme,
   Group,
-  Container
+  Container,
 } from "@mantine/core";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
@@ -32,7 +32,7 @@ const Layout = () => {
           p="md"
           hiddenBreakpoint="sm"
           hidden={!opened}
-          width={{ sm: 300, lg: 300 }}
+          width={{ sm: 320, lg: 320 }}
           bg={""}
         >
           <SideBar sideBarLinks={socialSideBarData} />

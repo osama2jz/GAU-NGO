@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import { useStyles } from "../../Pages/Users/AllUsers/styles";
+import routeNames from "../../Routes/routeNames";
 
 const Table = ({
   headCells,
@@ -119,6 +120,15 @@ const Table = ({
                   return head.id === "actions" ? (
                     <td key={index}>
                       <Flex justify="center" gap={"sm"}>
+                        {head.verify && (
+                          <ActionIcon
+                            onClick={() =>
+                              navigate(routeNames.socialWorker.userVerification)
+                            }
+                          >
+                            {head.verify}
+                          </ActionIcon>
+                        )}
                         <ActionIcon
                           onClick={() => {
                             setViewModalState(true);

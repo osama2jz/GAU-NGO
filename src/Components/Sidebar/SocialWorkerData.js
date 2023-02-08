@@ -12,8 +12,9 @@ export const socialSideBarData = [
     label: "Users",
     icon: TruckDelivery,
     links: [
-      { label: "Add Users", link: routeNames.socialWorker.addUser },
-      { label: "All Users", link: routeNames.socialWorker.allUsers },
+      { label: "Add User", link: routeNames.socialWorker.addUser },
+      { label: "View Users", link: routeNames.socialWorker.allUsers },
+      { label: "Verification Scheduled", link: routeNames.socialWorker.allUsers },
     ],
   },
   // {

@@ -64,12 +64,14 @@ const Index = ({}) => {
         <img src={logo} alt="logo" width={"35px"} />
         GAU
       </Text>
-      <Group position="right" noWrap className={classes.headerSub}>
+      <Group position="right" align={"center"} noWrap className={classes.headerSub}>
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
           <Container w={700} smallerThan="sm" styles={{ display: "none" }}>
             <InputField
               placeholder="Search"
               leftIcon="search"
+              size="sm"
+              pb="0px"
               borderWhite={true}
             />
           </Container>

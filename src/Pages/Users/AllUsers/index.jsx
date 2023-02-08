@@ -1,21 +1,22 @@
 import { Container, Flex, Grid, Select, Text } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Edit, Eye, Plus, Trash } from "tabler-icons-react";
+import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames"
+import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewUser from "./viewUser";
 
 export const AllUser = () => {
   const { classes } = useStyles();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   let headerData = [
     {
       id: "id",
@@ -39,7 +40,7 @@ export const AllUser = () => {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: "Registration Date",
     },
     {
       id: "status",
@@ -58,6 +59,7 @@ export const AllUser = () => {
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
+      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -113,19 +115,31 @@ export const AllUser = () => {
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" />
+            <InputField placeholder="Search" leftIcon="search" pb="0"/>
           </Grid.Col>
           <Grid.Col sm={3}>
-            <SelectMenu placeholder="Filter by Status" data={[{label:'verified', value:"verified"}, {label:'Pending', value:"pending"}]} />
+            <SelectMenu
+              placeholder="Filter by Status"
+              data={[
+                { label: "verified", value: "verified" },
+                { label: "Pending", value: "pending" },
+              ]}
+            />
           </Grid.Col>
           <Grid.Col sm={2} ml="auto">
-            <Button label={"Add User"} primary={true} leftIcon={"plus"} onClick={()=>navigate(routeNames.socialWorker.addUser)}/>
+            <Button
+              label={"Add User"}
+              primary={true}
+              leftIcon={"plus"}
+              onClick={() => navigate(routeNames.socialWorker.addUser)}
+            />
           </Grid.Col>
         </Grid>
         <Table
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
+          setEditModalState={setOpenEditModal}
           setDeleteModalState={setOpenDeleteModal}
         />
       </Container>

@@ -17,6 +17,7 @@ export const AddUser = () => {
       firstName: "",
       lastName: "",
       email: "",
+      phone: "",
       password: "",
       confirmPassword: "",
     },
@@ -29,13 +30,15 @@ export const AddUser = () => {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) =>
         value?.length < 8 ? "Password must at least have 8 characters" : null,
+      phone: (value) =>
+        value?.length < 8 ? "Please enter phone number" : null,
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
     },
   });
   return (
     <Container className={classes.addUser} size="lg">
-      <Text fz={"xl"} fw="bolder" align="center"className={classes.heading}>
+      <Text fz={"xl"} fw="bolder" align="center" className={classes.heading}>
         Add User
       </Text>
 
@@ -69,6 +72,13 @@ export const AddUser = () => {
           placeholder="xyz@gmail.com"
           form={form}
           validateName="email"
+        />
+        <InputField
+          label="Phone Number"
+          required={true}
+          placeholder="+123456789"
+          form={form}
+          validateName="phone"
         />
         <PassInput
           label="Password"
