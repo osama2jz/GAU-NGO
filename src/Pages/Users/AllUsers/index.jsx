@@ -1,14 +1,19 @@
-import { Container, Flex, Text } from "@mantine/core";
+import { Container, Flex, Grid, Select, Text } from "@mantine/core";
 import { useState } from "react";
-import { Edit, Eye, Trash } from "tabler-icons-react";
+import { useNavigate } from "react-router";
+import { Edit, Eye, Plus, Trash } from "tabler-icons-react";
+import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
+import InputField from "../../../Components/InputField";
+import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-
+import routeNames from "../../../Routes/routeNames"
 import { useStyles } from "./styles";
 import ViewUser from "./viewUser";
 
 export const AllUser = () => {
   const { classes } = useStyles();
+  const navigate=useNavigate()
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   let headerData = [
@@ -40,12 +45,19 @@ export const AllUser = () => {
       id: "status",
       numeric: false,
       disablePadding: true,
+      label: "User Status",
+    },
+    {
+      id: "accStatus",
+      numeric: false,
+      disablePadding: true,
       label: "Status",
     },
     {
       id: "actions",
-      view: <Eye />,
-      delete: <Trash />,
+      view: <Eye color="#4069bf" />,
+      edit: <Edit color="#4069bf" />,
+      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
@@ -57,6 +69,7 @@ export const AllUser = () => {
       email: "osama@gmail.com",
       date: "12 Jan 2022",
       status: "Processing",
+      accStatus: "Active",
     },
     {
       id: "2",
@@ -64,6 +77,7 @@ export const AllUser = () => {
       email: "osama@gmail.com",
       date: "12 Jan 2022",
       status: "Processing",
+      accStatus: "Active",
     },
     {
       id: "3",
@@ -71,6 +85,7 @@ export const AllUser = () => {
       email: "osama@gmail.com",
       date: "12 Jan 2022",
       status: "Processing",
+      accStatus: "Active",
     },
     {
       id: "4",
@@ -78,6 +93,7 @@ export const AllUser = () => {
       email: "osama@gmail.com",
       date: "12 Jan 2022",
       status: "Processing",
+      accStatus: "Active",
     },
     {
       id: "5",
@@ -85,6 +101,7 @@ export const AllUser = () => {
       email: "osama@gmail.com",
       date: "12 Jan 2022",
       status: "Processing",
+      accStatus: "Active",
     },
   ];
 
@@ -93,7 +110,18 @@ export const AllUser = () => {
       <Text fz={"xl"} fw="bolder" align="center">
         All Users
       </Text>
-      <Container p={"xl"} >
+      <Container p={"xs"} className={classes.innerContainer}>
+        <Grid align={"center"} py="md">
+          <Grid.Col sm={6}>
+            <InputField placeholder="Search" leftIcon="search" />
+          </Grid.Col>
+          <Grid.Col sm={3}>
+            <SelectMenu placeholder="Filter by Status" data={[{label:'verified', value:"verified"}, {label:'Pending', value:"pending"}]} />
+          </Grid.Col>
+          <Grid.Col sm={2} ml="auto">
+            <Button label={"Add User"} primary={true} leftIcon={"plus"} onClick={()=>navigate(routeNames.socialWorker.addUser)}/>
+          </Grid.Col>
+        </Grid>
         <Table
           headCells={headerData}
           rowData={rowData}

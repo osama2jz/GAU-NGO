@@ -1,4 +1,4 @@
-import { createStyles, TextInput } from "@mantine/core";
+import { createStyles, Select } from "@mantine/core";
 
 const useStyles = createStyles((theme, { borderWhite }) => ({
   input: {
@@ -17,12 +17,13 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
   },
 }));
 
-const InputField = ({
+const SelectMenu = ({
   placeholder,
   leftIcon,
   required,
   label,
-  pb = "sm",
+  pb = "sm  ",
+  data,
   borderWhite,
   onChange,
   form,
@@ -30,12 +31,13 @@ const InputField = ({
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
-    <TextInput
+    <Select
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
       size="md"
       onChange={onChange}
+      data={data}
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (
@@ -49,4 +51,4 @@ const InputField = ({
     />
   );
 };
-export default InputField;
+export default SelectMenu;

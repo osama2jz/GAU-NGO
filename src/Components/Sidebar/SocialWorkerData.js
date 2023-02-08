@@ -16,15 +16,15 @@ export const socialSideBarData = [
       { label: "All Users", link: routeNames.socialWorker.allUsers },
     ],
   },
-  {
-    label: "User Verification",
-    icon: TruckDelivery,
-    links: [
-      { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
-      { label: "Verify User", link: routeNames.socialWorker.verifyUser },
-      { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
-    ],
-  },
+  // {
+  //   label: "User Verification",
+  //   icon: TruckDelivery,
+  //   links: [
+  //     { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
+  //     { label: "Verify User", link: routeNames.socialWorker.verifyUser },
+  //     { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
+  //   ],
+  // },
   {
     label: "Appointments",
     icon: TruckDelivery,

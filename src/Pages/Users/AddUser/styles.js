@@ -6,7 +6,7 @@ export const useStyles = createStyles((theme) => ({
     borderRadius: "15px",
     padding: "20px",
     width:'100%',
-    height: "100%",
+    minHeight: "84vh",
   },
   form: {
     margin: "auto",
@@ -16,6 +16,9 @@ export const useStyles = createStyles((theme) => ({
   modal: {
     textAlign: "center",
     width:'90%'
+  },
+  heading:{
+    color:theme.colors.heading
   },
   skip: {
     display: "flex",

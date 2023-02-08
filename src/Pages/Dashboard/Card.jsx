@@ -5,7 +5,6 @@ import { Progress } from "@mantine/core";
 
 const Cards = ({ data }) => {
   const { classes } = useStyles();
-  console.log(data);
   return (
     <>
       <Card

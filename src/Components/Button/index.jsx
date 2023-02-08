@@ -36,6 +36,13 @@ const Button = ({
     <ButtonMantine
       sx={styles}
       compact={compact}
+      leftIcon={
+        leftIcon ? (
+          <img src={require(`../../assets/${leftIcon}.svg`)} alt="icon" width={"16px"}/>
+        ) : (
+          ""
+        )
+      }
       type={type}
       classNames={{
         root: primary ? classes.rootPrimary : classes.rootSecondary,

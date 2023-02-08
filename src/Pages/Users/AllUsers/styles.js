@@ -5,16 +5,11 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.container,
     borderRadius: "15px",
     padding: "20px",
-    height: "100%",
+    minHeight: "84vh",
   },
-  form: {
-    margin: "auto",
-    width: "70%",
-    marginTop: "50px",
-  },
-  table: {
-    width: "90%",
-    margin: "auto",
-    // backgroundColor:'white'
-  },
+  innerContainer:{
+    // border:'1px solid rgb(0,0,0,0.1)',
+    borderRadius:'10px',
+    width:'100%',
+  }
 }));

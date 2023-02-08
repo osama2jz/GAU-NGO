@@ -35,7 +35,7 @@ export const AddUser = () => {
   });
   return (
     <Container className={classes.addUser} size="lg">
-      <Text fz={"xl"} fw="bolder" align="center">
+      <Text fz={"xl"} fw="bolder" align="center"className={classes.heading}>
         Add User
       </Text>
 
