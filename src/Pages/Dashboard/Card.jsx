@@ -13,7 +13,7 @@ const Cards = ({ data }) => {
         className={classes.card}
         shadow="md"
         h={140}
-        w={215}
+        w={200}
         component="a"
         radius={26}
         withBorder
