@@ -1,20 +1,30 @@
 import {
-  Gauge,
-  Logout,
-  Power,
-  Settings,
-  TruckDelivery,
+  CalendarEvent, CalendarTime, Gauge, Power, Report, Settings, UserPlus,
+  Users
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
   { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dashboard },
   {
-    label: "Users",
-    icon: TruckDelivery,
+    label: "My Schedules",
+    icon: CalendarTime,
     links: [
-      { label: "Add User", link: routeNames.socialWorker.addUser },
-      { label: "View Users", link: routeNames.socialWorker.allUsers },
-      { label: "Verification Scheduled", link: routeNames.socialWorker.allUsers },
+      { label: "Appointment Schedule", link: "/scheduleappointment" },
+      { label: "View All", link: "/appointmentsAll" },
+      { label: "Start a Session", link: "/session" },
+      { label: "Refer to Export", link: "/refer" },
+    ],
+  },
+  {
+    label: "Users",
+    icon: Users,
+    links: [
+      {
+        label: "Add Users",
+        icon: UserPlus,
+        link: routeNames.socialWorker.addUser,
+      },
+      { label: "All Users", link: routeNames.socialWorker.allUsers },
     ],
   },
   // {
@@ -28,17 +38,17 @@ export const socialSideBarData = [
   // },
   {
     label: "Appointments",
-    icon: TruckDelivery,
+    icon: CalendarEvent,
     links: [
-      { label: "Schedule Appointment", link: "/scheduleappointment" },
-      { label: "View All", link: "/appointmentsAll" },
-      { label: "Start a Session", link: "/session" },
-      { label: "Refer to Export", link: "/refer" },
+      { label: "Appointment Schedule", link: routeNames.socialWorker.scheduledAppointments },
+      { label: "Add Appointment", link: "/appointmentsAll" },
+      { label: "All Appointments", link: routeNames.socialWorker.allAppointments},
+      // { label: "Refer to Export", link: "/refer" },
     ],
   },
   {
     label: "Reports",
-    icon: TruckDelivery,
+    icon: Report,
     links: [
       { label: "Private", link: "/reportspublic" },
       { label: "Public", link: "/reportsprivate" },
@@ -47,7 +57,7 @@ export const socialSideBarData = [
 ];
 
 export const bottom = [
-  { label: "Settings", icon: Settings ,link: routeNames.socialWorker.settings},
+  { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
   {
     label: "Log Out",
     icon: Power,

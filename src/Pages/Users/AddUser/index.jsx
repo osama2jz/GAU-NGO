@@ -1,10 +1,20 @@
-import { Anchor, Container, Flex, Grid, Group, Text } from "@mantine/core";
+import {
+  Anchor,
+  Container,
+  Flex,
+  Grid,
+  Group,
+  Image,
+  Text,
+  Plus,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
 import PassInput from "../../../Components/PassInput";
 import { useStyles } from "./styles";
+import User from "../../../assets/add-user.png";
 import SubmitModal from "./SubmitEmail";
 
 export const AddUser = () => {
@@ -37,10 +47,18 @@ export const AddUser = () => {
     },
   });
   return (
-    <Container className={classes.addUser} size="lg">
-      <Text fz={"xl"} fw="bolder" align="center" className={classes.heading}>
-        Add User
-      </Text>
+    <Container className={classes.addUser} size="xl">
+      <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={User} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
+          Add User
+        </Text>
+      </Flex>
 
       <form
         className={classes.form}
@@ -98,8 +116,13 @@ export const AddUser = () => {
           By pressing “Submit” I declare that i’ve read and agree to the{" "}
           <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
         </Text>
-        <Group position="right">
-          <Button label="Submit" primary={true} type="submit" />
+        <Group position="right" mt="sm">
+          <Button
+            label="Add User"
+            leftIcon={"plus"}
+            primary={true}
+            type="submit"
+          />
         </Group>
       </form>
       <SubmitModal opened={showModal} setOpened={setShowModal} />

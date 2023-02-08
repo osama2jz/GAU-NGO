@@ -7,7 +7,6 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { useState } from "react";
-import { Logout, Settings } from "tabler-icons-react";
 
 import { LinksGroup } from "./NavBarLinksGroup";
 import { bottom } from "./SocialWorkerData";

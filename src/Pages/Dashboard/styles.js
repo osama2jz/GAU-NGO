@@ -14,6 +14,7 @@ export const useStyles = createStyles((theme) => ({
     height: "100%",
   },
   card: {
-    border: `1px solid ${theme.colors.gray}`,
+    border: `0.5px solid rgb(0,0,0,0.1)`,
+    // borderColor:"#1864AB",
   },
 }));

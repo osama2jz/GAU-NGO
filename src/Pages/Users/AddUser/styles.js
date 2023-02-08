@@ -7,10 +7,12 @@ export const useStyles = createStyles((theme) => ({
     padding: "20px",
     width:'100%',
     minHeight: "84vh",
+    height: "100%",
+    border: `0.5px solid rgb(0,0,0,0.1)`,
   },
   form: {
     margin: "auto",
-    width: "70%",
+    width: "86%",
     marginTop: "50px",
   },
   modal: {

@@ -1,4 +1,5 @@
 import { Card, Container, Text } from "@mantine/core";
+import { useStyles } from "./styles";
 import React from "react";
 import {
   LineChart,
@@ -43,15 +44,17 @@ const data = [
 ];
 
 export default function App() {
+  const { classes } = useStyles();
   return (
     <Card
-      shadow="md"
+      shadow="xl"
       h="50%"
       // w={700}
       component="a"
       radius={26}
       withBorder
       p="md"
+      className={classes.card}
     >
       <Text mb="sm">January 2023</Text>
       <ResponsiveContainer width={"100%"} height={250}>

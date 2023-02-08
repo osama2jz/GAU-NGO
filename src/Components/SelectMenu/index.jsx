@@ -27,6 +27,7 @@ const SelectMenu = ({
   borderWhite,
   onChange,
   form,
+  size="md",
   validateName,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
@@ -35,7 +36,7 @@ const SelectMenu = ({
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
-      size="md"
+      size={size}
       onChange={onChange}
       data={data}
       {...form?.getInputProps(validateName)}
