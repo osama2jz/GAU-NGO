@@ -40,14 +40,14 @@ const Layout = () => {
       }
       footer={<></>}
       header={
-        <Header height={{ base: 70, md: 70 }} bg={theme.colors.primary}>
+        <Header height={{ base: 55, md: 55 }} bg={theme.colors.primary}>
           <Group noWrap>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
                 opened={opened}
                 onClick={() => setOpened((o) => !o)}
                 size="sm"
-                color={theme.colors.gray[6]}
+                color={theme.colors.gray}
                 mr="xl"
               />
             </MediaQuery>

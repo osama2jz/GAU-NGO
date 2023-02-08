@@ -9,10 +9,13 @@ import {
   Menu,
   Badge,
   Flex,
+  MediaQuery,
 } from "@mantine/core";
-import { Bell, Power, Settings, UserCircle } from "tabler-icons-react/dist";
+import { Power, Settings, UserCircle } from "tabler-icons-react/dist";
 import logo from "../../logo.svg";
 import InputField from "../InputField";
+import { useMediaQuery } from "@mantine/hooks";
+import Notifications from "../Notifications";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -44,14 +47,15 @@ const useStyles = createStyles((theme) => ({
       // color:'black'
     },
 
-    [theme.fn.smallerThan("xs")]: {
-      display: "none",
-    },
+    // [theme.fn.smallerThan("xs")]: {
+    //   display: "none",
+    // },
   },
 }));
 
 const Index = ({}) => {
   const { classes, theme, cx } = useStyles();
+  const matches = useMediaQuery("(min-width: 640px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   return (
@@ -60,23 +64,26 @@ const Index = ({}) => {
         <img src={logo} alt="logo" width={"35px"} />
         GAU
       </Text>
-      <Group position="apart" noWrap className={classes.headerSub}>
-        <Menu
-          width={"target"}
-          shadow="xl"
-          position="bottom-end"
-          transition="pop-top-right"
-          onClose={() => setUserMenuOpened(false)}
-          onOpen={() => setUserMenuOpened(true)}
-        >
-          <Container w={700}>
+      <Group position="right" noWrap className={classes.headerSub}>
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Container w={700} smallerThan="sm" styles={{ display: "none" }}>
             <InputField
               placeholder="Search"
               leftIcon="search"
               borderWhite={true}
             />
           </Container>
-          <Bell />
+        </MediaQuery>
+        <Notifications />
+        <Menu
+          width={matches && "target"}
+          shadow="xl"
+          position="bottom-start"
+          transition="pop-top-left"
+          offset={20}
+          onClose={() => setUserMenuOpened(false)}
+          onOpen={() => setUserMenuOpened(true)}
+        >
           <Menu.Target>
             <UnstyledButton
               className={cx(classes.user, {
@@ -85,24 +92,26 @@ const Index = ({}) => {
             >
               <Group spacing={7} noWrap>
                 <Avatar src={<UserCircle />} radius="xl" size={30} />
-                <Flex direction={"column"} gap="4px">
-                  <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                    {"Muhammad Usama"}
-                  </Text>
-                  <Badge size="xs">Social Worker</Badge>
-                </Flex>
+                <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+                  <Flex direction={"column"} gap="4px">
+                    <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                      {"Muhammad Usama"}
+                    </Text>
+                    <Badge size="xs">Social Worker</Badge>
+                  </Flex>
+                </MediaQuery>
               </Group>
             </UnstyledButton>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item>
-              <Flex gap={'md'}>
+              <Flex gap={"md"}>
                 <Settings />
                 <Text>Settings</Text>
               </Flex>
             </Menu.Item>
             <Menu.Item color="red">
-              <Flex gap={'md'}>
+              <Flex gap={"md"}>
                 <Power />
                 Logout
               </Flex>

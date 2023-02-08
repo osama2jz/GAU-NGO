@@ -7,7 +7,7 @@ import {
   ThemeIcon,
   UnstyledButton,
 } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 
@@ -56,12 +56,17 @@ export function LinksGroup({
   links,
   ind,
   link,
+  globalOpen,
+  setGlobalOpen,
 }) {
   const navigate = useNavigate();
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
+  useEffect(() => {
+    globalOpen !== label && setOpened(false);
+  }, [globalOpen, label]);
   const items = (hasLinks ? links : []).map((link, index) => (
     <Text
       component={Link}
@@ -76,7 +81,10 @@ export function LinksGroup({
   return (
     <>
       <UnstyledButton
-        onClick={() => setOpened((o) => !o)}
+        onClick={() => {
+          setOpened((o) => !o);
+          setGlobalOpen(label);
+        }}
         className={classes.control}
       >
         <Group position="apart" spacing={0}>
