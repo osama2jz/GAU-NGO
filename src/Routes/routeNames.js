@@ -6,10 +6,12 @@ const routeNames = {
     scheduleUser: '/schedule-user',
     verifyUser: '/verify-user',
     verifiedUsers: '/verified-users',
+    verificationScheduled:'/verfication-Scheduled',
     settings: '/settings',
     addAppoinment: '/add-appointment',
     allAppointments: '/all-appointments',
     scheduledAppointments: '/scheduled-appointments',
+
   },
 };
 

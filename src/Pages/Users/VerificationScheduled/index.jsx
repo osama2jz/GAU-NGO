@@ -1,7 +1,7 @@
-import { Container, Flex, Grid, Text, Image } from "@mantine/core";
+import { Container, Flex, Grid, Select, Text } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Edit, Eye, Trash } from "tabler-icons-react";
+import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
@@ -9,14 +9,14 @@ import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import calender from "../../../assets/calendar.png";
-import ViewAppointment from "./ViewAppointment";
+import ViewUser from "./viewUser";
 
-function ScheduledAppointments() {
+export const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   let headerData = [
     {
       id: "id",
@@ -40,13 +40,13 @@ function ScheduledAppointments() {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: "Registration Date",
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Appointment Status",
+      label: "User Status",
     },
     {
       id: "accStatus",
@@ -59,6 +59,7 @@ function ScheduledAppointments() {
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
+      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -105,61 +106,52 @@ function ScheduledAppointments() {
       accStatus: "Active",
     },
   ];
+
   return (
     <Container className={classes.addUser} size="xl">
-    <Flex
-      align="center"
-      justify="center"
-      gap={12}
-      className={classes.heading}
-    >
-      <Image src={calender} width={30} height={32} />
-      <Text fz={32} fw={600} align="center">
-        Scheduled Appointments
+      <Text fz={"xl"} fw="bolder" align="center">
+        All Users
       </Text>
-    </Flex>
-    <Container p={"xs"} className={classes.innerContainer}>
-      <Grid align={"center"} py="md">
-        <Grid.Col sm={6}>
-          <InputField placeholder="Search" leftIcon="search" pb="0px" />
-        </Grid.Col>
-        <Grid.Col sm={3}>
-          <SelectMenu
-            placeholder="Filter by Status"
-            data={[
-              { label: "verified", value: "verified" },
-              { label: "Pending", value: "pending" },
-            ]}
-          />
-        </Grid.Col>
-        <Grid.Col sm={3} ml="auto">
-          <Button
-            label={"Add Appointment"}
-            primary={true}
-            leftIcon={"plus"}
-            onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
-            styles={{float:'right'}}
-          />
-        </Grid.Col>
-      </Grid>
-      <Table
-        headCells={headerData}
-        rowData={rowData}
-        setViewModalState={setOpenViewModal}
-        setDeleteModalState={setOpenDeleteModal}
+      <Container p={"xs"} className={classes.innerContainer}>
+        <Grid align={"center"} py="md">
+          <Grid.Col sm={6}>
+            <InputField placeholder="Search" leftIcon="search" pb="0"/>
+          </Grid.Col>
+          <Grid.Col sm={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              data={[
+                { label: "verified", value: "verified" },
+                { label: "Pending", value: "pending" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col sm={2} ml="auto">
+            <Button
+              label={"Add User"}
+              primary={true}
+              leftIcon={"plus"}
+              onClick={() => navigate(routeNames.socialWorker.addUser)}
+            />
+          </Grid.Col>
+        </Grid>
+        <Table
+          headCells={headerData}
+          rowData={rowData}
+          setViewModalState={setOpenViewModal}
+          setEditModalState={setOpenEditModal}
+          setDeleteModalState={setOpenDeleteModal}
+        />
+      </Container>
+      <DeleteModal
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={() => setOpenDeleteModal(false)}
+        label="Are you Sure?"
+        message="Do you really want to delete these records? This process cannot be undone."
       />
+      <ViewUser opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
-    <DeleteModal
-      opened={openDeleteModal}
-      setOpened={setOpenDeleteModal}
-      onCancel={() => setOpenDeleteModal(false)}
-      onDelete={() => setOpenDeleteModal(false)}
-      label="Are you Sure?"
-      message="Do you really want to delete these records? This process cannot be undone."
-    />
-    <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
-  </Container>
-  )
-}
-
-export default ScheduledAppointments
+  );
+};
