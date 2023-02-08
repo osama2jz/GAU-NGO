@@ -7,6 +7,8 @@ import { AllUser } from "./Pages/Users/AllUsers";
 import routeNames from "./Routes/routeNames";
 import { ScheduleUser } from "./Pages/UserVerification/Schedule";
 import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
+import AllAppointments from "./Pages/Appointments/AllAppointments";
+import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
 import Settings from "./Pages/Setting";
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
         <Route path={routeNames.socialWorker.verifyUser} element={<VerifyUser />} />
         <Route path={routeNames.socialWorker.verifiedUsers} element={<VerifyUser />} />
         <Route path={routeNames.socialWorker.settings} element={<Settings />} />
+        <Route path={routeNames.socialWorker.allAppointments} element={<AllAppointments />} />
+        <Route path={routeNames.socialWorker.scheduledAppointments} element={<ScheduledAppointment />} />
       </Route>
     </Routes>
   );

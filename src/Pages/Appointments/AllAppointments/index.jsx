@@ -1,19 +1,20 @@
-import { Container, Flex, Grid, Select, Text } from "@mantine/core";
+import { Container, Flex, Grid, Text, Image } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Edit, Eye, Plus, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames"
+import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import ViewUser from "./viewUser";
+import calender from "../../../assets/calendar.png";
+import ViewAppointment from "./ViewAppointment";
 
-export const AllUser = () => {
+function AllAppointments() {
   const { classes } = useStyles();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   let headerData = [
@@ -45,7 +46,7 @@ export const AllUser = () => {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: "Appointment Status",
     },
     {
       id: "accStatus",
@@ -104,22 +105,41 @@ export const AllUser = () => {
       accStatus: "Active",
     },
   ];
-
   return (
     <Container className={classes.addUser} size="xl">
-      <Text fz={"xl"} fw="bolder" align="center">
-        All Users
-      </Text>
+      <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={calender} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
+          All Appointments
+        </Text>
+      </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" />
+            <InputField placeholder="Search" leftIcon="search" pb="0px" />
           </Grid.Col>
           <Grid.Col sm={3}>
-            <SelectMenu placeholder="Filter by Status" data={[{label:'verified', value:"verified"}, {label:'Pending', value:"pending"}]} />
+            <SelectMenu
+              placeholder="Filter by Status"
+              data={[
+                { label: "verified", value: "verified" },
+                { label: "Pending", value: "pending" },
+              ]}
+            />
           </Grid.Col>
-          <Grid.Col sm={2} ml="auto">
-            <Button label={"Add User"} primary={true} leftIcon={"plus"} onClick={()=>navigate(routeNames.socialWorker.addUser)}/>
+          <Grid.Col sm={3} ml="auto">
+            <Button
+              label={"Add Appointment"}
+              primary={true}
+              leftIcon={"plus"}
+              onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
+              styles={{float:'right'}}
+            />
           </Grid.Col>
         </Grid>
         <Table
@@ -137,7 +157,9 @@ export const AllUser = () => {
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
-      <ViewUser opened={openViewModal} setOpened={setOpenViewModal} />
+      <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
   );
-};
+}
+
+export default AllAppointments;

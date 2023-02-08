@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Container,
   Flex,
   Grid,
@@ -8,6 +7,7 @@ import {
   Card,
   SimpleGrid,
   Avatar,
+  Image,
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
@@ -15,12 +15,11 @@ import { useState } from "react";
 import { Upload } from "tabler-icons-react";
 import Button from "../../Components/Button";
 import InputField from "../../Components/InputField";
-import PassInput from "../../Components/PassInput";
 import { useStyles } from "./styles";
+import Settings from "../../assets/cogwheel.png";
 
 export const Setting = () => {
   const { classes } = useStyles();
-  const [showModal, setShowModal] = useState(false);
   const [files, setFiles] = useState([]);
 
   const form = useForm({
@@ -60,16 +59,24 @@ export const Setting = () => {
   });
   return (
     <Container className={classes.main} size="lg">
-      <Text fz={28} fw="bolder" mb="sm" align="center">
-        Setting
-      </Text>
+      <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={Settings} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
+          Settings
+        </Text>
+      </Flex>
 
-      <Container className={classes.container} p={30} shadow="sm">
+      <Container className={classes.container} p={30} shadow="sm" mt="sm">
         <Text fz={24} fw="bolder">
           Edit Profile
         </Text>
         <Text size="sm">Fill in the form below to update your profile</Text>
-        <Card mt="xl">
+        <Card mt="md" mb="md">
           <Grid>
             <Grid.Col span={4} p="md">
               {files.length > 0 ? (
@@ -90,7 +97,10 @@ export const Setting = () => {
                   setFiles(v);
                 }}
               >
-                <Text align="center" className={classes.upload}><Upload size={16}/>Upload</Text>
+                <Text align="center" className={classes.upload}>
+                  <Upload size={16} />
+                  Upload
+                </Text>
               </Dropzone>
             </Grid.Col>
             <Grid.Col span={8}>
@@ -144,16 +154,9 @@ export const Setting = () => {
           </Grid>
         </Card>
         <Group position="right">
-        <Button 
-        label="Cancel"
-        />
-        <Button 
-        label="Save Changes"
-        primary={true}
-        />
-       
+          <Button label="Cancel" />
+          <Button label="Save Changes" primary={true} />
         </Group>
-        
       </Container>
     </Container>
   );
