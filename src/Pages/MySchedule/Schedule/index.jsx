@@ -3,7 +3,7 @@ import { useStyles } from "./styles";
 import ScheduleCard from "../../../Components/ScheduleCard";
 import CalendarDate from "../../../Components/Calendar";
 
-function MySchedule() {
+const MySchedule=()=> {
   const { classes } = useStyles();
   const a = [
     { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },

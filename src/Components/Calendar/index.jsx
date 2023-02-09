@@ -1,7 +1,7 @@
 import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 
-function CalendarDate() {
+const CalendarDate=()=> {
     const [calenderValue, setCalendarValu] = useState(new Date());
   return (
     <Calendar
