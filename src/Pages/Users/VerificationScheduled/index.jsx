@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Select, Text } from "@mantine/core";
+import { Container, Flex, Grid, Image, Select, Text } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
@@ -10,8 +10,8 @@ import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewUser from "./viewUser";
-
-export const VerificationScheduled = () => {
+import VerifyIcon from  "../../../assets/id.png";
+const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -40,7 +40,7 @@ export const VerificationScheduled = () => {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
+      label: "Date",
     },
     {
       id: "status",
@@ -59,7 +59,6 @@ export const VerificationScheduled = () => {
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
-      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -109,9 +108,17 @@ export const VerificationScheduled = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <Text fz={"xl"} fw="bolder" align="center">
-        All Users
-      </Text>
+      <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={VerifyIcon} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
+        Verification Scheduled
+        </Text>
+      </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
@@ -155,3 +162,4 @@ export const VerificationScheduled = () => {
     </Container>
   );
 };
+export default VerificationScheduled;

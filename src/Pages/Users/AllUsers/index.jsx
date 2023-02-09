@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Select, Text } from "@mantine/core";
+import { Container, Flex, Grid, Image, Select, Text } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
@@ -8,6 +8,7 @@ import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
+import user from "../../../assets/user.png";
 import { useStyles } from "./styles";
 import ViewUser from "./viewUser";
 
@@ -109,9 +110,17 @@ export const AllUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <Text fz={"xl"} fw="bolder" align="center">
+       <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={user} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
         All Users
-      </Text>
+        </Text>
+      </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

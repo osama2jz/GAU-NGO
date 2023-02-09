@@ -11,5 +11,8 @@ export const useStyles = createStyles((theme) => ({
     // border:'1px solid rgb(0,0,0,0.1)',
     borderRadius:'10px',
     width:'100%',
-  }
+  },
+  heading:{
+    color:theme.colors.heading
+  },
 }));

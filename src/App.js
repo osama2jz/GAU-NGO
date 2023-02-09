@@ -10,8 +10,8 @@ import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import AllAppointments from "./Pages/Appointments/AllAppointments";
 import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
 import Settings from "./Pages/Setting";
-import verificationScheduled from "./Pages/Users/VerificationScheduled";
 import { UserVerification } from "./Pages/Users/UserVerification";
+import VerificationScheduled from "./Pages/Users/VerificationScheduled";
 
 function App() {
   return (
@@ -24,12 +24,13 @@ function App() {
         <Route path={routeNames.socialWorker.addUser} element={<AddUser />} />
         <Route path={routeNames.socialWorker.allUsers} element={<AllUser />} />
         <Route path={routeNames.socialWorker.scheduleUser} element={<ScheduleUser />} />
-        <Route path={routeNames.socialWorker.verificationScheduled} element={<ScheduledAppointment />} />
+        <Route path={routeNames.socialWorker.verificationScheduled} element={<VerificationScheduled />} />
         <Route path={routeNames.socialWorker.verifyUser} element={<VerifyUser />} />
         <Route path={routeNames.socialWorker.verifiedUsers} element={<VerifyUser />} />
         <Route path={routeNames.socialWorker.settings} element={<Settings />} />
         <Route path={routeNames.socialWorker.allAppointments} element={<AllAppointments />} />
         <Route path={routeNames.socialWorker.scheduledAppointments} element={<ScheduledAppointment />} />
+        <Route path={routeNames.socialWorker.userVerification} element={<UserVerification />} />
       </Route>
     </Routes>
   );
