@@ -15,6 +15,11 @@ export const useStyles = createStyles((theme) => ({
   },
   card: {
     border: `0.5px solid rgb(0,0,0,0.1)`,
-    // borderColor:"#1864AB",
+    ":hover": {
+      cursor: "pointer",
+      border: `1px solid ${theme.colors.primary}`,
+      scale:'1.05',
+      transition:'ease-in-out 0.2s'
+    },
   },
 }));

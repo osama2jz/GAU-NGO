@@ -12,7 +12,39 @@ import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
   { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dashboard },
   {
-    label: "My Schedules",
+    label: "User",
+    icon: Users,
+    links: [
+      {
+        label: "Users Schedule",
+        link: routeNames.socialWorker.verificationScheduled,
+      },
+      {
+        label: "Add User",
+        icon: UserPlus,
+        link: routeNames.socialWorker.addUser,
+      },
+      { label: "View Users", link: routeNames.socialWorker.allUsers },
+      { label: "Verify User", link: routeNames.socialWorker.allUsers },
+    ],
+  },
+  {
+    label: "Appointment",
+    icon: CalendarEvent,
+    links: [
+      {
+        label: "Appointment Schedule",
+        link: routeNames.socialWorker.scheduledAppointments,
+      },
+      { label: "Add Appointment", link: "/" },
+      {
+        label: "VIew Appointments",
+        link: routeNames.socialWorker.allAppointments,
+      },
+    ],
+  },
+  {
+    label: "My Schedule",
     icon: CalendarTime,
     links: [
       { label: "Appointment Schedule", link: "/" },
@@ -22,19 +54,15 @@ export const socialSideBarData = [
     ],
   },
   {
-    label: "Users",
-    icon: Users,
+    label: "Report",
+    icon: Report,
     links: [
-      {
-        label: "Add Users",
-        icon: UserPlus,
-        link: routeNames.socialWorker.addUser,
-      },
-      { label: "All Users", link: routeNames.socialWorker.allUsers },
-      { label: "Verification Schedule", link: routeNames.socialWorker.verificationScheduled,
-    },
+      { label: "Private", link: "/" },
+      { label: "Public", link: "/" },
+      { label: "Referral", link: "/" },
     ],
   },
+
   // {
   //   label: "User Verification",
   //   icon: TruckDelivery,
@@ -44,30 +72,6 @@ export const socialSideBarData = [
   //     { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
   //   ],
   // },
-  {
-    label: "Appointments",
-    icon: CalendarEvent,
-    links: [
-      {
-        label: "Appointment Schedule",
-        link: routeNames.socialWorker.scheduledAppointments,
-      },
-      { label: "Add Appointment", link: "/" },
-      {
-        label: "All Appointments",
-        link: routeNames.socialWorker.allAppointments,
-      },
-      // { label: "Refer to Export", link: "/refer" },
-    ],
-  },
-  {
-    label: "Reports",
-    icon: Report,
-    links: [
-      { label: "Private", link: "/" },
-      { label: "Public", link: "/" },
-    ],
-  },
 ];
 
 export const bottom = [
