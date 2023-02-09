@@ -8,14 +8,21 @@ export const useStyles = createStyles((theme) => ({
     width: "100%",
     minHeight: "84vh",
   },
-  stepIcon:{
+  stepIcon: {
     // border:'1px solid black',
-    borderRadius:'50%'
+    borderRadius: "50%",
   },
   subHeading: {
-    fontSize:'18px',
-    marginBottom:'3px',
-    textAlign:'center',
-    fontWeight:'bold'
+    fontSize: "18px",
+    marginBottom: "3px",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  consent: {},
+  checkBoxInput: {
+    border: "1px solid gray",
+  },
+  verified: {
+    
   },
 }));

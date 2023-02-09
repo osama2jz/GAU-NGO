@@ -10,13 +10,11 @@ import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewUser from "./viewUser";
-import VerifyIcon from  "../../../assets/id.png";
+import VerifyIcon from "../../../assets/id.png";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
   let headerData = [
     {
       id: "id",
@@ -43,6 +41,12 @@ const VerificationScheduled = () => {
       label: "Date",
     },
     {
+      id: "time",
+      numeric: false,
+      disablePadding: true,
+      label: "Time",
+    },
+    {
       id: "status",
       numeric: false,
       disablePadding: true,
@@ -57,8 +61,6 @@ const VerificationScheduled = () => {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
@@ -69,6 +71,7 @@ const VerificationScheduled = () => {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -77,6 +80,7 @@ const VerificationScheduled = () => {
       name: "Muhammad UUsama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -85,6 +89,7 @@ const VerificationScheduled = () => {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -93,6 +98,7 @@ const VerificationScheduled = () => {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -101,6 +107,7 @@ const VerificationScheduled = () => {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -116,13 +123,13 @@ const VerificationScheduled = () => {
       >
         <Image src={VerifyIcon} width={30} height={32} />
         <Text fz={32} fw={600} align="center">
-        Verification Scheduled
+          Verification Scheduled
         </Text>
       </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0"/>
+            <InputField placeholder="Search" leftIcon="search" pb="0" />
           </Grid.Col>
           <Grid.Col sm={3}>
             <SelectMenu
@@ -146,18 +153,9 @@ const VerificationScheduled = () => {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
-          setEditModalState={setOpenEditModal}
-          setDeleteModalState={setOpenDeleteModal}
         />
       </Container>
-      <DeleteModal
-        opened={openDeleteModal}
-        setOpened={setOpenDeleteModal}
-        onCancel={() => setOpenDeleteModal(false)}
-        onDelete={() => setOpenDeleteModal(false)}
-        label="Are you Sure?"
-        message="Do you really want to delete these records? This process cannot be undone."
-      />
+
       <ViewUser opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
   );

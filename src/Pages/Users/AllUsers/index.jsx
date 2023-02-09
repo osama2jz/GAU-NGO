@@ -118,7 +118,7 @@ export const AllUser = () => {
       >
         <Image src={user} width={30} height={32} />
         <Text fz={32} fw={600} align="center">
-        All Users
+        View Users
         </Text>
       </Flex>
       <Container p={"xs"} className={classes.innerContainer}>

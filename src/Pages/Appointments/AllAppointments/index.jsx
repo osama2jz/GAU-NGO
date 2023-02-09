@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
-import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
@@ -15,7 +14,6 @@ import ViewAppointment from "./ViewAppointment";
 function AllAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   let headerData = [
     {
@@ -23,6 +21,12 @@ function AllAppointments() {
       numeric: true,
       disablePadding: true,
       label: "Sr No.",
+    },
+    {
+      id: "case",
+      numeric: true,
+      disablePadding: true,
+      label: "Case No.",
     },
     {
       id: "name",
@@ -58,7 +62,6 @@ function AllAppointments() {
       id: "actions",
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
@@ -66,6 +69,7 @@ function AllAppointments() {
   const rowData = [
     {
       id: "1",
+      case: "1234556",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -74,6 +78,7 @@ function AllAppointments() {
     },
     {
       id: "2",
+      case: "1234556",
       name: "Muhammad UUsama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -82,6 +87,7 @@ function AllAppointments() {
     },
     {
       id: "3",
+      case: "1234556",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -90,6 +96,7 @@ function AllAppointments() {
     },
     {
       id: "4",
+      case: "1234556",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -98,6 +105,7 @@ function AllAppointments() {
     },
     {
       id: "5",
+      case: "1234556",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -138,7 +146,7 @@ function AllAppointments() {
               primary={true}
               leftIcon={"plus"}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
-              styles={{float:'right'}}
+              styles={{ float: "right" }}
             />
           </Grid.Col>
         </Grid>
@@ -146,17 +154,9 @@ function AllAppointments() {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
-          setDeleteModalState={setOpenDeleteModal}
         />
       </Container>
-      <DeleteModal
-        opened={openDeleteModal}
-        setOpened={setOpenDeleteModal}
-        onCancel={() => setOpenDeleteModal(false)}
-        onDelete={() => setOpenDeleteModal(false)}
-        label="Are you Sure?"
-        message="Do you really want to delete these records? This process cannot be undone."
-      />
+
       <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
   );

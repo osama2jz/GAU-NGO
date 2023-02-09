@@ -15,11 +15,24 @@ import step4 from "../../../assets/step4.png";
 import step5 from "../../../assets/step5.png";
 import Button from "../../../Components/Button";
 import { Step2 } from "./Step2";
+import { Step1 } from "./Step1";
+import { Step3 } from "./Step3";
+import { Step4 } from "./Step4";
+import { Step5 } from "./Step5";
+import { useNavigate } from "react-router";
+import routeNames from "../../../Routes/routeNames";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
-  const [active, setActive] = useState(1);
+  const navigate = useNavigate();
+  const [active, setActive] = useState(0);
+
+  const handleNextSubmit = () => {
+    active < 4
+      ? setActive(active + 1)
+      : navigate(routeNames.socialWorker.allUsers);
+  };
 
   return (
     <Container className={classes.userVerification} size="lg">
@@ -35,7 +48,9 @@ export const UserVerification = () => {
         <Stepper.Step
           label="1. Get Started"
           description="Personal Identification"
-        ></Stepper.Step>
+        >
+          <Step1 />
+        </Stepper.Step>
         <Stepper.Step
           icon={
             <img
@@ -61,7 +76,9 @@ export const UserVerification = () => {
           }
           label="3. Consent Form"
           description="Consent Form"
-        />
+        >
+          <Step3 />
+        </Stepper.Step>
         <Stepper.Step
           icon={
             <img
@@ -73,7 +90,9 @@ export const UserVerification = () => {
           }
           label="4. Agreement"
           description="User Agreement"
-        />
+        >
+          <Step4 />
+        </Stepper.Step>
         <Stepper.Step
           icon={
             <img
@@ -85,15 +104,19 @@ export const UserVerification = () => {
           }
           label="5. Finish"
           description="verified"
-        />
+        >
+          <Step5 />
+        </Stepper.Step>
       </Stepper>
       <Group position="center" mt="xl">
-        {active > 1 && (
+        {active > 0 && (
           <Button onClick={() => setActive(active - 1)} label="Back" />
         )}
         <Button
-          onClick={() => setActive(active + 1)}
-          label={active === 5 ? "Finish" : "Save & Next"}
+          onClick={handleNextSubmit}
+          label={
+            active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
+          }
           primary={true}
         />
       </Group>

@@ -14,7 +14,7 @@ export const socialSideBarData = [
   {
     label: "User",
     icon: Users,
-    links: [
+    links: [ 
       {
         label: "Users Schedule",
         link: routeNames.socialWorker.verificationScheduled,
@@ -25,7 +25,7 @@ export const socialSideBarData = [
         link: routeNames.socialWorker.addUser,
       },
       { label: "View Users", link: routeNames.socialWorker.allUsers },
-      { label: "Verify User", link: routeNames.socialWorker.allUsers },
+      { label: "Verify User", link: routeNames.socialWorker.userVerification },
     ],
   },
   {
@@ -38,7 +38,7 @@ export const socialSideBarData = [
       },
       { label: "Add Appointment", link: "/" },
       {
-        label: "VIew Appointments",
+        label: "View Appointments",
         link: routeNames.socialWorker.allAppointments,
       },
     ],

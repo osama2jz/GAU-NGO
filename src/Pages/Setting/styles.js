@@ -5,13 +5,12 @@ export const useStyles = createStyles((theme) => ({
         borderRadius: "15px",
         padding: "20px",
         width: '100%',
-        height: "84vh",
+        minHeight: "84vh",
     },
     heading:{
         color:theme.colors.heading
       },
     container: {
-        // backgroundColor: "#F8F9FA",
         padding: "20px",
     },
     upload: {

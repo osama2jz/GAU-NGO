@@ -15,7 +15,6 @@ import ViewAppointment from "./ViewAppointment";
 function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   let headerData = [
     {
@@ -43,6 +42,12 @@ function ScheduledAppointments() {
       label: "Date",
     },
     {
+      id: "time",
+      numeric: false,
+      disablePadding: true,
+      label: "Time",
+    },
+    {
       id: "status",
       numeric: false,
       disablePadding: true,
@@ -57,8 +62,6 @@ function ScheduledAppointments() {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
@@ -69,6 +72,7 @@ function ScheduledAppointments() {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -77,6 +81,7 @@ function ScheduledAppointments() {
       name: "Muhammad UUsama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -85,6 +90,7 @@ function ScheduledAppointments() {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -93,6 +99,7 @@ function ScheduledAppointments() {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -101,6 +108,7 @@ function ScheduledAppointments() {
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
+      time: "11:20 PM",
       status: "Processing",
       accStatus: "Active",
     },
@@ -146,17 +154,9 @@ function ScheduledAppointments() {
         headCells={headerData}
         rowData={rowData}
         setViewModalState={setOpenViewModal}
-        setDeleteModalState={setOpenDeleteModal}
       />
     </Container>
-    <DeleteModal
-      opened={openDeleteModal}
-      setOpened={setOpenDeleteModal}
-      onCancel={() => setOpenDeleteModal(false)}
-      onDelete={() => setOpenDeleteModal(false)}
-      label="Are you Sure?"
-      message="Do you really want to delete these records? This process cannot be undone."
-    />
+ 
     <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
   </Container>
   )
