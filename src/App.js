@@ -37,7 +37,6 @@ function App() {
         <Route path={routeNames.socialWorker.userPageDashboard} element={<UserPageDashboard />} />
         <Route path={routeNames.socialWorker.appointmentPageDashboard} element={<AppointmentPageDashboard />} />
         <Route path={routeNames.socialWorker.reportPageDashboard} element={<ReportPageDashboard />} />
-
       </Route>
     </Routes>
   );

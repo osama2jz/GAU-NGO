@@ -132,7 +132,7 @@ const UserPage = (props) => {
   ];
 
   return (
-    <Container className={classes.main}>
+    <Container className={classes.main} size="lg">
         <Flex justify="center" align="center" mb="md">
         <Anchor fz={12} fw="bolder" className={classes.back} onClick={() => navigate(-1)}>
           <ArrowNarrowLeft />

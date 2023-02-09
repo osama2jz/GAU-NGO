@@ -40,7 +40,7 @@ const Layout = () => {
       }
       footer={<></>}
       header={
-        <Header height={{ base: 55, md: 55 }} bg={theme.colors.primary}>
+        <Header height={{ base: 55, md: 60, sm:80 }} bg={theme.colors.primary}>
           <Group noWrap>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger

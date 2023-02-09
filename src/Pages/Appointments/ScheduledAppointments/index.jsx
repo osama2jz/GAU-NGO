@@ -115,51 +115,51 @@ function ScheduledAppointments() {
   ];
   return (
     <Container className={classes.addUser} size="xl">
-    <Flex
-      align="center"
-      justify="center"
-      gap={12}
-      className={classes.heading}
-    >
-      <Image src={calender} width={30} height={32} />
-      <Text fz={32} fw={600} align="center">
-        Scheduled Appointments
-      </Text>
-    </Flex>
-    <Container p={"xs"} className={classes.innerContainer}>
-      <Grid align={"center"} py="md">
-        <Grid.Col sm={6}>
-          <InputField placeholder="Search" leftIcon="search" pb="0px" />
-        </Grid.Col>
-        <Grid.Col sm={3}>
-          <SelectMenu
-            placeholder="Filter by Status"
-            data={[
-              { label: "verified", value: "verified" },
-              { label: "Pending", value: "pending" },
-            ]}
-          />
-        </Grid.Col>
-        <Grid.Col sm={3} ml="auto">
-          <Button
-            label={"Add Appointment"}
-            primary={true}
-            leftIcon={"plus"}
-            onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
-            styles={{float:'right'}}
-          />
-        </Grid.Col>
-      </Grid>
-      <Table
-        headCells={headerData}
-        rowData={rowData}
-        setViewModalState={setOpenViewModal}
-      />
+      <Flex
+        align="center"
+        justify="center"
+        gap={12}
+        className={classes.heading}
+      >
+        <Image src={calender} width={30} height={32} />
+        <Text fz={32} fw={600} align="center">
+          Scheduled Appointments
+        </Text>
+      </Flex>
+      <Container p={"xs"} className={classes.innerContainer}>
+        <Grid align={"center"} py="md">
+          <Grid.Col sm={6}>
+            <InputField placeholder="Search" leftIcon="search" pb="0" />
+          </Grid.Col>
+          <Grid.Col sm={6} md={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              data={[
+                { label: "verified", value: "verified" },
+                { label: "Pending", value: "pending" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col sm={3} ml="auto">
+            <Button
+              label={"Add Appointment"}
+              primary={true}
+              leftIcon={"plus"}
+              styles={{ float: "right" }}
+              onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
+            />
+          </Grid.Col>
+        </Grid>
+        <Table
+          headCells={headerData}
+          rowData={rowData}
+          setViewModalState={setOpenViewModal}
+        />
+      </Container>
+
+      <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
     </Container>
- 
-    <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} />
-  </Container>
-  )
+  );
 }
 
-export default ScheduledAppointments
+export default ScheduledAppointments;

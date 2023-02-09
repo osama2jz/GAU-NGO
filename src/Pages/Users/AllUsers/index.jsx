@@ -126,7 +126,7 @@ export const AllUser = () => {
           <Grid.Col sm={6}>
             <InputField placeholder="Search" leftIcon="search" pb="0"/>
           </Grid.Col>
-          <Grid.Col sm={3}>
+          <Grid.Col sm={6} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               data={[
@@ -135,11 +135,12 @@ export const AllUser = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={2} ml="auto">
+          <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add User"}
               primary={true}
               leftIcon={"plus"}
+              styles={{float:'right'}}
               onClick={() => navigate(routeNames.socialWorker.addUser)}
             />
           </Grid.Col>
