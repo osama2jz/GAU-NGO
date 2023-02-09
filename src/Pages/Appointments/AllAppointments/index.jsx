@@ -127,11 +127,11 @@ function AllAppointments() {
         </Text>
       </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
-        <Grid align={"center"} py="md">
+      <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0px" />
+            <InputField placeholder="Search" leftIcon="search" pb="0"/>
           </Grid.Col>
-          <Grid.Col sm={3}>
+          <Grid.Col sm={6} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               data={[
@@ -145,8 +145,8 @@ function AllAppointments() {
               label={"Add Appointment"}
               primary={true}
               leftIcon={"plus"}
+              styles={{float:'right'}}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
-              styles={{ float: "right" }}
             />
           </Grid.Col>
         </Grid>

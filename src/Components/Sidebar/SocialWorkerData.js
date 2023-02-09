@@ -2,6 +2,7 @@ import {
   CalendarEvent,
   CalendarTime,
   Gauge,
+  LayoutDashboard,
   Power,
   Report,
   Settings,
@@ -10,7 +11,7 @@ import {
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
-  { label: "Dashboard", icon: Gauge, link: routeNames.socialWorker.dashboard },
+  { label: "Dashboard", icon: LayoutDashboard, link: routeNames.socialWorker.dashboard },
   {
     label: "User",
     icon: Users,
