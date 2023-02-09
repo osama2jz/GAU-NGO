@@ -12,6 +12,9 @@ import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
 import Settings from "./Pages/Setting";
 import { UserVerification } from "./Pages/Users/UserVerification";
 import VerificationScheduled from "./Pages/Users/VerificationScheduled";
+import UserPageDashboard from "./Pages/Dashboard/UserPage";
+import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
+import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 
 function App() {
   return (
@@ -31,6 +34,10 @@ function App() {
         <Route path={routeNames.socialWorker.allAppointments} element={<AllAppointments />} />
         <Route path={routeNames.socialWorker.scheduledAppointments} element={<ScheduledAppointment />} />
         <Route path={routeNames.socialWorker.userVerification} element={<UserVerification />} />
+        <Route path={routeNames.socialWorker.userPageDashboard} element={<UserPageDashboard />} />
+        <Route path={routeNames.socialWorker.appointmentPageDashboard} element={<AppointmentPageDashboard />} />
+        <Route path={routeNames.socialWorker.reportPageDashboard} element={<ReportPageDashboard />} />
+
       </Route>
     </Routes>
   );

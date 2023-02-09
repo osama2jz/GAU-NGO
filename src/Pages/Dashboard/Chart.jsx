@@ -54,7 +54,7 @@ export default function App() {
       radius={26}
       withBorder
       p="md"
-      className={classes.card}
+      className={classes.chartcard}
     >
       <Text mb="sm">January 2023</Text>
       <ResponsiveContainer width={"100%"} height={250}>

@@ -3,70 +3,62 @@ import { useStyles } from "./styles";
 import { Grid } from "@mantine/core";
 import Card from "./Card";
 import Chart from "./Chart";
+import routeNames  from "../../Routes/routeNames";
+
 
 const Dashboard = () => {
-  const { classes } = useStyles();
+  const { classes} = useStyles();
   const a = [
     {
-      title: "TOTAL USERS",
+      title: "ALL USERS",
       value: 100,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "Users",
+      link: routeNames.socialWorker.userPageDashboard,
     },
     {
-      title: "ACTIVE USERS",
+      title: "ALL APPOINTMENTS",
       value: 200,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
+      link: routeNames.socialWorker.appointmentPageDashboard,
     },
     {
-      title: "VERIFIED USERS",
+      title: "ALL REPORTS",
       value: 150,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "Users",
-    },
-    {
-      title: "UNVERIFY USERS",
-      value: 50,
-      progress: 78,
-      color: "#E03131",
-      progressTitle: "Response Rate",
-      icon: "Users",
+      link: routeNames.socialWorker.reportPageDashboard,
     },
   ];
   return (
     <Container className={classes.main} size="lg">
       {/* <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}> */}
       {/* <Grid.Col span={9}> */}
+      {/* <Text fz={14} fw="bolder" mb="sm" color={"white"} bg={"darkblue"}>
+          Welcome, GAU Social Worker Dashboard
+        </Text> */}
+      
       <Container className={classes.left} size="lg">
         <Text fz={28} fw="bolder" mb="sm" align="center">
           Dashboard
         </Text>
-        <Text fz={20} fw="bolder" mt="sm" mb="sm" >Users</Text>
-        {/* <hr/> */}
+      
         <Grid>
           {a.map((item, index) => (
-            <Grid.Col md={"auto"} lg="3">
+            <Grid.Col md={"auto"} >
               <Card data={item} />
             </Grid.Col>
           ))}
         </Grid>
         
-        <Text fz={20} fw="bolder" mt="sm" mb="sm">Appointments</Text>
-        {/* <hr/> */}
-        <Grid>
-          {a.map((item, index) => (
-            <Grid.Col md={"auto"} lg="3">
-              <Card data={item} />
-            </Grid.Col>
-          ))}
-        </Grid>
+        
 
         <Text fz={28} fw="bolder" mt="sm" mb="sm">
           Monthly Appointments{" "}

@@ -74,7 +74,7 @@ export function LinksGroup({
       to={link.link}
       key={link.label}
       bg={
-        location.pathname === link.link && link.label === globalOpen
+        location?.pathname === link.link && link.label === globalOpen
           ? "rgba(86, 92, 154, 1)"
           : ""
       }
@@ -92,7 +92,7 @@ export function LinksGroup({
         }}
         className={classes.control}
         bg={
-          location.pathname === link && label === globalOpen
+          location?.pathname === link && label === globalOpen
             ? "rgba(86, 92, 154, 1)"
             : ""
         }

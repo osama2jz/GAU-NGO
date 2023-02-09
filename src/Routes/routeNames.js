@@ -12,6 +12,9 @@ const routeNames = {
     addAppoinment: '/add-appointment',
     allAppointments: '/all-appointments',
     scheduledAppointments: '/scheduled-appointments',
+    userPageDashboard: '/user-page-dashboard',
+    appointmentPageDashboard: '/appointment-page-dashboard',
+    reportPageDashboard: '/report-page-dashboard',
 
   },
 };

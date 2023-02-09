@@ -22,4 +22,7 @@ export const useStyles = createStyles((theme) => ({
       transition:'ease-in-out 0.2s'
     },
   },
+  chartcard: {
+    border: `0.5px solid rgb(0,0,0,0.1)`,
+  },
 }));
