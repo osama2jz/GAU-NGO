@@ -15,6 +15,7 @@ import VerificationScheduled from "./Pages/Users/VerificationScheduled";
 import UserPageDashboard from "./Pages/Dashboard/UserPage";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
+import MySchedule from "./Pages/MySchedule/Schedule";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
         <Route path={routeNames.socialWorker.userPageDashboard} element={<UserPageDashboard />} />
         <Route path={routeNames.socialWorker.appointmentPageDashboard} element={<AppointmentPageDashboard />} />
         <Route path={routeNames.socialWorker.reportPageDashboard} element={<ReportPageDashboard />} />
+        <Route path={routeNames.socialWorker.mySchedule} element={<MySchedule />} />
+
 
       </Route>
     </Routes>

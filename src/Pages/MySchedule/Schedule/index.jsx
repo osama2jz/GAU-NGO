@@ -1,0 +1,47 @@
+import { Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
+import { useStyles } from "./styles";
+import ScheduleCard from "../../../Components/ScheduleCard";
+import CalendarDate from "../../../Components/Calendar";
+
+function MySchedule() {
+  const { classes } = useStyles();
+  const a = [
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
+  ];
+  return (
+    <Container className={classes.main}>
+      <Text size={28} weight={700} color={"gray"} align="center">
+        My Schedule
+      </Text>
+      <Container className={classes.cal} mb="lg" mt="md">
+        <CalendarDate />
+      </Container>
+      <Text size={18} weight={700} color={"gray"} align="center">
+        Today's Schedule
+      </Text>
+      <Container mt="md">
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "md", cols: 2 },
+            { minWidth: "lg", cols: 3 },
+            { minWidth: "xs", cols: 1 },
+          ]}
+          spacing="xl"
+        >
+          {a.map((item, index) => (
+            <Flex justify={"center"}>
+              <ScheduleCard data={item} />
+            </Flex>
+          ))}
+        </SimpleGrid>
+      </Container>
+    </Container>
+  );
+}
+
+export default MySchedule;

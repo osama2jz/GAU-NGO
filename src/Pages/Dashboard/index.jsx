@@ -39,12 +39,6 @@ const Dashboard = () => {
   ];
   return (
     <Container className={classes.main} size="lg">
-      {/* <Grid gutter={5} gutterXs="md" gutterMd="xl" gutterXl={50}> */}
-      {/* <Grid.Col span={9}> */}
-      {/* <Text fz={14} fw="bolder" mb="sm" color={"white"} bg={"darkblue"}>
-          Welcome, GAU Social Worker Dashboard
-        </Text> */}
-      
       <Container className={classes.left} size="lg">
         <Text fz={28} fw="bolder" mb="sm" align="center">
           Dashboard
