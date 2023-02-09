@@ -100,13 +100,13 @@ const Index = ({}) => {
 							})}
 						>
 							<Group spacing={7} noWrap>
-								<Avatar src={<UserCircle />} radius="xl" size={30} />
+								<Avatar src={user.img} radius="xl" size={30} />
 								<MediaQuery smallerThan="sm" styles={{ display: "none" }}>
 									<Flex direction={"column"} gap="4px">
 										<Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-											{"Muhammad Usama"}
+											{user.name}
 										</Text>
-										<Badge size="xs">Social Worker</Badge>
+										<Badge size="xs">{user.role}</Badge>
 									</Flex>
 								</MediaQuery>
 							</Group>
