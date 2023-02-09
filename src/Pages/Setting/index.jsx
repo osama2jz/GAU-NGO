@@ -109,42 +109,34 @@ export const Setting = () => {
                   { maxWidth: 600, cols: 1, spacing: "sm" },
                 ]}
               >
-                <div>
-                  <InputField
-                    label="First Name"
-                    required={true}
-                    placeholder="first name"
-                    form={form}
-                    validateName="firstName"
-                  />
-                </div>
-                <div>
-                  <InputField
-                    label="Last Name"
-                    required={true}
-                    placeholder="last name"
-                    form={form}
-                    validateName="lastName"
-                  />
-                </div>
-                <div>
-                  <InputField
-                    label="Email"
-                    required={true}
-                    placeholder="xyz@gmail.com"
-                    form={form}
-                    validateName="email"
-                  />
-                </div>
-                <div>
-                  <InputField
-                    label="Phone Number"
-                    required={true}
-                    placeholder="phone number"
-                    form={form}
-                    validateName="phone"
-                  />
-                </div>
+                <InputField
+                  label="First Name"
+                  required={true}
+                  placeholder="first name"
+                  form={form}
+                  validateName="firstName"
+                />
+                <InputField
+                  label="Last Name"
+                  required={true}
+                  placeholder="last name"
+                  form={form}
+                  validateName="lastName"
+                />
+                <InputField
+                  label="Email"
+                  required={true}
+                  placeholder="xyz@gmail.com"
+                  form={form}
+                  validateName="email"
+                />
+                <InputField
+                  label="Phone Number"
+                  required={true}
+                  placeholder="phone number"
+                  form={form}
+                  validateName="phone"
+                />
               </SimpleGrid>
             </Grid.Col>
           </Grid>

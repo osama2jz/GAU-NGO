@@ -82,7 +82,7 @@ export const Step2 = () => {
     },
   });
   return (
-    <Container className={classes.addUser} size="lg">
+    <Container size="lg">
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => console.log("value", values))}
