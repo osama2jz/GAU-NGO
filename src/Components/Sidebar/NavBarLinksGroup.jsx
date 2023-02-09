@@ -7,12 +7,11 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 
-const useStyles = createStyles((theme, { opened }) => ({
+const useStyles = createStyles((theme) => ({
   control: {
-    backgroundColor: opened ? "rgba(86, 92, 154, 1)" : "",
     fontWeight: 500,
     display: "block",
     width: "100%",
@@ -60,9 +59,10 @@ export function LinksGroup({
   setGlobalOpen,
 }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
-  const { classes, theme } = useStyles({ opened });
+  const { classes, theme } = useStyles();
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
   useEffect(() => {
     globalOpen !== label && setOpened(false);
@@ -73,6 +73,11 @@ export function LinksGroup({
       className={classes.link}
       to={link.link}
       key={link.label}
+      bg={
+        location.pathname === link.link && link.label === globalOpen
+          ? "rgba(86, 92, 154, 1)"
+          : ""
+      }
     >
       {ind + "." + (index + 1) + " " + link.label}
     </Text>
@@ -86,6 +91,11 @@ export function LinksGroup({
           setGlobalOpen(label);
         }}
         className={classes.control}
+        bg={
+          location.pathname === link && label === globalOpen
+            ? "rgba(86, 92, 154, 1)"
+            : ""
+        }
       >
         <Group position="apart" spacing={0} onClick={() => navigate(link)}>
           <Box
