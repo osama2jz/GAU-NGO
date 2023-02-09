@@ -17,9 +17,12 @@ import Button from "../../Components/Button";
 import InputField from "../../Components/InputField";
 import { useStyles } from "./styles";
 import Settings from "../../assets/cogwheel.png";
+import routeNames from "../../Routes/routeNames";
+import { useNavigate } from "react-router";
 
 export const Setting = () => {
   const { classes } = useStyles();
+  const navigate = useNavigate();
   const [files, setFiles] = useState([]);
 
   const form = useForm({
@@ -28,8 +31,7 @@ export const Setting = () => {
       firstName: "",
       lastName: "",
       email: "",
-      password: "",
-      confirmPassword: "",
+      phone: "",
     },
 
     validate: {
@@ -38,10 +40,6 @@ export const Setting = () => {
       lastName: (value) =>
         value?.length < 1 ? "Please enter last name" : null,
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-      password: (value) =>
-        value?.length < 8 ? "Password must at least have 8 characters" : null,
-      confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
     },
   });
 
@@ -72,13 +70,11 @@ export const Setting = () => {
       </Flex>
 
       <Container className={classes.container} p={30} shadow="sm" mt="sm">
-        <Text fz={24} fw="bolder">
-          Edit Profile
-        </Text>
-        <Text size="sm">Fill in the form below to update your profile</Text>
-        <Card mt="md" mb="md">
+        <form
+          onSubmit={form.onSubmit((values) => console.log("value", values))}
+        >
           <Grid>
-            <Grid.Col span={4} p="md">
+            <Grid.Col md={4} p="md" align="center">
               {files.length > 0 ? (
                 previews
               ) : (
@@ -103,7 +99,7 @@ export const Setting = () => {
                 </Text>
               </Dropzone>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col md={8}>
               <SimpleGrid
                 cols={2}
                 spacing="lg"
@@ -119,7 +115,7 @@ export const Setting = () => {
                     required={true}
                     placeholder="first name"
                     form={form}
-                    validateName="email"
+                    validateName="firstName"
                   />
                 </div>
                 <div>
@@ -128,7 +124,7 @@ export const Setting = () => {
                     required={true}
                     placeholder="last name"
                     form={form}
-                    validateName="email"
+                    validateName="lastName"
                   />
                 </div>
                 <div>
@@ -146,17 +142,20 @@ export const Setting = () => {
                     required={true}
                     placeholder="phone number"
                     form={form}
-                    validateName="email"
+                    validateName="phone"
                   />
                 </div>
               </SimpleGrid>
             </Grid.Col>
           </Grid>
-        </Card>
-        <Group position="right">
-          <Button label="Cancel" />
-          <Button label="Save Changes" primary={true} />
-        </Group>
+          <Flex justify={"flex-end"} gap={"md"}>
+            <Button
+              label="Cancel"
+              onClick={() => navigate(routeNames.socialWorker.dashboard)}
+            />
+            <Button label="Save Changes" primary={true} type="submit" />
+          </Flex>
+        </form>
       </Container>
     </Container>
   );

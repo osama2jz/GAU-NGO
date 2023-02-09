@@ -1,6 +1,12 @@
 import {
-  CalendarEvent, CalendarTime, Gauge, Power, Report, Settings, UserPlus,
-  Users
+  CalendarEvent,
+  CalendarTime,
+  Gauge,
+  Power,
+  Report,
+  Settings,
+  UserPlus,
+  Users,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
@@ -9,10 +15,10 @@ export const socialSideBarData = [
     label: "My Schedules",
     icon: CalendarTime,
     links: [
-      { label: "Appointment Schedule", link: "/scheduleappointment" },
-      { label: "View All", link: "/appointmentsAll" },
-      { label: "Start a Session", link: "/session" },
-      { label: "Refer to Export", link: "/refer" },
+      { label: "Appointment Schedule", link: "/" },
+      { label: "View All", link: "/" },
+      { label: "Start a Session", link: "/" },
+      { label: "Refer to Export", link: "/" },
     ],
   },
   {
@@ -25,7 +31,10 @@ export const socialSideBarData = [
         link: routeNames.socialWorker.addUser,
       },
       { label: "All Users", link: routeNames.socialWorker.allUsers },
-      { label: "Verification Schedule", link: routeNames.socialWorker.allUsers },
+      {
+        label: "Verification Schedule",
+        link: routeNames.socialWorker.allUsers,
+      },
     ],
   },
   // {
@@ -41,9 +50,15 @@ export const socialSideBarData = [
     label: "Appointments",
     icon: CalendarEvent,
     links: [
-      { label: "Appointment Schedule", link: routeNames.socialWorker.scheduledAppointments },
-      { label: "Add Appointment", link: "/appointmentsAll" },
-      { label: "All Appointments", link: routeNames.socialWorker.allAppointments},
+      {
+        label: "Appointment Schedule",
+        link: routeNames.socialWorker.scheduledAppointments,
+      },
+      { label: "Add Appointment", link: "/" },
+      {
+        label: "All Appointments",
+        link: routeNames.socialWorker.allAppointments,
+      },
       // { label: "Refer to Export", link: "/refer" },
     ],
   },
@@ -51,8 +66,8 @@ export const socialSideBarData = [
     label: "Reports",
     icon: Report,
     links: [
-      { label: "Private", link: "/reportspublic" },
-      { label: "Public", link: "/reportsprivate" },
+      { label: "Private", link: "/" },
+      { label: "Public", link: "/" },
     ],
   },
 ];
@@ -61,6 +76,7 @@ export const bottom = [
   { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
   {
     label: "Log Out",
+    link: "/",
     icon: Power,
   },
 ];
