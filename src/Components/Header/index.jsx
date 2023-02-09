@@ -16,6 +16,8 @@ import logo from "../../logo.svg";
 import InputField from "../InputField";
 import { useMediaQuery } from "@mantine/hooks";
 import Notifications from "../Notifications";
+import { UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
 
 const useStyles = createStyles((theme) => ({
 	header: {
@@ -57,6 +59,7 @@ const Index = ({}) => {
 	const { classes, theme, cx } = useStyles();
 	const matches = useMediaQuery("(min-width: 640px)");
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
+	const { user } = useContext(UserContext);
 	return (
 		<Container fluid className={classes.header}>
 			<Text className={classes.logo}>
