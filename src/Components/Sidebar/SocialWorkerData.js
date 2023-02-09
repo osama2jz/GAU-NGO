@@ -48,10 +48,7 @@ export const socialSideBarData = [
     label: "My Schedule",
     icon: CalendarTime,
     links: [
-      { label: "Appointment Schedule", link: "/" },
-      { label: "View All", link: "/" },
-      { label: "Start a Session", link: "/" },
-      { label: "Refer to Export", link: "/" },
+      { label: "My Schedule", link: routeNames.socialWorker.mySchedule},
     ],
   },
   {
