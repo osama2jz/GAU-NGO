@@ -10,6 +10,9 @@ export const useStyles = createStyles((theme) => ({
   cal:{
     border: `1px solid ${theme.colors.gray}`,
     backgroundColor: theme.colors.gray,
-  }
+  },
+  heading:{
+    color:theme.colors.heading
+  },
  
 }));

@@ -35,6 +35,8 @@ const Table = ({
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
 
+  console.log("head", headCells);
+
   useEffect(() => {
     setRowDatas(rowData);
   }, [rowData]);
@@ -55,6 +57,7 @@ const Table = ({
     });
     setRowDatas(rowDataCopy);
   };
+  console.log(rowDatas);
 
   const sortStringValue = (label) => {
     setSorted({ sorted: label, reversed: !sorted.reversed });
@@ -93,14 +96,19 @@ const Table = ({
                   }}
                 >
                   <Group
-                    style={{ flexWrap: "nowrap", flexShrink: 0, width: head.id === "id" ?  '40px' : "" }}
+                    style={{
+                      flexWrap: "nowrap",
+                      flexShrink: 0,
+                      width: head.id === "id" ? "40px" : "",
+                    }}
                     spacing={3}
                     align={"center"}
                     // position={head.numeric === true ? "right" : "left"}
                     position="center"
                   >
                     <Text align="center">{head?.label}</Text>
-                    {head.id !== "actions" && head.id !== "image" &&
+                    {head.id !== "actions" &&
+                      head.id !== "image" &&
                       (!sorted.reversed === true &&
                       sorted.sorted === head.id ? (
                         <ArrowDown size={16} />
@@ -171,9 +179,20 @@ const Table = ({
                         {row[head?.id]}
                       </Badge>
                     </td>
-                  ) : head.id === "image" ? (
+                  ) : head.id === "name" ? (
                     <td key={index} align="center">
-                      <Avatar src={user} width="30px" radius={"xl"}/>
+                      <Flex align={"center"} gap={3}>
+                        <Avatar
+                          src={row.image || user}
+                          width="30px"
+                          radius={"xl"}
+                        />
+                        <Text lineClamp={1}>
+                          {row[head?.id].length > 100
+                            ? row[head?.id].substring(0, 5) + "..."
+                            : row[head?.id].toLocaleString()}
+                        </Text>
+                      </Flex>
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
