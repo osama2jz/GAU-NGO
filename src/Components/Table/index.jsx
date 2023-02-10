@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Flex,
   Group,
@@ -14,7 +15,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
-import { useStyles } from "../../Pages/Users/AllUsers/styles";
+import user from "../../assets/teacher.png";
 import routeNames from "../../Routes/routeNames";
 
 const Table = ({
@@ -170,6 +171,10 @@ const Table = ({
                         {row[head?.id]}
                       </Badge>
                     </td>
+                  ) : head.id === "image" ? (
+                    <td key={index} align="center">
+                      <Avatar src={user} width="30px" radius={"xl"}/>
+                    </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
                       <Switch
@@ -180,13 +185,13 @@ const Table = ({
                     </td>
                   ) : (
                     <td key={index} align="center">
-                      {head.date &&
+                      {/* {head.date &&
                         row[head?.id]?.split("T")[0] +
                           " " +
-                          row[head?.id]?.split("T")[1].split(".")[0]}
+                          row[head?.id]?.split("T")[1].split(".")[0]} */}
                       <Text lineClamp={1}>
                         {row[head?.id].length > 100
-                          ? row[head?.id].substring(0, 100) + "..."
+                          ? row[head?.id].substring(0, 5) + "..."
                           : row[head?.id].toLocaleString()}
                       </Text>
                     </td>
