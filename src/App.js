@@ -17,7 +17,6 @@ import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import MySchedule from "./Pages/MySchedule/Schedule";
 import AddAppointment from "./Pages/Appointments/AddAppointment";
-import Schedule from "./Pages/MySchedule/Schedule"
 import PrivateReport from "./Pages/Reports/Private";
 import PublicReport from "./Pages/Reports/Public";
 import ReferalReport from "./Pages/Reports/Referal";
@@ -47,6 +46,7 @@ function App() {
         <Route path={routeNames.socialWorker.privateReport} element={<PrivateReport />} />
         <Route path={routeNames.socialWorker.publicReport} element={<PublicReport />} />
         <Route path={routeNames.socialWorker.referalReport} element={<ReferalReport />} />
+        <Route path={routeNames.socialWorker.addAppoinment} element={<AddAppointment />} />
       </Route>
     </Routes>
   );

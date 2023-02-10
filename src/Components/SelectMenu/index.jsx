@@ -9,7 +9,7 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
     color: borderWhite ? "white !important" : "black !important",
     borderRadius: "5px",
   },
-  label:{
+  label: {
     // fontSize:'16px'
   },
   icon: {
@@ -20,24 +20,37 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
 const SelectMenu = ({
   placeholder,
   leftIcon,
+  searchable,
   required,
   label,
   pb = "sm  ",
   data,
+  setData,
+  clearable,
   borderWhite,
   onChange,
+  creatable,
   form,
-  size="md",
+  size = "md",
   validateName,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
     <Select
+      searchable={searchable}
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
       size={size}
-      onChange={onChange}
+      getCreateLabel={(query) => `+ Create ${query}`}
+      creatable={creatable}
+      clearable={clearable}
+      onCreate={(query) => {
+        // const item = { value: query, label: query };
+        // setData((current) => [...current, item]);
+        // return item;
+      }}
+      onChange={(v)=>setData(v)}
       data={data}
       {...form?.getInputProps(validateName)}
       icon={
@@ -47,7 +60,11 @@ const SelectMenu = ({
           ""
         )
       }
-      classNames={{ input: classes.input, visibilityToggle: classes.icon, label:classes.label }}
+      classNames={{
+        input: classes.input,
+        visibilityToggle: classes.icon,
+        label: classes.label,
+      }}
       placeholder={placeholder}
     />
   );
