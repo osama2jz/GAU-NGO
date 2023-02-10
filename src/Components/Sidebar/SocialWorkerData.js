@@ -37,7 +37,7 @@ export const socialSideBarData = [
         label: "Appointment Schedule",
         link: routeNames.socialWorker.scheduledAppointments,
       },
-      { label: "Add Appointment", link: "/" },
+      { label: "Add Appointment", link: routeNames.socialWorker.addAppoinment },
       {
         label: "View Appointments",
         link: routeNames.socialWorker.allAppointments,
@@ -61,22 +61,22 @@ export const socialSideBarData = [
     ],
   },
 
-  // {
-  //   label: "User Verification",
-  //   icon: TruckDelivery,
-  //   links: [
-  //     { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
-  //     { label: "Verify User", link: routeNames.socialWorker.verifyUser },
-  //     { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
-  //   ],
-  // },
+ // {
+ //   label: "User Verification",
+ //   icon: TruckDelivery,
+ //   links: [
+ //     { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
+ //     { label: "Verify User", link: routeNames.socialWorker.verifyUser },
+ //     { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
+ //   ],
+ // },
 ];
 
 export const bottom = [
-  { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
-  {
-    label: "Log Out",
-    link: "/",
-    icon: Power,
-  },
+ { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
+ {
+  label: "Log Out",
+  link: "/",
+  icon: Power,
+ },
 ];
