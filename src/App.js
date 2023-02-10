@@ -16,6 +16,7 @@ import UserPageDashboard from "./Pages/Dashboard/UserPage";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import AddAppointment from "./Pages/Appointments/AddAppointment";
+
 function App() {
  return (
   <Routes>

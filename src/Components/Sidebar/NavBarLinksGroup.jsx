@@ -89,6 +89,7 @@ export function LinksGroup({
         onClick={() => {
           setOpened((o) => !o);
           setGlobalOpen(label);
+          navigate(link)
         }}
         className={classes.control}
         bg={

@@ -23,7 +23,12 @@ export const AllUser = () => {
       id: "id",
       numeric: true,
       disablePadding: true,
-      label: "Sr No.",
+      label: "Sr #",
+    },
+    {
+      id: "image",
+      disablePadding: true,
+      label: "",
     },
     {
       id: "name",
@@ -68,6 +73,7 @@ export const AllUser = () => {
   const rowData = [
     {
       id: "1",
+      image: "image",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -76,6 +82,7 @@ export const AllUser = () => {
     },
     {
       id: "2",
+      image: "image",
       name: "Muhammad UUsama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -84,6 +91,7 @@ export const AllUser = () => {
     },
     {
       id: "3",
+      image: "image",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -92,6 +100,7 @@ export const AllUser = () => {
     },
     {
       id: "4",
+      image: "image",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -100,6 +109,7 @@ export const AllUser = () => {
     },
     {
       id: "5",
+      image: "image",
       name: "Muhammad Usama",
       email: "osama@gmail.com",
       date: "12 Jan 2022",
@@ -110,7 +120,7 @@ export const AllUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-       <Flex
+      <Flex
         align="center"
         justify="center"
         gap={12}
@@ -118,15 +128,15 @@ export const AllUser = () => {
       >
         <Image src={user} width={30} height={32} />
         <Text fz={32} fw={600} align="center">
-        View Users
+          View Users
         </Text>
       </Flex>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0"/>
+            <InputField placeholder="Search" leftIcon="search" pb="0" />
           </Grid.Col>
-          <Grid.Col sm={3}>
+          <Grid.Col sm={6} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               data={[
@@ -135,11 +145,12 @@ export const AllUser = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={2} ml="auto">
+          <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add User"}
               primary={true}
               leftIcon={"plus"}
+              styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addUser)}
             />
           </Grid.Col>
