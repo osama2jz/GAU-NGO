@@ -50,6 +50,7 @@ const DoubleTabs = () => {
       <Grid.Col md={6}>
        {files.length > 0 && <Anchor>{files[0]?.name}</Anchor>}
        <Dropzone
+        // accept={MIME_TYPES.pdf}
         multiple={false}
         maxFiles={1}
         onDrop={(v) => {

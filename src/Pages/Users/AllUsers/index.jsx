@@ -49,17 +49,13 @@ export const AllUser = () => {
    </>
   );
  });
+
  let headerData = [
   {
    id: "id",
    numeric: true,
    disablePadding: true,
    label: "Sr #",
-  },
-  {
-   id: "image",
-   disablePadding: true,
-   label: "",
   },
   {
    id: "name",
@@ -104,7 +100,6 @@ export const AllUser = () => {
  const rowData = [
   {
    id: "1",
-   image: "image",
    name: "Muhammad Usama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
@@ -113,7 +108,6 @@ export const AllUser = () => {
   },
   {
    id: "2",
-   image: "image",
    name: "Muhammad UUsama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
@@ -122,7 +116,6 @@ export const AllUser = () => {
   },
   {
    id: "3",
-   image: "image",
    name: "Muhammad Usama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
@@ -131,7 +124,6 @@ export const AllUser = () => {
   },
   {
    id: "4",
-   image: "image",
    name: "Muhammad Usama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
@@ -140,7 +132,8 @@ export const AllUser = () => {
   },
   {
    id: "5",
-   image: "image",
+   image:
+    "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
    name: "Muhammad Usama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
