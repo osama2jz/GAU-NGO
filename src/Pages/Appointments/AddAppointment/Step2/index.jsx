@@ -16,10 +16,10 @@ const Step2 = () => {
  ].map((e, i) => {
   return (
    <>
-    <Text fz={20} fw={"bold"}>
+    <Text fz={16} fw={"bold"}>
      {e}
     </Text>
-    <Text opacity={"40%"} fz={20} fw={"bold"}>
+    <Text opacity={"40%"} fz={16} fw={"bold"}>
      {e}
     </Text>
    </>
