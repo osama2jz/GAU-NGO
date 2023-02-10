@@ -23,7 +23,7 @@ export const AllUser = () => {
       id: "id",
       numeric: true,
       disablePadding: true,
-      label: "Sr No.",
+      label: "Sr #",
     },
     {
       id: "image",

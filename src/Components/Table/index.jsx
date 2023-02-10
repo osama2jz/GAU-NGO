@@ -74,7 +74,7 @@ const Table = ({
         <thead
           style={{
             backgroundColor: "lightgray",
-            height: "50px",
+            height: "40px",
           }}
         >
           <tr>
@@ -93,14 +93,14 @@ const Table = ({
                   }}
                 >
                   <Group
-                    style={{ flexWrap: "nowrap", flexShrink: 0 }}
+                    style={{ flexWrap: "nowrap", flexShrink: 0, width: head.id === "id" ?  '40px' : "" }}
                     spacing={3}
                     align={"center"}
                     // position={head.numeric === true ? "right" : "left"}
                     position="center"
                   >
                     <Text align="center">{head?.label}</Text>
-                    {head.id !== "actions" &&
+                    {head.id !== "actions" && head.id !== "image" &&
                       (!sorted.reversed === true &&
                       sorted.sorted === head.id ? (
                         <ArrowDown size={16} />
