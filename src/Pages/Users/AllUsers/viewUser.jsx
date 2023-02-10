@@ -1,31 +1,10 @@
-import {
-  createStyles,
-  Group,
-  Modal as ModalMantine,
-  Text,
-  Container,
-} from "@mantine/core";
-import Button from "../../../Components/Button";
+import { createStyles, Group, Modal as ModalMantine, Text, Container } from "@mantine/core";
 
-const ViewUser = ({ opened, setOpened }) => {
-  return (
-    <ModalMantine
-      opened={opened}
-      onClose={() => setOpened(false)}
-      withCloseButton={false}
-      centered
-    >
-      <Container>
-      <Group pt={"sm"} ml={"auto"}>
-          {/* <Button label="Cancel" compact={true} /> */}
-          <Button
-            label="Verify"
-            primary={true}
-            compact={true}
-          />
-        </Group>
-      </Container>
-    </ModalMantine>
-  );
+const ViewModal = ({ opened, setOpened, children, title }) => {
+ return (
+  <ModalMantine title={title} opened={opened} onClose={() => setOpened(false)} centered>
+   {children}
+  </ModalMantine>
+ );
 };
-export default ViewUser;
+export default ViewModal;
