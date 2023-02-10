@@ -16,6 +16,7 @@ import UserPageDashboard from "./Pages/Dashboard/UserPage";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import AddAppointment from "./Pages/Appointments/AddAppointment";
+import Schedule from "./Pages/MySchedule/Schedule"
 
 function App() {
  return (
@@ -43,6 +44,7 @@ function App() {
      path={routeNames.socialWorker.appointmentPageDashboard}
      element={<AppointmentPageDashboard />}
     />
+    <Route path={routeNames.socialWorker.mySchedule} element={<Schedule />} />
     <Route path={routeNames.socialWorker.reportPageDashboard} element={<ReportPageDashboard />} />
     <Route path={routeNames.socialWorker.addAppoinment} element={<AddAppointment />} />
    </Route>

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Tabs, SimpleGrid, Anchor, Checkbox, Container, Flex, Grid, Text } from "@mantine/core";
+import { Tabs, SimpleGrid, Anchor, Checkbox, Container, Flex, Grid, Text, useMantineTheme } from "@mantine/core";
 import { useStyles } from "../styles";
 import TextArea from "../../../../Components/TextArea";
 import { Dropzone } from "@mantine/dropzone";
 import Button from "../../../../Components/Button/index";
 const Step3 = () => {
  const { classes } = useStyles();
+ const theme =useMantineTheme()
  const [files, setFiles] = useState([]);
  const [document, setDocument] = useState();
  console.log(document, files);
@@ -54,7 +55,7 @@ const Step3 = () => {
     </Flex>
    </Flex>
    {/* ///// */}
-   <Tabs className={classes.tab} defaultValue="public" variant="pills">
+   <Tabs className={classes.tab} defaultValue="public" variant="pills" color={theme.colors.primary}>
     <Tabs.List>
      <Tabs.Tab value="public">Upload Public Report</Tabs.Tab>
      <Tabs.Tab value="private">Upload Private Report</Tabs.Tab>
@@ -114,32 +115,13 @@ const Step3 = () => {
         }}
         // style={{ width: "220px" }}
        >
-        <Button label={"Upload Report"} />
+        <Button label={"Upload Report"} leftIcon="upload2"/>
        </Dropzone>
        <TextArea label="Add Comments" placeholder={"Enter Comments"} />
       </Grid.Col>
      </Grid>
     </Tabs.Panel>
    </Tabs>
-   {/* <div>
-            {files.length > 0 && <p>{files[0]?.name}</p>}
-            <Dropzone
-              accept={MIME_TYPES.pdf}
-              // onDrop={setFiles}
-              multiple={false}
-              maxFiles={1}
-              onDrop={(v) => {
-                setFiles(v);
-                setDocument((document) => ({
-                  ...document,
-                  document: v[0],
-                }));
-              }}
-              // style={{ width: "220px" }}
-            >
-              <Text align="center">Upload PDF</Text>
-            </Dropzone>
-          </div> */}
   </Container>
  );
 };
