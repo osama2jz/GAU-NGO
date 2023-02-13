@@ -35,12 +35,12 @@ const Layout = () => {
           width={{ sm: 320, lg: 320 }}
           bg={""}
         >
-          <SideBar sideBarLinks={socialSideBarData} />
+          <SideBar sideBarLinks={socialSideBarData} setOpened={setOpened}/>
         </Navbar>
       }
       footer={<></>}
       header={
-        <Header height={{ base: 55, md: 60, sm:80 }} bg={theme.colors.primary}>
+        <Header height={{ base: 55, md: 60, sm:60 }} bg={theme.colors.primary}>
           <Group noWrap>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger

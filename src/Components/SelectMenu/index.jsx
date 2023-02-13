@@ -23,7 +23,8 @@ const SelectMenu = ({
   searchable,
   required,
   label,
-  pb = "sm  ",
+  pb = "sm",
+  itemComponent,
   data,
   setData,
   clearable,
@@ -45,6 +46,7 @@ const SelectMenu = ({
       getCreateLabel={(query) => `+ Create ${query}`}
       creatable={creatable}
       clearable={clearable}
+      itemComponent={itemComponent}
       onCreate={(query) => {
         // const item = { value: query, label: query };
         // setData((current) => [...current, item]);

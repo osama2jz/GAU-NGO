@@ -29,7 +29,7 @@ export const UserVerification = () => {
   const [active, setActive] = useState(0);
 
   const handleNextSubmit = () => {
-    active < 4
+    active < 3
       ? setActive(active + 1)
       : navigate(routeNames.socialWorker.allUsers);
   };
@@ -94,7 +94,7 @@ export const UserVerification = () => {
         >
           <Step4 />
         </Stepper.Step>
-        <Stepper.Step
+        {/* <Stepper.Step
           icon={
             <img
               src={step5}
@@ -107,7 +107,7 @@ export const UserVerification = () => {
           description="verified"
         >
           <Step5 />
-        </Stepper.Step>
+        </Stepper.Step> */}
       </Stepper>
       <Group position="center" mt="xl">
         {active > 0 && (
@@ -116,7 +116,7 @@ export const UserVerification = () => {
         <Button
           onClick={handleNextSubmit}
           label={
-            active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
+            active === 3 ? "Finish" : "Save & Next"
           }
           primary={true}
         />
