@@ -36,7 +36,7 @@ export const AddUser = () => {
  return (
   <Container className={classes.addUser} size="xl">
    <Flex align="center" justify="center" gap={12} className={classes.heading}>
-    <Image src={User} width={30} height={32} />
+    {/* <Image src={User} width={30} height={32} /> */}
     <Text fz={32} fw={600} align="center">
      Add User
     </Text>
@@ -44,7 +44,8 @@ export const AddUser = () => {
 
    <form
     className={classes.form}
-    onSubmit={form.onSubmit((values) => console.log("value", values))}>
+    onSubmit={form.onSubmit((values) => console.log("value", values))}
+   >
     <Grid>
      <Grid.Col sm={6}>
       <InputField
