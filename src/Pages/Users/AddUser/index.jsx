@@ -6,10 +6,9 @@ import {
   Group,
   Image,
   Text,
-  Plus,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
 import PassInput from "../../../Components/PassInput";
@@ -17,10 +16,19 @@ import { useStyles } from "./styles";
 import User from "../../../assets/add-user.png";
 import SubmitModal from "./SubmitEmail";
 import { axiosPost } from "../../../axios/axios";
+import { useNavigate } from "react-router-dom";
+import routeNames from "../../../Routes/routeNames";
+import { showNotification } from "@mantine/notifications";
+import { useMutation } from "react-query";
+import { UserContext } from "../../../contexts/UserContext";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
 
 export const AddUser = () => {
   const { classes } = useStyles();
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -31,6 +39,7 @@ export const AddUser = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
+      userType: "user",
     },
 
     validate: {
@@ -48,9 +57,25 @@ export const AddUser = () => {
     },
   });
 
-  const handleAddUser = (values) => {
-    axiosPost({ url: "/api/user/create", data: values });
-  };
+  const handleAddUser = useMutation((values) => {
+      return axios.post(`${backendUrl + "/api/user/create"}`, {
+        values,
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        navigate(routeNames.socialWorker.allUsers);
+        showNotification({
+          title: "User Added",
+          message: "New User added Successfully!",
+          color: "green",
+        });
+      },
+    }
+  );
   return (
     <Container className={classes.addUser} size="xl">
       <Flex
@@ -67,7 +92,7 @@ export const AddUser = () => {
 
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => handleAddUser(values))}
+        onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
       >
         <Grid>
           <Grid.Col sm={6}>

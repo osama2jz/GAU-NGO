@@ -35,8 +35,6 @@ const Table = ({
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
 
-  console.log("head", headCells);
-
   useEffect(() => {
     setRowDatas(rowData);
   }, [rowData]);
@@ -174,7 +172,7 @@ const Table = ({
                     <td key={index} align="center">
                       <Badge
                         radius="xs"
-                        color={row[head?.id] === "Processing" ? "red" : "green"}
+                        color={row[head?.id] === "pending" ? "red" : "green"}
                       >
                         {row[head?.id]}
                       </Badge>

@@ -27,7 +27,7 @@ const PassInput = ({
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (
-          <img src={require(`../../assets/${leftIcon}.svg`)} alt="icon" />
+          <img src={new URL(`../../assets/${leftIcon}.svg`, import.meta.url).href} alt="icon" />
         ) : (
           ""
         )

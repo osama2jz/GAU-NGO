@@ -38,7 +38,7 @@ const InputField = ({
    size={size}
    onChange={onChange}
    {...form?.getInputProps(validateName)}
-   icon={leftIcon ? <img src={require(`../../assets/${leftIcon}.svg`)} alt="icon" /> : ""}
+   icon={leftIcon ? <img src={new URL(`../../assets/${leftIcon}.svg`, import.meta.url).href} alt="icon" /> : ""}
    classNames={{
     input: classes.input,
     visibilityToggle: classes.icon,

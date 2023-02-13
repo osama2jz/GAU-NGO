@@ -18,6 +18,12 @@ export const useStyles = createStyles((theme) => ({
     textAlign: "center",
     fontWeight: "bold",
   },
+  faceid: {
+    height:'350px',
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center'
+  },
   consent: {},
   checkBoxInput: {
     border: "1px solid gray",
