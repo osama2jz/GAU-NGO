@@ -1,4 +1,4 @@
-import { createStyles, Group, Modal as ModalMantine, Text, Container } from "@mantine/core";
+import { Modal as ModalMantine } from "@mantine/core";
 
 const ViewModal = ({ opened, setOpened, children, title }) => {
  return (
