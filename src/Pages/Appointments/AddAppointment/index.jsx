@@ -26,7 +26,7 @@ const AddAppointment = () => {
   const handleNextSubmit = () => {
     active < 4
       ? setActive(active + 1)
-      : navigate(routeNames.socialWorker.dashboard);
+      : navigate(routeNames.socialWorker.allAppointments);
   };
 
   return (
@@ -35,6 +35,7 @@ const AddAppointment = () => {
         Make an Appointment
       </Text>
       <Stepper
+        breakpoint="md"
         active={active}
         color={theme.colors.primary}
         allowNextStepsSelect={false}

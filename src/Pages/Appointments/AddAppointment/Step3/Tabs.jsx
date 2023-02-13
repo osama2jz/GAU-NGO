@@ -52,7 +52,7 @@ const DoubleTabs = () => {
                   }));
                 }}
               >
-                <Button leftIcon={"upload2"} label={"Upload Report"} />
+                <Button leftIcon={"upload2"} label={"Upload Document"} />
                 {/* <Text align="center">Upload PDF</Text> */}
               </Dropzone>
               <TextArea
@@ -86,7 +86,7 @@ const DoubleTabs = () => {
                   }));
                 }}
               >
-                <Button label={"Upload Report"} leftIcon="upload2" />
+                <Button label={"Upload Document"} leftIcon="upload2" />
               </Dropzone>
               <TextArea label="Add Comments" placeholder={"Enter Comments"} />
             </Grid.Col>
