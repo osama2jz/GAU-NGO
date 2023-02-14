@@ -57,6 +57,7 @@ export function LinksGroup({
   link,
   globalOpen,
   setGlobalOpen,
+  setSideOpen,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -72,6 +73,7 @@ export function LinksGroup({
       component={Link}
       className={classes.link}
       to={link.link}
+      onClick={()=>setSideOpen(false)}
       key={link.label}
       bg={
         location?.pathname === link.link && link.label === globalOpen
@@ -89,6 +91,7 @@ export function LinksGroup({
         onClick={() => {
           setOpened((o) => !o);
           setGlobalOpen(label);
+          link && setSideOpen(false)
           navigate(link)
         }}
         className={classes.control}

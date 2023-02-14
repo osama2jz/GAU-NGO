@@ -35,7 +35,7 @@ const Layout = () => {
           width={{ sm: 320, lg: 320 }}
           bg={""}
         >
-          <SideBar sideBarLinks={socialSideBarData} />
+          <SideBar sideBarLinks={socialSideBarData} setOpened={setOpened}/>
         </Navbar>
       }
       footer={<></>}
