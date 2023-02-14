@@ -180,11 +180,13 @@ const Table = ({
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
                       <Flex align={"center"} gap={3}>
-                        <Avatar
-                          src={row.image || user}
-                          width="30px"
-                          radius={"xl"}
-                        />
+                        {row.image && (
+                          <Avatar
+                            src={row.image || user}
+                            width="30px"
+                            radius={"xl"}
+                          />
+                        )}
                         <Text lineClamp={1}>
                           {row[head?.id].length > 100
                             ? row[head?.id].substring(0, 5) + "..."
@@ -197,7 +199,12 @@ const Table = ({
                       <Switch
                         onChange={(v) => {
                           setStatusChangeId(row.id);
-                          onStatusChange({userId: row.id, userStatus: v.target.checked?"Active" : 'Inactive'});
+                          onStatusChange({
+                            userId: row.id,
+                            userStatus: v.target.checked
+                              ? "Active"
+                              : "Inactive",
+                          });
                         }}
                         defaultChecked={row[head?.id] === "Active"}
                         color={theme.colors.primary}
