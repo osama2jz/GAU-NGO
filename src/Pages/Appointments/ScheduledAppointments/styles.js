@@ -14,5 +14,19 @@ export const useStyles = createStyles((theme) => ({
     // border:'1px solid rgb(0,0,0,0.1)',
     borderRadius:'10px',
     width:'100%',
-  }
+  },
+  avatar:{
+    // backgroundColor:'red',
+    marginRight:'10px'
+  },
+  textheading:{
+    fontSize:"14px",
+    fontWeight:"bold",
+    color:"greyDark"
+  },
+  textContent: {
+    fontSize: "15px",
+    fontWeight: 500,
+   color: "#373A40",
+  },
 }));

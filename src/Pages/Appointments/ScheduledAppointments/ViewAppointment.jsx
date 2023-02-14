@@ -12,6 +12,7 @@ const ViewAppointment = ({ opened, setOpened }) => {
       onClose={() => setOpened(false)}
       withCloseButton={false}
       centered
+      
     >
       <Container>
       <Group pt={"sm"} ml={"auto"}>

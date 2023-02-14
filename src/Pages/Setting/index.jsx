@@ -18,6 +18,8 @@ import InputField from "../../Components/InputField";
 import { useStyles } from "./styles";
 import Settings from "../../assets/cogwheel.png";
 import routeNames from "../../Routes/routeNames";
+import ContainerHeader from "../../Components/ContainerHeader";
+
 import { useNavigate } from "react-router";
 
 export const Setting = () => {
@@ -57,17 +59,7 @@ export const Setting = () => {
   });
   return (
     <Container className={classes.main} size="lg">
-      <Flex
-        align="center"
-        justify="center"
-        gap={12}
-        className={classes.heading}
-      >
-        <Image src={Settings} width={30} height={32} />
-        <Text fz={32} fw={600} align="center">
-          Settings
-        </Text>
-      </Flex>
+     <ContainerHeader label="Settings" />
 
       <Container className={classes.container} p={30} shadow="sm" mt="sm">
         <form

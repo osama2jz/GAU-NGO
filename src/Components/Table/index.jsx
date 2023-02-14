@@ -35,8 +35,6 @@ const Table = ({
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
 
-  console.log("head", headCells);
-
   useEffect(() => {
     setRowDatas(rowData);
   }, [rowData]);
@@ -57,8 +55,7 @@ const Table = ({
     });
     setRowDatas(rowDataCopy);
   };
-  console.log(rowDatas);
-
+  
   const sortStringValue = (label) => {
     setSorted({ sorted: label, reversed: !sorted.reversed });
     const rowDataCopy = [...rowDatas];

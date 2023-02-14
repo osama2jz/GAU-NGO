@@ -21,6 +21,7 @@ import { Step4 } from "./Step4";
 import { Step5 } from "./Step5";
 import { useNavigate } from "react-router";
 import routeNames from "../../../Routes/routeNames";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -36,9 +37,8 @@ export const UserVerification = () => {
 
   return (
     <Container className={classes.userVerification} size="lg">
-      <Text fz={32} fw="bolder" align="center" mb={"md"}>
-        User Verification
-      </Text>
+      <ContainerHeader label={"User Verification"}/>
+      <Container mt="md">
       <Stepper
         active={active}
         color={theme.colors.primary}
@@ -109,6 +109,7 @@ export const UserVerification = () => {
           <Step5 />
         </Stepper.Step>
       </Stepper>
+      </Container>
       <Group position="center" mt="xl">
         {active > 0 && (
           <Button onClick={() => setActive(active - 1)} label="Back" />

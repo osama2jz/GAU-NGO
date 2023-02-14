@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Anchor, Container, Flex, Grid, Text } from "@mantine/core";
+import { Anchor, Container,SimpleGrid, Avatar,Flex, Grid, Text } from "@mantine/core";
 import { useStyles } from "./styles";
 import Card from "../Card";
 import Table from "../../../Components/Table";
 import { ArrowNarrowLeft, Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
 import { useNavigate } from "react-router";
+import userlogo from "../../../assets/teacher.png";
+import ViewModal from "../../../Components/ViewModal/viewUser";
+
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -17,7 +20,7 @@ const UserPage = (props) => {
       id: "id",
       numeric: true,
       disablePadding: true,
-      label: "Sr No.",
+      label: "Sr #",
     },
     {
       id: "name",
@@ -26,79 +29,90 @@ const UserPage = (props) => {
       label: "Name",
     },
     {
-      id: "email",
+      id: "case",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: "Case #",
+    },
+    {
+      id: "report",
+      numeric: false,
+      disablePadding: true,
+      label: "Report #",
+    },
+    {
+      id: "addedBy",
+      numeric: false,
+      disablePadding: true,
+      label: "Added By",
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
+      label: "Date",
     },
     {
-      id: "status",
+      id: "time",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
+      label: "Time",
     },
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
-      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
   ];
+
   const rowData = [
     {
       id: "1",
       name: "Muhammad Usama",
-      email: "osama@gmail.com",
+      case: "3452345",
+      report: "1234556",
+      addedBy: "Laywer",
       date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
+      time: "12:00 PM",
     },
     {
       id: "2",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
+      name: "Muhammad Usama",
+      case: "3452345",
+      report: "1234556",
+      addedBy: "Laywer",
       date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
+      time: "12:00 PM",
     },
     {
       id: "3",
       name: "Muhammad Usama",
-      email: "osama@gmail.com",
+      case: "3452345",
+      report: "1234556",
+      addedBy: "Laywer",
       date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
+      time: "12:00 PM",
     },
     {
       id: "4",
       name: "Muhammad Usama",
-      email: "osama@gmail.com",
+      case: "3452345",
+      report: "1234556",
+      addedBy: "Laywer",
       date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
+      time: "12:00 PM",
     },
     {
       id: "5",
       name: "Muhammad Usama",
-      email: "osama@gmail.com",
+      case: "3452345",
+      report: "1234556",
+      addedBy: "Laywer",
       date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
+      time: "12:00 PM",
     },
   ];
   const a = [
@@ -158,6 +172,43 @@ const UserPage = (props) => {
           setDeleteModalState={setOpenDeleteModal}
         />
       </Container>
+      <ViewModal
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+        title="Report #2345"
+      >
+        <Grid align="center" justify={"space-between"}>
+          <Grid.Col md={4}>
+            <Avatar
+              radius="xl"
+              size={150}
+              src={userlogo}
+              className={classes.avatar}
+            />
+          </Grid.Col>
+          
+          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            <Text size={24} weight="bold" mb="sm" align="center">
+              Urooj Murtaza
+            </Text>
+
+            <Container w={"100%"} ml="md">
+              <SimpleGrid cols={2} spacing="xs">
+                <Text className={classes.textheading}>Case # </Text>
+                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textheading}>Added By</Text>
+                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textheading}>Date</Text>
+                <Text className={classes.textContent}>20 Jan,2022</Text>
+                <Text className={classes.textheading}>Time</Text>
+                <Text className={classes.textContent}>11:20 PM</Text>
+                
+                
+              </SimpleGrid>
+            </Container>
+          </Grid.Col>
+        </Grid>
+      </ViewModal>
     </Container>
   );
 };

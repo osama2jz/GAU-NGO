@@ -11,6 +11,20 @@ export const useStyles = createStyles((theme) => ({
     marginRight:'auto',
     display:'flex',
     alignItems:'center'
+  },
+  avatar:{
+    // backgroundColor:'red',
+    marginRight:'10px'
+  },
+  textheading:{
+    fontSize:"14.5px",
+    fontWeight:"bold",
+    color:"greyDark"
+  },
+  textContent:{
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#373A40",
   }
  
 }));

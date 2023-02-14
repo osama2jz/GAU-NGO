@@ -7,6 +7,8 @@ import PassInput from "../../../Components/PassInput";
 import { useStyles } from "./styles";
 import User from "../../../assets/add-user.png";
 import SubmitModal from "./SubmitEmail";
+import ContainerHeader from "../../../Components/ContainerHeader";
+
 
 export const AddUser = () => {
  const { classes } = useStyles();
@@ -35,12 +37,7 @@ export const AddUser = () => {
  });
  return (
   <Container className={classes.addUser} size="xl">
-   <Flex align="center" justify="center" gap={12} className={classes.heading}>
-    {/* <Image src={User} width={30} height={32} /> */}
-    <Text fz={32} fw={600} align="center">
-     Add User
-    </Text>
-   </Flex>
+   <ContainerHeader label={"Add User"}/>
 
    <form
     className={classes.form}

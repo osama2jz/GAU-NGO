@@ -4,6 +4,7 @@ import { Grid } from "@mantine/core";
 import Card from "./Card";
 import Chart from "./Chart";
 import routeNames from "../../Routes/routeNames";
+import { Users } from "tabler-icons-react";
 
 const Dashboard = () => {
   const { classes } = useStyles();
@@ -14,7 +15,7 @@ const Dashboard = () => {
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: Users,
       link: routeNames.socialWorker.userPageDashboard,
     },
     {

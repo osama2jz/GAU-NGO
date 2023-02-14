@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Text, Image, SimpleGrid } from "@mantine/core";
+import { Container, Flex, Grid, Text, Image, SimpleGrid,Badge,Avatar } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
@@ -8,11 +8,10 @@ import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import calender from "../../../assets/calendar.png";
-import ViewAppointment from "./ViewAppointment";
-import { texts } from "../AddAppointment/userInformation";
-import ViewModal from "../../Users/AllUsers/viewUser";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import userlogo from "../../../assets/teacher.png";
+
 
 function AllAppointments() {
  const { classes } = useStyles();
@@ -82,7 +81,7 @@ function AllAppointments() {
   {
    id: "2",
    case: "1234556",
-   name: "Muhammad UUsama",
+   name: "Muhammad Usama",
    email: "osama@gmail.com",
    date: "12 Jan 2022",
    status: "Processing",
@@ -118,13 +117,7 @@ function AllAppointments() {
  ];
  return (
   <Container className={classes.addUser} size="xl">
-   <Flex align="center" justify="center" gap={12} className={classes.heading}>
-    {/* <Image src={calender} width={30} height={32} /> */}
-    {/* <Text fz={32} fw={600} align="center">
-     All Appointments
-    </Text> */}
-    <ContainerHeader label={"All Appointments"} />
-   </Flex>
+    <ContainerHeader label={"View Appointments"} />
    <Container p={"xs"} className={classes.innerContainer}>
     <Grid align={"center"} py="md">
      <Grid.Col sm={6}>
@@ -152,12 +145,47 @@ function AllAppointments() {
     <Table headCells={headerData} rowData={rowData} setViewModalState={setOpenViewModal} />
    </Container>
 
-   {/* <ViewAppointment opened={openViewModal} setOpened={setOpenViewModal} /> */}
-   <ViewModal title={"Appointment# XXXX"} opened={openViewModal} setOpened={setOpenViewModal}>
-    <SimpleGrid p={10} cols={2}>
-     {texts}
-    </SimpleGrid>
-   </ViewModal>
+   <ViewModal
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+        title="Appointment #2345"
+        size="560px"
+      >
+         
+        <Grid  align="center" justify={"space-between"}>
+          <Grid.Col md={4}>
+            <Avatar
+              radius="xl"
+              size={150}
+              src={userlogo}
+              className={classes.avatar}
+            />
+          </Grid.Col>
+
+          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            <Text size={24} weight="bold" mb="sm" align="center">
+              Urooj Murtaza
+            </Text>
+
+            <Container w={"100%"} ml="md">
+              <SimpleGrid cols={2} spacing="xs">
+                <Text className={classes.textheading}>Email</Text>
+                <Text className={classes.textContent}>urooj@gmail.com</Text>
+                <Text className={classes.textheading}>Appointment Date</Text>
+                <Text className={classes.textContent}>12 Jan 2020</Text>
+                <Text className={classes.textheading}>Appointment Time</Text>
+                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textheading}>Status</Text>
+                <Text className={classes.textContent}>
+                     <Badge color="red" ml="auto">Processing</Badge>
+                </Text>
+              </SimpleGrid>
+            </Container>
+          </Grid.Col>
+        </Grid>
+       
+      </ViewModal>
+ 
   </Container>
  );
 }

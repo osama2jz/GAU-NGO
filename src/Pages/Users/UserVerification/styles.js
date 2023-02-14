@@ -17,6 +17,7 @@ export const useStyles = createStyles((theme) => ({
     marginBottom: "3px",
     textAlign: "center",
     fontWeight: "bold",
+    padding: "10px",
   },
   consent: {},
   checkBoxInput: {
@@ -25,4 +26,7 @@ export const useStyles = createStyles((theme) => ({
   verified: {
     
   },
+  btn:{
+   marginLeft:'100px',
+  }
 }));

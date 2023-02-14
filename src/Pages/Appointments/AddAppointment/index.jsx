@@ -7,6 +7,7 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { useStyles } from "./styles";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 import {
   Container,
@@ -31,9 +32,8 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="lg">
-      <Text fz={32} fw="bolder" align="center" mb={"md"}>
-        Make an Appointment
-      </Text>
+      <ContainerHeader label={" Make an Appointment"}/>
+      <Container mt="md">
       <Stepper
         breakpoint="md"
         active={active}
@@ -108,6 +108,8 @@ const AddAppointment = () => {
           <Step5 />
         </Stepper.Step>
       </Stepper>
+      </Container>
+      
 
       <Group position="center" mt="xl">
         {active > 0 && (

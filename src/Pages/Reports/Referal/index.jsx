@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Image, Menu, SimpleGrid, Text } from "@mantine/core";
+import { Container, Flex, Grid, Image, Menu, SimpleGrid, Text ,Avatar} from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Eye, Trash } from "tabler-icons-react";
@@ -7,9 +7,11 @@ import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import { texts } from "../../Appointments/AddAppointment/userInformation";
-import ViewModal from "../../Users/AllUsers/viewUser";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import ViewReport from "../viewReport";
+import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 function ReferalReport() {
  const { classes } = useStyles();
@@ -117,12 +119,7 @@ function ReferalReport() {
  ];
  return (
   <Container className={classes.main}>
-   <Flex align="center" justify="center" gap={12} className={classes.heading}>
-    {/* <Image src={file} width={25} height={33} /> */}
-    <Text fz={32} fw={600} align="center">
-     Referral
-    </Text>
-   </Flex>
+   <ContainerHeader label={"Referral"}/>
    <Container p={"xs"} className={classes.innerContainer}>
     <Grid align={"center"} py="md">
      <Grid.Col sm={6}>
@@ -156,12 +153,43 @@ function ReferalReport() {
     </Grid>
     <Table headCells={headerData} rowData={rowData} setViewModalState={setOpenViewModal} />
    </Container>
-   <ViewModal title={"Appointment# XXXX"} opened={openViewModal} setOpened={setOpenViewModal}>
-    <SimpleGrid p={10} cols={2}>
-     {texts}
-    </SimpleGrid>
-   </ViewModal>
-   {/* <ViewReport opened={openViewModal} setOpened={setOpenViewModal} /> */}
+   <ViewModal
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+        title="Report #2345"
+      >
+        <Grid align="center" justify={"space-between"}>
+          <Grid.Col md={4}>
+            <Avatar
+              radius="xl"
+              size={150}
+              src={userlogo}
+              className={classes.avatar}
+            />
+          </Grid.Col>
+          
+          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            <Text size={24} weight="bold" mb="sm" align="center">
+              Urooj Murtaza
+            </Text>
+
+            <Container w={"100%"} ml="md">
+              <SimpleGrid cols={2} spacing="xs">
+                <Text className={classes.textheading}>Case # </Text>
+                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textheading}>Added By</Text>
+                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textheading}>Date</Text>
+                <Text className={classes.textContent}>20 Jan,2022</Text>
+                <Text className={classes.textheading}>Time</Text>
+                <Text className={classes.textContent}>11:20 PM</Text>
+                
+                
+              </SimpleGrid>
+            </Container>
+          </Grid.Col>
+        </Grid>
+      </ViewModal>
   </Container>
  );
 }
