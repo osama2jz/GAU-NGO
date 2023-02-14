@@ -133,7 +133,6 @@ function AllAppointments() {
      <Grid.Col sm={6} md={3}>
       <SelectMenu
        placeholder="Filter by Status"
-       pb="0px"
        data={[
         { label: "verified", value: "verified" },
         { label: "Pending", value: "pending" },

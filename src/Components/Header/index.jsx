@@ -61,7 +61,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Index = ({setOpened}) => {
+const Index = ({}) => {
   const { classes, theme, cx } = useStyles();
   const navigate = useNavigate();
   const matches = useMediaQuery("(min-width: 640px)");

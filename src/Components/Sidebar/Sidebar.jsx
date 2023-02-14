@@ -47,7 +47,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function SideBar({ sideBarLinks, setOpened }) {
+export function SideBar({ sideBarLinks }) {
   const { classes } = useStyles();
   const [globalOpen, setGlobalOpen] = useState("");
   const links = sideBarLinks.map((item, ind) => (
@@ -58,7 +58,6 @@ export function SideBar({ sideBarLinks, setOpened }) {
       link={item.link}
       globalOpen={globalOpen}
       setGlobalOpen={setGlobalOpen}
-      setBarOpen={setOpened}
     />
   ));
   const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} />);

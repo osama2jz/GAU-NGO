@@ -131,7 +131,6 @@ function PublicReport() {
      <Grid.Col sm={6} md={3}>
       <SelectMenu
        placeholder="Added By"
-       pb="0px"
        data={[
         { label: "Lawyer", value: "lawyer" },
         { label: "Psychologist", value: "psychologistng" },

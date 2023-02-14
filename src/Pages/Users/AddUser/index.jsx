@@ -23,6 +23,7 @@ import { useMutation } from "react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
+import Loader from "../../../Components/Loader";
 
 export const AddUser = () => {
   const { classes } = useStyles();
@@ -50,16 +51,16 @@ export const AddUser = () => {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) =>
         value?.length < 8 ? "Password must at least have 8 characters" : null,
-      phoneNumber: (value) =>
+      phone: (value) =>
         value?.length < 8 ? "Please enter phone number" : null,
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
     },
   });
 
-  const handleAddUser = useMutation((values) => {
-      return axios.post(`${backendUrl + "/api/user/create"}`, {
-        values,
+  const handleAddUser = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/user/create"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -76,6 +77,11 @@ export const AddUser = () => {
       },
     }
   );
+
+  if (handleAddUser.isLoading) {
+    return <Loader />;
+  }
+
   return (
     <Container className={classes.addUser} size="xl">
       <Flex
@@ -147,6 +153,7 @@ export const AddUser = () => {
           <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
         </Text>
         <Group position="right" mt="sm">
+          <Button label="Cancel" onClick={()=>navigate(routeNames.socialWorker.allUsers)}/>
           <Button
             label="Add User"
             leftIcon={"plus"}

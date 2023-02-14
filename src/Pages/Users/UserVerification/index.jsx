@@ -115,9 +115,7 @@ export const UserVerification = () => {
         )}
         <Button
           onClick={handleNextSubmit}
-          label={
-            active === 3 ? "Finish" : "Save & Next"
-          }
+          label={active === 4 ? "Submit" : "Save & Next"}
           primary={true}
         />
       </Group>

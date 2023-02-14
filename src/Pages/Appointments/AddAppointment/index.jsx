@@ -94,8 +94,7 @@ const AddAppointment = () => {
           <Step4 />
         </Stepper.Step>
 
-        {/* //step 5 commeneted */}
-        {/* <Stepper.Step
+        <Stepper.Step
           icon={
             <img
               src={step2}
@@ -107,7 +106,7 @@ const AddAppointment = () => {
           label="5. Finish"
         >
           <Step5 />
-        </Stepper.Step> */}
+        </Stepper.Step>
       </Stepper>
 
       <Group position="center" mt="xl">

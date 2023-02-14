@@ -24,11 +24,12 @@ const Table = ({
   setViewModalData,
   setViewModalState,
   setOpened,
-
+  setStatusChangeId,
   setEditData,
   setDeleteModalState,
   setEditModalState,
   setDeleteData,
+  onStatusChange,
 }) => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -55,7 +56,6 @@ const Table = ({
     });
     setRowDatas(rowDataCopy);
   };
-  console.log(rowDatas);
 
   const sortStringValue = (label) => {
     setSorted({ sorted: label, reversed: !sorted.reversed });
@@ -172,7 +172,7 @@ const Table = ({
                     <td key={index} align="center">
                       <Badge
                         radius="xs"
-                        color={row[head?.id] === "pending" ? "red" : "green"}
+                        color={row[head?.id] === "processing" ? "red" : "green"}
                       >
                         {row[head?.id]}
                       </Badge>
@@ -195,9 +195,17 @@ const Table = ({
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
                       <Switch
+                        onChange={(v) => {
+                          setStatusChangeId(row.id);
+                          onStatusChange({userId: row.id, userStatus: v.target.checked?"Active" : 'Inactive'});
+                        }}
                         defaultChecked={row[head?.id] === "Active"}
                         color={theme.colors.primary}
                         w="50%"
+                        styles={{
+                          track: { backgroundColor: theme.colors.gray },
+                        }}
+                        disabled={row[head?.id] === "pending"}
                       />
                     </td>
                   ) : (

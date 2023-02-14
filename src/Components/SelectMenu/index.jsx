@@ -23,8 +23,7 @@ const SelectMenu = ({
   searchable,
   required,
   label,
-  pb = "sm",
-  itemComponent,
+  pb = "sm  ",
   data,
   setData,
   clearable,
@@ -34,6 +33,7 @@ const SelectMenu = ({
   form,
   size = "md",
   validateName,
+  itemComponent,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -42,11 +42,11 @@ const SelectMenu = ({
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
+      itemComponent={itemComponent}
       size={size}
       getCreateLabel={(query) => `+ Create ${query}`}
       creatable={creatable}
       clearable={clearable}
-      itemComponent={itemComponent}
       onCreate={(query) => {
         // const item = { value: query, label: query };
         // setData((current) => [...current, item]);

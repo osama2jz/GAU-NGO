@@ -4,28 +4,29 @@ import {
   Flex,
   Grid,
   Group,
-  Image,
-  Select,
   SimpleGrid,
-  Text,
+  Text
 } from "@mantine/core";
-import { useCallback, useEffect, useState } from "react";
+import { showNotification } from "@mantine/notifications";
+import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
+import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import user from "../../../assets/user.png";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
+import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames";
-import user from "../../../assets/user.png";
-import { useStyles } from "./styles";
-import { axiosGet } from "../../../axios/axios";
-import ViewModal from "./viewUser";
-import { QueryClient, useQuery } from "react-query";
-import moment from "moment";
 import { backendUrl } from "../../../constants/constants";
-import axios from "axios";
+import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
+import { useStyles } from "./styles";
+import ViewModal from "./viewUser";
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -33,7 +34,12 @@ export const AllUser = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [statusChangeId, setStatusChangeId] = useState("");
   const [rowData, setRowData] = useState([]);
+  const [activePage, setPage] = useState(1);
+  const { user } = useContext(UserContext);
+
+
   const texts = [
     "Full Name",
     "Passport",
@@ -58,7 +64,7 @@ export const AllUser = () => {
 
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr #",
@@ -104,82 +110,56 @@ export const AllUser = () => {
     },
   ];
 
-  //   const rowData = [
-  //     {
-  //       id: "1",
-  //       name: "Muhammad Usama",
-  //       email: "osama@gmail.com",
-  //       date: "12 Jan 2022",
-  //       status: "Processing",
-  //       accStatus: "Active",
-  //     },
-  //     {
-  //       id: "2",
-  //       name: "Muhammad UUsama",
-  //       email: "osama@gmail.com",
-  //       date: "12 Jan 2022",
-  //       status: "Processing",
-  //       accStatus: "Active",
-  //     },
-  //     {
-  //       id: "3",
-  //       name: "Muhammad Usama",
-  //       email: "osama@gmail.com",
-  //       date: "12 Jan 2022",
-  //       status: "Processing",
-  //       accStatus: "Active",
-  //     },
-  //     {
-  //       id: "4",
-  //       name: "Muhammad Usama",
-  //       email: "osama@gmail.com",
-  //       date: "12 Jan 2022",
-  //       status: "Processing",
-  //       accStatus: "Active",
-  //     },
-  //     {
-  //       id: "5",
-  //       image:
-  //         "https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80",
-  //       name: "Muhammad Usama",
-  //       email: "osama@gmail.com",
-  //       date: "12 Jan 2022",
-  //       status: "Processing",
-  //       accStatus: "Active",
-  //     },
-  //   ];
-
-  const { data: userData, status } = useQuery(
+  const { data, status } = useQuery(
     "fetchUser",
     () => {
       return axios.get(`${backendUrl + "/api/ngo/listNGOUsers/user"}`, {
         headers: {
-          "x-access-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZTkxYTRiNDM1ZjVkMGVlMGNhOTA0ZSIsInVzZXJUeXBlIjoibmdvYWRtaW4iLCJpYXQiOjE2NzYyNjk1OTYsImV4cCI6MTY3NjM1NTk5Nn0.UpP_uPhShXq3E0DzgFvAZpOIXNrCY1P-Mjj1oNJE8p8",
-        },
+          "x-access-token":user.token},
       });
     },
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
-            id: ind + 1,
+            id: obj._id,
+            sr: ind + 1,
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
-            status: obj.userStatus,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD MM YYYY"),
           };
           return user;
         });
         setRowData(data);
+      }
+    }
+  );
+
+  const handleChangeStatus = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        navigate(routeNames.socialWorker.allUsers);
+        showNotification({
+          title: "Status Updated",
+          message: "User Status changed Successfully!",
+          color: "green",
+        });
       },
     }
   );
 
-  if (status === "loading") {
-    return <p>Loading</p>;
+  if (status == "loading") {
+    return <Loader />;
   }
-
   return (
     <Container className={classes.addUser} size="xl">
       <Flex
@@ -223,7 +203,15 @@ export const AllUser = () => {
           rowData={rowData}
           setViewModalState={setOpenViewModal}
           setEditModalState={setOpenEditModal}
+          setStatusChangeId={setStatusChangeId}
+          onStatusChange={handleChangeStatus.mutate}
           setDeleteModalState={setOpenDeleteModal}
+        />
+        <Pagination
+          activePage={activePage}
+          setPage={setPage}
+          total={10}
+          radius="xl"
         />
       </Container>
       <DeleteModal

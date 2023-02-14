@@ -57,7 +57,6 @@ export function LinksGroup({
   link,
   globalOpen,
   setGlobalOpen,
-  setBarOpen,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -74,7 +73,6 @@ export function LinksGroup({
       className={classes.link}
       to={link.link}
       key={link.label}
-      onClick={() => setBarOpen(false)}
       bg={
         location?.pathname === link.link && link.label === globalOpen
           ? "rgba(86, 92, 154, 1)"
@@ -91,8 +89,7 @@ export function LinksGroup({
         onClick={() => {
           setOpened((o) => !o);
           setGlobalOpen(label);
-          navigate(link);
-          link && setBarOpen(false);
+          navigate(link)
         }}
         className={classes.control}
         bg={

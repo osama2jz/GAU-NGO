@@ -1,6 +1,8 @@
 import { Container } from "@mantine/core";
+
 import { useEffect } from "react";
 import Button from "../../../../Components/Button";
+
 import { useStyles } from "../styles";
 
 export const Step1 = () => {
