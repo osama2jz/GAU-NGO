@@ -7,10 +7,22 @@ export const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
   },
-  back:{
-    marginRight:'auto',
-    display:'flex',
-    alignItems:'center'
-  }
- 
+  back: {
+    marginRight: "auto",
+    display: "flex",
+    alignItems: "center",
+  },
+  avatar: {
+    marginRight: "10px",
+  },
+  textheading: {
+    fontSize: "14.5px",
+    fontWeight: "bold",
+    color: "greyDark",
+  },
+  textContent: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#373A40",
+  },
 }));

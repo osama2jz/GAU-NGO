@@ -2,8 +2,9 @@ import { Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
 import { useStyles } from "./styles";
 import ScheduleCard from "../../../Components/ScheduleCard";
 import CalendarDate from "../../../Components/Calendar";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
-const MySchedule=()=> {
+const MySchedule = () => {
   const { classes } = useStyles();
   const a = [
     { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
@@ -15,9 +16,7 @@ const MySchedule=()=> {
   ];
   return (
     <Container className={classes.main}>
-      <Text size={28} weight={700} color={"gray"} align="center">
-        My Schedule
-      </Text>
+      <ContainerHeader label={"My Schedule"} />
       <Container className={classes.cal} mb="lg" mt="md">
         <CalendarDate />
       </Container>
@@ -42,6 +41,6 @@ const MySchedule=()=> {
       </Container>
     </Container>
   );
-}
+};
 
 export default MySchedule;

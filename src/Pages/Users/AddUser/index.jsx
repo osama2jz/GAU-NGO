@@ -24,6 +24,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import Loader from "../../../Components/Loader";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 export const AddUser = () => {
   const { classes } = useStyles();
@@ -84,17 +85,7 @@ export const AddUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <Flex
-        align="center"
-        justify="center"
-        gap={12}
-        className={classes.heading}
-      >
-        {/* <Image src={User} width={30} height={32} /> */}
-        <Text fz={32} fw={600} align="center">
-          Add User
-        </Text>
-      </Flex>
+      <ContainerHeader label={"Add User"} />
 
       <form
         className={classes.form}
@@ -153,7 +144,10 @@ export const AddUser = () => {
           <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
         </Text>
         <Group position="right" mt="sm">
-          <Button label="Cancel" onClick={()=>navigate(routeNames.socialWorker.allUsers)}/>
+          <Button
+            label="Cancel"
+            onClick={() => navigate(routeNames.socialWorker.allUsers)}
+          />
           <Button
             label="Add User"
             leftIcon={"plus"}

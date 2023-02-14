@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "@mantine/core";
 const ContainerHeader = ({ label }) => {
  return (
-  <Text fz={32} fw={600} align="center">
+  <Text fz={28} fw={600} align="center">
    {label}
   </Text>
  );

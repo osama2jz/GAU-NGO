@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import step2 from "../../../assets/step2.png";
 import Button from "../../../Components/Button";
 import Step1 from "./Step1";
@@ -31,9 +32,7 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="lg">
-      <Text fz={32} fw="bolder" align="center" mb={"md"}>
-        Make an Appointment
-      </Text>
+     <ContainerHeader label={" Make an Appointment"}/>
       <Stepper
         breakpoint="md"
         active={active}

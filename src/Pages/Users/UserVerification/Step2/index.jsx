@@ -1,21 +1,30 @@
+import { useState } from "react";
 import {
   Container,
   Divider,
   Grid,
+  Group,
   SimpleGrid,
   Text,
   useMantineTheme,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Edit, Trash } from "tabler-icons-react";
+import { Edit,Trash } from "tabler-icons-react";
 import InputField from "../../../../Components/InputField";
 import Table from "../../../../Components/Table";
 import TextArea from "../../../../Components/TextArea";
+import Button from "../../../../Components/Button";
 import { useStyles } from "../styles";
-
+import ViewModal from "../../../../Components/ViewModal/viewUser";
+import NewProfessionalModal from "./NewProfessional";
 export const Step2 = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
+  const [professionalRef, setProfessionalRef] = useState({
+    name: "urooj",
+  });
+  const [openViewModal, setOpenViewModal] = useState(false);
+  console.log("professionalRef", professionalRef);
   let headerData = [
     {
       id: "id",
@@ -49,13 +58,12 @@ export const Step2 = () => {
     },
     {
       id: "actions",
-      edit: <Edit color="#4069bf" />,
+      edit: <Edit color="#4069BF" />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
-
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -66,7 +74,6 @@ export const Step2 = () => {
       password: "",
       confirmPassword: "",
     },
-
     validate: {
       firstName: (value) =>
         value.length < 1 ? "Please enter first name" : null,
@@ -88,6 +95,7 @@ export const Step2 = () => {
         onSubmit={form.onSubmit((values) => console.log("value", values))}
       >
         <Text className={classes.subHeading}>Personal Information</Text>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
             { minWidth: "md", cols: 2 },
@@ -160,14 +168,25 @@ export const Step2 = () => {
             validateName="muncipality"
           />
         </SimpleGrid>
-        {/* <Divider color={theme.colors.grayDark} /> */}
         <Text className={classes.subHeading}>Professional References</Text>
+        <Group position="right">
+          <Button
+            label={"Add New"}
+            primary={true}
+            leftIcon={"plus"}
+            className={classes.btn}
+            onClick={() => setOpenViewModal(true)}
+          />
+        </Group>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <Table headCells={headerData} rowData={[]} />
-        {/* <Divider color={theme.colors.grayDark} /> */}
+        {/* <Divider color={theme.colors.#C8C8C8Dark} /> */}
         <Text className={classes.subHeading}>Socio-Family Situation</Text>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <TextArea label="Marital Status - Family Composition - Social Network" />
-        {/* <Divider color={theme.colors.grayDark} /> */}
+        {/* <Divider color={theme.colors.#C8C8C8Dark} /> */}
         <Text className={classes.subHeading}>Economic Situation</Text>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
             { minWidth: "md", cols: 2 },
@@ -211,11 +230,13 @@ export const Step2 = () => {
             validateName="housing"
           />
         </SimpleGrid>
-        {/* <Divider color={theme.colors.grayDark} /> */}
+        {/* <Divider color={theme.colors.#C8C8C8Dark} /> */}
         <Text className={classes.subHeading}>Health Aspects</Text>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <TextArea label="Disability - Dependencies - Mental Health" />
-        {/* <Divider color={theme.colors.grayDark} /> */}
+        {/* <Divider color={theme.colors.#C8C8C8Dark} /> */}
         <Text className={classes.subHeading}>Studies and Training</Text>
+        <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
             { minWidth: "md", cols: 2 },
@@ -253,6 +274,13 @@ export const Step2 = () => {
           />
         </SimpleGrid>
       </form>
+      <ViewModal
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+        title="Add Professional References"
+      >
+        <NewProfessionalModal />
+      </ViewModal>
     </Container>
   );
 };

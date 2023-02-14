@@ -1,11 +1,15 @@
 import {
-  Avatar,
+  Card,
+  Center,
   Container,
   Flex,
   Grid,
   Group,
+  Image,
+  Text,
+  Divider,
+  Avatar,
   SimpleGrid,
-  Text
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -14,19 +18,20 @@ import { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
-import user from "../../../assets/user.png";
+import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import Table from "../../../Components/Table";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import ViewModal from "./viewUser";
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -38,29 +43,6 @@ export const AllUser = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const { user } = useContext(UserContext);
-
-
-  const texts = [
-    "Full Name",
-    "Passport",
-    "Date of Birth",
-    "Nationality",
-    "Origin",
-    "Age",
-    "Domicile",
-    "Municipality",
-  ].map((e, i) => {
-    return (
-      <>
-        <Text fz={16} fw={"bold"}>
-          {e}
-        </Text>
-        <Text opacity={"40%"} fz={16} fw={"bold"}>
-          {e}
-        </Text>
-      </>
-    );
-  });
 
   let headerData = [
     {
@@ -115,7 +97,8 @@ export const AllUser = () => {
     () => {
       return axios.get(`${backendUrl + "/api/ngo/listNGOUsers/user"}`, {
         headers: {
-          "x-access-token":user.token},
+          "x-access-token": user.token,
+        },
       });
     },
     {
@@ -133,7 +116,7 @@ export const AllUser = () => {
           return user;
         });
         setRowData(data);
-      }
+      },
     }
   );
 
@@ -162,17 +145,8 @@ export const AllUser = () => {
   }
   return (
     <Container className={classes.addUser} size="xl">
-      <Flex
-        align="center"
-        justify="center"
-        gap={12}
-        className={classes.heading}
-      >
-        {/* <Image src={user} width={30} height={32} /> */}
-        <Text fz={32} fw={600} align="center">
-          View Users
-        </Text>
-      </Flex>
+      <ContainerHeader label={"View Users"} />
+
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
@@ -227,20 +201,39 @@ export const AllUser = () => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        <Container>
-          <Group pt={"sm"} ml={"auto"}>
-            {/* <Button label="Cancel" compact={true} /> */}
+        <Grid className={classes.main} align="center" justify={"space-between"}>
+          <Grid.Col md={4} className={classes.main}>
             <Avatar
               radius="xl"
-              size="xl"
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+              size={150}
+              src={userlogo}
+              className={classes.avatar}
             />
-            <SimpleGrid ml={50} spacing cols={2}>
-              {texts}
-            </SimpleGrid>
-            {/* <Button label="Verify" primary={true} compact={true} /> */}
-          </Group>
-        </Container>
+          </Grid.Col>
+          <Grid.Col md={7} style={{ backgroundColor: "white" }}>
+            <Text size={24} weight="bold" mb="sm" align="center">
+              Urooj Murtaza
+            </Text>
+            <Container w={"100%"}>
+              <SimpleGrid cols={2} spacing="xs">
+                <Text className={classes.textheading}>Date of Birth</Text>
+                <Text className={classes.textContent}>Date of Birth</Text>
+                <Text className={classes.textheading}>Age</Text>
+                <Text className={classes.textContent}>Age</Text>
+                <Text className={classes.textheading}>Nationality</Text>
+                <Text className={classes.textContent}>Nationality</Text>
+                <Text className={classes.textheading}>Origin</Text>
+                <Text className={classes.textContent}>Origin</Text>
+                <Text className={classes.textheading}>Passport</Text>
+                <Text className={classes.textContent}>Passport</Text>
+                <Text className={classes.textheading}>Domicile</Text>
+                <Text className={classes.textContent}>Domicile</Text>
+                <Text className={classes.textheading}>Municipality</Text>
+                <Text className={classes.textContent}>Municipality</Text>
+              </SimpleGrid>
+            </Container>
+          </Grid.Col>
+        </Grid>
       </ViewModal>
     </Container>
   );

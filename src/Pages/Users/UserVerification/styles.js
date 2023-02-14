@@ -14,21 +14,20 @@ export const useStyles = createStyles((theme) => ({
   },
   subHeading: {
     fontSize: "18px",
+    padding: "10px",
     marginBottom: "3px",
     textAlign: "center",
     fontWeight: "bold",
   },
   faceid: {
-    height:'350px',
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center'
+    height: "350px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   consent: {},
   checkBoxInput: {
     border: "1px solid gray",
   },
-  verified: {
-    
-  },
+  verified: {},
 }));
