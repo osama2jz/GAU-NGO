@@ -60,7 +60,7 @@ const Step1 = () => {
     () => {
       return axios.get(backendUrl + "/api/ngo/listNGOVerifiedUsers", {
         headers: {
-          "x-access-token": usertoken.token,
+          "x-access-token": usertoken?.token,
         },
       });
     },
@@ -69,8 +69,8 @@ const Step1 = () => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
             value: obj._id.toString(),
-            label: obj.firstName + " " + obj.lastName,
-            email: obj?.email || "email"
+            label: obj?.firstName + " " + obj?.lastName,
+            email: obj?.email || ""
           };
           return user;
         });
