@@ -81,14 +81,14 @@ const Index = ({}) => {
         className={classes.headerSub}
       >
         <MediaQuery
-          smallerThan="md"
+          smallerthan="md"
           styles={{
             display: "none",
           }}
         >
           <Container
             w={500}
-            smallerThan="sm"
+            smallerthan="sm"
             styles={{
               display: "none",
             }}
@@ -121,7 +121,7 @@ const Index = ({}) => {
               <Group spacing={7} noWrap>
                 <Avatar src={user.img} radius="xl" size={30} />
                 <MediaQuery
-                  smallerThan="sm"
+                  smallerthan="sm"
                   styles={{
                     display: "none",
                   }}

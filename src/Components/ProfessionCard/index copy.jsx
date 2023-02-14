@@ -8,14 +8,12 @@ import Select from "../../Components/SelectMenu";
 import Timepicker from "../../Components/Timepicker";
 import { UserContext } from "../../contexts/UserContext";
 import ReferModal from "./ReferModal";
-import ReferNewCaseModal from "./ReferNewCaseModal";
 import { useStyles } from "./styles";
 
 const Cards = ({ data, onRefer, onNew }) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
-  const [referNewModal, setReferNewModal] = useState(false);
 
   return (
     <>
@@ -71,13 +69,12 @@ const Cards = ({ data, onRefer, onNew }) => {
             label="Schedule New Case"
             primary={true}
             className={classes.button}
-            onClick={() => setReferNewModal(true)}
+            onClick={onNew}
             styles={{ width: "100%" }}
           />
         )}
       </Card>
       <ReferModal opened={referModal} setOpened={setReferModal} />
-      <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} />
     </>
   );
 };

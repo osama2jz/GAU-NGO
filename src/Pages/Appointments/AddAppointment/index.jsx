@@ -25,7 +25,7 @@ const AddAppointment = () => {
   const [active, setActive] = useState(0);
 
   const handleNextSubmit = () => {
-    active < 4
+    active < 3
       ? setActive(active + 1)
       : navigate(routeNames.socialWorker.allAppointments);
   };
@@ -91,20 +91,6 @@ const AddAppointment = () => {
           label="4. Refer"
         >
           <Step4 />
-        </Stepper.Step>
-
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="5. Finish"
-        >
-          <Step5 />
         </Stepper.Step>
       </Stepper>
 

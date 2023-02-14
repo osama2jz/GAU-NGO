@@ -160,7 +160,7 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               setDeleteModalState(true);
-                              setDeleteData(row);
+                              setDeleteData(row.id);
                             }}
                           >
                             {head.delete}
@@ -197,7 +197,12 @@ const Table = ({
                       <Switch
                         onChange={(v) => {
                           setStatusChangeId(row.id);
-                          onStatusChange({userId: row.id, userStatus: v.target.checked?"Active" : 'Inactive'});
+                          onStatusChange({
+                            userId: row.id,
+                            userStatus: v.target.checked
+                              ? "Active"
+                              : "Inactive",
+                          });
                         }}
                         defaultChecked={row[head?.id] === "Active"}
                         color={theme.colors.primary}

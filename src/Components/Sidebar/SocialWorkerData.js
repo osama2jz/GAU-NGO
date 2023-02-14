@@ -58,16 +58,6 @@ export const socialSideBarData = [
       { label: "Referral", link: routeNames.socialWorker.referalReport },
     ],
   },
-
- // {
- //   label: "User Verification",
- //   icon: TruckDelivery,
- //   links: [
- //     { label: "Schedule Users", link: routeNames.socialWorker.scheduleUser },
- //     { label: "Verify User", link: routeNames.socialWorker.verifyUser },
- //     { label: "Verified Users", link: routeNames.socialWorker.verifiedUsers },
- //   ],
- // },
 ];
 
 export const bottom = [
