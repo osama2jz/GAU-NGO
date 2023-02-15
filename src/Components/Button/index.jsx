@@ -22,12 +22,13 @@ const useStyles = createStyles((theme) => ({
  },
 }));
 
-const Button = ({ leftIcon, label, primary = false, styles, onClick, compact, type, iconWidth="16px" }) => {
+const Button = ({ leftIcon, label, primary = false, styles, onClick, compact, type, iconWidth="16px", disabled }) => {
  const { classes, cx } = useStyles();
  return (
   <ButtonMantine
    sx={styles}
    compact={compact}
+   disabled={disabled}
    leftIcon={
     leftIcon ? <img src={new URL(`../../assets/${leftIcon}.svg`, import.meta.url).href} alt="icon" width={iconWidth} /> : ""
    }

@@ -154,32 +154,32 @@ export const Step2 = ({
       institutional: "",
       familiar: "",
     },
-    // validate: {
-    //   dateOfBirth: (value) =>
-    //     value.length < 1 ? "Please enter your date of Birth" : null,
-    //   age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-    //   passport: (value) => (value.length < 1 ? "Please enter passport" : null),
-    //   nationality: (value) =>
-    //     value.length < 1 ? "Please enter nationality" : null,
-    //   origin: (value) => (value.length < 1 ? "Please enter origin" : null),
-    //   domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
-    //   muncipality: (value) =>
-    //     value.length < 1 ? "Please enter muncipality" : null,
-    //   revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
-    //   expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
-    //   aidsBonuses: (value) =>
-    //     value.length < 1 ? "Please enter Aids or Bonuses" : null,
-    //   debt: (value) => (value.length < 1 ? "Please enter debt" : null),
-    //   housing: (value) => (value.length < 1 ? "Please enter housing" : null),
-    //   education: (value) =>
-    //     value.length < 1 ? "Please enter education level" : null,
-    //   char: (value) =>
-    //     value.length < 1 ? "Please enter Characteristics" : null,
-    //   training: (value) =>
-    //     value.length < 1 ? "Please enter Complementary Trainging " : null,
-    //   realization: (value) =>
-    //     value.length < 1 ? "Please enter realization year" : null,
-    // },
+    validate: {
+      dateOfBirth: (value) =>
+        value.length < 1 ? "Please enter your date of Birth" : null,
+      age: (value) => (value.length < 1 ? "Please enter your Age" : null),
+      passport: (value) => (value.length < 1 ? "Please enter passport" : null),
+      nationality: (value) =>
+        value.length < 1 ? "Please enter nationality" : null,
+      origin: (value) => (value.length < 1 ? "Please enter origin" : null),
+      domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
+      muncipality: (value) =>
+        value.length < 1 ? "Please enter muncipality" : null,
+      revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
+      expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
+      aidsBonuses: (value) =>
+        value.length < 1 ? "Please enter Aids or Bonuses" : null,
+      debt: (value) => (value.length < 1 ? "Please enter debt" : null),
+      housing: (value) => (value.length < 1 ? "Please enter housing" : null),
+      education: (value) =>
+        value.length < 1 ? "Please enter education level" : null,
+      char: (value) =>
+        value.length < 1 ? "Please enter Characteristics" : null,
+      training: (value) =>
+        value.length < 1 ? "Please enter Complementary Trainging " : null,
+      realization: (value) =>
+        value.length < 1 ? "Please enter realization year" : null,
+    },
   });
 
   const deleteRefrences = (id) => {

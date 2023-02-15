@@ -202,11 +202,11 @@ const Table = ({
                           onStatusChange({
                             userId: row.id,
                             userStatus: v.target.checked
-                              ? "Active"
-                              : "Inactive",
+                              ? "active"
+                              : "inactive",
                           });
                         }}
-                        defaultChecked={row[head?.id] === "Active"}
+                        defaultChecked={row[head?.id] === "active"}
                         color={theme.colors.primary}
                         w="50%"
                         styles={{

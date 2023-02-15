@@ -24,6 +24,7 @@ const Step1 = ({ setSelectedUser }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
+  const [newCase, setNewCase] = useState("");
   const [userData, setUserData] = useState([]);
 
   //all users
@@ -110,6 +111,7 @@ const Step1 = ({ setSelectedUser }) => {
             placeholder="Enter case name or id"
             label="Search User Case"
             creatable={true}
+            disabled={newCase.length>0}
             data={[
               { label: "verified", value: "Personal" },
               { label: "Pending", value: "Wealth" },
@@ -125,6 +127,7 @@ const Step1 = ({ setSelectedUser }) => {
             label={"Create New Case"}
             placeholder="Enter case name"
             pb="0px"
+            onChange={(v)=>setNewCase(v.target.value)}
           />
         </Grid.Col>
       </Grid>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import step2 from "../../../assets/step2.png";
 import Button from "../../../Components/Button";
@@ -18,22 +18,43 @@ import {
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import routeNames from "../../../Routes/routeNames";
+import { UserContext } from "../../../contexts/UserContext";
+import { AgeForm } from "./AgeForm";
+import { showNotification } from "@mantine/notifications";
+
 const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
   const [active, setActive] = useState(0);
-  const [selectedUser, setSelectedUser] = useState({});
+  const [selectedUser, setSelectedUser] = useState();
 
   const handleNextSubmit = () => {
-    active < 3
+    if (active == 0 && !selectedUser) {
+      showNotification({
+        color: "red",
+        message: "Please Select User information",
+        title: "Incomplete Info",
+      });
+      return
+    }
+    if(user.role==="Psychologist"){
+      active < 4
       ? setActive(active + 1)
-      : navigate(routeNames.socialWorker.allAppointments);
+      : navigate(routeNames.socialWorker.allAppointments)
+    }
+    else{
+      active < 3
+      ? setActive(active + 1)
+      : navigate(routeNames.socialWorker.allAppointments)
+    }
   };
 
   return (
     <Container className={classes.addAppointment} size="lg">
-     <ContainerHeader label={" Make an Appointment"}/>
+      <ContainerHeader label={" Make an Appointment"} />
       <Stepper
         breakpoint="md"
         active={active}
@@ -51,9 +72,23 @@ const AddAppointment = () => {
           }
           label="1. Select User"
         >
-          <Step1 setSelectedUser={setSelectedUser}/>
+          <Step1 setSelectedUser={setSelectedUser} />
         </Stepper.Step>
-
+        {user.role === "Psychologist" && (
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="Form"
+          >
+            <AgeForm setActive={setActive} active={active} />
+          </Stepper.Step>
+        )}
         <Stepper.Step
           icon={
             <img
@@ -65,7 +100,7 @@ const AddAppointment = () => {
           }
           label="2. In Meeting"
         >
-          <Step2 selectedUser={selectedUser}/>
+          <Step2 selectedUser={selectedUser} />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -78,7 +113,7 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 selectedUser={selectedUser}/>
+          <Step3 selectedUser={selectedUser} />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -95,18 +130,21 @@ const AddAppointment = () => {
         </Stepper.Step>
       </Stepper>
 
-      <Group position="center" mt="xl">
-        {active > 0 && (
-          <Button onClick={() => setActive(active - 1)} label="Back" />
-        )}
-        <Button
-          onClick={handleNextSubmit}
-          label={
-            active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
-          }
-          primary={true}
-        />
-      </Group>
+      {!(user.role === "Psychologist" && active === 1) && (
+        <Group position="center" mt="xl">
+          {active > 0 && (
+            <Button onClick={() => setActive(active - 1)} label="Back" />
+          )}
+          <Button
+            onClick={handleNextSubmit}
+            label={
+              active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
+            }
+            primary={true}
+            // disabled={active===0 && !selectedUser}
+          />
+        </Group>
+      )}
     </Container>
   );
 };

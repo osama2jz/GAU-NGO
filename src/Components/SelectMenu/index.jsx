@@ -28,7 +28,8 @@ const SelectMenu = ({
   setData,
   clearable,
   borderWhite,
-  onChange,
+  // onChange,
+  disabled,
   creatable,
   form,
   value,
@@ -49,6 +50,7 @@ const SelectMenu = ({
       getCreateLabel={(query) => `+ Create ${query}`}
       creatable={creatable}
       clearable={clearable}
+      disabled={disabled}
       onCreate={(query) => {
         // const item = { value: query, label: query };
         // setData((current) => [...current, item]);
