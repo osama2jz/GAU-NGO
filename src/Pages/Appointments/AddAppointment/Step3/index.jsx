@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SimpleGrid, Container, Flex, Text, useMantineTheme } from "@mantine/core";
 import { useStyles } from "../styles";
 import DoubleTabs from "./Tabs";
-const Step3 = () => {
+const Step3 = ({selectedUser}) => {
  return (
   <Container size="lg">
    <Text fz={20} fw="bolder" align="center" mb={"md"}>
@@ -23,7 +23,7 @@ const Step3 = () => {
     </Flex>
    </Flex>
    {/* ///// */}
-   <DoubleTabs />
+   <DoubleTabs selectedUser={selectedUser}/>
   </Container>
  );
 };

@@ -21,7 +21,6 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import VerifyIcon from "../../../assets/id.png";
 import userlogo from "../../../assets/teacher.png";
-import { texts } from "../../Appointments/AddAppointment/userInformation";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import ContainerHeader from "../../../Components/ContainerHeader";
 const VerificationScheduled = () => {

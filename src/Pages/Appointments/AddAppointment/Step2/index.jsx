@@ -9,7 +9,7 @@ import {
   Avatar,
 } from "@mantine/core";
 import { useStyles } from "../styles";
-import { texts } from "../userInformation";
+import { UserInfo } from "../userInformation";
 import Table from "../../../../Components/Table";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
 import { Eye } from "tabler-icons-react";
@@ -17,7 +17,7 @@ import InputField from "../../../../Components/InputField";
 import userlogo from "../../../../assets/teacher.png";
 import SelectMenu from "../../../../Components/SelectMenu";
 
-const Step2 = () => {
+const Step2 = ({selectedUser}) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
 
@@ -148,10 +148,14 @@ const Step2 = () => {
           />
         </Grid.Col>
         <Grid.Col md={4} xs={5}>
-          <SimpleGrid cols={2}>{texts}</SimpleGrid>
+          <SimpleGrid cols={2}>
+            <UserInfo userData={selectedUser}/>
+          </SimpleGrid>
         </Grid.Col>
       </Grid>
-      <Text align="center" fw={"bold"} mt="xl">User Reports</Text>
+      <Text align="center" fw={"bold"} mt="xl">
+        User Reports
+      </Text>
       <Container p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

@@ -13,48 +13,20 @@ import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
-import userImage from "../../../../assets/teacher.png"
+import userImage from "../../../../assets/teacher.png";
 import SelectMenu from "../../../../Components/SelectMenu";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
-import { texts } from "../userInformation";
+import { UserInfo } from "../userInformation";
 
-const Step1 = () => {
+const Step1 = ({ setSelectedUser }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [userData, setUserData] = useState([]);
 
-  const data = [
-    {
-      image: "https://img.icons8.com/clouds/256/000000/futurama-bender.png",
-      label: "Bender Bending Rodríguez",
-      value: "Bender Bending Rodríguez",
-      description: "Fascinated with cooking",
-    },
-
-    {
-      image: "https://img.icons8.com/clouds/256/000000/futurama-mom.png",
-      label: "Carol Miller",
-      value: "Carol Miller",
-      description: "One of the richest people on Earth",
-    },
-    {
-      image: "https://img.icons8.com/clouds/256/000000/homer-simpson.png",
-      label: "Homer Simpson",
-      value: "Homer Simpson",
-      description: "Overweight, lazy, and often ignorant",
-    },
-    {
-      image:
-        "https://img.icons8.com/clouds/256/000000/spongebob-squarepants.png",
-      label: "Spongebob Squarepants",
-      value: "Spongebob Squarepants",
-      description: "Not just a sponge",
-    },
-  ];
-
+  //all users
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
@@ -70,7 +42,7 @@ const Step1 = () => {
           let user = {
             value: obj._id.toString(),
             label: obj?.firstName + " " + obj?.lastName,
-            email: obj?.email || ""
+            email: obj?.email || "",
           };
           return user;
         });
@@ -78,7 +50,25 @@ const Step1 = () => {
       },
     }
   );
-  console.log("dads", userData);
+
+  //selected user
+  const { data: selectedUser, status: userFetching } = useQuery(
+    "userFetched",
+    () => {
+      return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        setSelectedUser(response);
+      },
+      enabled: !!user,
+    }
+  );
+
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
       <Group noWrap>
@@ -97,6 +87,7 @@ const Step1 = () => {
   if (status === "loading") {
     return <Loader />;
   }
+  
   return (
     <Flex gap={"md"} direction="column" px={"md"}>
       <Text fz={20} fw="bolder" align="center">
@@ -108,6 +99,7 @@ const Step1 = () => {
         placeholder="Enter User name or Id"
         clearable={true}
         setData={setUser}
+        value={user || selectedUser?.data?.data?._id}
         label="Search User"
         data={userData}
       />
@@ -136,8 +128,9 @@ const Step1 = () => {
           />
         </Grid.Col>
       </Grid>
-
-      {user && (
+      {userFetching === "loading" ? (
+        <Loader />
+      ) : selectedUser ? (
         <Grid mt={30}>
           <Grid.Col md={6}>
             <img
@@ -146,10 +139,14 @@ const Step1 = () => {
               alt="img"
             />
           </Grid.Col>
-          <Grid.Col md={4} xs={5}>
-            <SimpleGrid cols={2}>{texts}</SimpleGrid>
+          <Grid.Col md={6} xs={5}>
+            <SimpleGrid cols={2}>
+              <UserInfo userData={selectedUser} loading={userFetching} />
+            </SimpleGrid>
           </Grid.Col>
         </Grid>
+      ) : (
+        ""
       )}
     </Flex>
   );

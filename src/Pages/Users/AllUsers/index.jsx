@@ -117,7 +117,7 @@ export const AllUser = () => {
             email: obj.email,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD MM YYYY"),
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
           };
           return user;
         });

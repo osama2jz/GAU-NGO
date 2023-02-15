@@ -8,7 +8,6 @@ import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
-import { texts } from "../AddAppointment/userInformation";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";

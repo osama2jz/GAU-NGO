@@ -23,6 +23,7 @@ const AddAppointment = () => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
+  const [selectedUser, setSelectedUser] = useState({});
 
   const handleNextSubmit = () => {
     active < 3
@@ -50,7 +51,7 @@ const AddAppointment = () => {
           }
           label="1. Select User"
         >
-          <Step1 />
+          <Step1 setSelectedUser={setSelectedUser}/>
         </Stepper.Step>
 
         <Stepper.Step
@@ -64,7 +65,7 @@ const AddAppointment = () => {
           }
           label="2. In Meeting"
         >
-          <Step2 />
+          <Step2 selectedUser={selectedUser}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -77,7 +78,7 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 />
+          <Step3 selectedUser={selectedUser}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
