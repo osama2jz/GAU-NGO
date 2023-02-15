@@ -30,4 +30,9 @@ export const useStyles = createStyles((theme) => ({
     border: "1px solid gray",
   },
   verified: {},
+  input: {
+    backgroundColor: "transparent",
+    border: "1px solid rgb(0, 0, 0, 0.1)",
+    borderRadius: "5px",
+   },
 }));

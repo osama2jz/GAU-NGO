@@ -4,7 +4,7 @@ import React from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
-function NewProfessionalModal() {
+function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
   const { classes } = useStyles();
   const form = useForm({
     validateInputOnChange: true,
@@ -22,11 +22,18 @@ function NewProfessionalModal() {
         value?.length < 8 ? "Please enter phone number" : null,
     },
   });
+
+  const addRefrences = (values) => {
+    values.id=refrences.length+1;
+    setRefrences([...refrences, values]);
+    setOpenViewModal(false);
+    form.reset();
+  }
   return (
     <Container>
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => console.log("value", values))}
+        onSubmit={form.onSubmit(addRefrences)}
       >
         <InputField
           label="Name"
