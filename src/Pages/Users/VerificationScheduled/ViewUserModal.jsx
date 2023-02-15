@@ -72,7 +72,7 @@ function ViewUserModal({ id }) {
           <Text className={classes.textheading}>Appointment Date</Text>
           <Text className={classes.textContent}>12 Jan 2020</Text>
           <Text className={classes.textheading}>Appointment Time</Text>
-          <Text className={classes.textContent}>11:20 PM</Text>
+          <Text className={classes.textContent}>11:30 PM</Text>
           <Text className={classes.textheading}>Status</Text>
           <Text className={classes.textContent}>
             <Badge color="red" ml="auto">
