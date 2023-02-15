@@ -23,9 +23,10 @@ const AddAppointment = () => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
+  const [selectedUser, setSelectedUser] = useState({});
 
   const handleNextSubmit = () => {
-    active < 4
+    active < 3
       ? setActive(active + 1)
       : navigate(routeNames.socialWorker.allAppointments);
   };
@@ -50,7 +51,7 @@ const AddAppointment = () => {
           }
           label="1. Select User"
         >
-          <Step1 />
+          <Step1 setSelectedUser={setSelectedUser}/>
         </Stepper.Step>
 
         <Stepper.Step
@@ -64,7 +65,7 @@ const AddAppointment = () => {
           }
           label="2. In Meeting"
         >
-          <Step2 />
+          <Step2 selectedUser={selectedUser}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -77,7 +78,7 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 />
+          <Step3 selectedUser={selectedUser}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -91,20 +92,6 @@ const AddAppointment = () => {
           label="4. Refer"
         >
           <Step4 />
-        </Stepper.Step>
-
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="5. Finish"
-        >
-          <Step5 />
         </Stepper.Step>
       </Stepper>
 

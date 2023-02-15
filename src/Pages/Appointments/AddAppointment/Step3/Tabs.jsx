@@ -11,9 +11,8 @@ import {
 import TextArea from "../../../../Components/TextArea";
 import { Dropzone } from "@mantine/dropzone";
 import Button from "../../../../Components/Button/index";
-import { texts } from "../userInformation";
-
-const DoubleTabs = () => {
+import { UserInfo } from "../userInformation";
+const DoubleTabs = ({selectedUser}) => {
   const [files, setFiles] = useState([]);
   const [document, setDocument] = useState();
   const { classes } = useStyles();
@@ -36,7 +35,9 @@ const DoubleTabs = () => {
           </Text>
           <Grid mt={30} justify="space-between">
             <Grid.Col md={4} xs={5}>
-              <SimpleGrid cols={2}>{texts}</SimpleGrid>
+              <SimpleGrid cols={2}>
+                <UserInfo userData={selectedUser}/>
+              </SimpleGrid>
             </Grid.Col>
             <Grid.Col md={6}>
               {files.length > 0 && <Anchor>{files[0]?.name}</Anchor>}
@@ -70,7 +71,9 @@ const DoubleTabs = () => {
           </Text>
           <Grid mt={30} justify="space-between">
             <Grid.Col md={4} xs={5}>
-              <SimpleGrid cols={2}>{texts}</SimpleGrid>
+              <SimpleGrid cols={2}>
+                <UserInfo userData={selectedUser}/>
+              </SimpleGrid>
             </Grid.Col>
             <Grid.Col md={6}>
               {files.length > 0 && <Anchor>{files[0]?.name}</Anchor>}

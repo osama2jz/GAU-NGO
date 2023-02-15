@@ -15,7 +15,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
@@ -36,12 +36,15 @@ import { useStyles } from "./styles";
 export const AllUser = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
+  const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
 
   let headerData = [
@@ -95,15 +98,18 @@ export const AllUser = () => {
   const { data, status } = useQuery(
     "fetchUser",
     () => {
-      return axios.get(`${backendUrl + "/api/ngo/listNGOUsers/user"}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(
+        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response.data.data.data.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
@@ -111,11 +117,12 @@ export const AllUser = () => {
             email: obj.email,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD MM YYYY"),
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
           };
           return user;
         });
         setRowData(data);
+        setTotalPages(response.data.data.totalPages);
       },
     }
   );
@@ -136,9 +143,18 @@ export const AllUser = () => {
           message: "User Status changed Successfully!",
           color: "green",
         });
+        queryClient.invalidateQueries("fetchUser");
       },
     }
   );
+
+  const handleDeleted = () => {
+    handleChangeStatus.mutate({
+      userId: deleteID,
+      userStatus: "deleted",
+    });
+    setOpenDeleteModal(false);
+  };
 
   if (status == "loading") {
     return <Loader />;
@@ -179,12 +195,13 @@ export const AllUser = () => {
           setEditModalState={setOpenEditModal}
           setStatusChangeId={setStatusChangeId}
           onStatusChange={handleChangeStatus.mutate}
+          setDeleteData={setDeleteID}
           setDeleteModalState={setOpenDeleteModal}
         />
         <Pagination
           activePage={activePage}
           setPage={setPage}
-          total={10}
+          total={totalPages}
           radius="xl"
         />
       </Container>
@@ -192,7 +209,7 @@ export const AllUser = () => {
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        onDelete={() => setOpenDeleteModal(false)}
+        onDelete={handleDeleted}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />

@@ -68,7 +68,6 @@ const Table = ({
     });
     setRowDatas(rowDataCopy);
   };
-
   return (
     <Paper component={ScrollArea} w={"100%"}>
       <TableMantine striped withBorder width={"100%"}>
@@ -132,8 +131,9 @@ const Table = ({
                             onClick={() =>
                               navigate(routeNames.socialWorker.userVerification)
                             }
+                            disabled={row.status !== "processing"}
                           >
-                            {head.verify}
+                            {row.status === "processing" ? head.verify : ""}
                           </ActionIcon>
                         )}
                         <ActionIcon
@@ -160,7 +160,7 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               setDeleteModalState(true);
-                              setDeleteData(row);
+                              setDeleteData(row.id);
                             }}
                           >
                             {head.delete}

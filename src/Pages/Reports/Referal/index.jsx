@@ -143,17 +143,17 @@ function ReferalReport() {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <Menu shadow="md" width={"auto"} className={classes.export}>
+            <Menu shadow="md" width={"target"} className={classes.export}>
               <Menu.Target>
-                <Flex gap={6}>
+                <Flex gap={4} align="center" justify={"space-around"}>
                   <Image src={download} width={18} height={18} />
-                  <Text>Export</Text>
+                  <Text>Export PDF</Text>
                 </Flex>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Label>Download Options</Menu.Label>
-                <Menu.Item>Download as PDF</Menu.Item>
-                <Menu.Item>Download as CSV</Menu.Item>
+                <Menu.Item>Weekly</Menu.Item>
+                <Menu.Item>Monthly</Menu.Item>
+                <Menu.Item>Yearly</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Grid.Col>

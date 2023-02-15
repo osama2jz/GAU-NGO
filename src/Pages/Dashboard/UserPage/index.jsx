@@ -23,7 +23,6 @@ import {
   Trash,
 } from "tabler-icons-react";
 import { useNavigate } from "react-router";
-import { texts } from "../../Appointments/AddAppointment/userInformation";
 
 const UserPage = (props) => {
   const { classes } = useStyles();

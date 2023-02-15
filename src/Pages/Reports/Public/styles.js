@@ -14,8 +14,12 @@ export const useStyles = createStyles((theme) => ({
     border: `2px solid ${theme.colors.gray}`,
     padding: "5px",
     borderRadius: "5px",
-    width: "100px",
+    width: "130px",
     marginLeft: "auto",
+    ':hover':{
+      cursor:'pointer',
+      border:`1px solid ${theme.colors.primary}`
+    }
   },
   avatar: {
     marginRight: "10px",

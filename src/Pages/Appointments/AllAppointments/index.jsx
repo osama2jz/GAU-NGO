@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Text, Image, SimpleGrid } from "@mantine/core";
+import { Container, Flex, Grid, Text, Avatar, SimpleGrid, Badge } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
@@ -12,7 +12,6 @@ import calender from "../../../assets/calendar.png";
 import ViewAppointment from "./ViewAppointment";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
-import { texts } from "../AddAppointment/userInformation";
 import ContainerHeader from "../../../Components/ContainerHeader";
 
 function AllAppointments() {

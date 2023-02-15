@@ -31,6 +31,7 @@ const SelectMenu = ({
   onChange,
   creatable,
   form,
+  value,
   size = "md",
   validateName,
   itemComponent,
@@ -42,6 +43,7 @@ const SelectMenu = ({
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
+      value={value}
       itemComponent={itemComponent}
       size={size}
       getCreateLabel={(query) => `+ Create ${query}`}

@@ -1,23 +1,69 @@
-import { Group, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
+import moment from "moment/moment";
+import { useEffect, useState } from "react";
 
-export const texts = [
- { key: "Full Name", value: "Muhammad Usama" },
- { key: "Passport", value: "FN23344324" },
- { key: "Date of Birth", value: "12 Nov 1997" },
- { key: "Nationality", value: "Spanish" },
- { key: "Origin", value: "Pakistan" },
- { key: "Age", value: "40" },
- { key: "Domicile", value: "Pakistan" },
- { key: "Municipality", value: "Municipality" },
-].map((obj, key) => {
- return (
-  <>
-   <Text fz={16} fw={"bold"}>
-    {obj.key}
-   </Text>
-   <Text opacity={"40%"} fz={16} fw={"bold"}>
-    {obj.value}
-   </Text>
-  </>
- );
-});
+export const UserInfo = ({ userData, loading }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData([
+      {
+        key: "Full Name",
+        value:
+          userData?.data?.data?.firstName +
+          " " +
+          userData?.data?.data?.lastName,
+      },
+      {
+        key: "Passport",
+        value:
+          userData?.data?.data?.userConsentForm?.personalInformation?.passport,
+      },
+      {
+        key: "Date of Birth",
+        value:
+          moment(new Date(userData?.data?.data?.userConsentForm?.personalInformation
+            ?.dateOfBirth)).format("DD MMM YYYY"),
+      },
+      {
+        key: "Nationality",
+        value:
+          userData?.data?.data?.userConsentForm?.personalInformation
+            ?.nationality,
+      },
+      {
+        key: "Origin",
+        value:
+          userData?.data?.data?.userConsentForm?.personalInformation?.origin,
+      },
+      {
+        key: "Age",
+        value: userData?.data?.data?.userConsentForm?.personalInformation?.age,
+      },
+      {
+        key: "Domicile",
+        value:
+          userData?.data?.data?.userConsentForm?.personalInformation?.domicile,
+      },
+      {
+        key: "Municipality",
+        value:
+          userData?.data?.data?.userConsentForm?.personalInformation
+            ?.muncipality,
+      },
+    ]);
+  }, [userData]);
+
+  return data.map((obj) => {
+    return (
+      <>
+        <Text fz={16} fw={"bold"}>
+          {obj.key}
+        </Text>
+        <Text opacity={"40%"} fz={16} fw={"bold"}>
+          {obj.value}
+        </Text>
+      </>
+    );
+  });
+};
