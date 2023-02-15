@@ -139,7 +139,9 @@ const Table = ({
                         <ActionIcon
                           onClick={() => {
                             setViewModalState(true);
-                            setViewModalData(row);
+                            setViewModalData(row.id);
+                            
+                            
                           }}
                         >
                           {head.view}

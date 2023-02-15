@@ -26,6 +26,7 @@ import { NotificationsProvider } from "@mantine/notifications";
 
 function App() {
   const queryClient = new QueryClient();
+  
   return (
     <NotificationsProvider
       position="top-center"
