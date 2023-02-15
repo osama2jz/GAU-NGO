@@ -7,7 +7,7 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useStyles } from "./styles";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
@@ -23,9 +23,14 @@ import { useNavigate } from "react-router";
 import routeNames from "../../../Routes/routeNames";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import { useMutation } from "react-query";
+import { showNotification } from "@mantine/notifications";
+import { UserContext } from "../../../contexts/UserContext";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
+  const { user } = useContext(UserContext);
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
@@ -34,9 +39,9 @@ export const UserVerification = () => {
   const [refrences, setRefrences] = useState([]);
   const [consentSignature, setConsentSignature] = useState([]);
   const [agreementSignature, setAgreementSignature] = useState([]);
+  const [userid, setUserId] = useState("");
   console.log("alldata", alldata);
-  console.log(agreementSignature);
-  console.log(consentSignature);
+  console.log(userid)
 
   const handleNextSubmit = () => {
     active < 3
@@ -47,7 +52,7 @@ export const UserVerification = () => {
   const handleVerifyUser = useMutation(
     () => {
       const values = {
-        userId: "63ea12d0a0e1c30014c2475c",
+        userId: userid,
         consentForm: {
           personalInformation: {
             firstName: alldata.firstName,
@@ -95,22 +100,22 @@ export const UserVerification = () => {
         },
       };
       console.log(values)
-      // return axios.post(`${backendUrl + "/api/user/create"}`, values, {
-      //   headers: {
-      //     "x-access-token": user.token,
-      //   },
-      // });
+      return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // navigate(routeNames.socialWorker.allUsers);
+        showNotification({
+          title: "User Verified",
+          message: "User Verify Successfully!",
+          color: "green",
+        });
+      },
     }
-    // {
-    //   onSuccess: (response) => {
-    //     navigate(routeNames.socialWorker.allUsers);
-    //     showNotification({
-    //       title: "User Added",
-    //       message: "New User added Successfully!",
-    //       color: "green",
-    //     });
-    //   },
-    // }
   );
 
   return (
@@ -127,7 +132,7 @@ export const UserVerification = () => {
           label="1. Get Started"
           description="Personal Identification"
         >
-          <Step1 />
+          <Step1 user={userid} setUser={setUserId}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
