@@ -10,10 +10,13 @@ import userImage from "../../../../assets/teacher.png";
 
 import { useStyles } from "../styles";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export const Step1 = ({user,setUser}) => {
   const { classes } = useStyles();
+  const {id}=useParams()
   const [userData, setUserData] = useState([]);
+  const [selctedId, setSelectedId] = useState("");
  
   const { user: usertoken } = useContext(UserContext);
   let faceio;
@@ -22,6 +25,17 @@ export const Step1 = ({user,setUser}) => {
     faceio = new faceIO("fioae1c0");
     console.log("asdad", faceio);
   }, []);
+
+  useEffect(()=>{
+    if(id){
+      setSelectedId(id)
+      setUser(id)
+
+    }
+  },[id])
+
+  console.log(selctedId)
+  console.log(user)
 
   const { data: users, status } = useQuery(
     "fetchVerified",
@@ -91,6 +105,7 @@ export const Step1 = ({user,setUser}) => {
         setData={setUser}
         label="Search User"
         data={userData}
+        value={user}
       />
       <Button
         label={"Verify Face ID"}

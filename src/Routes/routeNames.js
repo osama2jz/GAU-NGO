@@ -8,6 +8,7 @@ const routeNames = {
     verifiedUsers: "/verified-users",
     verificationScheduled: "/verfication-Scheduled",
     userVerification: "/userVerification",
+    userVerification2: "/userVerification/:id",
     settings: "/settings",
     addAppoinment: "/add-appointment",
     allAppointments: "/all-appointments",

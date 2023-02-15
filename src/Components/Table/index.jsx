@@ -129,7 +129,7 @@ const Table = ({
                         {head.verify && (
                           <ActionIcon
                             onClick={() =>
-                              navigate(routeNames.socialWorker.userVerification)
+                              navigate(`/userVerification/${row.id}`)
                             }
                             disabled={row.status !== "processing"}
                           >
