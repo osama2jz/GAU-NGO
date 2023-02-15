@@ -20,7 +20,7 @@ export const useStyles = createStyles((theme) => ({
     fontWeight: "bold",
   },
   faceid: {
-    height: "350px",
+    height: "200px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -30,9 +30,9 @@ export const useStyles = createStyles((theme) => ({
     border: "1px solid gray",
   },
   verified: {},
-  input: {
-    backgroundColor: "transparent",
-    border: "1px solid rgb(0, 0, 0, 0.1)",
-    borderRadius: "5px",
+  userInput: {
+    // display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
    },
 }));

@@ -23,10 +23,12 @@ import VerifyIcon from "../../../assets/id.png";
 import userlogo from "../../../assets/teacher.png";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import ViewUserModal from "./ViewUserModal";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [viewModalData,setViewModalData]=useState()
   let headerData = [
     {
       id: "id",
@@ -155,6 +157,7 @@ const VerificationScheduled = () => {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
+          setViewModalData={setViewModalData}
         />
       </Container>
       <ViewModal
@@ -163,37 +166,7 @@ const VerificationScheduled = () => {
         title="User Schedule Details"
         size="550px"
       >
-        <Grid className={classes.main} align="center" justify={"space-between"}>
-          <Grid.Col md={4} className={classes.main}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Email</Text>
-                <Text className={classes.textContent}>urooj@gmail.com</Text>
-                <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>12 Jan 2020</Text>
-                <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
-                <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textContent}>
-                  <Badge color="red" ml="auto">
-                    Processing
-                  </Badge>
-                </Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
+        <ViewUserModal id={viewModalData}/>
       </ViewModal>
     </Container>
   );

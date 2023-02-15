@@ -26,6 +26,7 @@ import { NotificationsProvider } from "@mantine/notifications";
 
 function App() {
   const queryClient = new QueryClient();
+  
   return (
     <NotificationsProvider
       position="top-center"
@@ -78,6 +79,10 @@ function App() {
             />
             <Route
               path={routeNames.socialWorker.userVerification}
+              element={<UserVerification />}
+            />
+            <Route
+              path={routeNames.socialWorker.userVerification2}
               element={<UserVerification />}
             />
             <Route

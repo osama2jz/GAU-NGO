@@ -1,4 +1,4 @@
-import { Avatar, Container, Group,Text } from "@mantine/core";
+import { Avatar, Card, Container, Group, Text } from "@mantine/core";
 
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -10,11 +10,17 @@ import userImage from "../../../../assets/teacher.png";
 
 import { useStyles } from "../styles";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useMediaQuery } from "@mantine/hooks";
 
-export const Step1 = ({user,setUser}) => {
+export const Step1 = ({ user, setUser }) => {
   const { classes } = useStyles();
+  const { id } = useParams();
   const [userData, setUserData] = useState([]);
- 
+  const [selctedId, setSelectedId] = useState("");
+  const matches = useMediaQuery("(min-width: 600px)");
+
+
   const { user: usertoken } = useContext(UserContext);
   let faceio;
 
@@ -22,6 +28,14 @@ export const Step1 = ({user,setUser}) => {
     faceio = new faceIO("fioae1c0");
     console.log("asdad", faceio);
   }, []);
+
+  useEffect(() => {
+    if (id) {
+      setSelectedId(id);
+      setUser(id);
+    }
+  }, [id]);
+
 
   const { data: users, status } = useQuery(
     "fetchVerified",
@@ -39,7 +53,6 @@ export const Step1 = ({user,setUser}) => {
             value: obj._id.toString(),
             label: obj?.firstName + " " + obj?.lastName,
             email: obj?.email || "",
-            
           };
           return user;
         });
@@ -82,23 +95,35 @@ export const Step1 = ({user,setUser}) => {
   );
 
   return (
-    <Container size="xl" w={"100%"} className={classes.faceid}>
-      <SelectMenu
-        searchable={true}
-        itemComponent={SelectItem}
-        placeholder="Enter User name or Id"
-        clearable={true}
-        setData={setUser}
-        label="Search User"
-        data={userData}
-      />
-      <Button
-        label={"Verify Face ID"}
-        leftIcon="faceid"
-        iconWidth="24px"
-        styles={{ width: "500px", height: "100px", fontSize:'24px'}}
-        onClick={handleVerifyID}
-      />
+    <Container>
+      <Container
+        size="xl"
+        w={matches?"500px":'auto'}
+        p="0px"
+        className={classes.userInput}
+        mt={50}
+      >
+        <SelectMenu
+          searchable={true}
+          itemComponent={SelectItem}
+          placeholder="Enter User name or Id"
+          clearable={true}
+          setData={setUser}
+          label="Search User"
+          data={userData}
+          value={user}
+        />
+      </Container>
+
+      <Container size="xl" w={"100%"} className={classes.faceid}>
+        <Button
+          label={"Verify Face ID"}
+          leftIcon="faceid"
+          iconWidth="24px"
+          styles={{ width: "500px", height: "100px", fontSize: "24px" }}
+          onClick={handleVerifyID}
+        />
+      </Container>
     </Container>
   );
 };

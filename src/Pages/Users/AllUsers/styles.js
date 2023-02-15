@@ -25,7 +25,7 @@ export const useStyles = createStyles((theme) => ({
     color: "greyDark",
   },
   textContent: {
-    fontSize: "13px",
+    fontSize: "14.5px",
     fontWeight: 500,
     color: "#373A40",
   },
