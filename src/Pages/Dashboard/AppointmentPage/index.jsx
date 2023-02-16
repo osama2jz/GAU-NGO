@@ -131,7 +131,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "ALL APPOINTMENTS",
-      value: 100,
+      value: 120,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -140,7 +140,7 @@ const UserPage = (props) => {
     },
     {
       title: "PENDING",
-      value: 200,
+      value: 43,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -149,7 +149,7 @@ const UserPage = (props) => {
     },
     {
       title: "COMPLETED",
-      value: 150,
+      value: 77,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",

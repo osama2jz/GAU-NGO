@@ -4,9 +4,21 @@ import { Users } from "tabler-icons-react";
 import { Progress } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 
-const Cards = ({ data }) => {
+const Cards = ({ data,setUrl ,url }) => {
   const { classes } = useStyles();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  // console.log(url)
+  
+  const handleClick=()=>{
+    if(data.link){
+      // alert("link")
+      navigate(data.link)
+    }
+    else if(data.url){
+      // alert("url")
+      setUrl(data.url)
+    }
+  }
   return (
     <>
       <Card
@@ -17,7 +29,7 @@ const Cards = ({ data }) => {
         component="a"
         radius={26}
         withBorder
-        onClick={() => Navigate(data.link)}
+        onClick={handleClick}
       >
         <Flex align={"baseline"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
@@ -27,7 +39,7 @@ const Cards = ({ data }) => {
         </Flex>
 
         <Text mt="0px" fw="bolder" size={30}>
-          100
+          {data.value}
         </Text>
         {/* <Text size="xs" m="none">50%</Text> */}
         <Progress mt="sm" value={78} color={data.color} size={6} />

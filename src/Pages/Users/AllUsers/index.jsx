@@ -100,6 +100,7 @@ export const AllUser = () => {
     },
   ];
 
+  //API call for fetching all users
   const { data, status } = useQuery(
     "fetchUser",
     () => {
@@ -132,6 +133,7 @@ export const AllUser = () => {
     }
   );
 
+  //API call for changing user status
   const handleChangeStatus = useMutation(
     (values) => {
       return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
@@ -152,7 +154,8 @@ export const AllUser = () => {
       },
     }
   );
-
+  
+//API call for deleting user
   const handleDeleted = () => {
     handleChangeStatus.mutate({
       userId: deleteID,

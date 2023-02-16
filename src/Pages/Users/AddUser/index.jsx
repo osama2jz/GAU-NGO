@@ -80,18 +80,36 @@ export const AddUser = () => {
     },
     {
       onSuccess: (response) => {
-        navigate(routeNames.socialWorker.allUsers);
+       
+        if(response.data.status ){
         showNotification({
           title: "User Added",
           message: "New User added Successfully!",
           color: "green",
         });
-      },
+        navigate(routeNames.socialWorker.allUsers);
+      }
+      else{
+        showNotification({
+          title: "Failed",
+          message: response?.data?.message,
+          color: "red",
+        });
+      }
+    }
     }
   );
 
   if (handleAddUser.isLoading) {
     return <Loader />;
+  }
+
+  if(handleAddUser.isError){
+    showNotification({
+      title: "Error",
+      message: "Something went wrong",
+      color: "red",
+    });
   }
 
   return (
