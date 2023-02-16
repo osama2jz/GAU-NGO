@@ -204,12 +204,12 @@ export const AllUser = () => {
           setDeleteData={setDeleteID}
           setDeleteModalState={setOpenDeleteModal}
         />
-        <Pagination
+        {totalPages>1 && <Pagination
           activePage={activePage}
           setPage={setPage}
           total={totalPages}
           radius="xl"
-        />
+        />}
       </Container>
       <DeleteModal
         opened={openDeleteModal}
