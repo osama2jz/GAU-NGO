@@ -27,6 +27,7 @@ import { showNotification } from "@mantine/notifications";
 import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
+import { useForm } from "@mantine/form";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -40,31 +41,27 @@ export const UserVerification = () => {
   const [consentSignature, setConsentSignature] = useState([]);
   const [agreementSignature, setAgreementSignature] = useState([]);
   const [userid, setUserId] = useState("");
-  const [userdata,setUserData]=useState("")
-  // console.log("alldata", alldata);
-  console.log(userid)
+  const [userdata, setUserData] = useState("");
 
-    const { data, status } = useQuery(
-    "fetchUserbyId",
-    () => {
-      return axios.get(`${backendUrl + `/api/user/listSingleUser/${userid}`}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
-    },
-    {
-      onSuccess: (response) => {
-        setUserData(response.data.data);
-        // console.log("data", response.data.data);
-      },
-    }
-  );
+  //   const { data, status } = useQuery(
+  //   "fetchUserbyId",
+  //   () => {
+  //     return axios.get(`${backendUrl + `/api/user/listSingleUser/${userid}`}`, {
+  //       headers: {
+  //         "x-access-token": user.token,
+  //       },
+  //     });
+  //   },
+  //   {
+  //     onSuccess: (response) => {
+  //       setUserData(response.data.data);
+  //       // console.log("data", response.data.data);
+  //     },
+  //   }
+  // );
 
   const handleNextSubmit = () => {
-    active < 3
-      ? setActive(active + 1)
-      : (handleVerifyUser.mutate());
+    active < 3 ? setActive(active + 1) : handleVerifyUser.mutate();
   };
 
   const handleVerifyUser = useMutation(
@@ -109,15 +106,14 @@ export const UserVerification = () => {
             labour: alldata.labour,
             educational: alldata.educational,
             institutional: alldata.institutional,
-            familiar:alldata.familiar,
-            social: alldata.social
+            familiar: alldata.familiar,
+            social: alldata.social,
           },
           workExperience: workExperience,
           consentSignatures: consentSignature,
           agreementSignatures: agreementSignature,
         },
       };
-      console.log(values)
       return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
         headers: {
           "x-access-token": user.token,
@@ -133,7 +129,8 @@ export const UserVerification = () => {
         });
         navigate(routeNames.socialWorker.allUsers);
       },
-    },{
+    },
+    {
       onError: () => {
         showNotification({
           title: "Error",
@@ -142,9 +139,74 @@ export const UserVerification = () => {
         });
         navigate(routeNames.socialWorker.allUsers);
       },
-    },
+    }
   );
-
+  const form = useForm({
+    validateInputOnChange: true,
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      age: "",
+      dateOfBirth: "",
+      passport: "",
+      nationality: "",
+      origin: "",
+      domicile: "",
+      muncipality: "",
+      revenue: "",
+      expenses: "",
+      aidsBonuses: "",
+      debt: "",
+      housing: "",
+      education: "",
+      char: "",
+      training: "",
+      realization: "",
+      healthAspects: "",
+      socioFamily: "",
+      tracking: "",
+      demand: "",
+      social: "",
+      labour: "",
+      educational: "",
+      institutional: "",
+      familiar: "",
+    },
+    validate: {
+      dateOfBirth: (value) =>
+        value.length < 1 ? "Please enter your date of Birth" : null,
+      age: (value) => (value.length < 1 ? "Please enter your Age" : null),
+      passport: (value) => (value.length < 1 ? "Please enter passport" : null),
+      nationality: (value) =>
+        value.length < 1 ? "Please enter nationality" : null,
+      origin: (value) => (value.length < 1 ? "Please enter origin" : null),
+      domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
+      muncipality: (value) =>
+        value.length < 1 ? "Please enter muncipality" : null,
+      revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
+      expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
+      aidsBonuses: (value) =>
+        value.length < 1 ? "Please enter Aids or Bonuses" : null,
+      debt: (value) => (value.length < 1 ? "Please enter debt" : null),
+      housing: (value) => (value.length < 1 ? "Please enter housing" : null),
+      education: (value) =>
+        value.length < 1 ? "Please enter Education level" : null,
+      char: (value) =>
+        value.length < 1 ? "Please enter Characteristics" : null,
+      training: (value) =>
+        value.length < 1 ? "Please enter Complementary Trainging " : null,
+      realization: (value) =>
+        value.length < 1 ? "Please enter realization year" : null,
+      labour: (value) => (value.length < 1 ? "Please enter Labour year" : null),
+      educational: (value) =>
+        value.length < 1 ? "Please enter educational year" : null,
+      institutional: (value) =>
+        value.length < 1 ? "Please enter institutional year" : null,
+      familiar: (value) =>
+        value.length < 1 ? "Please enter familiar year" : null,
+      social: (value) => (value.length < 1 ? "Please enter social year" : null),
+    },
+  });
   return (
     <Container className={classes.userVerification} size="lg">
       <ContainerHeader label={"User Verification"} />
@@ -159,7 +221,7 @@ export const UserVerification = () => {
           label="1. Get Started"
           description="Personal Identification"
         >
-          <Step1 user={userid} setUser={setUserId}/>
+          <Step1 user={userid} setUser={setUserId} />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -177,11 +239,13 @@ export const UserVerification = () => {
             setActive={setActive}
             active={active}
             setAlldata={setAlldata}
+            alldata={alldata}
             workExperience={workExperience}
             setWorkExperience={setWorkExperience}
             refrences={refrences}
             setRefrences={setRefrences}
             userdata={userdata}
+            form={form}
           />
         </Stepper.Step>
         <Stepper.Step
@@ -228,7 +292,7 @@ export const UserVerification = () => {
         </Stepper.Step> */}
       </Stepper>
       <Group position="center" mt="xl">
-        {active > 0 && active === 1 ? (
+        {active <2 ? (
           ""
         ) : (
           <Button onClick={() => setActive(active - 1)} label="Back" />
@@ -240,6 +304,7 @@ export const UserVerification = () => {
             onClick={handleNextSubmit}
             label={active === 4 ? "Submit" : "Save & Next"}
             primary={true}
+            disabled={!userid}
           />
         )}
       </Group>

@@ -3,7 +3,7 @@ import { createStyles, Modal as ModalMantine } from "@mantine/core";
 const ViewModal = ({ opened, setOpened, children, title, size="md" }) => {
   const useStyles = createStyles((theme) => ({
     title:{
-      // size: "50px",
+      margin:'auto',
       fontSize: "25px",
       fontWeight: "bold",
       color:"#5C5F66",

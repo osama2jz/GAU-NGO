@@ -5,9 +5,9 @@ import DoubleTabs from "./Tabs";
 const Step3 = ({selectedUser}) => {
  return (
   <Container size="lg">
-   <Text fz={20} fw="bolder" align="center" mb={"md"}>
+   {/* <Text fz={20} fw="bolder" align="center" mb={"md"}>
     Upload Report
-   </Text>
+   </Text> */}
    <Flex justify={"space-between"}>
     <SimpleGrid cols={2}>
      <Text fz={18} fw={"bold"}>

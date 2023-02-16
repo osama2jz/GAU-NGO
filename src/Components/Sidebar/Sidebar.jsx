@@ -61,7 +61,7 @@ export function SideBar({ sideBarLinks, setOpened }) {
       setSideOpen={setOpened}
     />
   ));
-  const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} setSideOpen={setOpened}/>);
+  const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} setSideOpen={setOpened} setGlobalOpen={setGlobalOpen}/>);
 
   return (
     <Navbar width={{ sm: 320 }} p="md" className={classes.navbar}>

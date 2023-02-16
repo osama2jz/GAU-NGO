@@ -20,7 +20,7 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 
-const Step1 = ({ setSelectedUser }) => {
+const Step1 = ({ setSelectedUser, setSelectedCase }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
@@ -88,7 +88,7 @@ const Step1 = ({ setSelectedUser }) => {
   if (status === "loading") {
     return <Loader />;
   }
-  
+
   return (
     <Flex gap={"md"} direction="column" px={"md"}>
       <Text fz={20} fw="bolder" align="center">
@@ -111,7 +111,8 @@ const Step1 = ({ setSelectedUser }) => {
             placeholder="Enter case name or id"
             label="Search User Case"
             creatable={true}
-            disabled={newCase.length>0}
+            setData={setSelectedCase}
+            disabled={newCase.length > 0}
             data={[
               { label: "verified", value: "Personal" },
               { label: "Pending", value: "Wealth" },
@@ -127,7 +128,10 @@ const Step1 = ({ setSelectedUser }) => {
             label={"Create New Case"}
             placeholder="Enter case name"
             pb="0px"
-            onChange={(v)=>setNewCase(v.target.value)}
+            onChange={(v) => {
+              setNewCase(v.target.value);
+              setSelectedCase(v.target.value);
+            }}
           />
         </Grid.Col>
       </Grid>

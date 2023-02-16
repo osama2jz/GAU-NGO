@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
+import routeNames from "../../Routes/routeNames";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -93,6 +94,10 @@ export function LinksGroup({
           setGlobalOpen(label);
           link && setSideOpen(false)
           navigate(link)
+          if(label==="Log Out"){
+            console.log("logout")
+            localStorage.removeItem("userData");
+          }
         }}
         className={classes.control}
         bg={
