@@ -12,16 +12,19 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/teacher.png";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useForm } from "@mantine/form";
 import InputField from "../../../Components/InputField";
 import Button from "../../../Components/Button";
 import Loader from "../../../Components/Loader";
 import { showNotification } from "@mantine/notifications";
+import { useNavigate } from "react-router-dom";
 
 function ViewUserModal({ id ,setOpenEditModal}) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [userdata, setUserData] = useState();
 
 
@@ -83,8 +86,8 @@ function ViewUserModal({ id ,setOpenEditModal}) {
           message: "User Detail Updated Successfully!",
           color: "green",
         });
-        navigate(routeNames.socialWorker.allUsers);
-       
+        // navigate(routeNames.socialWorker.allUsers);
+        queryClient.invalidateQueries("fetchUser");
       },
     }
   );
