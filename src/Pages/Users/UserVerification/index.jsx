@@ -22,7 +22,7 @@ import { Step5 } from "./Step5";
 import { useNavigate } from "react-router";
 import routeNames from "../../../Routes/routeNames";
 import ContainerHeader from "../../../Components/ContainerHeader";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { showNotification } from "@mantine/notifications";
 import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
@@ -40,13 +40,31 @@ export const UserVerification = () => {
   const [consentSignature, setConsentSignature] = useState([]);
   const [agreementSignature, setAgreementSignature] = useState([]);
   const [userid, setUserId] = useState("");
-  console.log("alldata", alldata);
+  const [userdata,setUserData]=useState("")
+  // console.log("alldata", alldata);
   console.log(userid)
+
+    const { data, status } = useQuery(
+    "fetchUserbyId",
+    () => {
+      return axios.get(`${backendUrl + `/api/user/listSingleUser/${userid}`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        setUserData(response.data.data);
+        // console.log("data", response.data.data);
+      },
+    }
+  );
 
   const handleNextSubmit = () => {
     active < 3
       ? setActive(active + 1)
-      : (handleVerifyUser.mutate(), navigate(routeNames.socialWorker.allUsers));
+      : (handleVerifyUser.mutate());
   };
 
   const handleVerifyUser = useMutation(
@@ -108,14 +126,23 @@ export const UserVerification = () => {
     },
     {
       onSuccess: (response) => {
-        // navigate(routeNames.socialWorker.allUsers);
         showNotification({
           title: "User Verified",
           message: "User Verify Successfully!",
           color: "green",
         });
+        navigate(routeNames.socialWorker.allUsers);
       },
-    }
+    },{
+      onError: () => {
+        showNotification({
+          title: "Error",
+          message: "Something Went Wrong!",
+          color: "red",
+        });
+        navigate(routeNames.socialWorker.allUsers);
+      },
+    },
   );
 
   return (
@@ -154,6 +181,7 @@ export const UserVerification = () => {
             setWorkExperience={setWorkExperience}
             refrences={refrences}
             setRefrences={setRefrences}
+            userdata={userdata}
           />
         </Stepper.Step>
         <Stepper.Step
