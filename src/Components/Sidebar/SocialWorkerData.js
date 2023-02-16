@@ -64,7 +64,7 @@ export const bottom = [
  { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
  {
   label: "Log Out",
-  link: "/",
+  link: routeNames.general.login,
   icon: Power,
  },
 ];

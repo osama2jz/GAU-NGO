@@ -40,7 +40,7 @@ export const Step1 = ({ user, setUser }) => {
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
-      return axios.get(backendUrl + "/api/ngo/listNGOVerifiedUsers", {
+      return axios.get(backendUrl + "/api/ngo/listNGOUnVerifiedUsers", {
         headers: {
           "x-access-token": usertoken?.token,
         },

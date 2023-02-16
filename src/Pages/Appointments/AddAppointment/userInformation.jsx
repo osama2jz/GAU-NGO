@@ -20,12 +20,6 @@ export const UserInfo = ({ userData, loading }) => {
           userData?.data?.data?.userConsentForm?.personalInformation?.passport,
       },
       {
-        key: "Date of Birth",
-        value:
-          moment(new Date(userData?.data?.data?.userConsentForm?.personalInformation
-            ?.dateOfBirth)).format("DD MMM YYYY"),
-      },
-      {
         key: "Nationality",
         value:
           userData?.data?.data?.userConsentForm?.personalInformation
@@ -39,17 +33,6 @@ export const UserInfo = ({ userData, loading }) => {
       {
         key: "Age",
         value: userData?.data?.data?.userConsentForm?.personalInformation?.age,
-      },
-      {
-        key: "Domicile",
-        value:
-          userData?.data?.data?.userConsentForm?.personalInformation?.domicile,
-      },
-      {
-        key: "Municipality",
-        value:
-          userData?.data?.data?.userConsentForm?.personalInformation
-            ?.muncipality,
       },
     ]);
   }, [userData]);

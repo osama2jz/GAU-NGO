@@ -174,7 +174,7 @@ const Table = ({
                     <td key={index} align="center">
                       <Badge
                         radius="xs"
-                        color={row[head?.id] === "processing" ? "red" : "green"}
+                        color={row[head?.id] === "unverified" ? "red" : "green"}
                       >
                         {row[head?.id]}
                       </Badge>
@@ -214,7 +214,7 @@ const Table = ({
                         styles={{
                           track: { backgroundColor: theme.colors.gray },
                         }}
-                        disabled={row[head?.id] === "pending"}
+                        disabled={row.status === "unverified"}
                       />
                     </td>
                   ) : (

@@ -1,4 +1,8 @@
 const routeNames = {
+  general: {
+    login: "/login",
+    dashboard: "/",
+  },
   socialWorker: {
     dashboard: "/",
     addUser: "/add-user",

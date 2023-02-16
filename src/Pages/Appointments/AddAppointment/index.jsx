@@ -30,9 +30,11 @@ const AddAppointment = () => {
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
+  const [selectedCase, setSelectedCase] = useState("");
 
   const handleNextSubmit = () => {
-    if (active == 0 && !selectedUser) {
+    console.log(selectedCase)
+    if (active == 0 && (!selectedUser || selectedCase.length<1)) {
       showNotification({
         color: "red",
         message: "Please Select User information",
@@ -72,7 +74,7 @@ const AddAppointment = () => {
           }
           label="1. Select User"
         >
-          <Step1 setSelectedUser={setSelectedUser} />
+          <Step1 setSelectedUser={setSelectedUser} setSelectedCase={setSelectedCase}/>
         </Stepper.Step>
         {user.role === "Psychologist" && (
           <Stepper.Step

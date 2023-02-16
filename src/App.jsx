@@ -23,10 +23,11 @@ import ReferalReport from "./Pages/Reports/Referal";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { NotificationsProvider } from "@mantine/notifications";
+import Login from "./Pages/Login";
 
 function App() {
   const queryClient = new QueryClient();
-  
+
   return (
     <NotificationsProvider
       position="top-center"
@@ -36,6 +37,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <Routes>
+          <Route path={routeNames.general.login} element={<Login />} />
           <Route path="/" element={<GeneralLayout />}>
             <Route
               path={routeNames.socialWorker.dashboard}
