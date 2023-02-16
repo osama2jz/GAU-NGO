@@ -116,7 +116,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "PUBLIC ",
-      value: 100,
+      value: 55,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -125,7 +125,7 @@ const UserPage = (props) => {
     },
     {
       title: "PRIVATE ",
-      value: 200,
+      value: 45,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -134,7 +134,7 @@ const UserPage = (props) => {
     },
     {
       title: "REFERAL ",
-      value: 150,
+      value: 50,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",

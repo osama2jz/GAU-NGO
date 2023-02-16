@@ -158,10 +158,14 @@ export const Step2 = ({
       familiar: "",
     },
     validate: {
+      firstName: (value) =>
+      /^[a-zA-Z]{3,12}$/.test(value)
+        ? null
+        : "Please enter first name and it should be between 3 to 12 characters",
       dateOfBirth: (value) =>
         value.length < 1 ? "Please enter your date of Birth" : null,
       age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-      passport: (value) => (value.length < 1 ? "Please enter passport" : null),
+      passport: (value) => /^[A-Z]{2}\d{7}$/.test(value) ? null :"Please enter passport number correctly" ,
       nationality: (value) =>
         value.length < 1 ? "Please enter nationality" : null,
       origin: (value) => (value.length < 1 ? "Please enter origin" : null),
@@ -358,7 +362,7 @@ export const Step2 = ({
               validateName="labour"
             />
             <InputField
-              label="educational"
+              label="Educational"
               required={true}
               placeholder="educational"
               form={form}

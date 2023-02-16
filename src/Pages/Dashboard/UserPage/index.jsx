@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import userlogo from "../../../assets/teacher.png";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import {
@@ -9,7 +9,7 @@ import {
   Flex,
   Grid,
   Text,
-  Badge
+  Badge,
 } from "@mantine/core";
 import { useStyles } from "./styles";
 import Card from "../Card";
@@ -23,19 +23,105 @@ import {
   Trash,
 } from "tabler-icons-react";
 import { useNavigate } from "react-router";
+import { useMutation, useQuery } from "react-query";
+import { backendUrl } from "../../../constants/constants";
+import Pagination from "../../../Components/Pagination";
+import axios from "axios";
+import { UserContext } from "../../../contexts/UserContext";
+import moment from "moment";
+import { showNotification } from "@mantine/notifications";
+import EditModal from "../../../Components/EditModal/editModal";
+import EditUserModal from "../../Users/AllUsers/EditUserModal"
+import ViewUserModal from "../../Users/AllUsers/ViewUserModal"
+import DeleteModal from "../../../Components/DeleteModal";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [statusChangeId, setStatusChangeId] = useState("");
+  const [deleteID, setDeleteID] = useState("");
+  const [viewModalData,setViewModalData]=useState()
+  const [url, setUrl] = useState(`/api/ngo/listNGOUsers/user/${activePage}/10`);
+  const { user } = useContext(UserContext);
+  const [rowData, setRowData] = useState([]);
+
+  console.log("url",url)
+
+  //API call for fetching all users
+  const { data, status } = useQuery(
+    "fetchUser",
+    () => {
+      return axios.get(
+        `${backendUrl+url}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.data.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj.firstName + " " + obj.lastName,
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+          };
+          return user;
+        });
+        setRowData(data);
+        setTotalPages(response.data.data.totalPages);
+      },
+    }
+  );
+
+  //API call for deleting user
+  const handleDeleted = () => {
+    handleChangeStatus.mutate({
+      userId: deleteID,
+      userStatus: "deleted",
+    });
+    setOpenDeleteModal(false);
+  };
+
+  //API call for changing user status
+  const handleChangeStatus = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // navigate(routeNames.socialWorker.allUsers);
+        showNotification({
+          title: "Status Updated",
+          message: "User Status changed Successfully!",
+          color: "green",
+        });
+        queryClient.invalidateQueries("fetchUser");
+      },
+    }
+  );
+
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
-      label: "Sr No.",
+      label: "Sr #",
     },
     {
       id: "name",
@@ -77,48 +163,7 @@ const UserPage = (props) => {
       label: "Actions",
     },
   ];
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "2",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-  ];
+
   const a = [
     {
       title: "ALL USERS",
@@ -127,25 +172,25 @@ const UserPage = (props) => {
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.userPageDashboard,
+      url: `/api/ngo/listNGOUsers/user/${activePage}/10`,
     },
     {
       title: "VERIFIED",
-      value: 200,
+      value: 70,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.appointmentPageDashboard,
+      url:"api/ngo/listNGOVerifiedUsers"
     },
     {
       title: "UNVERIFIED",
-      value: 150,
+      value:30,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.reportPageDashboard,
+      url: "/api/ngo/listNGOUnVerifiedUsers",
     },
   ];
 
@@ -168,7 +213,7 @@ const UserPage = (props) => {
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} />
+            <Card data={item} setUrl={setUrl} url={url}/>
           </Grid.Col>
         ))}
       </Grid>
@@ -179,46 +224,42 @@ const UserPage = (props) => {
           setViewModalState={setOpenViewModal}
           setEditModalState={setOpenEditModal}
           setDeleteModalState={setOpenDeleteModal}
+          onStatusChange={handleChangeStatus.mutate}
+          setStatusChangeId={setStatusChangeId}
+          setDeleteData={setDeleteID}
+          setViewModalData={setViewModalData}
+          
+        />
+        <Pagination
+          activePage={activePage}
+          setPage={setPage}
+          total={totalPages}
+          radius="xl"
         />
       </Container>
+      <DeleteModal
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={handleDeleted}
+        label="Are you Sure?"
+        message="Do you really want to delete these records? This process cannot be undone."
+      />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Details"
-        size="490px"
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Email</Text>
-                <Text className={classes.textContent}>urooj@gmail.com</Text>
-                <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>12 Jan 2020</Text>
-                <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
-                <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textContent}>
-                  <Badge color="red" ml="auto">
-                    Processing
-                  </Badge>
-                </Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
+       
+       <ViewUserModal id={viewModalData}/>
       </ViewModal>
+      <EditModal
+      opened={openEditModal}
+      setOpened={setOpenEditModal}
+      title="Edit User Details">
+        
+        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal}/>
+      </EditModal>
     </Container>
   );
 };

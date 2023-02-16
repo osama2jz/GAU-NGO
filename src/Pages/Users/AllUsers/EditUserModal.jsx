@@ -27,6 +27,8 @@ function ViewUserModal({ id ,setOpenEditModal}) {
   const navigate = useNavigate();
   const [userdata, setUserData] = useState();
 
+  console.log("id",id)
+
 
   const form = useForm({
     validateInputOnChange: true,
