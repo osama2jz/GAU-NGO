@@ -1,13 +1,13 @@
 import { createStyles, Modal as ModalMantine } from "@mantine/core";
 
-const ViewModal = ({ opened, setOpened, children, title, size="md" }) => {
+const EditModal = ({ opened, setOpened, children, title, size="md" }) => {
   const useStyles = createStyles((theme) => ({
     title:{
       // size: "50px",
       fontSize: "25px",
       fontWeight: "bold",
       color:"#5C5F66",
-      // marginLeft:"150px"
+      textAlign:"center"
     }
   }));
   const {classes}=useStyles()
@@ -26,4 +26,4 @@ const ViewModal = ({ opened, setOpened, children, title, size="md" }) => {
   );
 };
 
-export default ViewModal;
+export default EditModal;

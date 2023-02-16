@@ -5,14 +5,14 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 
-const Loader = () => {
+const Loader = ({minHeight="84vh"}) => {
   const theme = useMantineTheme();
   return (
     <Container
       style={{
         backgroundColor: theme.colors.container,
         borderRadius: "15px",
-        minHeight: "84vh",
+        minHeight: minHeight,
         display:'flex',
         width:'100%',
         alignItems:'center',
