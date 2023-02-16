@@ -131,9 +131,9 @@ const Table = ({
                             onClick={() =>
                               navigate(`/userVerification/${row.id}`)
                             }
-                            disabled={row.status !== "processing"}
+                            disabled={row.status !== "unverified"}
                           >
-                            {row.status === "processing" ? head.verify : ""}
+                            {row.status === "unverified" ? head.verify : ""}
                           </ActionIcon>
                         )}
                         <ActionIcon
@@ -215,7 +215,6 @@ const Table = ({
                         styles={{
                           track: { backgroundColor: theme.colors.gray },
                         }}
-                        disabled={row.status === "unverified"}
                       />
                     </td>
                   ) : (

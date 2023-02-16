@@ -12,13 +12,14 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
 }));
 
 const Datepicker = ({
-  placeholder,
+  placeholder = "Select Date",
   icon,
   required,
   label,
   pb = "sm",
   borderWhite,
   onChange,
+  size = "md",
   form,
   validateName,
   labelFormat,
@@ -26,14 +27,15 @@ const Datepicker = ({
   const { classes, cx } = useStyles({ borderWhite });
   return (
     <DatePicker
-      size="xs"
+      size={size}
       icon={icon}
       clearable={false}
       dropdownType="modal"
-      placeholder="Pick date"
+      placeholder={placeholder}
       label={label}
       required={required}
       classNames={{ input: classes.root }}
+      {...form?.getInputProps(validateName)}
       inputFormat={labelFormat}
     />
   );

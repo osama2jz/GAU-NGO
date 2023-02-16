@@ -17,7 +17,7 @@ export const Step1 = ({ user, setUser }) => {
   const { classes } = useStyles();
   const { id } = useParams();
   const [userData, setUserData] = useState([]);
-  const [selctedId, setSelectedId] = useState("");
+  // const [selctedId, setSelectedId] = useState("");
   const matches = useMediaQuery("(min-width: 600px)");
 
 
@@ -31,7 +31,7 @@ export const Step1 = ({ user, setUser }) => {
 
   useEffect(() => {
     if (id) {
-      setSelectedId(id);
+      // setSelectedId(id);
       setUser(id);
     }
   }, [id]);

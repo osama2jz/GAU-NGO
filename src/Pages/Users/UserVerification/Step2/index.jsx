@@ -19,22 +19,23 @@ import { useStyles } from "../styles";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
 import NewProfessionalModal from "./NewProfessional";
 import NewWorkModal from "./NewWorkExperience";
+import Datepicker from "../../../../Components/Datepicker";
 export const Step2 = ({
   setActive,
   active,
   setAlldata,
+  alldata,
   workExperience,
   setWorkExperience,
   refrences,
   setRefrences,
-  userdata
+  userdata,
+  form,
 }) => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
-  console.log("userData",userdata)
 
   let headerData = [
     {
@@ -126,71 +127,13 @@ export const Step2 = ({
       label: "Actions",
     },
   ];
-  const form = useForm({
-    validateInputOnChange: true,
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      age: "",
-      dateOfBirth: "",
-      passport: "",
-      nationality: "",
-      origin: "",
-      domicile: "",
-      muncipality: "",
-      revenue: "",
-      expenses: "",
-      aidsBonuses: "",
-      debt: "",
-      housing: "",
-      education: "",
-      char: "",
-      training: "",
-      realization: "",
-      healthAspects: "",
-      socioFamily: "",
-      tracking: "",
-      demand: "",
-      social: "",
-      labour: "",
-      educational: "",
-      institutional: "",
-      familiar: "",
-    },
-    validate: {
-      dateOfBirth: (value) =>
-        value.length < 1 ? "Please enter your date of Birth" : null,
-      age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-      passport: (value) => (value.length < 1 ? "Please enter passport" : null),
-      nationality: (value) =>
-        value.length < 1 ? "Please enter nationality" : null,
-      origin: (value) => (value.length < 1 ? "Please enter origin" : null),
-      domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
-      muncipality: (value) =>
-        value.length < 1 ? "Please enter muncipality" : null,
-      revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
-      expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
-      aidsBonuses: (value) =>
-        value.length < 1 ? "Please enter Aids or Bonuses" : null,
-      debt: (value) => (value.length < 1 ? "Please enter debt" : null),
-      housing: (value) => (value.length < 1 ? "Please enter housing" : null),
-      education: (value) =>
-        value.length < 1 ? "Please enter education level" : null,
-      char: (value) =>
-        value.length < 1 ? "Please enter Characteristics" : null,
-      training: (value) =>
-        value.length < 1 ? "Please enter Complementary Trainging " : null,
-      realization: (value) =>
-        value.length < 1 ? "Please enter realization year" : null,
-    },
-  });
 
   const deleteRefrences = (id) => {
     console.log(id);
     let a = refrences.filter((item) => item.id !== id);
     setRefrences(a);
   };
-
+  console.log("alldata", alldata);
   const submitAll = (values) => {
     setActive(active + 1);
     setAlldata(values);
@@ -216,22 +159,17 @@ export const Step2 = ({
             label="First Name"
             required={true}
             placeholder="First Name"
+            value={alldata?.firstName}
             form={form}
             validateName="firstName"
           />
           <InputField
             label="Last Name"
+            value={alldata?.lastName}
             required={true}
             placeholder="Last Name"
             form={form}
             validateName="lastName"
-          />
-          <InputField
-            label="Date of Birth"
-            required={true}
-            placeholder="dob"
-            form={form}
-            validateName="dateOfBirth"
           />
           <InputField
             label="Passport"
@@ -239,6 +177,21 @@ export const Step2 = ({
             placeholder="FN2342444"
             form={form}
             validateName="passport"
+          />
+          <Datepicker
+            label="Date of Birth"
+            required={true}
+            placeholder="Date of Birth"
+            form={form}
+            validateName="dateOfBirth"
+          />
+          <InputField
+            label="Age"
+            required={true}
+            type="number"
+            placeholder="age"
+            form={form}
+            validateName="age"
           />
           <InputField
             label="Nationality"
@@ -254,14 +207,7 @@ export const Step2 = ({
             form={form}
             validateName="origin"
           />
-          <InputField
-            label="Age"
-            required={true}
-            type="number"
-            placeholder="age"
-            form={form}
-            validateName="age"
-          />
+
           <InputField
             label="Domicile"
             required={true}
@@ -285,7 +231,7 @@ export const Step2 = ({
           <SimpleGrid
             breakpoints={[
               { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 3 },
+              { minWidth: "lg", cols: 4 },
               { minWidth: "xs", cols: 1 },
             ]}
           >
@@ -304,7 +250,7 @@ export const Step2 = ({
               validateName="char"
             />
             <InputField
-              label="Complementary Trainging"
+              label="Complementary Training"
               required={true}
               placeholder="training"
               form={form}
@@ -358,9 +304,9 @@ export const Step2 = ({
               validateName="labour"
             />
             <InputField
-              label="educational"
+              label="Educational"
               required={true}
-              placeholder="educational"
+              placeholder="Educational"
               form={form}
               validateName="educational"
             />
@@ -477,18 +423,18 @@ export const Step2 = ({
         <Card mt="sm">
           <Text className={classes.subHeading}>Demand</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <TextArea label="Demand" form={form} validateName="demand" />
+          <TextArea form={form} validateName="demand" />
         </Card>
 
         {/* Tracking */}
         <Card>
           <Text className={classes.subHeading}>Tracking</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <TextArea label="Tracking" form={form} validateName="tracking" />
+          <TextArea form={form} validateName="tracking" />
         </Card>
 
         <Group position="center" mt="xl">
-          <Button onClick={() => setActive(active - 1)} label="Back" />
+          <Button onClick={()=>setActive(active - 1)} label="Back" />
           <Button label={"Save & Next"} primary={true} type="submit" />
         </Group>
       </form>

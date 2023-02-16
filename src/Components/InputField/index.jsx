@@ -25,6 +25,7 @@ const InputField = ({
  borderWhite,
  onChange,
  form,
+ value,
  size = "md",
  validateName,
 }) => {
@@ -36,6 +37,7 @@ const InputField = ({
    pb={pb}
    type={type}
    size={size}
+   value={value}
    onChange={onChange}
    {...form?.getInputProps(validateName)}
    icon={leftIcon ? <img src={new URL(`../../assets/${leftIcon}.svg`, import.meta.url).href} alt="icon" /> : ""}
