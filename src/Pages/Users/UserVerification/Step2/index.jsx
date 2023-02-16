@@ -27,11 +27,14 @@ export const Step2 = ({
   setWorkExperience,
   refrences,
   setRefrences,
+  userdata
 }) => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+
+  console.log("userData",userdata)
 
   let headerData = [
     {

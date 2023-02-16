@@ -46,12 +46,22 @@ export const AddUser = () => {
 
     validate: {
       firstName: (value) =>
-        value.length < 1 ? "Please enter first name" : null,
+        /^[a-zA-Z]{3,12}$/.test(value)
+          ? null
+          : "Please enter first name and it should be between 3 to 12 characters",
       lastName: (value) =>
-        value?.length < 1 ? "Please enter last name" : null,
+        /^[a-zA-Z]{3,12}$/.test(value)
+          ? null
+          : "Please enter last name and it should be between 3 to 12 characters",
+
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+
       password: (value) =>
-        value?.length < 8 ? "Password must at least have 8 characters" : null,
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+          value
+        )
+          ? null
+          : "8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character",
       phone: (value) =>
         value?.length < 8 ? "Please enter phone number" : null,
       confirmPassword: (value, values) =>
@@ -111,20 +121,27 @@ export const AddUser = () => {
             />
           </Grid.Col>
         </Grid>
-        <InputField
-          label="Email"
-          required={true}
-          placeholder="xyz@gmail.com"
-          form={form}
-          validateName="email"
-        />
-        <InputField
-          label="Phone Number"
-          required={true}
-          placeholder="+123456789"
-          form={form}
-          validateName="phoneNumber"
-        />
+        <Grid>
+          <Grid.Col sm={6}>
+            <InputField
+              label="Email"
+              required={true}
+              placeholder="xyz@gmail.com"
+              form={form}
+              validateName="email"
+            />
+          </Grid.Col>
+          <Grid.Col sm={6}>
+            <InputField
+              label="Phone Number"
+              required={true}
+              placeholder="+123456789"
+              form={form}
+              validateName="phone"
+            />
+          </Grid.Col>
+        </Grid>
+
         <PassInput
           label="Password"
           required={true}

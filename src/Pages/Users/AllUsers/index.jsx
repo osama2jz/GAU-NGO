@@ -33,6 +33,8 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
+import EditUserModal from "./EditUserModal";
+import EditModal from "../../../Components/EditModal/editModal";
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -227,6 +229,14 @@ export const AllUser = () => {
        {/* <ViewUser id={viewModalData}/> */}
        <ViewUserModal id={viewModalData}/>
       </ViewModal>
+      <EditModal
+      opened={openEditModal}
+      setOpened={setOpenEditModal}
+      title="Edit User Details">
+        
+        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal}/>
+      </EditModal>
+      
     </Container>
   );
 };

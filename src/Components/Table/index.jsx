@@ -150,9 +150,10 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               setEditModalState(true);
-                              setEditData(row);
+                              setViewModalData(row.id);
+                              // setEditData(row);
                               navigate();
-                              setOpened(true);
+                              // setOpened(true);
                             }}
                           >
                             {head.edit}
