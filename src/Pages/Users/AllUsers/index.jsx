@@ -1,15 +1,5 @@
 import {
-  Card,
-  Center,
-  Container,
-  Flex,
-  Grid,
-  Group,
-  Image,
-  Text,
-  Divider,
-  Avatar,
-  SimpleGrid,
+  Container, Grid
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -18,23 +8,22 @@ import { useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
-import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
+import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
-import ViewModal from "../../../Components/ViewModal/viewUser";
 import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
-import ContainerHeader from "../../../Components/ContainerHeader";
 import Table from "../../../Components/Table";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
-import EditUserModal from "./EditUserModal";
-import EditModal from "../../../Components/EditModal/editModal";
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -168,10 +157,10 @@ export const AllUser = () => {
     return <Loader />;
   }
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl"> 
       <ContainerHeader label={"View Users"} />
 
-      <Container p={"xs"} className={classes.innerContainer}>
+      <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
             <InputField placeholder="Search" leftIcon="search" pb="0" />

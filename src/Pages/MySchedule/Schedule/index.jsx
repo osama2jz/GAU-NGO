@@ -15,9 +15,9 @@ const MySchedule = () => {
     { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
   ];
   return (
-    <Container className={classes.main}>
+    <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"My Schedule"} />
-      <Container className={classes.cal} mb="lg" mt="md">
+      <Container className={classes.cal} mb="lg" mt="md" >
         <CalendarDate />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">

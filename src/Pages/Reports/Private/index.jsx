@@ -125,9 +125,9 @@ function PrivateReport() {
     },
   ];
   return (
-    <Container className={classes.main}>
+    <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"Private"} />
-      <Container p={"xs"} className={classes.innerContainer}>
+      <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
             <InputField placeholder="Search" leftIcon="search" pb="0" />

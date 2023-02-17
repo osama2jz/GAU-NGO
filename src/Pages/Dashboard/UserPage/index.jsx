@@ -1,39 +1,22 @@
-import { useContext, useState } from "react";
-import userlogo from "../../../assets/teacher.png";
-import ViewModal from "../../../Components/ViewModal/viewUser";
-import {
-  Anchor,
-  Container,
-  SimpleGrid,
-  Avatar,
-  Flex,
-  Grid,
-  Text,
-  Badge,
-} from "@mantine/core";
-import { useStyles } from "./styles";
-import Card from "../Card";
-import Table from "../../../Components/Table";
-import {
-  ArrowNarrowLeft,
-  Checks,
-  Edit,
-  Eye,
-  Plus,
-  Trash,
-} from "tabler-icons-react";
-import { useNavigate } from "react-router";
-import { useMutation, useQuery } from "react-query";
-import { backendUrl } from "../../../constants/constants";
-import Pagination from "../../../Components/Pagination";
-import axios from "axios";
-import { UserContext } from "../../../contexts/UserContext";
-import moment from "moment";
+import { Anchor, Container, Flex, Grid, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import EditModal from "../../../Components/EditModal/editModal";
-import EditUserModal from "../../Users/AllUsers/EditUserModal"
-import ViewUserModal from "../../Users/AllUsers/ViewUserModal"
+import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router";
+import { ArrowNarrowLeft, Checks, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
+import EditModal from "../../../Components/EditModal/editModal";
+import Pagination from "../../../Components/Pagination";
+import Table from "../../../Components/Table";
+import ViewModal from "../../../Components/ViewModal/viewUser";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import EditUserModal from "../../Users/AllUsers/EditUserModal";
+import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
+import Card from "../Card";
+import { useStyles } from "./styles";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -45,25 +28,20 @@ const UserPage = (props) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
   const [deleteID, setDeleteID] = useState("");
-  const [viewModalData,setViewModalData]=useState()
+  const [viewModalData, setViewModalData] = useState();
   const [url, setUrl] = useState(`/api/ngo/listNGOUsers/user/${activePage}/10`);
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
-
-  console.log("url",url)
 
   //API call for fetching all users
   const { data, status } = useQuery(
     "fetchUser",
     () => {
-      return axios.get(
-        `${backendUrl+url}`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.get(`${backendUrl + url}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -181,11 +159,11 @@ const UserPage = (props) => {
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
-      url:"api/ngo/listNGOVerifiedUsers"
+      url: "api/ngo/listNGOVerifiedUsers",
     },
     {
       title: "UNVERIFIED",
-      value:30,
+      value: 30,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
@@ -213,7 +191,7 @@ const UserPage = (props) => {
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} setUrl={setUrl} url={url}/>
+            <Card data={item} setUrl={setUrl} url={url} />
           </Grid.Col>
         ))}
       </Grid>
@@ -228,14 +206,15 @@ const UserPage = (props) => {
           setStatusChangeId={setStatusChangeId}
           setDeleteData={setDeleteID}
           setViewModalData={setViewModalData}
-          
         />
-        <Pagination
-          activePage={activePage}
-          setPage={setPage}
-          total={totalPages}
-          radius="xl"
-        />
+        {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
+          />
+        )}
       </Container>
       <DeleteModal
         opened={openDeleteModal}
@@ -250,15 +229,14 @@ const UserPage = (props) => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-       
-       <ViewUserModal id={viewModalData}/>
+        <ViewUserModal id={viewModalData} />
       </ViewModal>
       <EditModal
-      opened={openEditModal}
-      setOpened={setOpenEditModal}
-      title="Edit User Details">
-        
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal}/>
+        opened={openEditModal}
+        setOpened={setOpenEditModal}
+        title="Edit User Details"
+      >
+        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
       </EditModal>
     </Container>
   );
