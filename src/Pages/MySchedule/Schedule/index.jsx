@@ -51,7 +51,7 @@ const MySchedule = () => {
     }
   );
   return (
-    <Container className={classes.main}>
+    <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"My Schedule"} />
       <Container className={classes.cal} mb="lg" mt="md">
         <CalendarDate setDate={setDate} getSchedule={getSchedule} />

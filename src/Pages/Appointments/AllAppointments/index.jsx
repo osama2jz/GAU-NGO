@@ -126,7 +126,7 @@ function AllAppointments() {
       >
         <ContainerHeader label={"View Appointments"} />
       </Flex>
-      <Container p={"xs"} className={classes.innerContainer}>
+      <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
             <InputField placeholder="Search" leftIcon="search" pb="0" />

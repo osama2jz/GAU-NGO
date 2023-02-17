@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
   header: {
     display: "flex",
     color: "white",
-    padding: "0px 30px",
+    padding: "0px 10px",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
@@ -84,9 +84,9 @@ const Index = ({}) => {
         className={classes.headerSub}
       >
         <MediaQuery
-          smallerthan="md"
+          query="(max-width: 650px)"
           styles={{
-            display: "md",
+            display: "none",
           }}
         >
           <Container
@@ -124,7 +124,7 @@ const Index = ({}) => {
               <Group spacing={7} noWrap>
                 <Avatar src={user.img} radius="xl" size={30} />
                 <MediaQuery
-                  smallerthan="sm"
+                  query="(max-width: 650px)"
                   styles={{
                     display: "none",
                   }}
@@ -155,7 +155,13 @@ const Index = ({}) => {
                 <Text>Settings</Text>
               </Flex>
             </Menu.Item>
-            <Menu.Item color="red">
+            <Menu.Item
+              color="red"
+              onClick={() => {
+                localStorage.removeItem("userData");
+                navigate(routeNames.general.login)
+              }}
+            >
               <Flex gap={"md"}>
                 <Power />
                 Logout

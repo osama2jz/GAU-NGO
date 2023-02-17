@@ -23,8 +23,8 @@ export const socialSideBarData = [
         icon: UserPlus,
         link: routeNames.socialWorker.addUser,
       },
-      { label: "View Users", link: routeNames.socialWorker.allUsers },
       { label: "Verify User", link: routeNames.socialWorker.userVerification },
+      { label: "View Users", link: routeNames.socialWorker.allUsers },
     ],
   },
   {

@@ -55,7 +55,7 @@ const Layout = () => {
       }
       footer={<></>}
       header={
-        <Header height={{ base: 55, md: 60, sm: 80 }} bg={theme.colors.primary}>
+        <Header height={{ base: 60, md: 60, sm: 65 }} bg={theme.colors.primary}>
           <Group noWrap>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <Burger
@@ -71,7 +71,7 @@ const Layout = () => {
         </Header>
       }
     >
-      <Container mt={"md"} mih="100%" size="lg">
+      <Container mt={"md"} mih="100%" size="xl">
         {user?.role && user?.token ? (
           <Outlet />
         ) : (
