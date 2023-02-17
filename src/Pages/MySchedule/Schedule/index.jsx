@@ -36,7 +36,6 @@ const MySchedule = () => {
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          console.log(obj);
           let user = {
             id: ind + 1,
             title: obj.NGOName,
