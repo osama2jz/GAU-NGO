@@ -16,7 +16,7 @@ const Loader = ({minHeight="84vh"}) => {
         display:'flex',
         width:'100%',
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
       }}
       size="xl"
     >

@@ -1,44 +1,88 @@
-import { Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import { Container, Flex, Grid, Group, SimpleGrid, Text } from "@mantine/core";
 import { useStyles } from "./styles";
 import ScheduleCard from "../../../Components/ScheduleCard";
 import CalendarDate from "../../../Components/Calendar";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
+import moment from "moment";
 
 const MySchedule = () => {
   const { classes } = useStyles();
-  const a = [
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-    { title: "BRANCH 1", time: "8:00 am - 12:00 pm", user: "3", meeting: "15" },
-  ];
+  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const { user } = useContext(UserContext);
+  const [scheduleData, setScheduleData] = useState([]);
+
+  useEffect(() => {
+    getSchedule.mutate(date);
+  }, []);
+
+  const getSchedule = useMutation(
+    (date) => {
+      return axios.post(
+        `${backendUrl + "/api/schedule/listSchedule"}`,
+        { date: date },
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          console.log(obj);
+          let user = {
+            id: ind + 1,
+            title: obj.NGOName,
+            branch: obj.branchName,
+            startTime: obj.timeStart,
+            endTime: obj.timeEnd,
+          };
+          return user;
+        });
+        setScheduleData(data);
+      },
+    }
+  );
   return (
     <Container className={classes.main}>
       <ContainerHeader label={"My Schedule"} />
       <Container className={classes.cal} mb="lg" mt="md">
-        <CalendarDate />
+        <CalendarDate setDate={setDate} getSchedule={getSchedule} />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
-        Today's Schedule
+        {moment(date).format("DD MMMM")} Schedule
       </Text>
-      <Container mt="md">
-        <SimpleGrid
-          breakpoints={[
-            { minWidth: "md", cols: 2 },
-            { minWidth: "lg", cols: 3 },
-            { minWidth: "xs", cols: 1 },
-          ]}
-          spacing="xl"
-        >
-          {a.map((item, index) => (
-            <Flex justify={"center"}>
-              <ScheduleCard data={item} />
-            </Flex>
-          ))}
-        </SimpleGrid>
-      </Container>
+      {getSchedule.status === "loading" ? (
+        <Loader minHeight="100px" />
+      ) : scheduleData.length > 0 ? (
+        <Container mt="md">
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "lg", cols: 3 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+            spacing="xl"
+          >
+            {scheduleData.map((item, index) => (
+              <Flex justify={"center"}>
+                <ScheduleCard data={item} />
+              </Flex>
+            ))}
+          </SimpleGrid>
+        </Container>
+      ) : (
+        <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
+          No Duties Assigned
+        </Text>
+      )}
     </Container>
   );
 };
