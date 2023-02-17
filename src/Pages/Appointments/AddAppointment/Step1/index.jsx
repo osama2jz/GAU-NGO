@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
@@ -19,13 +19,21 @@ import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
+import Button from "../../../../Components/Button";
 
 const Step1 = ({ setSelectedUser, setSelectedCase }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
+  const [faceID, setFaceId] = useState({});
   const [newCase, setNewCase] = useState("");
   const [userData, setUserData] = useState([]);
+
+  let faceio = new faceIO("fioa89bd");
+
+  useEffect(() => {
+    faceio = new faceIO("fioa89bd");
+  }, [faceio]);
 
   //all users
   const { data: users, status } = useQuery(
@@ -85,6 +93,21 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
     </div>
   );
 
+  const handleVerifyID = async () => {
+    try {
+      faceio
+        .authenticate({
+          locale: "auto", // Default user locale
+        })
+        .then((userData) => {
+          console.log("Success: " + JSON.stringify(userData.payload));
+          setFaceId(userData.payload);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   if (status === "loading") {
     return <Loader />;
   }
@@ -94,47 +117,66 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
       <Text fz={20} fw="bolder" align="center">
         Select User
       </Text>
-      <SelectMenu
-        searchable={true}
-        itemComponent={SelectItem}
-        placeholder="Enter User name or Id"
-        clearable={true}
-        setData={setUser}
-        value={user || selectedUser?.data?.data?._id}
-        label="Search User"
-        data={userData}
-      />
-      <Grid align={"center"}>
-        <Grid.Col md={"5"}>
+      <Grid align={"flex-end"}>
+        <Grid.Col md={"6"}>
           <SelectMenu
             searchable={true}
-            placeholder="Enter case name or id"
-            label="Search User Case"
-            creatable={true}
-            setData={setSelectedCase}
-            disabled={newCase.length > 0}
-            data={[
-              { label: "verified", value: "Personal" },
-              { label: "Pending", value: "Wealth" },
-              { label: "Pending", value: "Divorce" },
-            ]}
+            itemComponent={SelectItem}
+            placeholder="Enter User name or Id"
+            clearable={true}
+            setData={setUser}
+            value={selectedUser?.data?.data?._id}
+            label="Search User"
+            data={userData}
           />
         </Grid.Col>
-        <Grid.Col md="2">
-          <Divider label="OR" labelPosition="center" color={"black"} mt="lg" />
-        </Grid.Col>
-        <Grid.Col md="5">
-          <InputField
-            label={"Create New Case"}
-            placeholder="Enter case name"
-            pb="0px"
-            onChange={(v) => {
-              setNewCase(v.target.value);
-              setSelectedCase(v.target.value);
-            }}
+        <Grid.Col md={"6"}>
+          <Button
+            label={"Verify Face ID"}
+            leftIcon="faceid"
+            styles={{ width: "100%", fontSize: "24px", height: "42px" }}
+            onClick={handleVerifyID}
           />
         </Grid.Col>
       </Grid>
+      {user === faceID?.whoami && (
+        <Grid align={"center"}>
+          <Grid.Col md={"5"}>
+            <SelectMenu
+              searchable={true}
+              placeholder="Enter case name or id"
+              label="Search User Case"
+              creatable={true}
+              setData={setSelectedCase}
+              disabled={newCase.length > 0}
+              data={[
+                { label: "verified", value: "Personal" },
+                { label: "Pending", value: "Wealth" },
+                { label: "Pending", value: "Divorce" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col md="2">
+            <Divider
+              label="OR"
+              labelPosition="center"
+              color={"black"}
+              mt="lg"
+            />
+          </Grid.Col>
+          <Grid.Col md="5">
+            <InputField
+              label={"Create New Case"}
+              placeholder="Enter case name"
+              pb="0px"
+              onChange={(v) => {
+                setNewCase(v.target.value);
+                setSelectedCase(v.target.value);
+              }}
+            />
+          </Grid.Col>
+        </Grid>
+      )}
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (
