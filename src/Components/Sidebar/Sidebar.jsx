@@ -31,7 +31,7 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     backgroundColor: theme.colors.primary,
-    margin: "15px",
+    margin: "5px",
     borderRadius: "10px",
   },
 
@@ -61,7 +61,15 @@ export function SideBar({ sideBarLinks, setOpened }) {
       setSideOpen={setOpened}
     />
   ));
-  const bottoms = bottom.map((item, ind) => <LinksGroup {...item} key={ind} setSideOpen={setOpened} setGlobalOpen={setGlobalOpen}/>);
+  const bottoms = bottom.map((item, ind) => (
+    <LinksGroup
+      {...item}
+      key={ind}
+      setSideOpen={setOpened}
+      setGlobalOpen={setGlobalOpen}
+      globalOpen={globalOpen}
+    />
+  ));
 
   return (
     <Navbar width={{ sm: 320 }} p="md" className={classes.navbar}>

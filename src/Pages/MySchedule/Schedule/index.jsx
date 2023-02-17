@@ -52,6 +52,7 @@ const MySchedule = () => {
   return (
     <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"My Schedule"} />
+      <Text align="center">Select date from the calender to view Schedule</Text>
       <Container className={classes.cal} mb="lg" mt="md">
         <CalendarDate setDate={setDate} getSchedule={getSchedule} />
       </Container>

@@ -4,6 +4,7 @@ import moment from "moment/moment";
 
 const CalendarDate = ({ setDate, getSchedule }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
+  console.log(moment(new Date().setMonth(new Date().getMonth()+1)).endOf("month").format("DD MMMM YYYY"));
   return (
     <Calendar
       value={calenderValue}
@@ -12,7 +13,8 @@ const CalendarDate = ({ setDate, getSchedule }) => {
         setDate(moment(v).format("YYYY-MM-DD"));
         getSchedule.mutate(moment(v).format("YYYY-MM-DD"));
       }}
-      // month={value}
+      minDate={new Date(new Date().setDate(new Date().getMonth()))}
+      maxDate={new Date(new Date().setMonth(new Date().getMonth()+2, 0))}
       fullWidth
       size="md"
       styles={(theme) => ({

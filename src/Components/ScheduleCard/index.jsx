@@ -5,7 +5,6 @@ import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
 const Cards = ({ data }) => {
   const { classes } = useStyles();
-  console.log(data);
   return (
     <Card
       withBorder

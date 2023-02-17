@@ -12,13 +12,13 @@ import { ChevronLeft, ChevronRight } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 
 const useStyles = createStyles((theme) => ({
-  control: {
+  mainLink: {
     fontWeight: 500,
     display: "block",
     width: "100%",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.lg,
 
     "&:hover": {
       backgroundColor: "rgba(86, 92, 154, 1)",
@@ -74,10 +74,10 @@ export function LinksGroup({
       component={Link}
       className={classes.link}
       to={link.link}
-      onClick={()=>setSideOpen(false)}
+      onClick={() => setSideOpen(false)}
       key={link.label}
       bg={
-        location?.pathname === link.link && link.label === globalOpen
+        location?.pathname === link.link && label === globalOpen
           ? "rgba(86, 92, 154, 1)"
           : ""
       }
@@ -92,13 +92,13 @@ export function LinksGroup({
         onClick={() => {
           setOpened((o) => !o);
           setGlobalOpen(label);
-          link && setSideOpen(false)
-          navigate(link)
-          if(label==="Log Out"){
+          link && setSideOpen(false);
+          navigate(link);
+          if (label === "Log Out") {
             localStorage.removeItem("userData");
           }
         }}
-        className={classes.control}
+        className={classes.mainLink}
         bg={
           location?.pathname === link && label === globalOpen
             ? "rgba(86, 92, 154, 1)"

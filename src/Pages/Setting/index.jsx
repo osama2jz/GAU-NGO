@@ -57,10 +57,10 @@ export const Setting = () => {
     );
   });
   return (
-    <Container className={classes.main} size="lg">
+    <Container className={classes.main} size="xl">
       <ContainerHeader label={"Settings"} />
 
-      <Container className={classes.container} p={30} shadow="sm" mt="sm">
+      <Container className={classes.container} p={30} shadow="sm" mt="sm" size={"xl"}>
         <form
           onSubmit={form.onSubmit((values) => console.log("value", values))}
         >

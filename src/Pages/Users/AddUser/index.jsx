@@ -1,30 +1,20 @@
-import {
-  Anchor,
-  Container,
-  Flex,
-  Grid,
-  Group,
-  Image,
-  Text,
-} from "@mantine/core";
+import { Anchor, Container, Grid, Group, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useContext, useState } from "react";
-import Button from "../../../Components/Button";
-import InputField from "../../../Components/InputField";
-import PassInput from "../../../Components/PassInput";
-import { useStyles } from "./styles";
-import User from "../../../assets/add-user.png";
-import SubmitModal from "./SubmitEmail";
-import { axiosPost } from "../../../axios/axios";
-import { useNavigate } from "react-router-dom";
-import routeNames from "../../../Routes/routeNames";
 import { showNotification } from "@mantine/notifications";
-import { useMutation } from "react-query";
-import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
-import { backendUrl } from "../../../constants/constants";
-import Loader from "../../../Components/Loader";
+import { useContext, useState } from "react";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import InputField from "../../../Components/InputField";
+import Loader from "../../../Components/Loader";
+import PassInput from "../../../Components/PassInput";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
+import { useStyles } from "./styles";
+import SubmitModal from "./SubmitEmail";
 
 export const AddUser = () => {
   const { classes } = useStyles();
@@ -46,13 +36,13 @@ export const AddUser = () => {
 
     validate: {
       firstName: (value) =>
-        /^[a-zA-Z]{3,12}$/.test(value)
+        /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 3 to 12 characters.",
+          : "Please enter first name between 2 to 15 characters.",
       lastName: (value) =>
-        /^[a-zA-Z]{3,12}$/.test(value)
+        /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 3 to 12 characters",
+          : "Please enter last name between 2 to 15 characters",
 
       email: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
@@ -80,23 +70,21 @@ export const AddUser = () => {
     },
     {
       onSuccess: (response) => {
-       
-        if(response.data.status ){
-        showNotification({
-          title: "User Added",
-          message: "New User added Successfully!",
-          color: "green",
-        });
-        navigate(routeNames.socialWorker.allUsers);
-      }
-      else{
-        showNotification({
-          title: "Failed",
-          message: response?.data?.message,
-          color: "red",
-        });
-      }
-    }
+        if (response.data.status) {
+          showNotification({
+            title: "User Added",
+            message: "New User added Successfully!",
+            color: "green",
+          });
+          navigate(routeNames.socialWorker.allUsers);
+        } else {
+          showNotification({
+            title: "Failed",
+            message: response?.data?.message,
+            color: "red",
+          });
+        }
+      },
     }
   );
 
@@ -104,7 +92,7 @@ export const AddUser = () => {
     return <Loader />;
   }
 
-  if(handleAddUser.isError){
+  if (handleAddUser.isError) {
     showNotification({
       title: "Error",
       message: "Something went wrong",

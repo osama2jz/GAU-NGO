@@ -22,9 +22,8 @@ const Layout = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
 
-  return (
+  return user?.role && user?.token ? (
     <AppShell
       styles={{
         main: {
@@ -72,13 +71,11 @@ const Layout = () => {
       }
     >
       <Container mt={"md"} mih="100%" size="xl">
-        {user?.role && user?.token ? (
-          <Outlet />
-        ) : (
-          <Navigate to={routeNames.general.login} />
-        )}
+        <Outlet />
       </Container>
     </AppShell>
+  ) : (
+    <Navigate to={routeNames.general.login} />
   );
 };
 export default Layout;
