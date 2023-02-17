@@ -10,17 +10,19 @@ import {
   Container,
 } from "@mantine/core";
 import { useContext, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, redirect, useNavigate } from "react-router-dom";
 import { SideBar } from "../Components/Sidebar/Sidebar";
 import Topbar from "../Components/Header/index";
 import { socialSideBarData } from "../Components/Sidebar/SocialWorkerData";
 import { UserContext } from "../contexts/UserContext";
 import { psychSideBarData } from "../Components/Sidebar/PsychologistData";
+import routeNames from "../Routes/routeNames";
 
 const Layout = () => {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   return (
     <AppShell
@@ -70,7 +72,11 @@ const Layout = () => {
       }
     >
       <Container mt={"md"} mih="100%" size="lg">
-        <Outlet />
+        {user?.role && user?.token ? (
+          <Outlet />
+        ) : (
+          <Navigate to={routeNames.general.login} />
+        )}
       </Container>
     </AppShell>
   );

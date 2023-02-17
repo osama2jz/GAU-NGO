@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
   header: {
     display: "flex",
     color: "white",
-    padding: '0px 30px',
+    padding: "0px 30px",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
@@ -39,9 +39,9 @@ const useStyles = createStyles((theme) => ({
     gap: "5px",
     fontWeight: "600",
     fontSize: "30px",
-    ':hover':{
-        cursor:'pointer'
-    }
+    ":hover": {
+      cursor: "pointer",
+    },
   },
 
   user: {
@@ -70,7 +70,10 @@ const Index = ({}) => {
 
   return (
     <Container fluid className={classes.header}>
-      <Text className={classes.logo} onClick={()=>navigate(routeNames.socialWorker.dashboard)}>
+      <Text
+        className={classes.logo}
+        onClick={() => navigate(routeNames.socialWorker.dashboard)}
+      >
         <img src={logo} alt="logo" width={"35px"} />
         GAU
       </Text>
@@ -83,7 +86,7 @@ const Index = ({}) => {
         <MediaQuery
           smallerthan="md"
           styles={{
-            display: "none",
+            display: "md",
           }}
         >
           <Container
@@ -134,7 +137,6 @@ const Index = ({}) => {
                         lineHeight: 1,
                       }}
                       mr={3}
-                      noWrap
                     >
                       {user.name}
                     </Text>

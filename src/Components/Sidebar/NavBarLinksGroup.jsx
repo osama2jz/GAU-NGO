@@ -95,7 +95,6 @@ export function LinksGroup({
           link && setSideOpen(false)
           navigate(link)
           if(label==="Log Out"){
-            console.log("logout")
             localStorage.removeItem("userData");
           }
         }}

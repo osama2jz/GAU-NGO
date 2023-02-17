@@ -1,29 +1,29 @@
+import { NotificationsProvider } from "@mantine/notifications";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
 import GeneralLayout from "./Layout/General";
-import Dashboard from "./Pages/Dashboard";
-import { AddUser } from "./Pages/Users/AddUser";
-import { AllUser } from "./Pages/Users/AllUsers";
-import routeNames from "./Routes/routeNames";
-import { ScheduleUser } from "./Pages/UserVerification/Schedule";
-import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
+import AddAppointment from "./Pages/Appointments/AddAppointment";
 import AllAppointments from "./Pages/Appointments/AllAppointments";
 import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
-import Settings from "./Pages/Setting";
-import { UserVerification } from "./Pages/Users/UserVerification";
-import VerificationScheduled from "./Pages/Users/VerificationScheduled";
-import UserPageDashboard from "./Pages/Dashboard/UserPage";
+import Dashboard from "./Pages/Dashboard";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
+import UserPageDashboard from "./Pages/Dashboard/UserPage";
+import Login from "./Pages/Login";
 import MySchedule from "./Pages/MySchedule/Schedule";
-import AddAppointment from "./Pages/Appointments/AddAppointment";
 import PrivateReport from "./Pages/Reports/Private";
 import PublicReport from "./Pages/Reports/Public";
 import ReferalReport from "./Pages/Reports/Referal";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { NotificationsProvider } from "@mantine/notifications";
-import Login from "./Pages/Login";
+import Settings from "./Pages/Setting";
+import { AddUser } from "./Pages/Users/AddUser";
+import { AllUser } from "./Pages/Users/AllUsers";
+import { UserVerification } from "./Pages/Users/UserVerification";
+import VerificationScheduled from "./Pages/Users/VerificationScheduled";
+import { ScheduleUser } from "./Pages/UserVerification/Schedule";
+import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
+import routeNames from "./Routes/routeNames";
 
 function App() {
   const queryClient = new QueryClient();
@@ -120,6 +120,10 @@ function App() {
               element={<AddAppointment />}
             />
           </Route>
+          <Route
+            path="*"
+            element={<Navigate to={routeNames.general.login} />}
+          />
         </Routes>
       </QueryClientProvider>
     </NotificationsProvider>

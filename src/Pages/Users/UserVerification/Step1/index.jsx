@@ -17,25 +17,20 @@ export const Step1 = ({ user, setUser }) => {
   const { classes } = useStyles();
   const { id } = useParams();
   const [userData, setUserData] = useState([]);
-  // const [selctedId, setSelectedId] = useState("");
   const matches = useMediaQuery("(min-width: 600px)");
 
-
   const { user: usertoken } = useContext(UserContext);
-  let faceio;
+  let faceio = new faceIO("fioa89bd");
 
   useEffect(() => {
-    faceio = new faceIO("fioae1c0");
-    console.log("asdad", faceio);
-  }, []);
+    faceio = new faceIO("fioa89bd");
+  }, [faceio]);
 
   useEffect(() => {
     if (id) {
-      // setSelectedId(id);
       setUser(id);
     }
   }, [id]);
-
 
   const { data: users, status } = useQuery(
     "fetchVerified",
@@ -60,18 +55,18 @@ export const Step1 = ({ user, setUser }) => {
       },
     }
   );
-
+  
   const handleVerifyID = async () => {
     try {
       let response = await faceio.enroll({
         locale: "auto",
         payload: {
-          email: "example@gmail.com",
-          pin: "12345",
+          whoami: user,
+          email: userData.filter((obj)=>obj.value == user)[0]?.email,
         },
       });
-
-      console.log(` Unique Facial ID: ${response.facialId}
+      console.log(`User Successfully Enrolled! Details:
+      Unique Facial ID: ${response.facialId}
       Enrollment Date: ${response.timestamp}
       Gender: ${response.details.gender}
       Age Approximation: ${response.details.age}`);
@@ -98,7 +93,7 @@ export const Step1 = ({ user, setUser }) => {
     <Container>
       <Container
         size="xl"
-        w={matches?"500px":'auto'}
+        w={matches ? "500px" : "auto"}
         p="0px"
         className={classes.userInput}
         mt={50}
