@@ -11,6 +11,7 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -128,9 +129,17 @@ const Table = ({
                       <Flex justify="center" gap={"sm"}>
                         {head.verify && (
                           <ActionIcon
-                            onClick={() =>
-                              navigate(`/userVerification/${row.id}`)
-                            }
+                            onClick={() => {
+                              if (row.accStatus === "active") {
+                                navigate(`/userVerification/${row.id}`);
+                              } else {
+                                showNotification({
+                                  title: "User is not verified",
+                                  message: "Please verify user first",
+                                  color: "red",
+                                });
+                              }
+                            }}
                             disabled={row.status !== "unverified"}
                           >
                             {row.status === "unverified" ? head.verify : ""}
@@ -140,8 +149,6 @@ const Table = ({
                           onClick={() => {
                             setViewModalState(true);
                             setViewModalData(row.id);
-                            
-                            
                           }}
                         >
                           {head.view}

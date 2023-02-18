@@ -46,15 +46,15 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
         onSubmit={form.onSubmit(AddWorkExperience)}
       >
         <InputField
-          label="Stand"
-          placeholder="stand"
+          label="Position"
+          placeholder="position"
           form={form}
           validateName="stand"
         />
         <InputField
-          label="Contract"
+          label="Job Type"
           required={true}
-          placeholder="contract"
+          placeholder="job type"
           form={form}
           validateName="contract"
         />

@@ -7,7 +7,7 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useStyles } from "./styles";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
@@ -28,6 +28,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import { useForm } from "@mantine/form";
+import moment from "moment";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -38,30 +39,46 @@ export const UserVerification = () => {
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
   const [refrences, setRefrences] = useState([]);
-  const [consentSignature, setConsentSignature] = useState([]);
-  const [agreementSignature, setAgreementSignature] = useState([]);
+  const [consentSignature, setConsentSignature] = useState(false);
+  const [agreementSignature, setAgreementSignature] = useState(false);
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
-
-  //   const { data, status } = useQuery(
-  //   "fetchUserbyId",
-  //   () => {
-  //     return axios.get(`${backendUrl + `/api/user/listSingleUser/${userid}`}`, {
-  //       headers: {
-  //         "x-access-token": user.token,
-  //       },
-  //     });
-  //   },
-  //   {
-  //     onSuccess: (response) => {
-  //       setUserData(response.data.data);
-  //       // console.log("data", response.data.data);
-  //     },
-  //   }
-  // );
+  console.log(userid);
 
   const handleNextSubmit = () => {
-    active < 3 ? setActive(active + 1) : handleVerifyUser.mutate();
+    if (active ==0) {
+      if(userid){
+        setActive(active + 1);
+      }else{
+        showNotification({
+          title: "Error",
+          message: "Please select a user",
+          color: "red",
+        })
+      }
+    } else if (active == 2) {
+      if(consentSignature){
+        setActive(active + 1);
+      }else{
+        showNotification({
+          title: "Error",
+          message: "Please sign the consent form",
+          color: "red",
+        })
+      }
+    } else if (active == 3) {
+      if(agreementSignature){
+        setActive(active + 1);
+        handleVerifyUser.mutate();
+      }else{
+        showNotification({
+          title: "Error",
+          message: "Please check the User Agreement",
+          color: "red",
+        })
+      }
+     
+    }
   };
 
   const handleVerifyUser = useMutation(
@@ -141,13 +158,16 @@ export const UserVerification = () => {
       },
     }
   );
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
       firstName: "",
       lastName: "",
-      age: "",
+      phoneNumber:"",
+      email:"",
       dateOfBirth: "",
+      age: "",
       passport: "",
       nationality: "",
       origin: "",
@@ -175,7 +195,7 @@ export const UserVerification = () => {
     validate: {
       dateOfBirth: (value) =>
         value.length < 1 ? "Please enter your date of Birth" : null,
-      age: (value) => (value.length < 1 ? "Please enter your Age" : null),
+      // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
       passport: (value) => (value.length < 1 ? "Please enter passport" : null),
       nationality: (value) =>
         value.length < 1 ? "Please enter nationality" : null,
@@ -207,6 +227,12 @@ export const UserVerification = () => {
       social: (value) => (value.length < 1 ? "Please enter social year" : null),
     },
   });
+  useEffect(() => {
+    form.setFieldValue(
+      "age",
+      moment(moment()).diff(form.values.dateOfBirth, "years")
+    );
+  }, [form.values.dateOfBirth]);
   return (
     <Container className={classes.userVerification} size="lg">
       <ContainerHeader label={"User Verification"} />
@@ -246,6 +272,7 @@ export const UserVerification = () => {
             setRefrences={setRefrences}
             userdata={userdata}
             form={form}
+            id={userid}
           />
         </Stepper.Step>
         <Stepper.Step
@@ -292,7 +319,7 @@ export const UserVerification = () => {
         </Stepper.Step> */}
       </Stepper>
       <Group position="center" mt="xl">
-        {active <2 ? (
+        {active < 2 ? (
           ""
         ) : (
           <Button onClick={() => setActive(active - 1)} label="Back" />
@@ -304,7 +331,6 @@ export const UserVerification = () => {
             onClick={handleNextSubmit}
             label={active === 4 ? "Submit" : "Save & Next"}
             primary={true}
-            disabled={!userid}
           />
         )}
       </Group>

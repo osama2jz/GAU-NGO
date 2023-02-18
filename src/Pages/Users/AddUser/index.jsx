@@ -54,7 +54,9 @@ export const AddUser = () => {
           ? null
           : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
       phoneNumber: (value) =>
-        value?.length < 8 ? "Please enter phone number" : null,
+        value?.length < 8 || value?.length > 12
+          ? "Please enter a valid phone number"
+          : null,
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
     },
@@ -140,6 +142,7 @@ export const AddUser = () => {
           </Grid.Col>
           <Grid.Col sm={6}>
             <InputField
+              type="number"
               label="Phone Number"
               required={true}
               placeholder="+123456789"

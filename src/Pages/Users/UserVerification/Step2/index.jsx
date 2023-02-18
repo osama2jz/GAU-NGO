@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Card,
   Container,
@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Text,
   useMantineTheme,
+  Radio 
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Edit, Trash } from "tabler-icons-react";
@@ -20,6 +21,13 @@ import ViewModal from "../../../../Components/ViewModal/viewUser";
 import NewProfessionalModal from "./NewProfessional";
 import NewWorkModal from "./NewWorkExperience";
 import Datepicker from "../../../../Components/Datepicker";
+
+import DeleteModal from "../../../../Components/DeleteModal";
+import { useQuery } from "react-query";
+import axios from "axios";
+
+import { backendUrl } from "../../../../constants/constants";
+import { UserContext } from "../../../../contexts/UserContext";
 export const Step2 = ({
   setActive,
   active,
@@ -31,12 +39,19 @@ export const Step2 = ({
   setRefrences,
   userdata,
   form,
+  id,
 }) => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [deleteID, setDeleteID] = useState("");
+  const { user } = useContext(UserContext);
+const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
+
+  // console.log(id);
+  console.log("id",deleteID)
   let headerData = [
     {
       id: "id",
@@ -87,13 +102,13 @@ export const Step2 = ({
       id: "stand",
       numeric: false,
       disablePadding: true,
-      label: "Stand",
+      label: "Position",
     },
     {
       id: "contract",
       numeric: false,
       disablePadding: true,
-      label: "Contract",
+      label: "Job Type",
     },
     {
       id: "enterprise",
@@ -128,12 +143,32 @@ export const Step2 = ({
     },
   ];
 
-  const deleteRefrences = (id) => {
+  const { data, status } = useQuery(
+    "fetchUserbyId",
+    () => {
+      return axios.get(`${backendUrl + `/api/user/listSingleUser/${id}`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        console.log(response.data.data);
+        form.setFieldValue("email", response.data.data?.email);
+        form.setFieldValue("firstName", response.data.data?.firstName);
+        form.setFieldValue("lastName", response.data.data?.lastName);
+        form.setFieldValue("phoneNumber", response.data.data?.phoneNumber);
+      },
+    }
+  );
+  const handleDeleted = (id) => {
     console.log(id);
-    let a = refrences.filter((item) => item.id !== id);
+    let a = refrences.filter((item) => 
+    console.log(item));
     setRefrences(a);
   };
-  console.log("alldata", alldata);
+
   const submitAll = (values) => {
     setActive(active + 1);
     setAlldata(values);
@@ -160,6 +195,7 @@ export const Step2 = ({
             required={true}
             placeholder="First Name"
             value={alldata?.firstName}
+            disabled={true}
             form={form}
             validateName="firstName"
           />
@@ -167,16 +203,19 @@ export const Step2 = ({
             label="Last Name"
             value={alldata?.lastName}
             required={true}
+            disabled={true}
             placeholder="Last Name"
             form={form}
             validateName="lastName"
           />
+      
           <InputField
-            label="Passport"
+            label="Email "
             required={true}
-            placeholder="FN2342444"
+            placeholder="email@gmail.com"
             form={form}
-            validateName="passport"
+            validateName="email"
+            disabled={true}
           />
           <Datepicker
             label="Date of Birth"
@@ -190,39 +229,70 @@ export const Step2 = ({
             required={true}
             type="number"
             placeholder="age"
+            disabled={true}
             form={form}
             validateName="age"
           />
+           <InputField
+            label="Phone Number"
+            value={alldata?.lastName}
+            required={true}
+            disabled={true}
+            placeholder="phone number"
+            form={form}
+            validateName="phoneNumber"
+          />
           <InputField
+            label="Country"
+            required={true}
+            placeholder="country"
+            form={form}
+            validateName="origin"
+          />
+          <InputField
+            label="City"
+            required={true}
+            placeholder="city"
+            form={form}
+            validateName="muncipality"
+          />
+          <InputField
+            label="Address"
+            required={true}
+            placeholder="address"
+            form={form}
+            validateName="domicile"
+          />
+          
+
+          {/* <InputField
+            label="Passport"
+            required={true}
+            placeholder="FN2342444"
+            form={form}
+            validateName="passport"
+          /> */}
+          {/* <InputField
             label="Nationality"
             required={true}
             placeholder="Pakistani"
             form={form}
             validateName="nationality"
-          />
-          <InputField
-            label="Origin"
-            required={true}
-            placeholder="origin"
-            form={form}
-            validateName="origin"
-          />
-
-          <InputField
-            label="Domicile"
-            required={true}
-            placeholder="domicile"
-            form={form}
-            validateName="domicile"
-          />
-          <InputField
-            label="Muncipality"
-            required={true}
-            placeholder="mucipality"
-            form={form}
-            validateName="muncipality"
-          />
+          /> */}
         </SimpleGrid>
+        <Radio.Group
+      name="favoriteFramework"
+      label="Select Identity"
+      // description="This is anonymous"
+      spacing="xl"
+      offset="xl"
+      withAsterisk
+    >
+      <Radio value="passport" label="Passport" />
+      <Radio value="nationality" label="Nationality" />
+      <Radio value="residence" label="Residence" />
+     
+    </Radio.Group>
 
         {/** Studies and training */}
         <Card mt="sm">
@@ -257,9 +327,9 @@ export const Step2 = ({
               validateName="training"
             />
             <InputField
-              label="Realization Year"
+              label="Completion Year"
               required={true}
-              placeholder="Realization Year"
+              placeholder="Completion Year"
               form={form}
               validateName="realization"
             />
@@ -279,7 +349,7 @@ export const Step2 = ({
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <Table headCells={headerData2} rowData={workExperience} />
+          <Table headCells={headerData2} rowData={workExperience} setDeleteModalState={setOpenDeleteModal} setDeleteData={setDeleteID} />
           <Divider color="#C8C8C8" mt="md" mb="md" />
         </Card>
 
@@ -289,7 +359,30 @@ export const Step2 = ({
             Discrimination And Voilence
           </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <SimpleGrid
+          <Radio.Group
+      name="favoriteFramework"
+      label="Select Identity"
+      // description="This is anonymous"
+      spacing="xl"
+      offset="xl"
+      withAsterisk
+    >
+      <Radio value="passport" label="Labour" />
+      <Radio value="nationality" label="Educational" />
+      <Radio value="residence" label="Institutional" />
+      <Radio value="residence" label="Familiar" />
+      <Radio value="residence" label="Social" />
+     
+
+    </Radio.Group>
+    <Divider color="white" mt="sm" mb="sm" />
+    <TextArea
+            label="Description"
+            form={form}
+            // validateName="healthAspects"
+          />
+
+          {/* <SimpleGrid
             breakpoints={[
               { minWidth: "md", cols: 2 },
               { minWidth: "lg", cols: 3 },
@@ -331,7 +424,7 @@ export const Step2 = ({
               form={form}
               validateName="social"
             />
-          </SimpleGrid>
+          </SimpleGrid> */}
         </Card>
 
         {/* Socio Family */}
@@ -351,9 +444,9 @@ export const Step2 = ({
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 3 },
-              { minWidth: "xs", cols: 1 },
+              { minWidth: "md", cols: 3 },
+              { minWidth: "lg", cols: 5 },
+              { minWidth: "xs", cols: 2 },
             ]}
           >
             <InputField
@@ -378,7 +471,7 @@ export const Step2 = ({
               validateName="aidsBonuses"
             />
             <InputField
-              label="Debt"
+              label="Debit"
               required={true}
               placeholder="debt"
               form={form}
@@ -426,18 +519,20 @@ export const Step2 = ({
           <TextArea form={form} validateName="demand" />
         </Card>
 
-        {/* Tracking */}
-        <Card>
-          <Text className={classes.subHeading}>Tracking</Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <TextArea form={form} validateName="tracking" />
-        </Card>
-
         <Group position="center" mt="xl">
-          <Button onClick={()=>setActive(active - 1)} label="Back" />
+          <Button onClick={() => setActive(active - 1)} label="Back" />
           <Button label={"Save & Next"} primary={true} type="submit" />
         </Group>
+        
       </form>
+      <DeleteModal
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={()=>handleDeleted(deleteID)}
+        label="Are you Sure?"
+        message="Do you really want to delete these records? This process cannot be undone."
+      />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}

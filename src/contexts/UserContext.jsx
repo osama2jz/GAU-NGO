@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
         : "",
     img: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
     token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWRjNTU4OTliNWJiMDAxNDhkNjY1MiIsInVzZXJUeXBlIjoic29jaWFsV29ya2VyIiwiaWF0IjoxNjc2NTc5NjkzLCJleHAiOjE2NzY2NjYwOTN9.9sXAChZhxiE_Uk7p_yTfRyWekYB0s2tcXbr5lGJZ6jU",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWRjNTU4OTliNWJiMDAxNDhkNjY1MiIsInVzZXJUeXBlIjoic29jaWFsV29ya2VyIiwiaWF0IjoxNjc2NzE5NTAyLCJleHAiOjE2NzY4MDU5MDJ9.ggz4tcvWSgPfqLvMRaYHUKAaArPcFSn-LY2jJdWcqFw",
     // token: userData?.token,
   });
   const value = { user, setUser };

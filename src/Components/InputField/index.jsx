@@ -28,6 +28,7 @@ const InputField = ({
  value,
  size = "md",
  validateName,
+ disabled,
 }) => {
  const { classes, cx } = useStyles({ borderWhite });
  return (
@@ -39,6 +40,7 @@ const InputField = ({
    size={size}
    value={value}
    onChange={onChange}
+   disabled={disabled}
    {...form?.getInputProps(validateName)}
    icon={leftIcon ? <img src={new URL(`../../assets/${leftIcon}.svg`, import.meta.url).href} alt="icon" /> : ""}
    classNames={{
