@@ -139,7 +139,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
           />
         </Grid.Col>
       </Grid>
-      {user === faceID?.whoami && (
+      {/* {user === faceID?.whoami && ( */}
         <Grid align={"center"}>
           <Grid.Col md={"5"}>
             <SelectMenu
@@ -176,7 +176,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
             />
           </Grid.Col>
         </Grid>
-      )}
+      {/* )} */}
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (
