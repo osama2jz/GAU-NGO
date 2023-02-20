@@ -12,9 +12,9 @@ import {
   FileInput,
   Stack,
 } from "@mantine/core";
-import { FileUpload } from 'tabler-icons-react';
-import { useForm } from "@mantine/form";
+import { FileUpload } from "tabler-icons-react";
 import { Edit, Trash } from "tabler-icons-react";
+// import S3 from 'react-aws-s3';
 import InputField from "../../../../Components/InputField";
 import Table from "../../../../Components/Table";
 import TextArea from "../../../../Components/TextArea";
@@ -25,13 +25,13 @@ import NewProfessionalModal from "./NewProfessional";
 import NewWorkModal from "./NewWorkExperience";
 import NewTrainingModal from "./NewStudiesTraining";
 import Datepicker from "../../../../Components/Datepicker";
-
 import DeleteModal from "../../../../Components/DeleteModal";
 import { useQuery } from "react-query";
 import axios from "axios";
-
-import { backendUrl } from "../../../../constants/constants";
+// import S3 from "react-aws-s3";
+import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
+
 export const Step2 = ({
   setActive,
   active,
@@ -48,20 +48,15 @@ export const Step2 = ({
   id,
 }) => {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openTrainingModal, setopenTrainingModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const { user } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [value, setValue] = useState(false);
-  const [descrimation,setDescrimation]=useState();
-  // console.log("value", value);
-  console.log("alldata", form.values);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [descrimation, setDescrimation] = useState();
 
-  console.log(id);
-  // console.log("id", deleteID);
   let headerData = [
     {
       id: "id",
@@ -189,7 +184,7 @@ export const Step2 = ({
       disablePadding: true,
       label: "Completion Year",
     },
-    
+
     {
       id: "actions",
       edit: <Edit color="#4069BF" />,
@@ -201,16 +196,19 @@ export const Step2 = ({
   const { data1, status1 } = useQuery(
     "getDescrimination",
     () => {
-      return axios.get(`${backendUrl + `/api/lookup/getLookupByType/discrimination`}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(
+        `${backendUrl + `/api/lookup/getLookupByType/discrimination`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         // console.log("res",response.data.data);
-        setDescrimation(response.data.data)
+        setDescrimation(response.data.data);
       },
     }
   );
@@ -239,10 +237,20 @@ export const Step2 = ({
     setRefrences(a);
   };
 
+  const handleFileInput = (file) => {
+    console.log(file);
+    // setSelectedFile(e.target.files[0]);
+    // const ReactS3Client = new S3(s3Config);
+    // ReactS3Client.uploadFile(file, file.name)
+    //   .then((data) => console.log(data.location))
+    //   .catch((err) => console.error(err));
+  };
+
   const submitAll = (values) => {
     setActive(active + 1);
     setAlldata(values);
   };
+
   return (
     <Container size="lg">
       <form
@@ -342,49 +350,48 @@ export const Step2 = ({
           ]}
         >
           <Radio.Group
-            name="favoriteFramework"
             label="Select Identity"
-            // description="This is anonymous"
             spacing="xl"
             offset="xl"
             withAsterisk
             styles={(theme) => ({
               radio: {
                 size: "100px",
+                backgroundColor: "red",
               },
-              label:{
-                fontSize:"16px"
-              }
+              label: {
+                fontSize: "16px",
+              },
             })}
-            value={value}
-            onChange={setValue}
+            // value={value}
+            // onChange={setValue}
             {...form?.getInputProps("documentType")}
-
           >
-            <Radio value="Passport" label="Passport" checked/>
-            <Radio value="NationalID" label="National ID" />
-            <Radio value="ResidentialID" label="Residential ID" />
+            <Radio value="passport" label="Passport" checked />
+            <Radio value="nationalId" label="National ID" />
+            <Radio value="residentialId" label="Residential ID" />
           </Radio.Group>
-          <Stack>
-            <FileInput
-              label="Upload Document"
-              placeholder="Upload Document"
-              styles={(theme) => ({
-                input: {
-                  border: "1px solid rgb(0, 0, 0, 0.1)",
-                  borderRadius: "5px",
-                },
-              })}
-              icon={<FileUpload size={20} />}
-            />
-            <Button label={"Upload"} primary={true} />
-          </Stack>
+          {/* <Stack> */}
+          <FileInput
+            label="Upload Document"
+            placeholder="Upload Document"
+            styles={(theme) => ({
+              input: {
+                border: "1px solid rgb(0, 0, 0, 0.1)",
+                borderRadius: "5px",
+              },
+            })}
+            icon={<FileUpload size={20} />}
+            onChange={handleFileInput}
+          />
+          {/* <Button label={"Upload"} primary={true} /> */}
+          {/* </Stack> */}
         </SimpleGrid>
 
         {/** Studies and training */}
         <Card mt="sm">
           <Text className={classes.subHeading}>Studies and Training</Text>
-         
+
           <Group position="right">
             <Button
               label={"Add New"}
@@ -404,8 +411,6 @@ export const Step2 = ({
           />
         </Card>
 
-       
-
         {/* Descrimation and voilence */}
         <Card mt="sm">
           <Text className={classes.subHeading}>
@@ -420,7 +425,6 @@ export const Step2 = ({
             offset="xl"
             withAsterisk
             {...form?.getInputProps("typeId")}
-            
           >
             {descrimation?.map((item) => (
               <Radio value={item._id} label={item.lookupName} />
@@ -432,12 +436,10 @@ export const Step2 = ({
             form={form}
             validateName="discriminationVoilenceValue"
           />
-
-         
         </Card>
 
-         {/* Work Experience */}
-         <Card>
+        {/* Work Experience */}
+        <Card>
           <Text className={classes.subHeading}>Work Experience</Text>
           <Group position="right">
             <Button

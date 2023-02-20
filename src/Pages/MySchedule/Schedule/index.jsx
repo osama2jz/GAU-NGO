@@ -16,10 +16,31 @@ const MySchedule = () => {
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
+  const [scheduleDates, setScheduleDates] = useState([]);
 
   useEffect(() => {
     getSchedule.mutate(date);
+    getScheduleDates.mutate();
   }, []);
+
+  const getScheduleDates = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/schedule/listSchedule"}`,
+        {},
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        setScheduleDates(response.data.dates);
+      },
+    }
+  );
 
   const getSchedule = useMutation(
     (date) => {
@@ -54,7 +75,7 @@ const MySchedule = () => {
       <ContainerHeader label={"My Schedule"} />
       <Text align="center">Select date from the calender to view Schedule</Text>
       <Container className={classes.cal} mb="lg" mt="md">
-        <CalendarDate setDate={setDate} getSchedule={getSchedule} />
+        <CalendarDate setDate={setDate} getSchedule={getSchedule} scheduleDates={scheduleDates}/>
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
         {moment(date).format("DD MMMM")} Schedule

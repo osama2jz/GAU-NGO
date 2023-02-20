@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   SimpleGrid,
   Checkbox,
@@ -16,10 +16,16 @@ import { Eye } from "tabler-icons-react";
 import InputField from "../../../../Components/InputField";
 import userlogo from "../../../../assets/teacher.png";
 import SelectMenu from "../../../../Components/SelectMenu";
+import { UserContext } from "../../../../contexts/UserContext";
+import axios from "axios";
+import { backendUrl } from "../../../../constants/constants";
+import { useQuery } from "react-query";
 
-const Step2 = ({selectedUser}) => {
+const Step2 = ({ selectedUser, caseNo }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
+  const { user: usertoken } = useContext(UserContext);
+  const [reports, setReport]=useState([])
 
   let headerData = [
     {
@@ -59,12 +65,6 @@ const Step2 = ({selectedUser}) => {
       label: "Date",
     },
     {
-      id: "time",
-      numeric: false,
-      disablePadding: true,
-      label: "Time",
-    },
-    {
       id: "actions",
       view: <Eye color="#4069bf" />,
       numeric: false,
@@ -72,53 +72,36 @@ const Step2 = ({selectedUser}) => {
     },
   ];
 
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
+
+  const { data: users, status } = useQuery(
+    "userReports",
+    () => {
+      return axios.get(
+        backendUrl + `/api/case/listUserReports/public/${selectedUser.data.data._id}`,
+        {
+          headers: {
+            "x-access-token": usertoken?.token,
+          },
+        }
+      );
     },
     {
-      id: "2",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-  ];
+      onSuccess: (response) => {
+        console.log(response)
+        let data = response.data?.data?.map((obj, ind) => {
+          let report = {
+            id: obj._id,
+            name: obj?.caseLinkedUser,
+            case: obj?.caseNo,
+            addedBy: obj?.addedBy,
+            date: obj?.addedDate, 
+          };
+          return report;
+        });
+        setReport(data);
+      },
+    }
+  );
 
   return (
     <Container size="lg">
@@ -130,7 +113,7 @@ const Step2 = ({selectedUser}) => {
           <Text fz={18} fw={"bold"}>
             Case#
           </Text>
-          <Text ml={10}>XXXX</Text>
+          <Text ml={10}>{caseNo}</Text>
         </Flex>
         <Flex align={"center"}>
           <Text fz={18} fw={"bold"}>
@@ -149,7 +132,7 @@ const Step2 = ({selectedUser}) => {
         </Grid.Col>
         <Grid.Col md={4} xs={5}>
           <SimpleGrid cols={2}>
-            <UserInfo userData={selectedUser}/>
+            <UserInfo userData={selectedUser} />
           </SimpleGrid>
         </Grid.Col>
       </Grid>
@@ -174,7 +157,7 @@ const Step2 = ({selectedUser}) => {
         </Grid>
         <Table
           headCells={headerData}
-          rowData={rowData}
+          rowData={reports}
           setViewModalState={setOpenViewModal}
         />
       </Container>

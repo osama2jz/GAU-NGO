@@ -44,7 +44,6 @@ export const UserVerification = () => {
   const [agreementSignature, setAgreementSignature] = useState(false);
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
-  console.log(userid);
 
   const handleNextSubmit = () => {
     if (active == 0) {
@@ -160,8 +159,8 @@ export const UserVerification = () => {
       email: "",
       dateOfBirth: "",
       age: "",
-      passport: "",
-      nationality: "",
+      documentType: "passport",
+      documentURL: "",
       origin: "",
       domicile: "",
       muncipality: "",
@@ -176,14 +175,12 @@ export const UserVerification = () => {
       completionYear: "",
       healthAspects: "",
       socioFamily: "",
-      tracking: "",
       demand: "",
       social: "",
       labour: "",
       educational: "",
       institutional: "",
       familiar: "",
-      documentType: "",
       typeId: "",
       discriminationVoilenceValue: "",
     },
