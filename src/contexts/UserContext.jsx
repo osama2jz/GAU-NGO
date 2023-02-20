@@ -5,8 +5,10 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
+  // console.log(userData)
   const [user, setUser] = useState({
     name: userData?.name,
+    id: userData?.userId,
     role:
       userData?.userType === "socialWorker"
         ? "Social Worker"
@@ -14,9 +16,7 @@ export const UserProvider = ({ children }) => {
         ? "Psychologist"
         : "",
     img: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZWRjNTU4OTliNWJiMDAxNDhkNjY1MiIsInVzZXJUeXBlIjoic29jaWFsV29ya2VyIiwiaWF0IjoxNjc2ODcxMzcwLCJleHAiOjE2NzY5NTc3NzB9.87cyxr-rmpmx66YvNZTrUEs7W3QeFcrFyxpPsWtxC20",
-    // token: userData?.token,
+    token:userData?.token
   });
   const value = { user, setUser };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

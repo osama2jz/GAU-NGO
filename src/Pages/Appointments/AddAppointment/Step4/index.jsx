@@ -27,7 +27,7 @@ const Step4 = () => {
           </Grid.Col>
         </Grid>
         <Grid>
-          {[1, 2, 3, 4].map((e) => (
+          {[1, 2, 3, 4].map((e,index) => (
             <Grid.Col md={6} lg={4} xl={3}>
               <Cards />
             </Grid.Col>

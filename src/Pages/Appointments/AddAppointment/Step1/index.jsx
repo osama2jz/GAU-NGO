@@ -21,12 +21,12 @@ import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import Button from "../../../../Components/Button";
 
-const Step1 = ({ setSelectedUser, setSelectedCase }) => {
+const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [faceID, setFaceId] = useState({});
-  const [newCase, setNewCase] = useState("");
+  const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
   let faceio = new faceIO("fioa89bd");
@@ -70,13 +70,44 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
         },
       });
     },
+   
+   
     {
       onSuccess: (response) => {
+        // setCases([]),
         setSelectedUser(response);
       },
       enabled: !!user,
     }
   );
+
+  //user cases
+  const { data: casesData, status: casesfetching } = useQuery(
+    "casesFetched",
+    () => {
+      return axios.get(backendUrl + `/api/case/listUserCases/${user}`, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
+    },
+    {
+
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let casee = {
+            value: obj._id,
+            label: obj?.caseName,
+          };
+          return casee;
+        });
+        setCases(data);
+      },
+      enabled: !!user,
+    }
+  );
+
+  
 
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
@@ -140,51 +171,44 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
         </Grid.Col>
       </Grid>
       {/* {user === faceID?.whoami && ( */}
-        <Grid align={"center"}>
-          <Grid.Col md={"5"}>
-            <SelectMenu
-              searchable={true}
-              placeholder="Enter case name or id"
-              label="Search User Case"
-              creatable={true}
-              setData={setSelectedCase}
-              disabled={newCase.length > 0}
-              data={[
-                { label: "verified", value: "Personal" },
-                { label: "Pending", value: "Wealth" },
-                { label: "Pending", value: "Divorce" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col md="2">
-            <Divider
-              label="OR"
-              labelPosition="center"
-              color={"black"}
-              mt="lg"
-            />
-          </Grid.Col>
-          <Grid.Col md="5">
-            <InputField
-              label={"Create New Case"}
-              placeholder="Enter case name"
-              pb="0px"
-              onChange={(v) => {
-                setNewCase(v.target.value);
-                setSelectedCase(v.target.value);
-              }}
-            />
-          </Grid.Col>
-        </Grid>
+      <Grid align={"center"}>
+        <Grid.Col md={"5"}>
+          <SelectMenu
+            searchable={true}
+            placeholder="Enter case name or id"
+            label="Search User Case"
+            creatable={true}
+            setData={setSelectedCase }
+            disabled={newCase.length > 0}
+            data={cases}
+          />
+        </Grid.Col>
+        <Grid.Col md="2">
+          <Divider label="OR" labelPosition="center" color={"black"} mt="lg" />
+        </Grid.Col>
+        <Grid.Col md="5">
+          <InputField
+            label={"Create New Case"}
+            placeholder="Enter case name"
+            value={newCase}
+            pb="0px"
+            onChange={(v) => {
+              setNewCase(v.target.value);
+              setSelectedCase(v.target.value);
+              
+            }}
+          />
+        </Grid.Col>
+      </Grid>
       {/* )} */}
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (
         <Grid mt={30}>
-          <Grid.Col md={6}>
+          <Grid.Col md={5}>
             <img
               className={classes.image}
-              src="https://visualpharm.com/assets/387/Person-595b40b75ba036ed117da139.svg"
+              src={userImage}
               alt="img"
             />
           </Grid.Col>

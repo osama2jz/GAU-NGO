@@ -8,10 +8,13 @@ import {
   SimpleGrid,
   Text,
   useMantineTheme,
-  Radio 
+  Radio,
+  FileInput,
+  Stack,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { FileUpload } from "tabler-icons-react";
 import { Edit, Trash } from "tabler-icons-react";
+// import S3 from 'react-aws-s3';
 import InputField from "../../../../Components/InputField";
 import Table from "../../../../Components/Table";
 import TextArea from "../../../../Components/TextArea";
@@ -20,14 +23,15 @@ import { useStyles } from "../styles";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
 import NewProfessionalModal from "./NewProfessional";
 import NewWorkModal from "./NewWorkExperience";
+import NewTrainingModal from "./NewStudiesTraining";
 import Datepicker from "../../../../Components/Datepicker";
-
 import DeleteModal from "../../../../Components/DeleteModal";
 import { useQuery } from "react-query";
 import axios from "axios";
-
-import { backendUrl } from "../../../../constants/constants";
+// import S3 from "react-aws-s3";
+import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
+
 export const Step2 = ({
   setActive,
   active,
@@ -37,21 +41,22 @@ export const Step2 = ({
   setWorkExperience,
   refrences,
   setRefrences,
+  trainingStudies,
+  setTrainingStudies,
   userdata,
   form,
   id,
 }) => {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [openTrainingModal, setopenTrainingModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const { user } = useContext(UserContext);
-const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [descrimation, setDescrimation] = useState();
 
-
-  // console.log(id);
-  console.log("id",deleteID)
   let headerData = [
     {
       id: "id",
@@ -60,7 +65,7 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
       label: "Sr No.",
     },
     {
-      id: "name",
+      id: "fullName",
       numeric: false,
       disablePadding: true,
       label: "Name",
@@ -82,6 +87,12 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
       numeric: false,
       disablePadding: true,
       label: "Center",
+    },
+    {
+      id: "relation",
+      numeric: false,
+      disablePadding: true,
+      label: "Relation",
     },
     {
       id: "actions",
@@ -142,7 +153,65 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
       label: "Actions",
     },
   ];
+  let headerData3 = [
+    {
+      id: "id",
+      numeric: true,
+      disablePadding: true,
+      label: "Sr No.",
+    },
+    {
+      id: "educationLevel",
+      numeric: false,
+      disablePadding: true,
+      label: "Education Level",
+    },
+    {
+      id: "specialization",
+      numeric: false,
+      disablePadding: true,
+      label: "Specialization",
+    },
+    {
+      id: "complementaryTraining",
+      numeric: false,
+      disablePadding: true,
+      label: "Complementary Training",
+    },
+    {
+      id: "completionYear",
+      numeric: false,
+      disablePadding: true,
+      label: "Completion Year",
+    },
 
+    {
+      id: "actions",
+      edit: <Edit color="#4069BF" />,
+      delete: <Trash color="red" />,
+      numeric: false,
+      label: "Actions",
+    },
+  ];
+  const { data1, status1 } = useQuery(
+    "getDescrimination",
+    () => {
+      return axios.get(
+        `${backendUrl + `/api/lookup/getLookupByType/discrimination`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        // console.log("res",response.data.data);
+        setDescrimation(response.data.data);
+      },
+    }
+  );
   const { data, status } = useQuery(
     "fetchUserbyId",
     () => {
@@ -154,25 +223,34 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
     },
     {
       onSuccess: (response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         form.setFieldValue("email", response.data.data?.email);
         form.setFieldValue("firstName", response.data.data?.firstName);
         form.setFieldValue("lastName", response.data.data?.lastName);
-        form.setFieldValue("phoneNumber", response.data.data?.phoneNumber);
+        form.setFieldValue("phoneNo", response.data.data?.phoneNumber);
       },
     }
   );
   const handleDeleted = (id) => {
-    console.log(id);
-    let a = refrences.filter((item) => 
-    console.log(item));
+    // console.log(id);
+    let a = refrences.filter((item) => console.log(item));
     setRefrences(a);
+  };
+
+  const handleFileInput = (file) => {
+    console.log(file);
+    // setSelectedFile(e.target.files[0]);
+    // const ReactS3Client = new S3(s3Config);
+    // ReactS3Client.uploadFile(file, file.name)
+    //   .then((data) => console.log(data.location))
+    //   .catch((err) => console.error(err));
   };
 
   const submitAll = (values) => {
     setActive(active + 1);
     setAlldata(values);
   };
+
   return (
     <Container size="lg">
       <form
@@ -208,7 +286,7 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
             form={form}
             validateName="lastName"
           />
-      
+
           <InputField
             label="Email "
             required={true}
@@ -233,107 +311,131 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
             form={form}
             validateName="age"
           />
-           <InputField
+          <InputField
             label="Phone Number"
             value={alldata?.lastName}
             required={true}
             disabled={true}
             placeholder="phone number"
             form={form}
-            validateName="phoneNumber"
+            validateName="phoneNo"
           />
           <InputField
             label="Country"
             required={true}
             placeholder="country"
             form={form}
-            validateName="origin"
+            validateName="country"
           />
           <InputField
             label="City"
             required={true}
             placeholder="city"
             form={form}
-            validateName="muncipality"
+            validateName="city"
           />
           <InputField
             label="Address"
             required={true}
             placeholder="address"
             form={form}
-            validateName="domicile"
+            validateName="address"
           />
-          
-
-          {/* <InputField
-            label="Passport"
-            required={true}
-            placeholder="FN2342444"
-            form={form}
-            validateName="passport"
-          /> */}
-          {/* <InputField
-            label="Nationality"
-            required={true}
-            placeholder="Pakistani"
-            form={form}
-            validateName="nationality"
-          /> */}
         </SimpleGrid>
-        <Radio.Group
-      name="favoriteFramework"
-      label="Select Identity"
-      // description="This is anonymous"
-      spacing="xl"
-      offset="xl"
-      withAsterisk
-    >
-      <Radio value="passport" label="Passport" />
-      <Radio value="nationality" label="Nationality" />
-      <Radio value="residence" label="Residence" />
-     
-    </Radio.Group>
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "md", cols: 2 },
+            { minWidth: "lg", cols: 2 },
+            { minWidth: "xs", cols: 1 },
+          ]}
+        >
+          <Radio.Group
+            label="Select Identity"
+            spacing="xl"
+            offset="xl"
+            withAsterisk
+            styles={(theme) => ({
+              radio: {
+                size: "100px",
+                backgroundColor: "red",
+              },
+              label: {
+                fontSize: "16px",
+              },
+            })}
+            // value={value}
+            // onChange={setValue}
+            {...form?.getInputProps("documentType")}
+          >
+            <Radio value="passport" label="Passport" checked />
+            <Radio value="nationalId" label="National ID" />
+            <Radio value="residentialId" label="Residential ID" />
+          </Radio.Group>
+          {/* <Stack> */}
+          <FileInput
+            label="Upload Document"
+            placeholder="Upload Document"
+            styles={(theme) => ({
+              input: {
+                border: "1px solid rgb(0, 0, 0, 0.1)",
+                borderRadius: "5px",
+              },
+            })}
+            icon={<FileUpload size={20} />}
+            onChange={handleFileInput}
+          />
+          {/* <Button label={"Upload"} primary={true} /> */}
+          {/* </Stack> */}
+        </SimpleGrid>
 
         {/** Studies and training */}
         <Card mt="sm">
           <Text className={classes.subHeading}>Studies and Training</Text>
+
+          <Group position="right">
+            <Button
+              label={"Add New"}
+              primary={true}
+              leftIcon={"plus"}
+              className={classes.btn}
+              onClick={() => setopenTrainingModal(true)}
+            />
+          </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 4 },
-              { minWidth: "xs", cols: 1 },
-            ]}
+
+          <Table
+            headCells={headerData3}
+            rowData={trainingStudies}
+            setDeleteModalState={setOpenDeleteModal}
+            setDeleteData={setDeleteID}
+          />
+        </Card>
+
+        {/* Descrimation and voilence */}
+        <Card mt="sm">
+          <Text className={classes.subHeading}>
+            Discrimination And Voilence
+          </Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <Radio.Group
+            name="favoriteFramework"
+            label="Select Identity"
+            // description="This is anonymous"
+            spacing="xl"
+            offset="xl"
+            withAsterisk
+            {...form?.getInputProps("typeId")}
           >
-            <InputField
-              label="Education Level"
-              required={true}
-              placeholder="Education Level "
-              form={form}
-              validateName="education"
-            />
-            <InputField
-              label="Characteristics"
-              required={true}
-              placeholder="characteristics"
-              form={form}
-              validateName="char"
-            />
-            <InputField
-              label="Complementary Training"
-              required={true}
-              placeholder="training"
-              form={form}
-              validateName="training"
-            />
-            <InputField
-              label="Completion Year"
-              required={true}
-              placeholder="Completion Year"
-              form={form}
-              validateName="realization"
-            />
-          </SimpleGrid>
+            {descrimation?.map((item) => (
+              <Radio value={item._id} label={item.lookupName} />
+            ))}
+          </Radio.Group>
+          <Divider color="white" mt="sm" mb="sm" />
+          <TextArea
+            label="Description"
+            form={form}
+            validateName="discriminationVoilenceValue"
+          />
         </Card>
 
         {/* Work Experience */}
@@ -349,82 +451,13 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <Table headCells={headerData2} rowData={workExperience} setDeleteModalState={setOpenDeleteModal} setDeleteData={setDeleteID} />
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-        </Card>
-
-        {/* Descrimation and voilence */}
-        <Card mt="sm">
-          <Text className={classes.subHeading}>
-            Discrimination And Voilence
-          </Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <Radio.Group
-      name="favoriteFramework"
-      label="Select Identity"
-      // description="This is anonymous"
-      spacing="xl"
-      offset="xl"
-      withAsterisk
-    >
-      <Radio value="passport" label="Labour" />
-      <Radio value="nationality" label="Educational" />
-      <Radio value="residence" label="Institutional" />
-      <Radio value="residence" label="Familiar" />
-      <Radio value="residence" label="Social" />
-     
-
-    </Radio.Group>
-    <Divider color="white" mt="sm" mb="sm" />
-    <TextArea
-            label="Description"
-            form={form}
-            // validateName="healthAspects"
+          <Table
+            headCells={headerData2}
+            rowData={workExperience}
+            setDeleteModalState={setOpenDeleteModal}
+            setDeleteData={setDeleteID}
           />
-
-          {/* <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 3 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-          >
-            <InputField
-              label="Labour"
-              required={true}
-              placeholder="labour"
-              form={form}
-              validateName="labour"
-            />
-            <InputField
-              label="Educational"
-              required={true}
-              placeholder="Educational"
-              form={form}
-              validateName="educational"
-            />
-            <InputField
-              label="Institutional"
-              required={true}
-              placeholder="institutional"
-              form={form}
-              validateName="institutional"
-            />
-            <InputField
-              label="Familiar"
-              required={true}
-              placeholder="familiar"
-              form={form}
-              validateName="familiar"
-            />
-            <InputField
-              label="Social"
-              required={true}
-              placeholder="social"
-              form={form}
-              validateName="social"
-            />
-          </SimpleGrid> */}
+          <Divider color="#C8C8C8" mt="md" mb="md" />
         </Card>
 
         {/* Socio Family */}
@@ -498,6 +531,7 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
           />
         </Card>
 
+        {/* Professional References */}
         <Text className={classes.subHeading}>Professional References</Text>
         <Group position="right">
           <Button
@@ -523,13 +557,12 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
           <Button onClick={() => setActive(active - 1)} label="Back" />
           <Button label={"Save & Next"} primary={true} type="submit" />
         </Group>
-        
       </form>
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        onDelete={()=>handleDeleted(deleteID)}
+        onDelete={() => handleDeleted(deleteID)}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
@@ -553,6 +586,17 @@ const [openDeleteModal, setOpenDeleteModal] = useState(false);
           workExperience={workExperience}
           setOpenModal={setOpenModal}
           setWorkExperience={setWorkExperience}
+        />
+      </ViewModal>
+      <ViewModal
+        opened={openTrainingModal}
+        setOpened={setopenTrainingModal}
+        title="Add Studies and Training"
+      >
+        <NewTrainingModal
+          trainingStudies={trainingStudies}
+          setopenTrainingModal={setopenTrainingModal}
+          setTrainingStudies={setTrainingStudies}
         />
       </ViewModal>
     </Container>

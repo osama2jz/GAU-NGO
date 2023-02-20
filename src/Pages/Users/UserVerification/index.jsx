@@ -38,46 +38,45 @@ export const UserVerification = () => {
   const [active, setActive] = useState(0);
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
+  const [trainingStudies, setTrainingStudies] = useState([]);
   const [refrences, setRefrences] = useState([]);
   const [consentSignature, setConsentSignature] = useState(false);
   const [agreementSignature, setAgreementSignature] = useState(false);
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
-  console.log(userid);
 
   const handleNextSubmit = () => {
-    if (active ==0) {
-      if(userid){
+    if (active == 0) {
+      if (userid) {
         setActive(active + 1);
-      }else{
+      } else {
         showNotification({
           title: "Error",
           message: "Please select a user",
           color: "red",
-        })
+        });
       }
     } else if (active == 2) {
-      if(consentSignature){
+      if (consentSignature) {
         setActive(active + 1);
-      }else{
+      } else {
         showNotification({
           title: "Error",
           message: "Please sign the consent form",
           color: "red",
-        })
+        });
       }
     } else if (active == 3) {
-      if(agreementSignature){
+      if (agreementSignature) {
         setActive(active + 1);
         handleVerifyUser.mutate();
-      }else{
+      } else {
         showNotification({
           title: "Error",
           message: "Please check the User Agreement",
           color: "red",
-        })
+        });
       }
-     
     }
   };
 
@@ -90,14 +89,13 @@ export const UserVerification = () => {
             firstName: alldata.firstName,
             lastName: alldata.lastName,
             dateOfBirth: alldata.dateOfBirth,
-            passport: alldata.passport,
-            nationality: alldata.nationality,
-            origin: alldata.origin,
+            email: alldata.email,
+            country: alldata.country,
             age: alldata.age,
-            domicile: alldata.domicile,
-            muncipality: alldata.muncipality,
+            address: alldata.address,
+            city: alldata.city,
             demand: alldata.demand,
-            tracking: alldata.tracking,
+            documentType: alldata.documentType,
           },
           economicSituation: {
             revenue: alldata.revenue,
@@ -112,20 +110,13 @@ export const UserVerification = () => {
           socioFamilySituation: {
             socioFamily: alldata.socioFamily,
           },
-          studiesTraining: {
-            educationLevel: alldata.education,
-            characteristics: alldata.char,
-            complementaryTraining: alldata.training,
-            realizationYear: alldata.realization,
-          },
-          professionalReferences: refrences,
           discriminationVoilence: {
-            labour: alldata.labour,
-            educational: alldata.educational,
-            institutional: alldata.institutional,
-            familiar: alldata.familiar,
-            social: alldata.social,
+            typeId: alldata.typeId,
+            discriminationVoilenceValue: alldata.discriminationVoilenceValue,
           },
+
+          studiesTraining: trainingStudies,
+          professionalReferences: refrences,
           workExperience: workExperience,
           consentSignatures: consentSignature,
           agreementSignatures: agreementSignature,
@@ -164,12 +155,12 @@ export const UserVerification = () => {
     initialValues: {
       firstName: "",
       lastName: "",
-      phoneNumber:"",
-      email:"",
+      phoneNo: "",
+      email: "",
       dateOfBirth: "",
       age: "",
-      passport: "",
-      nationality: "",
+      documentType: "passport",
+      documentURL: "",
       origin: "",
       domicile: "",
       muncipality: "",
@@ -178,54 +169,55 @@ export const UserVerification = () => {
       aidsBonuses: "",
       debt: "",
       housing: "",
-      education: "",
-      char: "",
-      training: "",
-      realization: "",
+      educationLevel: "",
+      specialization: "",
+      complementaryTraining: "",
+      completionYear: "",
       healthAspects: "",
       socioFamily: "",
-      tracking: "",
       demand: "",
       social: "",
       labour: "",
       educational: "",
       institutional: "",
       familiar: "",
+      typeId: "",
+      discriminationVoilenceValue: "",
     },
-    validate: {
-      dateOfBirth: (value) =>
-        value.length < 1 ? "Please enter your date of Birth" : null,
-      // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-      passport: (value) => (value.length < 1 ? "Please enter passport" : null),
-      nationality: (value) =>
-        value.length < 1 ? "Please enter nationality" : null,
-      origin: (value) => (value.length < 1 ? "Please enter origin" : null),
-      domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
-      muncipality: (value) =>
-        value.length < 1 ? "Please enter muncipality" : null,
-      revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
-      expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
-      aidsBonuses: (value) =>
-        value.length < 1 ? "Please enter Aids or Bonuses" : null,
-      debt: (value) => (value.length < 1 ? "Please enter debt" : null),
-      housing: (value) => (value.length < 1 ? "Please enter housing" : null),
-      education: (value) =>
-        value.length < 1 ? "Please enter Education level" : null,
-      char: (value) =>
-        value.length < 1 ? "Please enter Characteristics" : null,
-      training: (value) =>
-        value.length < 1 ? "Please enter Complementary Trainging " : null,
-      realization: (value) =>
-        value.length < 1 ? "Please enter realization year" : null,
-      labour: (value) => (value.length < 1 ? "Please enter Labour year" : null),
-      educational: (value) =>
-        value.length < 1 ? "Please enter educational year" : null,
-      institutional: (value) =>
-        value.length < 1 ? "Please enter institutional year" : null,
-      familiar: (value) =>
-        value.length < 1 ? "Please enter familiar year" : null,
-      social: (value) => (value.length < 1 ? "Please enter social year" : null),
-    },
+    // validate: {
+    //   dateOfBirth: (value) =>
+    //     value.length < 1 ? "Please enter your date of Birth" : null,
+    //   // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
+    //   passport: (value) => (value.length < 1 ? "Please enter passport" : null),
+    //   nationality: (value) =>
+    //     value.length < 1 ? "Please enter nationality" : null,
+    //   origin: (value) => (value.length < 1 ? "Please enter origin" : null),
+    //   domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
+    //   muncipality: (value) =>
+    //     value.length < 1 ? "Please enter muncipality" : null,
+    //   revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
+    //   expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
+    //   aidsBonuses: (value) =>
+    //     value.length < 1 ? "Please enter Aids or Bonuses" : null,
+    //   debt: (value) => (value.length < 1 ? "Please enter debt" : null),
+    //   housing: (value) => (value.length < 1 ? "Please enter housing" : null),
+    //   educationLevel: (value) =>
+    //     value.length < 1 ? "Please enter Education level" : null,
+    //   specialization: (value) =>
+    //     value.length < 1 ? "Please enter Characteristics" : null,
+    //   complementaryTraining: (value) =>
+    //     value.length < 1 ? "Please enter Complementary Trainging " : null,
+    //   completionYear: (value) =>
+    //     value.length < 1 ? "Please enter realization year" : null,
+    //   labour: (value) => (value.length < 1 ? "Please enter Labour year" : null),
+    //   educational: (value) =>
+    //     value.length < 1 ? "Please enter educational year" : null,
+    //   institutional: (value) =>
+    //     value.length < 1 ? "Please enter institutional year" : null,
+    //   familiar: (value) =>
+    //     value.length < 1 ? "Please enter familiar year" : null,
+    //   social: (value) => (value.length < 1 ? "Please enter social year" : null),
+    // },
   });
   useEffect(() => {
     form.setFieldValue(
@@ -270,6 +262,8 @@ export const UserVerification = () => {
             setWorkExperience={setWorkExperience}
             refrences={refrences}
             setRefrences={setRefrences}
+            trainingStudies={trainingStudies}
+            setTrainingStudies={setTrainingStudies}
             userdata={userdata}
             form={form}
             id={userid}

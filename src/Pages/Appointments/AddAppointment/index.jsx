@@ -21,6 +21,9 @@ import routeNames from "../../../Routes/routeNames";
 import { UserContext } from "../../../contexts/UserContext";
 import { AgeForm } from "./AgeForm";
 import { showNotification } from "@mantine/notifications";
+import { backendUrl } from "../../../constants/constants";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -31,26 +34,115 @@ const AddAppointment = () => {
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
+  const [caseNo, setCaseNo] = useState("");
+  const [newCase, setNewCase] = useState("");
+  const [reportFiles, setReportFiles] = useState({
+    reportComments: "",
+    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportType: "public",
+    createdBy: user.id,
+  });
+  const [privatereportFiles, setPrivateReportFiles] = useState({
+    reportComments: "",
+    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportType: "private",
+    createdBy: user.id,
+  });
+
+  //create case
+  const handleCreateCase = useMutation(
+    () => {
+      // if(newCase.length > 0){
+      let object = {};
+      if (selectedCase.length > 0 && newCase.length < 1) {
+        object = {
+          previousCaseLinked: true,
+          previousCaseLinkedId: selectedCase,
+          caseLinkedUser: selectedUser.data.data._id,
+        };
+      } else {
+        object = {
+          previousCaseLinked: false,
+          caseName: newCase,
+          caseLinkedUser: selectedUser.data.data._id,
+        };
+      }
+      return axios.post(`${backendUrl + "/api/case/create"}`, object, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        setSelectedCase(response?.data?.data?.caseId);
+        setCaseNo(response?.data?.data?.caseNo);
+      },
+    }
+  );
+
+  //create report
+  const handleCreateReport = useMutation(
+    () => {
+      const value = {
+        caseId: selectedCase,
+        reportFiles: [reportFiles, privatereportFiles],
+      };
+      return axios.post(`${backendUrl + "/api/case/caseReports"}`, value, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        showNotification({
+          color: "green",
+          message: "Reports submitted Successfully",
+          title: "Success",
+        });
+      },
+    }
+  );
 
   const handleNextSubmit = () => {
-    console.log(selectedCase)
-    if (active == 0 && (!selectedUser || selectedCase.length<1)) {
-      showNotification({
-        color: "red",
-        message: "Please Select User information",
-        title: "Incomplete Info",
-      });
-      return
+    if (active == 0) {
+      if (!selectedUser || selectedCase.length < 1) {
+        showNotification({
+          color: "red",
+          message: "Please Select User information",
+          title: "Incomplete Info",
+        });
+        return;
+      } else {
+        handleCreateCase.mutate();
+      }
     }
-    if(user.role==="Psychologist"){
+    if (active == 2) {
+      if (
+        reportFiles.reportComments === "" ||
+        privatereportFiles.reportComments === ""
+      ) {
+        showNotification({
+          color: "red",
+          message: "Please add public and private report for this appointment.",
+          title: "Report Missing",
+        });
+        return;
+        // alert("comment is required")
+      } else {
+        handleCreateReport.mutate();
+        setActive(active + 1);
+      }
+    }
+    if (user.role === "Psychologist") {
       active < 4
-      ? setActive(active + 1)
-      : navigate(routeNames.socialWorker.allAppointments)
-    }
-    else{
+        ? setActive(active + 1)
+        : navigate(routeNames.socialWorker.allAppointments);
+    } else {
       active < 3
-      ? setActive(active + 1)
-      : navigate(routeNames.socialWorker.allAppointments)
+        ? setActive(active + 1)
+        : navigate(routeNames.socialWorker.allAppointments);
     }
   };
 
@@ -74,7 +166,12 @@ const AddAppointment = () => {
           }
           label="1. Select User"
         >
-          <Step1 setSelectedUser={setSelectedUser} setSelectedCase={setSelectedCase}/>
+          <Step1
+            setSelectedUser={setSelectedUser}
+            setSelectedCase={setSelectedCase}
+            newCase={newCase}
+            setNewCase={setNewCase}
+          />
         </Stepper.Step>
         {user.role === "Psychologist" && (
           <Stepper.Step
@@ -102,7 +199,7 @@ const AddAppointment = () => {
           }
           label="2. In Meeting"
         >
-          <Step2 selectedUser={selectedUser} />
+          <Step2 selectedUser={selectedUser} caseNo={caseNo} />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -115,7 +212,14 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 selectedUser={selectedUser} />
+          <Step3
+            selectedUser={selectedUser}
+            caseNo={caseNo}
+            reportFiles={reportFiles}
+            setReportFiles={setReportFiles}
+            privatereportFiles={privatereportFiles}
+            setPrivateReportFiles={setPrivateReportFiles}
+          />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -143,7 +247,6 @@ const AddAppointment = () => {
               active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
             }
             primary={true}
-            // disabled={active===0 && !selectedUser}
           />
         </Group>
       )}

@@ -6,16 +6,18 @@ import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
 function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
   const { classes } = useStyles();
+  console.log("refrences",refrences)
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      name: "",
+      fullName: "",
       email: "",
       phone: "",
       center: "",
+      relation:""
     },
     validate: {
-      name: (value) => (value.length < 1 ? "Please enter name" : null),
+      fullName: (value) => (value.length < 1 ? "Please enter name" : null),
       center: (value) => (value?.length < 1 ? "Please enter center" : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       phone: (value) =>
@@ -39,7 +41,7 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
           label="Name"
           placeholder="name"
           form={form}
-          validateName="name"
+          validateName="fullName"
         />
         <InputField
           label="Email"
@@ -61,6 +63,13 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
           placeholder="center"
           form={form}
           validateName="center"
+        />
+        <InputField
+          label="Relation"
+          // required={true}
+          placeholder="relation"
+          form={form}
+          validateName="relation"
         />
         <Button
           label={"Add"}
