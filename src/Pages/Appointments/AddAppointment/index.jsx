@@ -30,25 +30,29 @@ const AddAppointment = () => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  // console.log(user)
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
   const [newCase, setNewCase] = useState("");
-  // const [caseId, setCaseId] = useState("");
-  const[reportFiles,setReportFiles]=useState({reportComments:"",reportFile:"https://gau0202.s3.amazonaws.com/1122.PNG",reportType:"public",createdBy:user.id})
-  const[privatereportFiles,setPrivateReportFiles]=useState({reportComments:"",reportFile:"https://gau0202.s3.amazonaws.com/1122.PNG",reportType:"private",createdBy:user.id})
-  // console.log("public",reportFiles)
-  // console.log("Private",privatereportFiles)
-  console.log("caseid",selectedCase)
-  console.log("newcase",newCase)
-  // console.log("caseNo",caseId)
+  const [reportFiles, setReportFiles] = useState({
+    reportComments: "",
+    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportType: "public",
+    createdBy: user.id,
+  });
+  const [privatereportFiles, setPrivateReportFiles] = useState({
+    reportComments: "",
+    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportType: "private",
+    createdBy: user.id,
+  });
 
   //create case
-  const handleCreateCase = useMutation(() => {
-    // if(newCase.length > 0){
+  const handleCreateCase = useMutation(
+    () => {
+      // if(newCase.length > 0){
       let object = {};
       if (selectedCase.length > 0 && newCase.length < 1) {
         object = {
@@ -68,15 +72,9 @@ const AddAppointment = () => {
           "x-access-token": user.token,
         },
       });
-    // }else{
-    //   setSelectedCase(selectedCase)
-    // }
-      
     },
     {
       onSuccess: (response) => {
-        console.log("response")
-        // setNewCase("")
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
       },
@@ -84,12 +82,12 @@ const AddAppointment = () => {
   );
 
   //create report
-  const handleCreateReport = useMutation(() => {
-    
-    const value={
-      caseId:selectedCase,
-      reportFiles:[reportFiles,privatereportFiles]
-    }
+  const handleCreateReport = useMutation(
+    () => {
+      const value = {
+        caseId: selectedCase,
+        reportFiles: [reportFiles, privatereportFiles],
+      };
       return axios.post(`${backendUrl + "/api/case/caseReports"}`, value, {
         headers: {
           "x-access-token": user.token,
@@ -98,11 +96,9 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        // setCaseNo(response?.data?.data?.caseNo);
-        console.log("response", response)
         showNotification({
           color: "green",
-          message: "Added Successfully",
+          message: "Reports submitted Successfully",
           title: "Success",
         });
       },
@@ -122,18 +118,21 @@ const AddAppointment = () => {
         handleCreateCase.mutate();
       }
     }
-    if(active==2){
-      if(reportFiles.reportComments===""){
+    if (active == 2) {
+      if (
+        reportFiles.reportComments === "" ||
+        privatereportFiles.reportComments === ""
+      ) {
         showNotification({
           color: "red",
-          message: "comment is required",
-          title: "Incomplete Info",
+          message: "Please add public and private report for this appointment.",
+          title: "Report Missing",
         });
         return;
         // alert("comment is required")
-      }else {
+      } else {
         handleCreateReport.mutate();
-        setActive(active + 1)
+        setActive(active + 1);
       }
     }
     if (user.role === "Psychologist") {
@@ -213,8 +212,14 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 selectedUser={selectedUser} caseNo={caseNo} reportFiles={reportFiles} setReportFiles={setReportFiles}
-          privatereportFiles={privatereportFiles} setPrivateReportFiles={setPrivateReportFiles}/>
+          <Step3
+            selectedUser={selectedUser}
+            caseNo={caseNo}
+            reportFiles={reportFiles}
+            setReportFiles={setReportFiles}
+            privatereportFiles={privatereportFiles}
+            setPrivateReportFiles={setPrivateReportFiles}
+          />
         </Stepper.Step>
         <Stepper.Step
           icon={
@@ -242,7 +247,6 @@ const AddAppointment = () => {
               active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
             }
             primary={true}
-            // disabled={active===0 && !selectedUser}
           />
         </Group>
       )}
