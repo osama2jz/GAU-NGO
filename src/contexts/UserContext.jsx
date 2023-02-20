@@ -17,7 +17,6 @@ export const UserProvider = ({ children }) => {
         : "",
     img: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
     token:userData?.token
-    // token: userData?.token,
   });
   const value = { user, setUser };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
