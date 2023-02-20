@@ -1,5 +1,6 @@
 import { createStyles } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
+import moment from "moment";
 const useStyles = createStyles((theme, { borderWhite }) => ({
   root: {
     backgroundColor: "transparent",
@@ -18,9 +19,10 @@ const Datepicker = ({
   label,
   pb = "sm",
   borderWhite,
-  onChange,
+  excludeDate,
   size = "md",
   form,
+  dropdownType="popover",
   validateName,
   labelFormat,
 }) => {
@@ -30,9 +32,10 @@ const Datepicker = ({
       size={size}
       icon={icon}
       clearable={false}
-      dropdownType="popover"
+      dropdownType={dropdownType}
       placeholder={placeholder}
       label={label}
+      excludeDate={(date)=>!excludeDate.includes(moment(date).format("YYYY-MM-DD"))}
       required={required}
       classNames={{ input: classes.root }}
       {...form?.getInputProps(validateName)}

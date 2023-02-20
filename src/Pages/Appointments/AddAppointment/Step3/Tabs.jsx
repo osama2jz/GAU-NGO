@@ -23,11 +23,7 @@ const DoubleTabs = ({
   const [document, setDocument] = useState();
   const [comments, setcomments] = useState("");
   const { classes } = useStyles();
-  // console.log(reportFiles)
-  ///making data object
-  const userReport = () => {
-    console.log([{ ...selectedUser, comments }]);
-  };
+
   return (
     <>
       <Tabs

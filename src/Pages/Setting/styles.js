@@ -1,24 +1,43 @@
 import { createStyles } from "@mantine/core";
 export const useStyles = createStyles((theme) => ({
-    main: {
-        backgroundColor: theme.colors.container,
-        borderRadius: "15px",
-        padding: "20px",
-        width: '100%',
-        minHeight: "84vh",
+  main: {
+    backgroundColor: theme.colors.container,
+    borderRadius: "15px",
+    padding: "20px",
+    width: "100%",
+    minHeight: "84vh",
+  },
+  heading: {
+    color: theme.colors.heading,
+  },
+  container: {
+    padding: "20px",
+  },
+  tabs:{
+    backgroundColor:'rgb(0,0,0,0.1)'
+  },
+  imageContainer: {
+    display: "flex",
+    width:'220px',
+    justifyContent: "center",
+  },
+  cross: {
+    position: "absolute",
+    right: "0px",
+    // bottom: "0px",
+    zIndex: 2,
+    backgroundColor: "white",
+    borderRadius: "50%",
+    ":hover": {
+      cursor: "pointer",
+      scale: "1.1",
     },
-    heading:{
-        color:theme.colors.heading
-      },
-    container: {
-        padding: "20px",
-    },
-    upload: {
-        border: "1px solid gray",
-        borderRadius: "5px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-
-    }
+  },
+  upload: {
+    border: "1px solid gray",
+    borderRadius: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));

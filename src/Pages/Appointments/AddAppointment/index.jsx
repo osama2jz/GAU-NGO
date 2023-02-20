@@ -199,7 +199,7 @@ const AddAppointment = () => {
           }
           label="2. In Meeting"
         >
-          <Step2 selectedUser={selectedUser} caseNo={caseNo} />
+          <Step2 selectedUser={selectedUser} caseNo={caseNo} caseId={selectedCase}/>
         </Stepper.Step>
         <Stepper.Step
           icon={

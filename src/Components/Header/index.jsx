@@ -122,7 +122,7 @@ const Index = ({}) => {
               })}
             >
               <Group spacing={7} noWrap>
-                <Avatar src={user.img} radius="xl" size={30} />
+                <Avatar src={user?.profileImage} radius="xl" size={40} />
                 <MediaQuery
                   query="(max-width: 650px)"
                   styles={{

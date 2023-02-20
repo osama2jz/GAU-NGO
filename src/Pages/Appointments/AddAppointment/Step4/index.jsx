@@ -1,10 +1,47 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Text, Grid } from "@mantine/core";
 import Cards from "../../../../Components/ProfessionCard";
 import InputField from "../../../../Components/InputField";
 import SelectMenu from "../../../../Components/SelectMenu";
 import ReferModal from "../../../../Components/ProfessionCard/ReferModal";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { backendUrl } from "../../../../constants/constants";
+import { UserContext } from "../../../../contexts/UserContext";
 const Step4 = () => {
+
+  const { user } = useContext(UserContext);
+  const [cardData, setCardData]=useState()
+  
+  const { data: users, status } = useQuery(
+    "referSchedule",
+    () => {
+      return axios.get(
+        backendUrl + `/api/schedule/listNGOUsersSchedule`,
+        {
+          headers: {
+            "x-access-token": user?.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.map((obj, ind) => {
+          let card = {
+            name: obj?.fullName,
+            branches: obj?.branches,
+            schedule: obj?.schedule
+          };
+          return card;
+        });
+        console.log("dadad",response, data)
+          setCardData(data)
+      },
+    }
+  );
+
+
   return (
     <>
       <Container size="lg">
@@ -27,9 +64,9 @@ const Step4 = () => {
           </Grid.Col>
         </Grid>
         <Grid>
-          {[1, 2, 3, 4].map((e,index) => (
+          {cardData?.map((e,index) => (
             <Grid.Col md={6} lg={4} xl={3}>
-              <Cards />
+              <Cards cardData={e}/>
             </Grid.Col>
           ))}
         </Grid>

@@ -9,14 +9,16 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     name: userData?.name,
     id: userData?.userId,
+    email: userData?.email,
+    phoneNumber: userData?.phoneNumber,
     role:
       userData?.userType === "socialWorker"
         ? "Social Worker"
         : userData?.userType === "psychologist"
         ? "Psychologist"
         : "",
-    img: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    token:userData?.token
+    profileImage: userData?.profileImage,
+    token: userData?.token,
   });
   const value = { user, setUser };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

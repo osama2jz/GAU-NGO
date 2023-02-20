@@ -1,5 +1,6 @@
 import { Avatar, Badge, Card, Grid, Stack, Text } from "@mantine/core";
-import { useContext, useState } from "react";
+import moment from "moment";
+import { useContext, useMemo, useState } from "react";
 import { CalendarEvent, Clock } from "tabler-icons-react";
 import defaultLogo from "../../assets/teacher.png";
 import Button from "../../Components/Button";
@@ -11,11 +12,16 @@ import ReferModal from "./ReferModal";
 import ReferNewCaseModal from "./ReferNewCaseModal";
 import { useStyles } from "./styles";
 
-const Cards = ({ data, onRefer, onNew }) => {
+const Cards = ({ cardData, onRefer, onNew }) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
   const [referNewModal, setReferNewModal] = useState(false);
+  console.log("card", cardData);
+
+  const dates=useMemo(()=>{
+    return cardData?.schedule?.map((obj)=>moment(obj.dateStart).format("yyyy-MM-DD"))
+  },[cardData])
 
   return (
     <>
@@ -27,12 +33,16 @@ const Cards = ({ data, onRefer, onNew }) => {
         radius={26}
         withBorder
       >
-        <Badge color="green" radius="xl" className={classes.badge}>
-          Available
+        <Badge
+          color={cardData?.schedule?.length > 0 ? "green" : "red"}
+          radius="xl"
+          className={classes.badge}
+        >
+          {cardData?.schedule?.length > 0 ? "Available" : "Not Available"}
         </Badge>
         <Avatar src={defaultLogo} size={90} />
         <Text size="lg" fw={680} mb={0} pb={0}>
-          Saliha Arif
+          {cardData.name}
         </Text>
         <Text size="md" mt={0} fw={600} color="red">
           Lawyer
@@ -41,10 +51,7 @@ const Cards = ({ data, onRefer, onNew }) => {
           <Select
             placeholder="Branch"
             size="xs"
-            data={[
-              { label: "verified", value: "verified" },
-              { label: "Pending", value: "pending" },
-            ]}
+            data={cardData?.branches || []}
           />
           <Grid>
             <Grid.Col span={6}>
@@ -52,6 +59,8 @@ const Cards = ({ data, onRefer, onNew }) => {
                 size="xs"
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YY"}
+                excludeDate={dates}
+                dropdownType="modal"
               />
             </Grid.Col>
             <Grid.Col span={6}>
@@ -66,7 +75,7 @@ const Cards = ({ data, onRefer, onNew }) => {
           onClick={() => setReferModal(true)}
           styles={{ width: "100%", marginBottom: "5px" }}
         />
-        {user.role !== "Social Worker" && (
+
           <Button
             label="Schedule New Case"
             primary={true}
@@ -74,7 +83,7 @@ const Cards = ({ data, onRefer, onNew }) => {
             onClick={() => setReferNewModal(true)}
             styles={{ width: "100%" }}
           />
-        )}
+
       </Card>
       <ReferModal opened={referModal} setOpened={setReferModal} />
       <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} />

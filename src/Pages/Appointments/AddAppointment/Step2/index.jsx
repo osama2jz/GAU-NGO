@@ -21,7 +21,7 @@ import axios from "axios";
 import { backendUrl } from "../../../../constants/constants";
 import { useQuery } from "react-query";
 
-const Step2 = ({ selectedUser, caseNo }) => {
+const Step2 = ({ selectedUser, caseNo, caseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
   const { user: usertoken } = useContext(UserContext);
@@ -77,7 +77,7 @@ const Step2 = ({ selectedUser, caseNo }) => {
     "userReports",
     () => {
       return axios.get(
-        backendUrl + `/api/case/listUserReports/public/${selectedUser.data.data._id}`,
+        backendUrl + `/api/case/listCaseUserReports/${selectedUser.data.data._id}/${caseId}`,
         {
           headers: {
             "x-access-token": usertoken?.token,
@@ -88,7 +88,7 @@ const Step2 = ({ selectedUser, caseNo }) => {
     {
       onSuccess: (response) => {
         console.log(response)
-        let data = response.data?.data?.map((obj, ind) => {
+        let data = response?.data?.map((obj, ind) => {
           let report = {
             id: obj._id,
             name: obj?.caseLinkedUser,
