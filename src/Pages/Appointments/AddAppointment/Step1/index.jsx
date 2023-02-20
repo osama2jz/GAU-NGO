@@ -181,10 +181,10 @@ const Step1 = ({ setSelectedUser, setSelectedCase }) => {
         <Loader />
       ) : selectedUser ? (
         <Grid mt={30}>
-          <Grid.Col md={6}>
+          <Grid.Col md={5}>
             <img
               className={classes.image}
-              src="https://visualpharm.com/assets/387/Person-595b40b75ba036ed117da139.svg"
+              src={userImage}
               alt="img"
             />
           </Grid.Col>
