@@ -12,10 +12,22 @@ import TextArea from "../../../../Components/TextArea";
 import { Dropzone } from "@mantine/dropzone";
 import Button from "../../../../Components/Button/index";
 import { UserInfo } from "../userInformation";
-const DoubleTabs = ({ selectedUser }) => {
+const DoubleTabs = ({
+  selectedUser,
+  setReportFiles,
+  reportFiles,
+  privatereportFiles,
+  setPrivateReportFiles,
+}) => {
   const [files, setFiles] = useState([]);
   const [document, setDocument] = useState();
+  const [comments, setcomments] = useState("");
   const { classes } = useStyles();
+  // console.log(reportFiles)
+  ///making data object
+  const userReport = () => {
+    console.log([{ ...selectedUser, comments }]);
+  };
   return (
     <>
       <Tabs
@@ -48,6 +60,13 @@ const DoubleTabs = ({ selectedUser }) => {
                 rows={5}
                 label="Add Comments"
                 placeholder={"Enter Comments"}
+                value={reportFiles?.reportComments}
+                onChange={(e) =>
+                  setReportFiles({
+                    ...reportFiles,
+                    reportComments: e.target.value,
+                  })
+                }
               />
               {files.length > 0 && (
                 <Anchor>{files.map((obj) => obj?.name)}</Anchor>
@@ -83,6 +102,13 @@ const DoubleTabs = ({ selectedUser }) => {
                 label="Add Comments"
                 placeholder={"Enter Comments"}
                 rows={5}
+                value={privatereportFiles?.reportComments}
+                onChange={(e) =>
+                  setPrivateReportFiles({
+                    ...privatereportFiles,
+                    reportComments: e.target.value,
+                  })
+                }
               />
               {files.length > 0 &&
                 files.map((obj) => <Anchor>{obj?.name}</Anchor>)}

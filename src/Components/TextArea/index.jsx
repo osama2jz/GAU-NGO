@@ -28,6 +28,7 @@ const TextArea = ({
   size = "md",
   rows="3",
   validateName,
+  value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -44,6 +45,7 @@ const TextArea = ({
         label: classes.label,
       }}
       placeholder={placeholder}
+      value={value}
     />
   );
 };

@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { useStyles } from "../styles";
 import DoubleTabs from "./Tabs";
-const Step3 = ({ selectedUser, caseNo }) => {
+const Step3 = ({ selectedUser, caseNo,reportFiles,setReportFiles ,setPrivateReportFiles,privatereportFiles}) => {
   return (
     <Container size="lg">
       <Flex justify={"space-between"}>
@@ -25,7 +25,7 @@ const Step3 = ({ selectedUser, caseNo }) => {
           <Text ml={10}>XXXX</Text>
         </Flex>
       </Flex>   
-      <DoubleTabs selectedUser={selectedUser} />
+      <DoubleTabs selectedUser={selectedUser} setReportFiles={setReportFiles} privatereportFiles={privatereportFiles} reportFiles={reportFiles} setPrivateReportFiles={setPrivateReportFiles}/>
     </Container>
   );
 };

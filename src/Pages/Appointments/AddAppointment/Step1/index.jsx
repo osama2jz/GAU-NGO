@@ -70,8 +70,11 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
         },
       });
     },
+   
+   
     {
       onSuccess: (response) => {
+        // setCases([]),
         setSelectedUser(response);
       },
       enabled: !!user,
@@ -89,6 +92,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       });
     },
     {
+
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let casee = {
@@ -102,6 +106,8 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       enabled: !!user,
     }
   );
+
+  
 
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
@@ -172,7 +178,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
             placeholder="Enter case name or id"
             label="Search User Case"
             creatable={true}
-            setData={setSelectedCase}
+            setData={setSelectedCase }
             disabled={newCase.length > 0}
             data={cases}
           />
@@ -189,6 +195,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
             onChange={(v) => {
               setNewCase(v.target.value);
               setSelectedCase(v.target.value);
+              
             }}
           />
         </Grid.Col>

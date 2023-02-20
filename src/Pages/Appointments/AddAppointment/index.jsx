@@ -30,16 +30,25 @@ const AddAppointment = () => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  // console.log(user)
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
   const [newCase, setNewCase] = useState("");
+  // const [caseId, setCaseId] = useState("");
+  const[reportFiles,setReportFiles]=useState({reportComments:"",reportFile:"https://gau0202.s3.amazonaws.com/1122.PNG",reportType:"public",createdBy:user.id})
+  const[privatereportFiles,setPrivateReportFiles]=useState({reportComments:"",reportFile:"https://gau0202.s3.amazonaws.com/1122.PNG",reportType:"private",createdBy:user.id})
+  // console.log("public",reportFiles)
+  // console.log("Private",privatereportFiles)
+  console.log("caseid",selectedCase)
+  console.log("newcase",newCase)
+  // console.log("caseNo",caseId)
 
   //create case
-  const handleCreateCase = useMutation(
-    () => {
+  const handleCreateCase = useMutation(() => {
+    // if(newCase.length > 0){
       let object = {};
       if (selectedCase.length > 0 && newCase.length < 1) {
         object = {
@@ -59,10 +68,43 @@ const AddAppointment = () => {
           "x-access-token": user.token,
         },
       });
+    // }else{
+    //   setSelectedCase(selectedCase)
+    // }
+      
     },
     {
       onSuccess: (response) => {
+        console.log("response")
+        // setNewCase("")
+        setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
+      },
+    }
+  );
+
+  //create report
+  const handleCreateReport = useMutation(() => {
+    
+    const value={
+      caseId:selectedCase,
+      reportFiles:[reportFiles,privatereportFiles]
+    }
+      return axios.post(`${backendUrl + "/api/case/caseReports"}`, value, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // setCaseNo(response?.data?.data?.caseNo);
+        console.log("response", response)
+        showNotification({
+          color: "green",
+          message: "Added Successfully",
+          title: "Success",
+        });
       },
     }
   );
@@ -78,6 +120,20 @@ const AddAppointment = () => {
         return;
       } else {
         handleCreateCase.mutate();
+      }
+    }
+    if(active==2){
+      if(reportFiles.reportComments===""){
+        showNotification({
+          color: "red",
+          message: "comment is required",
+          title: "Incomplete Info",
+        });
+        return;
+        // alert("comment is required")
+      }else {
+        handleCreateReport.mutate();
+        setActive(active + 1)
       }
     }
     if (user.role === "Psychologist") {
@@ -157,7 +213,8 @@ const AddAppointment = () => {
           }
           label="3. Upload Reporting"
         >
-          <Step3 selectedUser={selectedUser} caseNo={caseNo} />
+          <Step3 selectedUser={selectedUser} caseNo={caseNo} reportFiles={reportFiles} setReportFiles={setReportFiles}
+          privatereportFiles={privatereportFiles} setPrivateReportFiles={setPrivateReportFiles}/>
         </Stepper.Step>
         <Stepper.Step
           icon={
