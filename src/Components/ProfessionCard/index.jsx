@@ -17,7 +17,7 @@ const Cards = ({ cardData, onRefer, onNew }) => {
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
   const [referNewModal, setReferNewModal] = useState(false);
-  console.log("card", cardData);
+  // console.log("card", cardData);
 
   const dates=useMemo(()=>{
     return cardData?.schedule?.map((obj)=>moment(obj.dateStart).format("yyyy-MM-DD"))

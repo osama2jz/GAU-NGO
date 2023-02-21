@@ -1,5 +1,13 @@
-import { Avatar, Badge, Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
-import { useState } from "react";
+import {
+  Avatar,
+  Badge,
+  Container,
+  Flex,
+  Grid,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -10,17 +18,75 @@ import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
+import { useQuery } from "react-query";
 import { useStyles } from "./styles";
+import { UserContext } from "../../../contexts/UserContext";
+import { backendUrl } from "../../../constants/constants";
+import moment from "moment";
+import axios from "axios";
+
 function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
+
+  //API call for fetching All Scheduled Appointments
+  const { data, status } = useQuery(
+    "fetchAppointments",
+    () => {
+      return axios.get(
+        // `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}`}`,
+        `${backendUrl + `/api/case/listUserCaseAppointments/63e9d8587e54ce0014de43b3`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj._id,
+            sr: ind + 1,
+            caseName: obj.caseName,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser.firstName + " " + obj.caseLinkedUser.lastName,
+            email: obj.caseLinkedUser.email,
+            status: obj.caseStatus,
+            time: new moment(obj.createdAt).format("hh:mm A"),
+            date: new moment(obj.createdDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setRowData(data);
+        console.log("response", response);
+        
+      },
+    }
+  );
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr No.",
+    },
+   
+    {
+      id: "caseName",
+      numeric: false,
+      disablePadding: true,
+      label: "Case Name",
+    },
+    {
+      id: "caseNo",
+      numeric: false,
+      disablePadding: true,
+      label: "Case No.",
     },
     {
       id: "name",
@@ -50,12 +116,6 @@ function ScheduledAppointments() {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Appointment Status",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
       label: "Status",
     },
     {
@@ -65,53 +125,7 @@ function ScheduledAppointments() {
       label: "Actions",
     },
   ];
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "2",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-  ];
+  
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Appointment Scheduled"} />

@@ -8,7 +8,7 @@ import {
   Text,
   Avatar,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Eye, Trash } from "tabler-icons-react";
 import download from "../../../assets/download.svg";
@@ -19,14 +19,21 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import { UserContext } from "../../../contexts/UserContext";
+import { backendUrl } from "../../../constants/constants";
+import { useQuery } from "react-query";
+import moment from "moment";
+import axios from "axios";
 
 function PrivateReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const {user} = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [rowData, setRowData] = useState([]);
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr #",
@@ -38,17 +45,17 @@ function PrivateReport() {
       label: "Name",
     },
     {
-      id: "case",
+      id: "caseNo",
       numeric: false,
       disablePadding: true,
       label: "Case #",
     },
-    {
-      id: "report",
-      numeric: false,
-      disablePadding: true,
-      label: "Report #",
-    },
+    // {
+    //   id: "report",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Report #",
+    // },
     {
       id: "addedBy",
       numeric: false,
@@ -62,68 +69,53 @@ function PrivateReport() {
       label: "Date",
     },
     {
-      id: "time",
+      id: "type",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: "Report Type",
     },
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
 
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
+  //API call for fetching Private Reports
+  const { data, status } = useQuery(
+    "fetchAppointments",
+    () => {
+      return axios.get(
+        `${backendUrl + `/api/case/listUserReports/private/${user.id}`}`, 
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
-      id: "2",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-  ];
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.reportId,
+            sr: ind + 1,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser,
+            addedBy: obj.addedBy,
+            type:obj.reportType,
+            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setRowData(data);
+        console.log("response", response);
+        
+      },
+    }
+  );
   return (
     <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"Private"} />
