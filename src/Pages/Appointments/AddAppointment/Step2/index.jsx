@@ -7,6 +7,7 @@ import {
   Grid,
   Text,
   Avatar,
+  Anchor,
 } from "@mantine/core";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
@@ -26,6 +27,8 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const { user: usertoken } = useContext(UserContext);
   const [reports, setReport]=useState([])
+  const [reportData, setReportData] = useState([]);
+  console.log(reportData)
 
   let headerData = [
     {
@@ -46,12 +49,12 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
       disablePadding: true,
       label: "Case #",
     },
-    // {
-    //   id: "report",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Report #",
-    // },
+    {
+      id: "reportType",
+      numeric: false,
+      disablePadding: true,
+      label: "Report Type",
+    },
     {
       id: "addedBy",
       numeric: false,
@@ -92,10 +95,12 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
           let report = {
             id: obj.reportId,
             sr: ind + 1,
+            reportType: obj?.reportType,
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate, 
+            file: obj?.reportFile,
           };
           return report;
         });
@@ -160,6 +165,7 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
           headCells={headerData}
           rowData={reports}
           setViewModalState={setOpenViewModal}
+          setReportData={setReportData}
         />
       </Container>
       <ViewModal
@@ -178,18 +184,23 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+            {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textContent}>{reportData?.case}</Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
                 <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>20 Jan,2022</Text>
-                <Text className={classes.textheading}>Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
+                <Text className={classes.textheading}>Report File</Text>
+                <Anchor href={reportData?.file} target="_blank">
+     {reportData?.reportType} Report
+    </Anchor>
+                
+                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textContent}>{reportData?.reportType}</Text>
               </SimpleGrid>
             </Container>
           </Grid.Col>

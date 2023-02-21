@@ -37,8 +37,8 @@ function ScheduledAppointments() {
     "fetchAppointments",
     () => {
       return axios.get(
-        `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}`}`,
-        // `${backendUrl + `/api/case/listUserCaseAppointments/63e9d8587e54ce0014de43b3`}`,
+        // `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}`}`,
+        `${backendUrl + `/api/case/listUserCaseAppointments/63e9d8587e54ce0014de43b3`}`,
         {
           headers: {
             "x-access-token": user.token,
