@@ -25,6 +25,8 @@ const Datepicker = ({
   dropdownType="popover",
   validateName,
   labelFormat,
+  onChange,
+  
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -37,6 +39,7 @@ const Datepicker = ({
       label={label}
       excludeDate={(date)=>!excludeDate.includes(moment(date).format("YYYY-MM-DD"))}
       required={required}
+      onChange={onChange}
       classNames={{ input: classes.root }}
       {...form?.getInputProps(validateName)}
       inputFormat={labelFormat}

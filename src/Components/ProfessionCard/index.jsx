@@ -1,6 +1,6 @@
 import { Avatar, Badge, Card, Grid, Stack, Text } from "@mantine/core";
 import moment from "moment";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { CalendarEvent, Clock } from "tabler-icons-react";
 import defaultLogo from "../../assets/teacher.png";
 import Button from "../../Components/Button";
@@ -12,12 +12,19 @@ import ReferModal from "./ReferModal";
 import ReferNewCaseModal from "./ReferNewCaseModal";
 import { useStyles } from "./styles";
 
-const Cards = ({ cardData, onRefer, onNew }) => {
+
+const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
   const [referNewModal, setReferNewModal] = useState(false);
-  // console.log("card", cardData);
+  console.log("referCase",referCase)
+  // console.log("caseid",caseId)
+  // console.log(selectedData)
+
+  useEffect(()=>{
+    setNewReferCase({...referCase, caseId:caseId})
+  },[])
 
   const dates=useMemo(()=>{
     return cardData?.schedule?.map((obj)=>moment(obj.dateStart).format("yyyy-MM-DD"))
@@ -51,7 +58,13 @@ const Cards = ({ cardData, onRefer, onNew }) => {
           <Select
             placeholder="Branch"
             size="xs"
+            
+            onChange={(e) => {
+              setNewReferCase({...referCase,branchId:e})
+            }}
+            
             data={cardData?.branches || []}
+            // setData={setSelectedData}
           />
           <Grid>
             <Grid.Col span={6}>
@@ -61,10 +74,11 @@ const Cards = ({ cardData, onRefer, onNew }) => {
                 labelFormat={"DD/MM/YY"}
                 excludeDate={dates}
                 dropdownType="modal"
+                onChange={(e) => setNewReferCase({...referCase, referedCaseAppointmentDate:moment(e).format("yyyy-MM-DD")})}
               />
             </Grid.Col>
             <Grid.Col span={6}>
-              <Timepicker icon={<Clock size={16} />} />
+              <Timepicker icon={<Clock size={16} />} onChange={(e)=>setNewReferCase({...referCase,referedCaseAppointmentTime:moment(e).format("hh:mm")})} />
             </Grid.Col>
           </Grid>
         </Stack>
@@ -72,7 +86,9 @@ const Cards = ({ cardData, onRefer, onNew }) => {
           label="Refer"
           primary={true}
           className={classes.button}
-          onClick={() => setReferModal(true)}
+          onClick={() => {setReferModal(true),
+          setNewReferCase({...referCase,referedTo:cardData?.userId})}}
+          // onClick={()=>alert(cardData?.userId)}
           styles={{ width: "100%", marginBottom: "5px" }}
         />
 
@@ -85,7 +101,7 @@ const Cards = ({ cardData, onRefer, onNew }) => {
           />
 
       </Card>
-      <ReferModal opened={referModal} setOpened={setReferModal} />
+      <ReferModal opened={referModal} setOpened={setReferModal} setNewReferCase={setNewReferCase} referCase={referCase}/>
       <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} />
     </>
   );

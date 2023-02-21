@@ -48,6 +48,9 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
+  // const [referCase, setNewReferCase] = useState();
+  // console.log(selectedCase, "selectedCase")
+  // console.log(referCase, "referCase")
 
   //create case
   const handleCreateCase = useMutation(
@@ -232,7 +235,7 @@ const AddAppointment = () => {
           }
           label="4. Refer"
         >
-          <Step4 />
+          <Step4  caseId={selectedCase}/>
         </Stepper.Step>
       </Stepper>
 

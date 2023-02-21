@@ -29,7 +29,7 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
 
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr #",
@@ -46,12 +46,12 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
       disablePadding: true,
       label: "Case #",
     },
-    {
-      id: "report",
-      numeric: false,
-      disablePadding: true,
-      label: "Report #",
-    },
+    // {
+    //   id: "report",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Report #",
+    // },
     {
       id: "addedBy",
       numeric: false,
@@ -77,7 +77,7 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
     "userReports",
     () => {
       return axios.get(
-        backendUrl + `/api/case/listCaseUserReports/${selectedUser.data.data._id}/${caseId}`,
+        backendUrl + `/api/case/listCaseUserReports/${selectedUser.data.data._id}`,
         {
           headers: {
             "x-access-token": usertoken?.token,
@@ -87,10 +87,11 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
     },
     {
       onSuccess: (response) => {
-        console.log(response)
-        let data = response?.data?.map((obj, ind) => {
+        console.log("ur",response.data.data)
+        let data = response?.data?.data?.map((obj, ind) => {
           let report = {
-            id: obj._id,
+            id: obj.reportId,
+            sr: ind + 1,
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
@@ -123,19 +124,19 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
         </Flex>
       </Flex>
       <Grid mt={30}>
-        <Grid.Col md={6}>
-          <img
-            className={classes.image}
-            src="https://visualpharm.com/assets/387/Person-595b40b75ba036ed117da139.svg"
-            alt="icon"
-          />
-        </Grid.Col>
-        <Grid.Col md={4} xs={5}>
-          <SimpleGrid cols={2}>
-            <UserInfo userData={selectedUser} />
-          </SimpleGrid>
-        </Grid.Col>
-      </Grid>
+          <Grid.Col md={5}>
+            <img
+              className={classes.image}
+              src={userlogo}
+              alt="img"
+            />
+          </Grid.Col>
+          <Grid.Col md={6} xs={5}>
+            <SimpleGrid cols={2}>
+              <UserInfo userData={selectedUser} />
+            </SimpleGrid>
+          </Grid.Col>
+        </Grid>
       <Text align="center" fw={"bold"} mt="xl">
         User Reports
       </Text>
