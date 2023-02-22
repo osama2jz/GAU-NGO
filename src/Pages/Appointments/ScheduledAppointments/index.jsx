@@ -31,14 +31,15 @@ function ScheduledAppointments() {
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
     "fetchAppointments",
     () => {
       return axios.get(
-        // `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}`}`,
-        `${backendUrl + `/api/case/listUserCaseAppointments/63e9d8587e54ce0014de43b3`}`,
+        `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}/${activePage}/10`}`,
         {
           headers: {
             "x-access-token": user.token,
