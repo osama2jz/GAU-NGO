@@ -229,76 +229,81 @@ export const UserVerification = () => {
     <Container className={classes.userVerification} size="lg">
       <ContainerHeader label={"User Verification"} />
       <Container className={classes.innerContainer} size="xl">
-      <Stepper
-        active={active}
-        color={theme.colors.primary}
-        allowNextStepsSelect={false}
-        breakpoint="md"
-        onStepClick={setActive}
-      >
-        <Stepper.Step
-          label="1. Get Started"
-          description="Personal Identification"
+        <Stepper
+          active={active}
+          color={theme.colors.primary}
+          allowNextStepsSelect={false}
+          breakpoint="md"
+          onStepClick={setActive}
+          classNames={{
+            separator: classes.seperator,
+            separatorActive: classes.activeSep,
+            stepCompletedIcon: classes.stepCompletedIcon
+          }}
         >
-          <Step1 user={userid} setUser={setUserId} />
-        </Stepper.Step>
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
+          <Stepper.Step
+            label="1. Get Started"
+            description="Personal Identification"
+          >
+            <Step1 user={userid} setUser={setUserId} />
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="2. Social History Form"
+            description="User's Personal History"
+          >
+            <Step2
+              setActive={setActive}
+              active={active}
+              setAlldata={setAlldata}
+              alldata={alldata}
+              workExperience={workExperience}
+              setWorkExperience={setWorkExperience}
+              refrences={refrences}
+              setRefrences={setRefrences}
+              trainingStudies={trainingStudies}
+              setTrainingStudies={setTrainingStudies}
+              userdata={userdata}
+              form={form}
+              id={userid}
             />
-          }
-          label="2. Social History Form"
-          description="User's Personal History"
-        >
-          <Step2
-            setActive={setActive}
-            active={active}
-            setAlldata={setAlldata}
-            alldata={alldata}
-            workExperience={workExperience}
-            setWorkExperience={setWorkExperience}
-            refrences={refrences}
-            setRefrences={setRefrences}
-            trainingStudies={trainingStudies}
-            setTrainingStudies={setTrainingStudies}
-            userdata={userdata}
-            form={form}
-            id={userid}
-          />
-        </Stepper.Step>
-        <Stepper.Step
-          icon={
-            <img
-              src={step3}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="3. Consent Form"
-          description="Consent Form"
-        >
-          <Step3 setConsentSignature={setConsentSignature} />
-        </Stepper.Step>
-        <Stepper.Step
-          icon={
-            <img
-              src={step4}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="4. Agreement"
-          description="User Agreement"
-        >
-          <Step4 setAgreementSignature={setAgreementSignature} />
-        </Stepper.Step>
-        {/* <Stepper.Step
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step3}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="3. Consent Form"
+            description="Consent Form"
+          >
+            <Step3 setConsentSignature={setConsentSignature} />
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step4}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="4. Agreement"
+            description="User Agreement"
+          >
+            <Step4 setAgreementSignature={setAgreementSignature} />
+          </Stepper.Step>
+          {/* <Stepper.Step
           icon={
             <img
               src={step5}
@@ -312,25 +317,24 @@ export const UserVerification = () => {
         >
           <Step5 />
         </Stepper.Step> */}
-      </Stepper>
-      <Group position="center" mt="xl">
-        {active < 2 ? (
-          ""
-        ) : (
-          <Button onClick={() => setActive(active - 1)} label="Back" />
-        )}
-        {active === 1 ? (
-          ""
-        ) : (
-          <Button
-            onClick={handleNextSubmit}
-            label={active === 4 ? "Submit" : "Save & Next"}
-            bg={true}
-          />
-        )}
-      </Group>
+        </Stepper>
+        <Group position="center" mt="xl">
+          {active < 2 ? (
+            ""
+          ) : (
+            <Button onClick={() => setActive(active - 1)} label="Back" />
+          )}
+          {active === 1 ? (
+            ""
+          ) : (
+            <Button
+              onClick={handleNextSubmit}
+              label={active === 4 ? "Submit" : "Save & Next"}
+              bg={true}
+            />
+          )}
+        </Group>
       </Container>
-    
     </Container>
   );
 };

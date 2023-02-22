@@ -31,7 +31,7 @@ const Cards = ({ data,setUrl ,url }) => {
         onClick={handleClick}
         style={{ cursor: "pointer",
         backgroundColor: data.url===url ?"#f5f5f5":'',
-        border: data.url===url ?"1px solid #C1C2C5":''}}
+        border: data.url===url ?"2px solid green":''}}
       >
         <Flex align={"baseline"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
