@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Anchor,
   Container,
@@ -23,23 +23,74 @@ import {
   Trash,
 } from "tabler-icons-react";
 import { useNavigate } from "react-router";
+import { UserContext } from "../../../contexts/UserContext";
+import { backendUrl } from "../../../constants/constants";
+import { useQuery } from "react-query";
+import moment from "moment";
+import axios from "axios";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [rowData, setRowData] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
-  let headerData = [
-    {
-      id: "id",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr #",
+  const { user } = useContext(UserContext);
+
+  //API call for fetching All Scheduled Appointments
+  const { data, status } = useQuery(
+    "fetchAppointments",
+    () => {
+      return axios.get(
+        // `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}`}`,
+        `${backendUrl + `/api/case/listUserCaseAppointments/63e9d8587e54ce0014de43b3`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
-      id: "case",
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj._id,
+            sr: ind + 1,
+            caseName: obj.caseName,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser.firstName + " " + obj.caseLinkedUser.lastName,
+            email: obj.caseLinkedUser.email,
+            status: obj.caseStatus,
+            time: new moment(obj.createdAt).format("hh:mm A"),
+            date: new moment(obj.createdDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setRowData(data);
+        console.log("response", response);
+        
+      },
+    }
+  );
+  let headerData = [
+    {
+      id: "sr",
       numeric: true,
+      disablePadding: true,
+      label: "Sr No.",
+    },
+   
+    {
+      id: "caseName",
+      numeric: false,
+      disablePadding: true,
+      label: "Case Name",
+    },
+    {
+      id: "caseNo",
+      numeric: false,
       disablePadding: true,
       label: "Case No.",
     },
@@ -62,70 +113,22 @@ const UserPage = (props) => {
       label: "Date",
     },
     {
-      id: "status",
+      id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Appointment Status",
+      label: "Time",
     },
     {
-      id: "accStatus",
+      id: "status",
       numeric: false,
       disablePadding: true,
       label: "Status",
     },
     {
       id: "actions",
-      view: <Eye color="#4069BF" />,
-      edit: <Edit color="#4069BF" />,
+      view: <Eye color="#4069bf" />,
       numeric: false,
       label: "Actions",
-    },
-  ];
-  const rowData = [
-    {
-      id: "1",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "2",
-      case: "1234556",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "3",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "4",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "5",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
     },
   ];
   const a = [

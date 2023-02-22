@@ -21,14 +21,16 @@ import { UserContext } from "../../../../contexts/UserContext";
 import axios from "axios";
 import { backendUrl } from "../../../../constants/constants";
 import { useQuery } from "react-query";
+import Loader from "../../../../Components/Loader";
 
 const Step2 = ({ selectedUser, caseNo, caseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
   const { user: usertoken } = useContext(UserContext);
-  const [reports, setReport]=useState([])
+  const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
-  console.log(reportData)
+  const [loading, setLoading] = useState(false);
+  console.log(reportData);
 
   let headerData = [
     {
@@ -75,12 +77,13 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
     },
   ];
 
-
   const { data: users, status } = useQuery(
     "userReports",
     () => {
+      setLoading(true);
       return axios.get(
-        backendUrl + `/api/case/listCaseUserReports/${selectedUser.data.data._id}`,
+        backendUrl +
+          `/api/case/listCaseUserReports/${selectedUser.data.data._id}`,
         {
           headers: {
             "x-access-token": usertoken?.token,
@@ -90,7 +93,7 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
     },
     {
       onSuccess: (response) => {
-        console.log("ur",response.data.data)
+        console.log("ur", response.data.data);
         let data = response?.data?.data?.map((obj, ind) => {
           let report = {
             id: obj.reportId,
@@ -99,12 +102,15 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
-            date: obj?.addedDate, 
+            date: obj?.addedDate,
             file: obj?.reportFile,
+            comments: obj?.comments,
           };
           return report;
         });
+
         setReport(data);
+        setLoading(false);
       },
     }
   );
@@ -129,45 +135,46 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
         </Flex>
       </Flex>
       <Grid mt={30}>
-          <Grid.Col md={5}>
-            <img
-              className={classes.image}
-              src={userlogo}
-              alt="img"
-            />
-          </Grid.Col>
-          <Grid.Col md={6} xs={5}>
-            <SimpleGrid cols={2}>
-              <UserInfo userData={selectedUser} />
-            </SimpleGrid>
-          </Grid.Col>
-        </Grid>
+        <Grid.Col md={5}>
+          <img className={classes.image} src={userlogo} alt="img" />
+        </Grid.Col>
+        <Grid.Col md={6} xs={5}>
+          <SimpleGrid cols={2}>
+            <UserInfo userData={selectedUser} />
+          </SimpleGrid>
+        </Grid.Col>
+      </Grid>
       <Text align="center" fw={"bold"} mt="xl">
         User Reports
       </Text>
-      <Container p={"xs"} className={classes.innerContainer}>
-        <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
-          </Grid.Col>
-          <Grid.Col sm={6}>
-            <SelectMenu
-              placeholder="Added By"
-              data={[
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychologist", value: "psychologistng" },
-                { label: "Social Worker", value: "socailworker" },
-              ]}
-            />
-          </Grid.Col>
-        </Grid>
-        <Table
-          headCells={headerData}
-          rowData={reports}
-          setViewModalState={setOpenViewModal}
-          setReportData={setReportData}
-        />
-      </Container>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Container p={"xs"} className={classes.innerContainer}>
+          <Grid align={"center"} py="md">
+            <Grid.Col sm={6}>
+              <InputField placeholder="Search" leftIcon="search" pb="0" />
+            </Grid.Col>
+            <Grid.Col sm={6}>
+              <SelectMenu
+                placeholder="Added By"
+                data={[
+                  { label: "Lawyer", value: "lawyer" },
+                  { label: "Psychologist", value: "psychologistng" },
+                  { label: "Social Worker", value: "socailworker" },
+                ]}
+              />
+            </Grid.Col>
+          </Grid>
+          <Table
+            headCells={headerData}
+            rowData={reports}
+            setViewModalState={setOpenViewModal}
+            setReportData={setReportData}
+          />
+        </Container>
+      )}
+
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
@@ -184,27 +191,33 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
+              {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
                 <Text className={classes.textContent}>{reportData?.case}</Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.addedBy}
+                </Text>
                 <Text className={classes.textheading}>Date</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Report File</Text>
                 <Anchor href={reportData?.file} target="_blank">
-     {reportData?.reportType} Report
-    </Anchor>
-                
+                  {reportData?.reportType} Report
+                </Anchor>
+
                 <Text className={classes.textheading}>Report Type</Text>
-                <Text className={classes.textContent}>{reportData?.reportType}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.reportType}
+                </Text>
               </SimpleGrid>
             </Container>
           </Grid.Col>
         </Grid>
+        <Text className={classes.textheading}>Report Comments</Text>
+        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Text,
   Avatar,
+  Anchor,
 } from "@mantine/core";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +32,10 @@ function PrivateReport() {
   const {user} = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
+  const [reportData, setReportData] = useState([]);
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   let headerData = [
     {
       id: "sr",
@@ -50,17 +55,18 @@ function PrivateReport() {
       disablePadding: true,
       label: "Case #",
     },
-    // {
-    //   id: "report",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Report #",
-    // },
+    
     {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
       label: "Added By",
+    },
+    {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
     },
     {
       id: "date",
@@ -88,7 +94,7 @@ function PrivateReport() {
     "fetchAppointments",
     () => {
       return axios.get(
-        `${backendUrl + `/api/case/listUserReports/private/${user.id}`}`, 
+        `${backendUrl + `/api/case/listUserReports/private/${user.id}/${activePage}/10`}`, 
         {
           headers: {
             "x-access-token": user.token,
@@ -98,14 +104,18 @@ function PrivateReport() {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
             sr: ind + 1,
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
+            role: obj.role,
             type:obj.reportType,
+            comments: obj.comments,
+            file: obj?.reportFile,
+
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
           };
           return appointment;
@@ -154,6 +164,7 @@ function PrivateReport() {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
+          setReportData={setReportData}
         />
       </Container>
       <ViewModal
@@ -161,7 +172,7 @@ function PrivateReport() {
         setOpened={setOpenViewModal}
         title="Report #2345"
       >
-        <Grid align="center" justify={"space-between"}>
+         <Grid align="center" justify={"space-between"}>
           <Grid.Col md={4}>
             <Avatar
               radius="xl"
@@ -172,22 +183,29 @@ function PrivateReport() {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+            {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textContent}>{reportData?.caseNo}</Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
                 <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>20 Jan,2022</Text>
-                <Text className={classes.textheading}>Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
+                <Text className={classes.textheading}>Report File</Text>
+                <Anchor href={reportData?.file} target="_blank">
+     {reportData?.type} Report
+    </Anchor>
+                
+                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>
             </Container>
           </Grid.Col>
         </Grid>
+        <Text className={classes.textheading}>Report Comments</Text>
+        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

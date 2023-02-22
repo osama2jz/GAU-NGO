@@ -1,4 +1,4 @@
-import { Grid, Avatar, SimpleGrid, Container, Text } from "@mantine/core";
+import { Grid, Avatar, SimpleGrid, Container, Text,Badge } from "@mantine/core";
 import { useStyles } from "./styles";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/teacher.png";
 import { useQuery } from "react-query";
 
-function ViewUserModal({ id }) {
+function ViewUserModal({ id,reportData }) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [userdata, setUserData] = useState();
@@ -38,39 +38,32 @@ function ViewUserModal({ id }) {
       </Grid.Col>
       <Grid.Col md={7} style={{ backgroundColor: "white" }}>
         <Text size={24} weight="bold" mb="sm" align="center">
-          {userdata?.firstName}
-          {""} {userdata?.lastName}
+          {reportData?.name}
         </Text>
         <Container w={"100%"}>
           <SimpleGrid cols={2} spacing="xs">
-            <Text className={classes.textheading}>Date of Birth</Text>
-            <Text className={classes.textContent}>Date of Birth</Text>
-            <Text className={classes.textheading}>Age</Text>
+            {/* <Text className={classes.textheading}>Date of Birth</Text>
+            <Text className={classes.textContent}>Date of Birth</Text> */}
+            <Text className={classes.textheading}>Email</Text>
+            <Text className={classes.textContent}>
+              {reportData?.email}
+            </Text>
+            <Text className={classes.textheading}>Phone Number</Text>
+            <Text className={classes.textContent}>
+              {reportData?.phone}
+            </Text>
+            {/* <Text className={classes.textheading}>Age</Text>
             <Text className={classes.textContent}>
               {userdata?.userConsentForm?.personalInformation?.age}
-            </Text>
-            <Text className={classes.textheading}>Nationality</Text>
-            <Text className={classes.textContent}>
-              {userdata?.userConsentForm?.personalInformation?.nationality}
-            </Text>
-            <Text className={classes.textheading}>Origin</Text>
-            <Text className={classes.textContent}>
-              {userdata?.userConsentForm?.personalInformation?.origin}
-            </Text>
-            <Text className={classes.textheading}>Passport</Text>
-            <Text className={classes.textContent}>
-              {userdata?.userConsentForm?.personalInformation?.passport}
-            </Text>
-            <Text className={classes.textheading}>Domicile</Text>
-            <Text className={classes.textContent}>
-              {" "}
-              {userdata?.userConsentForm?.personalInformation?.domicile}
-            </Text>
-            <Text className={classes.textheading}>Municipality</Text>
-            <Text className={classes.textContent}>
-              {" "}
-              {userdata?.userConsentForm?.personalInformation?.muncipality}
-            </Text>
+            </Text> */}
+            
+            <Text className={classes.textheading}>Status</Text>
+           <Badge color={reportData?.accStatus=== "inactive" ? "red" :"green"}>{reportData?.accStatus}</Badge>
+            <Text className={classes.textheading}>User Status</Text>
+            
+            <Badge color={reportData?.status=== "unverified" ? "red" :"green"} radius="md">{reportData?.status}</Badge>
+            
+            
           </SimpleGrid>
         </Container>
       </Grid.Col>

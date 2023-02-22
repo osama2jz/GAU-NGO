@@ -64,13 +64,20 @@ const UserPage = (props) => {
   );
 
   //API call for deleting user
-  const handleDeleted = () => {
-    handleChangeStatus.mutate({
+  const handleDeleted = () => {{handleChangeStatus.mutate({
       userId: deleteID,
       userStatus: "deleted",
     });
+    
     setOpenDeleteModal(false);
-  };
+    showNotification({
+      title: "Deleted",
+      message: "User Deleted Successfully!",
+      color: "green",
+    });
+    queryClient.invalidateQueries("fetchUser");
+   
+  }}
 
   //API call for changing user status
   const handleChangeStatus = useMutation(

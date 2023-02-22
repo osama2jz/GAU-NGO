@@ -1,3 +1,4 @@
+
 import {
   Container, Grid, useMantineTheme
 } from "@mantine/core";
@@ -34,12 +35,14 @@ export const AllUser = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
-  const [viewModalData,setViewModalData]=useState()
+  const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
+
+  const [reportData, setReportData] = useState([]);
 
   let headerData = [
     {
@@ -113,6 +116,8 @@ export const AllUser = () => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone:obj.phoneNumber,
+            
           };
           return user;
         });
@@ -143,8 +148,8 @@ export const AllUser = () => {
       },
     }
   );
-  
-//API call for deleting user
+
+  //API call for deleting user
   const handleDeleted = () => {
     handleChangeStatus.mutate({
       userId: deleteID,
@@ -157,7 +162,7 @@ export const AllUser = () => {
     return <Loader />;
   }
   return (
-    <Container className={classes.addUser} size="xl"> 
+    <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Users"} />
 
       <Container className={classes.innerContainer} size="xl">
@@ -195,13 +200,16 @@ export const AllUser = () => {
           onStatusChange={handleChangeStatus.mutate}
           setDeleteData={setDeleteID}
           setDeleteModalState={setOpenDeleteModal}
+          setReportData={setReportData}
         />
-        {totalPages>1 && <Pagination
-          activePage={activePage}
-          setPage={setPage}
-          total={totalPages}
-          radius="xl"
-        />}
+        {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
+          />
+        )}
       </Container>
       <DeleteModal
         opened={openDeleteModal}
@@ -215,20 +223,17 @@ export const AllUser = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Details"
-        
-        
       >
-       {/* <ViewUser id={viewModalData}/> */}
-       <ViewUserModal id={viewModalData}/>
+        {/* <ViewUser id={viewModalData}/> */}
+        <ViewUserModal id={viewModalData} reportData={reportData}/>
       </ViewModal>
       <EditModal
-      opened={openEditModal}
-      setOpened={setOpenEditModal}
-      title="Edit User Details">
-        
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal}/>
+        opened={openEditModal}
+        setOpened={setOpenEditModal}
+        title="Edit User Details"
+      >
+        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
       </EditModal>
-      
     </Container>
   );
 };
