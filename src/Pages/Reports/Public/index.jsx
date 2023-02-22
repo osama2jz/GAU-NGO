@@ -25,6 +25,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useQuery } from "react-query";
 import moment from "moment";
 import axios from "axios";
+import DownloadPdf from "../downloadPdf";
 
 function PublicReport() {
   const { classes } = useStyles();
@@ -145,19 +146,8 @@ function PublicReport() {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <Menu shadow="md" width={"target"} className={classes.export} >
-              <Menu.Target>
-                <Flex gap={4} align="center" justify={"space-around"}>
-                  <Image src={download} width={18} height={18} />
-                  <Text>Export PDF</Text>
-                </Flex>
-              </Menu.Target>
-              <Menu.Dropdown >
-                <Menu.Item>Weekly</Menu.Item>
-                <Menu.Item>Monthly</Menu.Item>
-                <Menu.Item>Yearly</Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+          <DownloadPdf headCells={headerData} setdata={setRowData} data={rowData} title="Download reports"/>
+           
           </Grid.Col>
         </Grid>
         <Table
