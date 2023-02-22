@@ -22,6 +22,7 @@ root.render(
             container: "#F5F6FA",
             gray: "#E7E7E780",
             heading: "#56606E",
+            white:'white',
             grayDark: "rgb(0,0,0,0.5)",
           },
           primaryColor: "green",
