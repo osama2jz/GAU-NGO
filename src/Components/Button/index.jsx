@@ -1,18 +1,10 @@
 import { Button as ButtonMantine, createStyles } from "@mantine/core";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, { bg, primary }) => ({
   rootPrimary: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: primary? theme.colors.green : bg? theme.colors.blue: theme.colors.red,
     "&:hover": {
-      backgroundColor: theme.colors.primaryHover,
-    },
-  },
-  rootSecondary: {
-    backgroundColor: "transparent",
-    color: "black",
-    border: "1px solid rgb(0,0,0,0.3)",
-    "&:hover": {
-      backgroundColor: theme.colors.gray,
+      backgroundColor: primary? theme.colors.greenHover : bg? theme.colors.blueHover: theme.colors.redHover,
     },
   },
   icon: {
@@ -25,15 +17,17 @@ const useStyles = createStyles((theme) => ({
 const Button = ({
   leftIcon,
   label,
-  primary = false,
+  bg=false, 
+  primary=false,
   styles,
   onClick,
   compact,
   type,
   iconWidth = "16px",
   disabled,
+  // white=false
 }) => {
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useStyles({ bg, primary });
   return (
     <ButtonMantine
       sx={styles}
@@ -52,7 +46,7 @@ const Button = ({
       }
       type={type}
       classNames={{
-        root: primary ? classes.rootPrimary : classes.rootSecondary,
+        root: classes.rootPrimary,
       }}
       onClick={onClick}
     >

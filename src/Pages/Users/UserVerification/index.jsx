@@ -228,6 +228,7 @@ export const UserVerification = () => {
   return (
     <Container className={classes.userVerification} size="lg">
       <ContainerHeader label={"User Verification"} />
+      <Container className={classes.innerContainer} size="xl">
       <Stepper
         active={active}
         color={theme.colors.primary}
@@ -324,10 +325,12 @@ export const UserVerification = () => {
           <Button
             onClick={handleNextSubmit}
             label={active === 4 ? "Submit" : "Save & Next"}
-            primary={true}
+            bg={true}
           />
         )}
       </Group>
+      </Container>
+    
     </Container>
   );
 };

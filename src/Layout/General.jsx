@@ -41,6 +41,7 @@ const Layout = () => {
           bg={""}
         >
           <SideBar
+            opened={opened}
             sideBarLinks={
               user.role === "Social Worker"
                 ? socialSideBarData
@@ -54,24 +55,38 @@ const Layout = () => {
       }
       footer={<></>}
       header={
-        <Header height={{ base: 60, md: 60, sm: 65 }} bg={theme.colors.primary}>
-          <Group noWrap>
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray}
-                mr="xl"
-              />
-            </MediaQuery>
-            <Topbar />
-          </Group>
-        </Header>
+        <></>
+        //   <Header height={{ base: 60, md: 60, sm: 65 }} bg={theme.colors.primary}>
+        //     <Group noWrap>
+        // <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+        //   <Burger
+        //     opened={opened}
+        //     onClick={() => setOpened((o) => !o)}
+        //     size="sm"
+        //     color={theme.colors.gray}
+        //     mr="xl"
+        //   />
+        // </MediaQuery>
+        //       <Topbar />
+        //     </Group>
+        //   </Header>
       }
     >
-      <Container mt={"md"} mih="100%" size="xl">
-        <Outlet />
+      <Container mih="100%" size="xl" >
+        <Group noWrap>
+          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            <Burger
+              opened={opened}
+              onClick={() => setOpened((o) => !o)}
+              size="sm"
+              color={theme.colors.black}
+            />
+          </MediaQuery>
+          <Topbar />
+        </Group>
+        <Container bg={theme.colors.container} size="xl" style={{borderRadius:'20px', border: '1px solid rgb(0,0,0,0.034 '}}>
+          <Outlet />
+        </Container>
       </Container>
     </AppShell>
   ) : (
