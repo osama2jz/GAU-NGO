@@ -15,6 +15,7 @@ export const useStyles = createStyles((theme) => ({
   },
   card: {
     border: `0.5px solid rgb(0,0,0,0.1)`,
+    // backgroundColor:"white",
     margin:'auto',
     ":hover": {
       cursor: "pointer",
@@ -26,4 +27,5 @@ export const useStyles = createStyles((theme) => ({
   chartcard: {
     border: `0.5px solid rgb(0,0,0,0.1)`,
   },
+  
 }));

@@ -6,6 +6,7 @@ import {
   Group,
   Paper,
   ScrollArea,
+  Container,
   Switch,
   Table as TableMantine,
   Text,
@@ -31,7 +32,7 @@ const Table = ({
   setEditModalState,
   setDeleteData,
   onStatusChange,
-  setReportData
+  setReportData,
 }) => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -148,12 +149,11 @@ const Table = ({
                         )}
                         <ActionIcon
                           onClick={() => {
-                            if(setReportData){
+                            if (setReportData) {
                               setReportData(row);
                             }
                             setViewModalState(true);
                             setViewModalData(row.id);
-                           
                           }}
                         >
                           {head.view}
@@ -232,9 +232,9 @@ const Table = ({
                   ) : (
                     <td key={index} align="center">
                       {/* {head.date &&
-                        row[head?.id]?.split("T")[0] +
-                          " " +
-                          row[head?.id]?.split("T")[1].split(".")[0]} */}
+                      row[head?.id]?.split("T")[0] +
+                        " " +
+                        row[head?.id]?.split("T")[1].split(".")[0]} */}
                       <Text lineClamp={1}>
                         {row[head?.id].length > 100
                           ? row[head?.id].substring(0, 5) + "..."
@@ -248,6 +248,24 @@ const Table = ({
           })}
         </tbody>
       </TableMantine>
+      {rowDatas?.length === 0 && (<Container>
+        <Text
+          align="center"
+          pt={8}
+          sx={{
+            fontFamily: "Greycliff CF, sans-serif",
+            margin: "auto",
+          }}
+          fz="md"
+          fw={600}
+          mt={8}
+          color="rgb(0,0,0,0.5)"
+        >
+          {" "}
+          No Data Found
+        </Text>
+      </Container>)}
+      
     </Paper>
   );
 };

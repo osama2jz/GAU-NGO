@@ -1,22 +1,55 @@
-import { useState } from "react";
-import { Anchor, Container,SimpleGrid, Avatar,Flex, Grid, Text } from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import {
+  Anchor,
+  Container,
+  SimpleGrid,
+  Avatar,
+  Flex,
+  Grid,
+  Text,
+} from "@mantine/core";
 import userlogo from "../../../assets/teacher.png";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { useStyles } from "./styles";
 import Card from "../Card";
 import Table from "../../../Components/Table";
-import { ArrowNarrowLeft, Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
+import {
+  ArrowNarrowLeft,
+  Checks,
+  Edit,
+  Eye,
+  Plus,
+  Trash,
+} from "tabler-icons-react";
 import { useNavigate } from "react-router";
+import { UserContext } from "../../../contexts/UserContext";
+import { backendUrl } from "../../../constants/constants";
+import { useQuery, useQueryClient } from "react-query";
+import moment from "moment";
+import axios from "axios";
+import Loader from "../../../Components/Loader";
+import TextArea from "../../../Components/TextArea";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const { user } = useContext(UserContext);
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [url, setUrl] = useState(`/api/case/listUserReports/public/${user.id}/${activePage}/10`);
+  const [loader, setLoader] = useState(false);
+  const [reportData, setReportData] = useState([]);
+
+  console.log(url)
+
+  const [rowData, setRowData] = useState([]);
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr #",
@@ -28,22 +61,23 @@ const UserPage = (props) => {
       label: "Name",
     },
     {
-      id: "case",
+      id: "caseNo",
       numeric: false,
       disablePadding: true,
       label: "Case #",
     },
-    {
-      id: "report",
-      numeric: false,
-      disablePadding: true,
-      label: "Report #",
-    },
+
     {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
       label: "Added By",
+    },
+    {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
     },
     {
       id: "date",
@@ -52,67 +86,99 @@ const UserPage = (props) => {
       label: "Date",
     },
     {
-      id: "time",
+      id: "type",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: "Report Type",
     },
     {
       id: "actions",
-      view: <Eye color="#4069BF" />,
-      edit: <Edit color="#4069BF" />,
+      view: <Eye color="#4069bf" />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
+
+  //API call for fetching Public Reports
+  const { data, status } = useQuery(
+    "fetchPublic",
+    () => {
+      // console.log(`Hi am here ${url}}`)
+      setLoader(true);
+      return axios.get(`${backendUrl + url}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
-      id: "2",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
+      onSuccess: (response) => {
+        let data = response?.data?.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.reportId,
+            sr: ind + 1,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser,
+            addedBy: obj.addedBy,
+            role: obj.role,
+            type: obj.reportType,
+            case: obj?.caseNo,
+            file: obj?.reportFile,
+            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+            comments: obj?.comments,
+          };
+          return appointment;
+        });
+        setRowData(data);
+        setLoader(false);
+        // console.log("response", response);
+      },
+      enabled:
+        url === `/api/case/listUserReports/public/${user.id}/${activePage}/10` ? true : false,
+    }
+  );
+
+  //API call for fetching Private Reports
+  const { data1, status1 } = useQuery(
+    "fetchPrivate",
+    () => {
+      // console.log(`Hi am here ${url}}`)
+      setLoader(true);
+      return axios.get(`${backendUrl + url}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
-      id: "3",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-  ];
+      onSuccess: (response) => {
+        let data = response?.data?.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.reportId,
+            sr: ind + 1,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser,
+            addedBy: obj.addedBy,
+            role: obj.role,
+            type: obj.reportType,
+            case: obj?.caseNo,
+            file: obj?.reportFile,
+            comments: obj?.comments,
+
+            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setRowData(data);
+        setLoader(false);
+        // console.log("response", response);
+      },
+      enabled:
+        url === `/api/case/listUserReports/private/${user.id}/${activePage}/10` ? true : false,
+    }
+  );
+
   const a = [
     {
       title: "PUBLIC ",
@@ -121,7 +187,7 @@ const UserPage = (props) => {
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.userPageDashboard,
+      url: `/api/case/listUserReports/public/${user.id}/${activePage}/10`,
     },
     {
       title: "PRIVATE ",
@@ -130,7 +196,7 @@ const UserPage = (props) => {
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.appointmentPageDashboard,
+      url: `/api/case/listUserReports/private/${user.id}/${activePage}/10`,
     },
     {
       title: "REFERAL ",
@@ -139,37 +205,48 @@ const UserPage = (props) => {
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "Users",
-      //   link: routeNames.socialWorker.reportPageDashboard,
+      url: `/api/case/listUserReports/referal/${user.id}/${activePage}/10`,
     },
   ];
 
   return (
     <Container className={classes.main} size="lg">
-        <Flex justify="center" align="center" mb="md">
-        <Anchor fz={12} fw="bolder" className={classes.back} onClick={() => navigate(-1)}>
+      <Flex justify="center" align="center" mb="md">
+        <Anchor
+          fz={12}
+          fw="bolder"
+          className={classes.back}
+          onClick={() => navigate(-1)}
+        >
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto" >
-        Report
+        <Text fz={28} fw="bolder" mb="sm" mr="auto">
+          Report
         </Text>
       </Flex>
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} />
+            <Card data={item} setUrl={setUrl} url={url} />
           </Grid.Col>
         ))}
       </Grid>
-      <Container mt="md" className={classes.main}>
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-          setEditModalState={setOpenEditModal}
-          setDeleteModalState={setOpenDeleteModal}
-        />
-      </Container>
+      {loader ? (
+        <Loader minHeight="40vh" />
+      ) : (
+        <Container mt="md" className={classes.main}>
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+            setEditModalState={setOpenEditModal}
+            setDeleteModalState={setOpenDeleteModal}
+            setReportData={setReportData}
+          />
+        </Container>
+      )}
+
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
@@ -186,22 +263,35 @@ const UserPage = (props) => {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+              {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textContent}>{reportData?.case}</Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.addedBy}
+                </Text>
                 <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>20 Jan,2022</Text>
-                <Text className={classes.textheading}>Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
+                <Text className={classes.textheading}>Report File</Text>
+                <Anchor href={reportData?.file} target="_blank">
+                  {reportData?.type} Report
+                </Anchor>
+
+                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textContent}>{reportData?.type}</Text>
+
+                <Text></Text>
               </SimpleGrid>
+              <Container></Container>
             </Container>
           </Grid.Col>
         </Grid>
+        {/* <hr/> */}
+        <Text className={classes.textheading}>Report Comments</Text>
+        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

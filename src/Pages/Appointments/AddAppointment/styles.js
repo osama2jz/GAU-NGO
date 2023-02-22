@@ -44,4 +44,17 @@ export const useStyles = createStyles((theme) => ({
   testGrid: {
     border: "2px solid red",
   },
+  avatar: {
+    marginRight: "10px",
+  },
+  textheading: {
+    fontSize: "15px",
+    fontWeight: "bold",
+    color: "greyDark",
+  },
+  textContent: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#373A40",
+  },
 }));

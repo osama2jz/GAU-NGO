@@ -7,8 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 const Cards = ({ data,setUrl ,url }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  // console.log(url)
-  
   const handleClick=()=>{
     if(data.link){
       // alert("link")
@@ -17,6 +15,7 @@ const Cards = ({ data,setUrl ,url }) => {
     else if(data.url){
       // alert("url")
       setUrl(data.url)
+      // console.log("helo")
     }
   }
   return (
@@ -30,6 +29,9 @@ const Cards = ({ data,setUrl ,url }) => {
         radius={26}
         withBorder
         onClick={handleClick}
+        style={{ cursor: "pointer",
+        backgroundColor: data.url===url ?"#f5f5f5":'',
+        border: data.url===url ?"1px solid #C1C2C5":''}}
       >
         <Flex align={"baseline"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
