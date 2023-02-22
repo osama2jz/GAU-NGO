@@ -84,11 +84,10 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
         </Stack>
         <Button
           label="Refer"
-          primary={true}
+          bg={true}
           className={classes.button}
           onClick={() => {setReferModal(true),
           setNewReferCase({...referCase,referedTo:cardData?.userId})}}
-          // onClick={()=>alert(cardData?.userId)}
           styles={{ width: "100%", marginBottom: "5px" }}
         />
 

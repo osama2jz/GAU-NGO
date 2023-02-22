@@ -73,7 +73,7 @@ const Index = ({}) => {
             Welcome Back <b>{user.name}</b>
           </Text>
         </Flex>
-        <MediaQuery
+        {/* <MediaQuery
           query="(max-width: 650px)"
           styles={{
             display: "none",
@@ -93,7 +93,7 @@ const Index = ({}) => {
               pb="0px"
             />
           </Container>
-        </MediaQuery>
+        </MediaQuery> */}
         <Notifications />
         <Menu
           width={matches && "target"}
