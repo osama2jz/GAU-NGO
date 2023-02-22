@@ -38,7 +38,7 @@ const Dashboard = () => {
   ];
   return (
     <Container className={classes.main} size="lg" >
-        <Text fz={28} fw="bolder" mb="sm" align="center">
+        <Text fz={26} fw="bolder" mb="sm" align="center">
           Dashboard
         </Text>
 
