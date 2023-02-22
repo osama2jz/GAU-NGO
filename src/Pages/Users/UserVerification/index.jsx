@@ -231,13 +231,14 @@ export const UserVerification = () => {
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           active={active}
-          color={theme.colors.primary}
+          // color={theme.colors.blue}
           allowNextStepsSelect={false}
           breakpoint="md"
           onStepClick={setActive}
           classNames={{
             separator: classes.seperator,
             separatorActive: classes.activeSep,
+            stepIcon: classes.stepIcon,
             stepCompletedIcon: classes.stepCompletedIcon
           }}
         >

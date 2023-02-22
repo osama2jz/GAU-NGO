@@ -355,10 +355,6 @@ export const Step2 = ({
             offset="xl"
             withAsterisk
             styles={(theme) => ({
-              radio: {
-                size: "100px",
-                backgroundColor: "red",
-              },
               label: {
                 fontSize: "16px",
               },
@@ -367,9 +363,9 @@ export const Step2 = ({
             // onChange={setValue}
             {...form?.getInputProps("documentType")}
           >
-            <Radio value="passport" label="Passport" checked />
-            <Radio value="nationalId" label="National ID" />
-            <Radio value="residentialId" label="Residential ID" />
+            <Radio color="green.0" value="passport" label="Passport" checked />
+            <Radio color="green.0" value="nationalId" label="National ID" />
+            <Radio color="green.0" value="residentialId" label="Residential ID" />
           </Radio.Group>
           {/* <Stack> */}
           <FileInput
@@ -427,7 +423,7 @@ export const Step2 = ({
             {...form?.getInputProps("typeId")}
           >
             {descrimation?.map((item) => (
-              <Radio value={item._id} label={item.lookupName} />
+              <Radio color="green.0" value={item._id} label={item.lookupName} />
             ))}
           </Radio.Group>
           <Divider color="white" mt="sm" mb="sm" />
@@ -554,7 +550,7 @@ export const Step2 = ({
         </Card>
 
         <Group position="center" mt="xl">
-          <Button onClick={() => setActive(active - 1)} label="Back"  />
+          <Button onClick={() => setActive(active - 1)} label="Back" primary={true} />
           <Button label={"Save & Next"} bg={true} type="submit" />
         </Group>
       </form>

@@ -35,7 +35,6 @@ function App() {
       style={{ marginTop: "60px" }}
     >
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
         <Routes>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path="/" element={<GeneralLayout />}>

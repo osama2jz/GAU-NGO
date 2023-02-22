@@ -13,21 +13,25 @@ root.render(
         theme={{
           colors: {
             blue: ["#3268A7"],
-            blueHover: 'rgb(50, 104, 157,0.1)',
+            blueHover: "rgb(50, 104, 157,0.1)",
             red: ["rgb(207, 30, 28)"],
-            redHover: 'rgb(207, 30, 28, 0.7)',
-            green: ['rgb(15, 123, 50)'],
-            greenHover:'rgb(15, 123, 50, 0.7)',
+            redHover: "rgb(207, 30, 28, 0.7)",
+            green: ["rgb(15, 123, 50)"],
+            greenHover: "rgb(15, 123, 50, 0.7)",
             black: "#000000",
-            container: '#F5F6FA',
+            container: "#F5F6FA",
             gray: "#E7E7E780",
             heading: "#56606E",
             grayDark: "rgb(0,0,0,0.5)",
           },
-          primaryColor:"green",
+          primaryColor: "green",
           globalStyles: (theme) => ({
             ".mantine-Radio-radio": {
-                border:`1px solid gray`
+              border: `1px solid gray`,
+            },
+            ".mantine-Radio-inner": {
+              backgroundColor: "red.0",
+              color:'yellow'
             },
           }),
         }}

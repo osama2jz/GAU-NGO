@@ -46,6 +46,11 @@ export const useStyles = createStyles((theme) => ({
     height: "5px",
     color: "yellow",
   },
+  stepIcon: {
+    "&[data-progress='true']": {
+      border:`3px solid ${theme.colors.red}` 
+    },
+  },
   stepCompletedIcon: {
     border: `2px solid ${theme.colors.green}`,
     borderRadius:'50%',
