@@ -82,6 +82,12 @@ export function LinksGroup({
           ? theme.colors.blue
           : "rgb(0,0,0,0.6)"
       }
+      sx={{
+        borderRight:
+          location?.pathname === link.link &&
+          label === globalOpen &&
+          `10px solid ${theme.colors.blue}`,
+      }}
       bg={
         location?.pathname === link.link && label === globalOpen
           ? theme.colors.blueHover
@@ -105,6 +111,12 @@ export function LinksGroup({
           }
         }}
         className={classes.mainLink}
+        sx={{
+          borderRight:
+            location?.pathname === link &&
+            label === globalOpen &&
+            `10px solid ${theme.colors.blue}`,
+        }}
         bg={
           location?.pathname === link && label === globalOpen
             ? theme.colors.blueHover

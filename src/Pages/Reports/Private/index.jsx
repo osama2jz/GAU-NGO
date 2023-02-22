@@ -83,7 +83,7 @@ function PrivateReport() {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      delete: <Trash color="red" />,
+      // delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
