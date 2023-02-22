@@ -18,13 +18,13 @@ root.render(
             redHover: 'rgb(207, 30, 28, 0.7)',
             green: ['rgb(15, 123, 50)'],
             greenHover:'rgb(15, 123, 50, 0.7)',
-            white: 'white',
             black: "#000000",
             container: '#F5F6FA',
             gray: "#E7E7E780",
             heading: "#56606E",
             grayDark: "rgb(0,0,0,0.5)",
           },
+          primaryColor:"green",
           globalStyles: (theme) => ({
             ".mantine-Radio-radio": {
                 border:`1px solid gray`

@@ -1,16 +1,11 @@
 import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 import moment from "moment/moment";
-import { Indicator, useMantineTheme } from "@mantine/core";
+import { Container, Indicator, Text, useMantineTheme } from "@mantine/core";
 
 const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
   const theme = useMantineTheme();
-  console.log(
-    moment(new Date().setMonth(new Date().getMonth() + 1))
-      .endOf("month")
-      .format("DD MMMM YYYY")
-  );
   return (
     <Calendar
       value={calenderValue}
@@ -26,22 +21,24 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
       renderDay={(date) => {
         const day = date.getDate();
         return (
-          <Indicator
-            size={14}
-            label="Duty"
-            position="top-center"
-            radius={"xs"}
-            color="#C92A2A"
-            offset={8}
-            disabled={!scheduleDates.includes(moment(date).format("YYYY-MM-DD"))}
-          >
-            <div>{day}</div>
-          </Indicator>
+          <Container>
+            <Text
+              bg={
+                scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
+                "green.0"
+              }
+              color={
+                scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
+                "white"
+              }
+            >
+              {day}
+            </Text>
+          </Container>
         );
       }}
       styles={(theme) => ({
         calendarBase: { padding: "10px" },
-        selected: { color: "red" },
         cell: {
           border: `1px solid ${
             theme.colorScheme === "dark"

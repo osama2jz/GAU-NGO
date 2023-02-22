@@ -8,13 +8,12 @@ export const useStyles = createStyles((theme) => ({
     width: "100%",
     minHeight: "84vh",
   },
-  innerContainer:{
-    backgroundColor:theme.colors.white,
-    padding:'20px',
-    borderRadius:'20px',
+  innerContainer: {
+    backgroundColor: theme.colors.white,
+    padding: "20px",
+    borderRadius: "20px",
     width: "100%",
     marginTop: "20px",
-
   },
   stepIcon: {
     // border:'1px solid black',
@@ -38,9 +37,23 @@ export const useStyles = createStyles((theme) => ({
     border: "1px solid gray",
   },
   verified: {},
+  seperator: {
+    color: "yellow",
+    backgroundColor: theme.colors.red,
+  },
+  activeSep: {
+    backgroundColor: theme.colors.green,
+    height: "5px",
+    color: "yellow",
+  },
+  stepCompletedIcon: {
+    border: `2px solid ${theme.colors.green}`,
+    borderRadius:'50%',
+    color:theme.colors.green
+  },
   userInput: {
     // display: "flex",
     justifyContent: "center",
     alignItems: "center",
-   },
+  },
 }));
