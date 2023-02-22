@@ -33,7 +33,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
             radius={"xs"}
             color="#C92A2A"
             offset={8}
-            disabled={!scheduleDates.includes(moment(date).format("YYYY-MM-DD"))}
+            // disabled={!scheduleDates.includes(moment(date).format("YYYY-MM-DD"))}
           >
             <div>{day}</div>
           </Indicator>
