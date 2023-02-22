@@ -1,10 +1,11 @@
 import { Calendar } from "@mantine/dates";
 import { useState } from "react";
 import moment from "moment/moment";
-import { Indicator } from "@mantine/core";
+import { Indicator, useMantineTheme } from "@mantine/core";
 
 const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
+  const theme = useMantineTheme();
   console.log(
     moment(new Date().setMonth(new Date().getMonth() + 1))
       .endOf("month")
@@ -30,7 +31,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
             label="Duty"
             position="top-center"
             radius={"xs"}
-            color="red"
+            color="#C92A2A"
             offset={8}
             disabled={!scheduleDates.includes(moment(date).format("YYYY-MM-DD"))}
           >

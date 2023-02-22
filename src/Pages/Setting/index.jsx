@@ -9,6 +9,7 @@ export const Setting = () => {
   return (
     <Container className={classes.main} size="xl">
       <ContainerHeader label={"Settings"} />
+      <Container className={classes.innerContainer} size="xl">
       <Tabs
         variant="pills"
         defaultValue={"profile"}
@@ -30,6 +31,8 @@ export const Setting = () => {
           <UpdatePassword />
         </Tabs.Panel>
       </Tabs>
+      </Container>
+     
     </Container>
   );
 };

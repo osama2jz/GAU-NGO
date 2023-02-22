@@ -118,14 +118,9 @@ function AllAppointments() {
   ];
   return (
     <Container className={classes.addUser} size="xl">
-      <Flex
-        align="center"
-        justify="center"
-        gap={12}
-        className={classes.heading}
-      >
+    
         <ContainerHeader label={"View Appointments"} />
-      </Flex>
+      
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
@@ -143,7 +138,7 @@ function AllAppointments() {
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add Appointment"}
-              primary={true}
+              bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}

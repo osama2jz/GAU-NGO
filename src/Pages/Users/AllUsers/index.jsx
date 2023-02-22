@@ -1,4 +1,7 @@
-import { Container, Grid } from "@mantine/core";
+
+import {
+  Container, Grid, useMantineTheme
+} from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
@@ -26,6 +29,7 @@ import ViewUserModal from "./ViewUserModal";
 export const AllUser = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const theme=useMantineTheme()
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -37,10 +41,8 @@ export const AllUser = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
-  const [reportData, setReportData] = useState([]);
 
-  // console.log("id",viewModalData)
-  console.log("data", reportData);
+  const [reportData, setReportData] = useState([]);
 
   let headerData = [
     {
@@ -81,9 +83,9 @@ export const AllUser = () => {
     },
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
+      view: <Eye color={theme.colors.blue} />,
+      edit: <Edit color={theme.colors.green} />,
+      delete: <Trash color={theme.colors.red} />,
       verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
@@ -140,7 +142,7 @@ export const AllUser = () => {
         showNotification({
           title: "Status Updated",
           message: "User Status changed Successfully!",
-          color: "green",
+          color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");
       },
@@ -181,7 +183,7 @@ export const AllUser = () => {
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add User"}
-              primary={true}
+              bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addUser)}

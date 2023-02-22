@@ -93,7 +93,7 @@ const Notifications = ({ allNotification, unreadCount }) => {
             variant="transparent"
             size={30}
             style={{
-              color: !opened ? "white" : "rgb(215, 77, 72)",
+              color: !opened ? "black" : "rgb(215, 77, 72)",
             }}
           >
             <Bell size={30} />

@@ -74,6 +74,7 @@ const MySchedule = () => {
     <Container size={"xl"} className={classes.main}>
       <ContainerHeader label={"My Schedule"} />
       <Text align="center">Select date from the calender to view Schedule</Text>
+      <Container className={classes.innerContainer} size="xl">
       <Container className={classes.cal} mb="lg" mt="md">
         <CalendarDate setDate={setDate} getSchedule={getSchedule} scheduleDates={scheduleDates}/>
       </Container>
@@ -104,6 +105,8 @@ const MySchedule = () => {
           No Duties Assigned
         </Text>
       )}
+      </Container>
+ 
     </Container>
   );
 };

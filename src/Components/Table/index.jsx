@@ -187,7 +187,8 @@ const Table = ({
                     <td key={index} align="center">
                       <Badge
                         radius="xs"
-                        color={row[head?.id] === "unverified" ? "red" : "green"}
+                        color={row[head?.id] === "unverified" ? "red.0" : 'blue.0' }
+                        variant="outline"
                       >
                         {row[head?.id]}
                       </Badge>
@@ -222,7 +223,7 @@ const Table = ({
                           });
                         }}
                         defaultChecked={row[head?.id] === "active"}
-                        color={theme.colors.primary}
+                        color={"blue.0"}
                         w="50%"
                         styles={{
                           track: { backgroundColor: theme.colors.gray },

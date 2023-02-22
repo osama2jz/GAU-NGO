@@ -21,7 +21,7 @@ export const useStyles = createStyles((theme) => ({
         bottom: 0,
         left: 0,
         width: 6,
-        backgroundImage: theme.fn.linearGradient(0, theme.colors.primary, theme.colors.red[6]),
+        backgroundImage: theme.fn.linearGradient(0, theme.colors.blue, theme.colors.red),
       },
     },
   }));

@@ -146,7 +146,7 @@ function ScheduledAppointments() {
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add Appointment"}
-              primary={true}
+              bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}

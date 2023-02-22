@@ -164,6 +164,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
         <Grid.Col md={"6"}>
           <Button
             label={"Verify Face ID"}
+            bg={true}
             leftIcon="faceid"
             styles={{ width: "100%", fontSize: "24px", height: "42px" }}
             onClick={handleVerifyID}
