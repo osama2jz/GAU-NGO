@@ -150,8 +150,9 @@ const AddAppointment = () => {
   };
 
   return (
-    <Container className={classes.addAppointment} size="lg">
+    <Container className={classes.addAppointment} size="xl">
       <ContainerHeader label={" Make an Appointment"} />
+      <Container className={classes.innerContainer} size="xl">
       <Stepper
         breakpoint="md"
         active={active}
@@ -238,7 +239,6 @@ const AddAppointment = () => {
           <Step4  caseId={selectedCase}/>
         </Stepper.Step>
       </Stepper>
-
       {!(user.role === "Psychologist" && active === 1) && (
         <Group position="center" mt="xl">
           {active > 0 && (
@@ -249,10 +249,14 @@ const AddAppointment = () => {
             label={
               active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
             }
-            primary={true}
+            bg={true}
           />
         </Group>
       )}
+      </Container>
+     
+
+     
     </Container>
   );
 };

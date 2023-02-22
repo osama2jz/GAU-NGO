@@ -8,9 +8,13 @@ export const useStyles = createStyles((theme) => ({
     minHeight: "84vh",
   },
   innerContainer: {
-    // border:'1px solid rgb(0,0,0,0.1)',
+    backgroundColor:theme.colors.white,
+    padding:'20px',
+    borderRadius:'20px',
     borderRadius: "10px",
     width: "100%",
+    marginTop: "20px",
+
   },
   heading: {
     color: theme.colors.heading,

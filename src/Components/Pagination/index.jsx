@@ -18,7 +18,7 @@ const Pagination = ({ total = 10, activePage, setPage }) => {
         styles={(theme) => ({
           item: {
             "&[data-active]": {
-              backgroundColor: theme.colors.primary,
+              backgroundColor: theme.colors.green,
             },
             border: "1px solid gray",
           },

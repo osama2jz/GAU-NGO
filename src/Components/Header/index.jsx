@@ -12,7 +12,6 @@ import {
   MediaQuery,
 } from "@mantine/core";
 import { Power, Settings } from "tabler-icons-react/dist";
-import logo from "../../logo.svg";
 import InputField from "../InputField";
 import { useMediaQuery } from "@mantine/hooks";
 import Notifications from "../Notifications";
@@ -24,28 +23,18 @@ import { useNavigate } from "react-router";
 const useStyles = createStyles((theme) => ({
   header: {
     display: "flex",
-    color: "white",
-    padding: "0px 10px",
-    alignItems: "center",
+    color: "black",
     justifyContent: "space-between",
     width: "100%",
+    backgroundColor: theme.colors.white,
+    // borderBottom: "1px solid red",
   },
   headerSub: {
-    width: "80%",
-  },
-  logo: {
-    display: "flex",
-    alignItems: "center",
-    gap: "5px",
-    fontWeight: "600",
-    fontSize: "30px",
-    ":hover": {
-      cursor: "pointer",
-    },
+    width: "100%",
   },
 
   user: {
-    color: "white",
+    color: "black",
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: theme.radius.sm,
     transition: "background-color 100ms ease",
@@ -69,20 +58,21 @@ const Index = ({}) => {
   const { user } = useContext(UserContext);
 
   return (
-    <Container fluid className={classes.header}>
-      <Text
-        className={classes.logo}
-        onClick={() => navigate(routeNames.socialWorker.dashboard)}
-      >
-        <img src={logo} alt="logo" width={"35px"} />
-        GAU
-      </Text>
+    <Container fluid className={classes.header} p="0px">
       <Group
         position="right"
-        align={"center"}
+        // align={"center"}
         noWrap
         className={classes.headerSub}
       >
+        <Flex direction={"column"} style={{ marginRight: "auto" }}>
+          <Text fw={"bolder"} fz="xl">
+            {user.role}
+          </Text>
+          <Text fz="xs">
+            Welcome Back <b>{user.name}</b>
+          </Text>
+        </Flex>
         <MediaQuery
           query="(max-width: 650px)"
           styles={{
@@ -101,7 +91,6 @@ const Index = ({}) => {
               leftIcon="search"
               size="sm"
               pb="0px"
-              borderWhite={true}
             />
           </Container>
         </MediaQuery>
@@ -122,17 +111,16 @@ const Index = ({}) => {
               })}
             >
               <Group spacing={7} noWrap>
-                <Avatar src={user?.profileImage} radius="xl" size={40} />
                 <MediaQuery
                   query="(max-width: 650px)"
                   styles={{
                     display: "none",
                   }}
                 >
-                  <Flex direction={"column"} gap="4px">
+                  <Flex direction={"column"} gap="4px" mr={"md"}>
                     <Text
                       weight={500}
-                      size="sm"
+                      size="lg"
                       sx={{
                         lineHeight: 1,
                       }}
@@ -140,9 +128,10 @@ const Index = ({}) => {
                     >
                       {user.name}
                     </Text>
-                    <Badge size="xs">{user.role}</Badge>
+                    <Text size="xs" color={"rgb(0,0,0,0.5)"}>{user.email}</Text>
                   </Flex>
                 </MediaQuery>
+                <Avatar src={user?.profileImage} radius="xl" size={50} />
               </Group>
             </UnstyledButton>
           </Menu.Target>
@@ -159,7 +148,7 @@ const Index = ({}) => {
               color="red"
               onClick={() => {
                 localStorage.removeItem("userData");
-                navigate(routeNames.general.login)
+                navigate(routeNames.general.login);
               }}
             >
               <Flex gap={"md"}>

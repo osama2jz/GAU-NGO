@@ -10,6 +10,13 @@ export const useStyles = createStyles((theme) => ({
   heading: {
     color: theme.colors.heading,
   },
+  innerContainer:{
+    backgroundColor: theme.colors.white,
+    padding: "20px",
+    borderRadius: "20px",
+    width: "100%",
+    marginTop: "20px",
+  },
   export: {
     border: `2px solid ${theme.colors.gray}`,
     padding: "5px",

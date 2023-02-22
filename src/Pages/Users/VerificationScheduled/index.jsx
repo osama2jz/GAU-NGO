@@ -129,7 +129,7 @@ const VerificationScheduled = () => {
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Users Schedule"} />
-      <Container p={"xs"} className={classes.innerContainer}>
+      <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
             <InputField placeholder="Search" leftIcon="search" pb="0" />
@@ -146,7 +146,7 @@ const VerificationScheduled = () => {
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add User"}
-              primary={true}
+              bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addUser)}

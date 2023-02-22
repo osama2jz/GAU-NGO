@@ -554,8 +554,8 @@ export const Step2 = ({
         </Card>
 
         <Group position="center" mt="xl">
-          <Button onClick={() => setActive(active - 1)} label="Back" />
-          <Button label={"Save & Next"} primary={true} type="submit" />
+          <Button onClick={() => setActive(active - 1)} label="Back"  />
+          <Button label={"Save & Next"} bg={true} type="submit" />
         </Group>
       </form>
       <DeleteModal

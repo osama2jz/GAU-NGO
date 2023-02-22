@@ -13,38 +13,39 @@ import routeNames from "../../Routes/routeNames";
 
 const useStyles = createStyles((theme) => ({
   mainLink: {
-    fontWeight: 500,
+    fontWeight: 600,
     display: "block",
     width: "100%",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+    borderRadius: "10px",
     fontSize: theme.fontSizes.lg,
 
     "&:hover": {
-      backgroundColor: "rgba(86, 92, 154, 1)",
+      backgroundColor: theme.colors.blueHover,
     },
   },
 
   link: {
-    // fontWeight: 500,
+    fontWeight: 500,
     display: "block",
     textDecoration: "none",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     paddingLeft: 31,
     marginLeft: 30,
     fontSize: theme.fontSizes.sm,
-    color: "white",
+    borderRadius: "10px",
+    // color: "rgb(0,0,0,0.6)",
     borderLeft: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
 
     "&:hover": {
-      backgroundColor: "rgba(86, 92, 154, 1)",
+      backgroundColor: theme.colors.blueHover,
     },
   },
 
   chevron: {
-    color: "white",
+    color: "rgb(0,0,0,0.6)",
     transition: "transform 200ms ease",
   },
 }));
@@ -76,9 +77,14 @@ export function LinksGroup({
       to={link.link}
       onClick={() => setSideOpen(false)}
       key={link.label}
+      color={
+        location?.pathname === link.link && label === globalOpen
+          ? theme.colors.blue
+          : "rgb(0,0,0,0.6)"
+      }
       bg={
         location?.pathname === link.link && label === globalOpen
-          ? "rgba(86, 92, 154, 1)"
+          ? theme.colors.blueHover
           : ""
       }
     >
@@ -101,18 +107,23 @@ export function LinksGroup({
         className={classes.mainLink}
         bg={
           location?.pathname === link && label === globalOpen
-            ? "rgba(86, 92, 154, 1)"
+            ? theme.colors.blueHover
             : ""
         }
       >
         <Group position="apart" spacing={0} onClick={() => navigate(link)}>
-          <Box
-            sx={{ display: "flex", alignItems: "center", color: "white" }}
-            fw={"normal"}
+          <Text
+            color={
+              location?.pathname === link && label === globalOpen
+                ? theme.colors.blue
+                : "rgb(0,0,0,0.6)"
+            }
+            sx={{ display: "flex", alignItems: "center" }}
+            fw={"500"}
           >
             <Icon size={18} />
             <Box ml="md">{ind ? ind + ". " + label : label}</Box>
-          </Box>
+          </Text>
           {hasLinks && (
             <ChevronIcon
               className={classes.chevron}

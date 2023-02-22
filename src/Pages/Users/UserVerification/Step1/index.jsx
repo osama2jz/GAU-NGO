@@ -117,6 +117,8 @@ export const Step1 = ({ user, setUser }) => {
           iconWidth="24px"
           styles={{ width: "500px", height: "100px", fontSize: "24px" }}
           onClick={handleVerifyID}
+          bg={true}
+          
         />
       </Container>
     </Container>

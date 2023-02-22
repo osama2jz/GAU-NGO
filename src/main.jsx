@@ -12,10 +12,15 @@ root.render(
       <MantineProvider
         theme={{
           colors: {
-            primary: "#1D203E",
-            primaryHover: "rgba(29, 32, 62, 0.8)",
-            background: "#E7E7E780",
-            container: "white",
+            blue: ["#3268A7"],
+            blueHover: 'rgb(50, 104, 157,0.1)',
+            red: ["rgb(207, 30, 28)"],
+            redHover: 'rgb(207, 30, 28, 0.7)',
+            green: ['rgb(15, 123, 50)'],
+            greenHover:'rgb(15, 123, 50, 0.7)',
+            white: 'white',
+            black: "#000000",
+            container: '#F5F6FA',
             gray: "#E7E7E780",
             heading: "#56606E",
             grayDark: "rgb(0,0,0,0.5)",
