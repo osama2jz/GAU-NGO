@@ -21,6 +21,7 @@ const Timepicker = ({
   onChange,
   form,
   validateName,
+ 
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -35,6 +36,7 @@ const Timepicker = ({
       pmLabel="pm"
       classNames={{ input: classes.root }}
       required={required}
+      onChange={onChange}
       // clearable
     />
   );

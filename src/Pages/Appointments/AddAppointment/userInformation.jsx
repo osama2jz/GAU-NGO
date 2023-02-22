@@ -15,20 +15,19 @@ export const UserInfo = ({ userData, loading }) => {
           userData?.data?.data?.lastName,
       },
       {
-        key: "Passport",
+        key: "Email",
         value:
-          userData?.data?.data?.userConsentForm?.personalInformation?.passport,
+        userData?.data?.data?.email,
       },
       {
-        key: "Nationality",
+        key: "Phone Number",
         value:
-          userData?.data?.data?.userConsentForm?.personalInformation
-            ?.nationality,
+          userData?.data?.data?.phoneNumber
       },
       {
-        key: "Origin",
+        key: "Country",
         value:
-          userData?.data?.data?.userConsentForm?.personalInformation?.origin,
+          userData?.data?.data?.userConsentForm?.personalInformation?.country,
       },
       {
         key: "Age",

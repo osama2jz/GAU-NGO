@@ -31,6 +31,7 @@ const Table = ({
   setEditModalState,
   setDeleteData,
   onStatusChange,
+  setReportData
 }) => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -147,8 +148,12 @@ const Table = ({
                         )}
                         <ActionIcon
                           onClick={() => {
+                            if(setReportData){
+                              setReportData(row);
+                            }
                             setViewModalState(true);
                             setViewModalData(row.id);
+                           
                           }}
                         >
                           {head.view}

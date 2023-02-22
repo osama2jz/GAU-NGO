@@ -8,10 +8,12 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-const Step4 = () => {
+const Step4 = ({caseId}) => {
 
   const { user } = useContext(UserContext);
   const [cardData, setCardData]=useState()
+  const [referCase, setNewReferCase] = useState();
+  console.log(cardData, "cardData")
   
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -29,13 +31,17 @@ const Step4 = () => {
       onSuccess: (response) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let card = {
+            userId:obj?.userId,
             name: obj?.fullName,
-            branches: obj?.branches,
+            branches: obj?.branches.map((e) => ({
+              label: e.branchName,
+              value: e.branchId,
+            })),
             schedule: obj?.schedule
           };
           return card;
         });
-        console.log("dadad",response, data)
+        // console.log("dadad",response, data)
           setCardData(data)
       },
     }
@@ -66,7 +72,7 @@ const Step4 = () => {
         <Grid>
           {cardData?.map((e,index) => (
             <Grid.Col md={6} lg={4} xl={3}>
-              <Cards cardData={e}/>
+              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId}/>
             </Grid.Col>
           ))}
         </Grid>

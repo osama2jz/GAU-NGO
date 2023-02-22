@@ -36,6 +36,7 @@ const SelectMenu = ({
   size = "md",
   validateName,
   itemComponent,
+  onChange,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -56,7 +57,7 @@ const SelectMenu = ({
         // setData((current) => [...current, item]);
         // return item;
       }}
-      onChange={(v)=>setData(v)}
+      onChange={onChange || ((v) => setData(v))}
       data={data}
       {...form?.getInputProps(validateName)}
       icon={
