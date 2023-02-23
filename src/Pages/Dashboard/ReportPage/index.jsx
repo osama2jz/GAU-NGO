@@ -101,7 +101,8 @@ const UserPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        let data = response?.data?.data?.map((obj, ind) => {
+        let data = response?.data?.data?.data?.map((obj, ind) => {
+          console.log(obj)
           let appointment = {
             id: obj.reportId,
             sr: ind + 1,
@@ -138,7 +139,7 @@ const UserPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        let data = response?.data?.data.map((obj, ind) => {
+        let data = response?.data?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
             sr: ind + 1,

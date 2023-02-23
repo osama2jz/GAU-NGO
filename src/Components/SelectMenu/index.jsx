@@ -28,7 +28,7 @@ const SelectMenu = ({
   setData,
   clearable,
   borderWhite,
-  // onChange,
+  onChange,
   disabled,
   creatable,
   form,
@@ -36,7 +36,6 @@ const SelectMenu = ({
   size = "md",
   validateName,
   itemComponent,
-  onChange,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -45,7 +44,7 @@ const SelectMenu = ({
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
-      defaultValue={value}
+      value={value}
       itemComponent={itemComponent}
       size={size}
       getCreateLabel={(query) => `+ Create ${query}`}

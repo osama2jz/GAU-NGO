@@ -62,7 +62,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
 
   //selected user
   const { data: selectedUser, status: userFetching } = useQuery(
-    "userFetched",
+   [ "userFetched", user],
     () => {
       return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
         headers: {
@@ -83,7 +83,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
-    "casesFetched",
+    ["casesFetched", user],
     () => {
       return axios.get(backendUrl + `/api/case/listUserCases/${user}`, {
         headers: {
@@ -147,24 +147,26 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       <Text fz={20} fw="bolder" align="center">
         Select User
       </Text>
-      <Grid align={"flex-end"}>
-        <Grid.Col md={"6"}>
+      <Grid align={"flex-end"} justify="space-between">
+        <Grid.Col md={"5"}>
           <SelectMenu
             searchable={true}
             itemComponent={SelectItem}
             placeholder="Enter User name or Id"
             clearable={true}
             setData={setUser}
-            value={selectedUser?.data?.data?._id}
+            value={user}
+            // value={selectedUser?.data?.data?._id}
             label="Search User"
             data={userData}
           />
         </Grid.Col>
-        <Grid.Col md={"6"}>
+        <Grid.Col md={"5"}>
           <Button
             label={"Verify Face ID"}
             bg={true}
             leftIcon="faceid"
+            iconWidth="30px"
             styles={{ width: "100%", fontSize: "24px", height: "42px" }}
             onClick={handleVerifyID}
           />

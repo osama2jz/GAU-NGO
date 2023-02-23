@@ -16,17 +16,19 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 600,
     display: "block",
     width: "100%",
+    margin:'1px',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     borderRadius: "10px",
     fontSize: theme.fontSizes.lg,
 
     "&:hover": {
-      backgroundColor: theme.colors.blueHover,
+      backgroundColor: theme.colors.blueSide,
     },
   },
 
   link: {
     fontWeight: 500,
+    margin:'1px',
     display: "block",
     textDecoration: "none",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
@@ -40,7 +42,7 @@ const useStyles = createStyles((theme) => ({
     }`,
 
     "&:hover": {
-      backgroundColor: theme.colors.blueHover,
+      backgroundColor: theme.colors.blueSide,
     },
   },
 
@@ -90,7 +92,7 @@ export function LinksGroup({
       }}
       bg={
         location?.pathname === link.link && label === globalOpen
-          ? theme.colors.blueHover
+          ? theme.colors.blueSide
           : ""
       }
     >
@@ -119,7 +121,7 @@ export function LinksGroup({
         }}
         bg={
           location?.pathname === link && label === globalOpen
-            ? theme.colors.blueHover
+            ? theme.colors.blueSide
             : ""
         }
       >

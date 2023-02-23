@@ -40,7 +40,7 @@ const useStyles = createStyles((theme) => ({
     transition: "background-color 100ms ease",
 
     "&:hover": {
-      backgroundColor: theme.colors.gray,
+      // backgroundColor: theme.colors.gray,
       // color:'black'
     },
 
@@ -128,7 +128,9 @@ const Index = ({}) => {
                     >
                       {user.name}
                     </Text>
-                    <Text size="xs" color={"rgb(0,0,0,0.5)"}>{user.email}</Text>
+                    <Text size="xs" color={"rgb(0,0,0,0.5)"}>
+                      {user.email}
+                    </Text>
                   </Flex>
                 </MediaQuery>
                 <Avatar src={user?.profileImage} radius="xl" size={50} />
@@ -145,7 +147,7 @@ const Index = ({}) => {
               </Flex>
             </Menu.Item>
             <Menu.Item
-              color="red"
+              // color="red"
               onClick={() => {
                 localStorage.removeItem("userData");
                 navigate(routeNames.general.login);

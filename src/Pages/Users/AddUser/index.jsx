@@ -76,14 +76,14 @@ export const AddUser = () => {
           showNotification({
             title: "User Added",
             message: "New User added Successfully!",
-            color: "green",
+            color: "green.0",
           });
           navigate(routeNames.socialWorker.allUsers);
         } else {
           showNotification({
             title: "Failed",
             message: response?.data?.message,
-            color: "red",
+            color: "red.0",
           });
         }
       },

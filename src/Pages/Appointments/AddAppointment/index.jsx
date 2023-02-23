@@ -95,7 +95,7 @@ const AddAppointment = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          color: "green",
+          color: "green.0",
           message: "Reports submitted Successfully",
           title: "Success",
         });
@@ -107,7 +107,7 @@ const AddAppointment = () => {
     if (active == 0) {
       if (!selectedUser || selectedCase.length < 1) {
         showNotification({
-          color: "red",
+          color: "red.0",
           message: "Please Select User information",
           title: "Incomplete Info",
         });
@@ -122,7 +122,7 @@ const AddAppointment = () => {
         privatereportFiles.reportComments === ""
       ) {
         showNotification({
-          color: "red",
+          color: "red.0",
           message: "Please add public and private report for this appointment.",
           title: "Report Missing",
         });

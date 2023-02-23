@@ -355,29 +355,33 @@ export const Step2 = ({
                 fontSize: "16px",
               },
             })}
-            // value={value}
-            // onChange={setValue}
             {...form?.getInputProps("documentType")}
           >
             <Radio color="green.0" value="passport" label="Passport" checked />
             <Radio color="green.0" value="nationalId" label="National ID" />
-            <Radio color="green.0" value="residentialId" label="Residential ID" />
+            <Radio
+              color="green.0"
+              value="residentialId"
+              label="Residential ID"
+            />
           </Radio.Group>
           {/* <Stack> */}
           <FileInput
             label="Upload Document"
             placeholder="Upload Document"
             styles={(theme) => ({
+              root: {
+                margin: "auto",
+              },
               input: {
                 border: "1px solid rgb(0, 0, 0, 0.1)",
                 borderRadius: "5px",
+                width: "250px",
               },
             })}
             icon={<FileUpload size={20} />}
             onChange={handleFileInput}
           />
-          {/* <Button label={"Upload"} primary={true} /> */}
-          {/* </Stack> */}
         </SimpleGrid>
 
         {/** Studies and training */}
@@ -477,35 +481,40 @@ export const Step2 = ({
             <InputField
               label="Revenue"
               required={true}
-              placeholder="revenue"
+              placeholder="$$"
               form={form}
+              type={"number"}
               validateName="revenue"
             />
             <InputField
               label="Expenses"
               required={true}
-              placeholder="expenses"
+              placeholder="$$"
+              type={"number"}
               form={form}
               validateName="expenses"
             />
             <InputField
               label="Aids or Bonuses"
               required={true}
-              placeholder="aid or bonuses"
+              type={"number"}
+              placeholder="$$"
               form={form}
               validateName="aidsBonuses"
             />
             <InputField
               label="Debit"
               required={true}
-              placeholder="debt"
+              placeholder="$$"
+              type={"number"}
               form={form}
               validateName="debt"
             />
             <InputField
               label="Housing"
               required={true}
-              placeholder="housing"
+              placeholder="$$"
+              type={"number"}
               form={form}
               validateName="housing"
             />
@@ -519,6 +528,7 @@ export const Step2 = ({
           <TextArea
             label="Disability - Dependencies - Mental Health"
             form={form}
+            placeholder="Explain in detail"
             validateName="healthAspects"
           />
         </Card>
@@ -542,11 +552,19 @@ export const Step2 = ({
         <Card mt="sm">
           <Text className={classes.subHeading}>Demand</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
-          <TextArea form={form} validateName="demand" />
+          <TextArea
+            form={form}
+            validateName="demand"
+            placeholder="Explain in detail"
+          />
         </Card>
 
         <Group position="center" mt="xl">
-          <Button onClick={() => setActive(active - 1)} label="Back" primary={true} />
+          <Button
+            onClick={() => setActive(active - 1)}
+            label="Back"
+            primary={true}
+          />
           <Button label={"Save & Next"} bg={true} type="submit" />
         </Group>
       </form>
