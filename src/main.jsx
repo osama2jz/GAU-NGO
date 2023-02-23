@@ -5,7 +5,9 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { UserProvider } from "./contexts/UserContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -22,7 +24,7 @@ root.render(
             container: "#F5F6FA",
             gray: "#E7E7E780",
             heading: "#56606E",
-            white:'white',
+            white: "white",
             grayDark: "rgb(0,0,0,0.5)",
           },
           primaryColor: "green",
@@ -32,14 +34,16 @@ root.render(
             },
             ".mantine-Radio-inner": {
               backgroundColor: "red.0",
-              color:'yellow'
+              color: "yellow",
             },
           }),
         }}
       >
-        <UserProvider>
-          <App />
-        </UserProvider>
+        <QueryClientProvider client={queryClient}>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </QueryClientProvider>
       </MantineProvider>
     </BrowserRouter>
   </React.StrictMode>

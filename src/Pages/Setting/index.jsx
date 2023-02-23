@@ -13,6 +13,7 @@ export const Setting = () => {
       <Tabs
         variant="pills"
         defaultValue={"profile"}
+        color={"blue.0"}
         classNames={{
           root: classes.tab,
           tabsList: classes.tabList,

@@ -1,5 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { createContext } from "react";
+import { useQuery } from "react-query";
+import { backendUrl } from "../constants/constants";
 
 export const UserContext = createContext();
 
@@ -20,5 +23,31 @@ export const UserProvider = ({ children }) => {
     token: userData?.token,
   });
   const value = { user, setUser };
+
+  const { data, status } = useQuery(
+    "fetchUserSingle",
+    () => {
+      return axios.get(
+        `${backendUrl + `/api/user/listSingleUser/${userData.userId}`}`,
+        {
+          headers: {
+            "x-access-token": userData.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let user=response.data.data
+        console.log('dadsda', user)
+        setUser((u) => ({
+          ...u,
+          name: user?.firstName + " " + user?.lastName,
+          phoneNumber: user?.phoneNumber,
+          profileImage: user?.profileImage
+        }));
+      },
+    }
+  );
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

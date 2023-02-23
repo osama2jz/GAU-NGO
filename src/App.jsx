@@ -26,7 +26,6 @@ import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import routeNames from "./Routes/routeNames";
 
 function App() {
-  const queryClient = new QueryClient();
 
   return (
     <NotificationsProvider
@@ -34,7 +33,6 @@ function App() {
       zIndex={2077}
       style={{ marginTop: "60px" }}
     >
-      <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path="/" element={<GeneralLayout />}>
@@ -124,7 +122,6 @@ function App() {
             element={<Navigate to={routeNames.general.login} />}
           />
         </Routes>
-      </QueryClientProvider>
     </NotificationsProvider>
   );
 }
