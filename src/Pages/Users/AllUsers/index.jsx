@@ -43,6 +43,7 @@ export const AllUser = () => {
   const { user } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
+  console.log(rowData);
 
   let headerData = [
     {
@@ -76,6 +77,12 @@ export const AllUser = () => {
       label: "User Status",
     },
     {
+      id: "userVerify",
+      numeric: false,
+      disablePadding: true,
+      label: "Verify",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -107,7 +114,7 @@ export const AllUser = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.data.map((obj, ind) => {
+        let data = response.data.data.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
