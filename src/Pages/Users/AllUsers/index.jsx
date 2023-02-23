@@ -43,7 +43,6 @@ export const AllUser = () => {
   const { user } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
-  console.log(rowData);
 
   let headerData = [
     {

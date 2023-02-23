@@ -18,9 +18,6 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
   const [referNewModal, setReferNewModal] = useState(false);
-  console.log("referCase",referCase)
-  // console.log("caseid",caseId)
-  // console.log(selectedData)
 
   useEffect(()=>{
     setNewReferCase({...referCase, caseId:caseId})

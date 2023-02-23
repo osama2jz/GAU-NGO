@@ -11,9 +11,7 @@ function ViewUserModal({ id }) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [userdata, setUserData] = useState();
-  console.log(id)
 
-  console.log(userdata);
     useEffect(()=>{
         getData()
     })

@@ -59,7 +59,6 @@ function DownloadPdf({ headCells, data, title }) {
       tableWidth: "auto",
 
       columns: headCells.map((col) => {
-        console.log("PDF DONWLOADER: ", col);
         return {
           dataKey: col.id,
           header: col.label,
@@ -68,7 +67,6 @@ function DownloadPdf({ headCells, data, title }) {
       body:
         filteredData &&
         filteredData.map((dataPoint) => {
-          console.log("DATA_POINT: ", dataPoint);
           return dataPoint;
         }),
     });

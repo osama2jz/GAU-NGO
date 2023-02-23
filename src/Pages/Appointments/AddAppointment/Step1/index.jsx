@@ -131,7 +131,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
           locale: "auto", // Default user locale
         })
         .then((userData) => {
-          console.log("Success: " + JSON.stringify(userData.payload));
           setFaceId(userData.payload);
         });
     } catch (error) {

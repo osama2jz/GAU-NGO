@@ -31,7 +31,6 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
   });
   const AddWorkExperience = (values) => {
     values.id = workExperience.length + 1;
-    console.log(values.endDate);
     values.endDate = moment(values.endDate).format("DD/MM/YYYY");
     values.startDate = moment(values.startDate).format("DD/MM/YYYY");
     setWorkExperience([...workExperience, values]);

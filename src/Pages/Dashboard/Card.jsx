@@ -9,13 +9,10 @@ const Cards = ({ data,setUrl ,url }) => {
   const navigate = useNavigate();
   const handleClick=()=>{
     if(data.link){
-      // alert("link")
       navigate(data.link)
     }
     else if(data.url){
-      // alert("url")
       setUrl(data.url)
-      // console.log("helo")
     }
   }
   return (

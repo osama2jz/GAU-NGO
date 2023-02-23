@@ -122,7 +122,6 @@ function PublicReport() {
           return appointment;
         });
         setRowData(data);
-        console.log("response", response);
         
       },
     }

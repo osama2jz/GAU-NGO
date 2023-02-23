@@ -6,7 +6,6 @@ import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
 function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
   const { classes } = useStyles();
-  console.log("refrences",refrences)
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
