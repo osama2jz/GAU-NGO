@@ -30,6 +30,7 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
     return cardData?.schedule?.map((obj)=>moment(obj.dateStart).format("yyyy-MM-DD"))
   },[cardData])
 
+  console.log("cardData", cardData)
   return (
     <>
       <Card
@@ -41,8 +42,9 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
         withBorder
       >
         <Badge
-          color={cardData?.schedule?.length > 0 ? "green" : "red"}
+          color={cardData?.schedule?.length > 0 ? "green.0" : "red.0"}
           radius="xl"
+          variant="outline"
           className={classes.badge}
         >
           {cardData?.schedule?.length > 0 ? "Available" : "Not Available"}
@@ -51,11 +53,11 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
         <Text size="lg" fw={680} mb={0} pb={0}>
           {cardData.name}
         </Text>
-        <Text size="md" mt={0} fw={600} color="red">
-          Lawyer
+        <Text size="md" mt={0} fw={600} color="red.0">
+          {cardData.role}
         </Text>
         <Stack spacing="xs" mb="xs">
-          <Select
+          {/* <Select
             placeholder="Branch"
             size="xs"
             
@@ -65,7 +67,7 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
             
             data={cardData?.branches || []}
             // setData={setSelectedData}
-          />
+          /> */}
           <Grid>
             <Grid.Col span={6}>
               <Datepicker

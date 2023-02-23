@@ -20,6 +20,7 @@ const DoubleTabs = ({
   setPrivateReportFiles,
 }) => {
   const [files, setFiles] = useState([]);
+  const [files2, setFiles2] = useState([]);
   const [document, setDocument] = useState();
   const [comments, setcomments] = useState("");
   const { classes } = useStyles();
@@ -34,7 +35,7 @@ const DoubleTabs = ({
         }}
         defaultValue="public"
         variant="pills"
-        color={"cyan"}
+        color={"blue.0"}
       >
         <Tabs.List position="center">
           <Tabs.Tab value="public">Upload Public Report</Tabs.Tab>
@@ -64,9 +65,14 @@ const DoubleTabs = ({
                   })
                 }
               />
-              {files.length > 0 && (
-                <Anchor>{files.map((obj) => obj?.name)}</Anchor>
-              )}
+               <ul>
+                {files.length > 0 &&
+                  files2.map((obj) => (
+                    <li>
+                      <Anchor>{obj?.name}</Anchor>
+                    </li>
+                  ))}
+              </ul>
               <Dropzone
                 // accept={MIME_TYPES.pdf}
                 onDrop={(v) => {
@@ -77,7 +83,11 @@ const DoubleTabs = ({
                   }));
                 }}
               >
-                <Button leftIcon={"upload2"} label={"Upload Document"} />
+                <Button
+                  leftIcon={"upload2"}
+                  label={"Upload Document"}
+                  primary={true}
+                />
               </Dropzone>
             </Grid.Col>
           </Grid>
@@ -106,20 +116,30 @@ const DoubleTabs = ({
                   })
                 }
               />
-              {files.length > 0 &&
-                files.map((obj) => <Anchor>{obj?.name}</Anchor>)}
+              <ul>
+                {files2.length > 0 &&
+                  files2.map((obj) => (
+                    <li>
+                      <Anchor>{obj?.name}</Anchor>
+                    </li>
+                  ))}
+              </ul>
 
               <Dropzone
                 // accept={MIME_TYPES.pdf}
                 onDrop={(v) => {
-                  setFiles(v);
+                  setFiles2(v);
                   setDocument((document) => ({
                     ...document,
                     document: v,
                   }));
                 }}
               >
-                <Button label={"Upload Document"} leftIcon="upload2" />
+                <Button
+                  label={"Upload Document"}
+                  leftIcon="upload2"
+                  primary={true}
+                />
               </Dropzone>
             </Grid.Col>
           </Grid>

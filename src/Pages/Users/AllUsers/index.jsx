@@ -86,7 +86,7 @@ export const AllUser = () => {
       view: <Eye color={theme.colors.blue} />,
       edit: <Edit color={theme.colors.green} />,
       delete: <Trash color={theme.colors.red} />,
-      // verify: <Checks color="#4069bf" />,
+      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -107,7 +107,7 @@ export const AllUser = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.data.map((obj, ind) => {
+        let data = response.data.data.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,

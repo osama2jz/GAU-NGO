@@ -33,6 +33,7 @@ const Step4 = ({caseId}) => {
           let card = {
             userId:obj?.userId,
             name: obj?.fullName,
+            role: obj?.role,
             branches: obj?.branches.map((e) => ({
               label: e.branchName,
               value: e.branchId,
@@ -71,7 +72,7 @@ const Step4 = ({caseId}) => {
         </Grid>
         <Grid>
           {cardData?.map((e,index) => (
-            <Grid.Col md={6} lg={4} xl={3}>
+            e.schedule?.length > 0 && <Grid.Col md={6} lg={4} xl={3}>
               <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId}/>
             </Grid.Col>
           ))}

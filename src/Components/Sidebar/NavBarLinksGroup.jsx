@@ -80,7 +80,7 @@ export function LinksGroup({
       color={
         location?.pathname === link.link && label === globalOpen
           ? theme.colors.blue
-          : "rgb(0,0,0,0.6)"
+          : "rgb(0,0,0,0.9)"
       }
       sx={{
         borderRight:
@@ -128,7 +128,7 @@ export function LinksGroup({
             color={
               location?.pathname === link && label === globalOpen
                 ? theme.colors.blue
-                : "rgb(0,0,0,0.6)"
+                : "rgb(0,0,0,0.9)"
             }
             sx={{ display: "flex", alignItems: "center" }}
             fw={"500"}

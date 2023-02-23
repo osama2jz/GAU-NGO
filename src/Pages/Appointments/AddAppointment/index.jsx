@@ -158,6 +158,12 @@ const AddAppointment = () => {
         active={active}
         color={theme.colors.primary}
         allowNextStepsSelect={false}
+        classNames={{
+            separator: classes.seperator,
+            separatorActive: classes.activeSep,
+            stepIcon: classes.stepIcon,
+            stepCompletedIcon: classes.stepCompletedIcon
+          }}
       >
         <Stepper.Step
           icon={
