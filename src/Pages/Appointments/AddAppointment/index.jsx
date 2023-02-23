@@ -48,14 +48,9 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
-  // const [referCase, setNewReferCase] = useState();
-  // console.log(selectedCase, "selectedCase")
-  // console.log(referCase, "referCase")
-
   //create case
   const handleCreateCase = useMutation(
     () => {
-      // if(newCase.length > 0){
       let object = {};
       if (selectedCase.length > 0 && newCase.length < 1) {
         object = {

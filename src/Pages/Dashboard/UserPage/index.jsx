@@ -17,6 +17,7 @@ import EditUserModal from "../../Users/AllUsers/EditUserModal";
 import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
 import Card from "../Card";
 import { useStyles } from "./styles";
+import Loader from "../../../Components/Loader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -32,11 +33,13 @@ const UserPage = (props) => {
   const [url, setUrl] = useState(`/api/ngo/listNGOUsers/user/${activePage}/10`);
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
+  const [loading,setLoading]=useState(false)
 
   //API call for fetching all users
   const { data, status } = useQuery(
     "fetchUser",
     () => {
+      setLoading(true)
       return axios.get(`${backendUrl + url}`, {
         headers: {
           "x-access-token": user.token,
@@ -45,7 +48,7 @@ const UserPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
@@ -59,7 +62,78 @@ const UserPage = (props) => {
         });
         setRowData(data);
         setTotalPages(response.data.data.totalPages);
+        setLoading(false)
       },
+      enabled:
+        url === `/api/ngo/listNGOUsers/user/${activePage}/10` ? true : false,
+    }
+  );
+
+   //API call for fetching all Verified users
+   const { data1, status1 } = useQuery(
+    "fetchVerifiedUser",
+    () => {
+      setLoading(true)
+      return axios.get(`${backendUrl + url}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj.firstName + " " + obj.lastName,
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+          };
+          return user;
+        });
+        setRowData(data);
+        setTotalPages(response.data.data.totalPages);
+        setLoading(false)
+      },
+      enabled:
+        url === `/api/ngo/listNGOUsers/user/${activePage}/10/verified` ? true : false,
+    }
+  );
+
+   //API call for fetching all Unverified users
+   const { data2, status2 } = useQuery(
+    "fetchUnverifiedUser",
+    () => {
+      setLoading(true)
+      return axios.get(`${backendUrl + url}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj.firstName + " " + obj.lastName,
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+          };
+          return user;
+        });
+        setRowData(data);
+        setTotalPages(response.data.data.totalPages);
+        setLoading(false)
+      },
+      enabled:
+        url === `/api/ngo/listNGOUsers/user/${activePage}/10/unverified` ? true : false,
     }
   );
 
@@ -133,6 +207,12 @@ const UserPage = (props) => {
       label: "User Status",
     },
     {
+      id: "userVerify",
+      numeric: false,
+      disablePadding: true,
+      label: "Verify",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -143,7 +223,6 @@ const UserPage = (props) => {
       view: <Eye color="#4069bf" />,
       edit: <Edit color="#4069bf" />,
       delete: <Trash color="red" />,
-      verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -166,7 +245,7 @@ const UserPage = (props) => {
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
-      url: "api/ngo/listNGOVerifiedUsers",
+      url: `/api/ngo/listNGOUsers/user/${activePage}/10/verified`,
     },
     {
       title: "UNVERIFIED",
@@ -175,7 +254,7 @@ const UserPage = (props) => {
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "Users",
-      url: "/api/ngo/listNGOUnVerifiedUsers",
+      url: `/api/ngo/listNGOUsers/user/${activePage}/10/unverified`,
     },
   ];
 
@@ -202,27 +281,30 @@ const UserPage = (props) => {
           </Grid.Col>
         ))}
       </Grid>
-      <Container mt="md" className={classes.main}>
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-          setEditModalState={setOpenEditModal}
-          setDeleteModalState={setOpenDeleteModal}
-          onStatusChange={handleChangeStatus.mutate}
-          setStatusChangeId={setStatusChangeId}
-          setDeleteData={setDeleteID}
-          setViewModalData={setViewModalData}
+      {loading ? (
+        <Loader minHeight="40vh" />
+      ) :(<Container mt="md" className={classes.main}>
+      <Table
+        headCells={headerData}
+        rowData={rowData}
+        setViewModalState={setOpenViewModal}
+        setEditModalState={setOpenEditModal}
+        setDeleteModalState={setOpenDeleteModal}
+        onStatusChange={handleChangeStatus.mutate}
+        setStatusChangeId={setStatusChangeId}
+        setDeleteData={setDeleteID}
+        setViewModalData={setViewModalData}
+      />
+      {totalPages > 1 && (
+        <Pagination
+          activePage={activePage}
+          setPage={setPage}
+          total={totalPages}
+          radius="xl"
         />
-        {totalPages > 1 && (
-          <Pagination
-            activePage={activePage}
-            setPage={setPage}
-            total={totalPages}
-            radius="xl"
-          />
-        )}
-      </Container>
+      )}
+    </Container>)}
+      
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}

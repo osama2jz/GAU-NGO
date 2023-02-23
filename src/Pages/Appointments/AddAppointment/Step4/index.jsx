@@ -13,7 +13,6 @@ const Step4 = ({caseId}) => {
   const { user } = useContext(UserContext);
   const [cardData, setCardData]=useState()
   const [referCase, setNewReferCase] = useState();
-  console.log(cardData, "cardData")
   
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -42,7 +41,6 @@ const Step4 = ({caseId}) => {
           };
           return card;
         });
-        // console.log("dadad",response, data)
           setCardData(data)
       },
     }

@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import user from "../../assets/teacher.png";
 import routeNames from "../../Routes/routeNames";
+import Button from "../Button";
 
 const Table = ({
   headCells,
@@ -230,7 +231,27 @@ const Table = ({
                         }}
                       />
                     </td>
-                  ) : (
+                  ) :head.id === "userVerify" ? (
+                    <td key={index} align="center" >
+                    <Button
+            label="Verify"
+            onClick={() => {
+              if (row.accStatus === "active") {
+                navigate(`/userVerification/${row.id}`);
+              } else {
+                showNotification({
+                  title: "User is not verified",
+                  message: "Please verify user first",
+                  color: "red",
+                });
+              }
+            }}
+            disabled={row.status === "unverified" ? false : true}
+            primary={true}
+            compact={true}
+          />
+                    </td>
+                  ) :  (
                     <td key={index} align="center">
                       {/* {head.date &&
                       row[head?.id]?.split("T")[0] +

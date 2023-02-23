@@ -8,8 +8,9 @@ import {
   Text,
   Avatar,
   Badge,
+  useMantineTheme,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -24,17 +25,28 @@ import userlogo from "../../../assets/teacher.png";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import ViewUserModal from "./ViewUserModal";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import moment from "moment";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const theme=useMantineTheme()
+  const { user } = useContext(UserContext);
+  const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [viewModalData,setViewModalData]=useState()
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
-      label: "Sr No.",
+      label: "Sr #",
     },
     {
       id: "name",
@@ -52,13 +64,7 @@ const VerificationScheduled = () => {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
-    },
-    {
-      id: "time",
-      numeric: false,
-      disablePadding: true,
-      label: "Time",
+      label: "Registration Date",
     },
     {
       id: "status",
@@ -67,65 +73,63 @@ const VerificationScheduled = () => {
       label: "User Status",
     },
     {
+      id: "userVerify",
+      numeric: false,
+      disablePadding: true,
+      label: "Verify",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
       label: "Status",
     },
+    
     {
       id: "actions",
-      view: <Eye color="#4069BF" />,
+      view: <Eye color={theme.colors.blue} />,
+      edit: <Edit color={theme.colors.green} />,
+      delete: <Trash color={theme.colors.red} />,
+      // verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
   ];
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
+
+  //API call for fetching all users
+  const { data, status } = useQuery(
+    "fetchUsers",
+    () => {
+      return axios.get(
+        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10/unverified`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
-      id: "2",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      time: "11:20 PM",
-      status: "Processing",
-      accStatus: "Active",
-    },
-  ];
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj.firstName + " " + obj.lastName,
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone:obj.phoneNumber,
+            
+          };
+          return user;
+        });
+        setRowData(data);
+        setTotalPages(response.data.data.totalPages);
+      },
+    }
+  );
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Users Schedule"} />

@@ -64,7 +64,6 @@ function ScheduledAppointments() {
           return appointment;
         });
         setRowData(data);
-        console.log("response", response);
         
       },
     }

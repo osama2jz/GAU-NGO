@@ -30,7 +30,6 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(reportData);
 
   let headerData = [
     {
@@ -93,7 +92,6 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
     },
     {
       onSuccess: (response) => {
-        console.log("ur", response.data.data);
         let data = response?.data?.data?.map((obj, ind) => {
           let report = {
             id: obj.reportId,

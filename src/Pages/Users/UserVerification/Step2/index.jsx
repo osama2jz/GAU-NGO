@@ -207,7 +207,6 @@ export const Step2 = ({
     },
     {
       onSuccess: (response) => {
-        // console.log("res",response.data.data);
         setDescrimation(response.data.data);
       },
     }
@@ -223,7 +222,6 @@ export const Step2 = ({
     },
     {
       onSuccess: (response) => {
-        // console.log(response.data.data);
         form.setFieldValue("email", response.data.data?.email);
         form.setFieldValue("firstName", response.data.data?.firstName);
         form.setFieldValue("lastName", response.data.data?.lastName);
@@ -232,13 +230,11 @@ export const Step2 = ({
     }
   );
   const handleDeleted = (id) => {
-    // console.log(id);
     let a = refrences.filter((item) => console.log(item));
     setRefrences(a);
   };
 
   const handleFileInput = (file) => {
-    console.log(file);
     // setSelectedFile(e.target.files[0]);
     // const ReactS3Client = new S3(s3Config);
     // ReactS3Client.uploadFile(file, file.name)

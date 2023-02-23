@@ -1,34 +1,23 @@
-import { useContext, useEffect, useState } from "react";
 import {
-  Anchor,
-  Container,
-  SimpleGrid,
-  Avatar,
-  Flex,
-  Grid,
-  Text,
+  Anchor, Avatar, Container, Flex,
+  Grid, SimpleGrid, Text
 } from "@mantine/core";
-import userlogo from "../../../assets/teacher.png";
-import ViewModal from "../../../Components/ViewModal/viewUser";
-import { useStyles } from "./styles";
-import Card from "../Card";
-import Table from "../../../Components/Table";
-import {
-  ArrowNarrowLeft,
-  Checks,
-  Edit,
-  Eye,
-  Plus,
-  Trash,
-} from "tabler-icons-react";
-import { useNavigate } from "react-router";
-import { UserContext } from "../../../contexts/UserContext";
-import { backendUrl } from "../../../constants/constants";
-import { useQuery, useQueryClient } from "react-query";
-import moment from "moment";
 import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router";
+import {
+  ArrowNarrowLeft, Eye, Trash
+} from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
 import Loader from "../../../Components/Loader";
-import TextArea from "../../../Components/TextArea";
+import Table from "../../../Components/Table";
+import ViewModal from "../../../Components/ViewModal/viewUser";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import Card from "../Card";
+import { useStyles } from "./styles";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -44,7 +33,6 @@ const UserPage = (props) => {
   const [loader, setLoader] = useState(false);
   const [reportData, setReportData] = useState([]);
 
-  console.log(url)
 
   const [rowData, setRowData] = useState([]);
   let headerData = [
@@ -104,7 +92,6 @@ const UserPage = (props) => {
   const { data, status } = useQuery(
     "fetchPublic",
     () => {
-      // console.log(`Hi am here ${url}}`)
       setLoader(true);
       return axios.get(`${backendUrl + url}`, {
         headers: {
@@ -114,7 +101,7 @@ const UserPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        let data = response?.data?.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
             sr: ind + 1,
@@ -132,7 +119,6 @@ const UserPage = (props) => {
         });
         setRowData(data);
         setLoader(false);
-        // console.log("response", response);
       },
       enabled:
         url === `/api/case/listUserReports/public/${user.id}/${activePage}/10` ? true : false,
@@ -143,7 +129,6 @@ const UserPage = (props) => {
   const { data1, status1 } = useQuery(
     "fetchPrivate",
     () => {
-      // console.log(`Hi am here ${url}}`)
       setLoader(true);
       return axios.get(`${backendUrl + url}`, {
         headers: {
@@ -153,7 +138,7 @@ const UserPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        let data = response?.data?.data.data.map((obj, ind) => {
+        let data = response?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
             sr: ind + 1,
@@ -172,7 +157,6 @@ const UserPage = (props) => {
         });
         setRowData(data);
         setLoader(false);
-        // console.log("response", response);
       },
       enabled:
         url === `/api/case/listUserReports/private/${user.id}/${activePage}/10` ? true : false,

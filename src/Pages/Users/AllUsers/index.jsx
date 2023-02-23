@@ -76,6 +76,12 @@ export const AllUser = () => {
       label: "User Status",
     },
     {
+      id: "userVerify",
+      numeric: false,
+      disablePadding: true,
+      label: "Verify",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
