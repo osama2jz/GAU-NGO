@@ -3,7 +3,7 @@ import clock from "../../assets/clock-solid.svg";
 import meeting from "../../assets/handshake-solid.svg";
 import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
-const Cards = ({ data }) => {
+const Cards = ({ data ,setSlot}) => {
   const { classes } = useStyles();
   return (
     <Card
@@ -13,6 +13,7 @@ const Cards = ({ data }) => {
       w={240}
       h={140}
       shadow="xl"
+      onClick={()=>setSlot && setSlot(data?.scheduleId)}
     >
       {/* <Stack> */}
       <Text size={21} weight={700}>

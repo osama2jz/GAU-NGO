@@ -1,5 +1,5 @@
 import { Container, Flex, Grid, Text, Avatar, SimpleGrid, Badge } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -13,109 +13,122 @@ import ViewAppointment from "./ViewAppointment";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
+import { useQuery } from "react-query";
+import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
 
 function AllAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
-  let headerData = [
-    {
-      id: "id",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr #",
+  const [rowData, setRowData] = useState([]);
+
+ //API call for fetching All Scheduled Appointments
+ const { data, status } = useQuery(
+  "fetchAppointments",
+  () => {
+    return axios.get(
+      `${backendUrl + `/api/appointment/listUserAppointments/all`}`,
+      {
+        headers: {
+          "x-access-token": user.token,
+        },
+      }
+    );
+  },
+  {
+    onSuccess: (response) => {
+      let data = response.data.data.map((obj, ind) => {
+        let appointment = {
+          id: obj._id,
+          sr: ind + 1,
+          caseName: "N/A",
+          caseNo: "N/A",
+          name: obj.appointmentUser,
+          email: "N/A",
+          status: obj.appointmentStatus?.toUpperCase(),
+          time: obj?.scheduledTime,
+          date: obj?.addedDate,
+          addedBy:obj?.appointmentWith,
+          role:obj?.role
+        };
+        return appointment;
+      });
+      setRowData(data);
+      console.log(response)
+      
     },
-    {
-      id: "case",
-      numeric: true,
-      disablePadding: true,
-      label: "Case No.",
-    },
-    {
-      id: "name",
-      numeric: false,
-      disablePadding: true,
-      label: "Name",
-    },
-    {
-      id: "email",
-      numeric: false,
-      disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "date",
-      numeric: false,
-      disablePadding: true,
-      label: "Date",
-    },
-    {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "Appointment Status",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
-    },
-    {
-      id: "actions",
-      view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      numeric: false,
-      label: "Actions",
-    },
-  ];
-  const rowData = [
-    {
-      id: "1",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "2",
-      case: "1234556",
-      name: "Muhammad UUsama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "3",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "4",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-    {
-      id: "5",
-      case: "1234556",
-      name: "Muhammad Usama",
-      email: "osama@gmail.com",
-      date: "12 Jan 2022",
-      status: "Processing",
-      accStatus: "Active",
-    },
-  ];
+  }
+);
+let headerData = [
+  {
+    id: "sr",
+    numeric: true,
+    disablePadding: true,
+    label: "Sr No.",
+  },
+ 
+  {
+    id: "caseName",
+    numeric: false,
+    disablePadding: true,
+    label: "Case Name",
+  },
+  {
+    id: "caseNo",
+    numeric: false,
+    disablePadding: true,
+    label: "Case No.",
+  },
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Name",
+  },
+  {
+    id: "addedBy",
+    numeric: false,
+    disablePadding: true,
+    label: "Appointee",
+  },
+  {
+    id: "role",
+    numeric: false,
+    disablePadding: true,
+    label: "Role",
+  },
+  {
+    id: "date",
+    numeric: false,
+    disablePadding: true,
+    label: "Date",
+  },
+  {
+    id: "time",
+    numeric: false,
+    disablePadding: true,
+    label: "Time",
+  },
+  {
+    id: "status",
+    numeric: false,
+    disablePadding: true,
+    label: "Status",
+  },
+  {
+    id: "actions",
+    view: <Eye color="#4069bf" />,
+    numeric: false,
+    label: "Actions",
+  },
+];
+if(status==="loading"){
+  return <Loader />
+}
   return (
     <Container className={classes.addUser} size="xl">
     

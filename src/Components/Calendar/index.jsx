@@ -3,7 +3,7 @@ import { useState } from "react";
 import moment from "moment/moment";
 import { Container, Indicator, Text, useMantineTheme } from "@mantine/core";
 
-const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
+const CalendarDate = ({ setDate, getSchedule, scheduleDates, size="md" }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
   const theme = useMantineTheme();
   return (
@@ -17,7 +17,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates }) => {
       minDate={new Date(new Date().setDate(new Date().getMonth()))}
       maxDate={new Date(new Date().setMonth(new Date().getMonth() + 2, 0))}
       fullWidth
-      size="md"
+      size={size}
       renderDay={(date) => {
         const day = date.getDate();
         return (

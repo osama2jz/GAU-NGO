@@ -1,29 +1,40 @@
-import { Group, Container, Modal } from "@mantine/core";
+import { Group, Container, Modal, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext } from "react";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
+import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
 import TextArea from "../TextArea";
+import MySchedule from "./Schedule";
 
-const ReferModal = ({opened,
+const ReferModal = ({
+  opened,
   setOpened,
-  onCancel,
-  onDone,
-  label,
-  message,
+  buttonChange = false,
   referCase,
   setNewReferCase,
+  id,
+  setSlot,
+  slot,
+  onSubmit,
 }) => {
   const { user } = useContext(UserContext);
-  const handleReferToExpert = useMutation(() => {
-      return axios.post(`${backendUrl + "/api/case/referToExpert"}`, referCase, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+  const navigate=useNavigate()
+  const handleReferToExpert = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/case/referToExpert"}`,
+        referCase,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -33,7 +44,7 @@ const ReferModal = ({opened,
             message: "Refered Successfully!",
             color: "green",
           });
-          setOpened(false)
+          setOpened(false);
           // navigate(routeNames.socialWorker.dashboard);
         } else {
           showNotification({
@@ -41,7 +52,7 @@ const ReferModal = ({opened,
             message: "Failed to refer",
             color: "red",
           });
-          setOpened(false)
+          setOpened(false);
         }
       },
     }
@@ -52,16 +63,45 @@ const ReferModal = ({opened,
       onClose={() => setOpened(false)}
       centered
       title="Refer User"
+      size={"50%"}
+      styles={{
+        title: {
+          // size: "50px",
+          fontSize: "25px",
+          fontWeight: "bold",
+          color: "#5C5F66",
+          textAlign: "center",
+        },
+      }}
     >
+      <MySchedule Userid={id} setSlot={setSlot} />
       <Container>
-        <TextArea
-          label={"Add comment"}
-          placeholder="Write comment about user"
-          onChange={(e) => setNewReferCase({ ...referCase, referredComment: e.target.value })}
-        />
+        {!buttonChange && (
+          <TextArea
+            label={"Add comment"}
+            placeholder="Write comment about user"
+            onChange={(e) =>
+              setNewReferCase({ ...referCase, referredComment: e.target.value })
+            }
+          />
+        )}
         <Group pt={"sm"} position="right">
-          <Button label="Cancel" onClick={() => {setOpened(false)}} />
-          <Button label="Done" onClick={()=>{handleReferToExpert.mutate()}} primary={true} />
+          <Button
+            label="Cancel"
+            onClick={() => {
+              setOpened(false);
+            }}
+          />
+          <Button
+            label="Done"
+            onClick={() => {
+              buttonChange ? onSubmit.mutate() : handleReferToExpert.mutate();
+              setOpened(false)
+              navigate(routeNames.socialWorker.allAppointments)
+            }}
+            disabled={!slot}
+            primary={true}
+          />
         </Group>
       </Container>
     </Modal>

@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import GeneralLayout from "./Layout/General";
 import AddAppointment from "./Pages/Appointments/AddAppointment";
+import CreateAppointment from "./Pages/Appointments/CreateAppointment"
 import AllAppointments from "./Pages/Appointments/AllAppointments";
 import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
 import Dashboard from "./Pages/Dashboard";
@@ -113,8 +114,12 @@ function App() {
               element={<ReferalReport />}
             />
             <Route
-              path={routeNames.socialWorker.addAppoinment}
+              path={routeNames.socialWorker.startAppoinment}
               element={<AddAppointment />}
+            />
+             <Route
+              path={routeNames.socialWorker.addAppoinment}
+              element={<CreateAppointment />}
             />
           </Route>
           <Route

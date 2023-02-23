@@ -88,9 +88,6 @@ const VerificationScheduled = () => {
     {
       id: "actions",
       view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
-      // verify: <Checks color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },

@@ -39,7 +39,6 @@ export const UserProvider = ({ children }) => {
     {
       onSuccess: (response) => {
         let user=response.data.data
-        console.log('dadsda', user)
         setUser((u) => ({
           ...u,
           name: user?.firstName + " " + user?.lastName,

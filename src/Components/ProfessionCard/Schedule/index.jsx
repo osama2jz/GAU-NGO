@@ -11,12 +11,14 @@ import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import moment from "moment";
 
-const MySchedule = () => {
+const MySchedule = ({ Userid, setSlot }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
+
+  console.log(Userid);
 
   useEffect(() => {
     getSchedule.mutate(date);
@@ -27,7 +29,7 @@ const MySchedule = () => {
     () => {
       return axios.post(
         `${backendUrl + "/api/schedule/listSchedule"}`,
-        {},
+        { userId: Userid },
         {
           headers: {
             "x-access-token": user.token,
@@ -46,7 +48,7 @@ const MySchedule = () => {
     (date) => {
       return axios.post(
         `${backendUrl + "/api/schedule/listSchedule"}`,
-        { date: date },
+        { date: date, userId: Userid },
         {
           headers: {
             "x-access-token": user.token,
@@ -59,25 +61,27 @@ const MySchedule = () => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
             id: ind + 1,
-            title: obj.NGOName,
-            branch: obj.branchName,
-            startTime: obj.timeStart,
-            endTime: obj.timeEnd,
+            title: obj?.NGOName,
+            branch: obj?.branchName,
+            startTime: obj?.timeStart,
+            endTime: obj?.timeEnd,
+            scheduleId: obj?.scheduleId,
           };
           return user;
         });
         setScheduleData(data);
-        setScheduleDates(response.data.dates);
       },
     }
   );
   return (
     <Container size={"xl"} className={classes.main}>
-      <ContainerHeader label={"My Schedule"} />
-      <Text align="center">Select date from the calender to view Schedule</Text>
-      <Container className={classes.innerContainer} size="xl">
       <Container className={classes.cal} mb="lg" mt="md">
-        <CalendarDate setDate={setDate} getSchedule={getSchedule} scheduleDates={scheduleDates}/>
+        <CalendarDate
+          setDate={setDate}
+          getSchedule={getSchedule}
+          scheduleDates={scheduleDates}
+          size="xs"
+        />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
         {moment(date).format("DD MMMM")} Schedule
@@ -96,7 +100,7 @@ const MySchedule = () => {
           >
             {scheduleData.map((item, index) => (
               <Flex justify={"center"}>
-                <ScheduleCard data={item} />
+                <ScheduleCard data={item} setSlot={setSlot} />
               </Flex>
             ))}
           </SimpleGrid>
@@ -106,8 +110,6 @@ const MySchedule = () => {
           No Duties Assigned
         </Text>
       )}
-      </Container>
- 
     </Container>
   );
 };

@@ -139,7 +139,7 @@ const Table = ({
                                 showNotification({
                                   title: "User is not verified",
                                   message: "Please verify user first",
-                                  color: "red",
+                                  color: "red.0",
                                 });
                               }
                             }}
@@ -188,7 +188,9 @@ const Table = ({
                     <td key={index} align="center">
                       <Badge
                         radius="xs"
-                        color={row[head?.id] === "unverified" ? "red.0" : 'blue.0' }
+                        color={
+                          row[head?.id] === "unverified" ? "red.0" : "blue.0"
+                        }
                         variant="outline"
                       >
                         {row[head?.id]}
@@ -231,27 +233,27 @@ const Table = ({
                         }}
                       />
                     </td>
-                  ) :head.id === "userVerify" ? (
-                    <td key={index} align="center" >
-                    <Button
-            label="Verify"
-            onClick={() => {
-              if (row.accStatus === "active") {
-                navigate(`/userVerification/${row.id}`);
-              } else {
-                showNotification({
-                  title: "User is not verified",
-                  message: "Please verify user first",
-                  color: "red",
-                });
-              }
-            }}
-            disabled={row.status === "unverified" ? false : true}
-            primary={true}
-            compact={true}
-          />
+                  ) : head.id === "userVerify" ? (
+                    <td key={index} align="center">
+                      <Button
+                        label="Verify"
+                        onClick={() => {
+                          if (row.accStatus === "active") {
+                            navigate(`/userVerification/${row.id}`);
+                          } else {
+                            showNotification({
+                              title: "User Inactive",
+                              message: "Please Activate user first",
+                              color: "red.0",
+                            });
+                          }
+                        }}
+                        disabled={row.status === "unverified" ? false : true}
+                        primary={true}
+                        compact={true}
+                      />
                     </td>
-                  ) :  (
+                  ) : (
                     <td key={index} align="center">
                       {/* {head.date &&
                       row[head?.id]?.split("T")[0] +
@@ -270,24 +272,25 @@ const Table = ({
           })}
         </tbody>
       </TableMantine>
-      {rowDatas?.length === 0 && (<Container>
-        <Text
-          align="center"
-          pt={8}
-          sx={{
-            fontFamily: "Greycliff CF, sans-serif",
-            margin: "auto",
-          }}
-          fz="md"
-          fw={600}
-          mt={8}
-          color="rgb(0,0,0,0.5)"
-        >
-          {" "}
-          No Data Found
-        </Text>
-      </Container>)}
-      
+      {rowDatas?.length === 0 && (
+        <Container>
+          <Text
+            align="center"
+            pt={8}
+            sx={{
+              fontFamily: "Greycliff CF, sans-serif",
+              margin: "auto",
+            }}
+            fz="md"
+            fw={600}
+            mt={8}
+            color="rgb(0,0,0,0.5)"
+          >
+            {" "}
+            No Data Found
+          </Text>
+        </Container>
+      )}
     </Paper>
   );
 };

@@ -1,6 +1,7 @@
 import { Avatar, Badge, Card, Grid, Stack, Text } from "@mantine/core";
 import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import { CalendarEvent, Clock } from "tabler-icons-react";
 import defaultLogo from "../../assets/teacher.png";
 import Button from "../../Components/Button";
@@ -8,26 +9,31 @@ import Datepicker from "../../Components/Datepicker";
 import Select from "../../Components/SelectMenu";
 import Timepicker from "../../Components/Timepicker";
 import { UserContext } from "../../contexts/UserContext";
+import routeNames from "../../Routes/routeNames";
 import ReferModal from "./ReferModal";
 import ReferNewCaseModal from "./ReferNewCaseModal";
 import { useStyles } from "./styles";
 
-
-const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) => {
+const Cards = ({
+  cardData,
+  slot,
+  buttonChange = false,
+  setReferedTo,
+  referedTo,
+  setSlot,
+  onSubmit,
+}) => {
   const { classes } = useStyles();
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
-  const [referNewModal, setReferNewModal] = useState(false);
 
-  useEffect(()=>{
-    setNewReferCase({...referCase, caseId:caseId})
-  },[])
+  const dates = useMemo(() => {
+    return cardData?.schedule?.map((obj) =>
+      moment(obj.dateStart).format("yyyy-MM-DD")
+    );
+  }, [cardData]);
 
-  const dates=useMemo(()=>{
-    return cardData?.schedule?.map((obj)=>moment(obj.dateStart).format("yyyy-MM-DD"))
-  },[cardData])
-
-  console.log("cardData", cardData)
   return (
     <>
       <Card
@@ -65,7 +71,7 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
             data={cardData?.branches || []}
             // setData={setSelectedData}
           /> */}
-          <Grid>
+          {/* <Grid>
             <Grid.Col span={6}>
               <Datepicker
                 size="xs"
@@ -73,34 +79,60 @@ const Cards = ({ cardData, onRefer, onNew ,setNewReferCase,referCase,caseId}) =>
                 labelFormat={"DD/MM/YY"}
                 excludeDate={dates}
                 dropdownType="modal"
-                onChange={(e) => setNewReferCase({...referCase, referedCaseAppointmentDate:moment(e).format("yyyy-MM-DD")})}
+                onChange={(e) =>
+                  setNewReferCase({
+                    ...referCase,
+                    referedCaseAppointmentDate: moment(e).format("yyyy-MM-DD"),
+                  })
+                }
               />
             </Grid.Col>
             <Grid.Col span={6}>
-              <Timepicker icon={<Clock size={16} />} onChange={(e)=>setNewReferCase({...referCase,referedCaseAppointmentTime:moment(e).format("hh:mm")})} />
+              <Timepicker
+                icon={<Clock size={16} />}
+                onChange={(e) =>
+                  setNewReferCase({
+                    ...referCase,
+                    referedCaseAppointmentTime: moment(e).format("hh:mm"),
+                  })
+                }
+              />
             </Grid.Col>
-          </Grid>
+          </Grid> */}
         </Stack>
         <Button
-          label="Refer"
+          label={buttonChange ? "Schedule" : "Refer"}
           bg={true}
           className={classes.button}
-          onClick={() => {setReferModal(true),
-          setNewReferCase({...referCase,referedTo:cardData?.userId})}}
+          onClick={() => {
+            setReferModal(true);
+            setReferedTo(cardData?.userId);
+          }}
           styles={{ width: "100%", marginBottom: "5px" }}
+          compact={true}
         />
 
+        {!buttonChange && (
           <Button
             label="Schedule New Case"
             primary={true}
             className={classes.button}
-            onClick={() => setReferNewModal(true)}
+            onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
             styles={{ width: "100%" }}
+            compact={true}
           />
-
+        )}
       </Card>
-      <ReferModal opened={referModal} setOpened={setReferModal} setNewReferCase={setNewReferCase} referCase={referCase}/>
-      <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} />
+      <ReferModal
+        opened={referModal}
+        setOpened={setReferModal}
+        setSlot={setSlot}
+        id={referedTo}
+        onSubmit={onSubmit}
+        buttonChange={buttonChange}
+        slot={slot}
+      />
+      {/* <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} /> */}
     </>
   );
 };

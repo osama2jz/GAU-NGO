@@ -36,6 +36,7 @@ export const socialSideBarData = [
         link: routeNames.socialWorker.scheduledAppointments,
       },
       { label: "Add Appointment", link: routeNames.socialWorker.addAppoinment },
+      { label: "Start Appointment", link: routeNames.socialWorker.startAppoinment },
       {
         label: "View Appointments",
         link: routeNames.socialWorker.allAppointments,
