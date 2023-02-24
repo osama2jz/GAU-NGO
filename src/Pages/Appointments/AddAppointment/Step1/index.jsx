@@ -185,7 +185,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
         <Grid.Col md={"5"}>
           <SelectMenu
             searchable={true}
-            placeholder="Enter case name or id"
+            placeholder={cases.length<1?"No cases found":"Enter case name or id"}
             label="Search User Case"
             creatable={true}
             setData={setSelectedCase }
