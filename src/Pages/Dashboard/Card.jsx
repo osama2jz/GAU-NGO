@@ -4,17 +4,17 @@ import { Users } from "tabler-icons-react";
 import { Progress } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 
-const Cards = ({ data,setUrl ,url }) => {
+const Cards = ({ data, setUrl, url, setPage }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const handleClick=()=>{
-    if(data.link){
-      navigate(data.link)
+  const handleClick = () => {
+    setPage && setPage(1);
+    if (data.link) {
+      navigate(data.link);
+    } else if (data.url) {
+      setUrl(data.url);
     }
-    else if(data.url){
-      setUrl(data.url)
-    }
-  }
+  };
   return (
     <>
       <Card
@@ -26,9 +26,11 @@ const Cards = ({ data,setUrl ,url }) => {
         radius={26}
         withBorder
         onClick={handleClick}
-        style={{ cursor: "pointer",
-        backgroundColor: data.url===url ?"#f5f5f5":'',
-        border: data.url===url ?"2px solid green":''}}
+        style={{
+          cursor: "pointer",
+          backgroundColor: data.url === url ? "#f5f5f5" : "",
+          border: data.url === url ? "2px solid green" : "",
+        }}
       >
         <Flex align={"baseline"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
@@ -46,7 +48,6 @@ const Cards = ({ data,setUrl ,url }) => {
           Response Rate 50%
         </Text>
       </Card>
-     
     </>
   );
 };

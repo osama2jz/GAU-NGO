@@ -5,9 +5,10 @@ import moment from "moment";
 import { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
-import { ArrowNarrowLeft, Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
 import EditModal from "../../../Components/EditModal/editModal";
+import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
@@ -17,7 +18,6 @@ import EditUserModal from "../../Users/AllUsers/EditUserModal";
 import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
 import Card from "../Card";
 import { useStyles } from "./styles";
-import Loader from "../../../Components/Loader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -30,17 +30,18 @@ const UserPage = (props) => {
   const [statusChangeId, setStatusChangeId] = useState("");
   const [deleteID, setDeleteID] = useState("");
   const [viewModalData, setViewModalData] = useState();
-  const [url, setUrl] = useState(`/api/ngo/listNGOUsers/user/${activePage}/10`);
+  const [url, setUrl] = useState(`/all`);
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [loading,setLoading]=useState(false)
 
+
   //API call for fetching all users
   const { data, status } = useQuery(
-    "fetchUser",
+    ["fetchUser", activePage, url],
     () => {
       setLoading(true)
-      return axios.get(`${backendUrl + url}`, {
+      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
         headers: {
           "x-access-token": user.token,
         },
@@ -65,16 +66,16 @@ const UserPage = (props) => {
         setLoading(false)
       },
       enabled:
-        url === `/api/ngo/listNGOUsers/user/${activePage}/10` ? true : false,
+        url === `/all` ? true : false,
     }
   );
 
    //API call for fetching all Verified users
    const { data1, status1 } = useQuery(
-    "fetchVerifiedUser",
+    ["fetchverifiedUser", activePage, url],
     () => {
       setLoading(true)
-      return axios.get(`${backendUrl + url}`, {
+      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
         headers: {
           "x-access-token": user.token,
         },
@@ -99,16 +100,16 @@ const UserPage = (props) => {
         setLoading(false)
       },
       enabled:
-        url === `/api/ngo/listNGOUsers/user/${activePage}/10/verified` ? true : false,
+        url === `/verified` ? true : false,
     }
   );
 
    //API call for fetching all Unverified users
    const { data2, status2 } = useQuery(
-    "fetchUnverifiedUser",
+    ["fetchUnverifiedUser",activePage, url],
     () => {
       setLoading(true)
-      return axios.get(`${backendUrl + url}`, {
+      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
         headers: {
           "x-access-token": user.token,
         },
@@ -133,7 +134,7 @@ const UserPage = (props) => {
         setLoading(false)
       },
       enabled:
-        url === `/api/ngo/listNGOUsers/user/${activePage}/10/unverified` ? true : false,
+        url === `/unverified` ? true : false,
     }
   );
 
@@ -236,7 +237,7 @@ const UserPage = (props) => {
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "Users",
-      url: `/api/ngo/listNGOUsers/user/${activePage}/10`,
+      url: `/all`,
     },
     {
       title: "VERIFIED",
@@ -245,7 +246,7 @@ const UserPage = (props) => {
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "Users",
-      url: `/api/ngo/listNGOUsers/user/${activePage}/10/verified`,
+      url: `/verified`,
     },
     {
       title: "UNVERIFIED",
@@ -254,7 +255,7 @@ const UserPage = (props) => {
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "Users",
-      url: `/api/ngo/listNGOUsers/user/${activePage}/10/unverified`,
+      url: `/unverified`,
     },
   ];
 
@@ -277,7 +278,7 @@ const UserPage = (props) => {
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} setUrl={setUrl} url={url} />
+            <Card data={item} setUrl={setUrl} url={url} setPage={setPage}/>
           </Grid.Col>
         ))}
       </Grid>
