@@ -15,12 +15,13 @@ root.render(
         theme={{
           colors: {
             blue: ["#3268A7"],
-            blueHover: "rgb(50, 104, 157,0.1)",
+            blueHover: "rgb(50, 104, 157,0.7)",
+            blueSide: "rgb(50, 104, 157,0.1)",
             red: ["rgb(207, 30, 28)"],
             redHover: "rgb(207, 30, 28, 0.7)",
             green: ["rgb(15, 123, 50)"],
             greenHover: "rgb(15, 123, 50, 0.7)",
-            black: "#000000",
+            black: ["#000000"],
             container: "#F5F6FA",
             gray: "#E7E7E780",
             heading: "#56606E",
@@ -36,6 +37,20 @@ root.render(
               backgroundColor: "red.0",
               color: "yellow",
             },
+            '.mantine-1vm9tkw':{
+              color:'red'
+            },
+            '.mantine-Select-item': {
+              '&[data-hovered]': {
+                backgroundColor: theme.colors.blueHover,
+              },
+              '&[data-selected]': {
+                '&, &:hover': {
+                  backgroundColor: theme.colors.blue,
+                  color: theme.colors.white,
+                },
+              },
+            }
           }),
         }}
       >

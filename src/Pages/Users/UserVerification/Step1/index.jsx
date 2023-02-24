@@ -88,7 +88,6 @@ export const Step1 = ({ user, setUser }) => {
       </Group>
     </div>
   );
-
   return (
     <Container>
       <Container

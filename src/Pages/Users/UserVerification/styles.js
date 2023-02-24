@@ -39,7 +39,7 @@ export const useStyles = createStyles((theme) => ({
   verified: {},
   seperator: {
     color: "yellow",
-    backgroundColor: theme.colors.red,
+    backgroundColor: theme.colors.gray,
   },
   activeSep: {
     backgroundColor: theme.colors.green,

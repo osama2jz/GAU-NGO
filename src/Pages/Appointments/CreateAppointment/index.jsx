@@ -85,7 +85,7 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="xl" px={"0px"}>
-      <ContainerHeader label={" Make an Appointment"} />
+      <ContainerHeader label={" Add Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="sm"

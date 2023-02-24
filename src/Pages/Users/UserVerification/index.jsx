@@ -1,34 +1,27 @@
 import {
-  Container,
-  Divider,
-  Group,
-  Stepper,
-  Text,
-  useMantineColorScheme,
-  useMantineTheme,
+  Container, Group,
+  Stepper, useMantineTheme
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
+import axios from "axios";
+import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { useStyles } from "./styles";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
 import step4 from "../../../assets/step4.png";
-import step5 from "../../../assets/step5.png";
 import Button from "../../../Components/Button";
-import { Step2 } from "./Step2";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
 import { Step1 } from "./Step1";
+import { Step2 } from "./Step2";
 import { Step3 } from "./Step3";
 import { Step4 } from "./Step4";
-import { Step5 } from "./Step5";
-import { useNavigate } from "react-router";
-import routeNames from "../../../Routes/routeNames";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import { useMutation, useQuery } from "react-query";
-import { showNotification } from "@mantine/notifications";
-import { UserContext } from "../../../contexts/UserContext";
-import axios from "axios";
-import { backendUrl } from "../../../constants/constants";
-import { useForm } from "@mantine/form";
-import moment from "moment";
+import { useStyles } from "./styles";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -53,7 +46,7 @@ export const UserVerification = () => {
         showNotification({
           title: "Error",
           message: "Please select a user",
-          color: "red",
+          color: "red.0",
         });
       }
     } else if (active == 2) {
@@ -63,7 +56,7 @@ export const UserVerification = () => {
         showNotification({
           title: "Error",
           message: "Please sign the consent form",
-          color: "red",
+          color: "red.0",
         });
       }
     } else if (active == 3) {
@@ -74,7 +67,7 @@ export const UserVerification = () => {
         showNotification({
           title: "Error",
           message: "Please check the User Agreement",
-          color: "red",
+          color: "red.0",
         });
       }
     }
@@ -133,7 +126,7 @@ export const UserVerification = () => {
         showNotification({
           title: "User Verified",
           message: "User Verify Successfully!",
-          color: "green",
+          color: "green.0",
         });
         navigate(routeNames.socialWorker.allUsers);
       },
@@ -143,7 +136,7 @@ export const UserVerification = () => {
         showNotification({
           title: "Error",
           message: "Something Went Wrong!",
-          color: "red",
+          color: "red.0",
         });
         navigate(routeNames.socialWorker.allUsers);
       },
@@ -161,9 +154,9 @@ export const UserVerification = () => {
       age: "",
       documentType: "passport",
       documentURL: "",
-      origin: "",
-      domicile: "",
-      muncipality: "",
+      country: "",
+      address: "",
+      city: "",
       revenue: "",
       expenses: "",
       aidsBonuses: "",
@@ -184,40 +177,40 @@ export const UserVerification = () => {
       typeId: "",
       discriminationVoilenceValue: "",
     },
-    // validate: {
-    //   dateOfBirth: (value) =>
-    //     value.length < 1 ? "Please enter your date of Birth" : null,
-    //   // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-    //   passport: (value) => (value.length < 1 ? "Please enter passport" : null),
-    //   nationality: (value) =>
-    //     value.length < 1 ? "Please enter nationality" : null,
-    //   origin: (value) => (value.length < 1 ? "Please enter origin" : null),
-    //   domicile: (value) => (value.length < 1 ? "Please enter domicile" : null),
-    //   muncipality: (value) =>
-    //     value.length < 1 ? "Please enter muncipality" : null,
-    //   revenue: (value) => (value.length < 1 ? "Please enter revenue" : null),
-    //   expenses: (value) => (value.length < 1 ? "Please enter expenses" : null),
-    //   aidsBonuses: (value) =>
-    //     value.length < 1 ? "Please enter Aids or Bonuses" : null,
-    //   debt: (value) => (value.length < 1 ? "Please enter debt" : null),
-    //   housing: (value) => (value.length < 1 ? "Please enter housing" : null),
-    //   educationLevel: (value) =>
-    //     value.length < 1 ? "Please enter Education level" : null,
-    //   specialization: (value) =>
-    //     value.length < 1 ? "Please enter Characteristics" : null,
-    //   complementaryTraining: (value) =>
-    //     value.length < 1 ? "Please enter Complementary Trainging " : null,
-    //   completionYear: (value) =>
-    //     value.length < 1 ? "Please enter realization year" : null,
-    //   labour: (value) => (value.length < 1 ? "Please enter Labour year" : null),
-    //   educational: (value) =>
-    //     value.length < 1 ? "Please enter educational year" : null,
-    //   institutional: (value) =>
-    //     value.length < 1 ? "Please enter institutional year" : null,
-    //   familiar: (value) =>
-    //     value.length < 1 ? "Please enter familiar year" : null,
-    //   social: (value) => (value.length < 1 ? "Please enter social year" : null),
-    // },
+    validate: {
+      dateOfBirth: (value) =>
+        value.length < 1 ? "Please enter your date of Birth" : null,
+      // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
+      passport: (value) => (value?.length < 1 ? "Please enter passport" : null),
+      nationality: (value) =>
+        value?.length < 1 ? "Please enter nationality" : null,
+      country: (value) => (value?.length < 1 ? "Please enter Country" : null),
+      address: (value) => (value?.length < 1 ? "Please enter Adress" : null),
+      city: (value) =>
+        value?.length < 1 ? "Please enter City" : null,
+      revenue: (value) => (value?.length < 1 ? "Please enter revenue" : null),
+      expenses: (value) => (value?.length < 1 ? "Please enter expenses" : null),
+      aidsBonuses: (value) =>
+        value?.length < 1 ? "Please enter Aids or Bonuses" : null,
+      debt: (value) => (value?.length < 1 ? "Please enter debt" : null),
+      housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
+      educationLevel: (value) =>
+        value?.length < 1 ? "Please enter Education level" : null,
+      specialization: (value) =>
+        value?.length < 1 ? "Please enter Characteristics" : null,
+      complementaryTraining: (value) =>
+        value?.length < 1 ? "Please enter Complementary Trainging " : null,
+      completionYear: (value) =>
+        value.length < 1 ? "Please enter realization year" : null,
+      labour: (value) => (value?.length < 1 ? "Please enter Labour year" : null),
+      educational: (value) =>
+        value?.length < 1 ? "Please enter educational year" : null,
+      institutional: (value) =>
+        value?.length < 1 ? "Please enter institutional year" : null,
+      familiar: (value) =>
+        value?.length < 1 ? "Please enter familiar year" : null,
+      social: (value) => (value?.length < 1 ? "Please enter social year" : null),
+    },
   });
   useEffect(() => {
     form.setFieldValue(
