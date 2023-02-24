@@ -18,6 +18,8 @@ export const UserProvider = ({ children }) => {
         ? "Social Worker"
         : userData?.userType === "psychologist"
         ? "Psychologist"
+        : userData?.userType === "lawyer"
+        ? "Lawyer"
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
@@ -38,12 +40,12 @@ export const UserProvider = ({ children }) => {
     },
     {
       onSuccess: (response) => {
-        let user=response.data.data
+        let user = response.data.data;
         setUser((u) => ({
           ...u,
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
-          profileImage: user?.profileImage
+          profileImage: user?.profileImage,
         }));
       },
     }
