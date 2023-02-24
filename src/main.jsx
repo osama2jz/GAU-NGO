@@ -37,20 +37,23 @@ root.render(
               backgroundColor: "red.0",
               color: "yellow",
             },
-            '.mantine-1vm9tkw':{
-              color:'red'
+            ".mantine-1vm9tkw": {
+              color: "red",
             },
-            '.mantine-Select-item': {
-              '&[data-hovered]': {
+            ".mantine-Checkbox-input:checked": {
+                backgroundColor: "green",
+            },
+            ".mantine-Select-item": {
+              "&[data-hovered]": {
                 backgroundColor: theme.colors.blueHover,
               },
-              '&[data-selected]': {
-                '&, &:hover': {
+              "&[data-selected]": {
+                "&, &:hover": {
                   backgroundColor: theme.colors.blue,
                   color: theme.colors.white,
                 },
               },
-            }
+            },
           }),
         }}
       >

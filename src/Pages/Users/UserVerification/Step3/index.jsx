@@ -1,7 +1,7 @@
 import { Checkbox, Container, Text } from "@mantine/core";
 import { useStyles } from "../styles";
 
-export const Step3 = ({setConsentSignature}) => {
+export const Step3 = ({ setConsentSignature }) => {
   const { classes } = useStyles();
   return (
     <Container size="xl" p={"lg"} className={classes.consent}>
@@ -52,8 +52,12 @@ export const Step3 = ({setConsentSignature}) => {
         Andaluces, 22 Posterior. CP: 28038 - MADRID Tel. and Fax: +34 91 380 27
         21 CIF: G-80366909 Email: casadepaz01@yahoo.es
       </Text>
-      <Checkbox label="I agree to terms and condition."  styles={{input:classes.checkBoxInput}} mt={"md"} 
-      onChange={(event) => setConsentSignature(event.currentTarget.checked)}/>
+      <Checkbox
+        label="I agree to terms and condition."
+        styles={{ input: classes.checkBoxInput }}
+        mt={"md"}
+        onChange={(event) => setConsentSignature(event.currentTarget.checked)}
+      />
     </Container>
   );
 };
