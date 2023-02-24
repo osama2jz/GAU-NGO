@@ -192,6 +192,7 @@ const Table = ({
                           row[head?.id] === "unverified" ? "red.0" : "blue.0"
                         }
                         variant="outline"
+                        w={"100px"}
                       >
                         {row[head?.id]}
                       </Badge>
@@ -236,7 +237,7 @@ const Table = ({
                   ) : head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
-                        label="Verify"
+                        label={row.status === "unverified" ? "Verify" : "Verified "}
                         onClick={() => {
                           if (row.accStatus === "active") {
                             navigate(`/userVerification/${row.id}`);

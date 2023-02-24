@@ -1,16 +1,16 @@
 import { createStyles, Modal as ModalMantine } from "@mantine/core";
 
-const ViewModal = ({ opened, setOpened, children, title, size="md" }) => {
+const ViewModal = ({ opened, setOpened, children, title, size = "md" }) => {
   const useStyles = createStyles((theme) => ({
-    title:{
-      margin:'auto',
+    title: {
+      margin: "auto",
       fontSize: "25px",
       fontWeight: "bold",
-      color:"#5C5F66",
+      color: "#5C5F66",
       // marginLeft:"150px"
-    }
+    },
   }));
-  const {classes}=useStyles()
+  const { classes } = useStyles();
   return (
     <ModalMantine
       title={title}
@@ -19,7 +19,7 @@ const ViewModal = ({ opened, setOpened, children, title, size="md" }) => {
       centered
       // size={size}
       size={"500px"}
-      classNames={{title:classes.title}}
+      classNames={{ title: classes.title }}
     >
       {children}
     </ModalMantine>

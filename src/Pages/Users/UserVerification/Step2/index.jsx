@@ -54,6 +54,8 @@ export const Step2 = ({
   const [deleteID, setDeleteID] = useState("");
   const { user } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDeleteModal1, setOpenDeleteModal1] = useState(false);
+  const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
 
@@ -229,9 +231,20 @@ export const Step2 = ({
       },
     }
   );
-  const handleDeleted = (id) => {
-    let a = refrences.filter((item) => console.log(item));
-    setRefrences(a);
+  const handleDeleted = (id, type) => {
+    if (type === "w") {
+      let a = workExperience.filter((item) => item.id !== id);
+      setWorkExperience(a);
+    } else if (type === "s") {
+      let a = refrences.filter((item) => item.id !== id);
+      setRefrences(a);
+    } else {
+      let a = trainingStudies.filter((item) => item.id !== id);
+      setTrainingStudies(a);
+    }
+    setOpenDeleteModal(false);
+    setOpenDeleteModal1(false);
+    setOpenDeleteModal2(false);
   };
 
   const handleFileInput = (file) => {
@@ -376,7 +389,7 @@ export const Step2 = ({
               input: {
                 border: "1px solid rgb(0, 0, 0, 0.1)",
                 borderRadius: "5px",
-                width: "250px",
+                // width: "250px",
               },
             })}
             icon={<FileUpload size={20} />}
@@ -450,7 +463,7 @@ export const Step2 = ({
           <Table
             headCells={headerData2}
             rowData={workExperience}
-            setDeleteModalState={setOpenDeleteModal}
+            setDeleteModalState={setOpenDeleteModal1}
             setDeleteData={setDeleteID}
           />
           <Divider color="#C8C8C8" mt="md" mb="md" />
@@ -545,7 +558,12 @@ export const Step2 = ({
           />
         </Group>
         <Divider color="#C8C8C8" mt="xl" mb="md" />
-        <Table headCells={headerData} rowData={refrences} />
+        <Table
+          headCells={headerData}
+          rowData={refrences}
+          setDeleteModalState={setOpenDeleteModal2}
+          setDeleteData={setDeleteID}
+        />
         <Divider color="#C8C8C8" mt="md" mb="md" />
 
         {/* Demand*/}
@@ -572,7 +590,23 @@ export const Step2 = ({
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        onDelete={() => handleDeleted(deleteID)}
+        onDelete={() => handleDeleted(deleteID, "p")}
+        label="Are you Sure?"
+        message="Do you really want to delete these records? This process cannot be undone."
+      />
+      <DeleteModal
+        opened={openDeleteModal1}
+        setOpened={setOpenDeleteModal1}
+        onCancel={() => setOpenDeleteModal1(false)}
+        onDelete={() => handleDeleted(deleteID, "w")}
+        label="Are you Sure?"
+        message="Do you really want to delete these records? This process cannot be undone."
+      />
+      <DeleteModal
+        opened={openDeleteModal2}
+        setOpened={setOpenDeleteModal2}
+        onCancel={() => setOpenDeleteModal2(false)}
+        onDelete={() => handleDeleted(deleteID, "s")}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
