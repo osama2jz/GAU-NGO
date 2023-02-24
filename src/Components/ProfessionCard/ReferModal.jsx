@@ -57,6 +57,7 @@ const ReferModal = ({
       },
     }
   );
+  console.log(slot)
   return (
     <Modal
       opened={opened}

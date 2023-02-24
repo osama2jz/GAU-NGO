@@ -19,13 +19,11 @@ export const useStyles = createStyles((theme) => ({
     marginTop: "50px",
   },
   seperator: {
-    color: "yellow",
-    backgroundColor: theme.colors.red,
+    backgroundColor: theme.colors.gray,
   },
   activeSep: {
     backgroundColor: theme.colors.green,
     height: "5px",
-    color: "yellow",
   },
   stepIcon: {
     "&[data-progress='true']": {
@@ -33,19 +31,11 @@ export const useStyles = createStyles((theme) => ({
     },
   },
   stepCompletedIcon: {
-    border: `2px solid ${theme.colors.green}`,
     borderRadius:'50%',
-    color:theme.colors.green
+    color:theme.colors.white
   },
-//   tabList: {
-//     borderBottom: "1px solid gray",
-//   },
   tabs:{
     backgroundColor:'rgb(0,0,0,0.1)'
-  },
-  stepIcon: {
-    // border:'1px solid black',
-    //   borderRadius: "50%",
   },
   subHeading: {
     fontSize: "18px",

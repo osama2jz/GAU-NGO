@@ -48,7 +48,7 @@ const Layout = () => {
                 ? socialSideBarData
                 : user.role === "Psychologist"
                 ? psychSideBarData
-                : user.role === "Psychologist"
+                : user.role === "Lawyer"
                 ? LawyerSidebarData
                 : []
             }

@@ -9,6 +9,7 @@ import { backendUrl } from "../../constants/constants";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
+import { Users } from "tabler-icons-react";
 
 const Dashboard = () => {
   const { classes } = useStyles();
@@ -21,7 +22,7 @@ const Dashboard = () => {
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "userD",
       link: routeNames.socialWorker.userPageDashboard,
     },
     {
@@ -30,7 +31,7 @@ const Dashboard = () => {
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "apD",
       link: routeNames.socialWorker.appointmentPageDashboard,
     },
     {
@@ -39,7 +40,7 @@ const Dashboard = () => {
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "reD",
       link: routeNames.socialWorker.reportPageDashboard,
     },
   ]);

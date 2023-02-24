@@ -236,7 +236,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "userD",
       url: `/all`,
     },
     {
@@ -245,7 +245,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "userD",
       url: `/verified`,
     },
     {
@@ -254,7 +254,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "userD",
       url: `/unverified`,
     },
   ];

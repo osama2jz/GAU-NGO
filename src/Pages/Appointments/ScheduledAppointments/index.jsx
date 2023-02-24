@@ -54,8 +54,8 @@ function ScheduledAppointments() {
         let appointment = {
           id: obj._id,
           sr: ind + 1,
-          caseName: "N/A",
-          caseNo: "N/A",
+          caseName: obj?.caseName,
+          caseNo: obj?.caseNo,
           name: obj.appointmentUser,
           email: "N/A",
           status: obj.appointmentStatus?.toUpperCase(),

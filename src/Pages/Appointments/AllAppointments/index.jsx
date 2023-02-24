@@ -43,13 +43,13 @@ function AllAppointments() {
     onSuccess: (response) => {
       let data = response.data.data.map((obj, ind) => {
         let appointment = {
-          id: obj._id,
+          id: obj.appointmentUserId,
           sr: ind + 1,
           caseName: "N/A",
-          caseNo: "N/A",
-          name: obj.appointmentUser,
+          caseNo: obj?.caseNo,
+          name: obj?.appointmentUser,
           email: "N/A",
-          status: obj.appointmentStatus?.toUpperCase(),
+          status: obj?.appointmentStatus?.toUpperCase(),
           time: obj?.scheduledTime,
           date: obj?.addedDate,
           addedBy:obj?.appointmentWith,

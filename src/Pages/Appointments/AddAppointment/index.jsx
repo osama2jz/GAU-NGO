@@ -36,6 +36,8 @@ const AddAppointment = () => {
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
   const [newCase, setNewCase] = useState("");
+  const [slot, setSlot] = useState("");
+
   const [reportFiles, setReportFiles] = useState({
     reportComments: "",
     reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
@@ -49,7 +51,6 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
-  console.log("caseid",selectedCase)
   //create case
   const handleCreateCase = useMutation(
     () => {
@@ -136,11 +137,11 @@ const AddAppointment = () => {
       }
     }
     if (user.role === "Psychologist") {
-      active < 4
+      active < 5
         ? setActive(active + 1)
         : navigate(routeNames.socialWorker.allAppointments);
     } else {
-      active < 3
+      active < 4
         ? setActive(active + 1)
         : navigate(routeNames.socialWorker.allAppointments);
     }
@@ -148,39 +149,20 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="xl">
-      <ContainerHeader label={" Make an Appointment"} />
+      <ContainerHeader label={" Start an Appointment"} />
       <Container className={classes.innerContainer} size="xl">
-      <Stepper
-        breakpoint="md"
-        active={active}
-        color={theme.colors.primary}
-        allowNextStepsSelect={false}
-        classNames={{
+        <Stepper
+          breakpoint="md"
+          active={active}
+          color={theme.colors.green}
+          allowNextStepsSelect={false}
+          classNames={{
             separator: classes.seperator,
             separatorActive: classes.activeSep,
             stepIcon: classes.stepIcon,
-            stepCompletedIcon: classes.stepCompletedIcon
+            stepCompletedIcon: classes.stepCompletedIcon,
           }}
-      >
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="1. Select User"
         >
-          <Step1
-            setSelectedUser={setSelectedUser}
-            setSelectedCase={setSelectedCase}
-            newCase={newCase}
-            setNewCase={setNewCase}
-          />
-        </Stepper.Step>
-        {user.role === "Psychologist" && (
           <Stepper.Step
             icon={
               <img
@@ -190,76 +172,116 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="Form"
+            label="1. Select User"
           >
-            <AgeForm setActive={setActive} active={active} />
+            <Step1
+              setSelectedUser={setSelectedUser}
+              setSelectedCase={setSelectedCase}
+              newCase={newCase}
+              setNewCase={setNewCase}
+            />
           </Stepper.Step>
-        )}
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="2. In Meeting"
-        >
-          <Step2 selectedUser={selectedUser} caseNo={caseNo} caseId={selectedCase}/>
-        </Stepper.Step>
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="3. Upload Reporting"
-        >
-          <Step3
-            selectedUser={selectedUser}
-            caseNo={caseNo}
-            reportFiles={reportFiles}
-            setReportFiles={setReportFiles}
-            privatereportFiles={privatereportFiles}
-            setPrivateReportFiles={setPrivateReportFiles}
-          />
-        </Stepper.Step>
-        <Stepper.Step
-          icon={
-            <img
-              src={step2}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="4. Refer"
-        >
-          <Step4  caseId={selectedCase}/>
-        </Stepper.Step>
-      </Stepper>
-      {!(user.role === "Psychologist" && active === 1) && (
-        <Group position="center" mt="xl">
-          {active > 0 && (
-            <Button onClick={() => setActive(active - 1)} label="Back" />
+          {user.role === "Psychologist" && (
+            <Stepper.Step
+              icon={
+                <img
+                  src={step2}
+                  className={classes.stepIcon}
+                  width="40px"
+                  alt="icon"
+                />
+              }
+              label="Form"
+            >
+              <AgeForm setActive={setActive} active={active} />
+            </Stepper.Step>
           )}
-          <Button
-            onClick={handleNextSubmit}
-            label={
-              active === 3 ? "Submit" : active === 4 ? "Finish" : "Save & Next"
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
             }
-            bg={true}
-          />
-        </Group>
-      )}
+            label="2. In Meeting"
+          >
+            <Step2
+              selectedUser={selectedUser}
+              caseNo={caseNo}
+              caseId={selectedCase}
+            />
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="3. Upload Reporting"
+          >
+            <Step3
+              selectedUser={selectedUser}
+              caseNo={caseNo}
+              reportFiles={reportFiles}
+              setReportFiles={setReportFiles}
+              privatereportFiles={privatereportFiles}
+              setPrivateReportFiles={setPrivateReportFiles}
+            />
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="4. Finish"
+          >
+            <Step5 />
+          </Stepper.Step>
+          <Stepper.Step
+            icon={
+              <img
+                src={step2}
+                className={classes.stepIcon}
+                width="40px"
+                alt="icon"
+              />
+            }
+            label="5. Refer"
+          >
+            <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
+          </Stepper.Step>
+        </Stepper>
+        {!(user.role === "Psychologist" && active === 1) && (
+          <Group position="center" mt="xl">
+            {active > 0 && active < 3 && (
+              <Button onClick={() => setActive(active - 1)} label="Back" />
+            )}
+            { active === 3 && (
+              <Button onClick={() => navigate(routeNames.socialWorker.allAppointments)} label="Skip and Finish" />
+            )}
+            <Button
+              onClick={handleNextSubmit}
+              label={
+                active === 3
+                  ? "Refer"
+                  : active === 4
+                  ? "Finish"
+                  : "Save & Next"
+              }
+              bg={true}
+            />
+          </Group>
+        )}
       </Container>
-     
-
-     
     </Container>
   );
 };

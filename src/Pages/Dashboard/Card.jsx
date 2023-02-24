@@ -32,21 +32,23 @@ const Cards = ({ data, setUrl, url, setPage }) => {
           border: data.url === url ? "2px solid green" : "",
         }}
       >
-        <Flex align={"baseline"} justify="space-between" mt="none">
+        <Flex align={"center"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
             {data.title}
           </Text>
-          <Users size={22} strokeWidth={3} color={"black"} />
+          <img
+            src={new URL(`../../assets/${data.icon}.svg`, import.meta.url).href}
+            alt="icon"
+            width={"30px"}
+          />
+          {/* <Users /> */}
         </Flex>
 
         <Text mt="0px" fw="bolder" size={30}>
           {data.value}
         </Text>
         {/* <Text size="xs" m="none">50%</Text> */}
-        <Progress mt="sm" value={78} color={data.color} size={6} />
-        <Text fw="bolder" size={10}>
-          Response Rate 50%
-        </Text>
+        <Progress mt="sm" value={90} color={data.color} size={6} />
       </Card>
     </>
   );

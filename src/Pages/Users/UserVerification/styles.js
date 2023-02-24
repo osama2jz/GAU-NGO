@@ -38,13 +38,11 @@ export const useStyles = createStyles((theme) => ({
   },
   verified: {},
   seperator: {
-    color: "yellow",
     backgroundColor: theme.colors.gray,
   },
   activeSep: {
     backgroundColor: theme.colors.green,
     height: "5px",
-    color: "yellow",
   },
   stepIcon: {
     "&[data-progress='true']": {
@@ -52,12 +50,10 @@ export const useStyles = createStyles((theme) => ({
     },
   },
   stepCompletedIcon: {
-    border: `2px solid ${theme.colors.green}`,
     borderRadius:'50%',
-    color:theme.colors.green
+    color:theme.colors.white
   },
   userInput: {
-    // display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },

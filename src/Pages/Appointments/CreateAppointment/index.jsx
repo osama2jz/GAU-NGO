@@ -28,7 +28,6 @@ const AddAppointment = () => {
   const [referedTo, setReferedTo] = useState("");
   const [slot, setSlot] = useState("");
 
-
   const handleNextSubmit = () => {
     if (active == 0) {
       if (!selectedUser || selectedCase.length < 1) {
@@ -65,7 +64,7 @@ const AddAppointment = () => {
           caseName: newCase,
         };
       }
-      console.log("dsadsadasdsds", object)
+      console.log("dsadsadasdsds", object);
       return axios.post(`${backendUrl + "/api/appointment/create"}`, object, {
         headers: {
           "x-access-token": user.token,
@@ -74,11 +73,19 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        showNotification({
-          title: "Appointment Created",
-          message: "Appointment Created Successfully",
-          color: "green.0",
-        });
+        if (response.status) {
+          showNotification({
+            title: "Appointment Created",
+            message: "Appointment Created Successfully",
+            color: "green.0",
+          });
+        } else {
+          showNotification({
+            title: "Error",
+            message: response.message,
+            color: "red.0",
+          });
+        }
       },
     }
   );
@@ -90,7 +97,7 @@ const AddAppointment = () => {
         <Stepper
           breakpoint="sm"
           active={active}
-          color={theme.colors.primary}
+          color={theme.colors.green}
           allowNextStepsSelect={false}
           classNames={{
             separator: classes.seperator,

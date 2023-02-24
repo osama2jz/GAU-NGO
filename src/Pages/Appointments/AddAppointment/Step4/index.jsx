@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-const Step4 = ({caseId}) => {
+const Step4 = ({caseId,slot,setSlot}) => {
 
   const { user } = useContext(UserContext);
   const [cardData, setCardData]=useState()
@@ -71,7 +71,7 @@ const Step4 = ({caseId}) => {
         <Grid>
           {cardData?.map((e,index) => (
             e.schedule?.length > 0 && <Grid.Col md={6} lg={4} xl={3}>
-              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId}/>
+              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId} slot={slot} setSlot={setSlot}/>
             </Grid.Col>
           ))}
         </Grid>

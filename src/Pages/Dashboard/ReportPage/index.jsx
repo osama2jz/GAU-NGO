@@ -170,7 +170,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "reD",
       url: `/api/case/listUserReports/public/${user.id}/${activePage}/10`,
     },
     {
@@ -179,7 +179,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "reD",
       url: `/api/case/listUserReports/private/${user.id}/${activePage}/10`,
     },
     {
@@ -188,7 +188,7 @@ const UserPage = (props) => {
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
-      icon: "Users",
+      icon: "reD",
       url: `/api/case/listUserReports/referal/${user.id}/${activePage}/10`,
     },
   ];

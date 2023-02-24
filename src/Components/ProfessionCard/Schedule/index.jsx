@@ -18,7 +18,7 @@ const MySchedule = ({ Userid, setSlot }) => {
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
 
-  console.log(Userid);
+  // console.log(Userid);
 
   useEffect(() => {
     getSchedule.mutate(date);

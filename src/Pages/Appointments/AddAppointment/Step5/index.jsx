@@ -9,10 +9,11 @@ const Step5 = () => {
    <Flex align="center" gap={"md"} justify="center" m={"lg"}>
     <img src={success} width="80px" alt="verified" />
     <Flex direction={"column"}>
-     <Text fw={"bold"}>Submitted Successfully.</Text>
-     <Text>Report Submitted Successfully.</Text>
+     <Text fw={"bold"}>Appointment Finished.</Text>
+     <Text>Appointment Finished Successfully.</Text>
     </Flex>
    </Flex>
+     <Text align="center">Do you want to refer this user for other appointments?.</Text>
   </Container>
  );
 };

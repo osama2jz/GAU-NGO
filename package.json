@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.278.0",
     "@emotion/react": "^11.10.5",
     "@mantine/carousel": "^5.10.2",
     "@mantine/core": "^5.10.2",

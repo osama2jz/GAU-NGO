@@ -28,7 +28,7 @@ import Datepicker from "../../../../Components/Datepicker";
 import DeleteModal from "../../../../Components/DeleteModal";
 import { useQuery } from "react-query";
 import axios from "axios";
-// import S3 from "react-aws-s3";
+import * as AWS from "@aws-sdk/client-s3";
 import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { showNotification } from "@mantine/notifications";
@@ -249,11 +249,12 @@ export const Step2 = ({
   };
 
   const handleFileInput = (file) => {
-    // setSelectedFile(e.target.files[0]);
-    // const ReactS3Client = new S3(s3Config);
-    // ReactS3Client.uploadFile(file, file.name)
-    //   .then((data) => console.log(data.location))
-    //   .catch((err) => console.error(err));
+    console.log(file)
+    setSelectedFile(file);
+    const ReactS3Client = new AWS.S3(s3Config);
+    ReactS3Client.send(file)
+      .then((data) => console.log(data.location))
+      .catch((err) => console.error(err));
   };
 
   const submitAll = (values) => {
@@ -405,6 +406,7 @@ export const Step2 = ({
           <FileInput
             label="Upload Document"
             placeholder="Upload Document"
+            accept="file/pdf"
             styles={(theme) => ({
               root: {
                 margin: "auto",
@@ -416,7 +418,7 @@ export const Step2 = ({
               },
             })}
             icon={<FileUpload size={20} />}
-            onChange={handleFileInput}
+            onChange={(e)=>handleFileInput(e)}
           />
         </SimpleGrid>
 
