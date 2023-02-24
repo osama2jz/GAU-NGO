@@ -61,7 +61,7 @@ const UserPage = (props) => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.data.totalPages);
+        setTotalPages(response.data.totalPages);
         setLoading(false)
       },
       enabled:
@@ -95,7 +95,7 @@ const UserPage = (props) => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.data.totalPages);
+        setTotalPages(response.data.totalPages);
         setLoading(false)
       },
       enabled:
@@ -129,7 +129,7 @@ const UserPage = (props) => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.data.totalPages);
+        setTotalPages(response.data.totalPages);
         setLoading(false)
       },
       enabled:
@@ -147,7 +147,7 @@ const UserPage = (props) => {
     showNotification({
       title: "Deleted",
       message: "User Deleted Successfully!",
-      color: "green",
+      color: "green.0",
     });
     queryClient.invalidateQueries("fetchUser");
    
@@ -168,7 +168,7 @@ const UserPage = (props) => {
         showNotification({
           title: "Status Updated",
           message: "User Status changed Successfully!",
-          color: "green",
+          color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");
       },

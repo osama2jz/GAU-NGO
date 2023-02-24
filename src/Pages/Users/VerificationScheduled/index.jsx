@@ -1,43 +1,30 @@
-import {
-  Container,
-  Flex,
-  Grid,
-  Image,
-  Select,
-  SimpleGrid,
-  Text,
-  Avatar,
-  Badge,
-  useMantineTheme,
-} from "@mantine/core";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Plus, Trash } from "tabler-icons-react";
-import Button from "../../../Components/Button";
-import DeleteModal from "../../../Components/DeleteModal";
-import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
-import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames";
-import { useStyles } from "./styles";
-import VerifyIcon from "../../../assets/id.png";
-import userlogo from "../../../assets/teacher.png";
-import ViewModal from "../../../Components/ViewModal/viewUser";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import ViewUserModal from "./ViewUserModal";
-import { useQuery } from "react-query";
+import { Container, Grid, useMantineTheme } from "@mantine/core";
 import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
+import { Eye } from "tabler-icons-react";
+import Button from "../../../Components/Button";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import InputField from "../../../Components/InputField";
+import Loader from "../../../Components/Loader";
+import Table from "../../../Components/Table";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import moment from "moment";
+import routeNames from "../../../Routes/routeNames";
+import { useStyles } from "./styles";
+import ViewUserModal from "./ViewUserModal";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme=useMantineTheme()
+  const theme = useMantineTheme();
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [viewModalData,setViewModalData]=useState()
+  const [viewModalData, setViewModalData] = useState();
+  const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -84,7 +71,7 @@ const VerificationScheduled = () => {
       disablePadding: true,
       label: "Status",
     },
-    
+
     {
       id: "actions",
       view: <Eye color={theme.colors.blue} />,
@@ -95,10 +82,13 @@ const VerificationScheduled = () => {
 
   //API call for fetching all users
   const { data, status } = useQuery(
-    "fetchUsers",
+    ["fetchUser", search, activePage],
     () => {
       return axios.get(
-        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10/unverified`}`,
+        `${
+          backendUrl +
+          `/api/ngo/listNGOUsers/user/${activePage}/10/unverified/${search}`
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -117,13 +107,12 @@ const VerificationScheduled = () => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone:obj.phoneNumber,
-            
+            phone: obj.phoneNumber,
           };
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.data.totalPages);
+        setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -133,15 +122,11 @@ const VerificationScheduled = () => {
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
-          </Grid.Col>
-          <Grid.Col sm={6} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              data={[
-                { label: "verified", value: "verified" },
-                { label: "Pending", value: "pending" },
-              ]}
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
@@ -154,12 +139,16 @@ const VerificationScheduled = () => {
             />
           </Grid.Col>
         </Grid>
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-          setViewModalData={setViewModalData}
-        />
+        {status == "loading" ? (
+          <Loader />
+        ) : (
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+            setViewModalData={setViewModalData}
+          />
+        )}
       </Container>
       <ViewModal
         opened={openViewModal}
@@ -167,7 +156,7 @@ const VerificationScheduled = () => {
         title="User Schedule Details"
         size="550px"
       >
-        <ViewUserModal id={viewModalData}/>
+        <ViewUserModal id={viewModalData} />
       </ViewModal>
     </Container>
   );

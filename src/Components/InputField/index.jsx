@@ -31,6 +31,7 @@ const InputField = ({
   size = "md",
   validateName,
   disabled,
+  onKeyDown,
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
   return (
@@ -42,6 +43,7 @@ const InputField = ({
       size={size}
       value={value}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       disabled={disabled}
       {...form?.getInputProps(validateName)}
       icon={

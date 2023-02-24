@@ -1,7 +1,4 @@
-
-import {
-  Container, Grid, useMantineTheme
-} from "@mantine/core";
+import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
@@ -29,12 +26,14 @@ import ViewUserModal from "./ViewUserModal";
 export const AllUser = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme=useMantineTheme()
+  const theme = useMantineTheme();
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
@@ -99,10 +98,13 @@ export const AllUser = () => {
 
   //API call for fetching all users
   const { data, status } = useQuery(
-    "fetchUser",
+    ["fetchUser", filter, search, activePage],
     () => {
       return axios.get(
-        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`}`,
+        `${
+          backendUrl +
+          `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -121,13 +123,12 @@ export const AllUser = () => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone:obj.phoneNumber,
-            
+            phone: obj.phoneNumber,
           };
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.data.totalPages);
+        setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -163,9 +164,6 @@ export const AllUser = () => {
     setOpenDeleteModal(false);
   };
 
-  if (status == "loading") {
-    return <Loader />;
-  }
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Users"} />
@@ -173,15 +171,23 @@ export const AllUser = () => {
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+            />
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
+              value={"all"}
+              setData={setFilter}
               data={[
+                { label: "All", value: "all" },
                 { label: "verified", value: "verified" },
-                { label: "Pending", value: "pending" },
+                { label: "Unverified", value: "unverified" },
               ]}
             />
           </Grid.Col>
@@ -195,18 +201,22 @@ export const AllUser = () => {
             />
           </Grid.Col>
         </Grid>
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-          setViewModalData={setViewModalData}
-          setEditModalState={setOpenEditModal}
-          setStatusChangeId={setStatusChangeId}
-          onStatusChange={handleChangeStatus.mutate}
-          setDeleteData={setDeleteID}
-          setDeleteModalState={setOpenDeleteModal}
-          setReportData={setReportData}
-        />
+        {status == "loading" ? (
+          <Loader />
+        ) : (
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+            setViewModalData={setViewModalData}
+            setEditModalState={setOpenEditModal}
+            setStatusChangeId={setStatusChangeId}
+            onStatusChange={handleChangeStatus.mutate}
+            setDeleteData={setDeleteID}
+            setDeleteModalState={setOpenDeleteModal}
+            setReportData={setReportData}
+          />
+        )}
         {totalPages > 1 && (
           <Pagination
             activePage={activePage}
@@ -230,7 +240,7 @@ export const AllUser = () => {
         title="User Details"
       >
         {/* <ViewUser id={viewModalData}/> */}
-        <ViewUserModal id={viewModalData} reportData={reportData}/>
+        <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
       <EditModal
         opened={openEditModal}

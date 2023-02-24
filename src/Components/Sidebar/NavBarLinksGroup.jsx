@@ -16,7 +16,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 600,
     display: "block",
     width: "100%",
-    margin:'1px',
+    margin:'1px 0px',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     borderRadius: "10px",
     fontSize: theme.fontSizes.lg,

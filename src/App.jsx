@@ -128,7 +128,7 @@ function App() {
           </Route>
           <Route
             path="*"
-            element={<Navigate to={routeNames.general.login} />}
+            element={<Navigate to={routeNames.general.dashboard} />}
           />
         </Routes>
     </NotificationsProvider>

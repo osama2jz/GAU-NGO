@@ -44,7 +44,7 @@ const SelectMenu = ({
       withAsterisk={required ? true : false}
       label={label}
       pb={pb}
-      value={value}
+      defaultValue={value}
       itemComponent={itemComponent}
       size={size}
       getCreateLabel={(query) => `+ Create ${query}`}
