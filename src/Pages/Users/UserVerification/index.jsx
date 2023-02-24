@@ -1,7 +1,4 @@
-import {
-  Container, Group,
-  Stepper, useMantineTheme
-} from "@mantine/core";
+import { Container, Group, Stepper, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -146,72 +143,55 @@ export const UserVerification = () => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
+      //Personal Information
       firstName: "",
       lastName: "",
+      dateOfBirth: "",
       phoneNo: "",
       email: "",
-      dateOfBirth: "",
       age: "",
-      documentType: "passport",
-      documentURL: "",
       country: "",
       address: "",
       city: "",
+      demand: "",
+      documentType: "passport",
+      documentURL: "",
+
+      //Economic Situation
       revenue: "",
       expenses: "",
       aidsBonuses: "",
       debt: "",
       housing: "",
-      educationLevel: "",
-      specialization: "",
-      complementaryTraining: "",
-      completionYear: "",
+
+      //Health Aspects
       healthAspects: "",
+
+      //Socio-Family Situation
       socioFamily: "",
-      demand: "",
-      social: "",
-      labour: "",
-      educational: "",
-      institutional: "",
-      familiar: "",
+
+      //Discrimination/Violence
       typeId: "",
       discriminationVoilenceValue: "",
     },
     validate: {
       dateOfBirth: (value) =>
         value.length < 1 ? "Please enter your date of Birth" : null,
-      // age: (value) => (value.length < 1 ? "Please enter your Age" : null),
       passport: (value) => (value?.length < 1 ? "Please enter passport" : null),
       nationality: (value) =>
         value?.length < 1 ? "Please enter nationality" : null,
       country: (value) => (value?.length < 1 ? "Please enter Country" : null),
       address: (value) => (value?.length < 1 ? "Please enter Adress" : null),
-      city: (value) =>
-        value?.length < 1 ? "Please enter City" : null,
+      city: (value) => (value?.length < 1 ? "Please enter City" : null),
       revenue: (value) => (value?.length < 1 ? "Please enter revenue" : null),
       expenses: (value) => (value?.length < 1 ? "Please enter expenses" : null),
       aidsBonuses: (value) =>
         value?.length < 1 ? "Please enter Aids or Bonuses" : null,
       debt: (value) => (value?.length < 1 ? "Please enter debt" : null),
       housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
-      educationLevel: (value) =>
-        value?.length < 1 ? "Please enter Education level" : null,
-      specialization: (value) =>
-        value?.length < 1 ? "Please enter Characteristics" : null,
-      complementaryTraining: (value) =>
-        value?.length < 1 ? "Please enter Complementary Trainging " : null,
-      completionYear: (value) =>
-        value.length < 1 ? "Please enter realization year" : null,
-      labour: (value) => (value?.length < 1 ? "Please enter Labour year" : null),
-      educational: (value) =>
-        value?.length < 1 ? "Please enter educational year" : null,
-      institutional: (value) =>
-        value?.length < 1 ? "Please enter institutional year" : null,
-      familiar: (value) =>
-        value?.length < 1 ? "Please enter familiar year" : null,
-      social: (value) => (value?.length < 1 ? "Please enter social year" : null),
     },
   });
+
   useEffect(() => {
     form.setFieldValue(
       "age",
@@ -232,7 +212,7 @@ export const UserVerification = () => {
             separator: classes.seperator,
             separatorActive: classes.activeSep,
             stepIcon: classes.stepIcon,
-            stepCompletedIcon: classes.stepCompletedIcon
+            stepCompletedIcon: classes.stepCompletedIcon,
           }}
         >
           <Stepper.Step
