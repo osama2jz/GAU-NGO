@@ -48,6 +48,8 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
+
+  console.log("caseid",selectedCase)
   //create case
   const handleCreateCase = useMutation(
     () => {

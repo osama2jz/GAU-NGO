@@ -20,6 +20,7 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import Button from "../../../../Components/Button";
+import { useParams } from "react-router-dom";
 
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
@@ -28,9 +29,16 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const [faceID, setFaceId] = useState({});
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
+  const { id } = useParams();
 
   let faceio = new faceIO("fioa89bd");
 
+  // useEffect(() => {
+  //   if (id) {
+  //     setUser(id);
+  //   }
+  // }, [id]);
+  
   useEffect(() => {
     faceio = new faceIO("fioa89bd");
   }, [faceio]);

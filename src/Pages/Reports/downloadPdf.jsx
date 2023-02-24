@@ -5,6 +5,7 @@ import download from "../../assets/download.svg";
 import { Flex, Image, Menu, Text } from "@mantine/core";
 import { useStyles } from "./Private/styles";
 import moment from "moment";
+import { showNotification } from "@mantine/notifications";
 
 function DownloadPdf({ headCells, data, title }) {
   const { classes } = useStyles();
@@ -12,10 +13,9 @@ function DownloadPdf({ headCells, data, title }) {
   // console.log("DATA: ", data)
   // console.log("TITLE: ", title)
   const today = moment();
-  // console.log(today.format("DD-MMM-YYYY"));
-  const [filteredData, setFilteredData] = React.useState();
-  const [filteredDataMonthly, setFilteredDataMonthly] = React.useState();
-  //  console.log("FILTERED DATA: ", filteredData)
+  const oneWeekAgo = moment().subtract(7, "days");
+  // console.log("TODAY: ", today);
+  // console.log("ONE WEEK AGO: ", oneWeekAgo);
 
   const filteredDaily = data.filter(
     (person) => person.date === today.format("DD-MMM-YYYY")
@@ -23,27 +23,34 @@ function DownloadPdf({ headCells, data, title }) {
   const filteredWeekly = data.filter(
     (person) => person.date === today.format("DD-MMM-YYYY")
   );
+
+  const filteredObjects = data.filter(
+    (person) =>
+      person.date >= oneWeekAgo.format("DD-MMM-YYYY") &&
+      person.date <= today.format("DD-MMM-YYYY")
+  );
   const filteredMonthly = data.filter(
     (person) => person.date.substr(3, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
     if (name === "daily") {
-      filteredDaily.map((person) => console.log(person));
-      setFilteredData(filteredDaily);
-      {
-        filteredData && downloadPDF(filteredData, "Daily Reports");
-      }
+      filteredDaily.length === 0 ? showNotification({
+        title: "No Data",
+        message: "No data for today",
+        color: "green.0",
+      }):downloadPDF(filteredDaily, "Daily Reports");
+      
     }
     if (name === "weekly") {
-      return filteredWeekly.map((person) => console.log(person));
+      downloadPDF(filteredObjects, "Weekly Reports");
     }
     if (name === "monthly") {
-      filteredMonthly.map((person) => console.log(person));
-      setFilteredDataMonthly(filteredMonthly);
-      {
-        filteredDataMonthly && downloadPDF(filteredData, "Monthly Reports");
-      }
+      filteredDaily.length === 0 ? showNotification({
+        title: "No Data",
+        message: "No data for the Month",
+        color: "green.0",
+      }):downloadPDF(filteredMonthly, "Monthly Reports");
     }
   };
   const downloadPDF = (filteredData, title) => {

@@ -118,6 +118,10 @@ function App() {
               element={<AddAppointment />}
             />
              <Route
+              path={routeNames.socialWorker.startAppoinment2}
+              element={<AddAppointment />}
+            />
+             <Route
               path={routeNames.socialWorker.addAppoinment}
               element={<CreateAppointment />}
             />

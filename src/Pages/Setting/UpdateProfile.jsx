@@ -110,7 +110,7 @@ export const UpdateProfile = () => {
     >
       <form onSubmit={form.onSubmit((values) => handleSettings.mutate(values))}>
         <Grid>
-          <Grid.Col md={4} p="md" align="center">
+          <Grid.Col md={12} p="md" align="center" lg={6}>
             <Container pos={"relative"} className={classes.imageContainer}>
               {(files.length > 0 || profileImage) && (
                 <CircleX className={classes.cross} onClick={deleteImage} />
@@ -143,7 +143,7 @@ export const UpdateProfile = () => {
               </Text>
             </Dropzone>
           </Grid.Col>
-          <Grid.Col md={8}>
+          <Grid.Col md={12} lg={6}>
             <SimpleGrid
               cols={2}
               spacing="lg"

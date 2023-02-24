@@ -253,6 +253,26 @@ const Table = ({
                         compact={true}
                       />
                     </td>
+                  ) :head.id === "start" ? (
+                    <td key={index} align="center">
+                      <Button
+                        label="Start"
+                        onClick={() => {
+                          // if (row.accStatus === "active") {
+                            navigate(`/start-appointment/${row.id}`);
+                          // } else {
+                          //   showNotification({
+                          //     title: "User Inactive",
+                          //     message: "Please Activate user first",
+                          //     color: "red.0",
+                          //   });
+                          // }
+                        }}
+                        
+                        primary={true}
+                        compact={true}
+                      />
+                    </td>
                   ) : (
                     <td key={index} align="center">
                       {/* {head.date &&

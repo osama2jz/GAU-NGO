@@ -53,7 +53,7 @@ function AllAppointments() {
           time: obj?.scheduledTime,
           date: obj?.addedDate,
           addedBy:obj?.appointmentWith,
-          role:obj?.role
+          role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
         };
         return appointment;
       });
@@ -68,15 +68,15 @@ let headerData = [
     id: "sr",
     numeric: true,
     disablePadding: true,
-    label: "Sr No.",
+    label: "Sr#",
   },
  
-  {
-    id: "caseName",
-    numeric: false,
-    disablePadding: true,
-    label: "Case Name",
-  },
+  // {
+  //   id: "caseName",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "Case Name",
+  // },
   {
     id: "caseNo",
     numeric: false,
@@ -118,6 +118,12 @@ let headerData = [
     numeric: false,
     disablePadding: true,
     label: "Status",
+  },
+  {
+    id: "start",
+    numeric: false,
+    disablePadding: true,
+    label: "Start",
   },
   {
     id: "actions",
