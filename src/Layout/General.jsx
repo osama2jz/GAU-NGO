@@ -17,6 +17,7 @@ import { socialSideBarData } from "../Components/Sidebar/SocialWorkerData";
 import { UserContext } from "../contexts/UserContext";
 import { psychSideBarData } from "../Components/Sidebar/PsychologistData";
 import routeNames from "../Routes/routeNames";
+import { LawyerSidebarData } from "../Components/Sidebar/LawyerSidebarData";
 
 const Layout = () => {
   const theme = useMantineTheme();
@@ -47,6 +48,8 @@ const Layout = () => {
                 ? socialSideBarData
                 : user.role === "Psychologist"
                 ? psychSideBarData
+                : user.role === "Psychologist"
+                ? LawyerSidebarData
                 : []
             }
             setOpened={setOpened}

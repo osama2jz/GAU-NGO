@@ -8,7 +8,14 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-const Step2 = ({ caseId, referedTo, setReferedTo, setSlot, onSubmit, slot }) => {
+const Step2 = ({
+  caseId,
+  referedTo,
+  setReferedTo,
+  setSlot,
+  onSubmit,
+  slot,
+}) => {
   const { user } = useContext(UserContext);
   const [cardData, setCardData] = useState();
   const [referCase, setNewReferCase] = useState();
@@ -65,7 +72,7 @@ const Step2 = ({ caseId, referedTo, setReferedTo, setSlot, onSubmit, slot }) => 
         </Grid>
         <Grid>
           {cardData?.map(
-            (e, index) =>
+            (e) =>
               e.schedule?.length > 0 && (
                 <Grid.Col md={6} lg={4} xl={3}>
                   <Cards

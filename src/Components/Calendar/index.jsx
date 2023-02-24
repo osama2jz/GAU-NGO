@@ -3,7 +3,7 @@ import { useState } from "react";
 import moment from "moment/moment";
 import { Container, Indicator, Text, useMantineTheme } from "@mantine/core";
 
-const CalendarDate = ({ setDate, getSchedule, scheduleDates, size="md" }) => {
+const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
   const theme = useMantineTheme();
   return (
