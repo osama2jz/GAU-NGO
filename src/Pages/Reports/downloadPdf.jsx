@@ -9,48 +9,51 @@ import { showNotification } from "@mantine/notifications";
 
 function DownloadPdf({ headCells, data, title }) {
   const { classes } = useStyles();
-  // console.log("HEADCELLS: ", headCells)
-  // console.log("DATA: ", data)
-  // console.log("TITLE: ", title)
+
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
-  // console.log("TODAY: ", today);
-  // console.log("ONE WEEK AGO: ", oneWeekAgo);
 
   const filteredDaily = data.filter(
     (person) => person.date === today.format("DD-MMM-YYYY")
   );
-  const filteredWeekly = data.filter(
-    (person) => person.date === today.format("DD-MMM-YYYY")
-  );
 
-  const filteredObjects = data.filter(
-    (person) =>
-      person.date >= oneWeekAgo.format("DD-MMM-YYYY") &&
-      person.date <= today.format("DD-MMM-YYYY")
-  );
+  const filteredWeekly = data.filter((person) => {
+    return (
+      new Date(person.date) >= new Date(oneWeekAgo) &&
+      new Date(person.date) <= new Date(today)
+    );
+  });
   const filteredMonthly = data.filter(
     (person) => person.date.substr(3, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
     if (name === "daily") {
-      filteredDaily.length === 0 ? showNotification({
-        title: "No Data",
-        message: "No data for today",
-        color: "green.0",
-      }):downloadPDF(filteredDaily, "Daily Reports");
-      
+      filteredDaily.length === 0
+        ? showNotification({
+            title: "No Data",
+            message: "No Reports for today",
+            color: "green.0",
+          })
+        : downloadPDF(filteredDaily, "Daily Reports");
     }
     if (name === "weekly") {
-      downloadPDF(filteredObjects, "Weekly Reports");
+      filteredWeekly.length === 0
+        ? showNotification({
+            title: "No Data",
+            message: "No Reports for the week",
+            color: "green.0",
+          })
+        : downloadPDF(filteredWeekly, "Weekly Reports");
     }
     if (name === "monthly") {
-      filteredDaily.length === 0 ? showNotification({
-        title: "No Data",
-        message: "No data for the Month",
-        color: "green.0",
-      }):downloadPDF(filteredMonthly, "Monthly Reports");
+      filteredDaily.length === 0
+        ? showNotification({
+            title: "No Data",
+            message: "No Reports for the Month",
+            color: "green.0",
+          })
+        : downloadPDF(filteredMonthly, "Monthly Reports");
     }
   };
   const downloadPDF = (filteredData, title) => {

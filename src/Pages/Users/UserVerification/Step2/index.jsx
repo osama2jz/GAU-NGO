@@ -31,6 +31,7 @@ import axios from "axios";
 // import S3 from "react-aws-s3";
 import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
+import { showNotification } from "@mantine/notifications";
 
 export const Step2 = ({
   setActive,
@@ -58,6 +59,7 @@ export const Step2 = ({
   const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
+
 
   let headerData = [
     {
@@ -98,7 +100,6 @@ export const Step2 = ({
     },
     {
       id: "actions",
-      edit: <Edit color="#4069BF" />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -149,7 +150,7 @@ export const Step2 = ({
     },
     {
       id: "actions",
-      edit: <Edit color="#4069BF" />,
+    
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -189,7 +190,7 @@ export const Step2 = ({
 
     {
       id: "actions",
-      edit: <Edit color="#4069BF" />,
+     
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -256,8 +257,30 @@ export const Step2 = ({
   };
 
   const submitAll = (values) => {
-    setActive(active + 1);
-    setAlldata(values);
+    if(refrences.length===0){
+      showNotification({
+        title: "Add Refrences",
+        message: "Please add Professional references",
+        color:"red.0"
+      })
+    }else if(trainingStudies.length===0){
+      showNotification({
+        title: "Add Training Studies",
+        message: "Please add Training Studies",
+        color:"red.0"
+      })
+    }else if(workExperience.length===0){
+      showNotification({
+        title: "Add Work Experience",
+        message: "Please add Work Experience",
+        color:"red.0"
+      })
+
+    }else{
+      setActive(active + 1);
+      setAlldata(values);
+    }
+    
   };
 
   return (
@@ -399,7 +422,7 @@ export const Step2 = ({
 
         {/** Studies and training */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Studies and Training</Text>
+          <Text className={classes.subHeading}>Studies and Training*</Text>
 
           <Group position="right">
             <Button
@@ -449,7 +472,7 @@ export const Step2 = ({
 
         {/* Work Experience */}
         <Card>
-          <Text className={classes.subHeading}>Work Experience</Text>
+          <Text className={classes.subHeading}>Work Experience*</Text>
           <Group position="right">
             <Button
               label={"Add New"}
@@ -547,7 +570,7 @@ export const Step2 = ({
         </Card>
 
         {/* Professional References */}
-        <Text className={classes.subHeading}>Professional References</Text>
+        <Text className={classes.subHeading}>Professional References*</Text>
         <Group position="right">
           <Button
             label={"Add New"}

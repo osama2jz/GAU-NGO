@@ -199,7 +199,7 @@ const Table = ({
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
-                      <Flex align={"center"} gap={3}>
+                      <Flex gap={3} p="0px" m='0px'>
                         {row.image && (
                           <Avatar
                             src={row.image || user}
@@ -209,8 +209,8 @@ const Table = ({
                         )}
                         <Text lineClamp={1}>
                           {row[head?.id].length > 100
-                            ? row[head?.id].substring(0, 5) + "..."
-                            : row[head?.id].toLocaleString()}
+                            ? row[head?.id].substring(0, 10) + "..."
+                            : row[head?.id]}
                         </Text>
                       </Flex>
                     </td>
@@ -254,13 +254,13 @@ const Table = ({
                         compact={true}
                       />
                     </td>
-                  ) :head.id === "start" ? (
+                  ) : head.id === "start" ? (
                     <td key={index} align="center">
                       <Button
                         label="Start"
                         onClick={() => {
                           // if (row.accStatus === "active") {
-                            navigate(`/start-appointment/${row.id}`);
+                          navigate(`/start-appointment/${row.id}`);
                           // } else {
                           //   showNotification({
                           //     title: "User Inactive",
@@ -269,7 +269,6 @@ const Table = ({
                           //   });
                           // }
                         }}
-                        
                         primary={true}
                         compact={true}
                       />
@@ -282,7 +281,7 @@ const Table = ({
                         row[head?.id]?.split("T")[1].split(".")[0]} */}
                       <Text lineClamp={1}>
                         {row[head?.id].length > 100
-                          ? row[head?.id].substring(0, 5) + "..."
+                          ? row[head?.id].substring(0, 10) + "..."
                           : row[head?.id].toLocaleString()}
                       </Text>
                     </td>
