@@ -28,7 +28,7 @@ import routeNames from "./Routes/routeNames";
 import { AddBranch } from "./NGOAdminPages/Branches/AddBranch";
 import { ViewBranches } from "./NGOAdminPages/Branches/viewBranches";
 import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
-import { ViewProfessionals } from "./NGOAdminPages/Professionals/viewProfessionals";
+import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionalsChange";
 import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
 
 function App() {
