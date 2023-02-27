@@ -85,7 +85,7 @@ function ViewUserModal({ id ,setOpenEditModal}) {
         showNotification({
           title: "User Updated Successfully!",
           message: "User Detail Updated Successfully!",
-          color: "green",
+          color: "green.0",
         });
         // navigate(routeNames.socialWorker.allUsers);
         queryClient.invalidateQueries("fetchUser");

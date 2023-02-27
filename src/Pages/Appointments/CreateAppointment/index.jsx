@@ -32,7 +32,7 @@ const AddAppointment = () => {
     if (active == 0) {
       if (!selectedUser || selectedCase.length < 1) {
         showNotification({
-          color: "red",
+          color: "red.0",
           message: "Please Select User information",
           title: "Incomplete Info",
         });

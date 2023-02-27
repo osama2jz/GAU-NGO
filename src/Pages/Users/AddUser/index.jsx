@@ -98,7 +98,7 @@ export const AddUser = () => {
     showNotification({
       title: "Error",
       message: "Something went wrong",
-      color: "red",
+      color: "red.0",
     });
   }
 
