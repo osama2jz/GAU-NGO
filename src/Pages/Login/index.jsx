@@ -43,7 +43,7 @@ const Login = () => {
           showNotification({
             title: "Invalid Credentials",
             message: "Please Enter correct email and password to login.",
-            color: "red",
+            color: "red.0",
           });
         }
         // navigate(routeNames.socialWorker.allUsers);

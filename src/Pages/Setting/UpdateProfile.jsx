@@ -82,14 +82,14 @@ export const UpdateProfile = () => {
           showNotification({
             title: "Profile Updated",
             message: "Profile updated Successfully!",
-            color: "green",
+            color: "green.0",
           });
           navigate(routeNames.socialWorker.dashboard);
         } else {
           showNotification({
             title: "Failed",
             message: response?.data?.message,
-            color: "red",
+            color: "red.0",
           });
         }
       },
