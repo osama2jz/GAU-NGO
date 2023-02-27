@@ -5,13 +5,21 @@ import {
   Power,
   Report,
   Settings,
+  Users,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const LawyerSidebarData = [
   {
     label: "Dashboard",
     icon: LayoutDashboard,
-    link: routeNames.pysch.dashboard,
+    link: routeNames.lawyer.dashboard,
+  },
+  {
+    label: "User",
+    icon: Users,
+    links: [
+      { label: "View Users", link: routeNames.lawyer.allUsers },
+    ],
   },
   {
     label: "Appointment",
@@ -19,34 +27,34 @@ export const LawyerSidebarData = [
     links: [
       {
         label: "Appointment Schedule",
-        link: routeNames.pysch.scheduledAppointments,
+        link: routeNames.lawyer.scheduledAppointments,
       },
-      { label: "Start Appointment", link: routeNames.pysch.startAppoinment },
-      { label: "Add Appointment", link: routeNames.pysch.addAppoinment },
+      { label: "Start Appointment", link: routeNames.lawyer.startAppoinment },
+      { label: "Add Appointment", link: routeNames.lawyer.addAppoinment },
       {
         label: "View Appointments",
-        link: routeNames.pysch.allAppointments,
+        link: routeNames.lawyer.allAppointments,
       },
     ],
   },
   {
     label: "My Schedule",
     icon: CalendarTime,
-    links: [{ label: "My Schedule", link: routeNames.pysch.mySchedule }],
+    links: [{ label: "My Schedule", link: routeNames.lawyer.mySchedule }],
   },
   {
     label: "Report",
     icon: Report,
     links: [
-      { label: "Private", link: routeNames.pysch.privateReport },
-      { label: "Public", link: routeNames.pysch.publicReport },
-      { label: "Referral", link: routeNames.pysch.referalReport },
+      { label: "Private", link: routeNames.lawyer.privateReport },
+      { label: "Public", link: routeNames.lawyer.publicReport },
+      { label: "Referral", link: routeNames.lawyer.referalReport },
     ],
   },
 ];
 
 export const bottom = [
-  { label: "Settings", icon: Settings, link: routeNames.pysch.settings },
+  { label: "Settings", icon: Settings, link: routeNames.lawyer.settings },
   {
     label: "Log Out",
     link: "/",

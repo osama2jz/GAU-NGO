@@ -280,9 +280,9 @@ const Table = ({
                         " " +
                         row[head?.id]?.split("T")[1].split(".")[0]} */}
                       <Text lineClamp={1}>
-                        {row[head?.id].length > 100
-                          ? row[head?.id].substring(0, 10) + "..."
-                          : row[head?.id].toLocaleString()}
+                        {row[head?.id]?.length > 100
+                          ? row[head?.id]?.substring(0, 10) + "..."
+                          : row[head?.id]?.toLocaleString()}
                       </Text>
                     </td>
                   );

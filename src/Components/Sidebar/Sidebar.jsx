@@ -46,6 +46,11 @@ const useStyles = createStyles((theme) => ({
   linksInner: {
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
+    maxHeight:"75vh",
+    overflow:"scroll",
+    '::-webkit-scrollbar': {
+      display: "none"
+    },
   },
   logo: {
     display: "flex",
@@ -61,6 +66,8 @@ const useStyles = createStyles((theme) => ({
     },
   },
   footer: {
+    backgroundColor:'white',
+    borderTop:"1px solid rgb(0,0,0,0.05)",
     bottom: "10px",
     width: "100%",
     position: "absolute",

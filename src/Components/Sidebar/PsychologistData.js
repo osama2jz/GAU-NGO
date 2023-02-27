@@ -5,6 +5,7 @@ import {
   Power,
   Report,
   Settings,
+  Users,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const psychSideBarData = [
@@ -12,6 +13,13 @@ export const psychSideBarData = [
     label: "Dashboard",
     icon: LayoutDashboard,
     link: routeNames.pysch.dashboard,
+  },
+  {
+    label: "User",
+    icon: Users,
+    links: [
+      { label: "View Users", link: routeNames.pysch.allUsers },
+    ],
   },
   {
     label: "Appointment",

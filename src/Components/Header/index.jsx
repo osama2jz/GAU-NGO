@@ -19,6 +19,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 import routeNames from "../../Routes/routeNames";
 import { useNavigate } from "react-router";
+import userImage from "../../assets/teacher.png";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -133,7 +134,11 @@ const Index = ({}) => {
                     </Text>
                   </Flex>
                 </MediaQuery>
-                <Avatar src={user?.profileImage} radius="xl" size={50} />
+                <Avatar
+                  src={user?.profileImage || userImage}
+                  radius="xl"
+                  size={50}
+                />
               </Group>
             </UnstyledButton>
           </Menu.Target>

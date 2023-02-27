@@ -20,7 +20,6 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
     borderRadius: "10px",
     fontSize: theme.fontSizes.lg,
-
     "&:hover": {
       backgroundColor: theme.colors.blueSide,
     },

@@ -23,7 +23,7 @@ import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 
-export const AllUser = () => {
+export const ViewProfessionals = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -102,8 +102,8 @@ export const AllUser = () => {
     () => {
       return axios.get(
         `${
-          backendUrl +
-          `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`
+          backendUrl + `/api/user/listUsers`
+          // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
         }`,
         {
           headers: {
@@ -114,7 +114,7 @@ export const AllUser = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response.data.data[0].ngoBranches.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
@@ -128,7 +128,7 @@ export const AllUser = () => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.totalPages);
+        // setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -166,7 +166,7 @@ export const AllUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Users"} />
+      <ContainerHeader label={"View Branches"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -186,19 +186,19 @@ export const AllUser = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "verified", value: "verified" },
-                { label: "Unverified", value: "unverified" },
+                { label: "Active", value: "active" },
+                { label: "InActive", value: "inactive" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-           {user.role ==="Social Worker" && <Button
-              label={"Add User"}
+            <Button
+              label={"Add Branch"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />}
+              onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

@@ -18,6 +18,7 @@ import { UserContext } from "../contexts/UserContext";
 import { psychSideBarData } from "../Components/Sidebar/PsychologistData";
 import routeNames from "../Routes/routeNames";
 import { LawyerSidebarData } from "../Components/Sidebar/LawyerSidebarData";
+import { ngoAdminSideBarData } from "../Components/Sidebar/NgoAdminData";
 
 const Layout = () => {
   const theme = useMantineTheme();
@@ -50,6 +51,8 @@ const Layout = () => {
                 ? psychSideBarData
                 : user.role === "Lawyer"
                 ? LawyerSidebarData
+                : user.role === "Admin"
+                ? ngoAdminSideBarData
                 : []
             }
             setOpened={setOpened}
@@ -75,7 +78,7 @@ const Layout = () => {
         //   </Header>
       }
     >
-      <Container mih="100%" size="xl" >
+      <Container mih="100%" size="xl">
         <Group noWrap>
           <MediaQuery largerThan="sm" styles={{ display: "none" }}>
             <Burger
@@ -87,7 +90,11 @@ const Layout = () => {
           </MediaQuery>
           <Topbar />
         </Group>
-        <Container bg={theme.colors.container} size="xl" style={{borderRadius:'20px', border: '1px solid rgb(0,0,0,0.034 '}}>
+        <Container
+          bg={theme.colors.container}
+          size="xl"
+          style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.034 " }}
+        >
           <Outlet />
         </Container>
       </Container>
