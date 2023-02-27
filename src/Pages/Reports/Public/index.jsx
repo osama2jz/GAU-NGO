@@ -30,7 +30,7 @@ import DownloadPdf from "../downloadPdf";
 function PublicReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
@@ -69,6 +69,12 @@ function PublicReport() {
       label: "Added By",
     },
     {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
+    },
+    {
       id: "date",
       numeric: false,
       disablePadding: true,
@@ -89,13 +95,15 @@ function PublicReport() {
     },
   ];
 
-  
   //API call for fetching Public Reports
   const { data, status } = useQuery(
     "fetchAppointments",
     () => {
       return axios.get(
-        `${backendUrl + `/api/case/listUserReports/public/${user.id}/${activePage}/10`}`, 
+        `${
+          backendUrl +
+          `/api/case/listUserReports/public/${user.id}/${activePage}/10`
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -112,17 +120,20 @@ function PublicReport() {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role: obj.role,
-            type:obj.reportType,
+            role:  obj?.role === "socialWorker"
+            ? "Social Worker"
+            : obj.role === "psychologist"
+            ? "Psychologist"
+            : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-            
+
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
           };
           return appointment;
         });
         setRowData(data);
-        
       },
     }
   );
@@ -145,8 +156,12 @@ function PublicReport() {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-          <DownloadPdf headCells={headerData} setdata={setRowData} data={rowData} title="Download reports"/>
-           
+            <DownloadPdf
+              headCells={headerData}
+              setdata={setRowData}
+              data={rowData}
+              title="Download reports"
+            />
           </Grid.Col>
         </Grid>
         <Table
@@ -172,21 +187,25 @@ function PublicReport() {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
+              {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>{reportData?.caseNo}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.caseNo}
+                </Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.addedBy}
+                </Text>
                 <Text className={classes.textheading}>Date</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Report File</Text>
                 <Anchor href={reportData?.file} target="_blank">
-     {reportData?.type} Report
-    </Anchor>
-                
+                  {reportData?.type} Report
+                </Anchor>
+
                 <Text className={classes.textheading}>Report Type</Text>
                 <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>

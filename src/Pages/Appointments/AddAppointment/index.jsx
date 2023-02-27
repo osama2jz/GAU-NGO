@@ -23,13 +23,17 @@ import { AgeForm } from "./AgeForm";
 import { showNotification } from "@mantine/notifications";
 import { backendUrl } from "../../../constants/constants";
 import { useMutation } from "react-query";
+import {useParams} from "react-router-dom";
 import axios from "axios";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
+  const {id,appId}=useParams();
   const { user } = useContext(UserContext);
+  console.log("user", id)
+  console.log("id", appId)
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -55,19 +59,13 @@ const AddAppointment = () => {
   const handleCreateCase = useMutation(
     () => {
       let object = {};
-      if (selectedCase.length > 0 && newCase.length < 1) {
-        object = {
-          previousCaseLinked: true,
-          previousCaseLinkedId: selectedCase,
-          caseLinkedUser: selectedUser.data.data._id,
-        };
-      } else {
+      
         object = {
           previousCaseLinked: false,
-          caseName: newCase,
-          caseLinkedUser: selectedUser.data.data._id,
+          appointmentId: appId,
+          caseLinkedUser: id,
         };
-      }
+      
       return axios.post(`${backendUrl + "/api/case/create"}`, object, {
         headers: {
           "x-access-token": user.token,
@@ -76,6 +74,7 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
+        console.log("response", response);
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
       },
@@ -108,16 +107,16 @@ const AddAppointment = () => {
 
   const handleNextSubmit = () => {
     if (active == 0) {
-      if (!selectedUser || selectedCase.length < 1) {
-        showNotification({
-          color: "red.0",
-          message: "Please Select User information",
-          title: "Incomplete Info",
-        });
-        return;
-      } else {
+      // if (!selectedUser || selectedCase.length < 1) {
+      //   showNotification({
+      //     color: "red.0",
+      //     message: "Please Select User information",
+      //     title: "Incomplete Info",
+      //   });
+      //   return;
+      // } else {
         handleCreateCase.mutate();
-      }
+      // }
     }
     if (active == 2) {
       if (

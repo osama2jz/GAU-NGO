@@ -112,8 +112,12 @@ function PrivateReport() {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role: obj.role,
-            type:obj.reportType,
+            role:  obj?.role === "socialWorker"
+            ? "Social Worker"
+            : obj.role === "psychologist"
+            ? "Psychologist"
+            : "Lawyer",
+            type:obj.reportType ==="private"?"Private":"Public",
             comments: obj.comments,
             file: obj?.reportFile,
 

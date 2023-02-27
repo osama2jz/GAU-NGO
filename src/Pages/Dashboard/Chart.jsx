@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function Chart({data=[]}) {
+export default function Chart({ data = [] }) {
   const { classes } = useStyles();
   return (
     <Card
@@ -34,8 +34,8 @@ export default function Chart({data=[]}) {
           }}
         >
           <CartesianGrid strokeDasharray="1 1" />
-          <XAxis dataKey="_id" />
-          <YAxis />
+          <XAxis dataKey="_id.day" />
+          <YAxis dataKey="count" />
           <Tooltip />
           <Legend />
           <Line

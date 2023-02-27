@@ -260,7 +260,7 @@ const Table = ({
                         label="Start"
                         onClick={() => {
                           // if (row.accStatus === "active") {
-                          navigate(`/start-appointment/${row.id}`);
+                          navigate(`/start-appointment/${row.id}/${row.appointId}`);
                           // } else {
                           //   showNotification({
                           //     title: "User Inactive",

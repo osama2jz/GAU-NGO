@@ -21,7 +21,7 @@ export const psychSideBarData = [
         label: "Appointment Schedule",
         link: routeNames.pysch.scheduledAppointments,
       },
-      { label: "Start Appointment", link: routeNames.pysch.startAppoinment },
+
       { label: "Add Appointment", link: routeNames.pysch.addAppoinment },
       {
         label: "View Appointments",

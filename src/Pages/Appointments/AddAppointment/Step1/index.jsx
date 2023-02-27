@@ -25,19 +25,21 @@ import { useParams } from "react-router-dom";
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState();
   const [faceID, setFaceId] = useState({});
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
-  const { id } = useParams();
+  const {id,appId}=useParams();
+  // setUser(id);
+  console.log("id",id)
 
   let faceio = new faceIO("fioa89bd");
 
-  // useEffect(() => {
-  //   if (id) {
-  //     setUser(id);
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    if (id) {
+      setUser(id);
+    }
+  }, [id]);
   
   useEffect(() => {
     faceio = new faceIO("fioa89bd");

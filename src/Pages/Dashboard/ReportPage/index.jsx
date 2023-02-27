@@ -108,8 +108,12 @@ const UserPage = (props) => {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role: obj.role,
-            type: obj.reportType,
+            role:  obj?.role === "socialWorker"
+            ? "Social Worker"
+            : obj.role === "psychologist"
+            ? "Psychologist"
+            : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
@@ -145,8 +149,12 @@ const UserPage = (props) => {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role: obj.role,
-            type: obj.reportType,
+            role:  obj?.role === "socialWorker"
+            ? "Social Worker"
+            : obj.role === "psychologist"
+            ? "Psychologist"
+            : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
             file: obj?.reportFile,
             comments: obj?.comments,

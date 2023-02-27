@@ -98,7 +98,7 @@ const ReferModal = ({
             onClick={() => {
               buttonChange ? onSubmit.mutate() : handleReferToExpert.mutate();
               setOpened(false)
-              navigate(routeNames.socialWorker.allAppointments)
+              
             }}
             disabled={!slot}
             primary={true}

@@ -35,110 +35,121 @@ function ScheduledAppointments() {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
- //API call for fetching All Scheduled Appointments
- const { data, status } = useQuery(
-  "fetchAppointments",
-  () => {
-    return axios.get(
-      `${backendUrl + `/api/appointment/listUserAppointments/scheduled`}`,
-      {
-        headers: {
-          "x-access-token": user.token,
-        },
-      }
-    );
-  },
-  {
-    onSuccess: (response) => {
-      let data = response.data.data.map((obj, ind) => {
-        let appointment = {
-          id: obj._id,
-          sr: ind + 1,
-          caseName: obj?.caseName,
-          caseNo: obj?.caseNo,
-          name: obj.appointmentUser,
-          email: "N/A",
-          status: obj.appointmentStatus?.toUpperCase(),
-          time: obj?.scheduledTime,
-          date: obj?.addedDate,
-          addedBy:obj?.appointmentWith,
-          role:obj?.role
-        };
-        return appointment;
-      });
-      setRowData(data);
-      console.log(response)
-      
+  //API call for fetching All Scheduled Appointments
+  const { data, status } = useQuery(
+    "fetchAppointments",
+    () => {
+      return axios.get(
+        `${backendUrl + `/api/appointment/listUserAppointments/scheduled`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
-  }
-);
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.appointmentUserId,
+            sr: ind + 1,
+            caseName: obj?.caseName,
+            caseNo: obj?.caseNo,
+            name: obj.appointmentUser,
+            email: "N/A",
+            status: obj.appointmentStatus?.toUpperCase(),
+            time: obj?.scheduledTime,
+            date: obj?.addedDate,
+            addedBy: obj?.appointmentWith,
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
 
+            appointId: obj?.appointmentId,
+          };
+          return appointment;
+        });
+        setRowData(data);
+        console.log(response);
+      },
+    }
+  );
 
-let headerData = [
-  {
-    id: "sr",
-    numeric: true,
-    disablePadding: true,
-    label: "Sr No.",
-  },
- 
-  {
-    id: "caseName",
-    numeric: false,
-    disablePadding: true,
-    label: "Case Name",
-  },
-  {
-    id: "caseNo",
-    numeric: false,
-    disablePadding: true,
-    label: "Case No.",
-  },
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Name",
-  },
-  {
-    id: "addedBy",
-    numeric: false,
-    disablePadding: true,
-    label: "Appointee",
-  },
-  {
-    id: "role",
-    numeric: false,
-    disablePadding: true,
-    label: "Role",
-  },
-  {
-    id: "date",
-    numeric: false,
-    disablePadding: true,
-    label: "Date",
-  },
-  {
-    id: "time",
-    numeric: false,
-    disablePadding: true,
-    label: "Time",
-  },
-  {
-    id: "status",
-    numeric: false,
-    disablePadding: true,
-    label: "Status",
-  },
-  {
-    id: "actions",
-    view: <Eye color="#4069bf" />,
-    numeric: false,
-    label: "Actions",
-  },
-];
-  if(status==="loading"){
-    return <Loader />
+  let headerData = [
+    {
+      id: "sr",
+      numeric: true,
+      disablePadding: true,
+      label: "Sr No.",
+    },
+
+    {
+      id: "caseName",
+      numeric: false,
+      disablePadding: true,
+      label: "Case Name",
+    },
+    {
+      id: "caseNo",
+      numeric: false,
+      disablePadding: true,
+      label: "Case No.",
+    },
+    {
+      id: "name",
+      numeric: false,
+      disablePadding: true,
+      label: "Name",
+    },
+    {
+      id: "addedBy",
+      numeric: false,
+      disablePadding: true,
+      label: "Appointee",
+    },
+    {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Date",
+    },
+    {
+      id: "time",
+      numeric: false,
+      disablePadding: true,
+      label: "Time",
+    },
+    {
+      id: "status",
+      numeric: false,
+      disablePadding: true,
+      label: "Status",
+    },
+    {
+      id: "start",
+      numeric: false,
+      disablePadding: true,
+      label: "Start",
+    },
+    {
+      id: "actions",
+      view: <Eye color="#4069bf" />,
+      numeric: false,
+      label: "Actions",
+    },
+  ];
+  if (status === "loading") {
+    return <Loader />;
   }
   return (
     <Container className={classes.addUser} size="xl">

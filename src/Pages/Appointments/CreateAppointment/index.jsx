@@ -14,6 +14,8 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
+import routeNames from "../../../Routes/routeNames";
+
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -64,7 +66,7 @@ const AddAppointment = () => {
           caseName: newCase,
         };
       }
-      console.log("dsadsadasdsds", object);
+      
       return axios.post(`${backendUrl + "/api/appointment/create"}`, object, {
         headers: {
           "x-access-token": user.token,
@@ -73,19 +75,21 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        if (response.status) {
+        if (response.data.status) {
           showNotification({
             title: "Appointment Created",
             message: "Appointment Created Successfully",
             color: "green.0",
           });
+          navigate(routeNames.socialWorker.allAppointments)
         } else {
           showNotification({
             title: "Error",
-            message: response.message,
+            message: response.data.message,
             color: "red.0",
           });
         }
+        // console.log(response)
       },
     }
   );

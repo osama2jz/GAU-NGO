@@ -16,7 +16,7 @@ const routeNames = {
     settings: "/settings",
     addAppoinment: "/add-appointment",
     startAppoinment: "/start-appointment",
-    startAppoinment2: "/start-appointment/:id",
+    startAppoinment2: "/start-appointment/:id/:appId",
     allAppointments: "/all-appointments",
     scheduledAppointments: "/scheduled-appointments",
     userPageDashboard: "/user-page-dashboard",
