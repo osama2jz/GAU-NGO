@@ -65,15 +65,10 @@ export const ngoAdminSideBarData = [
     icon: Users,
     links: [
       {
-        label: "Users Schedule",
-        link: routeNames.ngoAdmin.verificationScheduled,
-      },
-      {
         label: "Add User",
         icon: UserPlus,
         link: routeNames.ngoAdmin.addUser,
       },
-      { label: "Verify User", link: routeNames.ngoAdmin.userVerification },
       { label: "View Users", link: routeNames.ngoAdmin.allUsers },
     ],
   },
@@ -81,15 +76,6 @@ export const ngoAdminSideBarData = [
     label: "Appointment",
     icon: CalendarEvent,
     links: [
-      {
-        label: "Appointment Schedule",
-        link: routeNames.ngoAdmin.scheduledAppointments,
-      },
-      { label: "Add Appointment", link: routeNames.ngoAdmin.addAppoinment },
-      {
-        label: "Start Appointment",
-        link: routeNames.ngoAdmin.startAppoinment,
-      },
       {
         label: "View Appointments",
         link: routeNames.ngoAdmin.allAppointments,
@@ -102,7 +88,6 @@ export const ngoAdminSideBarData = [
     links: [
       { label: "Private", link: routeNames.ngoAdmin.privateReport },
       { label: "Public", link: routeNames.ngoAdmin.publicReport },
-      { label: "Referral", link: routeNames.ngoAdmin.referalReport },
     ],
   },
   {

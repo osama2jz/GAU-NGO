@@ -30,6 +30,8 @@ import { ViewBranches } from "./NGOAdminPages/Branches/viewBranches";
 import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
 import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionals";
 import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
+import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
+import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
 
 function App() {
 
@@ -149,6 +151,14 @@ function App() {
             <Route
               path={routeNames.ngoAdmin.addRoaster}
               element={<AddRoaster />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.viewRoasters}
+              element={<ViewRoasters />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.addDocument}
+              element={<AddDocument />}
             />
           </Route>
           <Route

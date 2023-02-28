@@ -101,8 +101,8 @@ const routeNames = {
     complaints: '/complaints-public',
     addDocument: '/add-document',
     viewDocuments: '/view-documents',
-    addDocument: '/add-donation',
-    viewDocuments: '/view-donations'
+    addDonation: '/add-donation',
+    viewDonations: '/view-donations'
   },
 };
 

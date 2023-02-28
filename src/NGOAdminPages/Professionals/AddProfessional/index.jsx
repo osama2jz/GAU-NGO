@@ -106,7 +106,7 @@ export const AddProfessional = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"Add User"} />
+      <ContainerHeader label={"Add Professional"} />
 
       <form
         className={classes.form}

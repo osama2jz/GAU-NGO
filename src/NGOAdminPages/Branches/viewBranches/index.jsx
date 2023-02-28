@@ -84,7 +84,7 @@ export const ViewBranches = () => {
     },
   ];
 
-  //API call for fetching all users
+  //API call for fetching all branches
   const { data, status } = useQuery(
     ["fetchUser", filter, search, activePage],
     () => {

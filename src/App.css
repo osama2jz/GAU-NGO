@@ -1,3 +1,10 @@
 * {
   box-sizing: border-box;
 }
+.wrapperClassName {
+  border: 1px solid rgb(0,0,0,0.1);
+  border-radius: 5px;
+}
+.editorClassName{
+  height: 200px;
+}

@@ -23,7 +23,7 @@ import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 
-export const ViewProfessionals = () => {
+export const ViewRoasters = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -63,34 +63,10 @@ export const ViewProfessionals = () => {
       label: "User Type",
     },
     {
-      id: "email",
-      numeric: false,
-      disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "date",
-      numeric: false,
-      disablePadding: true,
-      label: "Registration Date",
-    },
-    {
       id: "status",
       numeric: false,
       disablePadding: true,
       label: "User Status",
-    },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
     },
     {
       id: "actions",
@@ -107,10 +83,7 @@ export const ViewProfessionals = () => {
     ["fetchUser", filter, search, activePage],
     () => {
       return axios.get(
-        `${
-          backendUrl + `/api/user/listUsers/professionals`
-          // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
-        }`,
+        `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -124,20 +97,18 @@ export const ViewProfessionals = () => {
           let user = {
             id: obj._id,
             sr: ind + 1,
-            name: obj.firstName + " " + obj.lastName,
+            name: obj.fullName,
             userType:
-              obj.userType === "socialWorker"
+              obj.role === "socialWorker"
                 ? "Social Worker"
-                : obj?.userType === "psychologist"
+                : obj?.role === "psychologist"
                 ? "Psychologist"
-                : obj?.userType === "lawyer"
+                : obj?.role === "lawyer"
                 ? "Lawyer"
+                :  obj?.role === "ngoadmin"
+                ? "Admin"
                 : "",
-            email: obj.email,
-            status: obj.verificationStatus,
-            accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone: obj.phoneNumber,
+            status: "obj.schedule",
           };
           return user;
         });
@@ -180,7 +151,7 @@ export const ViewProfessionals = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Professionals"} />
+      <ContainerHeader label={"View Roasters"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
