@@ -32,6 +32,8 @@ const UserPage = (props) => {
   const [url, setUrl] = useState(`/api/case/listUserReports/public/${user.id}/${activePage}/10`);
   const [loader, setLoader] = useState(false);
   const [reportData, setReportData] = useState([]);
+  const [publicount,setpublicCount]=useState()
+  const [privatecount,setprivateCount]=useState()
 
 
   const [rowData, setRowData] = useState([]);
@@ -88,6 +90,12 @@ const UserPage = (props) => {
     },
   ];
 
+
+  
+
+ 
+ 
+
   //API call for fetching Public Reports
   const { data, status } = useQuery(
     "fetchPublic",
@@ -122,6 +130,7 @@ const UserPage = (props) => {
           return appointment;
         });
         setRowData(data);
+        setpublicCount(data?.length)
         setLoader(false);
       },
       enabled:
@@ -164,17 +173,57 @@ const UserPage = (props) => {
           return appointment;
         });
         setRowData(data);
+        
         setLoader(false);
       },
       enabled:
         url === `/api/case/listUserReports/private/${user.id}/${activePage}/10` ? true : false,
     }
   );
+  const { data12, status12 } = useQuery(
+    "fetchPrivateCounts",
+    () => {
+      setLoader(true);
+      return axios.get(`${backendUrl + `/api/case/listUserReports/private/${user.id}/${activePage}/10`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.data?.map((obj, ind) => {
+          let appointment = {
+            id: obj.reportId,
+            sr: ind + 1,
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser,
+            addedBy: obj.addedBy,
+            role:  obj?.role === "socialWorker"
+            ? "Social Worker"
+            : obj.role === "psychologist"
+            ? "Psychologist"
+            : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
+            case: obj?.caseNo,
+            file: obj?.reportFile,
+            comments: obj?.comments,
+
+            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setprivateCount(data?.length)
+        
+        setLoader(false);
+      },
+    }
+  );
 
   const a = [
     {
       title: "PUBLIC ",
-      value: 55,
+      value: publicount?publicount:"0",
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -183,7 +232,7 @@ const UserPage = (props) => {
     },
     {
       title: "PRIVATE ",
-      value: 45,
+      value: privatecount?privatecount:"0",
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -192,7 +241,7 @@ const UserPage = (props) => {
     },
     {
       title: "REFERAL ",
-      value: 50,
+      value: 0,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",

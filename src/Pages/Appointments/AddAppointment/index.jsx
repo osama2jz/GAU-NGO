@@ -32,9 +32,7 @@ const AddAppointment = () => {
   const navigate = useNavigate();
   const {id,appId}=useParams();
   const { user } = useContext(UserContext);
-  console.log("user", id)
-  console.log("id", appId)
-
+  
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
@@ -54,6 +52,12 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
+
+   const [otherDocument, setOtherDocument] = useState([{
+    documentName: "",
+    documentURL: "",
+    createdBy: user.id
+  }]);
 
   //create case
   const handleCreateCase = useMutation(
@@ -105,6 +109,30 @@ const AddAppointment = () => {
     }
   );
 
+  //Upload Document
+  const handleUploadDocuments = useMutation(
+    () => {
+      const value = {
+        caseId: selectedCase,
+        otherDocuments: otherDocument,
+      };
+      return axios.post(`${backendUrl + "/api/case/otherDocuments"}`, value, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        showNotification({
+          color: "green.0",
+          message: "Documents uploaded Successfully",
+          title: "Success",
+        });
+      },
+    }
+  );
+
   const handleNextSubmit = () => {
     if (active == 0) {
       // if (!selectedUser || selectedCase.length < 1) {
@@ -132,6 +160,7 @@ const AddAppointment = () => {
         // alert("comment is required")
       } else {
         handleCreateReport.mutate();
+        handleUploadDocuments.mutate();
         setActive(active + 1);
       }
     }
@@ -210,6 +239,7 @@ const AddAppointment = () => {
               selectedUser={selectedUser}
               caseNo={caseNo}
               caseId={selectedCase}
+              setCaseId={setSelectedCase}
             />
           </Stepper.Step>
           <Stepper.Step
@@ -230,6 +260,9 @@ const AddAppointment = () => {
               setReportFiles={setReportFiles}
               privatereportFiles={privatereportFiles}
               setPrivateReportFiles={setPrivateReportFiles}
+              otherDocument={otherDocument}
+              setOtherDocument={setOtherDocument}
+
             />
           </Stepper.Step>
           <Stepper.Step

@@ -23,7 +23,7 @@ import { backendUrl } from "../../../../constants/constants";
 import { useQuery } from "react-query";
 import Loader from "../../../../Components/Loader";
 
-const Step2 = ({ selectedUser, caseNo, caseId }) => {
+const Step2 = ({ selectedUser, caseNo, caseId ,setCaseId}) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
   const { user: usertoken } = useContext(UserContext);
@@ -63,6 +63,12 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
       label: "Added By",
     },
     {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
+    },
+    {
       id: "date",
       numeric: false,
       disablePadding: true,
@@ -96,13 +102,14 @@ const Step2 = ({ selectedUser, caseNo, caseId }) => {
           let report = {
             id: obj.reportId,
             sr: ind + 1,
-            reportType: obj?.reportType,
+            reportType: obj?.reportType==="private"?"Private":"Public",
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate,
             file: obj?.reportFile,
             comments: obj?.comments,
+            role: obj?.role==="lawyer"?"Lawyer":obj?.role==="psychologist"?"Psychologist":"Social Worker",
           };
           return report;
         });

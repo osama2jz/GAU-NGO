@@ -1,7 +1,7 @@
 import { Group, Container, Modal, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import { backendUrl } from "../../constants/constants";
@@ -15,26 +15,29 @@ const ReferModal = ({
   opened,
   setOpened,
   buttonChange = false,
-  referCase,
-  setNewReferCase,
   id,
   setSlot,
   slot,
   onSubmit,
+  caseId,
 }) => {
   const { user } = useContext(UserContext);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const [comment, setComment] = useState("");
   const handleReferToExpert = useMutation(
     () => {
-      return axios.post(
-        `${backendUrl + "/api/case/referToExpert"}`,
-        referCase,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      const obj = {
+        caseId: caseId,
+        referedTo: id,
+        scheduleId: slot,
+        referredComment: comment,
+      };
+      console.log(obj)
+      return axios.post(`${backendUrl + "/api/case/referToExpert"}`, obj, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -57,7 +60,7 @@ const ReferModal = ({
       },
     }
   );
-  console.log(slot)
+  console.log(slot);
   return (
     <Modal
       opened={opened}
@@ -81,9 +84,7 @@ const ReferModal = ({
           <TextArea
             label={"Add comment"}
             placeholder="Write comment about user"
-            onChange={(e) =>
-              setNewReferCase({ ...referCase, referredComment: e.target.value })
-            }
+            onChange={(e) => setComment(e.target.value)}
           />
         )}
         <Group pt={"sm"} position="right">
@@ -97,8 +98,7 @@ const ReferModal = ({
             label="Done"
             onClick={() => {
               buttonChange ? onSubmit.mutate() : handleReferToExpert.mutate();
-              setOpened(false)
-              
+              setOpened(false);
             }}
             disabled={!slot}
             primary={true}

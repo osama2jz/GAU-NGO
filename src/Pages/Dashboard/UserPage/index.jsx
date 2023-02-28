@@ -67,12 +67,6 @@ const UserPage = (props) => {
     }
   );
 
-  // console.log("allUsers",allUsers)
-  // const verified = allUsers && allUsers?.filter(
-  //   // console.log(e)
-  
-  //   // (e) => e.verificationStatus === "verified"
-  // );
   const verified = allUsers && allUsers?.filter(
     (e) => e.status === "verified"
   )
