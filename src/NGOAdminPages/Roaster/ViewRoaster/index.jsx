@@ -1,11 +1,10 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
 import { useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
