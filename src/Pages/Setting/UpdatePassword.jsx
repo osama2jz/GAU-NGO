@@ -1,4 +1,4 @@
-import { Container, Flex, SimpleGrid } from "@mantine/core";
+import { Container, Flex, Group, SimpleGrid } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -68,7 +68,7 @@ export const UpdatePassword = () => {
   return (
     <Container
       className={classes.container}
-      p={30}
+      // p={30}
       shadow="sm"
       mt="sm"
       size={"xl"}
@@ -91,13 +91,13 @@ export const UpdatePassword = () => {
             validateName="confirmPassword"
           />
         </SimpleGrid>
-        <Flex justify={"flex-end"} gap={"md"}>
+        <Group position="right" mt="sm">
           <Button
             label="Cancel"
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           />
           <Button label="Update Password" primary={true} type="submit" />
-        </Flex>
+        </Group>
       </form>
     </Container>
   );

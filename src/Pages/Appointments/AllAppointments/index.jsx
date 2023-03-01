@@ -138,7 +138,7 @@ if(status==="loading"){
   return <Loader />
 }
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl" p={"0px"}>
     
         <ContainerHeader label={"View Appointments"} />
       

@@ -152,7 +152,7 @@ function ScheduledAppointments() {
     return <Loader />;
   }
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Appointment Scheduled"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">

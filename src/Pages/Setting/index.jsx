@@ -7,7 +7,7 @@ import { UpdateProfile } from "./UpdateProfile";
 export const Setting = () => {
   const { classes } = useStyles();
   return (
-    <Container className={classes.main} size="xl">
+    <Container className={classes.main} size="xl" p={"0px"}>
       <ContainerHeader label={"Settings"} />
       <Container className={classes.innerContainer} size="xl">
       <Tabs

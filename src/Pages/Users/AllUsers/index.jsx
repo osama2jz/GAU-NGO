@@ -165,7 +165,7 @@ export const AllUser = () => {
   };
 
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"View Users"} />
 
       <Container className={classes.innerContainer} size="xl">

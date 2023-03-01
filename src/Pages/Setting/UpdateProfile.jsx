@@ -1,7 +1,7 @@
 import {
     Avatar, Container,
     Flex,
-    Grid, SimpleGrid, Text
+    Grid, Group, SimpleGrid, Text
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
@@ -103,7 +103,7 @@ export const UpdateProfile = () => {
   return (
     <Container
       className={classes.container}
-      p={30}
+      // p={30}
       shadow="sm"
       mt="sm"
       size={"xl"}
@@ -185,13 +185,13 @@ export const UpdateProfile = () => {
             </SimpleGrid>
           </Grid.Col>
         </Grid>
-        <Flex justify={"flex-end"} gap={"md"}>
+        <Group position="right" mt="sm">
           <Button
             label="Cancel"
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           />
           <Button label="Save Changes" primary={true} type="submit" />
-        </Flex>
+        </Group>
       </form>
     </Container>
   );
