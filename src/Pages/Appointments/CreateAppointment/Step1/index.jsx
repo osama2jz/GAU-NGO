@@ -36,7 +36,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
-      return axios.get(backendUrl + "/api/ngo/listNGOVerifiedUsers", {
+      return axios.get(backendUrl + "/api/ngo/listNGOUsers/user/0/0/verified", {
         headers: {
           "x-access-token": usertoken?.token,
         },
@@ -45,14 +45,18 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          let user = {
-            value: obj._id.toString(),
-            label: obj?.firstName + " " + obj?.lastName,
-            email: obj?.email || "",
-          };
-          return user;
+          if(obj.userStatus==="active"){
+
+            let user = {
+              value: obj._id.toString(),
+              label: obj?.firstName + " " + obj?.lastName,
+              email: obj?.email || "",
+            };
+            return user;
+          }
         });
-        setUserData(data);
+        let newData=data.filter((item)=>item!==undefined)
+        setUserData(newData);
       },
     }
   );
@@ -157,7 +161,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
               setData={setSelectedCase}
               disabled={newCase.length > 0}
               data={cases}
-              onChange={(v) => setUser(v)}
             />
           )}
           <Divider

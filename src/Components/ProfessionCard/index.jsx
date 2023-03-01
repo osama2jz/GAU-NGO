@@ -22,20 +22,20 @@ const Cards = ({
   referedTo,
   setSlot,
   onSubmit,
-  caseId
+  caseId,
 }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
 
-  const dates = useMemo(() => {
-    return cardData?.schedule?.map((obj) =>
-      moment(obj.dateStart).format("yyyy-MM-DD")
-    );
-  }, [cardData]);
+  // const dates = useMemo(() => {
+  //   return cardData?.schedule?.map((obj) =>
+  //     moment(obj.dateStart).format("yyyy-MM-DD")
+  //   );
+  // }, [cardData]);
 
-  console.log("iserif",cardData?.userId)
+  console.log("iserif", cardData?.userId);
 
   return (
     <>
@@ -48,12 +48,12 @@ const Cards = ({
         withBorder
       >
         <Badge
-          color={cardData?.schedule?.length > 0 ? "green.0" : "red.0"}
+          color={cardData?.schedule ? "green.0" : "red.0"}
           radius="xl"
           variant="outline"
           className={classes.badge}
         >
-          {cardData?.schedule?.length > 0 ? "Available" : "Not Available"}
+          {cardData?.schedule ? "Available" : "Not Available"}
         </Badge>
         <Avatar src={defaultLogo} size={90} />
         <Text size="lg" fw={680} mb={0} pb={0}>
@@ -135,7 +135,6 @@ const Cards = ({
         buttonChange={buttonChange}
         slot={slot}
         caseId={caseId}
-
       />
       {/* <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} /> */}
     </>

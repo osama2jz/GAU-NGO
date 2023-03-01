@@ -78,7 +78,7 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
           className={classes.input}
           {...form?.getInputProps("startDate")}
         />
-        <DatePicker
+        <Datepicker
           label="End Date"
           // disabled={form.values.startDate === ""}
           placeholder="End Date"

@@ -26,6 +26,7 @@ import { useQuery } from "react-query";
 import moment from "moment";
 import axios from "axios";
 import DownloadPdf from "../downloadPdf";
+import Loader from "../../../Components/Loader";
 
 function PublicReport() {
   const { classes } = useStyles();
@@ -97,7 +98,7 @@ function PublicReport() {
 
   //API call for fetching Public Reports
   const { data, status } = useQuery(
-    "fetchAppointments",
+    "fetchPublicReports",
     () => {
       return axios.get(
         `${

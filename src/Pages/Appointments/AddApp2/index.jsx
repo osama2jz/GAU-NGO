@@ -27,7 +27,7 @@ import { useMutation } from "react-query";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 
-const AddAppointment = () => {
+const AddApp2 = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -326,4 +326,4 @@ const AddAppointment = () => {
   );
 };
 
-export default AddAppointment;
+export default AddApp2;

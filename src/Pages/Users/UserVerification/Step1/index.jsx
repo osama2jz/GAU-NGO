@@ -32,39 +32,45 @@ export const Step1 = ({ user, setUser }) => {
     }
   }, [id]);
 
-  console.log("user", user)
+  console.log("user", user);
 
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
-      return axios.get(backendUrl + "/api/ngo/listNGOUnVerifiedUsers", {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
+      return axios.get(
+        backendUrl + "/api/ngo/listNGOUsers/user/0/0/unverified",
+        {
+          headers: {
+            "x-access-token": usertoken?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          let user = {
-            value: obj._id.toString(),
-            label: obj?.firstName + " " + obj?.lastName,
-            email: obj?.email || "",
-          };
-          return user;
+          if (obj.userStatus === "active") {
+            let user = {
+              value: obj._id.toString(),
+              label: obj?.firstName + " " + obj?.lastName,
+              email: obj?.email || "",
+            };
+            return user;
+          }
         });
-        setUserData(data);
+        let newData=data.filter((obj) => obj != undefined);
+        setUserData(newData);
       },
     }
   );
-  
+
   const handleVerifyID = async () => {
     try {
       let response = await faceio.enroll({
         locale: "auto",
         payload: {
           whoami: user,
-          email: userData.filter((obj)=>obj.value == user)[0]?.email,
+          email: userData.filter((obj) => obj.value == user)[0]?.email,
         },
       });
       console.log(`User Successfully Enrolled! Details:
@@ -119,7 +125,6 @@ export const Step1 = ({ user, setUser }) => {
           styles={{ width: "500px", height: "100px", fontSize: "24px" }}
           onClick={handleVerifyID}
           bg={true}
-          
         />
       </Container>
     </Container>

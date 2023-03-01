@@ -37,7 +37,7 @@ const routeNames = {
     userVerification: "/userVerification",
     settings: "/settings",
     addAppoinment: "/add-appointment",
-    startAppoinment: "/start-appointment",
+    startAppoinment2: "/start-appointment-p/:id/:appId",
     allAppointments: "/all-appointments",
     scheduledAppointments: "/scheduled-appointments",
     userPageDashboard: "/user-page-dashboard",

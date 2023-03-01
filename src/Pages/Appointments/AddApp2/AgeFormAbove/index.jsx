@@ -12,7 +12,7 @@ import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import TextArea from "../../../../Components/TextArea";
 import { useStyles } from "../styles";
-export const AgeForm = ({ setActive, active, setAlldata }) => {
+export const AgeFormAbove = ({ setActive, active, setAlldata }) => {
   const { classes } = useStyles();
   const form = useForm({
     validateInputOnChange: true,
@@ -79,8 +79,8 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
   };
   return (
     <Container size="lg">
-       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
-        Age Form Under 18
+      <Text fz={20} fw="bolder" align="center" mb={"xl"}>
+        Psycology Form Over 18
       </Text>
       <form
         className={classes.form}
@@ -92,9 +92,9 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
         <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
-            { minWidth: "md", cols: 2 },
-            { minWidth: "lg", cols: 3 },
-            { minWidth: "xs", cols: 1 },
+            { minWidth: "md", cols: 4 },
+            { minWidth: "lg", cols: 5 },
+            { minWidth: "xs", cols: 2 },
           ]}
         >
           <InputField
@@ -103,6 +103,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
             placeholder="Number"
             form={form}
             validateName="number"
+            
           />
           <InputField
             label="Age"
@@ -119,6 +120,28 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
             validateName="sex"
           />
           <InputField
+            label=" Marital status"
+            required={true}
+            placeholder=" Marital status"
+            form={form}
+            validateName="sex"
+          />
+          <InputField
+            label="Profession"
+            required={true}
+            placeholder="Profession"
+            form={form}
+            validateName="sex"
+          />
+          <InputField
+            label="Studies"
+            required={true}
+            placeholder="Studies"
+            form={form}
+            validateName="sex"
+          />
+
+          <InputField
             label="Address"
             required={true}
             placeholder="Address"
@@ -126,25 +149,32 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
             validateName="address"
           />
           <InputField
-            label="Origin"
+            label="Country"
             required={true}
-            placeholder="Origin"
+            placeholder="Country"
             form={form}
             validateName="origin"
           />
           <InputField
-            label="School and Course"
+            label="Telephone"
             required={true}
-            placeholder="School and Course"
+            placeholder="Telephone"
             form={form}
             validateName="sac"
           />
           <InputField
-            label="Lives With"
+            label="Couple"
             required={true}
-            placeholder="Lives with"
+            placeholder="Couple"
             form={form}
             validateName="lives"
+          />
+          <InputField
+            label="Children"
+            required={true}
+            placeholder="Children"
+            form={form}
+            validateName="sex"
           />
           <InputField
             label="Informant"
@@ -158,6 +188,164 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
           placeholder={"Prior Psychological Care"}
           label="Prior Psychological Care"
         />
+
+        {/* Consultation Reason */}
+        <Card mt="sm">
+          <Text className={classes.subHeading}>Reason for Consultation</Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <TextArea
+            placeholder="Reason for Consultation"
+            form={form}
+            validateName="socioFamily"
+          />
+        </Card>
+
+          {/* History of Current Problem */}
+          <Card mt="sm">
+          <Text className={classes.subHeading}>History of Current Problem</Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "lg", cols: 2 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+          >
+            <TextArea
+              label="Start Date And Duration Of Problem"
+              required={true}
+              placeholder="Date and duration"
+              form={form}
+              validateName="dateDuration"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Precipitating Factors"
+              required={true}
+              placeholder="Precipitating Factors"
+              form={form}
+              validateName="pf"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Impact of Problem on Subject And Family"
+              required={true}
+              placeholder="Impact of Problem"
+              form={form}
+              validateName="impact"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Objective In Terms Of The Problem"
+              required={true}
+              placeholder="Objectives"
+              form={form}
+              validateName="objectives"
+              rows={"2"}
+
+            />
+          </SimpleGrid>
+        </Card>
+
+        {/* Psychological History */}
+        <Card mt="sm">
+          <Text className={classes.subHeading}>Psychological History</Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "lg", cols: 2 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+          >
+            <TextArea
+              label="Previous Development, Childhood and Adolescene"
+              required={true}
+              placeholder="Previous Development, Childhood and Adolescene"
+              form={form}
+              validateName="pdca"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Environment (Housing, Religion)"
+              required={true}
+              placeholder="Environment"
+              form={form}
+              validateName="env"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Habits"
+              required={true}
+              placeholder="Hygeine, Sleep, Food, Exercise"
+              form={form}
+              validateName="habits"
+              rows={"2"}
+
+            />
+          </SimpleGrid>
+        </Card>
+
+        {/* Studies and Occupation */}
+        <Card mt="sm">
+          <Text className={classes.subHeading}>Studies and Occupation</Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "lg", cols: 2 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+          >
+            <TextArea
+              label="Education Level"
+              required={true}
+              placeholder="Education Level"
+              form={form}
+              validateName="eduLevel"
+              rows={"2"}
+            />
+           
+            <TextArea
+              label="Relationship with Co-workers "
+              required={true}
+              placeholder="Relationship with Co-workers"
+              form={form}
+              validateName="rt"
+              rows={"2"}
+            />
+            <TextArea
+              label="Labor problems"
+              required={true}
+              placeholder="Labor problems"
+              form={form}
+              validateName="spld"
+              rows={"2"}
+            />
+            <TextArea
+              label="Professional and social aspirations"
+              required={true}
+              placeholder="Professional and social aspirations"
+              form={form}
+              validateName="ca"
+              rows={"2"}
+            />
+            <TextArea
+              label=" Previous works"
+              required={true}
+              placeholder=" Previous works"
+              form={form}
+              validateName="extra"
+              rows={"2"}
+            />
+           
+          </SimpleGrid>
+        </Card>
 
         {/** Parental Details */}
         <Card mt="sm">
@@ -285,170 +473,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
           </SimpleGrid>
         </Card>
 
-        {/* Consultation Reason */}
-        <Card mt="sm">
-          <Text className={classes.subHeading}>Reason for Consultation</Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <TextArea
-            placeholder="Reason for Consultation"
-            form={form}
-            validateName="socioFamily"
-          />
-        </Card>
-
-        {/* History of Current Problem */}
-        <Card mt="sm">
-          <Text className={classes.subHeading}>History of Current Problem</Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 2 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-          >
-            <TextArea
-              label="Start Date And Duration Of Problem"
-              required={true}
-              placeholder="Date and duration"
-              form={form}
-              validateName="dateDuration"
-            />
-            <TextArea
-              label="Precipitating Factors"
-              required={true}
-              placeholder="Precipitating Factors"
-              form={form}
-              validateName="pf"
-            />
-            <TextArea
-              label="Impact of Problem on Subject And Family"
-              required={true}
-              placeholder="Impact of Problem"
-              form={form}
-              validateName="impact"
-            />
-            <TextArea
-              label="Objective In Terms Of The Problem"
-              required={true}
-              placeholder="Objectives"
-              form={form}
-              validateName="objectives"
-            />
-          </SimpleGrid>
-        </Card>
-
-        {/* Psychological History */}
-        <Card mt="sm">
-          <Text className={classes.subHeading}>Psychological History</Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 2 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-          >
-            <TextArea
-              label="Antenatal, Conception, Pregnancy And Childbirth"
-              required={true}
-              placeholder="Antenatal, Conception, Pregnancy And Childbirth"
-              form={form}
-              validateName="acpc"
-            />
-            <TextArea
-              label="Previous Development, Childhood and Adolescene"
-              required={true}
-              placeholder="Previous Development, Childhood and Adolescene"
-              form={form}
-              validateName="pdca"
-            />
-            <TextArea
-              label="Environment (Housing, Religion)"
-              required={true}
-              placeholder="Environment"
-              form={form}
-              validateName="env"
-            />
-            <TextArea
-              label="Habits"
-              required={true}
-              placeholder="Hygeine, Sleep, Food, Exercise"
-              form={form}
-              validateName="habits"
-            />
-          </SimpleGrid>
-        </Card>
-
-        {/* Studies and Occupation */}
-        <Card mt="sm">
-          <Text className={classes.subHeading}>Studies and Occupation</Text>
-          <Divider color="#C8C8C8" mt="md" mb="md" />
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 2 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-          >
-            <TextArea
-              label="Education Level"
-              required={true}
-              placeholder="Education Level"
-              form={form}
-              validateName="eduLevel"
-            />
-            <TextArea
-              label="Relationship with Classmates"
-              required={true}
-              placeholder="Relationship with Classmates"
-              form={form}
-              validateName="rc"
-            />
-            <TextArea
-              label="Relationship with Teachers"
-              required={true}
-              placeholder="Relationship with Teachers"
-              form={form}
-              validateName="rt"
-            />
-            <TextArea
-              label="School Problems, Learning Difficulties"
-              required={true}
-              placeholder="School Problems, Learning Difficulties"
-              form={form}
-              validateName="spld"
-            />
-            <TextArea
-              label="Career Aspiration"
-              required={true}
-              placeholder="Career Aspiration"
-              form={form}
-              validateName="ca"
-            />
-            <TextArea
-              label="Extra Curricular Activities"
-              required={true}
-              placeholder="Extra Curricular Activities"
-              form={form}
-              validateName="extra"
-            />
-            <TextArea
-              label="Attitude Towards Studies and Exams"
-              required={true}
-              placeholder="Attitude Towards Studies and Exams"
-              form={form}
-              validateName="atse"
-            />
-            <TextArea
-              label="Parents Attitude Towards School Performance"
-              required={true}
-              placeholder="Parents Attitude Towards School Performance"
-              form={form}
-              validateName="patsp"
-            />
-          </SimpleGrid>
-        </Card>
+      
 
         {/* Family Relations */}
         <Card mt="sm">
@@ -467,6 +492,8 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               placeholder="Relations"
               form={form}
               validateName="relations"
+              rows={"2"}
+
             />
             <TextArea
               label="Level of Dependency"
@@ -474,12 +501,15 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               placeholder="Level of Dependency"
               form={form}
               validateName="lod"
+              rows={"2"}
+            
             />
             <TextArea
               label="Relevant Family Problems"
               required={true}
               placeholder="Relevant Family Problems"
               form={form}
+              rows={"2"}
               validateName="rfp"
             />
             <TextArea
@@ -487,6 +517,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="Time Dedicated by Parents to Family Coexistance"
               form={form}
+              rows={"2"}
               validateName="tdpfc"
             />
             <TextArea
@@ -494,6 +525,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="Relationship Between Parents"
               form={form}
+              rows={"2"}
               validateName="rbp"
             />
             <TextArea
@@ -501,6 +533,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="Economic Situation"
               form={form}
+              rows={"2"}
               validateName="eco"
             />
             <TextArea
@@ -508,6 +541,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="eg. Trips, Deaths"
               form={form}
+              rows={"2"}
               validateName="trips"
             />
             <TextArea
@@ -515,6 +549,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="Application of Rewards and Punishment"
               form={form}
+              rows={"2"}
               validateName="aprp"
             />
           </SimpleGrid>
@@ -532,18 +567,21 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
             ]}
           >
             <TextArea
-              label="Friends"
+              label="Frequency of social contacts"
               required={true}
-              placeholder="Friends"
+              placeholder="Frequency of social contacts"
               form={form}
               validateName="friends"
+              rows={"2"}
             />
             <TextArea
-              label="Ability to Interact. Ease of Establishing New Relationships"
+              label="Ease of establishing new relationships and preserving them"
               required={true}
-              placeholder="Ability to Interact"
+              placeholder="Ease of establishing new relationships "
               form={form}
               validateName="ati"
+              rows={"2"}
+
             />
             <TextArea
               label="Difficulties in Social Relationsships"
@@ -551,6 +589,26 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               placeholder="Difficulties in Social Relationsships"
               form={form}
               validateName="dsr"
+              rows={"2"}
+
+            />
+            <TextArea
+              label=" Does anyone currently disturb you?"
+              required={true}
+              placeholder=" Does anyone currently disturb you?"
+              form={form}
+              validateName="dsr"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Does anyone help you  or would help you?  "
+              required={true}
+              placeholder="Does anyone help you  or would help you?  "
+              form={form}
+              validateName="dsr"
+              rows={"2"}
+
             />
           </SimpleGrid>
         </Card>
@@ -571,6 +629,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests1"
             />
             <TextArea
@@ -578,6 +637,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests2"
             />
             <TextArea
@@ -585,6 +645,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests3"
             />
             <TextArea
@@ -592,6 +653,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests4"
             />
             <TextArea
@@ -599,6 +661,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests5"
             />
             <TextArea
@@ -606,6 +669,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests6"
             />
             <TextArea
@@ -613,6 +677,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests7"
             />
             <TextArea
@@ -620,6 +685,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               required={true}
               placeholder="answer"
               form={form}
+              rows={"2"}
               validateName="interests8"
             />
           </SimpleGrid>
@@ -627,7 +693,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
 
         {/* Sexuality */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Sexuality</Text>
+          <Text className={classes.subHeading}>Sexuality and couple</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -637,39 +703,132 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
             ]}
           >
             <TextArea
-              label="Sexual games and investigations"
+              label=" Current relationships is Satisfactory or not"
               required={true}
-              placeholder="Sexual games and investigations"
+              placeholder=" Current relationships is Satisfactory or not	"
               form={form}
+              rows={"2"}
               validateName="friends"
             />
             <TextArea
-              label="Sexual curiosity in Childhood"
+              label="Problems specific to this area"
               required={true}
-              placeholder="Sexual curiosity in Childhood"
+              placeholder="Problems specific to this area"
               form={form}
+              rows={"2"}
               validateName="ati"
             />
             <TextArea
-              label="Level of Sex Education by Parents"
+              label=" Menstrual or genital problems"
               required={true}
-              placeholder="Level of Sex Education by Parents"
+              placeholder=" Menstrual or genital problems"
               form={form}
+              rows={"2"}
               validateName="dsr"
             />
             <TextArea
-              label="Sexual Development"
+              label="Areas of compatibility with the couple"
               required={true}
-              placeholder="Sexual Development"
+              placeholder="Areas of compatibility with the couple"
+              form={form}
+              rows={"2"}
+              validateName="dsr"
+            />
+              <TextArea
+              label="Areas of incompatibility"
+              required={true}
+              placeholder="Areas of incompatibility"
               form={form}
               validateName="dsr"
+              rows={"2"}
+            />
+            <TextArea
+              label="Level of communication"
+              required={true}
+              placeholder="Level of communication"
+              form={form}
+              validateName="dsr"
+              rows={"2"}
+            />
+            <TextArea
+              label="Previous sexual intercourse"
+              required={true}
+              placeholder="Previous sexual intercourse"
+              form={form}
+              validateName="dsr"
+              rows={"2"}
+            />
+            <TextArea
+              label="Extramarital affairs"
+              required={true}
+              placeholder="Extramarital affairs"
+              form={form}
+              validateName="dsr"
+              rows={"2"}
             />
           </SimpleGrid>
         </Card>
 
         {/* Obsessive Problems */}
+
         <Card mt="sm">
           <Text className={classes.subHeading}>Obsessive Problems</Text>
+          <Divider color="#C8C8C8" mt="md" mb="md" />
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "lg", cols: 2 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+          >
+            <TextArea
+              label="Do you have ideas that you are not able to get out of  head?"
+              required={true}
+              placeholder="Do you have ideas that  you are not able to get out of your head?"
+              form={form}
+              validateName="friends"
+              rows={"2"}
+            />
+            <TextArea
+              label="Are you presented with absurd or unpleasant ideas? "
+              required={true}
+              placeholder="Are you presented with absurd or unpleasant ideas? "
+              form={form}
+              validateName="ati"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Are there things you are forced to do, or  you feel nervous?"
+              required={true}
+              placeholder="Are there  things  you are forced to do, or else  you feel nervous?"
+              form={form}
+              validateName="dsr"
+              rows={"2"}
+
+            />
+            <TextArea
+              label="Are there thoughts you try  to  avoid at all costs?"
+              required={true}
+              placeholder="Are there thoughts you try  to  avoid at all costs?"
+              form={form}
+              rows={"2"}
+              validateName="dsr"
+            />
+            <TextArea
+              label="Do you repeat  a task or idea  numerous times to make sure it's okay? "
+              required={true}
+              placeholder="Do you repeat  a task or idea  numerous times to make sure it's okay? "
+              form={form}
+              rows={"2"}
+              validateName="dsr"
+            />
+          </SimpleGrid>
+        </Card>
+
+            {/* hello */}
+        <Card mt="sm">
+          <Text className={classes.subHeading}>Organic and psychosomatic pathology</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -727,7 +886,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               { minWidth: "xs", cols: 1 },
             ]}
           >
-             <TextArea
+            <TextArea
               label="Physical description "
               required={true}
               placeholder="Physical description "
@@ -741,8 +900,6 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
               form={form}
               validateName="friends"
             />
-           
-           
           </SimpleGrid>
         </Card>
         <Group position="center" mt="xl">

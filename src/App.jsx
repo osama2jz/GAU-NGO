@@ -32,6 +32,8 @@ import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessiona
 import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
 import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
 import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
+import AddApp2 from "./Pages/Appointments/AddApp2";
+
 
 function App() {
 
@@ -127,6 +129,10 @@ function App() {
              <Route
               path={routeNames.socialWorker.startAppoinment2}
               element={<AddAppointment />}
+            />
+            <Route
+              path={routeNames.pysch.startAppoinment2}
+              element={<AddApp2 />}
             />
              <Route
               path={routeNames.socialWorker.addAppoinment}

@@ -15,10 +15,11 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import user from "../../assets/teacher.png";
+import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
 
@@ -37,6 +38,7 @@ const Table = ({
   setReportData,
 }) => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const theme = useMantineTheme();
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
@@ -220,14 +222,16 @@ const Table = ({
                     </td>
                   ) : head.id === "file" ? (
                     <td key={index} align="center">
-                      <Anchor href={row?.file} target={"_blank"}>Report file</Anchor>
+                      <Anchor href={row?.file} target={"_blank"}>
+                        Report file
+                      </Anchor>
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
                       <Switch
                         onChange={(v) => {
                           setStatusChangeId(row.id);
-                          console.log(headCells[1].label)
+                          console.log(headCells[1].label);
                           headCells[1].label !== "Branch Name"
                             ? onStatusChange({
                                 userId: row.id,
@@ -277,9 +281,13 @@ const Table = ({
                       <Button
                         label="Start"
                         onClick={() => {
-                          navigate(
-                            `/start-appointment/${row.id}/${row.appointId}`
-                          );
+                          user.role === "Psychologist"
+                            ? navigate(
+                                `/start-appointment-p/${row.id}/${row.appointId}`
+                              )
+                            : navigate(
+                                `/start-appointment/${row.id}/${row.appointId}`
+                              );
                         }}
                         disabled={row.status === "CLOSED" ? true : false}
                         primary={true}

@@ -25,6 +25,10 @@ function AllAppointments() {
   const { user } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
+  const [reportData, setReportData] = useState([]);
+
+  console.log("Report Data: ", reportData);
+
 
  //API call for fetching All Scheduled Appointments
  const { data, status } = useQuery(
@@ -45,7 +49,7 @@ function AllAppointments() {
         let appointment = {
           id: obj.appointmentUserId,
           sr: ind + 1,
-          caseName: "N/A",
+          caseName: obj?.caseName,
           caseNo: obj?.caseNo,
           name: obj?.appointmentUser,
           email: "N/A",
@@ -73,18 +77,19 @@ let headerData = [
     label: "Sr#",
   },
  
-  // {
-  //   id: "caseName",
-  //   numeric: false,
-  //   disablePadding: true,
-  //   label: "Case Name",
-  // },
+ 
   {
     id: "caseNo",
     numeric: false,
     disablePadding: true,
     label: "Case No.",
   },
+  // {
+  //   id: "caseName",
+  //   numeric: false,
+  //   disablePadding: true,
+  //   label: "Case Name",
+  // },
   {
     id: "name",
     numeric: false,
@@ -170,6 +175,8 @@ if(status==="loading"){
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
+          reportData={reportData}
+          setReportData={setReportData}
         />
       </Container>
 
@@ -190,21 +197,21 @@ if(status==="loading"){
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+             {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Email</Text>
-                <Text className={classes.textContent}>urooj@gmail.com</Text>
+                <Text className={classes.textheading}>Appointee</Text>
+                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textheading}>Case Name</Text>
+                <Text className={classes.textContent}>{reportData?.caseName}</Text>
                 <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>12 Jan 2020</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.time}</Text>
                 <Text className={classes.textheading}>Status</Text>
                 <Text className={classes.textContent}>
-                  <Badge color="red" ml="auto">
-                    Processing
-                  </Badge>
+                <Badge variant="outline" color={reportData?.status=== "SCHEDULED" ? "blue.0" :"red.0"}>{reportData?.status}</Badge>
                 </Text>
               </SimpleGrid>
             </Container>

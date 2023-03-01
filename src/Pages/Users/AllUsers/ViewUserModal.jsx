@@ -58,10 +58,10 @@ function ViewUserModal({ id,reportData }) {
             </Text> */}
             
             <Text className={classes.textheading}>Status</Text>
-           <Badge color={reportData?.accStatus=== "inactive" ? "red" :"green"}>{reportData?.accStatus}</Badge>
+           <Badge variant="outline" color={reportData?.accStatus=== "inactive" ? "red.0" :"green.0"}>{reportData?.accStatus}</Badge>
             <Text className={classes.textheading}>User Status</Text>
             
-            <Badge color={reportData?.status=== "unverified" ? "red" :"green"} radius="md">{reportData?.status}</Badge>
+            <Badge  variant="outline" color={reportData?.status=== "unverified" ? "red.0" :"green.0"} radius="md">{reportData?.status}</Badge>
             
             
           </SimpleGrid>

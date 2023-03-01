@@ -43,6 +43,8 @@ const UserPage = (props) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading,setLoading]=useState(false)
   const [allApp,setAllApp]=useState()
+  const [reportData, setReportData] = useState([]);
+
 
 
    //API call for fetching all Appointments Count
@@ -85,7 +87,7 @@ const UserPage = (props) => {
   console.log("allApp",allApp)
 
   const scheduled = allApp && allApp?.filter(
-    (e) => e.status === "Scheduled"
+    (e) => e.status === "SCHEDULED"
   )
   const completed = allApp && allApp?.filter(
     (e) => e.status === "CLOSED"
@@ -172,7 +174,7 @@ const UserPage = (props) => {
         
       },
       enabled:
-      url === `/Scheduled` ? true : false,
+      url === `/scheduled` ? true : false,
     }
   );
 
@@ -215,7 +217,7 @@ const UserPage = (props) => {
           
         },
         enabled:
-        url === `/Closed` ? true : false,
+        url === `/closed` ? true : false,
       }
     );
  let headerData = [
@@ -305,7 +307,7 @@ const UserPage = (props) => {
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "apD",
-      url: `/Scheduled`,
+      url: `/scheduled`,
 
     },
     {
@@ -315,7 +317,7 @@ const UserPage = (props) => {
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "apD",
-      url: `/Closed`,
+      url: `/closed`,
     },
   ];
 
@@ -352,6 +354,8 @@ const UserPage = (props) => {
           setViewModalState={setOpenViewModal}
           setEditModalState={setOpenEditModal}
           setDeleteModalState={setOpenDeleteModal}
+          reportData={reportData}
+          setReportData={setReportData}
         />
       </Container>
       )}
@@ -360,7 +364,7 @@ const UserPage = (props) => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="Appointment #2345"
-        size="490px"
+        size="560px"
       >
         <Grid align="center" justify={"space-between"}>
           <Grid.Col md={4}>
@@ -373,21 +377,21 @@ const UserPage = (props) => {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+             {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Email</Text>
-                <Text className={classes.textContent}>urooj@gmail.com</Text>
+                <Text className={classes.textheading}>Appointee</Text>
+                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textheading}>Case Name</Text>
+                <Text className={classes.textContent}>{reportData?.caseName}</Text>
                 <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>12 Jan 2020</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.time}</Text>
                 <Text className={classes.textheading}>Status</Text>
                 <Text className={classes.textContent}>
-                  <Badge color="red" ml="auto">
-                    Processing
-                  </Badge>
+                <Badge variant="outline" color={reportData?.status=== "SCHEDULED" ? "blue.0" :"red.0"}>{reportData?.status}</Badge>
                 </Text>
               </SimpleGrid>
             </Container>

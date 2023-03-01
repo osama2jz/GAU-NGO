@@ -34,7 +34,8 @@ function ScheduledAppointments() {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [reportData, setReportData] = useState([]);
+  
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
     "fetchAppointments",
@@ -182,6 +183,8 @@ function ScheduledAppointments() {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
+          reportData={reportData}
+          setReportData={setReportData}
         />
       </Container>
 
@@ -191,8 +194,8 @@ function ScheduledAppointments() {
         title="Appointment #2345"
         size="560px"
       >
-        <Grid className={classes.main} align="center" justify={"space-between"}>
-          <Grid.Col md={4} className={classes.main}>
+        <Grid align="center" justify={"space-between"}>
+          <Grid.Col md={4}>
             <Avatar
               radius="xl"
               size={150}
@@ -202,21 +205,21 @@ function ScheduledAppointments() {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+             {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Email</Text>
-                <Text className={classes.textContent}>urooj@gmail.com</Text>
+                <Text className={classes.textheading}>Appointee</Text>
+                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textheading}>Case Name</Text>
+                <Text className={classes.textContent}>{reportData?.caseName}</Text>
                 <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>12 Jan 2020</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.time}</Text>
                 <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textheading}>
-                  <Badge color="red" ml="auto" size="md">
-                    Processing
-                  </Badge>
+                <Text className={classes.textContent}>
+                <Badge variant="outline" color={reportData?.status=== "SCHEDULED" ? "blue.0" :"red.0"}>{reportData?.status}</Badge>
                 </Text>
               </SimpleGrid>
             </Container>

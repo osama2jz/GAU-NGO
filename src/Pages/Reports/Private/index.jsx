@@ -92,7 +92,7 @@ function PrivateReport() {
 
   //API call for fetching Private Reports
   const { data, status } = useQuery(
-    "fetchAppointments",
+    "fetchPrivateReports",
     () => {
       return axios.get(
         `${

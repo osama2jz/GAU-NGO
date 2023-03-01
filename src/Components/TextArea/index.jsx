@@ -46,6 +46,7 @@ const TextArea = ({
       }}
       placeholder={placeholder}
       value={value}
+      rows={rows}
     />
   );
 };

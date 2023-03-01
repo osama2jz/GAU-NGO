@@ -16,7 +16,6 @@ import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 
-
 const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
@@ -66,7 +65,7 @@ const AddAppointment = () => {
           caseName: newCase,
         };
       }
-      
+
       return axios.post(`${backendUrl + "/api/appointment/create"}`, object, {
         headers: {
           "x-access-token": user.token,
@@ -81,7 +80,7 @@ const AddAppointment = () => {
             message: "Appointment Created Successfully",
             color: "green.0",
           });
-          navigate(routeNames.socialWorker.allAppointments)
+          navigate(routeNames.socialWorker.allAppointments);
         } else {
           showNotification({
             title: "Error",
@@ -159,13 +158,7 @@ const AddAppointment = () => {
           {active === 0 && (
             <Button
               onClick={handleNextSubmit}
-              label={
-                active === 3
-                  ? "Submit"
-                  : active === 4
-                  ? "Finish"
-                  : "Save & Next"
-              }
+              label={"Save & Next"}
               bg={true}
             />
           )}
