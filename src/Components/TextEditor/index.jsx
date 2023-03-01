@@ -11,12 +11,6 @@ import { createStyles } from "@mantine/core";
 const content = "";
 const useStyles = createStyles((theme) => ({
   root: {
-    backgroundColor: "transparent",
-    borderBottom: "1px solid rgb(0, 0, 0, 0.1)",
-    color: "black !important",
-    // borderRadius: "5px",
-  },
-  root: {
     border: "1px solid rgb(0, 0, 0, 0.1)",
   },
   content:{
