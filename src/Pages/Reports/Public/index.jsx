@@ -81,10 +81,10 @@ function PublicReport() {
       label: "Date",
     },
     {
-      id: "type",
+      id: "file",
       numeric: false,
       disablePadding: true,
-      label: "Report Type",
+      label: "Report File",
     },
     {
       id: "actions",

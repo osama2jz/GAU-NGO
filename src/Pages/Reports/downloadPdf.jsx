@@ -68,7 +68,7 @@ function DownloadPdf({ headCells, data, title }) {
       rowPageBreak: "avoid",
       tableWidth: "auto",
 
-      columns: headCells.map((col) => {
+      columns: headCells.slice(0,-1).map((col) => {
         return {
           dataKey: col.id,
           header: col.label,

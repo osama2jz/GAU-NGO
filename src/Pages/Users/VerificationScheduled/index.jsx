@@ -1,8 +1,9 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
-import { useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -15,11 +16,12 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import ViewUserModal from "./ViewUserModal";
+import ViewUserModal from "../AllUsers/ViewUserModal";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
+  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -27,6 +29,9 @@ const VerificationScheduled = () => {
   const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [statusChangeId, setStatusChangeId] = useState("");
+  const [reportData, setReportData] = useState([]);
+
 
   let headerData = [
     {
@@ -116,6 +121,30 @@ const VerificationScheduled = () => {
       },
     }
   );
+
+   //API call for changing user status
+   const handleChangeStatus = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // navigate(routeNames.socialWorker.allUsers);
+        showNotification({
+          title: "Status Updated",
+          message: "User Status changed Successfully!",
+          color: "green.0",
+        });
+        queryClient.invalidateQueries("fetchUser");
+
+      },
+    }
+  );
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Users Schedule"} />
@@ -147,6 +176,9 @@ const VerificationScheduled = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
+            setStatusChangeId={setStatusChangeId}
+            onStatusChange={handleChangeStatus.mutate}
+            setReportData={setReportData}
           />
         )}
       </Container>
@@ -156,7 +188,7 @@ const VerificationScheduled = () => {
         title="User Schedule Details"
         size="550px"
       >
-        <ViewUserModal id={viewModalData} />
+        <ViewUserModal id={viewModalData} reportData={reportData}/>
       </ViewModal>
     </Container>
   );

@@ -51,6 +51,7 @@ const SelectMenu = ({
       creatable={creatable}
       clearable={clearable}
       disabled={disabled}
+      value={value}
       onCreate={(query) => {
         // const item = { value: query, label: query };
         // setData((current) => [...current, item]);

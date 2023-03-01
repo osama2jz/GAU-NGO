@@ -11,9 +11,12 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import moment from "moment";
 
 export default function Chart({ data = [] }) {
   const { classes } = useStyles();
+  const today=moment().format("MMMM YYYY")
+  console.log(today)
   return (
     <Card
       shadow="xl"
@@ -24,7 +27,7 @@ export default function Chart({ data = [] }) {
       p="md"
       className={classes.chartcard}
     >
-      <Text mb="sm">January 2023</Text>
+      <Text mb="sm">{today}</Text>
       <ResponsiveContainer width={"100%"} height={250}>
         <LineChart
           data={data}

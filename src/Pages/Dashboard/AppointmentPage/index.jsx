@@ -291,7 +291,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "ALL APPOINTMENTS",
-      value: scheduled ? scheduled?.length+completed?.length :"0",
+      value:allApp ? allApp?.length :"0",
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",

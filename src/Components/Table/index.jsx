@@ -11,6 +11,7 @@ import {
   Table as TableMantine,
   Text,
   useMantineTheme,
+  Anchor,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
@@ -216,6 +217,10 @@ const Table = ({
                             : row[head?.id]}
                         </Text>
                       </Flex>
+                    </td>
+                  ) : head.id === "file" ? (
+                    <td key={index} align="center">
+                      <Anchor href={row?.file} target={"_blank"}>Report file</Anchor>
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
