@@ -1,18 +1,15 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
 import { useContext, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
 import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
-import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
@@ -23,7 +20,7 @@ import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 
-export const ViewProfessionals = () => {
+export const ViewDocuments = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -37,8 +34,6 @@ export const ViewProfessionals = () => {
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
-  const [activePage, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
@@ -54,43 +49,13 @@ export const ViewProfessionals = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: "Document Name",
     },
     {
-      id: "userType",
+      id: "content",
       numeric: false,
       disablePadding: true,
-      label: "User Type",
-    },
-    {
-      id: "email",
-      numeric: false,
-      disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "date",
-      numeric: false,
-      disablePadding: true,
-      label: "Registration Date",
-    },
-    {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "User Status",
-    },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
+      label: "Document Content",
     },
     {
       id: "actions",
@@ -102,55 +67,11 @@ export const ViewProfessionals = () => {
     },
   ];
 
-  //API call for fetching all professionals
+  //API call for fetching all documents
   const { data, status } = useQuery(
-    ["fetchUser", filter, search, activePage],
+    "fetchDocuments",
     () => {
-      return axios.get(
-        `${
-          backendUrl + `/api/user/listUsers/professionals`
-          // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
-        }`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
-    },
-    {
-      onSuccess: (response) => {
-        let data = response.data?.data?.map((obj, ind) => {
-          let user = {
-            id: obj._id,
-            sr: ind + 1,
-            name: obj.firstName + " " + obj.lastName,
-            userType:
-              obj.userType === "socialWorker"
-                ? "Social Worker"
-                : obj?.userType === "psychologist"
-                ? "Psychologist"
-                : obj?.userType === "lawyer"
-                ? "Lawyer"
-                : "",
-            email: obj.email,
-            status: obj.verificationStatus,
-            accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone: obj.phoneNumber,
-          };
-          return user;
-        });
-        setRowData(data);
-        // setTotalPages(response.data.totalPages);
-      },
-    }
-  );
-
-  //API call for changing user status
-  const handleChangeStatus = useMutation(
-    (values) => {
-      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+      return axios.get(`${backendUrl + `/api/lookup/listDocuments`}`, {
         headers: {
           "x-access-token": user.token,
         },
@@ -158,29 +79,23 @@ export const ViewProfessionals = () => {
     },
     {
       onSuccess: (response) => {
-        navigate(routeNames.ngoAdmin.viewProfessionals);
-        showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
-          color: "green.0",
+        let data = response.data.data.map((obj, ind) => {
+          let doc = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj?.lookupId?.lookupName,
+            content: obj?.documentText,
+          };
+          return doc;
         });
-        queryClient.invalidateQueries("fetchUser");
+        setRowData(data);
       },
     }
-  );
-
-  //API call for deleting user
-  const handleDeleted = () => {
-    handleChangeStatus.mutate({
-      userId: deleteID,
-      userStatus: "deleted",
-    });
-    setOpenDeleteModal(false);
-  };
+  );  
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Professionals"} />
+      <ContainerHeader label={"View Branches"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -200,19 +115,18 @@ export const ViewProfessionals = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychlogist" },
-                { label: "Social Worker", value: "socialWorker" },
+                { label: "Active", value: "active" },
+                { label: "InActive", value: "inactive" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
             <Button
-              label={"Add Professional"}
+              label={"Add Document"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.ngoAdmin.addProfessional)}
+              onClick={() => navigate(routeNames.ngoAdmin.addDocument)}
             />
           </Grid.Col>
         </Grid>
@@ -226,18 +140,9 @@ export const ViewProfessionals = () => {
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
             setStatusChangeId={setStatusChangeId}
-            onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
-          />
-        )}
-        {totalPages > 1 && (
-          <Pagination
-            activePage={activePage}
-            setPage={setPage}
-            total={totalPages}
-            radius="xl"
           />
         )}
       </Container>
@@ -245,7 +150,7 @@ export const ViewProfessionals = () => {
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        onDelete={handleDeleted}
+        // onDelete={handleDeleted}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />

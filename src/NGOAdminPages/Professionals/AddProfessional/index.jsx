@@ -80,7 +80,7 @@ export const AddProfessional = () => {
             message: "New User added Successfully!",
             color: "green.0",
           });
-          navigate(routeNames.socialWorker.allUsers);
+          navigate(routeNames.ngoAdmin.viewProfessionals);
         } else {
           showNotification({
             title: "Failed",
@@ -114,7 +114,7 @@ export const AddProfessional = () => {
       >
         <SelectMenu
           data={[
-            { label: "Lawyer", value: "laywer" },
+            { label: "Lawyer", value: "lawyer" },
             { label: "Psychologist", value: "psychologist" },
             { label: "Social Worker", value: "socialWorker" },
           ]}

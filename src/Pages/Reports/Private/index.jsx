@@ -133,7 +133,7 @@ function PrivateReport() {
     }
   );
   return (
-    <Container size={"xl"} className={classes.main}>
+    <Container size={"xl"} className={classes.main} p={"0px"}>
       <ContainerHeader label={"Private"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">

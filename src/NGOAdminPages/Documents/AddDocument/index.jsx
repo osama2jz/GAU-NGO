@@ -1,6 +1,14 @@
 import { Container, Group } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
+import { useEditor } from "@tiptap/react";
 import axios from "axios";
+import Highlight from "@tiptap/extension-highlight";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Superscript from "@tiptap/extension-superscript";
+import SubScript from "@tiptap/extension-subscript";
 import { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -13,31 +21,61 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import { Link } from "@mantine/tiptap";
 
 export const AddDocument = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [documents, setDocuments] = useState([]);
-  const [editor, setEditor] = useState("");
 
-  const handleAddBranch = useMutation(
+  const editorr = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: "",
+  });
+
+  const form = useForm({
+    validateInputOnChange: true,
+    initialValues: {
+      lookupId: "",
+    },
+
+    validate: {
+      lookupId: (value) =>
+        value?.length < 1 ? "Please Select Document Type" : null,
+    },
+  });
+
+  const handleAddDocument = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/ngo/createBranch"}`, values, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      values.documentText = editorr.getHTML();
+      return axios.post(
+        `${backendUrl + "/api/lookup/createDocuments"}`,
+        values,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Branch Added",
-            message: "New Branch added Successfully!",
+            title: "Document Created",
+            message: "New Document Created Successfully!",
             color: "green.0",
           });
-          navigate(routeNames.ngoAdmin.viewBranches);
+          navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
             title: "Failed",
@@ -76,25 +114,30 @@ export const AddDocument = () => {
     }
   );
 
-  if (handleAddBranch.isLoading) {
+  if (handleAddDocument.isLoading) {
     return <Loader />;
   }
 
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add Document"} />
-      <form className={classes.form}>
+      <form
+        className={classes.form}
+        onSubmit={form.onSubmit((values) => handleAddDocument.mutate(values))}
+      >
         <SelectMenu
           label={"Select Document"}
           placeholder="Document Type"
           data={documents}
           pb="md"
+          form={form}
+          validateName="lookupId"
         />
-        <TextEditor value={editor} onChange={setEditor} />
+        <TextEditor editor={editorr} />
         <Group position="right" mt="sm">
           <Button
             label="Cancel"
-            onClick={() => navigate(routeNames.ngoAdmin.viewRoasters)}
+            onClick={() => navigate(routeNames.ngoAdmin.viewDocuments)}
           />
           <Button
             label="Add Document"

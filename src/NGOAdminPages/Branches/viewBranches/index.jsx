@@ -103,7 +103,7 @@ export const ViewBranches = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data[0].ngoBranches.map((obj, ind) => {
+        let data = response.data.data.map((obj, ind) => {
           let branch = {
             id: obj._id,
             sr: ind + 1,

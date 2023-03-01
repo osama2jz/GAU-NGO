@@ -72,42 +72,45 @@ const MySchedule = () => {
     }
   );
   return (
-    <Container size={"xl"} className={classes.main}>
+    <Container size={"xl"} className={classes.main}  p={"0px"}>
       <ContainerHeader label={"My Schedule"} />
       <Text align="center">Select date from the calender to view Schedule</Text>
-      <Container className={classes.innerContainer} size="xl">
-      <Container className={classes.cal} mb="lg" mt="md">
-        <CalendarDate setDate={setDate} getSchedule={getSchedule} scheduleDates={scheduleDates}/>
-      </Container>
-      <Text size={18} weight={700} color={"gray"} align="center">
-        {moment(date).format("DD MMMM")} Schedule
-      </Text>
-      {getSchedule.status === "loading" ? (
-        <Loader minHeight="100px" />
-      ) : scheduleData.length > 0 ? (
-        <Container mt="md">
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 3 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-            spacing="xl"
-          >
-            {scheduleData.map((item, index) => (
-              <Flex justify={"center"}>
-                <ScheduleCard data={item} />
-              </Flex>
-            ))}
-          </SimpleGrid>
+      <Container className={classes.innerContainer} size="xl" p={"0px"}>
+        <Container className={classes.cal} mb="lg" mt="md">
+          <CalendarDate
+            setDate={setDate}
+            getSchedule={getSchedule}
+            scheduleDates={scheduleDates}
+          />
         </Container>
-      ) : (
-        <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-          No Duties Assigned
+        <Text size={18} weight={700} color={"gray"} align="center">
+          {moment(date).format("DD MMMM")} Schedule
         </Text>
-      )}
+        {getSchedule.status === "loading" ? (
+          <Loader minHeight="100px" />
+        ) : scheduleData.length > 0 ? (
+          <Container mt="md">
+            <SimpleGrid
+              breakpoints={[
+                { minWidth: "md", cols: 2 },
+                { minWidth: "lg", cols: 3 },
+                { minWidth: "xs", cols: 1 },
+              ]}
+              spacing="xl"
+            >
+              {scheduleData.map((item, index) => (
+                <Flex justify={"center"}>
+                  <ScheduleCard data={item} />
+                </Flex>
+              ))}
+            </SimpleGrid>
+          </Container>
+        ) : (
+          <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
+            No Duties Assigned
+          </Text>
+        )}
       </Container>
- 
     </Container>
   );
 };

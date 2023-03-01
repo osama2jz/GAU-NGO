@@ -18,6 +18,7 @@ export const useStyles = createStyles((theme) => ({
     border: `1px solid ${theme.colors.gray}`,
     // backgroundColor: "gray",
     borderRadius:'10px',
+    // width:'100%',
     boxShadow:'00px 0px 20px 5px rgb(0,0,0,0.1)'
   },
   heading: {

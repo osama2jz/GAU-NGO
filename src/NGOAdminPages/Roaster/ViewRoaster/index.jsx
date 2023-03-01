@@ -77,9 +77,9 @@ export const ViewRoasters = () => {
     },
   ];
 
-  //API call for fetching all users
+  //API call for fetching all schedule
   const { data, status } = useQuery(
-    ["fetchUser", filter, search, activePage],
+    ["fetchSchedule", filter, search, activePage],
     () => {
       return axios.get(
         `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
@@ -104,10 +104,10 @@ export const ViewRoasters = () => {
                 ? "Psychologist"
                 : obj?.role === "lawyer"
                 ? "Lawyer"
-                :  obj?.role === "ngoadmin"
+                : obj?.role === "ngoadmin"
                 ? "Admin"
                 : "",
-            status: "obj.schedule",
+            status: obj.schedule ? "Schduled" : "Not Scheduled",
           };
           return user;
         });

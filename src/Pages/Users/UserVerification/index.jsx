@@ -199,9 +199,9 @@ export const UserVerification = () => {
     );
   }, [form.values.dateOfBirth]);
   return (
-    <Container className={classes.userVerification} size="lg">
+    <Container className={classes.userVerification} size="lg" p={"0px"}>
       <ContainerHeader label={"User Verification"} />
-      <Container className={classes.innerContainer} size="xl">
+      <Container className={classes.innerContainer} size="xl" >
         <Stepper
           active={active}
           color={theme.colors.green}

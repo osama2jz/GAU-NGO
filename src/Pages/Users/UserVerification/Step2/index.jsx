@@ -285,7 +285,7 @@ export const Step2 = ({
   };
 
   return (
-    <Container size="lg">
+    <Container size="lg" p={"0px"}>
       <form
         className={classes.form}
         onSubmit={form.onSubmit(() => {

@@ -46,6 +46,7 @@ export const UserProvider = ({ children }) => {
         let user = response.data.data;
         setUser((u) => ({
           ...u,
+          ngoId: user?.ngoId,
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
           profileImage: user?.profileImage,

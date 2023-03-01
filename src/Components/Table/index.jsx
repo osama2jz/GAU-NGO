@@ -193,12 +193,13 @@ const Table = ({
                         radius="xs"
                         color={
                           row[head?.id] === "unverified" ||
-                          row[head?.id] === "CLOSED"
+                          row[head?.id] === "CLOSED" ||
+                          row[head?.id] === "Not Scheduled"
                             ? "red.0"
                             : "blue.0"
                         }
                         variant="outline"
-                        w={"100px"}
+                        w={"120px"}
                       >
                         {row[head?.id]}
                       </Badge>

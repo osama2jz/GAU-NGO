@@ -146,7 +146,7 @@ const VerificationScheduled = () => {
   );
 
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Users Schedule"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
