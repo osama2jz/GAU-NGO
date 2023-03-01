@@ -34,9 +34,52 @@ const UserPage = (props) => {
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [loading,setLoading]=useState(false)
+  const [allUsers,setAllUsers]=useState()
 
+  //API call for fetching all users Count
+  const { data4, status4 } = useQuery(
+    ["fetchAllUser", activePage, url],
+    () => {
+      setLoading(true)
+      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/0/0`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: ind + 1,
+            name: obj.firstName + " " + obj.lastName,
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+          };
+          return user;
+        });
+        setAllUsers(data);
+       
+      },
+    }
+  );
 
-  //API call for fetching all users
+  const verified = allUsers && allUsers?.filter(
+    (e) => e.status === "verified"
+  )
+  const unverified = allUsers && allUsers?.filter(
+    (e) => e.status === "unverified"
+  )
+
+ 
+ var unverifiedCount=unverified?.length
+ var verifiedCount=verified?.length
+  
+
+  //API call for fetching all users 
   const { data, status } = useQuery(
     ["fetchUser", activePage, url],
     () => {
@@ -232,7 +275,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "ALL USERS",
-      value: 100,
+      value: verifiedCount ? verifiedCount+unverifiedCount :"0",
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -241,7 +284,7 @@ const UserPage = (props) => {
     },
     {
       title: "VERIFIED",
-      value: 70,
+      value: verifiedCount ? verifiedCount :"0",
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -250,7 +293,7 @@ const UserPage = (props) => {
     },
     {
       title: "UNVERIFIED",
-      value: 30,
+      value: unverifiedCount ? unverifiedCount: "0",
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",

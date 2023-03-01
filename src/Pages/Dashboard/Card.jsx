@@ -45,7 +45,7 @@ const Cards = ({ data, setUrl, url, setPage }) => {
         </Flex>
 
         <Text mt="0px" fw="bolder" size={30}>
-          {data.value}
+          {data.value ? data.value :"0"}
         </Text>
         {/* <Text size="xs" m="none">50%</Text> */}
         <Progress mt="sm" value={90} color={data.color} size={6} />

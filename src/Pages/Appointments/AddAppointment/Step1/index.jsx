@@ -25,19 +25,21 @@ import { useParams } from "react-router-dom";
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState();
   const [faceID, setFaceId] = useState({});
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
-  const { id } = useParams();
+  const {id,appId}=useParams();
+  // setUser(id);
+  // console.log("id",id)
 
   let faceio = new faceIO("fioa89bd");
 
-  // useEffect(() => {
-  //   if (id) {
-  //     setUser(id);
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    if (id) {
+      setUser(id);
+    }
+  }, [id]);
   
   useEffect(() => {
     faceio = new faceIO("fioa89bd");
@@ -155,62 +157,17 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       <Text fz={20} fw="bolder" align="center">
         Select User
       </Text>
-      <Grid align={"flex-end"} justify="space-between">
-        <Grid.Col md={"5"}>
-          <SelectMenu
-            searchable={true}
-            itemComponent={SelectItem}
-            placeholder="Enter User name or Id"
-            clearable={true}
-            setData={setUser}
-            value={user}
-            // value={selectedUser?.data?.data?._id}
-            label="Search User"
-            data={userData}
-          />
-        </Grid.Col>
-        <Grid.Col md={"5"}>
+     
+     
           <Button
             label={"Verify Face ID"}
             bg={true}
             leftIcon="faceid"
             iconWidth="30px"
-            styles={{ width: "100%", fontSize: "24px", height: "42px" }}
+            styles={{ width: "50%", fontSize: "24px", height: "46px" ,margin:"auto"}}
             onClick={handleVerifyID}
           />
-        </Grid.Col>
-      </Grid>
-      {/* {user === faceID?.whoami && ( */}
-      <Grid align={"center"}>
-        <Grid.Col md={"5"}>
-          <SelectMenu
-            searchable={true}
-            placeholder={cases.length<1?"No cases found":"Enter case name or id"}
-            label="Search User Case"
-            creatable={true}
-            setData={setSelectedCase }
-            disabled={newCase.length > 0}
-            data={cases}
-          />
-        </Grid.Col>
-        <Grid.Col md="2">
-          <Divider label="OR" labelPosition="center" color={"black"} mt="lg" />
-        </Grid.Col>
-        <Grid.Col md="5">
-          <InputField
-            label={"Create New Case"}
-            placeholder="Enter case name"
-            value={newCase}
-            pb="0px"
-            onChange={(v) => {
-              setNewCase(v.target.value);
-              setSelectedCase(v.target.value);
-              
-            }}
-          />
-        </Grid.Col>
-      </Grid>
-      {/* )} */}
+      
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (

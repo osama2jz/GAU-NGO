@@ -32,6 +32,8 @@ export const Step1 = ({ user, setUser }) => {
     }
   }, [id]);
 
+  console.log("user", user)
+
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {

@@ -22,6 +22,7 @@ const Cards = ({
   referedTo,
   setSlot,
   onSubmit,
+  caseId
 }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const Cards = ({
       moment(obj.dateStart).format("yyyy-MM-DD")
     );
   }, [cardData]);
+
+  console.log("iserif",cardData?.userId)
 
   return (
     <>
@@ -131,6 +134,8 @@ const Cards = ({
         onSubmit={onSubmit}
         buttonChange={buttonChange}
         slot={slot}
+        caseId={caseId}
+
       />
       {/* <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} /> */}
     </>

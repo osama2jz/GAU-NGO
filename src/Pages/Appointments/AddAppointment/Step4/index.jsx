@@ -13,6 +13,8 @@ const Step4 = ({caseId,slot,setSlot}) => {
   const { user } = useContext(UserContext);
   const [cardData, setCardData]=useState()
   const [referCase, setNewReferCase] = useState();
+  const [referedTo, setReferedTo] = useState("");
+
   
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -71,7 +73,8 @@ const Step4 = ({caseId,slot,setSlot}) => {
         <Grid>
           {cardData?.map((e,index) => (
             e.schedule?.length > 0 && <Grid.Col md={6} lg={4} xl={3}>
-              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId} slot={slot} setSlot={setSlot}/>
+              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId} slot={slot} setSlot={setSlot} 
+              referedTo={referedTo} setReferedTo={setReferedTo}/>
             </Grid.Col>
           ))}
         </Grid>

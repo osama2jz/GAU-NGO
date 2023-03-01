@@ -29,7 +29,6 @@ export const LawyerSidebarData = [
         label: "Appointment Schedule",
         link: routeNames.lawyer.scheduledAppointments,
       },
-      { label: "Start Appointment", link: routeNames.lawyer.startAppoinment },
       { label: "Add Appointment", link: routeNames.lawyer.addAppoinment },
       {
         label: "View Appointments",
