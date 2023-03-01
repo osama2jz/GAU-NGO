@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.fio-modal-content {
+  position: absolute !important;
+  top: max(50%,300px) !important;
+  transform: translate(-50%,-50%) !important;
+  left: 60% !important;
+}

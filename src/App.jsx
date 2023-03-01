@@ -32,6 +32,7 @@ import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessiona
 import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
 import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
 import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
+import { ViewDocuments } from "./NGOAdminPages/Documents/ViewDocuments";
 
 function App() {
 
@@ -159,6 +160,10 @@ function App() {
             <Route
               path={routeNames.ngoAdmin.addDocument}
               element={<AddDocument />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.viewDocuments}
+              element={<ViewDocuments />}
             />
           </Route>
           <Route

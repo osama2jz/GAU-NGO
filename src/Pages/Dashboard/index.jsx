@@ -74,7 +74,7 @@ const Dashboard = () => {
         Dashboard
       </Text>
 
-      <Grid>
+      <Grid align={"center"} justify="center" >
         {cardData.map((item, index) => (
           <Grid.Col md={"auto"}>
             <Card data={item} />

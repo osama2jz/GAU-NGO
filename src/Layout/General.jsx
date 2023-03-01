@@ -78,7 +78,7 @@ const Layout = () => {
         //   </Header>
       }
     >
-      <Container mih="100%" size="xl">
+      <Container mih="100%" size="xl" p={"0px"}>
         <Group noWrap>
           <MediaQuery largerThan="sm" styles={{ display: "none" }}>
             <Burger

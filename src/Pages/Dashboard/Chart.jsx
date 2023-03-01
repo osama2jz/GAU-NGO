@@ -16,7 +16,6 @@ import moment from "moment";
 export default function Chart({ data = [] }) {
   const { classes } = useStyles();
   const today=moment().format("MMMM YYYY")
-  console.log(today)
   return (
     <Card
       shadow="xl"

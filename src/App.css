@@ -8,3 +8,6 @@
 .editorClassName{
   height: 200px;
 }
+.fio-modal-content{
+  left: 60% !important;
+}

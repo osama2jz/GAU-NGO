@@ -25,7 +25,6 @@ export const AddRoaster = () => {
   const { user } = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
-
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -58,6 +57,7 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
+      values.ngoId=user.ngoId;
       return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
@@ -120,7 +120,7 @@ export const AddRoaster = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data[0].ngoBranches.map((obj, ind) => {
+        let data = response.data.data.map((obj, ind) => {
           let branch = {
             value: obj._id,
             label: obj.branchName,
