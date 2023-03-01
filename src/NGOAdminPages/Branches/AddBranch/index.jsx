@@ -25,18 +25,18 @@ export const AddBranch =() => {
     initialValues: {
       branchName: "",
       branchLocation: "",
-      description: "",
+      branchDescription: "",
     },
 
     validate: {
       branchName: (value) =>
-        /^[a-zA-Z ]{2,20}$/.test(value)
+        /^[a-zA-Z ]{2,40}$/.test(value)
           ? null
           : "Please enter valid branch name.",
       branchLocation: (value) =>
         value?.length < 2 ? "Please enter last branch address" : null,
-      description: (value) =>
-        value.length < 1 ? "Please enter last branch address" : null,
+      branchDescription: (value) =>
+        value?.length < 1 ? "Please enter last branch address" : null,
     },
   });
 
@@ -105,7 +105,7 @@ export const AddBranch =() => {
           label="Description"
           rows="4"
           form={form}
-          validateName="description"
+          validateName="branchDescription"
         />
 
         <Group position="right" mt="sm">

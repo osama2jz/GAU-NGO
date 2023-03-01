@@ -102,7 +102,7 @@ export const ViewProfessionals = () => {
     },
   ];
 
-  //API call for fetching all users
+  //API call for fetching all professionals
   const { data, status } = useQuery(
     ["fetchUser", filter, search, activePage],
     () => {

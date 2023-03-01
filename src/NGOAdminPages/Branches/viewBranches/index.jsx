@@ -86,7 +86,7 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchUser", filter, search, activePage],
+    ["fetchBranches", filter, search, activePage],
     () => {
       return axios.get(
         `${
@@ -107,13 +107,13 @@ export const ViewBranches = () => {
           let branch = {
             id: obj._id,
             sr: ind + 1,
-            name: obj.branchName,
-            location: obj.branchLocation,
-            // status: obj.verificationStatus,
+            name: obj?.branchName,
+            location: obj?.branchLocation,
+            description: obj?.branchDescription,
+            accStatus: obj?.branchStatus
           };
           return branch;
         });
-        console.log(data)
         setRowData(data);
         // setTotalPages(response.data.totalPages);
       },
@@ -123,7 +123,7 @@ export const ViewBranches = () => {
   //API call for changing user status
   const handleChangeStatus = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+      return axios.post(`${backendUrl + "/api/ngo/editBranch"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -131,13 +131,13 @@ export const ViewBranches = () => {
     },
     {
       onSuccess: (response) => {
-        navigate(routeNames.socialWorker.allUsers);
+        navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
           title: "Status Updated",
           message: "User Status changed Successfully!",
           color: "green.0",
         });
-        queryClient.invalidateQueries("fetchUser");
+        queryClient.invalidateQueries("fetchBranches");
       },
     }
   );
@@ -145,8 +145,8 @@ export const ViewBranches = () => {
   //API call for deleting user
   const handleDeleted = () => {
     handleChangeStatus.mutate({
-      userId: deleteID,
-      userStatus: "deleted",
+      branchId: deleteID,
+      branchStatus: "deleted",
     });
     setOpenDeleteModal(false);
   };

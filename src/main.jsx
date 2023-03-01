@@ -37,7 +37,7 @@ root.render(
               backgroundColor: "red.0",
               color: "yellow",
             },
-            ".mantine-1vm9tkw": {
+            ".mantine-19tsm68": {
               color: "red",
             },
             ".mantine-Checkbox-input:checked": {

@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
     name: userData?.name,
     id: userData?.userId,
     email: userData?.email,
+    ngoId: userData?.ngoId,
     phoneNumber: userData?.phoneNumber,
     role:
       userData?.userType === "socialWorker"

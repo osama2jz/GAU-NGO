@@ -23,14 +23,15 @@ export const AddRoaster = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [branches, setBranches]=useState([])
+  const [branches, setBranches] = useState([]);
+  const [professionals, setProfessionals] = useState([]);
 
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      ngoId: "",
+      ngoId: user?.ngoId,
       branchId: "",
-      scheduledType: "",
+      scheduleType: "",
       userId: "",
       dateStart: "",
       timeStartSlot: "",
@@ -38,12 +39,26 @@ export const AddRoaster = () => {
       timeEndSlot: "",
     },
 
-    validate: {},
+    validate: {
+      branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
+      scheduleType: (value) =>
+        value?.length < 1 ? "Please Select Schedule Type" : null,
+      userId: (value) =>
+        value?.length < 1 ? "Please Select at least one user." : null,
+      dateStart: (value) =>
+        value?.length < 1 ? "Please Select start date." : null,
+      dateEnd: (value) =>
+        value?.length < 1 ? "Please Select end date." : null,
+      timeStartSlot: (value) =>
+        value?.length < 1 ? "Please Select start time." : null,
+      timeEndSlot: (value) =>
+        value?.length < 1 ? "Please Select end time." : null,
+    },
   });
 
-  const handleAddBranch = useMutation(
+  const handleAddRoaster = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/ngo/createBranch"}`, values, {
+      return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -53,11 +68,11 @@ export const AddRoaster = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Branch Added",
-            message: "New Branch added Successfully!",
+            title: "Users Scheuled",
+            message: "Schedule has been created Successfully!",
             color: "green.0",
           });
-          navigate(routeNames.ngoAdmin.viewBranches);
+          navigate(routeNames.ngoAdmin.viewRoasters);
         } else {
           showNotification({
             title: "Failed",
@@ -69,21 +84,39 @@ export const AddRoaster = () => {
     }
   );
 
+  //API call for fetching all professionals
+  const { data: data2, status: status2 } = useQuery(
+    "fetchProfessionals",
+    () => {
+      return axios.get(`${backendUrl + `/api/user/listUsers/professionals`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data?.data?.map((obj, ind) => {
+          let user = {
+            value: obj._id,
+            label: obj.firstName + " " + obj.lastName,
+          };
+          return user;
+        });
+        setProfessionals(data);
+      },
+    }
+  );
+
   //API call for fetching all branches
   const { data, status } = useQuery(
     ["fetchUser"],
     () => {
-      return axios.get(
-        `${
-          backendUrl +
-          `/api/ngo/listAllBranches`
-        }`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.get(`${backendUrl + `/api/ngo/listAllBranches`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -99,7 +132,7 @@ export const AddRoaster = () => {
     }
   );
 
-  if (handleAddBranch.isLoading) {
+  if (handleAddRoaster.isLoading) {
     return <Loader />;
   }
 
@@ -109,7 +142,7 @@ export const AddRoaster = () => {
 
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => handleAddBranch.mutate(values))}
+        onSubmit={form.onSubmit((values) => handleAddRoaster.mutate(values))}
       >
         <Grid>
           <Grid.Col sm={6}>
@@ -119,7 +152,7 @@ export const AddRoaster = () => {
               placeholder="Select Branch"
               form={form}
               data={branches}
-              validateName="branchName"
+              validateName="branchId"
             />
           </Grid.Col>
           <Grid.Col sm={6}>
@@ -128,7 +161,11 @@ export const AddRoaster = () => {
               required={true}
               placeholder="Schedule Type"
               form={form}
-              data={[]}
+              data={[
+                { value: "daily", label: "Daily" },
+                { value: "weekly", label: "Weekly" },
+                { value: "monthly", label: "Monthly" },
+              ]}
               validateName="scheduleType"
             />
           </Grid.Col>
@@ -140,6 +177,7 @@ export const AddRoaster = () => {
               required={true}
               placeholder="Start Date"
               form={form}
+              minDate={new Date()}
               validateName="dateStart"
             />
           </Grid.Col>
@@ -148,6 +186,7 @@ export const AddRoaster = () => {
               label="End Date"
               required={true}
               placeholder="End Date"
+              minDate={new Date(form.values.dateStart)}
               form={form}
               validateName="dateEnd"
             />
@@ -178,7 +217,7 @@ export const AddRoaster = () => {
           form={form}
           placeholder="Select Users"
           validateName="userId"
-          data={[]}
+          data={professionals}
         />
 
         <Group position="right" mt="sm">

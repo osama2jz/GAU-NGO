@@ -4,8 +4,8 @@ import React from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
-import { DatePicker } from "@mantine/dates";
 import moment from "moment";
+import Datepicker from "../../../../Components/Datepicker";
 function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
   const { classes } = useStyles();
   const form = useForm({
@@ -71,7 +71,7 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
           form={form}
           validateName="duration"
         />
-        <DatePicker
+        <Datepicker
           placeholder="Start Date"
           label="Start Date"
           maxDate={new Date()}

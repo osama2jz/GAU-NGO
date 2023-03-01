@@ -199,7 +199,7 @@ const Table = ({
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
-                      <Flex gap={3} p="0px" m='0px'>
+                      <Flex gap={3} p="0px" m="0px">
                         {row.image && (
                           <Avatar
                             src={row.image || user}
@@ -219,12 +219,20 @@ const Table = ({
                       <Switch
                         onChange={(v) => {
                           setStatusChangeId(row.id);
-                          onStatusChange({
-                            userId: row.id,
-                            userStatus: v.target.checked
-                              ? "active"
-                              : "inactive",
-                          });
+                          console.log(headCells[1].label)
+                          headCells[1].label !== "Branch Name"
+                            ? onStatusChange({
+                                userId: row.id,
+                                userStatus: v.target.checked
+                                  ? "active"
+                                  : "inactive",
+                              })
+                            : onStatusChange({
+                                branchId: row.id,
+                                branchStatus: v.target.checked
+                                  ? "active"
+                                  : "inactive",
+                              });
                         }}
                         defaultChecked={row[head?.id] === "active"}
                         color={"blue.0"}
@@ -237,7 +245,9 @@ const Table = ({
                   ) : head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
-                        label={row.status === "unverified" ? "Verify" : "Verified "}
+                        label={
+                          row.status === "unverified" ? "Verify" : "Verified "
+                        }
                         onClick={() => {
                           if (row.accStatus === "active") {
                             navigate(`/userVerification/${row.id}`);

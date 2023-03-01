@@ -26,6 +26,8 @@ const Datepicker = ({
   validateName,
   labelFormat,
   onChange,
+  maxDate,
+  minDate,
   
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
@@ -33,6 +35,8 @@ const Datepicker = ({
     <DatePicker
       size={size}
       icon={icon}
+      maxDate={maxDate}
+      minDate={minDate}
       clearable={false}
       dropdownType={dropdownType}
       placeholder={placeholder}
