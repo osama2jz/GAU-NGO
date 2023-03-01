@@ -20,14 +20,14 @@ const Timepicker = ({
   borderWhite,
   onChange,
   form,
+  size = "md",
   validateName,
- 
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
     <TimeInput
       label={label}
-      size="xs"
+      size={size}
       placeholder="Pick time"
       format="12"
       icon={icon}
@@ -37,7 +37,7 @@ const Timepicker = ({
       classNames={{ input: classes.root }}
       required={required}
       onChange={onChange}
-      // clearable
+      {...form?.getInputProps(validateName)}
     />
   );
 };

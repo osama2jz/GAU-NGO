@@ -25,6 +25,13 @@ import VerificationScheduled from "./Pages/Users/VerificationScheduled";
 import { ScheduleUser } from "./Pages/UserVerification/Schedule";
 import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import routeNames from "./Routes/routeNames";
+import { AddBranch } from "./NGOAdminPages/Branches/AddBranch";
+import { ViewBranches } from "./NGOAdminPages/Branches/viewBranches";
+import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
+import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionals";
+import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
+import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
+import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
 
 function App() {
 
@@ -124,6 +131,34 @@ function App() {
              <Route
               path={routeNames.socialWorker.addAppoinment}
               element={<CreateAppointment />}
+            />
+             <Route
+              path={routeNames.ngoAdmin.addBranch}
+              element={<AddBranch />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.viewBranches}
+              element={<ViewBranches />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.addProfessional}
+              element={<AddProfessional />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.viewProfessionals}
+              element={<ViewProfessionals />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.addRoaster}
+              element={<AddRoaster />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.viewRoasters}
+              element={<ViewRoasters />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.addDocument}
+              element={<AddDocument />}
             />
           </Route>
           <Route

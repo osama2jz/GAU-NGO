@@ -45,7 +45,7 @@ const ReferModal = ({
           showNotification({
             title: "Refered To Expert",
             message: "Refered Successfully!",
-            color: "green",
+            color: "green.0",
           });
           setOpened(false);
           // navigate(routeNames.socialWorker.dashboard);
@@ -53,7 +53,7 @@ const ReferModal = ({
           showNotification({
             title: "Failed",
             message: "Failed to refer",
-            color: "red",
+            color: "red.0",
           });
           setOpened(false);
         }

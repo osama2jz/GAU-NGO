@@ -23,7 +23,7 @@ import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 
-export const AllUser = () => {
+export const ViewBranches = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -54,31 +54,19 @@ export const AllUser = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: "Branch Name",
     },
     {
-      id: "email",
+      id: "location",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: "Address",
     },
     {
-      id: "date",
+      id: "description",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
-    },
-    {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "User Status",
-    },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
+      label: "Branch Description",
     },
     {
       id: "accStatus",
@@ -96,14 +84,15 @@ export const AllUser = () => {
     },
   ];
 
-  //API call for fetching all users
+  //API call for fetching all branches
   const { data, status } = useQuery(
     ["fetchUser", filter, search, activePage],
     () => {
       return axios.get(
         `${
           backendUrl +
-          `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`
+          `/api/ngo/listAllBranches`
+          // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
           headers: {
@@ -114,21 +103,19 @@ export const AllUser = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
-          let user = {
+        let data = response.data.data[0].ngoBranches.map((obj, ind) => {
+          let branch = {
             id: obj._id,
             sr: ind + 1,
-            name: obj.firstName + " " + obj.lastName,
-            email: obj.email,
-            status: obj.verificationStatus,
-            accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone: obj.phoneNumber,
+            name: obj.branchName,
+            location: obj.branchLocation,
+            // status: obj.verificationStatus,
           };
-          return user;
+          return branch;
         });
+        console.log(data)
         setRowData(data);
-        setTotalPages(response.data.totalPages);
+        // setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -166,7 +153,7 @@ export const AllUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Users"} />
+      <ContainerHeader label={"View Branches"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -186,19 +173,19 @@ export const AllUser = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "verified", value: "verified" },
-                { label: "Unverified", value: "unverified" },
+                { label: "Active", value: "active" },
+                { label: "InActive", value: "inactive" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-           {user.role ==="Social Worker" && <Button
-              label={"Add User"}
+           <Button
+              label={"Add Branch"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />}
+              onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

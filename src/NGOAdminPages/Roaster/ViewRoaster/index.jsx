@@ -1,11 +1,10 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
 import { useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
@@ -23,7 +22,7 @@ import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 
-export const AllUser = () => {
+export const ViewRoasters = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -57,34 +56,16 @@ export const AllUser = () => {
       label: "Name",
     },
     {
-      id: "email",
+      id: "userType",
       numeric: false,
       disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "date",
-      numeric: false,
-      disablePadding: true,
-      label: "Registration Date",
+      label: "User Type",
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
       label: "User Status",
-    },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
-      id: "accStatus",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
     },
     {
       id: "actions",
@@ -101,10 +82,7 @@ export const AllUser = () => {
     ["fetchUser", filter, search, activePage],
     () => {
       return axios.get(
-        `${
-          backendUrl +
-          `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`
-        }`,
+        `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -114,21 +92,27 @@ export const AllUser = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
-            name: obj.firstName + " " + obj.lastName,
-            email: obj.email,
-            status: obj.verificationStatus,
-            accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone: obj.phoneNumber,
+            name: obj.fullName,
+            userType:
+              obj.role === "socialWorker"
+                ? "Social Worker"
+                : obj?.role === "psychologist"
+                ? "Psychologist"
+                : obj?.role === "lawyer"
+                ? "Lawyer"
+                :  obj?.role === "ngoadmin"
+                ? "Admin"
+                : "",
+            status: "obj.schedule",
           };
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.totalPages);
+        // setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -166,7 +150,7 @@ export const AllUser = () => {
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Users"} />
+      <ContainerHeader label={"View Roasters"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -186,19 +170,20 @@ export const AllUser = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "verified", value: "verified" },
-                { label: "Unverified", value: "unverified" },
+                { label: "Lawyer", value: "lawyer" },
+                { label: "Psychlogist", value: "psychlogist" },
+                { label: "Social Worker", value: "socialWorker" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-           {user.role ==="Social Worker" && <Button
-              label={"Add User"}
+            <Button
+              label={"Add Professional"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />}
+              onClick={() => navigate(routeNames.ngoAdmin.addProfessional)}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

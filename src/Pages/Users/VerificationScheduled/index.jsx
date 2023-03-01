@@ -159,13 +159,13 @@ const VerificationScheduled = () => {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <Button
+          {user.role ==="Social Worker" &&<Button
               label={"Add User"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />
+            />}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

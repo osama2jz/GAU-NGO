@@ -10,13 +10,13 @@ import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import PassInput from "../../../Components/PassInput";
+import SelectMenu from "../../../Components/SelectMenu";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import SubmitModal from "./SubmitEmail";
 
-export const AddUser = () => {
+export const AddProfessional = () => {
   const { classes } = useStyles();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -31,10 +31,12 @@ export const AddUser = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      userType: "user",
+      userType: "",
     },
 
     validate: {
+      userType: (value) =>
+        value?.length < 1 ? "Please select Professional type" : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
@@ -98,18 +100,30 @@ export const AddUser = () => {
     showNotification({
       title: "Error",
       message: "Something went wrong",
-      color: "red.0",
+      color: "red",
     });
   }
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"Add User"} />
+      <ContainerHeader label={"Add Professional"} />
 
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
       >
+        <SelectMenu
+          data={[
+            { label: "Lawyer", value: "laywer" },
+            { label: "Psychologist", value: "psychologist" },
+            { label: "Social Worker", value: "socialWorker" },
+          ]}
+          placeholder="Select role"
+          label="Professional Type"
+          pb="sm"
+          form={form}
+          validateName="userType"
+        />
         <Grid>
           <Grid.Col sm={6}>
             <InputField
@@ -151,39 +165,39 @@ export const AddUser = () => {
             />
           </Grid.Col>
         </Grid>
-
-        <PassInput
-          label="Password"
-          required={true}
-          placeholder="*******"
-          form={form}
-          validateName="password"
-        />
-        <PassInput
-          label="Confirm Password"
-          required={true}
-          placeholder="*******"
-          form={form}
-          validateName="confirmPassword"
-        />
-        <Text pb={"sm"} size="sm">
-          By pressing “Submit” I declare that i’ve read and agree to the{" "}
-          <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
-        </Text>
+        <Grid>
+          <Grid.Col sm={6}>
+            <PassInput
+              label="Password"
+              required={true}
+              placeholder="*******"
+              form={form}
+              validateName="password"
+            />
+          </Grid.Col>
+          <Grid.Col sm={6}>
+            <PassInput
+              label="Confirm Password"
+              required={true}
+              placeholder="*******"
+              form={form}
+              validateName="confirmPassword"
+            />
+          </Grid.Col>
+        </Grid>
         <Group position="right" mt="sm">
           <Button
             label="Cancel"
-            onClick={() => navigate(routeNames.socialWorker.allUsers)}
+            onClick={() => navigate(routeNames.ngoAdmin.viewProfessionals)}
           />
           <Button
-            label="Add User"
+            label="Add Professional"
             leftIcon={"plus"}
             primary={true}
             type="submit"
           />
         </Group>
       </form>
-      <SubmitModal opened={showModal} setOpened={setShowModal} />
     </Container>
   );
 };
