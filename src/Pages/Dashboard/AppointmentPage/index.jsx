@@ -28,6 +28,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useQuery } from "react-query";
 import moment from "moment";
 import axios from "axios";
+import Loader from "../../../Components/Loader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -37,16 +38,108 @@ const UserPage = (props) => {
   const [rowData, setRowData] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
   const { user } = useContext(UserContext);
+  const [url, setUrl] = useState(`/all`);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading,setLoading]=useState(false)
+  const [allApp,setAllApp]=useState()
 
-  //API call for fetching All Scheduled Appointments
-  const { data, status } = useQuery(
-    "fetchAppointments",
+
+   //API call for fetching all Appointments Count
+   const { data4, status4 } = useQuery(
+    ["fetchAllUser"],
     () => {
-      return axios.get(
-        `${backendUrl + `/api/case/listUserCaseAppointments/${user.id}/${activePage}/10`}`,
+      return axios.get(`${backendUrl + `/api/appointment/listUserAppointments/all`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.appointmentUserId,
+            sr: ind + 1,
+            caseName: "N/A",
+            caseNo: obj?.caseNo,
+            name: obj?.appointmentUser,
+            email: "N/A",
+            status: obj?.appointmentStatus?.toUpperCase(),
+            time: obj?.scheduledTime,
+            date: obj?.addedDate,
+            addedBy:obj?.appointmentWith,
+            role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
+            appointId:obj?.appointmentId
+  
+          };
+          return appointment;
+        });
+        setAllApp(data);
+       
+    
+      },
+    }
+  );
 
+  console.log("allApp",allApp)
+
+  const scheduled = allApp && allApp?.filter(
+    (e) => e.status === "Scheduled"
+  )
+  const completed = allApp && allApp?.filter(
+    (e) => e.status === "CLOSED"
+  )
+  //API call for fetching All  Appointments
+  const { data, status } = useQuery(
+   "fetchAppointments",
+   () => {
+    setLoading(true)
+     return axios.get(
+       `${backendUrl + `/api/appointment/listUserAppointments`+url}`,
+       {
+         headers: {
+           "x-access-token": user.token,
+         },
+       }
+     );
+   },
+   {
+     onSuccess: (response) => {
+       let data = response.data.data.map((obj, ind) => {
+         let appointment = {
+           id: obj.appointmentUserId,
+           sr: ind + 1,
+           caseName: "N/A",
+           caseNo: obj?.caseNo,
+           name: obj?.appointmentUser,
+           email: "N/A",
+           status: obj?.appointmentStatus?.toUpperCase(),
+           time: obj?.scheduledTime,
+           date: obj?.addedDate,
+           addedBy:obj?.appointmentWith,
+           role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
+           appointId:obj?.appointmentId
+ 
+         };
+         return appointment;
+       });
+       setRowData(data);
+       setLoading(false)
+       
+     },
+     enabled:
+     url === `/all` ? true : false,
+   }
+ );
+
+   //API call for fetching All Scheduled Appointments
+   const { data1, status1 } = useQuery(
+    "fetchAppointments1",
+    () => {
+      setLoading(true)
+      return axios.get(
+        `${backendUrl + `/api/appointment/listUserAppointments`+url}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -58,107 +151,171 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj._id,
+            id: obj.appointmentUserId,
             sr: ind + 1,
-            caseName: obj.caseName,
-            caseNo: obj.caseNo,
-            name: obj.caseLinkedUser.firstName + " " + obj.caseLinkedUser.lastName,
-            email: obj.caseLinkedUser.email,
-            status: obj.caseStatus,
-            time: new moment(obj.createdAt).format("hh:mm A"),
-            date: new moment(obj.createdDate).format("DD-MMM-YYYY"),
+            caseName: "N/A",
+            caseNo: obj?.caseNo,
+            name: obj?.appointmentUser,
+            email: "N/A",
+            status: obj?.appointmentStatus?.toUpperCase(),
+            time: obj?.scheduledTime,
+            date: obj?.addedDate,
+            addedBy:obj?.appointmentWith,
+            role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
+            appointId:obj?.appointmentId
+  
           };
           return appointment;
         });
         setRowData(data);
+        setLoading(false)
         
       },
+      enabled:
+      url === `/Scheduled` ? true : false,
     }
   );
-  let headerData = [
-    {
-      id: "sr",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr No.",
-    },
-   
-    {
-      id: "caseName",
-      numeric: false,
-      disablePadding: true,
-      label: "Case Name",
-    },
-    {
-      id: "caseNo",
-      numeric: false,
-      disablePadding: true,
-      label: "Case No.",
-    },
-    {
-      id: "name",
-      numeric: false,
-      disablePadding: true,
-      label: "Name",
-    },
-    {
-      id: "email",
-      numeric: false,
-      disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "date",
-      numeric: false,
-      disablePadding: true,
-      label: "Date",
-    },
-    {
-      id: "time",
-      numeric: false,
-      disablePadding: true,
-      label: "Time",
-    },
-    {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "Status",
-    },
-    {
-      id: "actions",
-      view: <Eye color="#4069bf" />,
-      numeric: false,
-      label: "Actions",
-    },
-  ];
+
+    //API call for fetching All Completed Appointments
+    const { data2, status2 } = useQuery(
+      "fetchAppointments2",
+      () => {
+        setLoading(true)
+        return axios.get(
+          `${backendUrl + `/api/appointment/listUserAppointments`+url}`,
+          {
+            headers: {
+              "x-access-token": user.token,
+            },
+          }
+        );
+      },
+      {
+        onSuccess: (response) => {
+          let data = response.data.data.map((obj, ind) => {
+            let appointment = {
+              id: obj.appointmentUserId,
+              sr: ind + 1,
+              caseName: "N/A",
+              caseNo: obj?.caseNo,
+              name: obj?.appointmentUser,
+              email: "N/A",
+              status: obj?.appointmentStatus?.toUpperCase(),
+              time: obj?.scheduledTime,
+              date: obj?.addedDate,
+              addedBy:obj?.appointmentWith,
+              role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
+              appointId:obj?.appointmentId
+    
+            };
+            return appointment;
+          });
+          setRowData(data);
+          setLoading(false)
+          
+        },
+        enabled:
+        url === `/Closed` ? true : false,
+      }
+    );
+ let headerData = [
+   {
+     id: "sr",
+     numeric: true,
+     disablePadding: true,
+     label: "Sr#",
+   },
+  
+   // {
+   //   id: "caseName",
+   //   numeric: false,
+   //   disablePadding: true,
+   //   label: "Case Name",
+   // },
+   {
+     id: "caseNo",
+     numeric: false,
+     disablePadding: true,
+     label: "Case No.",
+   },
+   {
+     id: "name",
+     numeric: false,
+     disablePadding: true,
+     label: "Name",
+   },
+   {
+     id: "addedBy",
+     numeric: false,
+     disablePadding: true,
+     label: "Appointee",
+   },
+   {
+     id: "role",
+     numeric: false,
+     disablePadding: true,
+     label: "Role",
+   },
+   {
+     id: "date",
+     numeric: false,
+     disablePadding: true,
+     label: "Date",
+   },
+   {
+     id: "time",
+     numeric: false,
+     disablePadding: true,
+     label: "Time",
+   },
+   {
+     id: "status",
+     numeric: false,
+     disablePadding: true,
+     label: "Status",
+   },
+   {
+     id: "start",
+     numeric: false,
+     disablePadding: true,
+     label: "Start",
+   },
+   {
+     id: "actions",
+     view: <Eye color="#4069bf" />,
+     numeric: false,
+     label: "Actions",
+   },
+ ];
+ 
   const a = [
     {
       title: "ALL APPOINTMENTS",
-      value: 120,
+      value:allApp ? allApp?.length :"0",
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "apD",
-      //   link: routeNames.socialWorker.userPageDashboard,
+      url: `/all`,
     },
     {
-      title: "PENDING",
-      value: 43,
+      title: "SCHEDULED",
+      value: scheduled?scheduled.length:"0",
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "apD",
-      //   link: routeNames.socialWorker.appointmentPageDashboard,
+      url: `/Scheduled`,
+
     },
     {
       title: "COMPLETED",
-      value: 77,
+      value: completed?completed.length:"0",
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
       icon: "apD",
-      //   link: routeNames.socialWorker.reportPageDashboard,
+      url: `/Closed`,
     },
   ];
 
@@ -181,11 +338,14 @@ const UserPage = (props) => {
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} />
+            <Card data={item} setUrl={setUrl} url={url}/>
           </Grid.Col>
         ))}
       </Grid>
-      <Container mt="md" className={classes.main}>
+      {loading ? (
+        <Loader minHeight="40vh" />
+      ) :(
+<Container mt="md" className={classes.main}>
         <Table
           headCells={headerData}
           rowData={rowData}
@@ -194,6 +354,8 @@ const UserPage = (props) => {
           setDeleteModalState={setOpenDeleteModal}
         />
       </Container>
+      )}
+      
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}

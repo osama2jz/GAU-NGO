@@ -73,7 +73,8 @@ const Step2 = ({
         <Grid>
           {cardData?.map(
             (e) =>
-              e.schedule?.length > 0 && (
+              // e.schedule?.length > 0 && 
+              (
                 <Grid.Col md={6} lg={4} xl={3}>
                   <Cards
                     onSubmit={onSubmit}

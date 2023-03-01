@@ -11,6 +11,7 @@ import {
   Table as TableMantine,
   Text,
   useMantineTheme,
+  Anchor,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
@@ -189,7 +190,10 @@ const Table = ({
                       <Badge
                         radius="xs"
                         color={
-                          row[head?.id] === "unverified" ? "red.0" : "blue.0"
+                          row[head?.id] === "unverified" ||
+                          row[head?.id] === "CLOSED"
+                            ? "red.0"
+                            : "blue.0"
                         }
                         variant="outline"
                         w={"100px"}
@@ -213,6 +217,10 @@ const Table = ({
                             : row[head?.id]}
                         </Text>
                       </Flex>
+                    </td>
+                  ) : head.id === "file" ? (
+                    <td key={index} align="center">
+                      <Anchor href={row?.file} target={"_blank"}>Report file</Anchor>
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
@@ -269,16 +277,11 @@ const Table = ({
                       <Button
                         label="Start"
                         onClick={() => {
-                          // if (row.accStatus === "active") {
-                          navigate(`/start-appointment/${row.id}`);
-                          // } else {
-                          //   showNotification({
-                          //     title: "User Inactive",
-                          //     message: "Please Activate user first",
-                          //     color: "red.0",
-                          //   });
-                          // }
+                          navigate(
+                            `/start-appointment/${row.id}/${row.appointId}`
+                          );
                         }}
+                        disabled={row.status === "CLOSED" ? true : false}
                         primary={true}
                         compact={true}
                       />

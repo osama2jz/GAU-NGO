@@ -25,12 +25,12 @@ import { backendUrl } from "../../../constants/constants";
 import { useQuery } from "react-query";
 import moment from "moment";
 import axios from "axios";
-import DownloadPdf from "../downloadPdf"
+import DownloadPdf from "../downloadPdf";
 
 function PrivateReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
@@ -56,7 +56,7 @@ function PrivateReport() {
       disablePadding: true,
       label: "Case #",
     },
-    
+
     {
       id: "addedBy",
       numeric: false,
@@ -76,10 +76,10 @@ function PrivateReport() {
       label: "Date",
     },
     {
-      id: "type",
+      id: "file",
       numeric: false,
       disablePadding: true,
-      label: "Report Type",
+      label: "Report File",
     },
     {
       id: "actions",
@@ -95,7 +95,10 @@ function PrivateReport() {
     "fetchAppointments",
     () => {
       return axios.get(
-        `${backendUrl + `/api/case/listUserReports/private/${user.id}/${activePage}/10`}`, 
+        `${
+          backendUrl +
+          `/api/case/listUserReports/private/${user.id}/${activePage}/10`
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -112,17 +115,20 @@ function PrivateReport() {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role: obj.role,
-            type:obj.reportType,
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
           };
           return appointment;
         });
         setRowData(data);
-        
       },
     }
   );
@@ -145,7 +151,12 @@ function PrivateReport() {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <DownloadPdf headCells={headerData} setdata={setRowData} data={rowData} title="Download reports"/>
+            <DownloadPdf
+              headCells={headerData}
+              setdata={setRowData}
+              data={rowData}
+              title="Download reports"
+            />
           </Grid.Col>
         </Grid>
         <Table
@@ -160,7 +171,7 @@ function PrivateReport() {
         setOpened={setOpenViewModal}
         title="Report #2345"
       >
-         <Grid align="center" justify={"space-between"}>
+        <Grid align="center" justify={"space-between"}>
           <Grid.Col md={4}>
             <Avatar
               radius="xl"
@@ -171,21 +182,25 @@ function PrivateReport() {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
+              {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>{reportData?.caseNo}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.caseNo}
+                </Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.addedBy}
+                </Text>
                 <Text className={classes.textheading}>Date</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Report File</Text>
                 <Anchor href={reportData?.file} target="_blank">
-     {reportData?.type} Report
-    </Anchor>
-                
+                  {reportData?.type} Report
+                </Anchor>
+
                 <Text className={classes.textheading}>Report Type</Text>
                 <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>

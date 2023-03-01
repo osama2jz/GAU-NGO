@@ -54,6 +54,8 @@ function AllAppointments() {
           date: obj?.addedDate,
           addedBy:obj?.appointmentWith,
           role:obj?.role==="socialWorker"?"Social Worker":obj.role==="psychologist"?"Psychologist":"Lawyer",
+          appointId:obj?.appointmentId
+
         };
         return appointment;
       });

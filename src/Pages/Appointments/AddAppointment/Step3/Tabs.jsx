@@ -67,7 +67,7 @@ const DoubleTabs = ({
               />
                <ul>
                 {files.length > 0 &&
-                  files2.map((obj) => (
+                  files.map((obj) => (
                     <li>
                       <Anchor>{obj?.name}</Anchor>
                     </li>
@@ -145,6 +145,7 @@ const DoubleTabs = ({
           </Grid>
         </Tabs.Panel>
       </Tabs>
+     
     </>
   );
 };
