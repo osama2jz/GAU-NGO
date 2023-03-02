@@ -1,37 +1,27 @@
-import { useContext, useState } from "react";
 import {
   Card,
   Container,
-  Divider,
-  Grid,
-  Group,
-  SimpleGrid,
-  Text,
-  useMantineTheme,
-  Radio,
-  FileInput,
-  Stack,
+  Divider, FileInput, Group, Radio, SimpleGrid,
+  Text
 } from "@mantine/core";
-import { FileUpload } from "tabler-icons-react";
-import { Edit, Trash } from "tabler-icons-react";
-// import S3 from 'react-aws-s3';
+import { showNotification } from "@mantine/notifications";
+import axios from "axios";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import { FileUpload, Trash } from "tabler-icons-react";
+import Button from "../../../../Components/Button";
+import Datepicker from "../../../../Components/Datepicker";
+import DeleteModal from "../../../../Components/DeleteModal";
 import InputField from "../../../../Components/InputField";
 import Table from "../../../../Components/Table";
 import TextArea from "../../../../Components/TextArea";
-import Button from "../../../../Components/Button";
-import { useStyles } from "../styles";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
-import NewProfessionalModal from "./NewProfessional";
-import NewWorkModal from "./NewWorkExperience";
-import NewTrainingModal from "./NewStudiesTraining";
-import Datepicker from "../../../../Components/Datepicker";
-import DeleteModal from "../../../../Components/DeleteModal";
-import { useQuery } from "react-query";
-import axios from "axios";
-import * as AWS from "@aws-sdk/client-s3";
 import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-import { showNotification } from "@mantine/notifications";
+import { useStyles } from "../styles";
+import NewProfessionalModal from "./NewProfessional";
+import NewTrainingModal from "./NewStudiesTraining";
+import NewWorkModal from "./NewWorkExperience";
 
 export const Step2 = ({
   setActive,
@@ -59,7 +49,6 @@ export const Step2 = ({
   const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
-
 
   let headerData = [
     {
@@ -249,7 +238,6 @@ export const Step2 = ({
   };
 
   const handleFileInput = (file) => {
-    console.log(file)
     setSelectedFile(file);
     const ReactS3Client = new AWS.S3(s3Config);
     ReactS3Client.send(file)

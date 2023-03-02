@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
@@ -42,6 +42,7 @@ export const AllUser = () => {
   const { user } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   let headerData = [
     {
@@ -75,12 +76,6 @@ export const AllUser = () => {
       label: "User Status",
     },
     {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -96,6 +91,20 @@ export const AllUser = () => {
     },
   ];
 
+  const newData = useMemo(() => {
+    let arr = headerData;
+    if (user.role === "Social Worker") {
+      headerData.splice(5, 0, {
+        id: "userVerify",
+        numeric: false,
+        disablePadding: true,
+        label: "Verify",
+      });
+      arr = headerData;
+    }
+    return arr;
+  }, [user]);
+  
   //API call for fetching all users
   const { data, status } = useQuery(
     ["fetchUser", filter, search, activePage],
@@ -117,7 +126,7 @@ export const AllUser = () => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
@@ -192,20 +201,22 @@ export const AllUser = () => {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-           {user.role ==="Social Worker" && <Button
-              label={"Add User"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />}
+            {user.role === "Social Worker" && (
+              <Button
+                label={"Add User"}
+                bg={true}
+                leftIcon={"plus"}
+                styles={{ float: "right" }}
+                onClick={() => navigate(routeNames.socialWorker.addUser)}
+              />
+            )}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
           <Loader />
         ) : (
           <Table
-            headCells={headerData}
+            headCells={newData}
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}

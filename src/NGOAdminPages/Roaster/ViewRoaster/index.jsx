@@ -178,11 +178,11 @@ export const ViewRoasters = () => {
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
             <Button
-              label={"Add Professional"}
+              label={"Add Roaster"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.ngoAdmin.addProfessional)}
+              onClick={() => navigate(routeNames.ngoAdmin.addRoaster)}
             />
           </Grid.Col>
         </Grid>

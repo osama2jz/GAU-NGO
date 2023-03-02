@@ -80,13 +80,17 @@ export const ngoAdminSideBarData = [
         label: "View Appointments",
         link: routeNames.ngoAdmin.allAppointments,
       },
+      {
+        label: "Add Appointment",
+        link: routeNames.ngoAdmin.addAppoinment,
+      },
     ],
   },
   {
     label: "Report",
     icon: Report,
     links: [
-      { label: "Private", link: routeNames.ngoAdmin.privateReport },
+      // { label: "Private", link: routeNames.ngoAdmin.privateReport },
       { label: "Public", link: routeNames.ngoAdmin.publicReport },
     ],
   },
