@@ -96,7 +96,7 @@ const UserPage = (props) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
@@ -130,7 +130,7 @@ const UserPage = (props) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
@@ -164,7 +164,7 @@ const UserPage = (props) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,

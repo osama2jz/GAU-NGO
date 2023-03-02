@@ -117,7 +117,7 @@ const UserPage = (props) => {
         let data = response?.data?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -192,10 +192,7 @@ const UserPage = (props) => {
         setTotalPages(response?.data?.data?.totalPages);
         setLoader(false);
       },
-      enabled:
-        url === `/private`
-          ? true
-          : false,
+      enabled: url === `/private` ? true : false,
     }
   );
   const { data12, status12 } = useQuery(
@@ -248,7 +245,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "PUBLIC ",
-      value: publicount ? publicount : <Loader minHeight="5vh"/>,
+      value: publicount ? publicount : <Loader minHeight="5vh" />,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -257,7 +254,7 @@ const UserPage = (props) => {
     },
     {
       title: "PRIVATE ",
-      value: privatecount ? privatecount : <Loader minHeight="5vh"/>,
+      value: privatecount ? privatecount : <Loader minHeight="5vh" />,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
