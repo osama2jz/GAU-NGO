@@ -8,7 +8,6 @@ import { Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
-import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
@@ -18,9 +17,8 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
-import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
-import ViewUserModal from "./ViewUserModal";
+import ViewRoasterModal from "./ViewRoasterModal";
 
 export const ViewRoasters = () => {
   const { classes } = useStyles();
@@ -94,7 +92,7 @@ export const ViewRoasters = () => {
       onSuccess: (response) => {
         let data = response.data?.data?.map((obj, ind) => {
           let user = {
-            id: obj._id,
+            id: obj.userId,
             sr: ind + 1,
             name: obj.fullName,
             userType:
@@ -147,7 +145,7 @@ export const ViewRoasters = () => {
     });
     setOpenDeleteModal(false);
   };
-
+console.log("viewModaldta", viewModalData)
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Roasters"} />
@@ -219,21 +217,8 @@ export const ViewRoasters = () => {
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
-      <ViewModal
-        opened={openViewModal}
-        setOpened={setOpenViewModal}
-        title="User Details"
-      >
-        {/* <ViewUser id={viewModalData}/> */}
-        <ViewUserModal id={viewModalData} reportData={reportData} />
-      </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit User Details"
-      >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
-      </EditModal>
+
+      <ViewRoasterModal id={viewModalData} reportData={reportData} opened={openViewModal} setOpened={setOpenViewModal}/>
     </Container>
   );
 };

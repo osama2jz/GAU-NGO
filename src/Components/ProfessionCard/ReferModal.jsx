@@ -32,7 +32,6 @@ const ReferModal = ({
         scheduleId: slot,
         referredComment: comment,
       };
-      console.log(obj)
       return axios.post(`${backendUrl + "/api/case/referToExpert"}`, obj, {
         headers: {
           "x-access-token": user.token,

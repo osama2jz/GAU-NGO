@@ -31,7 +31,7 @@ export const AddRoaster = () => {
       ngoId: user?.ngoId,
       branchId: "",
       scheduleType: "",
-      userId: "",
+      users: "",
       dateStart: "",
       timeStartSlot: "",
       dateEnd: "",
@@ -42,7 +42,7 @@ export const AddRoaster = () => {
       branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
       scheduleType: (value) =>
         value?.length < 1 ? "Please Select Schedule Type" : null,
-      userId: (value) =>
+        users: (value) =>
         value?.length < 1 ? "Please Select at least one user." : null,
       dateStart: (value) =>
         value?.length < 1 ? "Please Select start date." : null,
@@ -216,7 +216,7 @@ export const AddRoaster = () => {
           label="Select Users"
           form={form}
           placeholder="Select Users"
-          validateName="userId"
+          validateName="users"
           data={professionals}
         />
 
