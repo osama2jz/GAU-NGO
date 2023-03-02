@@ -1,4 +1,12 @@
-import { Grid, Avatar, SimpleGrid, Container, Text,Badge } from "@mantine/core";
+import {
+  Grid,
+  Avatar,
+  SimpleGrid,
+  Container,
+  Text,
+  Badge,
+  ScrollArea,
+} from "@mantine/core";
 import { useStyles } from "./styles";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
@@ -6,11 +14,13 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/teacher.png";
 import { useQuery } from "react-query";
+import ReactHtmlParser from "react-html-parser";
 
-function ViewUserModal({ id,reportData }) {
+function ViewUserModal({ id, reportData }) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [userdata, setUserData] = useState();
+  console.log("reportData", reportData);
   const { data, status } = useQuery(
     "fetchUserbyId",
     () => {
@@ -27,47 +37,11 @@ function ViewUserModal({ id,reportData }) {
     }
   );
   return (
-    <Grid className={classes.main} align="center" justify={"space-between"}>
-      <Grid.Col md={4} className={classes.main}>
-        <Avatar
-          radius="xl"
-          size={150}
-          src={userlogo}
-          className={classes.avatar}
-        />
-      </Grid.Col>
-      <Grid.Col md={7} style={{ backgroundColor: "white" }}>
-        <Text size={24} weight="bold" mb="sm" align="center">
-          {reportData?.name}
-        </Text>
-        <Container w={"100%"}>
-          <SimpleGrid cols={2} spacing="xs">
-            {/* <Text className={classes.textheading}>Date of Birth</Text>
-            <Text className={classes.textContent}>Date of Birth</Text> */}
-            <Text className={classes.textheading}>Email</Text>
-            <Text className={classes.textContent}>
-              {reportData?.email}
-            </Text>
-            <Text className={classes.textheading}>Phone Number</Text>
-            <Text className={classes.textContent}>
-              {reportData?.phone}
-            </Text>
-            {/* <Text className={classes.textheading}>Age</Text>
-            <Text className={classes.textContent}>
-              {userdata?.userConsentForm?.personalInformation?.age}
-            </Text> */}
-            
-            <Text className={classes.textheading}>Status</Text>
-           <Badge color={reportData?.accStatus=== "inactive" ? "red" :"green"}>{reportData?.accStatus}</Badge>
-            <Text className={classes.textheading}>User Status</Text>
-            
-            <Badge color={reportData?.status=== "unverified" ? "red" :"green"} radius="md">{reportData?.status}</Badge>
-            
-            
-          </SimpleGrid>
-        </Container>
-      </Grid.Col>
-    </Grid>
+    <ScrollArea.Autosize maxHeight={500} mx="auto">
+      <Container className={classes.main} justify={"space-between"}>
+        <Text>{ReactHtmlParser(reportData?.content)}</Text>
+      </Container>
+    </ScrollArea.Autosize>
   );
 }
 

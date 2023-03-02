@@ -16,7 +16,7 @@ import {
 import { showNotification } from "@mantine/notifications";
 
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import user from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
@@ -36,6 +36,8 @@ const Table = ({
   setDeleteData,
   onStatusChange,
   setReportData,
+  setEditDoc,
+  editDoc,
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -165,9 +167,16 @@ const Table = ({
                         {head.edit && (
                           <ActionIcon
                             onClick={() => {
+                              if (setReportData) {
+                                setReportData(row);
+                              }
+                              // setEditData ?
+                              if(setEditDoc){
+                                setEditDoc(row);
+                              }
                               setEditModalState(true);
                               setViewModalData(row.id);
-                              // setEditData(row);
+                              
                               navigate();
                               // setOpened(true);
                             }}
@@ -215,7 +224,7 @@ const Table = ({
                           />
                         )}
                         <Text lineClamp={1}>
-                          {row[head?.id].length > 100
+                          {row[head?.id]?.length > 100
                             ? row[head?.id].substring(0, 10) + "..."
                             : row[head?.id]}
                         </Text>

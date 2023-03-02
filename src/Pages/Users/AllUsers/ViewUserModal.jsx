@@ -52,10 +52,6 @@ function ViewUserModal({ id,reportData }) {
             <Text className={classes.textContent}>
               {reportData?.phone}
             </Text>
-            {/* <Text className={classes.textheading}>Age</Text>
-            <Text className={classes.textContent}>
-              {userdata?.userConsentForm?.personalInformation?.age}
-            </Text> */}
             
             <Text className={classes.textheading}>Status</Text>
            <Badge variant="outline" color={reportData?.accStatus=== "inactive" ? "red.0" :"green.0"}>{reportData?.accStatus}</Badge>

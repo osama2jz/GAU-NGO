@@ -9,7 +9,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
@@ -22,12 +22,21 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import { Link } from "@mantine/tiptap";
+import {useLocation} from 'react-router-dom'
 
 export const AddDocument = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [documents, setDocuments] = useState([]);
+
+  let { state } = useLocation();
+
+  const {
+    editdata
+  } = state ?? "";
+
+  
 
   const editorr = useEditor({
     extensions: [
@@ -39,13 +48,14 @@ export const AddDocument = () => {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    content: "",
+    content: editdata?.content,
   });
 
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
       lookupId: "",
+      documentId:""
     },
 
     validate: {
@@ -53,6 +63,14 @@ export const AddDocument = () => {
         value?.length < 1 ? "Please Select Document Type" : null,
     },
   });
+
+  useEffect(() => {
+    if (editdata) {
+      form.setFieldValue("lookupId", editdata?.lookupId);
+      form.setFieldValue("documentId", editdata?.id);
+      // editorr.commands.setContent(editdata?.content);
+    }
+  },[editdata])
 
   const handleAddDocument = useMutation(
     (values) => {
@@ -79,7 +97,7 @@ export const AddDocument = () => {
         } else {
           showNotification({
             title: "Failed",
-            message: response?.data?.message,
+            message: "Document Already Exists!",
             color: "red.0",
           });
         }
@@ -87,9 +105,41 @@ export const AddDocument = () => {
     }
   );
 
-  //API call for fetching all branches
+  const handleEditDocument = useMutation(
+    (values) => {
+      values.documentText = editorr.getHTML();
+      return axios.post(
+        `${backendUrl + "/api/lookup/updateDocument"}`,
+        values,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if (response.data.status) {
+          showNotification({
+            title: "Document Created",
+            message: "Document Updated Successfully!",
+            color: "green.0",
+          });
+          navigate(routeNames.ngoAdmin.viewDocuments);
+        } else {
+          showNotification({
+            title: "Failed",
+            message: "Failed to Update Document!",
+            color: "red.0",
+          });
+        }
+      },
+    }
+  );
+  //API call for fetching all documents
   const { data, status } = useQuery(
-    "fetchDocuments",
+    "fetchDocumentsTypes",
     () => {
       return axios.get(
         `${backendUrl + `/api/lookup/getLookupByType/documentTypes`}`,
@@ -118,12 +168,15 @@ export const AddDocument = () => {
     return <Loader />;
   }
 
+ 
+
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"Add Document"} />
+      <ContainerHeader label={editdata ? "Edit Document":"Add Document"} />
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => handleAddDocument.mutate(values))}
+        
+        onSubmit={form.onSubmit((values) => editdata ? handleEditDocument.mutate(values):handleAddDocument.mutate(values))}
       >
         <SelectMenu
           label={"Select Document"}
@@ -140,7 +193,7 @@ export const AddDocument = () => {
             onClick={() => navigate(routeNames.ngoAdmin.viewDocuments)}
           />
           <Button
-            label="Add Document"
+            label={editdata ? "Update Document":"Add Document"}
             leftIcon={"plus"}
             primary={true}
             type="submit"
