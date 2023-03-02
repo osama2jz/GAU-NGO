@@ -23,15 +23,15 @@ const Cards = ({ data, setUrl, url, setPage }) => {
       <Card
         className={classes.card}
         shadow="lg"
-        h={140}
-        w={matches ? 270 : 240}
+        h={150}
+        w={matches ? 320 : 240}
         component="a"
         radius={26}
         withBorder
         onClick={handleClick}
         style={{
           cursor: "pointer",
-          backgroundColor: data.url === url ? "#f5f5f5" : "",
+          backgroundColor: data.url === url ? "" : "",
           border: data.url === url ? "2px solid green" : "",
         }}
       >
