@@ -224,7 +224,7 @@ export const ViewBranches = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Details"
+        title="Branch Details"
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
@@ -232,9 +232,9 @@ export const ViewBranches = () => {
       <EditModal
         opened={openEditModal}
         setOpened={setOpenEditModal}
-        title="Edit User Details"
+        title="Edit Branch Details"
       >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
+        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} reportData={reportData}  />
       </EditModal>
     </Container>
   );

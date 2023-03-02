@@ -36,7 +36,7 @@ export const AddBranch =() => {
       branchLocation: (value) =>
         value?.length < 2 ? "Please enter last branch address" : null,
       branchDescription: (value) =>
-        value?.length < 1 ? "Please enter last branch address" : null,
+        value?.length < 1 ? "Please enter branch Description" : null,
     },
   });
 
@@ -105,6 +105,7 @@ export const AddBranch =() => {
           label="Description"
           rows="4"
           form={form}
+          required={true}
           validateName="branchDescription"
         />
 

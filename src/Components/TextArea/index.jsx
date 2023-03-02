@@ -45,7 +45,7 @@ const TextArea = ({
         label: classes.label,
       }}
       placeholder={placeholder}
-      value={value}
+      // value={value}
       rows={rows}
     />
   );

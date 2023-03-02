@@ -165,6 +165,9 @@ const Table = ({
                         {head.edit && (
                           <ActionIcon
                             onClick={() => {
+                              if (setReportData) {
+                                setReportData(row);
+                              }
                               setEditModalState(true);
                               setViewModalData(row.id);
                               // setEditData(row);

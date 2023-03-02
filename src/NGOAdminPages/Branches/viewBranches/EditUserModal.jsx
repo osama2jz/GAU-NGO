@@ -1,79 +1,61 @@
 import {
-  Grid,
-  Avatar,
-  SimpleGrid,
-  Container,
-  Text,
-  Group,
+  Container, Group
 } from "@mantine/core";
-import { useStyles } from "./styles";
+import { useForm } from "@mantine/form";
+import { showNotification } from "@mantine/notifications";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../Components/Button";
+import InputField from "../../../Components/InputField";
+import TextArea from "../../../Components/TextArea";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import { useContext, useEffect, useState } from "react";
-import userlogo from "../../../assets/teacher.png";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useForm } from "@mantine/form";
-import InputField from "../../../Components/InputField";
-import Button from "../../../Components/Button";
-import Loader from "../../../Components/Loader";
-import { showNotification } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+import { useStyles } from "./styles";
 
-function ViewUserModal({ id ,setOpenEditModal}) {
+function ViewUserModal({ id, setOpenEditModal, reportData }) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [userdata, setUserData] = useState();
 
-
+  console.log("reportData", reportData);
 
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      userId:"",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
+      branchId: "",
+      branchName: "",
+      branchLocation: "",
+      branchDescription: "",
     },
     validate: {
-      firstName: (value) =>
-        /^[a-zA-Z]{3,12}$/.test(value)
+      branchName: (value) =>
+        /^[a-zA-Z ]{2,40}$/.test(value)
           ? null
-          : "Please enter first name and it should be between 3 to 12 characters",
-      lastName: (value) =>
-        /^[a-zA-Z]{3,12}$/.test(value)
-          ? null
-          : "Please enter last name and it should be between 3 to 12 characters",
-      phoneNumber: (value) =>
-        value?.length < 8 ? "Please enter phone number" : null,
+          : "Please enter valid branch name.",
+      branchLocation: (value) =>
+        value?.length < 2 ? "Please enter branch address" : null,
+      branchDescription: (value) =>
+        value?.length < 1 ? "Please enter branch Description" : null,
     },
   });
 
-  const { data, status } = useQuery(
-    "fetchUserbyId",
-    () => {
-      return axios.get(`${backendUrl + `/api/user/listSingleUser/${id}`}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
-    },
-    {
-      onSuccess: (response) => {
-        // setRowData(response.data.data);
-        setUserData(response.data.data);
-        form.setFieldValue("userId", response.data.data?._id);
-        form.setFieldValue("firstName", response.data.data?.firstName);
-        form.setFieldValue("lastName", response.data.data?.lastName);
-        form.setFieldValue("phoneNumber", response.data.data?.phoneNumber);
-      },
+  useEffect(() => {
+    if (reportData) {
+      form.setFieldValue("branchId", reportData.id);
+      form.setFieldValue("branchName", reportData?.name);
+      form.setFieldValue("branchLocation", reportData?.location);
+      form.setFieldValue("branchDescription", reportData?.description);
     }
-  );
+  }, [reportData]);
 
-  const updateUser = useMutation((values) => {
-      return axios.post(`${backendUrl + "/api/user/edit"}`, values, {
+  //API call for edit status
+  const handleEdit = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/ngo/editBranch"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -81,46 +63,43 @@ function ViewUserModal({ id ,setOpenEditModal}) {
     },
     {
       onSuccess: (response) => {
-        setOpenEditModal(false)
+        navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
-          title: "User Updated Successfully!",
-          message: "User Detail Updated Successfully!",
-          color: "green",
+          title: "Status Updated",
+          message: "User Status changed Successfully!",
+          color: "green.0",
         });
-        // navigate(routeNames.socialWorker.allUsers);
-        queryClient.invalidateQueries("fetchUser");
+        queryClient.invalidateQueries("fetchBranches");
       },
     }
   );
-
-  if (status === "loading") {
-    return <Loader minHeight="100%"/>;
-  }
   return (
     <Container>
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => updateUser.mutate(values))}
+        onSubmit={form.onSubmit((values)=>handleEdit.mutate(values))}
       >
         <InputField
-          label="First Name"
-          placeholder="first name"
+          label="Branch Name"
+          required={true}
+          placeholder="Branch Name"
           form={form}
-          validateName="firstName"
+          validateName="branchName"
         />
         <InputField
-          label="Last Name"
+          label="Branch Address"
           required={true}
-          placeholder="last name"
+          placeholder="Branch Address"
           form={form}
-          validateName="lastName"
+          validateName="branchLocation"
         />
-        <InputField
-          label="Phone Number"
-          required={true}
-          placeholder="phoneNumber"
+        <TextArea
+          placeholder={"Branch Details"}
+          label="Description"
+          rows="4"
           form={form}
-          validateName="phoneNumber"
+          validateName="branchDescription"
+          required={true}
         />
         <Group position="right" mt="md">
           <Button
