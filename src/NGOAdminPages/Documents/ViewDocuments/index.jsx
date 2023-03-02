@@ -1,6 +1,6 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
@@ -19,6 +19,9 @@ import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
+import { useMutation } from "react-query";
+import { showNotification } from "@mantine/notifications";
+
 
 export const ViewDocuments = () => {
   const { classes } = useStyles();
@@ -35,8 +38,21 @@ export const ViewDocuments = () => {
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
   const { user } = useContext(UserContext);
+  const [editDoc, setEditDoc] = useState()
 
   const [reportData, setReportData] = useState([]);
+
+
+  useEffect(() => {
+    if(editDoc){
+      navigate(routeNames.ngoAdmin.addDocument, {
+        state: {
+          editdata: editDoc,
+        },
+      });
+    }
+
+  },[editDoc])
 
   let headerData = [
     {
@@ -69,7 +85,7 @@ export const ViewDocuments = () => {
 
   //API call for fetching all documents
   const { data, status } = useQuery(
-    "fetchDocuments",
+    "fetchDocumentsAll",
     () => {
       return axios.get(`${backendUrl + `/api/lookup/listDocuments`}`, {
         headers: {
@@ -79,23 +95,64 @@ export const ViewDocuments = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let doc = {
             id: obj._id,
             sr: ind + 1,
             name: obj?.lookupId?.lookupName,
             content: obj?.documentText,
+            lookupId: obj?.lookupId?._id,
           };
           return doc;
         });
         setRowData(data);
       },
     }
-  );  
+  );
+
+  //API call for deleting a document
+  const handleDeleteDocument = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/lookup/updateDocument"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        console.log("response", response);
+        if (response.data.status) {
+          showNotification({
+            title: "Document Created",
+            message: deleteID ?"Document Deleted Successfully":"Document Updated Successfully!",
+            color: "green.0",
+          });
+          // navigate(routeNames.ngoAdmin.viewDocuments);
+        } else {
+          showNotification({
+            title: "Failed",
+            message: deleteID ? "Failed to Delete": "Failed to Update",
+            color: "red.0",
+          });
+        }
+        queryClient.invalidateQueries("fetchDocumentsAll");
+      },
+    }
+  );
+
+  //API call for deleting document
+  const handleDeleted = () => {
+    handleDeleteDocument.mutate({
+      documentId: deleteID,
+      status: "deleted",
+    });
+    setOpenDeleteModal(false);
+  };
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Branches"} />
+      <ContainerHeader label={"View Documents"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -143,6 +200,8 @@ export const ViewDocuments = () => {
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
+            setEditDoc={setEditDoc}
+            editDoc={editDoc}
           />
         )}
       </Container>
@@ -150,25 +209,19 @@ export const ViewDocuments = () => {
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        // onDelete={handleDeleted}
+        onDelete={handleDeleted}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Details"
+        title={reportData?.name}
+        size={"800px"}
       >
-        {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit User Details"
-      >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
-      </EditModal>
+
     </Container>
   );
 };
