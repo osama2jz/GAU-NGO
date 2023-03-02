@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
 import EditModal from "../../../Components/EditModal/editModal";
-import Loader from "../../../Components/Loader";
+import loader from "../../../Components/loader";
 import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
@@ -18,6 +18,7 @@ import EditUserModal from "../../Users/AllUsers/EditUserModal";
 import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
 import Card from "../Card";
 import { useStyles } from "./styles";
+
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -275,7 +276,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "ALL USERS",
-      value: verifiedCount ? verifiedCount+unverifiedCount :"0",
+      value: verifiedCount ? verifiedCount+unverifiedCount :<loader minHeight="5vh"/>,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -284,7 +285,7 @@ const UserPage = (props) => {
     },
     {
       title: "VERIFIED",
-      value: verifiedCount ? verifiedCount :"0",
+      value: verifiedCount ? verifiedCount :<loader minHeight="5vh"/>,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -293,7 +294,7 @@ const UserPage = (props) => {
     },
     {
       title: "UNVERIFIED",
-      value: unverifiedCount ? unverifiedCount: "0",
+      value: unverifiedCount ? unverifiedCount: <loader minHeight="5vh"/>,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
@@ -326,7 +327,7 @@ const UserPage = (props) => {
         ))}
       </Grid>
       {loading ? (
-        <Loader minHeight="40vh" />
+        <loader minHeight="40vh" />
       ) :(<Container mt="md" className={classes.main}>
       <Table
         headCells={headerData}

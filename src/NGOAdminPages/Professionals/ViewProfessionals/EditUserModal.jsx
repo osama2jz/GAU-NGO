@@ -81,14 +81,23 @@ function ViewUserModal({ id ,setOpenEditModal}) {
     },
     {
       onSuccess: (response) => {
-        setOpenEditModal(false)
+        if(response.data.status){
+          setOpenEditModal(false)
         showNotification({
           title: "User Updated Successfully!",
           message: "User Detail Updated Successfully!",
-          color: "green",
+          color: "green.0",
         });
         // navigate(routeNames.socialWorker.allUsers);
         queryClient.invalidateQueries("fetchUser");
+        }
+        else{
+          showNotification({
+            title: "User Updated Failed!",
+            message: "User Detail Updated Failed!",
+            color: "red.0",
+          });
+        }
       },
     }
   );

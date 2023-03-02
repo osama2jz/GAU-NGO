@@ -1,15 +1,18 @@
 import {
-  Anchor, Avatar, Container, Flex,
-  Grid, SimpleGrid, Text
+  Anchor,
+  Avatar,
+  Container,
+  Flex,
+  Grid,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import {
-  ArrowNarrowLeft, Eye, Trash
-} from "tabler-icons-react";
+import { ArrowNarrowLeft, Eye, Trash } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
 import Loader from "../../../Components/Loader";
 import Table from "../../../Components/Table";
@@ -18,6 +21,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Card from "../Card";
 import { useStyles } from "./styles";
+import Pagination from "../../../Components/Pagination";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -29,12 +33,11 @@ const UserPage = (props) => {
   const { user } = useContext(UserContext);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [url, setUrl] = useState(`/api/case/listUserReports/public/${user.id}/${activePage}/10`);
+  const [url, setUrl] = useState(`/public`);
   const [loader, setLoader] = useState(false);
   const [reportData, setReportData] = useState([]);
-  const [publicount,setpublicCount]=useState()
-  const [privatecount,setprivateCount]=useState()
-
+  const [publicount, setpublicCount] = useState();
+  const [privatecount, setprivateCount] = useState();
 
   const [rowData, setRowData] = useState([]);
   let headerData = [
@@ -90,22 +93,24 @@ const UserPage = (props) => {
     },
   ];
 
-
-  
-
- 
- 
-
   //API call for fetching Public Reports
   const { data, status } = useQuery(
-    "fetchPublic",
+    ["fetchPublic", activePage, url],
     () => {
       setLoader(true);
-      return axios.get(`${backendUrl + url}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(
+        `${
+          backendUrl +
+          `/api/case/listUserReports` +
+          url +
+          `/${user.id}/${activePage}/10`
+        }`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -116,11 +121,12 @@ const UserPage = (props) => {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role:  obj?.role === "socialWorker"
-            ? "Social Worker"
-            : obj.role === "psychologist"
-            ? "Psychologist"
-            : "Lawyer",
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
             file: obj?.reportFile,
@@ -130,24 +136,33 @@ const UserPage = (props) => {
           return appointment;
         });
         setRowData(data);
-        setpublicCount(data?.length)
+        setpublicCount(response?.data?.data?.total);
+        setTotalPages(response?.data?.data?.totalPages);
+
         setLoader(false);
       },
-      enabled:
-        url === `/api/case/listUserReports/public/${user.id}/${activePage}/10` ? true : false,
+      enabled: url === `/public` ? true : false,
     }
   );
 
   //API call for fetching Private Reports
   const { data1, status1 } = useQuery(
-    "fetchPrivate",
+    ["fetchPrivate", activePage, url],
     () => {
       setLoader(true);
-      return axios.get(`${backendUrl + url}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(
+        `${
+          backendUrl +
+          `/api/case/listUserReports` +
+          url +
+          `/${user.id}/${activePage}/10`
+        }`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -158,11 +173,12 @@ const UserPage = (props) => {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role:  obj?.role === "socialWorker"
-            ? "Social Worker"
-            : obj.role === "psychologist"
-            ? "Psychologist"
-            : "Lawyer",
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
             file: obj?.reportFile,
@@ -173,22 +189,30 @@ const UserPage = (props) => {
           return appointment;
         });
         setRowData(data);
-        
+        setTotalPages(response?.data?.data?.totalPages);
         setLoader(false);
       },
       enabled:
-        url === `/api/case/listUserReports/private/${user.id}/${activePage}/10` ? true : false,
+        url === `/private`
+          ? true
+          : false,
     }
   );
   const { data12, status12 } = useQuery(
     "fetchPrivateCounts",
     () => {
       setLoader(true);
-      return axios.get(`${backendUrl + `/api/case/listUserReports/private/${user.id}/${activePage}/10`}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(
+        `${
+          backendUrl +
+          `/api/case/listUserReports/private/${user.id}/${activePage}/10`
+        }`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -199,11 +223,12 @@ const UserPage = (props) => {
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role:  obj?.role === "socialWorker"
-            ? "Social Worker"
-            : obj.role === "psychologist"
-            ? "Psychologist"
-            : "Lawyer",
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
             file: obj?.reportFile,
@@ -213,8 +238,8 @@ const UserPage = (props) => {
           };
           return appointment;
         });
-        setprivateCount(data?.length)
-        
+        setprivateCount(response?.data?.data?.total);
+
         setLoader(false);
       },
     }
@@ -223,21 +248,21 @@ const UserPage = (props) => {
   const a = [
     {
       title: "PUBLIC ",
-      value: publicount?publicount:"0",
+      value: publicount ? publicount : <Loader minHeight="5vh"/>,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
       icon: "reD",
-      url: `/api/case/listUserReports/public/${user.id}/${activePage}/10`,
+      url: `/public`,
     },
     {
       title: "PRIVATE ",
-      value: privatecount?privatecount:"0",
+      value: privatecount ? privatecount : <Loader minHeight="5vh"/>,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
       icon: "reD",
-      url: `/api/case/listUserReports/private/${user.id}/${activePage}/10`,
+      url: `/private`,
     },
     {
       title: "REFERAL ",
@@ -285,6 +310,14 @@ const UserPage = (props) => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
           />
+          {totalPages > 1 && (
+            <Pagination
+              activePage={activePage}
+              setPage={setPage}
+              total={totalPages}
+              radius="xl"
+            />
+          )}
         </Container>
       )}
 

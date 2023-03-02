@@ -293,7 +293,7 @@ const UserPage = (props) => {
   const a = [
     {
       title: "ALL APPOINTMENTS",
-      value:allApp ? allApp?.length :"0",
+      value:allApp ? allApp?.length :<Loader minHeight="5vh"/>,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -302,7 +302,7 @@ const UserPage = (props) => {
     },
     {
       title: "SCHEDULED",
-      value: scheduled?scheduled.length:"0",
+      value: scheduled?scheduled.length:<Loader minHeight="5vh"/>,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -312,7 +312,7 @@ const UserPage = (props) => {
     },
     {
       title: "COMPLETED",
-      value: completed?completed.length:"0",
+      value: completed?completed.length:<Loader minHeight="5vh"/>,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
