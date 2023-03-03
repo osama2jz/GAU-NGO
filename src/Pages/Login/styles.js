@@ -19,7 +19,7 @@ export const useStyles = createStyles((theme) => ({
     // alignItems: "center",
     gap: "5px",
     [`@media (max-width: 600px)`]: {
-      background: "rgb(255, 255, 255, 0.4) url(/src/assets/login.png)" ,
+      background: "rgb(255, 255, 255, 0.6) url(/src/assets/login.png)" ,
       backgroundPosition:"bottom",
       backgroundBlendMode: "lighten",
       backgroundSize:"350px",
