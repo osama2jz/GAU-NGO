@@ -5,7 +5,7 @@ import {
   Divider,
   Grid,
   Group,
-  Text
+  Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMediaQuery } from "@mantine/hooks";
@@ -17,6 +17,7 @@ import imgg from "../../assets/login.png";
 import Button from "../../Components/Button";
 import ContainerHeader from "../../Components/ContainerHeader";
 import InputField from "../../Components/InputField";
+import Loader from "../../Components/Loader";
 import PassInput from "../../Components/PassInput";
 import { backendUrl } from "../../constants/constants";
 import logo from "../../logo.svg";
@@ -52,8 +53,14 @@ const Login = () => {
           window.location.href = routeNames.general.dashboard;
         } else {
           showNotification({
-            title: "Invalid Credentials",
-            message: "Please Enter correct email and password to login.",
+            title:
+              response.data.message === "Verification Pending"
+                ? response.data.message
+                : "Invalid Credentials",
+            message:
+              response.data.message === "Verification Pending"
+                ? "Your Account verification is pending."
+                : "Please Enter correct email and password to login.",
             color: "red.0",
           });
         }
@@ -99,13 +106,17 @@ const Login = () => {
             form={form}
             validateName="password"
           />
-          <Button
-            label={"Login"}
-            bg={true}
-            type="submit"
-            w={"100%"}
-            size="lg"
-          />
+          {handleLogin.status === "loading" ? (
+            <Loader minHeight="40px" />
+          ) : (
+            <Button
+              label={"Login"}
+              bg={true}
+              type="submit"
+              w={"100%"}
+              size="lg"
+            />
+          )}
           <Grid align={"center"} justify="space-between" mt="2px">
             <Grid.Col span={6}>
               <Checkbox
@@ -137,16 +148,18 @@ const Login = () => {
           />
         </form>
       </Container>
-      {matches && <Container
-        w={"50%"}
-        bg={"rgb(225, 245, 250, 0.6)"}
-        size="xl"
-        p={"0px"}
-        m="0px"
-        className={classes.img}
-      >
-        <img src={imgg} width="60%" />
-      </Container>}
+      {matches && (
+        <Container
+          w={"50%"}
+          bg={"rgb(225, 245, 250, 0.6)"}
+          size="xl"
+          p={"0px"}
+          m="0px"
+          className={classes.img}
+        >
+          <img src={imgg} width="60%" />
+        </Container>
+      )}
     </Container>
   );
 };
