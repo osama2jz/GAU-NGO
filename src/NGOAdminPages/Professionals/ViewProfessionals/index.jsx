@@ -80,12 +80,12 @@ export const ViewProfessionals = () => {
       disablePadding: true,
       label: "User Status",
     },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
+    // {
+    //   id: "userVerify",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Verify",
+    // },
     {
       id: "accStatus",
       numeric: false,
