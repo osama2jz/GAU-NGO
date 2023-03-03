@@ -8,16 +8,23 @@ export const useStyles = createStyles((theme) => ({
   form: {
     margin: "auto",
     width: "50%",
-    // display:'flex',
-    // flexDirection:'column',
-    // backgroundColor:'red'
+    [`@media (max-width: 600px)`]: {
+      width: "90%",
+    },
   },
   formC: {
     display: "flex",
-    flexDirection:'column',
+    flexDirection: "column",
     justifyContent: "center",
     // alignItems: "center",
     gap: "5px",
+    [`@media (max-width: 600px)`]: {
+      background: "rgb(255, 255, 255, 0.4) url(/src/assets/login.png)" ,
+      backgroundPosition:"bottom",
+      backgroundBlendMode: "lighten",
+      backgroundSize:"350px",
+      backgroundRepeat:'no-repeat'
+    },
   },
   img: {
     display: "flex",
@@ -25,6 +32,6 @@ export const useStyles = createStyles((theme) => ({
     alignItems: "center",
   },
   checkBoxInput: {
-    border: "1px solid rgb(0,0,0,0.2)",
+    border: "1px solid rgb(0,0,0,0.5)",
   },
 }));

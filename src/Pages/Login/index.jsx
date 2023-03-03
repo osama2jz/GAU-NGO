@@ -5,27 +5,28 @@ import {
   Divider,
   Grid,
   Group,
-  Text,
+  Text
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useMediaQuery } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import React from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import imgg from "../../assets/login.png";
 import Button from "../../Components/Button";
 import ContainerHeader from "../../Components/ContainerHeader";
 import InputField from "../../Components/InputField";
 import PassInput from "../../Components/PassInput";
 import { backendUrl } from "../../constants/constants";
+import logo from "../../logo.svg";
 import routeNames from "../../Routes/routeNames";
 import { useStyles } from "./styles";
-import imgg from "../../assets/login.png";
-import logo from "../../logo.svg";
 
 const Login = () => {
   const { classes } = useStyles();
-  const navigate = useNavigate();
+  const matches = useMediaQuery("(min-width: 600px)");
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -70,7 +71,7 @@ const Login = () => {
       maw={"100%"}
     >
       <Container
-        w={"50%"}
+        w={matches ? "50%" : "100%"}
         size="xl"
         p={"0px"}
         m="0px"
@@ -106,20 +107,20 @@ const Login = () => {
             size="lg"
           />
           <Grid align={"center"} justify="space-between" mt="2px">
-            <Grid.Col md="6">
+            <Grid.Col span={6}>
               <Checkbox
                 label="Remember me"
                 styles={{ input: classes.checkBoxInput }}
               />
             </Grid.Col>
-            <Grid.Col md="5">
-              <Anchor>Forgot Password?</Anchor>
+            <Grid.Col span={5}>
+              <Anchor color={"blue.0"}>Forgot Password?</Anchor>
             </Grid.Col>
           </Grid>
           <Divider
             label="OR"
             labelPosition="center"
-            color={"rgb(0,0,0,0.2)"}
+            color={"rgb(0,0,0,0.5)"}
             my="md"
           />
           <Button
@@ -136,7 +137,7 @@ const Login = () => {
           />
         </form>
       </Container>
-      <Container
+      {matches && <Container
         w={"50%"}
         bg={"rgb(225, 245, 250, 0.6)"}
         size="xl"
@@ -145,7 +146,7 @@ const Login = () => {
         className={classes.img}
       >
         <img src={imgg} width="60%" />
-      </Container>
+      </Container>}
     </Container>
   );
 };
