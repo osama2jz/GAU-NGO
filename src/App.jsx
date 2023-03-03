@@ -12,6 +12,8 @@ import Dashboard from "./Pages/Dashboard";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import UserPageDashboard from "./Pages/Dashboard/UserPage";
+import ProfessionDashboard from "./Pages/Dashboard/ProfessionsPage";
+import BranchDashboard from "./Pages/Dashboard/BranchPage";
 import Login from "./Pages/Login";
 import MySchedule from "./Pages/MySchedule/Schedule";
 import PrivateReport from "./Pages/Reports/Private";
@@ -106,6 +108,14 @@ function App() {
             <Route
               path={routeNames.socialWorker.reportPageDashboard}
               element={<ReportPageDashboard />}
+            />
+             <Route
+              path={routeNames.ngoAdmin.professionPageDashboard}
+              element={<ProfessionDashboard />}
+            />
+            <Route
+              path={routeNames.ngoAdmin.branchPageDashboard}
+              element={<BranchDashboard />}
             />
             <Route
               path={routeNames.socialWorker.mySchedule}

@@ -18,6 +18,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import moment from "moment";
 
 export const AddRoaster = () => {
   const { classes } = useStyles();
@@ -58,6 +59,8 @@ export const AddRoaster = () => {
   const handleAddRoaster = useMutation(
     (values) => {
       values.ngoId=user.ngoId;
+      values.timeStartSlot=moment(values.timeStartSlot).format("HH:mm");
+      values.timeEndSlot=moment(values.timeEndSlot).format("HH:mm");
       return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
