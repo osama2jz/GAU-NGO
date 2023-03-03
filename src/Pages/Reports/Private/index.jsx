@@ -26,6 +26,7 @@ import { useQuery } from "react-query";
 import moment from "moment";
 import axios from "axios";
 import DownloadPdf from "../downloadPdf";
+import Pagination from "../../../Components/Pagination";
 
 function PrivateReport() {
   const { classes } = useStyles();
@@ -36,6 +37,7 @@ function PrivateReport() {
   const [reportData, setReportData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [pdfData,setPdfData] = useState([])
 
   let headerData = [
     {
@@ -92,7 +94,7 @@ function PrivateReport() {
 
   //API call for fetching Private Reports
   const { data, status } = useQuery(
-    "fetchPrivateReports",
+   [ "fetchPrivateReportsPDF",activePage],
     () => {
       return axios.get(
         `${
@@ -111,7 +113,7 @@ function PrivateReport() {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -129,6 +131,52 @@ function PrivateReport() {
           return appointment;
         });
         setRowData(data);
+        setTotalPages(response?.data?.data?.totalPages);
+
+      },
+    }
+  );
+
+
+   //API call for fetching Private Reports
+   const { data1, status1 } = useQuery(
+    "fetchPrivateReports",
+    () => {
+      return axios.get(
+        `${
+          backendUrl +
+          `/api/case/listUserReports/private/${user.id}/0/0`
+        }`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.reportId,
+            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            caseNo: obj.caseNo,
+            name: obj.caseLinkedUser,
+            addedBy: obj.addedBy,
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
+            type: obj.reportType === "private" ? "Private" : "Public",
+            comments: obj.comments,
+            file: obj?.reportFile,
+            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+          };
+          return appointment;
+        });
+        setPdfData(data);
       },
     }
   );
@@ -154,7 +202,7 @@ function PrivateReport() {
             <DownloadPdf
               headCells={headerData}
               setdata={setRowData}
-              data={rowData}
+              data={pdfData}
               title="Download reports"
             />
           </Grid.Col>
@@ -165,6 +213,14 @@ function PrivateReport() {
           setViewModalState={setOpenViewModal}
           setReportData={setReportData}
         />
+        {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
+          />
+        )}
       </Container>
       <ViewModal
         opened={openViewModal}

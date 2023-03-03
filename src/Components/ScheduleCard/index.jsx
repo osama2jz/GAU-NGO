@@ -10,7 +10,7 @@ const Cards = ({ data ,setSlot}) => {
       withBorder
       radius="md"
       className={classes.card}
-      w={240}
+      w={270}
       h={140}
       shadow="xl"
       onClick={()=>setSlot && setSlot(data?.scheduleId)}

@@ -51,7 +51,7 @@ const Dashboard = () => {
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
-      icon: "userD",
+      icon: "branch",
       link: routeNames.ngoAdmin.branchPageDashboard,
     },
     {

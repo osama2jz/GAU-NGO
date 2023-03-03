@@ -10,6 +10,7 @@ import { showNotification } from "@mantine/notifications";
 function DownloadPdf({ headCells, data, title }) {
   const { classes } = useStyles();
 
+
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
@@ -23,8 +24,7 @@ function DownloadPdf({ headCells, data, title }) {
       new Date(person.date) <= new Date(today)
     );
   });
-  const filteredMonthly = data.filter(
-    (person) => person.date.substr(3, 3) === today.format("MMM")
+  const filteredMonthly = data.filter((person) => person.date.substr(3, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
@@ -47,7 +47,7 @@ function DownloadPdf({ headCells, data, title }) {
         : downloadPDF(filteredWeekly, "Weekly Reports");
     }
     if (name === "monthly") {
-      filteredDaily.length === 0
+      filteredMonthly.length === 0
         ? showNotification({
             title: "No Data",
             message: "No Reports for the Month",

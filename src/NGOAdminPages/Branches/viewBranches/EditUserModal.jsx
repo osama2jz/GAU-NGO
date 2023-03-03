@@ -1,6 +1,4 @@
-import {
-  Container, Group
-} from "@mantine/core";
+import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -12,6 +10,7 @@ import InputField from "../../../Components/InputField";
 import TextArea from "../../../Components/TextArea";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 
 function ViewUserModal({ id, setOpenEditModal, reportData }) {
@@ -21,7 +20,7 @@ function ViewUserModal({ id, setOpenEditModal, reportData }) {
   const navigate = useNavigate();
   const [userdata, setUserData] = useState();
 
-  console.log("reportData", reportData);
+  // console.log("reportData", reportData);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -55,6 +54,7 @@ function ViewUserModal({ id, setOpenEditModal, reportData }) {
   //API call for edit status
   const handleEdit = useMutation(
     (values) => {
+      console.log("form.values", form.values);
       return axios.post(`${backendUrl + "/api/ngo/editBranch"}`, values, {
         headers: {
           "x-access-token": user.token,
@@ -63,6 +63,7 @@ function ViewUserModal({ id, setOpenEditModal, reportData }) {
     },
     {
       onSuccess: (response) => {
+        setOpenEditModal(false);
         navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
           title: "Status Updated",
@@ -77,7 +78,7 @@ function ViewUserModal({ id, setOpenEditModal, reportData }) {
     <Container>
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values)=>handleEdit.mutate(values))}
+        onSubmit={form.onSubmit((values) => handleEdit.mutate(values))}
       >
         <InputField
           label="Branch Name"

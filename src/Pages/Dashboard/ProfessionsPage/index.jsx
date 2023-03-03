@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
@@ -14,6 +14,7 @@ import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "../../Users/AllUsers/EditUserModal";
 import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
 import Card from "../Card";
@@ -25,7 +26,7 @@ const ProfessionPage = (props) => {
   const navigate = useNavigate();
   const [activePage, setPage] = useState(1);
   const theme = useMantineTheme();
-
+  const queryClient = useQueryClient();
   const [totalPages, setTotalPages] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -38,11 +39,12 @@ const ProfessionPage = (props) => {
   const [rowData, setRowData] = useState([]);
   const [loading,setLoading]=useState(false)
   const [allUsers,setAllUsers]=useState()
+  const [reportData, setReportData] = useState([]);
 
   
   //API call for fetching all Professions 
   const { data, status } = useQuery(
-    ["fetchUser"],
+    ["fetchProfessionUser"],
     () => {
       return axios.get(
         `${
@@ -184,6 +186,47 @@ const ProfessionPage = (props) => {
     },
   ];
 
+   //API call for changing user status
+   const handleChangeStatus = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        if(response.data.status){
+          navigate(routeNames.ngoAdmin.professionPageDashboard);
+          showNotification({
+            title: "Status Updated",
+            message: deleteID ? "User deleted successfully!" : "Status updated successfully!",
+            color: "green.0",
+          });
+          queryClient.invalidateQueries("fetchProfessionUser");
+        }
+        else{
+          showNotification({
+            title: "Error",
+            message: deleteID ?"User not deleted!" : "Status not updated!",
+            color: "red.0",
+          });
+        }
+        
+      },
+    }
+  );
+
+  //API call for deleting user
+  const handleDeleted = () => {
+    handleChangeStatus.mutate({
+      userId: deleteID,
+      userStatus: "deleted",
+    });
+    setOpenDeleteModal(false);
+  };
+
   return (
     <Container className={classes.main} size="lg">
       <Flex justify="center" align="center" mb="md">
@@ -216,10 +259,12 @@ const ProfessionPage = (props) => {
         setViewModalState={setOpenViewModal}
         setEditModalState={setOpenEditModal}
         setDeleteModalState={setOpenDeleteModal}
-        // onStatusChange={handleChangeStatus.mutate}
+        onStatusChange={handleChangeStatus.mutate}
         setStatusChangeId={setStatusChangeId}
         setDeleteData={setDeleteID}
         setViewModalData={setViewModalData}
+        setReportData={setReportData}
+
       />
       {totalPages > 1 && (
         <Pagination
@@ -235,16 +280,16 @@ const ProfessionPage = (props) => {
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        // onDelete={handleDeleted}
+        onDelete={handleDeleted}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Details"
+        title="User Detail"
       >
-        <ViewUserModal id={viewModalData} />
+        <ViewUserModal id={viewModalData} reportData={reportData}/>
       </ViewModal>
       <EditModal
         opened={openEditModal}
