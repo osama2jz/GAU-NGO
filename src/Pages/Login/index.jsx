@@ -113,6 +113,7 @@ const Login = () => {
             leftIcon="google"
             size="lg"
             w={"100%"}
+            bg={true}
             styles={{
               backgroundColor: "white",
               color: "rgb(0,0,0,0.8)",
