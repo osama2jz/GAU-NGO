@@ -61,6 +61,8 @@ export const AddRoaster = () => {
       values.ngoId=user.ngoId;
       values.timeStartSlot=moment(values.timeStartSlot).format("HH:mm");
       values.timeEndSlot=moment(values.timeEndSlot).format("HH:mm");
+      values.dateStart=moment(values.dateStart).format("YYYY-MM-DD");
+      values.dateEnd=moment(values.dateEnd).format("YYYY-MM-DD");
       return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
