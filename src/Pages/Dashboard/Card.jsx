@@ -40,7 +40,7 @@ const Cards = ({ data, setUrl, url, setPage }) => {
             {data.title}
           </Text>
           <img
-            src={new URL(`../../assets/${data.icon}.svg`, import.meta.url).href}
+            src={new URL(`../../assets/${data.icon}.png`, import.meta.url).href}
             alt="icon"
             width={"30px"}
           />

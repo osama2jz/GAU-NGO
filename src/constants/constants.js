@@ -1,7 +1,6 @@
 export const backendUrl = "https://backend-gau.herokuapp.com";
 export const s3Config = {
-  bucketName: "gau0202",
-  region: "us-east-1",
-  accessKeyId: "AKIA5X6ODKSBGB7MQF5D",
-  secretAccessKey: "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",
+  region: 'us-east-1',
+  IdentityPoolId:'us-east-1:e263637a-572f-406f-884d-82e5ceadf641',
+  bucketName: 'testing-buck-22',
 };

@@ -25,11 +25,12 @@ export const UpdateProfile = () => {
   const [profileImage, setProfileImage] = useState(user?.profileImage);
   const [files, setFiles] = useState([]);
 
+  
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      firstName: user.name.split(" ")[0],
-      lastName: user.name.split(" ")[1],
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       phoneNumber: user.phoneNumber,
     },

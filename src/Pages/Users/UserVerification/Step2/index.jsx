@@ -1,8 +1,12 @@
 import {
   Card,
   Container,
-  Divider, FileInput, Group, Radio, SimpleGrid,
-  Text
+  Divider,
+  FileInput,
+  Group,
+  Radio,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -139,7 +143,7 @@ export const Step2 = ({
     },
     {
       id: "actions",
-    
+
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -179,7 +183,7 @@ export const Step2 = ({
 
     {
       id: "actions",
-     
+
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -238,38 +242,73 @@ export const Step2 = ({
   };
 
   const handleFileInput = (file) => {
-    setSelectedFile(file);
-    const ReactS3Client = new AWS.S3(s3Config);
-    ReactS3Client.send(file)
-      .then((data) => console.log(data.location))
-      .catch((err) => console.error(err));
+    //s3 configs
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = file.name;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        results.innerHTML = "ERROR: " + err;
+      } else {
+        bucket.listObjects(function (err, data) {
+          if (err) {
+            showNotification({
+              title: "Upload Failed",
+              message: "Something went Wrong",
+              color: "red.0",
+            });
+          } else {
+            let link="https://testing-buck-22.s3.amazonaws.com/" + objKey
+            form.setFieldValue("documentFile", link)
+          }
+        });
+      }
+    });
   };
 
   const submitAll = (values) => {
-    if(refrences.length===0){
+    if (refrences.length === 0) {
       showNotification({
         title: "Add Refrences",
         message: "Please add Professional references",
-        color:"red.0"
-      })
-    }else if(trainingStudies.length===0){
+        color: "red.0",
+      });
+    } else if (trainingStudies.length === 0) {
       showNotification({
         title: "Add Training Studies",
         message: "Please add Training Studies",
-        color:"red.0"
-      })
-    }else if(workExperience.length===0){
+        color: "red.0",
+      });
+    } else if (workExperience.length === 0) {
       showNotification({
         title: "Add Work Experience",
         message: "Please add Work Experience",
-        color:"red.0"
-      })
-
-    }else{
+        color: "red.0",
+      });
+    } else {
       setActive(active + 1);
       setAlldata(values);
     }
-    
   };
 
   return (
@@ -406,7 +445,7 @@ export const Step2 = ({
               },
             })}
             icon={<FileUpload size={20} />}
-            onChange={(e)=>handleFileInput(e)}
+            onChange={(e) => handleFileInput(e)}
           />
         </SimpleGrid>
 
