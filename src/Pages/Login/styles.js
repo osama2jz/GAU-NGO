@@ -2,13 +2,26 @@ import { createStyles } from "@mantine/core";
 
 export const useStyles = createStyles((theme) => ({
   container: {
-    width: "100vw",
     height: "100vh",
-    display:'flex',
+    display: "flex",
   },
   form: {
     margin: "auto",
-    width:'500px'
+    width: "50%",
     // backgroundColor:'red'
+  },
+  formC: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "5px",
+  },
+  img: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  checkBoxInput: {
+    border: "1px solid rgb(0,0,0,0.2)",
   },
 }));

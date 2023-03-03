@@ -36,11 +36,12 @@ const Button = ({
   primary = false,
   styles,
   onClick,
+  w,
   compact,
   type,
   iconWidth = "16px",
   disabled,
-  // white=false
+  size="sm"
 }) => {
   const { classes, cx } = useStyles({ bg, primary, disabled });
   return (
@@ -48,6 +49,8 @@ const Button = ({
       sx={styles}
       compact={compact}
       disabled={disabled}
+      w={w}
+      size={size}
       leftIcon={
         leftIcon ? (
           <img

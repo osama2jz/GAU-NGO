@@ -10,14 +10,15 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { UserContext } from "../../contexts/UserContext";
 import logo from "../../logo.svg";
 import routeNames from "../../Routes/routeNames";
 import { LinksGroup } from "./NavBarLinksGroup";
 import { bottom } from "./SocialWorkerData";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, { role }) => ({
   navbar: {
     backgroundColor: theme.colors.white,
     boxShadow: "5px 10px 10px rgb(0,0,0,0.1)",
@@ -38,7 +39,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
     // backgroundColor: theme.colors.container,
-    backgroundColor: theme.colors.white,
+    backgroundColor:
+      role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
     margin: "5px",
     borderRadius: "10px",
   },
@@ -50,8 +52,7 @@ const useStyles = createStyles((theme) => ({
     overflow: "scroll",
     "::-webkit-scrollbar": {
       display: "none",
-      scrollBehavior:'smooth',
-
+      scrollBehavior: "smooth",
     },
   },
   logo: {
@@ -68,7 +69,9 @@ const useStyles = createStyles((theme) => ({
     },
   },
   footer: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    backgroundColor:
+      role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
     borderTop: "1px solid rgb(0,0,0,0.05)",
     bottom: "10px",
     width: "100%",
@@ -77,7 +80,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function SideBar({ sideBarLinks, setOpened, opened }) {
-  const { classes } = useStyles();
+  const { user } = useContext(UserContext);
+  let role = user.role;
+  const { classes } = useStyles({ role });
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const [globalOpen, setGlobalOpen] = useState("");
