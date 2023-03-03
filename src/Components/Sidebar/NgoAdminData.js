@@ -111,7 +111,7 @@ export const ngoAdminSideBarData = [
     label: "Donations",
     icon: Report,
     links: [
-      { label: "Add Donations", link: routeNames.ngoAdmin.addDonation },
+      // { label: "Add Donations", link: routeNames.ngoAdmin.addDonation },
       { label: "View Donations", link: routeNames.ngoAdmin.viewDonations },
     ],
   },

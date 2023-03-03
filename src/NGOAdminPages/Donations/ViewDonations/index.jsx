@@ -1,13 +1,15 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
+import moment from "moment";
 import { useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Edit, Eye, Trash } from "tabler-icons-react";
+import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
+import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
@@ -18,9 +20,9 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import ViewRoasterModal from "./ViewRoasterModal";
+import ViewUserModal from "./ViewUserModal";
 
-export const ViewRoasters = () => {
+export const ViewDonations = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
@@ -39,6 +41,7 @@ export const ViewRoasters = () => {
   const { user } = useContext(UserContext);
 
   console.log("user", user);
+
   const [reportData, setReportData] = useState([]);
 
   let headerData = [
@@ -52,13 +55,25 @@ export const ViewRoasters = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: "User Name",
     },
     {
-      id: "userType",
+      id: "amount",
       numeric: false,
       disablePadding: true,
-      label: "User Type",
+      label: "Amount Donated",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Donation Date",
+    },
+    {
+      id: "description",
+      numeric: false,
+      disablePadding: true,
+      label: "Donation Description",
     },
     {
       id: "ngo",
@@ -67,27 +82,23 @@ export const ViewRoasters = () => {
       label: "NGO Name",
     },
     {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "User Status",
-    },
-    {
       id: "actions",
       view: <Eye color={theme.colors.blue} />,
-      // edit: <Edit color={theme.colors.green} />,
-      // delete: <Trash color={theme.colors.red} />,
       numeric: false,
       label: "Actions",
     },
   ];
 
-  //API call for fetching all schedule
+  //API call for fetching all donations
   const { data, status } = useQuery(
-    ["fetchSchedule", filter, search, activePage],
+    ["fetchDonations", filter, search, activePage],
     () => {
       return axios.get(
-        `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
+        `${
+          backendUrl +
+          `/api/donation/listDonation`
+          // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -97,26 +108,17 @@ export const ViewRoasters = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data?.data?.map((obj, ind) => {
-          let User = {
-            id: obj.userId,
+        let data = response.data.data.map((obj, ind) => {
+          let branch = {
+            id: obj._id,
             sr: ind + 1,
-            name: obj.fullName,
-            userType:
-              obj.role === "socialWorker"
-                ? "Social Worker"
-                : obj?.role === "psychologist"
-                ? "Psychologist"
-                : obj?.role === "lawyer"
-                ? "Lawyer"
-                : obj?.role === "ngoadmin"
-                ? "Admin"
-                : "",
-            status: obj.schedule ? "Schduled" : "Not Scheduled",
+            name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
+            amount: obj?.amount,
+            date: moment(obj?.createdAt).format("DD-MM-YYYY"),
             ngo:user?.name,
-
+            description: obj?.description,
           };
-          return User;
+          return branch;
         });
         setRowData(data);
         // setTotalPages(response.data.totalPages);
@@ -124,40 +126,10 @@ export const ViewRoasters = () => {
     }
   );
 
-  //API call for changing user status
-  const handleChangeStatus = useMutation(
-    (values) => {
-      return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
-    },
-    {
-      onSuccess: (response) => {
-        navigate(routeNames.socialWorker.allUsers);
-        showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
-          color: "green.0",
-        });
-        queryClient.invalidateQueries("fetchUser");
-      },
-    }
-  );
 
-  //API call for deleting user
-  const handleDeleted = () => {
-    handleChangeStatus.mutate({
-      userId: deleteID,
-      userStatus: "deleted",
-    });
-    setOpenDeleteModal(false);
-  };
-console.log("viewModaldta", viewModalData)
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Roasters"} />
+      <ContainerHeader label={"View Donations"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
@@ -177,20 +149,13 @@ console.log("viewModaldta", viewModalData)
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychlogist" },
-                { label: "Social Worker", value: "socialWorker" },
+                { label: "Active", value: "active" },
+                { label: "InActive", value: "inactive" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <Button
-              label={"Add Roaster"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.ngoAdmin.addRoaster)}
-            />
+         
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -203,31 +168,31 @@ console.log("viewModaldta", viewModalData)
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
             setStatusChangeId={setStatusChangeId}
-            onStatusChange={handleChangeStatus.mutate}
+            // onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
           />
         )}
-        {totalPages > 1 && (
+        {/* {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
             total={totalPages}
             radius="xl"
           />
-        )}
+        )} */}
       </Container>
-      <DeleteModal
-        opened={openDeleteModal}
-        setOpened={setOpenDeleteModal}
-        onCancel={() => setOpenDeleteModal(false)}
-        onDelete={handleDeleted}
-        label="Are you Sure?"
-        message="Do you really want to delete these records? This process cannot be undone."
-      />
-
-      <ViewRoasterModal id={viewModalData} reportData={reportData} opened={openViewModal} setOpened={setOpenViewModal}/>
+      
+      <ViewModal
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+        title="Donation Details"
+      >
+        {/* <ViewUser id={viewModalData}/> */}
+        <ViewUserModal id={viewModalData} reportData={reportData} />
+      </ViewModal>
+     
     </Container>
   );
 };
