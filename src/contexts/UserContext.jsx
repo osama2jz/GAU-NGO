@@ -23,6 +23,8 @@ export const UserProvider = ({ children }) => {
         ? "Lawyer"
         : userData?.userType === "ngoadmin"
         ? "Admin"
+        : userData?.userType === "user"
+        ? "User"
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
