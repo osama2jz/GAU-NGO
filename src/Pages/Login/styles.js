@@ -8,12 +8,15 @@ export const useStyles = createStyles((theme) => ({
   form: {
     margin: "auto",
     width: "50%",
+    // display:'flex',
+    // flexDirection:'column',
     // backgroundColor:'red'
   },
   formC: {
     display: "flex",
+    flexDirection:'column',
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
     gap: "5px",
   },
   img: {

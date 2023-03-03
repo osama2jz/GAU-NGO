@@ -5,6 +5,7 @@ import {
   Divider,
   Grid,
   Group,
+  Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -20,6 +21,7 @@ import { backendUrl } from "../../constants/constants";
 import routeNames from "../../Routes/routeNames";
 import { useStyles } from "./styles";
 import imgg from "../../assets/login.png";
+import logo from "../../logo.svg";
 
 const Login = () => {
   const { classes } = useStyles();
@@ -74,6 +76,12 @@ const Login = () => {
         m="0px"
         className={classes.formC}
       >
+        <Group pt={"xl"} pl="xl">
+          <img src={logo} width="50px" />
+          <Text fz="30px" fw="bolder">
+            GAU
+          </Text>
+        </Group>
         <form
           className={classes.form}
           onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}
@@ -90,7 +98,13 @@ const Login = () => {
             form={form}
             validateName="password"
           />
-          <Button label={"Login"} bg={true} type="submit" w={"100%"} size="lg"/>
+          <Button
+            label={"Login"}
+            bg={true}
+            type="submit"
+            w={"100%"}
+            size="lg"
+          />
           <Grid align={"center"} justify="space-between" mt="2px">
             <Grid.Col md="6">
               <Checkbox
