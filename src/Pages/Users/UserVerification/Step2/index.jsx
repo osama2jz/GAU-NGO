@@ -17,6 +17,7 @@ import Button from "../../../../Components/Button";
 import Datepicker from "../../../../Components/Datepicker";
 import DeleteModal from "../../../../Components/DeleteModal";
 import InputField from "../../../../Components/InputField";
+import Loader from "../../../../Components/Loader";
 import Table from "../../../../Components/Table";
 import TextArea from "../../../../Components/TextArea";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
@@ -53,6 +54,7 @@ export const Step2 = ({
   const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
+  const [fileLoader, setFileLoader] = useState(false);
 
   let headerData = [
     {
@@ -242,6 +244,7 @@ export const Step2 = ({
   };
 
   const handleFileInput = (file) => {
+    setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
@@ -278,11 +281,12 @@ export const Step2 = ({
               color: "red.0",
             });
           } else {
-            let link="https://testing-buck-22.s3.amazonaws.com/" + objKey
-            form.setFieldValue("documentFile", link)
+            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            form.setFieldValue("documentURL", link);
           }
         });
       }
+      setFileLoader(false);
     });
   };
 
@@ -430,6 +434,7 @@ export const Step2 = ({
             />
           </Radio.Group>
           {/* <Stack> */}
+
           <FileInput
             label="Upload Document"
             placeholder="Upload Document"
@@ -447,6 +452,7 @@ export const Step2 = ({
             icon={<FileUpload size={20} />}
             onChange={(e) => handleFileInput(e)}
           />
+          {fileLoader && <Loader minHeight="50px" />}
         </SimpleGrid>
 
         {/** Studies and training */}

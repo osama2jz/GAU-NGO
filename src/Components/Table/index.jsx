@@ -205,7 +205,7 @@ const Table = ({
                           row[head?.id] === "CLOSED" ||
                           row[head?.id] === "Not Scheduled"
                             ? "red.0"
-                            : "blue.0"
+                            : "green.0"
                         }
                         variant="outline"
                         w={"120px"}
@@ -257,7 +257,7 @@ const Table = ({
                               });
                         }}
                         defaultChecked={row[head?.id] === "active"}
-                        color={"blue.0"}
+                        color={"green.0"}
                         w="50%"
                         styles={{
                           track: { backgroundColor: theme.colors.gray },
@@ -268,7 +268,7 @@ const Table = ({
                     <td key={index} align="center">
                       <Button
                         label={
-                          row.status === "unverified" ? "Verify" : "Verified "
+                          "Verify"
                         }
                         onClick={() => {
                           if (row.accStatus === "active") {
@@ -282,7 +282,7 @@ const Table = ({
                           }
                         }}
                         disabled={row.status === "unverified" ? false : true}
-                        primary={true}
+                        primary={row.status !== "unverified" ? true:false}
                         compact={true}
                       />
                     </td>

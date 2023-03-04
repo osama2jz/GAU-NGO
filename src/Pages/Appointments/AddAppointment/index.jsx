@@ -24,16 +24,16 @@ import { AgeFormAbove } from "./AgeFormAbove";
 import { showNotification } from "@mantine/notifications";
 import { backendUrl } from "../../../constants/constants";
 import { useMutation } from "react-query";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const {id,appId}=useParams();
+  const { id, appId } = useParams();
   const { user } = useContext(UserContext);
-  
+
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
@@ -44,34 +44,38 @@ const AddAppointment = () => {
 
   const [reportFiles, setReportFiles] = useState({
     reportComments: "",
-    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportFile: "",
     reportType: "public",
     createdBy: user.id,
   });
   const [privatereportFiles, setPrivateReportFiles] = useState({
     reportComments: "",
-    reportFile: "https://gau0202.s3.amazonaws.com/1122.PNG",
+    reportFile: "",
     reportType: "private",
     createdBy: user.id,
   });
 
-   const [otherDocument, setOtherDocument] = useState([{
-    documentName: "",
-    documentURL: "",
-    createdBy: user.id
-  }]);
+  const [otherDocument, setOtherDocument] = useState([
+    {
+      documentName: "",
+      documentURL: "",
+      createdBy: user.id,
+    },
+  ]);
+
+
 
   //create case
   const handleCreateCase = useMutation(
     () => {
       let object = {};
-      
-        object = {
-          previousCaseLinked: false,
-          appointmentId: appId,
-          caseLinkedUser: id,
-        };
-      
+
+      object = {
+        previousCaseLinked: false,
+        appointmentId: appId,
+        caseLinkedUser: id,
+      };
+
       return axios.post(`${backendUrl + "/api/case/create"}`, object, {
         headers: {
           "x-access-token": user.token,
@@ -80,7 +84,7 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        console.log("response", response);
+        // console.log("response", response);
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
       },
@@ -107,6 +111,8 @@ const AddAppointment = () => {
           message: "Reports submitted Successfully",
           title: "Success",
         });
+        handleUploadDocuments.mutate();
+
       },
     }
   );
@@ -126,11 +132,11 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        showNotification({
-          color: "green.0",
-          message: "Documents uploaded Successfully",
-          title: "Success",
-        });
+        // showNotification({
+        //   color: "green.0",
+        //   message: "Documents uploaded Successfully",
+        //   title: "Success",
+        // });
       },
     }
   );
@@ -145,7 +151,7 @@ const AddAppointment = () => {
       //   });
       //   return;
       // } else {
-        handleCreateCase.mutate();
+      handleCreateCase.mutate();
       // }
     }
     if (active == 2) {
@@ -162,7 +168,6 @@ const AddAppointment = () => {
         // alert("comment is required")
       } else {
         handleCreateReport.mutate();
-        handleUploadDocuments.mutate();
         setActive(active + 1);
       }
     }
@@ -223,13 +228,12 @@ const AddAppointment = () => {
               }
               label="Form"
             >
-              {
-                age >=18 ?
+              {age >= 18 ? (
                 // "h":
-                <AgeFormAbove setActive={setActive} active={active} />:
+                <AgeFormAbove setActive={setActive} active={active} />
+              ) : (
                 <AgeForm setActive={setActive} active={active} />
-              }
-
+              )}
             </Stepper.Step>
           )}
           <Stepper.Step
@@ -270,7 +274,6 @@ const AddAppointment = () => {
               setPrivateReportFiles={setPrivateReportFiles}
               otherDocument={otherDocument}
               setOtherDocument={setOtherDocument}
-
             />
           </Stepper.Step>
           <Stepper.Step
@@ -305,17 +308,18 @@ const AddAppointment = () => {
             {active > 0 && active < 3 && (
               <Button onClick={() => setActive(active - 1)} label="Back" />
             )}
-            { active === 3 && (
-              <Button onClick={() => navigate(routeNames.socialWorker.allAppointments)} label="Skip and Finish" />
+            {active === 3 && (
+              <Button
+                onClick={() =>
+                  navigate(routeNames.socialWorker.allAppointments)
+                }
+                label="Skip and Finish"
+              />
             )}
             <Button
               onClick={handleNextSubmit}
               label={
-                active === 3
-                  ? "Refer"
-                  : active === 4
-                  ? "Finish"
-                  : "Save & Next"
+                active === 3 ? "Refer" : active === 4 ? "Finish" : "Save & Next"
               }
               bg={true}
             />
