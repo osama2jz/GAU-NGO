@@ -86,6 +86,7 @@ export const UserVerification = () => {
             city: alldata.city,
             demand: alldata.demand,
             documentType: alldata.documentType,
+            documentURL: alldata.documentURL,
           },
           economicSituation: {
             revenue: alldata.revenue,

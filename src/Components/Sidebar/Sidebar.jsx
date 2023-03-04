@@ -38,9 +38,9 @@ const useStyles = createStyles((theme, { role }) => ({
   links: {
     marginLeft: -theme.spacing.md,
     marginRight: -theme.spacing.md,
-    // backgroundColor: theme.colors.container,
-    backgroundColor:
-      role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
+    backgroundColor: theme.colors.white,
+    // backgroundColor:
+    //   role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
     margin: "5px",
     borderRadius: "10px",
   },
@@ -69,9 +69,9 @@ const useStyles = createStyles((theme, { role }) => ({
     },
   },
   footer: {
-    // backgroundColor: "white",
-    backgroundColor:
-      role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
+    backgroundColor: "white",
+    // backgroundColor:
+    //   role === "Social Worker" ? "pink" : role === "Admin" ? "white" : "teal",
     borderTop: "1px solid rgb(0,0,0,0.05)",
     bottom: "10px",
     width: "100%",

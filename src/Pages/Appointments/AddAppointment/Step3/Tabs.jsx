@@ -7,11 +7,14 @@ import {
   Grid,
   Text,
   useMantineTheme,
+  FileInput,
 } from "@mantine/core";
 import TextArea from "../../../../Components/TextArea";
 import { Dropzone } from "@mantine/dropzone";
 import Button from "../../../../Components/Button/index";
 import { UserInfo } from "../userInformation";
+import { s3Config } from "../../../../constants/constants";
+import { FileUpload } from "tabler-icons-react";
 const DoubleTabs = ({
   selectedUser,
   setReportFiles,
@@ -25,6 +28,61 @@ const DoubleTabs = ({
   const [comments, setcomments] = useState("");
   const { classes } = useStyles();
 
+  const handleFileInput = (file, type) => {
+    console.log("file",file);
+    // setFileLoader(true);
+    //s3 configs
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = file.name;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        results.innerHTML = "ERROR: " + err;
+      } else {
+        bucket.listObjects(function (err, data) {
+          if (err) {
+            showNotification({
+              title: "Upload Failed",
+              message: "Something went Wrong",
+              color: "red.0",
+            });
+          } else {
+            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            console.log("link", link);
+            type==="public"?             
+            setReportFiles({
+              ...reportFiles,
+              reportFile: link,
+            }): setPrivateReportFiles({
+              ...privatereportFiles,
+              reportFile: link,
+            })
+          }
+        });
+      }
+      // setFileLoader(false);
+    });
+  };
   return (
     <>
       <Tabs
@@ -73,7 +131,7 @@ const DoubleTabs = ({
                     </li>
                   ))}
               </ul>
-              <Dropzone
+              {/* <Dropzone
                 // accept={MIME_TYPES.pdf}
                 onDrop={(v) => {
                   setFiles(v);
@@ -81,6 +139,7 @@ const DoubleTabs = ({
                     ...document,
                     document: v,
                   }));
+                  handleFileInput(v)
                 }}
               >
                 <Button
@@ -88,7 +147,24 @@ const DoubleTabs = ({
                   label={"Upload Document"}
                   primary={true}
                 />
-              </Dropzone>
+              </Dropzone> */}
+               <FileInput
+            label="Upload Document"
+            placeholder="Upload Document"
+            accept="file/pdf"
+            styles={(theme) => ({
+              root: {
+                margin: "auto",
+              },
+              input: {
+                border: "1px solid rgb(0, 0, 0, 0.1)",
+                borderRadius: "5px",
+                // width: "250px",
+              },
+            })}
+            icon={<FileUpload size={20} />}
+            onChange={(e) => handleFileInput(e, "public")}
+          />
             </Grid.Col>
           </Grid>
         </Tabs.Panel>
@@ -125,7 +201,7 @@ const DoubleTabs = ({
                   ))}
               </ul>
 
-              <Dropzone
+              {/* <Dropzone
                 // accept={MIME_TYPES.pdf}
                 onDrop={(v) => {
                   setFiles2(v);
@@ -140,7 +216,24 @@ const DoubleTabs = ({
                   leftIcon="upload2"
                   primary={true}
                 />
-              </Dropzone>
+              </Dropzone> */}
+               <FileInput
+            label="Upload Document"
+            placeholder="Upload Document"
+            accept="file/pdf"
+            styles={(theme) => ({
+              root: {
+                margin: "auto",
+              },
+              input: {
+                border: "1px solid rgb(0, 0, 0, 0.1)",
+                borderRadius: "5px",
+                // width: "250px",
+              },
+            })}
+            icon={<FileUpload size={20} />}
+            onChange={(e) => handleFileInput(e, "private")}
+          />
             </Grid.Col>
           </Grid>
         </Tabs.Panel>
