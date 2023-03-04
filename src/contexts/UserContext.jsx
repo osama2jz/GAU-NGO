@@ -10,6 +10,8 @@ export const UserProvider = ({ children }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
   const [user, setUser] = useState({
     name: userData?.name,
+    firstName: "",
+    lastName:"",
     id: userData?.userId,
     email: userData?.email,
     ngoId: userData?.ngoId,
@@ -49,6 +51,8 @@ export const UserProvider = ({ children }) => {
         setUser((u) => ({
           ...u,
           ngoId: user?.ngoId,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
           profileImage: user?.profileImage,

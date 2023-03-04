@@ -20,7 +20,7 @@ const Dashboard = () => {
       title: "TOTAL USERS",
       value: null,
       progress: 78,
-      color: "#748FFC",
+      color: "red.0",
       progressTitle: "Response Rate",
       icon: "userD",
       link: routeNames.socialWorker.userPageDashboard,
@@ -29,7 +29,7 @@ const Dashboard = () => {
       title: "TOTAL APPOINTMENTS",
       value: null,
       progress: 78,
-      color: "#A9E34B",
+      color: "green.0",
       progressTitle: "Response Rate",
       icon: "apD",
       link: routeNames.socialWorker.appointmentPageDashboard,
@@ -38,7 +38,7 @@ const Dashboard = () => {
       title: "TOTAL REPORTS",
       value: null,
       progress: 78,
-      color: "#087F5B",
+      color: "blue.0",
       progressTitle: "Response Rate",
       icon: "reD",
       link: routeNames.socialWorker.reportPageDashboard,
@@ -49,7 +49,7 @@ const Dashboard = () => {
       title: "TOTAL BRANCHES",
       value: null,
       progress: 78,
-      color: "#748FFC",
+      color: "red.0",
       progressTitle: "Response Rate",
       icon: "branch",
       link: routeNames.ngoAdmin.branchPageDashboard,
@@ -58,18 +58,18 @@ const Dashboard = () => {
       title: "TOTAL PROFESSIONALS",
       value: null,
       progress: 78,
-      color: "#A9E34B",
+      color: "green.0",
       progressTitle: "Response Rate",
-      icon: "apD",
+      icon: "proD",
       link: routeNames.ngoAdmin.professionPageDashboard,
     },
     {
       title: "TOTAL CASES",
       value: null,
       progress: 78,
-      color: "#087F5B",
+      color: "blue.0",
       progressTitle: "Response Rate",
-      icon: "reD",
+      icon: "caseD",
       link: routeNames.socialWorker.reportPageDashboard,
     },
   ]);
@@ -115,16 +115,8 @@ const Dashboard = () => {
           </Grid.Col>
         ))}
       </Grid>
-      {/* <br/>
-      <Grid align={"center"} justify="center" >
-        {cardData.map((item, index) => (
-          <Grid.Col md={"auto"}>
-            <Card data={item} />
-          </Grid.Col>
-        ))}
-      </Grid> */}
 
-      <Text fz={28} fw="bolder" mt="sm" mb="sm">
+      <Text fz={24} fw="bolder" mt="sm" mb="sm">
         Monthly Appointments{" "}
       </Text>
       <Chart data={chartData} />

@@ -43,6 +43,9 @@ root.render(
             ".mantine-Checkbox-input:checked": {
                 backgroundColor: "green",
             },
+            ".mantine-Modal-title":{
+              margin:'auto',
+            },
             ".mantine-Select-item": {
               "&[data-hovered]": {
                 backgroundColor: theme.colors.blueHover,

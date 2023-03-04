@@ -104,22 +104,20 @@ export const AllUser = () => {
     }
     return arr;
   }, [user]);
-  
+
   //API call for fetching all users
   const { data, status } = useQuery(
     ["fetchUser", filter, search, activePage],
     () => {
-      return axios.get(
-        `${
-          backendUrl +
-          `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`
-        }`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      let link =
+        search.length > 0 || filter !== "all"
+          ? `/api/ngo/listNGOUsers/user/0/0/${filter}/${search}`
+          : `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`;
+      return axios.get(`${backendUrl + link}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
