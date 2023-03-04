@@ -43,7 +43,7 @@ export const AddRoaster = () => {
       branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
       scheduleType: (value) =>
         value?.length < 1 ? "Please Select Schedule Type" : null,
-        users: (value) =>
+      users: (value) =>
         value?.length < 1 ? "Please Select at least one user." : null,
       dateStart: (value) =>
         value?.length < 1 ? "Please Select start date." : null,
@@ -51,18 +51,20 @@ export const AddRoaster = () => {
         value?.length < 1 ? "Please Select end date." : null,
       timeStartSlot: (value) =>
         value?.length < 1 ? "Please Select start time." : null,
-      timeEndSlot: (value) =>
-        value?.length < 1 ? "Please Select end time." : null,
+      timeEndSlot: (value, values) =>
+        moment(value).diff(moment(values?.timeStartSlot), "minutes") < 1
+          ? "End Time cannot be before Start time"
+          : null,
     },
   });
 
   const handleAddRoaster = useMutation(
     (values) => {
-      values.ngoId=user.ngoId;
-      values.timeStartSlot=moment(values.timeStartSlot).format("HH:mm");
-      values.timeEndSlot=moment(values.timeEndSlot).format("HH:mm");
-      values.dateStart=moment(values.dateStart).format("YYYY-MM-DD");
-      values.dateEnd=moment(values.dateEnd).format("YYYY-MM-DD");
+      values.ngoId = user.ngoId;
+      values.timeStartSlot = moment(values.timeStartSlot).format("HH:mm");
+      values.timeEndSlot = moment(values.timeEndSlot).format("HH:mm");
+      values.dateStart = moment(values.dateStart).format("YYYY-MM-DD");
+      values.dateEnd = moment(values.dateEnd).format("YYYY-MM-DD");
       return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
@@ -220,6 +222,7 @@ export const AddRoaster = () => {
         <MultiSelect
           label="Select Users"
           form={form}
+          required={true}
           placeholder="Select Users"
           validateName="users"
           data={professionals}
