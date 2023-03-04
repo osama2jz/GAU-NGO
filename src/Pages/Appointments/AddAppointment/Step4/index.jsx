@@ -30,6 +30,7 @@ const Step4 = ({caseId,slot,setSlot}) => {
     },
     {
       onSuccess: (response) => {
+        console.log(response);
         let data = response?.data?.data?.map((obj, ind) => {
           let card = {
             userId:obj?.userId,
@@ -41,6 +42,7 @@ const Step4 = ({caseId,slot,setSlot}) => {
             })),
             schedule: obj?.schedule
           };
+          console.log(card);
           return card;
         });
           setCardData(data)
@@ -72,7 +74,7 @@ const Step4 = ({caseId,slot,setSlot}) => {
         </Grid>
         <Grid>
           {cardData?.map((e,index) => (
-            e.schedule?.length > 0 && <Grid.Col md={6} lg={4} xl={3}>
+            e.schedule && <Grid.Col md={6} lg={4} xl={3}>
               <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId} slot={slot} setSlot={setSlot} 
               referedTo={referedTo} setReferedTo={setReferedTo}/>
             </Grid.Col>
