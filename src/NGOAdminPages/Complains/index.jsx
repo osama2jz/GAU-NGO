@@ -1,23 +1,21 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { Eye } from "tabler-icons-react";
+import Button from "../../Components/Button";
 
 import ContainerHeader from "../../Components/ContainerHeader";
-import DeleteModal from "../../Components/DeleteModal";
-import EditModal from "../../Components/EditModal/editModal";
 import InputField from "../../Components/InputField";
 import Loader from "../../Components/Loader";
-import Pagination from "../../Components/Pagination";
 import SelectMenu from "../../Components/SelectMenu";
 import Table from "../../Components/Table";
 import ViewModal from "../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
+import routeNames from "../../Routes/routeNames";
 // import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
@@ -95,8 +93,7 @@ export const ViewComplains = () => {
     () => {
       return axios.get(
         `${
-          backendUrl +
-          `/api/complaints/listComplaints`
+          backendUrl + `/api/complaints/listComplaints`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -115,7 +112,7 @@ export const ViewComplains = () => {
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.subject,
             date: moment(obj?.createdAt).format("DD-MM-YYYY"),
-            ngo:obj?.ngoId?.ngoName,
+            ngo: obj?.ngoId?.ngoName,
             description: obj?.description,
           };
           return branch;
@@ -125,7 +122,6 @@ export const ViewComplains = () => {
       },
     }
   );
-
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -155,7 +151,13 @@ export const ViewComplains = () => {
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-         
+            <Button
+              label={"Add Complain"}
+              bg={true}
+              leftIcon={"plus"}
+              styles={{ float: "right" }}
+              onClick={() => navigate(routeNames.user.addComplaint)}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -183,7 +185,7 @@ export const ViewComplains = () => {
           />
         )} */}
       </Container>
-      
+
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
@@ -192,7 +194,6 @@ export const ViewComplains = () => {
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-     
     </Container>
   );
 };

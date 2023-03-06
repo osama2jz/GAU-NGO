@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Container, Flex, Grid, Group, SimpleGrid, Text } from "@mantine/core";
+import { ColorSwatch, Container, Flex, Grid, Group, SimpleGrid, Text } from "@mantine/core";
 import { useStyles } from "./styles";
 import ScheduleCard from "../../../Components/ScheduleCard";
 import CalendarDate from "../../../Components/Calendar";
@@ -67,15 +67,20 @@ const MySchedule = () => {
           return user;
         });
         setScheduleData(data);
-        setScheduleDates(response.data.dates);
       },
     }
   );
   return (
-    <Container size={"xl"} className={classes.main}  p={"0px"}>
+    <Container size={"xl"} className={classes.main} p={"0px"}>
       <ContainerHeader label={"My Schedule"} />
       <Text align="center">Select date from the calender to view Schedule</Text>
       <Container className={classes.innerContainer} size="xl" p={"0px"}>
+        <Group position="center" pt="10px">
+          <ColorSwatch color="green " />
+          <Text>Duty Assigned.</Text>
+          <ColorSwatch color="white" />
+          <Text>No Duty.</Text>
+        </Group>
         <Container className={classes.cal} mb="lg" mt="md">
           <CalendarDate
             setDate={setDate}
