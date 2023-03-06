@@ -17,7 +17,7 @@ const Step2 = ({
   slot,
 }) => {
   const { user } = useContext(UserContext);
-  const [cardData, setCardData] = useState();
+  const [cardData, setCardData] = useState([]);
   const [typeFilter, setTypeFilter] = useState("all");
   const [search, setSearch] = useState("");
 
