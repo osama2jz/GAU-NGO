@@ -83,7 +83,8 @@ const Dashboard = () => {
   const { data: statsData, status } = useQuery(
     "stats",
     () => {
-      return axios.get(`${backendUrl + `/api/ngo/statistics`}`, {
+      let link=user.role=="Admin"?"/api/ngo/admin-ngo-statistics":"/api/ngo/statistics"
+      return axios.get(`${backendUrl + link}`, {
         headers: {
           "x-access-token": user.token,
         },
@@ -91,14 +92,41 @@ const Dashboard = () => {
     },
     {
       onSuccess: (response) => {
-        let users = cardData[0];
-        let app = cardData[1];
-        let reports = cardData[2];
-        users.value = response.data.data.allNgoUsers;
-        app.value = response.data.data.allAppointments;
-        reports.value = response.data.data.allReports;
-        setCardData([users, app, reports]);
-        setChartData(response.data.data.graphData);
+        if(response.status){
+          if(user.role=="Admin"){
+            let branches = cardData1[0];
+            let professionals = cardData1[1];
+            let cases = cardData1[2];
+            branches.value = response.data.data.totalBranches;
+            professionals.value = response.data.data.totalProfessionals;
+            cases.value = response.data.data.totalCases;
+            setCardData1([branches, professionals, cases]);
+
+            let users = cardData[0];
+            let app = cardData[1];
+            let reports = cardData[2];
+            users.value = response.data.data.totalUsers;
+            app.value = response.data.data.totalAppointments;
+            reports.value = response.data.data.totalReports;
+            setCardData([users, app, reports]);
+            // setChartData(response.data.data.graphData);
+          }
+          else{
+            let users = cardData[0];
+            let app = cardData[1];
+            let reports = cardData[2];
+            users.value = response.data.data.allNgoUsers;
+            app.value = response.data.data.allAppointments;
+            reports.value = response.data.data.allReports;
+            setCardData([users, app, reports]);
+            setChartData(response.data.data.graphData);
+          }
+        }
+        else{
+          console.log(response.data.message);
+        }
+       
+        // console.log(response.data);
       },
     }
   );

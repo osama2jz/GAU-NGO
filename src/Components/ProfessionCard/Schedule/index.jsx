@@ -66,10 +66,12 @@ const MySchedule = ({ Userid, setSlot }) => {
             startTime: obj?.timeStart,
             endTime: obj?.timeEnd,
             scheduleId: obj?.scheduleId,
+            booked: obj?.booked,
           };
           return user;
         });
         setScheduleData(data);
+        console.log(scheduleData);
       },
     }
   );
@@ -89,22 +91,31 @@ const MySchedule = ({ Userid, setSlot }) => {
       {getSchedule.status === "loading" ? (
         <Loader minHeight="100px" />
       ) : scheduleData.length > 0 ? (
-        <Container mt="md">
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 2 },
-              { minWidth: "lg", cols: 3 },
-              { minWidth: "xs", cols: 1 },
-            ]}
-            spacing="xl"
-          >
-            {scheduleData.map((item, index) => (
-              <Flex justify={"center"}>
-                <ScheduleCard data={item} setSlot={setSlot} />
-              </Flex>
-            ))}
-          </SimpleGrid>
-        </Container>
+        scheduleData.filter((item) => !item.booked).length > 0 ? (
+          <Container mt="md">
+            <SimpleGrid
+              breakpoints={[
+                { minWidth: "md", cols: 2 },
+                { minWidth: "lg", cols: 3 },
+                { minWidth: "xs", cols: 1 },
+              ]}
+              spacing="xl"
+            >
+              {scheduleData.map(
+                (item, index) =>
+                  !item.booked && (
+                    <Flex justify={"center"}>
+                      <ScheduleCard data={item} setSlot={setSlot} />
+                    </Flex>
+                  )
+              )}
+            </SimpleGrid>
+          </Container>
+        ) : (
+          <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
+            All slots booked
+          </Text>
+        )
       ) : (
         <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
           No Duties Assigned

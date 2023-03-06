@@ -37,6 +37,7 @@ import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
 import AddApp2 from "./Pages/Appointments/AddApp2";
 import { ViewDocuments } from "./NGOAdminPages/Documents/ViewDocuments";
 import {ViewDonations} from "./NGOAdminPages/Donations/ViewDonations";
+import { ViewComplains } from "./NGOAdminPages/Complains";
 
 function App() {
 
@@ -185,6 +186,10 @@ function App() {
               path={routeNames.ngoAdmin.viewDonations}
               element={<ViewDonations />}
             />
+            <Route 
+              path={routeNames.ngoAdmin.complaints}
+              element={<ViewComplains />} 
+              />
           </Route>
           <Route
             path="*"
