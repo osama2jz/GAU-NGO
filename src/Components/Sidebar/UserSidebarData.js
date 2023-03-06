@@ -37,8 +37,8 @@ export const UserSidebarData = [
     label: "Complaints",
     icon: CalendarTime,
     links: [
-      { label: "Make Complaint", link: routeNames.user.addComplaint },
-      { label: "View Complaint", link: routeNames.user.viewComplaint },
+      { label: "Add Complaint", link: routeNames.user.addComplaint },
+      { label: "View Complaint", link: routeNames.ngoAdmin.complaints },
     ],
   },
 ];

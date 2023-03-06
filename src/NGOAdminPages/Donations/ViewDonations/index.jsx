@@ -115,7 +115,7 @@ export const ViewDonations = () => {
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.amount,
             date: moment(obj?.createdAt).format("DD-MM-YYYY"),
-            ngo:user?.name,
+            ngo:obj?.ngoId?.ngoName,
             description: obj?.description,
           };
           return branch;
