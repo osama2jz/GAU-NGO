@@ -25,7 +25,7 @@ const Step3 = ({
   setPrivateReportFiles,
   privatereportFiles,
   otherDocument,
-  setOtherDocument
+  setOtherDocument,
 }) => {
   const { user } = useContext(UserContext);
   // console.log("User", user)
@@ -36,20 +36,18 @@ const Step3 = ({
   //   createdBy: user.id
   // }]);
 
-  console.log("otherDocument", otherDocument)
-
   function addInputField(id) {
     setNumInputs([...numInputs, id]);
 
-    const obj={
+    const obj = {
       documentName: "",
       documentURL: "",
-      createdBy: user.id
-    }
-    setOtherDocument([...otherDocument,obj])
+      createdBy: user.id,
+    };
+    setOtherDocument([...otherDocument, obj]);
   }
 
-  const handleFileInput = (file,index) => {
+  const handleFileInput = (file, index) => {
     // setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
@@ -88,8 +86,8 @@ const Step3 = ({
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            otherDocument[index].documentURL=link
-            setOtherDocument([...otherDocument])
+            otherDocument[index].documentURL = link;
+            setOtherDocument([...otherDocument]);
           }
         });
       }
@@ -120,37 +118,28 @@ const Step3 = ({
         reportFiles={reportFiles}
         setPrivateReportFiles={setPrivateReportFiles}
       />
-                <Divider color="#C8C8C8" mt="md" mb="md" />
+      <Divider color="#C8C8C8" mt="md" mb="md" />
 
-      <Text>Upload other Documents</Text>
+      <Text align="center" fw={"bolder"}>Other Documents</Text>
 
       {numInputs?.map((i, index) => (
-        <SimpleGrid breakpoints={[
-          { minWidth: "md", cols: 2 },
-          { minWidth: "sm", cols: 1 },
-        ]}>
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "md", cols: 2 },
+            { minWidth: "sm", cols: 1 },
+          ]}
+        >
           <InputField
             label={"Document Name"}
             placeholder="enter document name"
-            onChange={(e)=>{
+            onChange={(e) => {
               // update value at current index in other document array
-              otherDocument[index].documentName=e.target.value
+              otherDocument[index].documentName = e.target.value;
               // update array (pass by value) for re-render
-              setOtherDocument([...otherDocument])
+              setOtherDocument([...otherDocument]);
             }}
-           
           />
-          {/* <Dropzone
-          // accept={MIME_TYPES.pdf}
-          onDrop={(v) => {
-            
-            otherDocument[index].documentURL=""
-            setOtherDocument([...otherDocument])
-          }}
-          >
-            <Button label={"Upload "} leftIcon="upload2" bg={true} />
-          </Dropzone> */}
-          
+
           <FileInput
             label="Upload Document"
             placeholder="Upload Document"
@@ -166,7 +155,7 @@ const Step3 = ({
               },
             })}
             icon={<FileUpload size={20} />}
-            onChange={(e) => handleFileInput(e,index)}
+            onChange={(e) => handleFileInput(e, index)}
           />
         </SimpleGrid>
       ))}

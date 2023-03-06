@@ -29,7 +29,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const [faceID, setFaceId] = useState({});
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
-  const {id,appId}=useParams();
+  const { id, appId } = useParams();
   // setUser(id);
   // console.log("id",id)
 
@@ -40,7 +40,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       setUser(id);
     }
   }, [id]);
-  
+
   useEffect(() => {
     faceio = new faceIO("fioa89bd");
   }, [faceio]);
@@ -72,7 +72,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
 
   //selected user
   const { data: selectedUser, status: userFetching } = useQuery(
-   [ "userFetched", user],
+    ["userFetched", user],
     () => {
       return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
         headers: {
@@ -80,8 +80,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
         },
       });
     },
-   
-   
+
     {
       onSuccess: (response) => {
         // setCases([]),
@@ -102,7 +101,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       });
     },
     {
-
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let casee = {
@@ -116,8 +114,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       enabled: !!user,
     }
   );
-
-  
 
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
@@ -153,38 +149,31 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   }
 
   return (
-    <Flex gap={"md"} direction="column" px={"md"}>
+    <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
-        Select User
+        Verify User
       </Text>
-     
-     
-          <Button
-            label={"Verify Face ID"}
-            bg={true}
-            leftIcon="faceid"
-            iconWidth="30px"
-            styles={{ width: "50%", fontSize: "24px", height: "46px" ,margin:"auto"}}
-            onClick={handleVerifyID}
-          />
-      
+
+      <Button
+        label={"Verify Face ID"}
+        bg={true}
+        leftIcon="faceid"
+        iconWidth="30px"
+        styles={{
+          width: "220px",
+          fontSize: "24px",
+          height: "46px",
+          margin: "auto",
+        }}
+        onClick={handleVerifyID}
+      />
+
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (
-        <Grid mt={30}>
-          <Grid.Col md={5}>
-            <img
-              className={classes.image}
-              src={userImage}
-              alt="img"
-            />
-          </Grid.Col>
-          <Grid.Col md={6} xs={5}>
-            <SimpleGrid cols={2}>
-              <UserInfo userData={selectedUser} loading={userFetching} />
-            </SimpleGrid>
-          </Grid.Col>
-        </Grid>
+        <Container size={"lg"} p="0px">
+          <UserInfo userData={selectedUser} loading={userFetching} />
+        </Container>
       ) : (
         ""
       )}

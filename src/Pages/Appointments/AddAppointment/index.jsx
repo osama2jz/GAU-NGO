@@ -183,7 +183,7 @@ const AddAppointment = () => {
   };
 
   return (
-    <Container className={classes.addAppointment} size="xl">
+    <Container className={classes.addAppointment} size="xl" p={"0px"}>
       <ContainerHeader label={" Start an Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper

@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
@@ -22,6 +23,7 @@ import { UserInfo } from "../userInformation";
 
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
+  const matches = useMediaQuery("(min-width: 640px)");
   const queryClient = useQueryClient();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState("");
@@ -45,8 +47,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          if(obj.userStatus==="active"){
-
+          if (obj.userStatus === "active") {
             let user = {
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
@@ -55,11 +56,17 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
             return user;
           }
         });
-        let newData=data.filter((item)=>item!==undefined)
+        let newData = data.filter((item) => item !== undefined);
         setUserData(newData);
       },
     }
   );
+
+  useEffect(() => {
+    if (usertoken.role === "User") {
+      setUser(usertoken.id);
+    }
+  }, [usertoken]);
 
   //selected user
   const { data: selectedUser, status: userFetching } = useQuery(
@@ -126,7 +133,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   }
 
   return (
-    <Container>
+    <Container p={"0px"} size="xl">
       <Text fz={20} fw="bolder" align="center">
         Select User
       </Text>
@@ -141,21 +148,25 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
         ]}
       >
         <SimpleGrid align={"flex-end"}>
-          <SelectMenu
-            searchable={true}
-            itemComponent={SelectItem}
-            placeholder="Enter User name or Id"
-            clearable={true}
-            setData={setUser}
-            // value={selectedUser?.data?.data?._id}
-            value={user}
-            label="Search User"
-            data={userData}
-          />
+          {usertoken.role !== "User" && (
+            <SelectMenu
+              searchable={true}
+              itemComponent={SelectItem}
+              placeholder="Enter User name or Id"
+              clearable={true}
+              setData={setUser}
+              // value={selectedUser?.data?.data?._id}
+              value={user}
+              label="Search User"
+              data={userData}
+            />
+          )}
           {casesfetching !== "loading" && (
             <SelectMenu
               searchable={true}
-              placeholder={cases.length<1?"No cases found":"Enter case name or id"}
+              placeholder={
+                cases.length < 1 ? "No cases found" : "Enter case name or id"
+              }
               label="Search User Case"
               creatable={true}
               setData={setSelectedCase}
@@ -181,19 +192,10 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
             }}
           />
         </SimpleGrid>
-        {selectedUser === "loading" ? (
+        {userFetching === "loading" ? (
           <Loader />
         ) : selectedUser ? (
-          <Grid mt={30}>
-            <Grid.Col md={5}>
-              <img className={classes.image} src={userImage} alt="img" />
-            </Grid.Col>
-            <Grid.Col md={6} xs={5}>
-              <SimpleGrid cols={2}>
-                <UserInfo userData={selectedUser} loading={userFetching} />
-              </SimpleGrid>
-            </Grid.Col>
-          </Grid>
+          <UserInfo userData={selectedUser} loading={userFetching} />
         ) : (
           ""
         )}

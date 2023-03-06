@@ -23,7 +23,7 @@ import { backendUrl } from "../../../../constants/constants";
 import { useQuery } from "react-query";
 import Loader from "../../../../Components/Loader";
 
-const Step2 = ({ selectedUser, caseNo, caseId ,setCaseId}) => {
+const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
   const { user: usertoken } = useContext(UserContext);
@@ -102,14 +102,19 @@ const Step2 = ({ selectedUser, caseNo, caseId ,setCaseId}) => {
           let report = {
             id: obj.reportId,
             sr: ind + 1,
-            reportType: obj?.reportType==="private"?"Private":"Public",
+            reportType: obj?.reportType === "private" ? "Private" : "Public",
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate,
             file: obj?.reportFile,
             comments: obj?.comments,
-            role: obj?.role==="lawyer"?"Lawyer":obj?.role==="psychologist"?"Psychologist":"Social Worker",
+            role:
+              obj?.role === "lawyer"
+                ? "Lawyer"
+                : obj?.role === "psychologist"
+                ? "Psychologist"
+                : "Social Worker",
           };
           return report;
         });
@@ -139,16 +144,9 @@ const Step2 = ({ selectedUser, caseNo, caseId ,setCaseId}) => {
           <Text ml={10}>XXXX</Text>
         </Flex>
       </Flex>
-      <Grid mt={30}>
-        <Grid.Col md={5}>
-          <img className={classes.image} src={userlogo} alt="img" />
-        </Grid.Col>
-        <Grid.Col md={6} xs={5}>
-          <SimpleGrid cols={2}>
-            <UserInfo userData={selectedUser} />
-          </SimpleGrid>
-        </Grid.Col>
-      </Grid>
+      <Container size={"sm"} p="0px">
+        <UserInfo userData={selectedUser} />
+      </Container>
       <Text align="center" fw={"bold"} mt="xl">
         User Reports
       </Text>

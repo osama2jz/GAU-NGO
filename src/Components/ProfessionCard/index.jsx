@@ -35,8 +35,6 @@ const Cards = ({
   //   );
   // }, [cardData]);
 
-  console.log("iserif", cardData?.userId);
-
   return (
     <>
       <Card
@@ -60,7 +58,11 @@ const Cards = ({
           {cardData.name}
         </Text>
         <Text size="md" mt={0} fw={600} color="red.0">
-          {cardData.role}
+          {cardData.role === "socialWorker"
+            ? "Social Worker"
+            : cardData.role === "lawyer"
+            ? "Lawyer"
+            : "Psychologist"}
         </Text>
         <Stack spacing="xs" mb="xs">
           {/* <Select

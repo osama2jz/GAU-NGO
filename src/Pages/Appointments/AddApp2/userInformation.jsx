@@ -1,14 +1,16 @@
-import { Text } from "@mantine/core";
-import moment from "moment/moment";
+import { Card, Container, Flex, Group, Text } from "@mantine/core";
+import userImage from "../../../assets/teacher.png";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const UserInfo = ({ userData, loading }) => {
+  const matches = useMediaQuery("(min-width: 640px)");
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setData([
       {
-        key: "Full Name",
+        key: "Name",
         value:
           userData?.data?.data?.firstName +
           " " +
@@ -16,13 +18,11 @@ export const UserInfo = ({ userData, loading }) => {
       },
       {
         key: "Email",
-        value:
-        userData?.data?.data?.email,
+        value: userData?.data?.data?.email,
       },
       {
-        key: "Phone Number",
-        value:
-          userData?.data?.data?.phoneNumber
+        key: "Phone No.",
+        value: userData?.data?.data?.phoneNumber,
       },
       {
         key: "Country",
@@ -36,16 +36,33 @@ export const UserInfo = ({ userData, loading }) => {
     ]);
   }, [userData]);
 
-  return data.map((obj) => {
-    return (
-      <>
-        <Text fz={16} fw={"bold"}>
-          {obj.key}
-        </Text>
-        <Text opacity={"40%"} fz={16} fw={"bold"}>
-          {obj.value}
-        </Text>
-      </>
-    );
-  });
+  return (
+    <Card
+      shadow="lg"
+      radius={"lg"}
+      px={"0px"}
+      style={{
+        display: "flex",
+        flexDirection: matches ? "row" : "column",
+        alignItems: "center",
+        border: "1px solid rgb(0,0,0,0.1)",
+      }}
+    >
+      <img width={"180px"} src={userImage} alt="img" />
+      <Container w="100%">
+        {data.map((obj) => {
+          return (
+            <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"20px"}>
+              <Text fz={16} fw={"bold"}>
+                {obj.key}
+              </Text>
+              <Text opacity={"40%"} fz={16} fw={"bold"} ml="20px">
+                {obj.value}
+              </Text>
+            </Flex>
+          );
+        })}
+      </Container>
+    </Card>
+  );
 };
