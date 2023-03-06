@@ -1,11 +1,10 @@
+import { Container, Text } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
-import { useState } from "react";
 import moment from "moment/moment";
-import { Container, Indicator, Text, useMantineTheme } from "@mantine/core";
+import { useState } from "react";
 
 const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
-  const theme = useMantineTheme();
   return (
     <Calendar
       value={calenderValue}
@@ -21,7 +20,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
       renderDay={(date) => {
         const day = date.getDate();
         return (
-          <Container>
+          <Container p={"0px"}>
             <Text
               bg={
                 scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
@@ -29,7 +28,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
               }
               color={
                 scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
-                "white"
+                "rgb(255, 255, 255)"
               }
             >
               {day}
