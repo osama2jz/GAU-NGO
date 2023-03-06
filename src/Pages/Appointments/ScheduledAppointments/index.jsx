@@ -4,6 +4,7 @@ import {
   Container,
   Flex,
   Grid,
+  Group,
   SimpleGrid,
   Text,
 } from "@mantine/core";
@@ -18,13 +19,14 @@ import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { useStyles } from "./styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { backendUrl } from "../../../constants/constants";
 import moment from "moment";
 import axios from "axios";
 import Loader from "../../../Components/Loader";
+import { showNotification } from "@mantine/notifications";
 
 function ScheduledAppointments() {
   const { classes } = useStyles();
@@ -35,6 +37,9 @@ function ScheduledAppointments() {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [reportData, setReportData] = useState([]);
+  const queryClient = useQueryClient();
+  const [id, setId] = useState();
+
   
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -79,6 +84,65 @@ function ScheduledAppointments() {
       },
     }
   );
+
+
+   //API call for Cancel Appointments
+  //  const { data1, status1 } = useQuery(
+  //  [ "CancelAppointments",id],
+  //   () => {
+  //     alert(id)
+  //     // return axios.get(
+  //     //   `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
+  //     //   {
+  //     //     headers: {
+  //     //       "x-access-token": user.token,
+  //     //     },
+  //     //   }
+  //     // );
+  //   },
+  //   {
+  //     onSuccess: (response) => {
+       
+  //     },
+  //     enabled:!!id
+  //   }
+  // );
+
+
+  //API call for Cancel Appointments
+  const CancelAppointments = async (id) => {
+    try {
+      const response = await axios.get(
+        `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+      setOpenViewModal(false);
+      if(response.data.status){
+        navigate(routeNames.socialWorker.allAppointments);
+        showNotification({
+          title: "Appointment Cancelled",
+          message: "Appointment Cancelled Successfully",
+          color: "green.0",
+        })
+        
+      }
+      else{
+        showNotification({
+          title: "Appointment Not Cancelled",
+          message: "Appointment Not Cancelled Successfully",
+          color: "red.0",
+        })
+      }
+      // console.log(response);
+      // queryClient.invalidateQueries("fetchAppointments");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   let headerData = [
     {
@@ -225,6 +289,20 @@ function ScheduledAppointments() {
             </Container>
           </Grid.Col>
         </Grid>
+        <Group position="right" mt="lg">
+         
+           <Button
+        label={" Cancel Appointment"}
+        onClick={() => {
+          // setId(reportData?.appointId);
+          // queryClient.invalidateQueries("CancelAppointments",id);
+          CancelAppointments(reportData?.appointId);
+        }}
+       
+
+        // type="Cancel Appo"
+        />
+        </Group>
       </ViewModal>
     </Container>
   );

@@ -203,6 +203,7 @@ const Table = ({
                         color={
                           row[head?.id] === "unverified" ||
                           row[head?.id] === "CLOSED" ||
+                          row[head?.id] === "CANCELLED" ||
                           row[head?.id] === "Not Scheduled"
                             ? "red.0"
                             : "green.0"

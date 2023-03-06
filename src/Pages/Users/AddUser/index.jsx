@@ -1,10 +1,12 @@
-import { Anchor, Container, Grid, Group, Text } from "@mantine/core";
+import { Anchor, Avatar, Container, Grid, Group, Text } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { CircleX, Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -21,6 +23,9 @@ export const AddUser = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const [files, setFiles] = useState([]);
+  console.log(user)
+
 
   const form = useForm({
     validateInputOnChange: true,
@@ -102,6 +107,18 @@ export const AddUser = () => {
     });
   }
 
+  const previews = files.map((file, index) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <Avatar
+        size={200}
+        key={index}
+        src={imageUrl}
+        radius="xl"
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+      />
+    );
+  });
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add User"} />
@@ -110,7 +127,45 @@ export const AddUser = () => {
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
       >
+         <Grid align="center" justify="center" >
+          <Grid.Col md={12} p="md" align="center" lg={6}>
+            <Container pos={"relative"} className={classes.imageContainer} >
+              {/* {(files.length > 0 ) && (
+                <CircleX className={classes.cross} onClick={deleteImage} />
+              )} */}
+              {files.length > 0 ? (
+                previews
+              ) : (
+                <Avatar
+                  size={150}
+                  radius="xl"
+                  src={
+                   
+                    "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              )}
+            </Container>
+
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              maxFiles={1}
+              style={{ width: "150px" }}
+              onDrop={(v) => {
+                setFiles(v);
+              }}
+            >
+              <Text align="center" className={classes.upload}>
+                <Upload size={16} />
+                Upload
+              </Text>
+            </Dropzone>
+          </Grid.Col>
+          </Grid>
+          
         <Grid>
+         
+       
           <Grid.Col sm={6}>
             <InputField
               label="First Name"

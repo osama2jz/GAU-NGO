@@ -30,4 +30,31 @@ export const useStyles = createStyles((theme) => ({
     alignItems: "flex-end",
     justifyContent:'center',
   },
+  imageContainer: {
+    display: "flex",
+    width: "220px",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "auto",
+    backgroundColor:"red.0"
+  },
+  cross: {
+    position: "absolute",
+    right: "0px",
+    // bottom: "0px",
+    zIndex: 2,
+    backgroundColor: "white",
+    borderRadius: "50%",
+    ":hover": {
+      cursor: "pointer",
+      scale: "1.1",
+    },
+  },
+  upload: {
+    border: "1px solid gray",
+    borderRadius: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
