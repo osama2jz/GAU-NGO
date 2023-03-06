@@ -43,6 +43,9 @@ root.render(
             ".mantine-Checkbox-input:checked": {
                 backgroundColor: "green",
             },
+            ".mantine-1s8spa1":{
+              color:'red'
+            },
             ".mantine-Modal-title":{
               margin:'auto',
             },

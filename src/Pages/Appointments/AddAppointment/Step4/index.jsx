@@ -1,55 +1,85 @@
-import React, { useContext, useState } from "react";
-import { Container, Text, Grid } from "@mantine/core";
-import Cards from "../../../../Components/ProfessionCard";
-import InputField from "../../../../Components/InputField";
-import SelectMenu from "../../../../Components/SelectMenu";
-import ReferModal from "../../../../Components/ProfessionCard/ReferModal";
-import { useQuery } from "react-query";
+import { Container, Grid, Text } from "@mantine/core";
 import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import InputField from "../../../../Components/InputField";
+import Loader from "../../../../Components/Loader";
+import Cards from "../../../../Components/ProfessionCard";
+import SelectMenu from "../../../../Components/SelectMenu";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-const Step4 = ({caseId,slot,setSlot}) => {
-
+const Step4 = ({ caseId, slot, setSlot }) => {
   const { user } = useContext(UserContext);
-  const [cardData, setCardData]=useState()
+  const [cardData, setCardData] = useState([]);
   const [referCase, setNewReferCase] = useState();
   const [referedTo, setReferedTo] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
-  
   const { data: users, status } = useQuery(
     "referSchedule",
     () => {
-      return axios.get(
-        backendUrl + `/api/schedule/listNGOUsersSchedule`,
-        {
-          headers: {
-            "x-access-token": user?.token,
-          },
-        }
-      );
+      return axios.get(backendUrl + `/api/schedule/listNGOUsersSchedule`, {
+        headers: {
+          "x-access-token": user?.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
-        console.log(response);
         let data = response?.data?.data?.map((obj, ind) => {
           let card = {
-            userId:obj?.userId,
+            userId: obj?.userId,
             name: obj?.fullName,
             role: obj?.role,
             branches: obj?.branches.map((e) => ({
               label: e.branchName,
               value: e.branchId,
             })),
-            schedule: obj?.schedule
+            schedule: obj?.schedule,
           };
-          console.log(card);
           return card;
         });
-          setCardData(data)
+        setCardData(data);
       },
     }
   );
+  //filters
+  useEffect(() => {
+    //all data
+    let data = users?.data?.data?.map((obj, ind) => {
+      let card = {
+        userId: obj?.userId,
+        name: obj?.fullName,
+        role: obj?.role,
+        branches: obj?.branches.map((e) => ({
+          label: e.branchName,
+          value: e.branchId,
+        })),
+        schedule: obj?.schedule,
+      };
+      return card;
+    });
+    if (typeFilter === "all" && search === "") {
+      setCardData(data);
+    } else if (typeFilter === "all" && search !== "") {
+      let filtered = data.filter((obj) =>
+        obj.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setCardData(filtered);
+    } else {
+      let filtered = data.filter(
+        (obj) =>
+          obj.role === typeFilter &&
+          obj.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setCardData(filtered);
+    }
+  }, [typeFilter, search]);
 
+  if (status === "loading") {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -59,26 +89,51 @@ const Step4 = ({caseId,slot,setSlot}) => {
         </Text>
         <Grid align={"center"} py="md">
           <Grid.Col md={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              onChange={(v) => setSearch(v.target.value)}
+            />
           </Grid.Col>
           <Grid.Col md={6}>
             <SelectMenu
               placeholder="Select by Type"
+              value={typeFilter}
+              setData={setTypeFilter}
               data={[
+                { label: "All", value: "all" },
                 { label: "Lawyer", value: "lawyer" },
-                { label: "Psychologist", value: "psychologistng" },
-                { label: "Social Worker", value: "socailworker" },
+                { label: "Psychologist", value: "psychologist" },
+                { label: "Social Worker", value: "socialWorker" },
               ]}
             />
           </Grid.Col>
         </Grid>
         <Grid>
-          {cardData?.map((e,index) => (
-            e.schedule && <Grid.Col md={6} lg={4} xl={3}>
-              <Cards cardData={e} referCase={referCase} setNewReferCase={setNewReferCase} caseId={caseId} slot={slot} setSlot={setSlot} 
-              referedTo={referedTo} setReferedTo={setReferedTo}/>
-            </Grid.Col>
-          ))}
+          {cardData.length ? (
+            cardData?.map(
+              (e, index) =>
+                e.schedule && (
+                  <Grid.Col md={6} lg={4} xl={3}>
+                    <Cards
+                      cardData={e}
+                      referCase={referCase}
+                      setNewReferCase={setNewReferCase}
+                      caseId={caseId}
+                      slot={slot}
+                      setSlot={setSlot}
+                      referedTo={referedTo}
+                      setReferedTo={setReferedTo}
+                    />
+                  </Grid.Col>
+                )
+            )
+          ) : (
+            <Text fw={"bold"} align="center" m={"auto"}>
+              No Users found.
+            </Text>
+          )}
         </Grid>
       </Container>
     </>

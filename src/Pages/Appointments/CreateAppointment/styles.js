@@ -63,7 +63,7 @@ export const useStyles = createStyles((theme) => ({
     border: "2px solid green",
   },
   image: {
-    width: "200px",
+    width: "180px",
   },
   testCol: {
     border: "2px solid black",
