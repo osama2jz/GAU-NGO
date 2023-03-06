@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { useStyles } from "./styles";
 
-import userlogo from "../../assets/salary.png";
+import userlogo from "../../assets/compliance.png";
 import { useQuery } from "react-query";
 
 function ViewUserModal({ id, reportData }) {

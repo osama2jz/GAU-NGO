@@ -67,13 +67,13 @@ export const ViewComplains = () => {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Donation Date",
+      label: "Complaint Date",
     },
     {
       id: "description",
       numeric: false,
       disablePadding: true,
-      label: "Donation Description",
+      label: "Complaint Description",
     },
     {
       id: "ngo",
@@ -187,7 +187,7 @@ export const ViewComplains = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Donation Details"
+        title="Complaint Details"
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
