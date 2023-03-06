@@ -97,7 +97,7 @@ export const ngoAdminSideBarData = [
   {
     label: "Complaints",
     icon: Report,
-    links: [{ label: "Public", link: routeNames.ngoAdmin.complaints }],
+    links: [{ label: "Complaints", link: routeNames.ngoAdmin.complaints }],
   },
   {
     label: "Documents",
