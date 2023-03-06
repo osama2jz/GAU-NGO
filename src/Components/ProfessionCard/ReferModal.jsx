@@ -1,4 +1,5 @@
 import { Group, Container, Modal, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useState } from "react";
@@ -22,7 +23,7 @@ const ReferModal = ({
   caseId,
 }) => {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
+  const matches = useMediaQuery("(min-width: 640px)");
   const [comment, setComment] = useState("");
   const handleReferToExpert = useMutation(
     () => {
@@ -65,7 +66,7 @@ const ReferModal = ({
       onClose={() => setOpened(false)}
       centered
       title="Refer User"
-      size={"50%"}
+      size={matches?"50%":"100%"}
       styles={{
         title: {
           // size: "50px",
