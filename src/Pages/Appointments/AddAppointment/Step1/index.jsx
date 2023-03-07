@@ -1,28 +1,22 @@
-import {
-  Avatar,
-  Container,
-  Divider,
-  Flex,
-  Grid,
-  Group,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
+import { Avatar, Container, Divider, Flex, Group, Text } from "@mantine/core";
 import axios from "axios";
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useQuery } from "react-query";
-import InputField from "../../../../Components/InputField";
-import Loader from "../../../../Components/Loader";
+import { useParams } from "react-router-dom";
+import Webcam from "react-webcam";
 import userImage from "../../../../assets/teacher.png";
-import SelectMenu from "../../../../Components/SelectMenu";
+import Button from "../../../../Components/Button";
+import Loader from "../../../../Components/Loader";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
-import Button from "../../../../Components/Button";
-import { useParams } from "react-router-dom";
-import Webcam from 'react-webcam'
-
 
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
@@ -33,7 +27,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const [userData, setUserData] = useState([]);
   const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
- 
+
   const [img, setImg] = useState(null);
   const webcamRef = useRef(null);
 
@@ -45,9 +39,10 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
+    console.log(imageSrc);
     setImg(imageSrc);
   }, [webcamRef]);
-  
+
   const handleOpenCamera = () => {
     setShowCamera(true);
   };
@@ -55,8 +50,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const handleCloseCamera = () => {
     setShowCamera(false);
   };
-  // setUser(id);
-  // console.log("id",id)
 
   let faceio = new faceIO("fioa89bd");
 
@@ -175,73 +168,75 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
     return <Loader />;
   }
 
-
-
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
         Verify User
       </Text>
-     
-     
-      <Button
-        label={"Verify Face ID"}
-        bg={true}
-        leftIcon="faceid"
-        iconWidth="24px"
-        styles={{
-          width: "220px",
-          fontSize: "22px",
-          height: "46px",
-          margin: "auto",
-        }}
-        onClick={handleVerifyID}
-      />
 
-<Divider label="OR"/>
-{showCamera ? (
-         <Container>
-         {img === null ? (
-           <>
-             <Webcam
-               audio={false}
-               mirrored={true}
-               height={250}
-               width={250}
-               ref={webcamRef}
-               screenshotFormat="image/jpeg"
-               videoConstraints={videoConstraints}
-             />
-             <Group>
-             <Button onClick={capture} label={"Cancel"}/>
-             <Button onClick={capture} bg={true} label={"Capture Photo"}/>
-             </Group>
-             
-             
-             
-           </>
-         ) : (
-           <>
-             <img src={img} alt="screenshot" />
-             <button onClick={() => setImg(null)}>Retake</button>
-           </>
-         )}
-       </Container>
-      ):
-      <Button
-      label={"Capture Photo"}
-      onClick={handleOpenCamera}
-      leftIcon="faceid"
-      iconWidth="24px"
-      styles={{
-        width: "220px",
-        fontSize: "22px",
-        height: "46px",
-        margin: "auto",
-      }}
-      bg={true}
-      />
-      }
+      <Group>
+        <Button
+          label={"Verify Face ID"}
+          bg={true}
+          leftIcon="faceid"
+          iconWidth="24px"
+          styles={{
+            width: "220px",
+            fontSize: "22px",
+            height: "46px",
+            margin: "auto",
+          }}
+          onClick={handleVerifyID}
+        />
+
+        <Divider
+          label="OR"
+          labelPosition="center"
+          orientation="vertical"
+          color={"rgb(0,0,0,0.5)"}
+          // my="md"
+        />
+        {showCamera ? (
+          <Container>
+            {img === null ? (
+              <>
+                <Webcam
+                  audio={false}
+                  mirrored={true}
+                  height={250}
+                  width={250}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  videoConstraints={videoConstraints}
+                />
+                <Group>
+                  <Button onClick={handleCloseCamera} label={"Cancel"} />
+                  <Button onClick={capture} bg={true} label={"Capture Photo"} />
+                </Group>
+              </>
+            ) : (
+              <Flex direction={"column"} gap="sm">
+                <img src={img} alt="screenshot" />
+                <Button onClick={() => setImg(null)} label="Retake" bg={true}/>
+              </Flex>
+            )}
+          </Container>
+        ) : (
+          <Button
+            label={"Capture Photo"}
+            onClick={handleOpenCamera}
+            leftIcon="faceid"
+            iconWidth="24px"
+            styles={{
+              width: "220px",
+              fontSize: "22px",
+              height: "46px",
+              margin: "auto",
+            }}
+            bg={true}
+          />
+        )}
+      </Group>
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (

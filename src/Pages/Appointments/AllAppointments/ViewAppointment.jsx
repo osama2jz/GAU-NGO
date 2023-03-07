@@ -19,7 +19,7 @@ const ViewAppointment = ({ opened, setOpened }) => {
           <Button
             label="Verify"
             primary={true}
-            compact={true}
+            compact={true}P
           />
         </Group>
       </Container>
