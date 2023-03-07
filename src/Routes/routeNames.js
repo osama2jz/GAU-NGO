@@ -13,6 +13,7 @@ const routeNames = {
     verificationScheduled: "/verfication-Scheduled",
     userVerification: "/userVerification",
     userVerification2: "/userVerification/:id",
+    userEditDetails: "/userEdit/:editId",
     settings: "/settings",
     addAppoinment: "/add-appointment",
     startAppoinment: "/start-appointment",

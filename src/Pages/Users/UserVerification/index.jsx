@@ -4,7 +4,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
@@ -19,6 +19,7 @@ import { Step2 } from "./Step2";
 import { Step3 } from "./Step3";
 import { Step4 } from "./Step4";
 import { useStyles } from "./styles";
+import { useParams } from "react-router-dom";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -34,6 +35,144 @@ export const UserVerification = () => {
   const [agreementSignature, setAgreementSignature] = useState(false);
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
+
+  const { editId } = useParams();
+  const { data, status } = useQuery(
+    "fetchUsertoEdit",
+    () => {
+      return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // console.log("response", response);
+        setUserId(response?.data?.data?._id);
+
+        setConsentSignature(
+          response?.data?.data?.userConsentForm?.consentSignatures
+        );
+        setAgreementSignature(
+          response?.data?.data?.userConsentForm?.agreementSignatures
+        );
+
+        form.setFieldValue(
+          "address",
+          response?.data?.data?.userConsentForm?.personalInformation?.address
+        );
+        form.setFieldValue(
+          "age",
+          response?.data?.data?.userConsentForm?.personalInformation?.age
+        );
+        form.setFieldValue(
+          "city",
+          response?.data?.data?.userConsentForm?.personalInformation?.city
+        );
+        form.setFieldValue(
+          "country",
+          response?.data?.data?.userConsentForm?.personalInformation?.country
+        );
+        form.setFieldValue(
+          "demand",
+          response?.data?.data?.userConsentForm?.personalInformation?.demand
+        );
+        form.setFieldValue(
+          "documentType",
+          response?.data?.data?.userConsentForm?.personalInformation
+            ?.documentType
+        );
+        form.setFieldValue(
+          "documentURL",
+          response?.data?.data?.userConsentForm?.personalInformation
+            ?.documentURL
+        );
+        form.setFieldValue(
+          "email",
+          response?.data?.data?.userConsentForm?.personalInformation?.email
+        );
+        form.setFieldValue(
+          "firstName",
+          response?.data?.data?.userConsentForm?.personalInformation?.firstName
+        );
+        form.setFieldValue(
+          "lastName",
+          response?.data?.data?.userConsentForm?.personalInformation?.lastName
+        );
+        form.setFieldValue(
+          "dateOfBirth",
+          editId
+            ? new Date(
+                response?.data?.data?.userConsentForm?.personalInformation?.dateOfBirth
+              )
+            : new Date()
+        );
+
+        //Socio Family Situation
+        form.setFieldValue(
+          "socioFamily",
+          response?.data?.data?.userConsentForm?.socioFamilySituation
+            ?.socioFamily
+        );
+
+        //Economic Situation
+        form.setFieldValue(
+          "revenue",
+          response?.data?.data?.userConsentForm?.economicSituation?.revenue
+        );
+        form.setFieldValue(
+          "expenses",
+          response?.data?.data?.userConsentForm?.economicSituation?.expenses
+        );
+        form.setFieldValue(
+          "aidsBonuses",
+          response?.data?.data?.userConsentForm?.economicSituation?.aidsBonuses
+        );
+        form.setFieldValue(
+          "debt",
+          response?.data?.data?.userConsentForm?.economicSituation?.debt
+        );
+        form.setFieldValue(
+          "housing",
+          response?.data?.data?.userConsentForm?.economicSituation?.housing
+        );
+
+        //Health Aspects
+        form.setFieldValue(
+          "healthAspects",
+          response?.data?.data?.userConsentForm?.healthAspects?.healthAspects
+        );
+
+        //Refrences
+        setRefrences(
+          response?.data?.data?.userConsentForm?.professionalReferences
+        );
+
+        //Work Experience
+        setWorkExperience(
+          response?.data?.data?.userConsentForm?.workExperience
+        );
+
+        //Training Studies
+        setTrainingStudies(
+          response?.data?.data?.userConsentForm?.studiesTraining
+        );
+
+        //Discrimination Voilence
+        form.setFieldValue(
+          "discriminationVoilenceValue",
+          response?.data?.data?.userConsentForm?.discriminationVoilence
+            ?.discriminationVoilenceValue
+        );
+        form.setFieldValue(
+          "typeId",
+          response?.data?.data?.userConsentForm?.discriminationVoilence?.typeId
+        );
+      },
+      enabled: !!editId,
+    }
+  );
 
   const handleNextSubmit = () => {
     if (active == 0) {
@@ -58,8 +197,12 @@ export const UserVerification = () => {
       }
     } else if (active == 3) {
       if (agreementSignature) {
-        setActive(active + 1);
-        handleVerifyUser.mutate();
+        if (editId) {
+          console.log("form", form.values);
+        } else {
+          setActive(active + 1);
+          handleVerifyUser.mutate();
+        }
       } else {
         showNotification({
           title: "Error",
@@ -192,17 +335,17 @@ export const UserVerification = () => {
       housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
     },
   });
-
   useEffect(() => {
-    form.setFieldValue(
-      "age",
-      moment(moment()).diff(form.values.dateOfBirth, "years")
-    );
+    if (form?.values?.dateOfBirth)
+      form.setFieldValue(
+        "age",
+        moment(moment()).diff(form.values.dateOfBirth, "years")
+      );
   }, [form.values.dateOfBirth]);
   return (
     <Container className={classes.userVerification} size="lg" p={"0px"}>
       <ContainerHeader label={"User Verification"} />
-      <Container className={classes.innerContainer} size="xl" >
+      <Container className={classes.innerContainer} size="xl">
         <Stepper
           active={active}
           color={theme.colors.green}

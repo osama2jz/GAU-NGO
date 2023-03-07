@@ -40,6 +40,7 @@ export const AllUser = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
+  const [editId,setEditId] = useState("");
 
   const [reportData, setReportData] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -218,12 +219,13 @@ export const AllUser = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            setEditModalState={setOpenEditModal}
+            // setEditModalState={setOpenEditModal}
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
-            setReportData={setReportData}
+            // setReportData={setReportData}
+            setEditId={setEditId}
           />
         )}
         {totalPages > 1 && (
