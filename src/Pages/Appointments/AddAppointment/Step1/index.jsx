@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
@@ -21,6 +21,8 @@ import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import Button from "../../../../Components/Button";
 import { useParams } from "react-router-dom";
+import Webcam from 'react-webcam'
+
 
 const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { classes } = useStyles();
@@ -30,6 +32,29 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
   const { id, appId } = useParams();
+  const [showCamera, setShowCamera] = useState(false);
+ 
+  const [img, setImg] = useState(null);
+  const webcamRef = useRef(null);
+
+  const videoConstraints = {
+    width: 420,
+    height: 420,
+    facingMode: "user",
+  };
+
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImg(imageSrc);
+  }, [webcamRef]);
+  
+  const handleOpenCamera = () => {
+    setShowCamera(true);
+  };
+
+  const handleCloseCamera = () => {
+    setShowCamera(false);
+  };
   // setUser(id);
   // console.log("id",id)
 
@@ -144,30 +169,79 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
     }
   };
 
+  //Camera
+
   if (status === "loading") {
     return <Loader />;
   }
+
+
 
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
         Verify User
       </Text>
-
+     
+     
       <Button
         label={"Verify Face ID"}
         bg={true}
         leftIcon="faceid"
-        iconWidth="30px"
+        iconWidth="24px"
         styles={{
           width: "220px",
-          fontSize: "24px",
+          fontSize: "22px",
           height: "46px",
           margin: "auto",
         }}
         onClick={handleVerifyID}
       />
 
+<Divider label="OR"/>
+{showCamera ? (
+         <Container>
+         {img === null ? (
+           <>
+             <Webcam
+               audio={false}
+               mirrored={true}
+               height={250}
+               width={250}
+               ref={webcamRef}
+               screenshotFormat="image/jpeg"
+               videoConstraints={videoConstraints}
+             />
+             <Group>
+             <Button onClick={capture} label={"Cancel"}/>
+             <Button onClick={capture} bg={true} label={"Capture Photo"}/>
+             </Group>
+             
+             
+             
+           </>
+         ) : (
+           <>
+             <img src={img} alt="screenshot" />
+             <button onClick={() => setImg(null)}>Retake</button>
+           </>
+         )}
+       </Container>
+      ):
+      <Button
+      label={"Capture Photo"}
+      onClick={handleOpenCamera}
+      leftIcon="faceid"
+      iconWidth="24px"
+      styles={{
+        width: "220px",
+        fontSize: "22px",
+        height: "46px",
+        margin: "auto",
+      }}
+      bg={true}
+      />
+      }
       {userFetching === "loading" ? (
         <Loader />
       ) : selectedUser ? (
