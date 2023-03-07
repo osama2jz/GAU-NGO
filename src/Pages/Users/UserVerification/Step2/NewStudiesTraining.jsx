@@ -10,7 +10,7 @@ function NewStudiesTrainingModal({
   setopenTrainingModal,
 }) {
   const { classes } = useStyles();
- console.log("trainingStudies",trainingStudies)
+  console.log("trainingStudies", trainingStudies);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -28,7 +28,9 @@ function NewStudiesTrainingModal({
         value?.length < 1 ? "Please enter center" : null,
 
       completionYear: (value) =>
-        value?.length < 4 || value?.length > 4 ? "Please enter completion year correctly" : null,
+        value?.length < 4 || value?.length > 4
+          ? "Please enter completion year correctly"
+          : null,
     },
   });
 
@@ -41,7 +43,6 @@ function NewStudiesTrainingModal({
   return (
     <Container>
       <form className={classes.form} onSubmit={form.onSubmit(addRefrences)}>
-      
         <InputField
           label="Education Level"
           required={true}

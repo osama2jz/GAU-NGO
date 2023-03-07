@@ -12,6 +12,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
 import { FileUpload, Trash } from "tabler-icons-react";
 import Button from "../../../../Components/Button";
 import Datepicker from "../../../../Components/Datepicker";
@@ -55,6 +56,8 @@ export const Step2 = ({
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
   const [fileLoader, setFileLoader] = useState(false);
+
+  const {editId}=useParams();
 
   let headerData = [
     {
@@ -108,7 +111,7 @@ export const Step2 = ({
       label: "Sr No.",
     },
     {
-      id: "stand",
+      id: "position",
       numeric: false,
       disablePadding: true,
       label: "Position",
@@ -337,7 +340,8 @@ export const Step2 = ({
             required={true}
             placeholder="First Name"
             value={alldata?.firstName}
-            disabled={true}
+            // disabled={true}
+            disabled={editId ? false : true}
             form={form}
             validateName="firstName"
           />
@@ -345,7 +349,8 @@ export const Step2 = ({
             label="Last Name"
             value={alldata?.lastName}
             required={true}
-            disabled={true}
+            disabled={editId ? false : true}
+
             placeholder="Last Name"
             form={form}
             validateName="lastName"
@@ -358,6 +363,7 @@ export const Step2 = ({
             form={form}
             validateName="email"
             disabled={true}
+
           />
           <Datepicker
             label="Date of Birth"
@@ -371,7 +377,8 @@ export const Step2 = ({
             required={true}
             type="number"
             placeholder="age"
-            disabled={true}
+            disabled={editId ? false : true}
+
             form={form}
             validateName="age"
           />
@@ -379,7 +386,8 @@ export const Step2 = ({
             label="Phone Number"
             value={alldata?.lastName}
             required={true}
-            disabled={true}
+            disabled={editId ? false : true}
+
             placeholder="phone number"
             form={form}
             validateName="phoneNo"
@@ -568,7 +576,7 @@ export const Step2 = ({
             <InputField
               label="Aids or Bonuses"
               required={true}
-              type={"number"}
+              // type={"number"}
               placeholder="$$"
               form={form}
               validateName="aidsBonuses"
@@ -585,7 +593,7 @@ export const Step2 = ({
               label="Housing"
               required={true}
               placeholder="$$"
-              type={"number"}
+              // type={"number"}
               form={form}
               validateName="housing"
             />

@@ -1,10 +1,12 @@
-import { Anchor, Container, Grid, Group, Text } from "@mantine/core";
+import { Anchor, Avatar, Container, Grid, Group, Text } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -21,6 +23,7 @@ export const AddProfessional = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const [files, setFiles] = useState([]);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -112,7 +115,46 @@ export const AddProfessional = () => {
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
       >
-        <SelectMenu
+         <Grid align="center" justify="center" >
+          <Grid.Col md={12} p="md" align="center" lg={6}>
+            <Container pos={"relative"} className={classes.imageContainer} >
+              {/* {(files.length > 0 ) && (
+                <CircleX className={classes.cross} onClick={deleteImage} />
+              )} */}
+              {files.length > 0 ? (
+                previews
+              ) : (
+                <Avatar
+                  size={150}
+                  radius="xl"
+                  src={
+                   
+                    "https://www.w3schools.com/howto/img_avatar.png"
+                  }
+                />
+              )}
+            </Container>
+
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              maxFiles={1}
+              style={{ width: "150px" }}
+              onDrop={(v) => {
+                setFiles(v);
+              }}
+            >
+              <Text align="center" className={classes.upload}>
+                <Upload size={16} />
+                Upload
+              </Text>
+            </Dropzone>
+          </Grid.Col>
+          </Grid>
+          
+        
+        <Grid>
+          <Grid.Col sm={6}>
+          <SelectMenu
           data={[
             { label: "Lawyer", value: "lawyer" },
             { label: "Psychologist", value: "psychologist" },
@@ -124,7 +166,22 @@ export const AddProfessional = () => {
           form={form}
           validateName="userType"
         />
-        <Grid>
+          </Grid.Col>
+          <Grid.Col sm={6}>
+          <SelectMenu
+          data={[
+            { label: "Lawyer", value: "lawyer" },
+            { label: "Psychologist", value: "psychologist" },
+            { label: "Social Worker", value: "socialWorker" },
+          ]}
+          placeholder="Select role"
+          label="Professional Type"
+          pb="sm"
+          form={form}
+          validateName="userType"
+        />
+          </Grid.Col>
+          
           <Grid.Col sm={6}>
             <InputField
               label="First Name"

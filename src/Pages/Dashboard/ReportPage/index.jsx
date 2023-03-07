@@ -117,7 +117,7 @@ const UserPage = (props) => {
         let data = response?.data?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -137,6 +137,7 @@ const UserPage = (props) => {
         });
         setRowData(data);
         setpublicCount(response?.data?.data?.total);
+        console.log("public count", publicount);
         setTotalPages(response?.data?.data?.totalPages);
 
         setLoader(false);
@@ -236,7 +237,7 @@ const UserPage = (props) => {
           return appointment;
         });
         setprivateCount(response?.data?.data?.total);
-
+        console.log("private count", privatecount);
         setLoader(false);
       },
     }
@@ -245,7 +246,14 @@ const UserPage = (props) => {
   const a = [
     {
       title: "PUBLIC ",
-      value: publicount ? publicount : <Loader minHeight="5vh" />,
+      value:
+        publicount === 0 ? (
+          0
+        ) : publicount ? (
+          publicount
+        ) : (
+          <Loader minHeight="5vh" />
+        ),
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -254,7 +262,14 @@ const UserPage = (props) => {
     },
     {
       title: "PRIVATE ",
-      value: privatecount ? privatecount : <Loader minHeight="5vh" />,
+      value:
+        privatecount === 0 ? (
+          0
+        ) : privatecount ? (
+          privatecount
+        ) : (
+          <Loader minHeight="5vh" />
+        ),
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",

@@ -109,7 +109,7 @@ const Dashboard = () => {
             app.value = response.data.data.totalAppointments;
             reports.value = response.data.data.totalReports;
             setCardData([users, app, reports]);
-            // setChartData(response.data.data.graphData);
+            setChartData(response.data.data.graphData);
           }
           else{
             let users = cardData[0];

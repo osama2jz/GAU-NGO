@@ -38,6 +38,7 @@ const Table = ({
   setReportData,
   setEditDoc,
   editDoc,
+  setEditId
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -167,6 +168,11 @@ const Table = ({
                         {head.edit && (
                           <ActionIcon
                             onClick={() => {
+                              if(setEditId){
+                                navigate(`/userEdit/${row.id}`);
+                                // setEditId(row.id);
+                                // alert("edit id")
+                              }
                               if (setReportData) {
                                 setReportData(row);
                               }
@@ -203,6 +209,7 @@ const Table = ({
                         color={
                           row[head?.id] === "unverified" ||
                           row[head?.id] === "CLOSED" ||
+                          row[head?.id] === "CANCELLED" ||
                           row[head?.id] === "Not Scheduled"
                             ? "red.0"
                             : "green.0"

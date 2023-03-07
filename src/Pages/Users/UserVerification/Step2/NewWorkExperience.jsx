@@ -11,7 +11,7 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      stand: "",
+      position: "",
       contract: "",
       enterprise: "",
       duration: "",
@@ -19,7 +19,7 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
       startDate: "",
     },
     validate: {
-      stand: (value) => (value.length < 1 ? "Please enter name" : null),
+      position: (value) => (value.length < 1 ? "Please enter name" : null),
       contract: (value) => (value?.length < 1 ? "Please enter contract" : null),
       enterprise: (value) =>
         value?.length < 1 ? "Please enter enterprise" : null,
@@ -48,7 +48,7 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
           label="Position"
           placeholder="position"
           form={form}
-          validateName="stand"
+          validateName="position"
         />
         <InputField
           label="Job Type"

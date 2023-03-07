@@ -1,6 +1,6 @@
 import { Card, Container, Text } from "@mantine/core";
 import { useStyles } from "./styles";
-import React from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -15,7 +15,21 @@ import moment from "moment";
 
 export default function Chart({ data = [] }) {
   const { classes } = useStyles();
+  const [data1,setData1]=useState()
   const today=moment().format("MMMM YYYY")
+ 
+// console.log(data)
+  const a=data.sort((a, b) => {
+    return a._id.day - b._id.day;
+  })
+
+  console.log(a)
+
+
+
+  
+  // setData1(sorting)
+  
   return (
     <Card
       shadow="xl"
@@ -29,7 +43,7 @@ export default function Chart({ data = [] }) {
       <Text mb="sm">{today}</Text>
       <ResponsiveContainer width={"100%"} height={250}>
         <LineChart
-          data={data}
+          data={a && a}
           margin={{
             top: 5,
             bottom: 5,
