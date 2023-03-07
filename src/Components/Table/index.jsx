@@ -38,7 +38,9 @@ const Table = ({
   setReportData,
   setEditDoc,
   editDoc,
-  setEditId
+  setEditId,
+  setEditIDApp
+  
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -172,6 +174,10 @@ const Table = ({
                                 navigate(`/userEdit/${row.id}`);
                                 // setEditId(row.id);
                                 // alert("edit id")
+                              }
+                              if(setEditIDApp){
+                                navigate(`/edit-appointment/${row.id}`);
+
                               }
                               if (setReportData) {
                                 setReportData(row);
