@@ -7,6 +7,7 @@ import ReactHtmlParser from "react-html-parser";
 import SignatureCanvas from "react-signature-canvas";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
+import Loader from "../../../../Components/Loader";
 
 export const Step4 = ({ sigCanvas }) => {
   const { classes } = useStyles();

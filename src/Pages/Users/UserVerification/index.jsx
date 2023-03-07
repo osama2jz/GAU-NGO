@@ -4,7 +4,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
@@ -28,13 +28,13 @@ export const UserVerification = () => {
   const sigCanvas2 = useRef({});
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(3);
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
   const [trainingStudies, setTrainingStudies] = useState([]);
   const [refrences, setRefrences] = useState([]);
-  const [consentSignature, setConsentSignature] = useState(false);
-  const [agreementSignature, setAgreementSignature] = useState(false);
+  const [consentSignature, setConsentSignature] = useState("");
+  const [agreementSignature, setAgreementSignature] = useState("");
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
 
@@ -176,7 +176,7 @@ export const UserVerification = () => {
     }
   );
 
-  const handleNextSubmit = () => {
+  const handleNextSubmit = async () => {
     if (active == 0) {
       if (userid) {
         setActive(active + 1);
@@ -206,10 +206,8 @@ export const UserVerification = () => {
           color: "red.0",
         });
       } else {
-        setAgreementSignature(
-          sigCanvas2.current.getTrimmedCanvas().toDataURL()
-        );
-        setActive(active + 1);
+        const url = await sigCanvas2.current.getTrimmedCanvas().toDataURL();
+        setAgreementSignature(url);
         handleVerifyUser.mutate();
       }
     }
@@ -348,99 +346,100 @@ export const UserVerification = () => {
     <Container className={classes.userVerification} size="lg" p={"0px"}>
       <ContainerHeader label={"User Verification"} />
       <Container className={classes.innerContainer} size="xl">
-      <Container className={classes.innerContainer} size="xl">
-        <Stepper
-          active={active}
-          color={theme.colors.green}
-          allowNextStepsSelect={false}
-          breakpoint="md"
-          onStepClick={setActive}
-          classNames={{
-            separator: classes.seperator,
-            separatorActive: classes.activeSep,
-            stepIcon: classes.stepIcon,
-            stepCompletedIcon: classes.stepCompletedIcon,
-          }}
-        >
-          <Stepper.Step
-            label="1. Get Started"
-            description="Personal Identification"
+        <Container className={classes.innerContainer} size="xl">
+          <Stepper
+            active={active}
+            color={theme.colors.green}
+            allowNextStepsSelect={false}
+            breakpoint="md"
+            onStepClick={setActive}
+            classNames={{
+              separator: classes.seperator,
+              separatorActive: classes.activeSep,
+              stepIcon: classes.stepIcon,
+              stepCompletedIcon: classes.stepCompletedIcon,
+            }}
           >
-            <Step1 user={userid} setUser={setUserId} />
-          </Stepper.Step>
-          <Stepper.Step
-            icon={
-              <img
-                src={step2}
-                className={classes.stepIcon}
-                width="40px"
-                alt="icon"
+            <Stepper.Step
+              label="1. Get Started"
+              description="Personal Identification"
+            >
+              <Step1 user={userid} setUser={setUserId} />
+            </Stepper.Step>
+            <Stepper.Step
+              icon={
+                <img
+                  src={step2}
+                  className={classes.stepIcon}
+                  width="40px"
+                  alt="icon"
+                />
+              }
+              label="2. Social History Form"
+              description="User's Personal History"
+            >
+              <Step2
+                setActive={setActive}
+                active={active}
+                setAlldata={setAlldata}
+                alldata={alldata}
+                workExperience={workExperience}
+                setWorkExperience={setWorkExperience}
+                refrences={refrences}
+                setRefrences={setRefrences}
+                trainingStudies={trainingStudies}
+                setTrainingStudies={setTrainingStudies}
+                userdata={userdata}
+                form={form}
+                id={userid}
               />
-            }
-            label="2. Social History Form"
-            description="User's Personal History"
-          >
-            <Step2
-              setActive={setActive}
-              active={active}
-              setAlldata={setAlldata}
-              alldata={alldata}
-              workExperience={workExperience}
-              setWorkExperience={setWorkExperience}
-              refrences={refrences}
-              setRefrences={setRefrences}
-              trainingStudies={trainingStudies}
-              setTrainingStudies={setTrainingStudies}
-              userdata={userdata}
-              form={form}
-              id={userid}
-            />
-          </Stepper.Step>
-          <Stepper.Step
-            icon={
-              <img
-                src={step3}
-                className={classes.stepIcon}
-                width="40px"
-                alt="icon"
+            </Stepper.Step>
+            <Stepper.Step
+              icon={
+                <img
+                  src={step3}
+                  className={classes.stepIcon}
+                  width="40px"
+                  alt="icon"
+                />
+              }
+              label="3. Consent Form"
+              description="Consent Form"
+            >
+              <Step3 sigCanvas={sigCanvas} />
+            </Stepper.Step>
+            <Stepper.Step
+              icon={
+                <img
+                  src={step4}
+                  className={classes.stepIcon}
+                  width="40px"
+                  alt="icon"
+                />
+              }
+              label="4. Agreement"
+              description="User Agreement"
+            >
+              <Step4 sigCanvas={sigCanvas2} />
+            </Stepper.Step>
+          </Stepper>
+          <Group position="center" mt="xl">
+            {active < 2 ? (
+              ""
+            ) : (
+              <Button onClick={() => setActive(active - 1)} label="Back" />
+            )}
+            {active === 1 ? (
+              ""
+            ) : (
+              <Button
+                onClick={handleNextSubmit}
+                label={active === 4 ? "Submit" : "Save & Next"}
+                bg={true}
               />
-            }
-            label="3. Consent Form"
-            description="Consent Form"
-          >
-            <Step3 sigCanvas={sigCanvas} />
-          </Stepper.Step>
-          <Stepper.Step
-            icon={
-              <img
-                src={step4}
-                className={classes.stepIcon}
-                width="40px"
-                alt="icon"
-              />
-            }
-            label="4. Agreement"
-            description="User Agreement"
-          >
-            <Step4 sigCanvas={sigCanvas2} />
-          </Stepper.Step>
-        </Stepper>
-        <Group position="center" mt="xl">
-          {active < 2 ? (
-            ""
-          ) : (
-            <Button onClick={() => setActive(active - 1)} label="Back" />
-          )}
-          {active === 1 ? (
-            ""
-          ) : (
-            <Button
-              onClick={handleNextSubmit}
-              label={active === 4 ? "Submit" : "Save & Next"}
-              bg={true}
-            />
-          )}
-        </Group>
+            )}
+          </Group>
+        </Container>
       </Container>
     </Container>
   );
