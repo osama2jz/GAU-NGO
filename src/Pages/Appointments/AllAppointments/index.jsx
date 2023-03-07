@@ -34,6 +34,7 @@ function AllAppointments() {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
+  const [editid,setEditId]=useState()
 
   console.log("Report Data: ", reportData);
 
@@ -132,6 +133,7 @@ function AllAppointments() {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
+      edit: <Edit color="#4069bf" />,
       numeric: false,
       label: "Actions",
     },
@@ -191,6 +193,7 @@ function AllAppointments() {
           setViewModalState={setOpenViewModal}
           reportData={reportData}
           setReportData={setReportData}
+          setEditIDApp={setEditId}
         />
       </Container>
 

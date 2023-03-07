@@ -39,6 +39,7 @@ import { ViewDocuments } from "./NGOAdminPages/Documents/ViewDocuments";
 import { ViewDonations } from "./NGOAdminPages/Donations/ViewDonations";
 import { ViewComplains } from "./NGOAdminPages/Complains";
 import { AddComplains } from "./NGOAdminPages/Complains/addComplaints";
+import EditAppointments from "./Pages/Appointments/EditAppointment";
 
 function App() {
   return (
@@ -191,6 +192,10 @@ function App() {
           <Route
             path={routeNames.user.addComplaint}
             element={<AddComplains />}
+          />
+           <Route
+            path={routeNames.socialWorker.editAppoinment}
+            element={<EditAppointments />}
           />
         </Route>
 
