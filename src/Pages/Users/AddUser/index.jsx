@@ -24,8 +24,7 @@ export const AddUser = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
-  console.log(user)
-
+  console.log(user);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -115,128 +114,123 @@ export const AddUser = () => {
         key={index}
         src={imageUrl}
         radius="xl"
+        m={"0px"}
+        p="0px"
         imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
       />
     );
   });
   return (
-    <Container className={classes.addUser} size="xl">
+    <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Add User"} />
 
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
       >
-         <Grid align="center" justify="center" >
-          <Grid.Col md={12} p="md" align="center" lg={6}>
-            <Container pos={"relative"} className={classes.imageContainer} >
-              {/* {(files.length > 0 ) && (
-                <CircleX className={classes.cross} onClick={deleteImage} />
-              )} */}
-              {files.length > 0 ? (
-                previews
-              ) : (
-                <Avatar
-                  size={150}
-                  radius="xl"
-                  src={
-                   
-                    "https://www.w3schools.com/howto/img_avatar.png"
-                  }
-                />
-              )}
-            </Container>
+        <Group className={classes.dp}>
+          <Container pos={"relative"}>
+            {files.length > 0 ? (
+              previews
+            ) : (
+              <Avatar
+                size={200}
+                radius="xl"
+                m={"0px"}
+                p={"0px"}
+                src={"https://www.w3schools.com/howto/img_avatar.png"}
+              />
+            )}
+          </Container>
 
-            <Dropzone
-              accept={IMAGE_MIME_TYPE}
-              maxFiles={1}
-              style={{ width: "150px" }}
-              onDrop={(v) => {
-                setFiles(v);
-              }}
-            >
-              <Text align="center" className={classes.upload}>
-                <Upload size={16} />
-                Upload
-              </Text>
-            </Dropzone>
-          </Grid.Col>
-          </Grid>
-          
-        <Grid>
-         
-       
-          <Grid.Col sm={6}>
-            <InputField
-              label="First Name"
-              required={true}
-              placeholder="First Name"
-              form={form}
-              validateName="firstName"
-            />
-          </Grid.Col>
-          <Grid.Col sm={6}>
-            <InputField
-              label="Last Name"
-              required={true}
-              placeholder="Last Name"
-              form={form}
-              validateName="lastName"
-            />
-          </Grid.Col>
-        </Grid>
-        <Grid>
-          <Grid.Col sm={6}>
-            <InputField
-              label="Email"
-              required={true}
-              placeholder="xyz@gmail.com"
-              form={form}
-              validateName="email"
-            />
-          </Grid.Col>
-          <Grid.Col sm={6}>
-            <InputField
-              type="number"
-              label="Phone Number"
-              required={true}
-              placeholder="+123456789"
-              form={form}
-              validateName="phoneNumber"
-            />
-          </Grid.Col>
-        </Grid>
-
-        <PassInput
-          label="Password"
-          required={true}
-          placeholder="*******"
-          form={form}
-          validateName="password"
-        />
-        <PassInput
-          label="Confirm Password"
-          required={true}
-          placeholder="*******"
-          form={form}
-          validateName="confirmPassword"
-        />
-        <Text pb={"sm"} size="sm">
-          By pressing “Submit” I declare that i’ve read and agree to the{" "}
-          <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
-        </Text>
-        <Group position="right" mt="sm">
-          <Button
-            label="Cancel"
-            onClick={() => navigate(routeNames.socialWorker.allUsers)}
-          />
-          <Button
-            label="Add User"
-            leftIcon={"plus"}
-            primary={true}
-            type="submit"
-          />
+          <Dropzone
+            accept={IMAGE_MIME_TYPE}
+            maxFiles={1}
+            style={{ width: "150px" }}
+            onDrop={(v) => {
+              setFiles(v);
+            }}
+          >
+            <Text align="center" className={classes.upload}>
+              <Upload size={16} />
+              Upload
+            </Text>
+          </Dropzone>
         </Group>
+        <Container p={"0px"} size="xl" m={"sm"}>
+          <Grid>
+            <Grid.Col sm={6}>
+              <InputField
+                label="First Name"
+                required={true}
+                placeholder="First Name"
+                form={form}
+                validateName="firstName"
+              />
+            </Grid.Col>
+            <Grid.Col sm={6}>
+              <InputField
+                label="Last Name"
+                required={true}
+                placeholder="Last Name"
+                form={form}
+                validateName="lastName"
+              />
+            </Grid.Col>
+          </Grid>
+          <Grid>
+            <Grid.Col sm={6}>
+              <InputField
+                label="Email"
+                required={true}
+                placeholder="xyz@gmail.com"
+                form={form}
+                validateName="email"
+              />
+            </Grid.Col>
+            <Grid.Col sm={6}>
+              <InputField
+                type="number"
+                label="Phone Number"
+                required={true}
+                placeholder="+123456789"
+                form={form}
+                validateName="phoneNumber"
+              />
+            </Grid.Col>
+          </Grid>
+
+          <PassInput
+            label="Password"
+            required={true}
+            placeholder="*******"
+            form={form}
+            validateName="password"
+          />
+          <PassInput
+            label="Confirm Password"
+            required={true}
+            placeholder="*******"
+            form={form}
+            validateName="confirmPassword"
+          />
+          <Text pb={"sm"} size="sm">
+            By pressing “Submit” I declare that i’ve read and agree to the{" "}
+            <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
+          </Text>
+          <Group position="right" mt="sm">
+            <Button
+              label="Cancel"
+              onClick={() => navigate(routeNames.socialWorker.allUsers)}
+            />
+            <Button
+              label="Add User"
+              leftIcon={"plus"}
+              primary={true}
+              type="submit"
+            />
+          </Group>
+        </Container>
       </form>
       <SubmitModal opened={showModal} setOpened={setShowModal} />
     </Container>

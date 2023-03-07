@@ -95,7 +95,7 @@ function App() {
             path={routeNames.socialWorker.userVerification2}
             element={<UserVerification />}
           />
-           <Route
+          <Route
             path={routeNames.socialWorker.userEditDetails}
             element={<UserVerification />}
           />

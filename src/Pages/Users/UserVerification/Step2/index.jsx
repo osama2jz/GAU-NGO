@@ -56,6 +56,7 @@ export const Step2 = ({
   const [selectedFile, setSelectedFile] = useState(null);
   const [descrimation, setDescrimation] = useState();
   const [fileLoader, setFileLoader] = useState(false);
+  const [files, setFiles] = useState([]);
 
   const {editId}=useParams();
 

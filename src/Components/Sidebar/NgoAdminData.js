@@ -90,7 +90,7 @@ export const ngoAdminSideBarData = [
     label: "Report",
     icon: Report,
     links: [
-      // { label: "Private", link: routeNames.ngoAdmin.privateReport },
+      { label: "Private", link: routeNames.ngoAdmin.privateReport },
       { label: "Public", link: routeNames.ngoAdmin.publicReport },
     ],
   },

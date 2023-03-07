@@ -23,7 +23,7 @@ const SelectMenu = ({
   searchable,
   required,
   label,
-  pb = "sm  ",
+  pb = "sm",
   data,
   setData,
   clearable,
@@ -52,11 +52,6 @@ const SelectMenu = ({
       clearable={clearable}
       disabled={disabled}
       value={value}
-      onCreate={(query) => {
-        // const item = { value: query, label: query };
-        // setData((current) => [...current, item]);
-        // return item;
-      }}
       onChange={onChange || ((v) => setData(v))}
       data={data}
       {...form?.getInputProps(validateName)}

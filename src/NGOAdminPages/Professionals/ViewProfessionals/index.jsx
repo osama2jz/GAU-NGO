@@ -80,12 +80,6 @@ export const ViewProfessionals = () => {
       disablePadding: true,
       label: "User Status",
     },
-    // {
-    //   id: "userVerify",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Verify",
-    // },
     {
       id: "accStatus",
       numeric: false,
@@ -142,7 +136,7 @@ export const ViewProfessionals = () => {
           return user;
         });
         setRowData(data);
-        // setTotalPages(response.data.totalPages);
+        setTotalPages(response.data.totalPages);
       },
     }
   );
