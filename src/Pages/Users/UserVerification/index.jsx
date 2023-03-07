@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import step2 from "../../../assets/step2.png";
@@ -23,9 +23,11 @@ import { useStyles } from "./styles";
 export const UserVerification = () => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
+  const sigCanvas = useRef({});
+  const sigCanvas2 = useRef({});
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2);
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
   const [trainingStudies, setTrainingStudies] = useState([]);
@@ -47,25 +49,29 @@ export const UserVerification = () => {
         });
       }
     } else if (active == 2) {
-      if (consentSignature) {
-        setActive(active + 1);
-      } else {
+      if (sigCanvas.current.isEmpty()) {
         showNotification({
           title: "Error",
           message: "Please sign the consent form",
           color: "red.0",
         });
+      } else {
+        setConsentSignature(sigCanvas.current.getTrimmedCanvas().toDataURL());
+        setActive(active + 1);
       }
     } else if (active == 3) {
-      if (agreementSignature) {
-        setActive(active + 1);
-        handleVerifyUser.mutate();
-      } else {
+      if (sigCanvas2.current.isEmpty()) {
         showNotification({
           title: "Error",
-          message: "Please check the User Agreement",
+          message: "Please sign the agreement form",
           color: "red.0",
         });
+      } else {
+        setAgreementSignature(
+          sigCanvas2.current.getTrimmedCanvas().toDataURL()
+        );
+        setActive(active + 1);
+        handleVerifyUser.mutate();
       }
     }
   };
@@ -202,7 +208,7 @@ export const UserVerification = () => {
   return (
     <Container className={classes.userVerification} size="lg" p={"0px"}>
       <ContainerHeader label={"User Verification"} />
-      <Container className={classes.innerContainer} size="xl" >
+      <Container className={classes.innerContainer} size="xl">
         <Stepper
           active={active}
           color={theme.colors.green}
@@ -262,7 +268,7 @@ export const UserVerification = () => {
             label="3. Consent Form"
             description="Consent Form"
           >
-            <Step3 setConsentSignature={setConsentSignature} />
+            <Step3 sigCanvas={sigCanvas} />
           </Stepper.Step>
           <Stepper.Step
             icon={
@@ -276,22 +282,8 @@ export const UserVerification = () => {
             label="4. Agreement"
             description="User Agreement"
           >
-            <Step4 setAgreementSignature={setAgreementSignature} />
+            <Step4 sigCanvas={sigCanvas2} />
           </Stepper.Step>
-          {/* <Stepper.Step
-          icon={
-            <img
-              src={step5}
-              className={classes.stepIcon}
-              width="40px"
-              alt="icon"
-            />
-          }
-          label="5. Finish"
-          description="verified"
-        >
-          <Step5 />
-        </Stepper.Step> */}
         </Stepper>
         <Group position="center" mt="xl">
           {active < 2 ? (

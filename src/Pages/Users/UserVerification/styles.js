@@ -19,6 +19,14 @@ export const useStyles = createStyles((theme) => ({
     // border:'1px solid black',
     borderRadius: "50%",
   },
+  sign:{
+    border:'1px solid rgb(0,0,0,0.3)',
+    borderRadius:'10px',
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'flex-end',
+    backgroundColor:'rgb(0,0,0,0.05)'
+  },
   subHeading: {
     fontSize: "18px",
     padding: "10px",

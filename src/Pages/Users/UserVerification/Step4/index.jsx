@@ -1,15 +1,17 @@
-import { Checkbox, Container, Text } from "@mantine/core";
+import { Anchor, Checkbox, Container, Text } from "@mantine/core";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useQuery } from "react-query";
 import { backendUrl } from "../../../../constants/constants";
 import ReactHtmlParser from "react-html-parser";
+import SignatureCanvas from "react-signature-canvas";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 
-export const Step4 = ({ setAgreementSignature }) => {
+export const Step4 = ({ sigCanvas }) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
+  // const sigCanvas = useRef({});
 
   //API call for fetching agreement form
   const { data, status } = useQuery("fetchConsent", () => {
@@ -30,13 +32,17 @@ export const Step4 = ({ setAgreementSignature }) => {
   return (
     <Container size="xl" p={"lg"} className={classes.consent}>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
-
-      <Checkbox
-        label="I agree to terms and condition."
-        styles={{ input: classes.checkBoxInput }}
-        mt={"md"}
-        onChange={(event) => setAgreementSignature(event.currentTarget.checked)}
-      />
+      <Text align="center" fw={"bold"}>
+        User Signature
+      </Text>
+      <Container className={classes.sign}>
+        <SignatureCanvas
+          ref={sigCanvas}
+          penColor="green"
+          canvasProps={{ width: 900, height: 200, className: "sigCanvas" }}
+        />
+        <Anchor onClick={() => sigCanvas.current.clear()}>Reset</Anchor>
+      </Container>
     </Container>
   );
 };
