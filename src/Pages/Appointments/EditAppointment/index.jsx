@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Eye } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -19,7 +19,7 @@ import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useStyles } from "./styles";
 import { UserContext } from "../../../contexts/UserContext";
 import { backendUrl } from "../../../constants/constants";
@@ -31,6 +31,7 @@ import { s3Config } from "../../../constants/constants";
 import { Divider, FileInput } from "@mantine/core";
 import { FileUpload } from "tabler-icons-react";
 import { UserInfo } from "../CreateAppointment/userInformation";
+import {useLocation} from 'react-router-dom'
 
 function EditAppointments() {
   const { classes } = useStyles();
@@ -53,9 +54,47 @@ function EditAppointments() {
     },
   ]);
 
+  let { state } = useLocation();
+
+  const {
+    editData
+  } = state ?? "";
+
+
+  
+  useEffect(() => {
+    if(editData) 
+    setNumInputs(editData?.doc)
+    setOtherDocument(editData?.doc)
+  },[editData?.doc])
+  console.log("Num Inputs: ", otherDocument);
+
+   //Upload Document
+   const handleUploadDocuments = useMutation(
+    () => {
+      const value = {
+        // caseId: editData?.,
+        // otherDocuments: otherDocument,
+      };
+      return axios.post(`${backendUrl + "/api/case/otherDocuments"}`, value, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        showNotification({
+          color: "green.0",
+          message: "Documents uploaded Successfully",
+          title: "Success",
+        });
+      },
+    }
+  );
+
   function addInputField(id) {
     setNumInputs([...numInputs, id]);
-
     const obj = {
       documentName: "",
       documentURL: "",
@@ -145,11 +184,11 @@ function EditAppointments() {
               <Text fz={18} fw={"bold"}>
                 Case#
               </Text>
-              <Text ml={10}>XXXX</Text>
+              <Text ml={10}>{editData?.caseNo}</Text>
             </SimpleGrid>
           </Flex>
           {loading ? (
-            <Loader />
+            <Loader minHeight={"30vh"}/>
           ) : (
             <Container size={"sm"} p="0px">
               <UserInfo userData={selectedUser} />
@@ -163,15 +202,18 @@ function EditAppointments() {
           </Text>
 
           {numInputs?.map((i, index) => (
+            
             <SimpleGrid
               breakpoints={[
                 { minWidth: "md", cols: 2 },
                 { minWidth: "sm", cols: 1 },
               ]}
             >
+              {console.log("index: ", i)}
               <InputField
                 label={"Document Name"}
                 placeholder="enter document name"
+                value={i?.documentName}
                 onChange={(e) => {
                   // update value at current index in other document array
                   otherDocument[index].documentName = e.target.value;
@@ -182,7 +224,7 @@ function EditAppointments() {
 
               <FileInput
                 label="Upload Document"
-                placeholder="Upload Document"
+                placeholder={i?.documentURL? i.documentName:"Upload Document"}
                 accept="file/pdf"
                 styles={(theme) => ({
                   root: {
@@ -205,7 +247,14 @@ function EditAppointments() {
             bg={true}
           />
         </Container>
+        <Button
+            label={"Add Documents"}
+            onClick={() => addInputField(2)}
+            bg={true}
+            
+          />
       </Container>
+      
     </Container>
   );
 }

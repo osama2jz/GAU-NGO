@@ -21,6 +21,7 @@ const routeNames = {
     allAppointments: "/all-appointments",
     scheduledAppointments: "/scheduled-appointments",
     editAppoinment: "/edit-appointment/:id",
+    viewAppoinment: "/view-appointment/:id",
     userPageDashboard: "/user-page-dashboard",
     appointmentPageDashboard: "/appointment-page-dashboard",
     reportPageDashboard: "/report-page-dashboard",

@@ -36,7 +36,7 @@ function AllAppointments() {
   const [reportData, setReportData] = useState([]);
   const [editid,setEditId]=useState()
 
-  console.log("Report Data: ", reportData);
+  
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -72,6 +72,8 @@ function AllAppointments() {
                 ? "Psychologist"
                 : "Lawyer",
             appointId: obj?.appointmentId,
+            doc: obj?.documents,
+            reportData: obj?.reports,
           };
           return appointment;
         });
@@ -191,9 +193,10 @@ function AllAppointments() {
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
-          reportData={reportData}
-          setReportData={setReportData}
+          // reportData={reportData}
+          // setReportData={setReportData}
           setEditIDApp={setEditId}
+          
         />
       </Container>
 

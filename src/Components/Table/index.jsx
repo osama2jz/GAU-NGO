@@ -161,6 +161,14 @@ const Table = ({
                             if (setReportData) {
                               setReportData(row);
                             }
+                            if(setEditIDApp){
+                              navigate(`/view-appointment/${row.id}`,{
+                                state:{
+                                  editData:row
+                                }
+                              });
+
+                            }
                             setViewModalState(true);
                             setViewModalData(row.id);
                           }}
@@ -176,7 +184,11 @@ const Table = ({
                                 // alert("edit id")
                               }
                               if(setEditIDApp){
-                                navigate(`/edit-appointment/${row.id}`);
+                                navigate(`/edit-appointment/${row.id}`,{
+                                  state:{
+                                    editData:row
+                                  }
+                                });
 
                               }
                               if (setReportData) {
