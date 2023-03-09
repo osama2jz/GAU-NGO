@@ -40,6 +40,7 @@ export const ViewProfessionals = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
+  
 
   const [reportData, setReportData] = useState([]);
 
@@ -217,7 +218,7 @@ export const ViewProfessionals = () => {
             headCells={headerData}
             rowData={rowData}
             setViewModalState={setOpenViewModal}
-            setViewModalData={setViewModalData}
+            // setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}

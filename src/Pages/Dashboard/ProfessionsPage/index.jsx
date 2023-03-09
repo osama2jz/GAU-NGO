@@ -240,7 +240,7 @@ const ProfessionPage = (props) => {
           <Text>Back</Text>
         </Anchor>
         <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          User
+          Professionals
         </Text>
       </Flex>
       <Grid>

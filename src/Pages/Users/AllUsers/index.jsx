@@ -224,7 +224,7 @@ export const AllUser = () => {
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
-            // setReportData={setReportData}
+            setReportData={setReportData}
             setEditId={setEditId}
           />
         )}

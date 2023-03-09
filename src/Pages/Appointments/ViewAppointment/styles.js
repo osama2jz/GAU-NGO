@@ -7,6 +7,10 @@ export const useStyles = createStyles((theme) => ({
     padding: "20px",
     minHeight: "84vh",
    
+  },back: {
+    marginRight: "auto",
+    display: "flex",
+    alignItems: "center",
   },
   heading: {
     color: theme.colors.heading,

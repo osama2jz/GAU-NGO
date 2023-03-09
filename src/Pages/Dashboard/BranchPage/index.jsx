@@ -162,7 +162,7 @@ const BranchPage = (props) => {
           <Text>Back</Text>
         </Anchor>
         <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          User
+          Branches
         </Text>
       </Flex>
       <Grid>

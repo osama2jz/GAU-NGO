@@ -60,6 +60,7 @@ function AllAppointments() {
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,
             name: obj?.appointmentUser,
+            caseId:obj?.caseId,
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
@@ -78,7 +79,7 @@ function AllAppointments() {
           return appointment;
         });
         setRowData(data);
-        console.log(response);
+        
       },
     }
   );

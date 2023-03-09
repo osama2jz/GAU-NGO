@@ -12,7 +12,7 @@ import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import PassInput from "../../../Components/PassInput";
-import { backendUrl } from "../../../constants/constants";
+import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
@@ -24,8 +24,8 @@ export const AddUser = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
-  console.log(user);
-
+  const [fileUploading,setFileUploading]=useState(false)
+  
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -36,6 +36,7 @@ export const AddUser = () => {
       password: "",
       confirmPassword: "",
       userType: "user",
+      profileImage: "",
     },
 
     validate: {
@@ -120,6 +121,57 @@ export const AddUser = () => {
       />
     );
   });
+
+  const handleImageInput = (file, type) => {
+    // setFileLoader(true);
+    //s3 configs
+    setFileUploading(true)
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = file.name;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        results.innerHTML = "ERROR: " + err;
+      } else {
+        bucket.listObjects(function (err, data) {
+          if (err) {
+            showNotification({
+              title: "Upload Failed",
+              message: "Something went Wrong",
+              color: "red.0",
+            });
+          } else {
+            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            console.log("link", link);
+
+            form.setFieldValue("profileImage", link);
+          }
+          setFileUploading(false)
+        });
+      }
+      // setFileLoader(false);
+    });
+  };
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Add User"} />
@@ -149,12 +201,14 @@ export const AddUser = () => {
             style={{ width: "150px" }}
             onDrop={(v) => {
               setFiles(v);
+              handleImageInput(v[0]);
             }}
           >
-            <Text align="center" className={classes.upload}>
+            {fileUploading ? <Loader minHeight="5vh"/> : (<Text align="center" className={classes.upload}>
               <Upload size={16} />
               Upload
-            </Text>
+            </Text>)}
+            
           </Dropzone>
         </Group>
         <Container p={"0px"} size="xl" m={"sm"}>
@@ -228,6 +282,7 @@ export const AddUser = () => {
               leftIcon={"plus"}
               primary={true}
               type="submit"
+              disabled={fileUploading }
             />
           </Group>
         </Container>

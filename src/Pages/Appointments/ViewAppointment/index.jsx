@@ -1,41 +1,25 @@
 import {
+  Anchor,
   Avatar,
   Badge,
-  Container,
-  Flex,
-  Grid,
-  Group,
-  SimpleGrid,
+  Container, Divider, Flex,
+  Grid, SimpleGrid,
   Tabs,
-  Text,
+  Text
 } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { Eye } from "tabler-icons-react";
-import Button from "../../../Components/Button";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
-import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames";
-import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useQuery, useQueryClient } from "react-query";
-import { useStyles } from "./styles";
-import { UserContext } from "../../../contexts/UserContext";
-import { backendUrl } from "../../../constants/constants";
 import moment from "moment";
-import axios from "axios";
-import Loader from "../../../Components/Loader";
-import { showNotification } from "@mantine/notifications";
-import { s3Config } from "../../../constants/constants";
-import { Divider, FileInput } from "@mantine/core";
-import { FileUpload } from "tabler-icons-react";
-import { UserInfo } from "../CreateAppointment/userInformation";
-import {useLocation} from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useLocation } from 'react-router-dom';
+import { ArrowNarrowLeft } from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import Table from "../../../Components/Table";
+import { useStyles } from "./styles";
 
 function ViewAppointments() {
   const { classes } = useStyles();
+  const navigate=useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
@@ -208,12 +192,15 @@ function ViewAppointments() {
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Container p="sm">
           <Flex justify={"space-between"}>
-            <SimpleGrid cols={2}>
-              <Text fz={18} fw={"bold"}>
-                Case#
-              </Text>
-              <Text ml={10}>{editData?.caseNo}</Text>
-            </SimpleGrid>
+          <Anchor
+          fz={12}
+          fw="bolder"
+          className={classes.back}
+          onClick={() => navigate(-1)}
+        >
+          <ArrowNarrowLeft />
+          <Text>Back</Text>
+        </Anchor>
           </Flex>
           <Grid align="center" justify={"space-between"}>
           <Grid.Col md={4}>
@@ -233,6 +220,10 @@ function ViewAppointments() {
                 <Text className={classes.textheading}>Appointee</Text>
                 <Text className={classes.textContent}>
                   {editData?.addedBy}
+                </Text>
+                <Text className={classes.textheading}>Case #</Text>
+                <Text className={classes.textContent}>
+                  {editData?.caseNo}
                 </Text>
                 <Text className={classes.textheading}>Case Name</Text>
                 <Text className={classes.textContent}>

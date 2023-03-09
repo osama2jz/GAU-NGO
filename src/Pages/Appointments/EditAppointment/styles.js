@@ -8,6 +8,11 @@ export const useStyles = createStyles((theme) => ({
     minHeight: "84vh",
    
   },
+  back: {
+    marginRight: "auto",
+    display: "flex",
+    alignItems: "center",
+  },
   heading: {
     color: theme.colors.heading,
   },

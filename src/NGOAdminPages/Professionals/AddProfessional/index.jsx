@@ -1,9 +1,18 @@
-import { Anchor, Avatar, Container, FileInput, Grid, Group, Text } from "@mantine/core";
+import {
+  Anchor,
+  Avatar,
+  Container,
+  FileInput,
+  Grid,
+  Group,
+  Input,
+  Text,
+} from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { FileUpload, Upload } from "tabler-icons-react";
@@ -13,7 +22,7 @@ import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import PassInput from "../../../Components/PassInput";
 import SelectMenu from "../../../Components/SelectMenu";
-import { backendUrl } from "../../../constants/constants";
+import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
@@ -24,6 +33,12 @@ export const AddProfessional = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
+  const [fileUploading, setFileUploading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const [filerror, setFileError] = useState("");
+  const [imageData, setImageData] = useState("");
+  const [fileData, setFileData] = useState("");
 
   const form = useForm({
     validateInputOnChange: true,
@@ -35,6 +50,8 @@ export const AddProfessional = () => {
       password: "",
       confirmPassword: "",
       userType: "",
+      profileImage: "",
+      IDDetails: "",
     },
 
     validate: {
@@ -64,16 +81,45 @@ export const AddProfessional = () => {
           : null,
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
+      // profileImage: (value) =>
+      //   value.length < 1 ? "Please upload a profile image" : null,
     },
   });
 
   const handleAddUser = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/create"}`, values, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+     
+
+      if (imageData === "" || fileData === "") {
+        if (imageData=== "") {
+          setUploadError("Please upload the Profile Photo");
+        }
+        if (fileData === "") {
+          setFileError("Please upload the file");
+        }
+      } else {
+        form.setFieldValue("profileImage", imageData);
+        form.setFieldValue("IDDetails", fileData);
+        return axios.post(`${backendUrl + "/api/user/create"}`, values, {
+          headers: {
+            "x-access-token": user.token,
+          },
+        });
+      }
+      // if (values?.profileImage?.length > 0 && values?.IDDetails?.length > 0) {
+      //   return axios.post(`${backendUrl + "/api/user/create"}`, values, {
+      //     headers: {
+      //       "x-access-token": user.token,
+      //     },
+      //   });
+      // } else {
+      //   showNotification({
+      //     title: "Upload Failed",
+      //     message: "Please upload all the required files",
+      //     color: "red.0",
+      //   });
+      //   setUploadError("Please upload the file");
+      // }
     },
     {
       onSuccess: (response) => {
@@ -99,18 +145,19 @@ export const AddProfessional = () => {
     return <Loader />;
   }
 
-  if (handleAddUser.isError) {
-    showNotification({
-      title: "Error",
-      message: "Something went wrong",
-      color: "red",
-    });
-  }
+  // if (handleAddUser.isError) {
+  //   showNotification({
+  //     title: "Error",
+  //     message: "Something went wrong",
+  //     color: "red",
+  //   });
+  // }
 
-  
-  const handleFileInput = (file) => {
-    setFileLoader(true);
+  const handleFileInput = (file, type) => {
+    // setFileLoader(true);
     //s3 configs
+    setFileError("");
+    setFileUploading(true);
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
     // console.log(aws);
@@ -120,7 +167,7 @@ export const AddProfessional = () => {
 
     AWS.config.credentials.get(function (err) {
       if (err) alert(err);
-      console.log(AWS.config.credentials);
+      // console.log(AWS.config.credentials);
     });
     var bucket = new AWS.S3({
       params: {
@@ -147,13 +194,81 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            form.setFieldValue("documentURL", link);
+            console.log("link", link);
+            // form.setFieldValue("documentURL", link);
+            setFileData(link);
           }
         });
       }
-      setFileLoader(false);
+      setFileUploading(false);
     });
   };
+
+  const handleImageInput = (file, type) => {
+    // setFileLoader(true);
+    //s3 configs
+    setUploadError("");
+    setImageUploading(true);
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = file.name;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        results.innerHTML = "ERROR: " + err;
+      } else {
+        bucket.listObjects(function (err, data) {
+          if (err) {
+            showNotification({
+              title: "Upload Failed",
+              message: "Something went Wrong",
+              color: "red.0",
+            });
+          } else {
+            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            console.log("link", link);
+            // form.setFieldValue("documentURL", link);
+            setImageData(link)
+          }
+        });
+      }
+      setImageUploading(false);
+    });
+  };
+
+  const previews = files.map((file, index) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <Avatar
+        size={200}
+        key={index}
+        src={imageUrl}
+        radius="xl"
+        m={"0px"}
+        p="0px"
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+      />
+    );
+  });
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Add Professional"} />
@@ -176,20 +291,26 @@ export const AddProfessional = () => {
               />
             )}
           </Container>
-
-          <Dropzone
-            accept={IMAGE_MIME_TYPE}
-            maxFiles={1}
-            style={{ width: "150px" }}
-            onDrop={(v) => {
-              setFiles(v);
-            }}
-          >
-            <Text align="center" className={classes.upload}>
-              <Upload size={16} />
-              Upload
-            </Text>
-          </Dropzone>
+          <Input.Wrapper error={uploadError} size={"md"}>
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              maxFiles={1}
+              style={{ width: "150px" }}
+              onDrop={(v) => {
+                setFiles(v);
+                handleImageInput(v[0], "pic");
+              }}
+            >
+              {imageUploading ? (
+                <Loader minHeight="5vh" />
+              ) : (
+                <Text align="center" className={classes.upload}>
+                  <Upload size={16} />
+                  Upload
+                </Text>
+              )}
+            </Dropzone>
+          </Input.Wrapper>
         </Group>
         <Container p={"0px"} size="xs" m={"sm"}>
           <Grid>
@@ -207,24 +328,26 @@ export const AddProfessional = () => {
               />
             </Grid.Col>
             <Grid.Col sm={6}>
-            <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
-            accept="file/pdf"
-            styles={(theme) => ({
-              root: {
-                margin: "auto",
-              },
-              input: {
-                border: "1px solid rgb(0, 0, 0, 0.1)",
-                borderRadius: "5px",
-                // width: "250px",
-              },
-            })}
-            icon={<FileUpload size={20} />}
-            onChange={(e) => handleFileInput(e)}
-          />
-          {/* {fileLoader && <Loader minHeight="50px" />} */}
+              <Input.Wrapper error={filerror} size={"md"}>
+                <FileInput
+                  label="Upload Document"
+                  placeholder="Upload Document"
+                  accept="file/pdf"
+                  styles={(theme) => ({
+                    root: {
+                      margin: "auto",
+                    },
+                    input: {
+                      border: "1px solid rgb(0, 0, 0, 0.1)",
+                      borderRadius: "5px",
+                      // width: "250px",
+                    },
+                  })}
+                  icon={<FileUpload size={20} />}
+                  onChange={(e) => handleFileInput(e, "file")}
+                />
+              </Input.Wrapper>
+              {/* {fileLoader && <Loader minHeight="50px" />} */}
             </Grid.Col>
 
             <Grid.Col sm={6}>
@@ -288,16 +411,25 @@ export const AddProfessional = () => {
             </Grid.Col>
           </Grid>
           <Group position="right" mt="sm">
-            <Button
-              label="Cancel"
-              onClick={() => navigate(routeNames.ngoAdmin.viewProfessionals)}
-            />
-            <Button
-              label="Add Professional"
-              leftIcon={"plus"}
-              primary={true}
-              type="submit"
-            />
+            {fileUploading ? (
+              <Loader minHeight="40px" />
+            ) : (
+              <>
+                <Button
+                  label="Cancel"
+                  onClick={() =>
+                    navigate(routeNames.ngoAdmin.viewProfessionals)
+                  }
+                />
+
+                <Button
+                  label="Add Professional"
+                  leftIcon={"plus"}
+                  primary={true}
+                  type="submit"
+                />
+              </>
+            )}
           </Group>
         </Container>
       </form>

@@ -40,6 +40,9 @@ root.render(
             ".mantine-19tsm68": {
               color: "red",
             },
+            ".mantine-pimw6z":{
+              color:'red'
+            },
             ".mantine-Checkbox-input:checked": {
                 backgroundColor: "green",
             },
