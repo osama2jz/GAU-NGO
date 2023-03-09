@@ -15,6 +15,9 @@ export const useStyles = createStyles((theme) => ({
   heading: {
     color: theme.colors.heading,
   },
+  tabs: {
+    backgroundColor: "rgb(0,0,0,0.1)",
+  },
   innerContainer: {
     backgroundColor: theme.colors.white,
     padding: "20px",

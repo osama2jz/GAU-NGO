@@ -93,9 +93,9 @@ export const AddRoaster = () => {
 
   //API call for fetching all professionals
   const { data: data2, status: status2 } = useQuery(
-    "fetchProfessionals",
+    "fetchAllProfessionals",
     () => {
-      return axios.get(`${backendUrl + `/api/user/listUsers/professionals`}`, {
+      return axios.get(`${backendUrl + `/api/user/listUsers/all/0/0`}`, {
         headers: {
           "x-access-token": user.token,
         },

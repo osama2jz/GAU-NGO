@@ -1,6 +1,6 @@
 import { Container } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
@@ -8,9 +8,16 @@ function NewStudiesTrainingModal({
   trainingStudies,
   setTrainingStudies,
   setopenTrainingModal,
+  editData,
+  setEditData,
 }) {
   const { classes } = useStyles();
-  console.log("trainingStudies", trainingStudies);
+  console.log("trainingStudies", editData);
+  useEffect(() => {
+    if (editData) {
+      form.setValues(editData);
+    }
+  }, [editData]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -35,10 +42,21 @@ function NewStudiesTrainingModal({
   });
 
   const addRefrences = (values) => {
-    values.id = trainingStudies.length + 1;
-    setTrainingStudies([...trainingStudies, values]);
-    setopenTrainingModal(false);
-    form.reset();
+    if (editData) {
+      const index = trainingStudies.findIndex(
+        (item) => item.id === editData.id
+      );
+      trainingStudies[index] = values;
+      setTrainingStudies([...trainingStudies]);
+      setopenTrainingModal(false);
+      form.reset();
+      setEditData("");
+    } else {
+      values.id = trainingStudies.length + 1;
+      setTrainingStudies([...trainingStudies, values]);
+      setopenTrainingModal(false);
+      form.reset();
+    }
   };
   return (
     <Container>

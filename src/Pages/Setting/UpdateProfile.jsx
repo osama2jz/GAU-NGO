@@ -113,9 +113,9 @@ export const UpdateProfile = () => {
         <Grid>
           <Grid.Col md={12} p="md" align="center" lg={6}>
             <Container pos={"relative"} className={classes.imageContainer}>
-              {(files.length > 0 || profileImage) && (
+              {/* {(files.length > 0 || profileImage) && (
                 <CircleX className={classes.cross} onClick={deleteImage} />
-              )}
+              )} */}
               {files.length > 0 ? (
                 previews
               ) : (
@@ -138,10 +138,10 @@ export const UpdateProfile = () => {
                 setFiles(v);
               }}
             >
-              <Text align="center" className={classes.upload}>
+              {/* <Text align="center" className={classes.upload}>
                 <Upload size={16} />
                 Upload
-              </Text>
+              </Text> */}
             </Dropzone>
           </Grid.Col>
           <Grid.Col md={12} lg={6}>

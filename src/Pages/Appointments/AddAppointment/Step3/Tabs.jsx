@@ -13,6 +13,9 @@ const DoubleTabs = ({
   reportFiles,
   privatereportFiles,
   setPrivateReportFiles,
+  privateReportCheck,
+  setPrivateReportCheck,
+
 }) => {
   const [files, setFiles] = useState([]);
   const [files2, setFiles2] = useState([]);
@@ -22,6 +25,7 @@ const DoubleTabs = ({
 
   const handleFileInput = (file, type) => {
     console.log("file", file);
+    setPrivateReportCheck(true);
     // setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
@@ -73,7 +77,7 @@ const DoubleTabs = ({
           }
         });
       }
-      // setFileLoader(false);
+      setPrivateReportCheck(false);
     });
   };
   return (

@@ -30,7 +30,14 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [caseTrue, setCaseTrue] = useState(false);
   console.log("caseNo", caseNo)
+
+  // useEffect(() => {
+  //   if (caseNo) {
+  //     setCaseTrue(false)
+  //   }
+  // }, [caseNo])
 
   let headerData = [
     {
@@ -123,7 +130,9 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         setReport(data);
         setLoading(false);
       },
+      enabled: !!caseNo,
     }
+    
   );
 
   return (

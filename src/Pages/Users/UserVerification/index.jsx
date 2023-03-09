@@ -207,14 +207,14 @@ export const UserVerification = () => {
         });
       } else {
         const url = await sigCanvas2.current.getTrimmedCanvas().toDataURL();
-        setAgreementSignature(url);
-        handleVerifyUser.mutate();
+        // setAgreementSignature(url)
+        handleVerifyUser.mutate(url);
       }
     }
   };
 
   const handleVerifyUser = useMutation(
-    () => {
+    (url) => {
       const values = {
         userId: userid,
         consentForm: {
@@ -253,7 +253,7 @@ export const UserVerification = () => {
           professionalReferences: refrences,
           workExperience: workExperience,
           consentSignatures: consentSignature,
-          agreementSignatures: agreementSignature,
+          agreementSignatures: url,
         },
       };
       return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
@@ -265,8 +265,8 @@ export const UserVerification = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "User Verified",
-          message: "User Verify Successfully!",
+          title: editId ? "User Update":"User Verified",
+          message:editId ? "User Information Update Succesfully!" :"User Verify Successfully!",
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -344,7 +344,7 @@ export const UserVerification = () => {
   }, [form.values.dateOfBirth]);
   return (
     <Container className={classes.userVerification} size="lg" p={"0px"}>
-      <ContainerHeader label={"User Verification"} />
+      <ContainerHeader label={editId ? "Edit User":"User Verification"} />
       <Container className={classes.innerContainer} size="xl">
         <Container className={classes.innerContainer} size="xl">
           <Stepper

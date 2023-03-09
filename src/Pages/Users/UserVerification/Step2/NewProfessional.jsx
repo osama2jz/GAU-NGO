@@ -1,11 +1,18 @@
 import { Container } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
-function NewProfessionalModal({refrences,setRefrences,setOpenViewModal}) {
+function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,setEditData}) {
   const { classes } = useStyles();
+
+  useEffect(() => {
+    if (editData) {
+      form.setValues(editData);
+    }
+  }, [editData]);
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {

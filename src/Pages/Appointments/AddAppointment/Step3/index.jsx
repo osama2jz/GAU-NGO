@@ -26,6 +26,8 @@ const Step3 = ({
   privatereportFiles,
   otherDocument,
   setOtherDocument,
+  setPrivateReportCheck,
+  privateReportCheck,
 }) => {
   const { user } = useContext(UserContext);
   // console.log("User", user)
@@ -117,6 +119,8 @@ const Step3 = ({
         privatereportFiles={privatereportFiles}
         reportFiles={reportFiles}
         setPrivateReportFiles={setPrivateReportFiles}
+        setPrivateReportCheck={setPrivateReportCheck}
+        privateReportCheck={privateReportCheck}
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 

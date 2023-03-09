@@ -12,12 +12,14 @@ import { useStyles } from "../styles";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
+import Loader from "../../../../Components/Loader";
 
 export const Step1 = ({ user, setUser }) => {
   const { classes } = useStyles();
-  const { id ,editId} = useParams();
+  const { id, editId } = useParams();
   const [userData, setUserData] = useState([]);
   const matches = useMediaQuery("(min-width: 600px)");
+ 
 
   const { user: usertoken } = useContext(UserContext);
   let faceio = new faceIO("fioa89bd");
@@ -33,21 +35,19 @@ export const Step1 = ({ user, setUser }) => {
     // if(editId){
     //   setUser(editId);
     // }
-  }, [id,editId]);
+  }, [id, editId]);
 
-  
   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
-      var link=editId ? "/api/ngo/listNGOUsers/user/0/0/verified" : "/api/ngo/listNGOUsers/user/0/0/unverified";
-      return axios.get(
-        backendUrl + link,
-        {
-          headers: {
-            "x-access-token": usertoken?.token,
-          },
-        }
-      );
+      var link = editId
+        ? "/api/ngo/listNGOUsers/user/0/0/verified"
+        : "/api/ngo/listNGOUsers/user/0/0/unverified";
+      return axios.get(backendUrl + link, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -61,7 +61,7 @@ export const Step1 = ({ user, setUser }) => {
             return user;
           }
         });
-        let newData=data.filter((obj) => obj != undefined);
+        let newData = data.filter((obj) => obj != undefined);
         setUserData(newData);
       },
     }
@@ -108,17 +108,21 @@ export const Step1 = ({ user, setUser }) => {
         className={classes.userInput}
         mt={50}
       >
-        <SelectMenu
-          searchable={true}
-          itemComponent={SelectItem}
-          placeholder="Enter User name or Id"
-          clearable={true}
-          setData={setUser}
-          label="Search User"
-          data={userData}
-          value={user}
-          disabled={editId ? true : false}
-        />
+        {status === "loading" ? (
+          <Loader minHeight="40px"/>
+        ) : (
+          <SelectMenu
+            searchable={true}
+            itemComponent={SelectItem}
+            placeholder="Enter User name or Id"
+            clearable={true}
+            setData={setUser}
+            label="Search User"
+            data={userData}
+            value={user}
+            disabled={editId ? true : false}
+          />
+        )}
       </Container>
 
       <Container size="xl" w={"100%"} className={classes.faceid}>

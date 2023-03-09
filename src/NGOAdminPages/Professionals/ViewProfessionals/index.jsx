@@ -103,7 +103,7 @@ export const ViewProfessionals = () => {
     () => {
       return axios.get(
         `${
-          backendUrl + `/api/user/listUsers/professionals`
+          backendUrl + `/api/user/listUsers/all/1/10`
           // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
         }`,
         {

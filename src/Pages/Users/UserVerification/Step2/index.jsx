@@ -13,7 +13,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { FileUpload, Trash } from "tabler-icons-react";
+import { Edit, FileUpload, Trash } from "tabler-icons-react";
 import Button from "../../../../Components/Button";
 import Datepicker from "../../../../Components/Datepicker";
 import DeleteModal from "../../../../Components/DeleteModal";
@@ -53,20 +53,13 @@ export const Step2 = ({
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDeleteModal1, setOpenDeleteModal1] = useState(false);
   const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [editData, setEditData] = useState("");
   const [descrimation, setDescrimation] = useState();
   const [fileLoader, setFileLoader] = useState(false);
-  const [files, setFiles] = useState([]);
 
-  const {editId}=useParams();
+  const { editId } = useParams();
 
   let headerData = [
-    {
-      id: "id",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr No.",
-    },
     {
       id: "fullName",
       numeric: false,
@@ -99,18 +92,13 @@ export const Step2 = ({
     },
     {
       id: "actions",
+      edit: <Edit color={"green"} />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
   let headerData2 = [
-    {
-      id: "id",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr No.",
-    },
     {
       id: "position",
       numeric: false,
@@ -149,19 +137,13 @@ export const Step2 = ({
     },
     {
       id: "actions",
-
+      edit: <Edit color={"green"} />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
   let headerData3 = [
-    {
-      id: "id",
-      numeric: true,
-      disablePadding: true,
-      label: "Sr No.",
-    },
     {
       id: "educationLevel",
       numeric: false,
@@ -189,7 +171,7 @@ export const Step2 = ({
 
     {
       id: "actions",
-
+      edit: <Edit color={"green"} />,
       delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
@@ -351,7 +333,6 @@ export const Step2 = ({
             value={alldata?.lastName}
             required={true}
             disabled={editId ? false : true}
-
             placeholder="Last Name"
             form={form}
             validateName="lastName"
@@ -364,7 +345,6 @@ export const Step2 = ({
             form={form}
             validateName="email"
             disabled={true}
-
           />
           <Datepicker
             label="Date of Birth"
@@ -379,7 +359,6 @@ export const Step2 = ({
             type="number"
             placeholder="age"
             disabled={editId ? false : true}
-
             form={form}
             validateName="age"
           />
@@ -388,7 +367,6 @@ export const Step2 = ({
             value={alldata?.lastName}
             required={true}
             disabled={editId ? false : true}
-
             placeholder="phone number"
             form={form}
             validateName="phoneNo"
@@ -484,6 +462,8 @@ export const Step2 = ({
             rowData={trainingStudies}
             setDeleteModalState={setOpenDeleteModal}
             setDeleteData={setDeleteID}
+            setReportData={setEditData}
+            setEditModalState={setopenTrainingModal}
           />
         </Card>
 
@@ -532,6 +512,8 @@ export const Step2 = ({
             rowData={workExperience}
             setDeleteModalState={setOpenDeleteModal1}
             setDeleteData={setDeleteID}
+            setReportData={setEditData}
+            setEditModalState={setopenTrainingModal}
           />
           <Divider color="#C8C8C8" mt="md" mb="md" />
         </Card>
@@ -630,6 +612,8 @@ export const Step2 = ({
           rowData={refrences}
           setDeleteModalState={setOpenDeleteModal2}
           setDeleteData={setDeleteID}
+          setReportData={setEditData}
+          setEditModalState={setOpenViewModal}
         />
         <Divider color="#C8C8C8" mt="md" mb="md" />
 
@@ -686,6 +670,8 @@ export const Step2 = ({
           setOpenViewModal={setOpenViewModal}
           refrences={refrences}
           setRefrences={setRefrences}
+          editData={editData}
+          setEditData={setEditData}
         />
       </ViewModal>
       <ViewModal
@@ -708,6 +694,8 @@ export const Step2 = ({
           trainingStudies={trainingStudies}
           setopenTrainingModal={setopenTrainingModal}
           setTrainingStudies={setTrainingStudies}
+          editData={editData}
+          setEditData={setEditData}
         />
       </ViewModal>
     </Container>

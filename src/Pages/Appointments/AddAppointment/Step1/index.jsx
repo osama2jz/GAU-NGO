@@ -237,7 +237,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
         )}
       </Group>
       {userFetching === "loading" ? (
-        <Loader />
+        <Loader minHeight={"5vh"}/>
       ) : selectedUser ? (
         <Container size={"lg"} p="0px">
           <UserInfo userData={selectedUser} loading={userFetching} />

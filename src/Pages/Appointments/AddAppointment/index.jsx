@@ -44,6 +44,8 @@ const AddAppointment = () => {
 
   const [img, setImg] = useState(null);
 
+  const[privateReportCheck,setPrivateReportCheck] = useState(false)
+  const[publicReportCheck,setPublicReportCheck] = useState(false)
 
   const [userCase,setUserCase] = useState()
 
@@ -94,6 +96,7 @@ const AddAppointment = () => {
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
         setUserCase(response?.data?.data?.caseNo)
+        setActive(active+1)
       },
     }
   );
@@ -150,16 +153,9 @@ const AddAppointment = () => {
 
   const handleNextSubmit = () => {
     if (active == 0) {
-      // if (!selectedUser || selectedCase.length < 1) {
-      //   showNotification({
-      //     color: "red.0",
-      //     message: "Please Select User information",
-      //     title: "Incomplete Info",
-      //   });
-      //   return;
-      // } else {
+    
       handleCreateCase.mutate();
-      // }
+     setActive(active)
     }
     if (active == 2) {
       if (
@@ -173,7 +169,16 @@ const AddAppointment = () => {
         });
         return;
         // alert("comment is required")
-      } else {
+      } 
+      if(reportFiles.reportFile === "" && privatereportFiles.reportFile === ""){
+        showNotification({
+          color: "red.0",
+          message: "Please add public and private report Files for this appointment.",
+          title: "Report Missing",
+        })
+        return;
+      }
+      else {
         handleCreateReport.mutate();
         setActive(active + 1);
       }
@@ -285,6 +290,11 @@ const AddAppointment = () => {
               setPrivateReportFiles={setPrivateReportFiles}
               otherDocument={otherDocument}
               setOtherDocument={setOtherDocument}
+
+
+              setPrivateReportCheck={setPrivateReportCheck}
+              privateReportCheck={privateReportCheck}
+
             />
           </Stepper.Step>
           <Stepper.Step
@@ -323,7 +333,9 @@ const AddAppointment = () => {
               <Button
                 onClick={() =>
                   navigate(routeNames.socialWorker.allAppointments)
+                  
                 }
+                disabled={privateReportCheck}
                 label="Skip and Finish"
               />
             )}
