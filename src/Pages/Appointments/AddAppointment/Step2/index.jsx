@@ -30,6 +30,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("caseNo", caseNo)
 
   let headerData = [
     {
@@ -88,7 +89,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       setLoading(true);
       return axios.get(
         backendUrl +
-          `/api/case/listCaseUserReports/${selectedUser.data.data._id}`,
+          `/api/case/listReportsCaseNo/${caseNo}`,
         {
           headers: {
             "x-access-token": usertoken?.token,

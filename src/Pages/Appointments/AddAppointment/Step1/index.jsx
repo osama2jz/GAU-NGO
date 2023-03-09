@@ -18,7 +18,7 @@ import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 
-const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
+const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setImg}) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState();
@@ -28,7 +28,6 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
 
-  const [img, setImg] = useState(null);
   const webcamRef = useRef(null);
 
   const videoConstraints = {

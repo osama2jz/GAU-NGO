@@ -98,7 +98,7 @@ const DoubleTabs = ({
             Upload Public Report
           </Text>
           <Grid mt={30} justify="space-between">
-            <Grid.Col md={6} xs={5}>
+          <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
             </Grid.Col>
             <Grid.Col md={6}>
@@ -149,7 +149,7 @@ const DoubleTabs = ({
             Upload Private Report
           </Text>
           <Grid mt={30} justify="space-between">
-            <Grid.Col md={6} xs={5}>
+            <Grid.Col sm={12} md={6} xs={12}>
                 <UserInfo userData={selectedUser} />
             </Grid.Col>
             <Grid.Col md={6}>

@@ -169,8 +169,12 @@ const Table = ({
                               });
 
                             }
-                            setViewModalState(true);
+                            if(setViewModalData){
                             setViewModalData(row.id);
+                              
+                            }
+                            setViewModalState(true);
+                            // setViewModalData(row.id);
                           }}
                         >
                           {head.view}

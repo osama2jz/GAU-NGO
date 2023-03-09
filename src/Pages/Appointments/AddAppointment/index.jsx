@@ -42,6 +42,11 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [age, setAge] = useState(19);
 
+  const [img, setImg] = useState(null);
+
+
+  const [userCase,setUserCase] = useState()
+
   const [reportFiles, setReportFiles] = useState({
     reportComments: "",
     reportFile: "",
@@ -74,6 +79,7 @@ const AddAppointment = () => {
         previousCaseLinked: false,
         appointmentId: appId,
         caseLinkedUser: id,
+        Image: img,
       };
 
       return axios.post(`${backendUrl + "/api/case/create"}`, object, {
@@ -87,6 +93,7 @@ const AddAppointment = () => {
         // console.log("response", response);
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
+        setUserCase(response?.data?.data?.caseNo)
       },
     }
   );
@@ -214,6 +221,10 @@ const AddAppointment = () => {
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}
+              img={img}
+              setImg={setImg}
+ 
+
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (

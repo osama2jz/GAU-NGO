@@ -40,7 +40,7 @@ function AllAppointments() {
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
-    "fetchAppointments",
+    "fetchAllAppointments",
     () => {
       return axios.get(
         `${backendUrl + `/api/appointment/listUserAppointments/all`}`,

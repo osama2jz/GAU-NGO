@@ -28,7 +28,7 @@ export const UserVerification = () => {
   const sigCanvas2 = useRef({});
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const [active, setActive] = useState(3);
+  const [active, setActive] = useState(0);
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
   const [trainingStudies, setTrainingStudies] = useState([]);
