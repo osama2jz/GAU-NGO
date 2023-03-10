@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Text,
   Avatar,
+  Anchor,
 } from "@mantine/core";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +37,8 @@ function ReferalReport() {
   const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [reportData, setReportData] = useState([]);
+
 
   console.log(caseNo);
 
@@ -122,6 +125,7 @@ function ReferalReport() {
             date: obj?.addedDate,
             file: obj?.reportFile,
             comments: obj?.comments,
+            type: obj.reportType === "private" ? "Private" : "Public",
             role:
               obj?.role === "lawyer"
                 ? "Lawyer"
@@ -135,7 +139,7 @@ function ReferalReport() {
         setRowData(data);
         setLoading(false);
       },
-      // enabled: !!caseNo,
+      enabled: !!caseNo,
     }
   );
   return (
@@ -174,6 +178,7 @@ function ReferalReport() {
             headCells={headerData}
             rowData={rowData}
             setViewModalState={setOpenViewModal}
+            setReportData={setReportData}
 
           />
         )}
@@ -194,22 +199,33 @@ function ReferalReport() {
           </Grid.Col>
           <Grid.Col md={8} style={{ backgroundColor: "white" }}>
             <Text size={24} weight="bold" mb="sm" align="center">
-              Urooj Murtaza
+              {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>23452</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.case}
+                </Text>
                 <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>Lawyer</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.addedBy}
+                </Text>
                 <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>20 Jan,2022</Text>
-                <Text className={classes.textheading}>Time</Text>
-                <Text className={classes.textContent}>11:20 PM</Text>
+                <Text className={classes.textContent}>{reportData?.date}</Text>
+                <Text className={classes.textheading}>Report File</Text>
+                <Anchor href={reportData?.file} target="_blank">
+                  {reportData?.type} Report
+                </Anchor>
+
+                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>
             </Container>
           </Grid.Col>
         </Grid>
+        <Text className={classes.textheading}>Report Comments</Text>
+        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

@@ -112,12 +112,12 @@ function ViewAppointments() {
       disablePadding: true,
       label: "Added By",
     },
-    {
-      id: "role",
-      numeric: false,
-      disablePadding: true,
-      label: "Role",
-    },
+    // {
+    //   id: "role",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Role",
+    // },
     {
       id: "date",
       numeric: false,
