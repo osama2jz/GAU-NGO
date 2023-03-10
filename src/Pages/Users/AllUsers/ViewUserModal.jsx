@@ -59,7 +59,7 @@ function ViewUserModal({ id,reportData }) {
             
             <Badge  variant="outline" color={reportData?.status=== "unverified" ? "red.0" :"green.0"} radius="md">{reportData?.status}</Badge>
             
-        <Image src={reportData?.agreementSignatures} width={104} height={127} />
+        {/* <Image src={reportData?.agreementSignatures} width={104} height={127} /> */}
             
           </SimpleGrid>
         </Container>

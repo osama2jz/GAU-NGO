@@ -7,7 +7,7 @@ import { useStyles } from "./Private/styles";
 import moment from "moment";
 import { showNotification } from "@mantine/notifications";
 
-function DownloadPdf({ headCells, data, title }) {
+function DownloadPdf({ headCells, data, title ,setdata}) {
   const { classes } = useStyles();
 
 console.log("data", data);
@@ -85,6 +85,8 @@ console.log("data", data);
     });
 
     doc.save(`${title}.pdf`);
+    setdata([])
+    
   };
 
   return (
@@ -96,6 +98,7 @@ console.log("data", data);
         </Flex>
       </Menu.Target>
       <Menu.Dropdown>
+        <Menu.Item onClick={() => downloadPDF(data, "All Reports")}>All</Menu.Item>
         <Menu.Item onClick={() => filter("daily")}>Daily</Menu.Item>
         <Menu.Item onClick={() => filter("weekly")}>Weekly</Menu.Item>
         <Menu.Item onClick={() => filter("monthly")}>Monthly</Menu.Item>

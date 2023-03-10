@@ -135,7 +135,7 @@ function ReferalReport() {
         setRowData(data);
         setLoading(false);
       },
-      enabled: !!caseNo,
+      // enabled: !!caseNo,
     }
   );
   return (
