@@ -1,4 +1,4 @@
-import { Grid, Avatar, SimpleGrid, Container, Text,Badge } from "@mantine/core";
+import { Grid, Avatar, SimpleGrid, Container, Text,Badge, Image } from "@mantine/core";
 import { useStyles } from "./styles";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
@@ -59,6 +59,7 @@ function ViewUserModal({ id,reportData }) {
             
             <Badge  variant="outline" color={reportData?.status=== "unverified" ? "red.0" :"green.0"} radius="md">{reportData?.status}</Badge>
             
+        <Image src={reportData?.agreementSignatures} width={104} height={127} />
             
           </SimpleGrid>
         </Container>

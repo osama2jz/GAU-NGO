@@ -353,7 +353,7 @@ export const Step2 = ({
             form={form}
             validateName="dateOfBirth"
           />
-          <InputField
+          {/* <InputField
             label="Age"
             required={true}
             type="number"
@@ -361,7 +361,7 @@ export const Step2 = ({
             disabled={editId ? false : true}
             form={form}
             validateName="age"
-          />
+          /> */}
           <InputField
             label="Phone Number"
             value={alldata?.lastName}
@@ -513,7 +513,7 @@ export const Step2 = ({
             setDeleteModalState={setOpenDeleteModal1}
             setDeleteData={setDeleteID}
             setReportData={setEditData}
-            setEditModalState={setopenTrainingModal}
+            setEditModalState={setOpenModal}
           />
           <Divider color="#C8C8C8" mt="md" mb="md" />
         </Card>
@@ -683,6 +683,8 @@ export const Step2 = ({
           workExperience={workExperience}
           setOpenModal={setOpenModal}
           setWorkExperience={setWorkExperience}
+          editData={editData}
+          setEditData={setEditData}
         />
       </ViewModal>
       <ViewModal

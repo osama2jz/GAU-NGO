@@ -1,13 +1,18 @@
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
 import moment from "moment";
 import Datepicker from "../../../../Components/Datepicker";
-function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
+function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,setEditData }) {
   const { classes } = useStyles();
+  useEffect(() => {
+    if (editData) {
+      form.setValues(editData);
+    }
+  }, [editData]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -30,12 +35,24 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience }) {
     },
   });
   const AddWorkExperience = (values) => {
-    values.id = workExperience.length + 1;
-    values.endDate = moment(values.endDate).format("DD/MM/YYYY");
-    values.startDate = moment(values.startDate).format("DD/MM/YYYY");
-    setWorkExperience([...workExperience, values]);
-    form.reset();
-    setOpenModal(false);
+    if(editData){
+      const index = workExperience.findIndex((item) => item.id === editData.id);
+      values.id = workExperience.length + 1;
+      workExperience[index] = values;
+      setWorkExperience([...workExperience]);
+      setOpenModal(false);
+      form.reset();
+      setEditData("");
+
+    }else{
+      values.id = workExperience.length + 1;
+      values.endDate = moment(values.endDate).format("DD/MM/YYYY");
+      values.startDate = moment(values.startDate).format("DD/MM/YYYY");
+      setWorkExperience([...workExperience, values]);
+      form.reset();
+      setOpenModal(false);
+    }
+   
   };
 
   return (

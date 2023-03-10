@@ -8,7 +8,7 @@ import {
   Text,
   Avatar,
 } from "@mantine/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Eye, Trash } from "tabler-icons-react";
 import download from "../../../assets/download.svg";
@@ -19,14 +19,29 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import Button from "../../../Components/Button";
+import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
+import DownloadPdf from "../downloadPdf";
 
 function ReferalReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [rowData, setRowData] = useState([]);
+  const [caseNo, setCaseNo] = useState("");
+  const queryClient = useQueryClient();
+  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
+  console.log(caseNo);
+
   let headerData = [
     {
-      id: "id",
+      id: "sr",
       numeric: true,
       disablePadding: true,
       label: "Sr #",
@@ -43,17 +58,23 @@ function ReferalReport() {
       disablePadding: true,
       label: "Case #",
     },
-    {
-      id: "report",
-      numeric: false,
-      disablePadding: true,
-      label: "Report #",
-    },
+    // {
+    //   id: "report",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Report #",
+    // },
     {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
       label: "Added By",
+    },
+    {
+      id: "role",
+      numeric: false,
+      disablePadding: true,
+      label: "Role",
     },
     {
       id: "date",
@@ -62,107 +83,100 @@ function ReferalReport() {
       label: "Date",
     },
     {
-      id: "time",
+      id: "file",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: "Report File",
     },
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
+      // delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
 
-  const rowData = [
-    {
-      id: "1",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
+  const { data: users, status } = useQuery(
+    ["userCaseReports", caseNo],
+    () => {
+      setLoading(true);
+      console.log("hello");
+      return axios.get(backendUrl + `/api/case/listReportsCaseNo/${caseNo}`, {
+        headers: {
+          "x-access-token": user?.token,
+        },
+      });
     },
     {
-      id: "2",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "3",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "4",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-    {
-      id: "5",
-      name: "Muhammad Usama",
-      case: "3452345",
-      report: "1234556",
-      addedBy: "Laywer",
-      date: "12 Jan 2022",
-      time: "12:00 PM",
-    },
-  ];
+      onSuccess: (response) => {
+        console.log(response);
+        let data = response?.data?.data?.map((obj, ind) => {
+          let report = {
+            id: obj.reportId,
+            sr: ind + 1,
+            reportType: obj?.reportType === "private" ? "Private" : "Public",
+            name: obj?.caseLinkedUser,
+            case: obj?.caseNo,
+            addedBy: obj?.addedBy,
+            date: obj?.addedDate,
+            file: obj?.reportFile,
+            comments: obj?.comments,
+            role:
+              obj?.role === "lawyer"
+                ? "Lawyer"
+                : obj?.role === "psychologist"
+                ? "Psychologist"
+                : "Social Worker",
+          };
+          return report;
+        });
+
+        setRowData(data);
+        setLoading(false);
+      },
+      enabled: !!caseNo,
+    }
+  );
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <ContainerHeader label={"Referral"} />
+      <ContainerHeader label={"Case Reports"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField
+              placeholder="Enter Case No"
+              leftIcon="search"
+              pb="0"
+              onChange={(e) => setCaseNo(e.target.value)}
+            />
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
-            <SelectMenu
-              placeholder="Added By"
-              data={[
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychologist", value: "psychologistng" },
-                { label: "Social Worker", value: "socailworker" },
-              ]}
+            <Button
+              label={"Search Case"}
+              bg={true}
+              onClick={() => queryClient.invalidateQueries("userCaseReports")}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-            <Menu shadow="md" width={"target"} className={classes.export}>
-              <Menu.Target>
-                <Flex gap={4} align="center" justify={"space-around"}>
-                  <Image src={download} width={18} height={18} />
-                  <Text>Export PDF</Text>
-                </Flex>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item>Weekly</Menu.Item>
-                <Menu.Item>Monthly</Menu.Item>
-                <Menu.Item>Yearly</Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <DownloadPdf
+              headCells={headerData}
+              setdata={setRowData}
+              data={rowData}
+              // title="Download reports"
+            />
           </Grid.Col>
         </Grid>
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-        />
+        {loading ? (
+          <Loader />
+        ) : (
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+
+          />
+        )}
       </Container>
       <ViewModal
         opened={openViewModal}

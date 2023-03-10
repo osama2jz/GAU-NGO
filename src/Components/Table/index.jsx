@@ -39,8 +39,7 @@ const Table = ({
   setEditDoc,
   editDoc,
   setEditId,
-  setEditIDApp
-  
+  setEditIDApp,
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -161,17 +160,15 @@ const Table = ({
                             if (setReportData) {
                               setReportData(row);
                             }
-                            if(setEditIDApp){
-                              navigate(`/view-appointment/${row.id}`,{
-                                state:{
-                                  editData:row
-                                }
+                            if (setEditIDApp) {
+                              navigate(`/view-appointment/${row.id}`, {
+                                state: {
+                                  editData: row,
+                                },
                               });
-
                             }
-                            if(setViewModalData){
-                            setViewModalData(row.id);
-                              
+                            if (setViewModalData) {
+                              setViewModalData(row.id);
                             }
                             setViewModalState(true);
                             // setViewModalData(row.id);
@@ -180,34 +177,54 @@ const Table = ({
                           {head.view}
                         </ActionIcon>
                         {head.edit && (
+                         
                           <ActionIcon
                             onClick={() => {
-                              if(setEditId){
+                              if (setEditId) {
+                                
                                 navigate(`/userEdit/${row.id}`);
+                                window.location.reload();
+                                return;
                                 // setEditId(row.id);
                                 // alert("edit id")
                               }
-                              if(setEditIDApp){
-                                navigate(`/edit-appointment/${row.id}`,{
-                                  state:{
-                                    editData:row
-                                  }
+                              if (setEditIDApp) {
+                                navigate(`/edit-appointment/${row.id}`, {
+                                  state: {
+                                    editData: row,
+                                  },
                                 });
-
+                                return 
                               }
                               if (setReportData) {
-                                setReportData(row);
+                               setReportData(row);
+                              
                               }
                               // setEditData ?
-                              if(setEditDoc){
+                              if (setEditDoc) {
                                 setEditDoc(row);
+                               
                               }
+
+                            //  if(setEditModalState){
+                            //    setEditModalState(true);
+                            //  }
+                                setEditModalState(true);
+                                // return
+                          
                               setEditModalState(true);
-                              setViewModalData(row.id);
+                              // if(setViewModalData){
+                              //   return setViewModalData(row.id);
+                              // }
+                              
+                            
                               
                               navigate();
                               // setOpened(true);
                             }}
+                            
+                            disabled={row.status === "SCHEDULED" ? true : false}
+
                           >
                             {head.edit}
                           </ActionIcon>
@@ -296,9 +313,7 @@ const Table = ({
                   ) : head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
-                        label={
-                          "Verify"
-                        }
+                        label={"Verify"}
                         onClick={() => {
                           if (row.accStatus === "active") {
                             navigate(`/userVerification/${row.id}`);
@@ -311,7 +326,7 @@ const Table = ({
                           }
                         }}
                         disabled={row.status === "unverified" ? false : true}
-                        primary={row.status !== "unverified" ? true:false}
+                        primary={row.status !== "unverified" ? true : false}
                         compact={true}
                       />
                     </td>

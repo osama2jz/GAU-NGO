@@ -10,24 +10,27 @@ import { showNotification } from "@mantine/notifications";
 function DownloadPdf({ headCells, data, title }) {
   const { classes } = useStyles();
 
-
+console.log("data", data);
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const filteredDaily = data.filter(
+  const filteredDaily = data?.filter(
     (person) => person.date === today.format("DD-MMM-YYYY")
   );
 
-  const filteredWeekly = data.filter((person) => {
+  const filteredWeekly = data?.filter((person) => {
     return (
       new Date(person.date) >= new Date(oneWeekAgo) &&
       new Date(person.date) <= new Date(today)
     );
   });
-  const filteredMonthly = data.filter((person) => person.date.substr(3, 3) === today.format("MMM")
+  const filteredMonthly = data?.filter((person) => person.date.substr(3, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
+    // if(name === "all") {
+    //   downloadPDF(filteredDaily, "Daily Reports")
+    // }
     if (name === "daily") {
       filteredDaily.length === 0
         ? showNotification({

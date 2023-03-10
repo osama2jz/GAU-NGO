@@ -42,12 +42,15 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [age, setAge] = useState(19);
 
+  //Camera Image
   const [img, setImg] = useState(null);
+  //Face Io
+  const [faceID, setFaceId] = useState({});
 
-  const[privateReportCheck,setPrivateReportCheck] = useState(false)
-  const[publicReportCheck,setPublicReportCheck] = useState(false)
+  const [privateReportCheck, setPrivateReportCheck] = useState(false);
+  const [publicReportCheck, setPublicReportCheck] = useState(false);
 
-  const [userCase,setUserCase] = useState()
+  const [userCase, setUserCase] = useState();
 
   const [reportFiles, setReportFiles] = useState({
     reportComments: "",
@@ -69,8 +72,6 @@ const AddAppointment = () => {
       createdBy: user.id,
     },
   ]);
-
-
 
   //create case
   const handleCreateCase = useMutation(
@@ -95,8 +96,8 @@ const AddAppointment = () => {
         // console.log("response", response);
         setSelectedCase(response?.data?.data?.caseId);
         setCaseNo(response?.data?.data?.caseNo);
-        setUserCase(response?.data?.data?.caseNo)
-        setActive(active+1)
+        setUserCase(response?.data?.data?.caseNo);
+        setActive(active + 1);
       },
     }
   );
@@ -122,7 +123,6 @@ const AddAppointment = () => {
           title: "Success",
         });
         handleUploadDocuments.mutate();
-
       },
     }
   );
@@ -153,9 +153,17 @@ const AddAppointment = () => {
 
   const handleNextSubmit = () => {
     if (active == 0) {
-    
-      handleCreateCase.mutate();
-     setActive(active)
+      if (img === null && (Object.keys(faceID).length === 0)===true) {
+        showNotification({
+          color: "red.0",
+          message: "Please Verify Face ID or Attach Photo.",
+          title: "Report Missing",
+        });
+        return
+      } else {
+        handleCreateCase.mutate();
+        setActive(active);
+      }
     }
     if (active == 2) {
       if (
@@ -169,16 +177,19 @@ const AddAppointment = () => {
         });
         return;
         // alert("comment is required")
-      } 
-      if(reportFiles.reportFile === "" && privatereportFiles.reportFile === ""){
+      }
+      if (
+        reportFiles.reportFile === "" &&
+        privatereportFiles.reportFile === ""
+      ) {
         showNotification({
           color: "red.0",
-          message: "Please add public and private report Files for this appointment.",
+          message:
+            "Please add public and private report Files for this appointment.",
           title: "Report Missing",
-        })
+        });
         return;
-      }
-      else {
+      } else {
         handleCreateReport.mutate();
         setActive(active + 1);
       }
@@ -228,8 +239,8 @@ const AddAppointment = () => {
               setNewCase={setNewCase}
               img={img}
               setImg={setImg}
- 
-
+              faceID={faceID}
+              setFaceId={setFaceId}
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (
@@ -290,11 +301,8 @@ const AddAppointment = () => {
               setPrivateReportFiles={setPrivateReportFiles}
               otherDocument={otherDocument}
               setOtherDocument={setOtherDocument}
-
-
               setPrivateReportCheck={setPrivateReportCheck}
               privateReportCheck={privateReportCheck}
-
             />
           </Stepper.Step>
           <Stepper.Step
@@ -333,7 +341,6 @@ const AddAppointment = () => {
               <Button
                 onClick={() =>
                   navigate(routeNames.socialWorker.allAppointments)
-                  
                 }
                 disabled={privateReportCheck}
                 label="Skip and Finish"

@@ -56,7 +56,7 @@ export const socialSideBarData = [
     links: [
       { label: "Private", link: routeNames.socialWorker.privateReport },
       { label: "Public", link: routeNames.socialWorker.publicReport },
-      // { label: "Referral", link: routeNames.socialWorker.referalReport },
+      { label: "Case Reports", link: routeNames.socialWorker.referalReport },
     ],
   },
 ];

@@ -45,6 +45,8 @@ export const AllUser = () => {
   const [reportData, setReportData] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
+  
+
   let headerData = [
     {
       id: "sr",
@@ -124,14 +126,16 @@ export const AllUser = () => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
-            id: obj._id,
+            id: obj?._id,
             sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
-            name: obj.firstName + " " + obj.lastName,
-            email: obj.email,
-            status: obj.verificationStatus,
-            accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
-            phone: obj.phoneNumber,
+            name: obj?.firstName + " " + obj?.lastName,
+            email: obj?.email,
+            status: obj?.verificationStatus,
+            accStatus: obj?.userStatus,
+            date: new moment(obj?.createdAt).format("DD-MMM-YYYY"),
+            phone: obj?.phoneNumber,
+            consentSign:obj?.userConsentForm?.consentSignatures,
+            aggrementSign:obj?.userConsentForm?.agreementSignatures,
           };
           return user;
         });
@@ -219,7 +223,7 @@ export const AllUser = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            // setEditModalState={setOpenEditModal}
+            // setEditModalState={null}
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}

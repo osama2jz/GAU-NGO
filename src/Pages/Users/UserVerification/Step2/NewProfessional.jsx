@@ -31,11 +31,27 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
     },
   });
 
+  console.log("editData", editData)
+
   const addRefrences = (values) => {
+    if(editData){
+      const index = refrences.findIndex(
+        (item) => item.id === editData.id
+      );
+      console.log("index", index);
+      refrences[index] = values;
+      setRefrences([...refrences]);
+      setOpenViewModal(false);
+      form.reset();
+      setEditData("");
+    }
+    else{
+
     values.id=refrences.length+1;
     setRefrences([...refrences, values]);
     setOpenViewModal(false);
     form.reset();
+  }
   }
   return (
     <Container>

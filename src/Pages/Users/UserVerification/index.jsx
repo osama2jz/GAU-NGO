@@ -19,7 +19,7 @@ import { Step2 } from "./Step2";
 import { Step3 } from "./Step3";
 import { Step4 } from "./Step4";
 import { useStyles } from "./styles";
-import { useParams } from "react-router-dom";
+import { useParams ,useLocation} from "react-router-dom";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -37,11 +37,18 @@ export const UserVerification = () => {
   const [agreementSignature, setAgreementSignature] = useState("");
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
+  const [edit, setEdit] = useState(false);
 
+  let { state } = useLocation();
+
+  const { editTime } = state ?? "";
   const { editId } = useParams();
+    
+
   const { data, status } = useQuery(
-    "fetchUsertoEdit",
+    "fetchUsertoEditData",
     () => {
+      console.log("hello")
       return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
         headers: {
           "x-access-token": user.token,
@@ -49,25 +56,19 @@ export const UserVerification = () => {
       });
     },
     {
+      staleTime: 300000,
       onSuccess: (response) => {
         // console.log("response", response);
         setUserId(response?.data?.data?._id);
-
-        setConsentSignature(
-          response?.data?.data?.userConsentForm?.consentSignatures
-        );
-        setAgreementSignature(
-          response?.data?.data?.userConsentForm?.agreementSignatures
-        );
 
         form.setFieldValue(
           "address",
           response?.data?.data?.userConsentForm?.personalInformation?.address
         );
-        form.setFieldValue(
-          "age",
-          response?.data?.data?.userConsentForm?.personalInformation?.age
-        );
+        // form.setFieldValue(
+        //   "age",
+        //   response?.data?.data?.userConsentForm?.personalInformation?.age
+        // );
         form.setFieldValue(
           "city",
           response?.data?.data?.userConsentForm?.personalInformation?.city
@@ -152,6 +153,19 @@ export const UserVerification = () => {
         );
 
         //Work Experience
+        // response?.data?.data?.userConsentForm?.workExperience.map((item) => {
+        //   let obj={
+        //     id:item.id,
+        //     workExperience:item.workExperience,
+        //     startDate:item.startDate,
+        //     endDate:item.endDate,
+        //   }
+        //   console.log("workExperience",obj)
+        //   return
+
+        // })
+
+       
         setWorkExperience(
           response?.data?.data?.userConsentForm?.workExperience
         );
@@ -207,7 +221,6 @@ export const UserVerification = () => {
         });
       } else {
         const url = await sigCanvas2.current.getTrimmedCanvas().toDataURL();
-        // setAgreementSignature(url)
         handleVerifyUser.mutate(url);
       }
     }
@@ -265,8 +278,10 @@ export const UserVerification = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: editId ? "User Update":"User Verified",
-          message:editId ? "User Information Update Succesfully!" :"User Verify Successfully!",
+          title: editId ? "User Update" : "User Verified",
+          message: editId
+            ? "User Information Update Succesfully!"
+            : "User Verify Successfully!",
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -293,7 +308,7 @@ export const UserVerification = () => {
       dateOfBirth: "",
       phoneNo: "",
       email: "",
-      age: "",
+      // age: "",
       country: "",
       address: "",
       city: "",
@@ -335,16 +350,16 @@ export const UserVerification = () => {
       housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
     },
   });
-  useEffect(() => {
-    if (form?.values?.dateOfBirth)
-      form.setFieldValue(
-        "age",
-        moment(moment()).diff(form.values.dateOfBirth, "years")
-      );
-  }, [form.values.dateOfBirth]);
+  // useEffect(() => {
+  //   if (form?.values?.dateOfBirth)
+  //     form.setFieldValue(
+  //       "age",
+  //       moment(moment()).diff(form.values.dateOfBirth, "years")
+  //     );
+  // }, [form.values.dateOfBirth]);
   return (
     <Container className={classes.userVerification} size="lg" p={"0px"}>
-      <ContainerHeader label={editId ? "Edit User":"User Verification"} />
+      <ContainerHeader label={editId ? "Edit User" : "User Verification"} />
       <Container className={classes.innerContainer} size="xl">
         <Container className={classes.innerContainer} size="xl">
           <Stepper

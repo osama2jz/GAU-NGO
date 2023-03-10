@@ -12,7 +12,8 @@ function NewStudiesTrainingModal({
   setEditData,
 }) {
   const { classes } = useStyles();
-  console.log("trainingStudies", editData);
+  console.log("editData", editData)
+
   useEffect(() => {
     if (editData) {
       form.setValues(editData);
@@ -46,6 +47,7 @@ function NewStudiesTrainingModal({
       const index = trainingStudies.findIndex(
         (item) => item.id === editData.id
       );
+      console.log("index", index);
       trainingStudies[index] = values;
       setTrainingStudies([...trainingStudies]);
       setopenTrainingModal(false);
