@@ -64,14 +64,6 @@ function ViewAppointments() {
           sr:ind+1,
           caseNo: editData?.caseNo,
           name: editData?.name,
-          // addedBy: obj?.createdBy?.firstName +""+ obj?.createdBy?.lastName,
-          // role:
-          //   obj?.role === "socialWorker"
-          //     ? "Social Worker"
-          //     : obj.role === "psychologist"
-          //     ? "Psychologist"
-          //     : "Lawyer",
-          // type: obj.reportType === "private" ? "Private" : "Public",
           docName: obj?.documentName,
           file: obj?.documentURL ? obj?.documentURL : "No Document",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
@@ -84,7 +76,6 @@ function ViewAppointments() {
     }
 
   },[editData])
-  console.log("Edit Data: ", editData);
 
   let headerData = [
     {

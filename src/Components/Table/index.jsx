@@ -335,7 +335,7 @@ const Table = ({
                                 `/start-appointment/${row.id}/${row.appointId}`
                               );
                         }}
-                        disabled={row.status === "CLOSED" ? true : false}
+                        disabled={row.status === "SCHEDULED" || row.status === "INPROGRESS" ? false : true}
                         primary={true}
                         compact={true}
                       />
