@@ -139,7 +139,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
 
         <div>
           <Text size="sm">{label}</Text>
-          <Text size="xs" opacity={0.65}>
+          <Text size="xs" opacity={0.66}>
             {email}
           </Text>
         </div>
