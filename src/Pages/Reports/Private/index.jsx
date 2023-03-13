@@ -37,7 +37,7 @@ function PrivateReport() {
   const [reportData, setReportData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [pdfData,setPdfData] = useState([])
+  const [pdfData, setPdfData] = useState([]);
 
   let headerData = [
     {
@@ -94,7 +94,7 @@ function PrivateReport() {
 
   //API call for fetching Private Reports
   const { data, status } = useQuery(
-   [ "fetchPrivateReportsPDF",activePage],
+    ["fetchPrivateReportsPDF", activePage],
     () => {
       return axios.get(
         `${
@@ -113,7 +113,7 @@ function PrivateReport() {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -132,21 +132,16 @@ function PrivateReport() {
         });
         setRowData(data);
         setTotalPages(response?.data?.data?.totalPages);
-
       },
     }
   );
 
-
-   //API call for fetching Private Reports
-   const { data1, status1 } = useQuery(
+  //API call for fetching Private Reports
+  const { data1, status1 } = useQuery(
     "fetchPrivateReports",
     () => {
       return axios.get(
-        `${
-          backendUrl +
-          `/api/case/listUserReports/private/${user.id}/0/0`
-        }`,
+        `${backendUrl + `/api/case/listUserReports/private/${user.id}/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -159,7 +154,7 @@ function PrivateReport() {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -225,45 +220,37 @@ function PrivateReport() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Report #2345"
+        title="Private Report"
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Text size={24} weight="bold" mb="sm" align="center">
-              {reportData?.name}
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>
-                  {reportData?.caseNo}
-                </Text>
-                <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>
-                  {reportData?.addedBy}
-                </Text>
-                <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
-                <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
-                </Anchor>
+        <Flex direction="column" align="center" justify={"space-between"}>
+          {/* <Avatar
+            radius="50%"
+            size={150}
+            src={userlogo}
+            className={classes.avatar}
+          /> */}
+          <Text size={24} weight="bold" mb="sm" align="center">
+            {reportData?.name}
+          </Text>
+          <Container w={"100%"} ml="md">
+            <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textContent}>{reportData?.caseNo}</Text>
+              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textContent}>{reportData?.date}</Text>
+              <Text className={classes.textheading}>Report File</Text>
+              <Anchor href={reportData?.file} target="_blank">
+                {reportData?.type} Report
+              </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
-                <Text className={classes.textContent}>{reportData?.type}</Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
+              {/* <Text className={classes.textheading}>Report Type</Text>
+              <Text className={classes.textContent}>{reportData?.type}</Text> */}
+            </SimpleGrid>
+          </Container>
+        </Flex>
+        <Text className={classes.textheading} mt="md">Report Comments</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

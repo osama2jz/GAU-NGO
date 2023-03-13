@@ -22,6 +22,8 @@ import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
+import userlogo from "../../../assets/teacher.png";
+
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -136,6 +138,7 @@ export const AllUser = () => {
             phone: obj?.phoneNumber,
             consentSign:obj?.userConsentForm?.consentSignatures,
             aggrementSign:obj?.userConsentForm?.agreementSignatures,
+            image:obj?.profileImage ? obj?.profileImage : userlogo,
           };
           return user;
         });
@@ -254,7 +257,6 @@ export const AllUser = () => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
       <EditModal

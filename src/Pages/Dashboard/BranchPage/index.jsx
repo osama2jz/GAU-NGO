@@ -38,6 +38,7 @@ const BranchPage = (props) => {
   const [rowData, setRowData] = useState([]);
   const [loading,setLoading]=useState(false)
   const [allUsers,setAllUsers]=useState()
+  const [allData,setAllData]=useState()
 
   
   //API call for fetching all branches
@@ -101,6 +102,8 @@ const BranchPage = (props) => {
     },
     {
       onSuccess: (response) => {
+        setAllData(response.data.data)
+        console.log(response.data.data)
         let data = response.data.data.map((obj, ind) => {
           let branch = {
             id: obj._id,
@@ -118,10 +121,17 @@ const BranchPage = (props) => {
     }
   );
 
+  const active = allData && allData?.filter((e) => e.branchStatus === "active"
+  )
+  
+  const inactive = allData && allData?.filter(
+    (e) => e.branchStatus === "inactive"
+  )
+
   const a = [
     {
       title: "TOTAL BRANCHES",
-      value: "0" ,
+      value: active ? active?.length + inactive?.length : 0 ,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -130,7 +140,7 @@ const BranchPage = (props) => {
     },
     {
       title: "ACTIVE BRANCHES",
-      value: "0",
+      value: active ? active.length : 0,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -139,7 +149,7 @@ const BranchPage = (props) => {
     },
     {
       title: "INACTIVE BRANCHES",
-      value: "0",
+      value: inactive ? inactive.length : 0,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
