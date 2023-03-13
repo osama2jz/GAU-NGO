@@ -216,10 +216,13 @@ const Table = ({
                               navigate();
                               // setOpened(true);
                             }}
-                            disabled={row.status === "SCHEDULED" || row.status !== "unverified" ? true : false}
-                            
-                           
-
+                            disabled={
+                              row.status === "SCHEDULED" ||
+                              row.status === "unverified" ||
+                              row.status === "INPROGRESS" 
+                                ? true
+                                : false
+                            }
                           >
                             {head.edit}
                           </ActionIcon>
@@ -338,7 +341,12 @@ const Table = ({
                                 `/start-appointment/${row.id}/${row.appointId}`
                               );
                         }}
-                        disabled={row.status === "SCHEDULED" || row.status === "INPROGRESS" ? false : true}
+                        disabled={
+                          row.status === "SCHEDULED" ||
+                          row.status === "INPROGRESS"
+                            ? false
+                            : true
+                        }
                         primary={true}
                         compact={true}
                       />

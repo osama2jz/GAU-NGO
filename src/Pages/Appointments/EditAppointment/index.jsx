@@ -59,7 +59,7 @@ function EditAppointments() {
 
   const { editData } = state ?? "";
 
-  console.log("Edit Data: ", editData);
+  
   useEffect(() => {
     if (editData) setNumInputs(editData?.doc);
     setOtherDocument(editData?.doc);
@@ -81,11 +81,25 @@ function EditAppointments() {
     },
     {
       onSuccess: (response) => {
-        showNotification({
-          color: "green.0",
-          message: "Documents uploaded Successfully",
-          title: "Success",
-        });
+        if (response.status === 200) {
+          showNotification({
+            color: "green.0",
+            message: "Appoinment uploaded Successfully",
+            title: "Success",
+          });
+        }
+        else{
+          showNotification({
+            color: "red.0",
+            message: "Something went wrong",
+            title: "Error",
+          });
+        }
+        // showNotification({
+        //   color: "green.0",
+        //   message: "Documents uploaded Successfully",
+        //   title: "Success",
+        // });
       },
     }
   );
