@@ -26,6 +26,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useQuery } from "react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -34,9 +35,11 @@ function AllAppointments() {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
-  const [editid,setEditId]=useState()
-
-  
+  const [editid, setEditId] = useState();
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -60,7 +63,7 @@ function AllAppointments() {
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,
             name: obj?.appointmentUser,
-            caseId:obj?.caseId,
+            caseId: obj?.caseId,
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
@@ -79,7 +82,7 @@ function AllAppointments() {
           return appointment;
         });
         setRowData(data);
-        
+        setTotalPages(data?.length / 10);
       },
     }
   );
@@ -159,6 +162,22 @@ function AllAppointments() {
     }
     return arr;
   }, [user]);
+
+  const filteredItems = rowData.filter(
+    (item) =>
+      (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+      item?.status?.toLowerCase().includes(filter.toLowerCase())
+  );
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return filteredItems.splice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItems.splice(a, a + 10);
+    }
+  }, [activePage, filteredItems]);
+
   if (status === "loading") {
     return <Loader />;
   }
@@ -169,14 +188,24 @@ function AllAppointments() {
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+            />
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
+              value={filter}
+              setData={setFilter}
+              pb="0px"
               data={[
-                { label: "verified", value: "verified" },
-                { label: "Pending", value: "pending" },
+                { label: "All", value: "" },
+                { label: "Closed", value: "closed" },
+                { label: "Scheduled", value: "scheduled" },
+                { label: "Cancelled", value: "cancelled" },
               ]}
             />
           </Grid.Col>
@@ -191,14 +220,19 @@ function AllAppointments() {
           </Grid.Col>
         </Grid>
         <Table
-          headCells={headerData}
-          rowData={rowData}
+          headCells={newData}
+          rowData={paginated}
           setViewModalState={setOpenViewModal}
-          // reportData={reportData}
-          // setReportData={setReportData}
           setEditIDApp={setEditId}
-          
         />
+        {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
+          />
+        )}
       </Container>
 
       <ViewModal

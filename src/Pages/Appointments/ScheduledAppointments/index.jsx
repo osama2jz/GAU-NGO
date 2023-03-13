@@ -86,29 +86,6 @@ function ScheduledAppointments() {
   );
 
 
-   //API call for Cancel Appointments
-  //  const { data1, status1 } = useQuery(
-  //  [ "CancelAppointments",id],
-  //   () => {
-  //     alert(id)
-  //     // return axios.get(
-  //     //   `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
-  //     //   {
-  //     //     headers: {
-  //     //       "x-access-token": user.token,
-  //     //     },
-  //     //   }
-  //     // );
-  //   },
-  //   {
-  //     onSuccess: (response) => {
-       
-  //     },
-  //     enabled:!!id
-  //   }
-  // );
-
-
   //API call for Cancel Appointments
   const CancelAppointments = async (id) => {
     try {
@@ -137,8 +114,6 @@ function ScheduledAppointments() {
           color: "red.0",
         })
       }
-      // console.log(response);
-      // queryClient.invalidateQueries("fetchAppointments");
     } catch (error) {
       console.log(error);
     }
