@@ -216,7 +216,10 @@ const Table = ({
                               navigate();
                               // setOpened(true);
                             }}
-                            disabled={row.status === "SCHEDULED" ? true : false}
+                            disabled={row.status === "SCHEDULED" || row.status !== "unverified" ? true : false}
+                            
+                           
+
                           >
                             {head.edit}
                           </ActionIcon>

@@ -252,7 +252,8 @@ const ProfessionPage = (props) => {
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md"  size={1035} className={classes.main}>
+      ) :(
+      <Container mt="md"  size={1035} className={classes.main}>
       <Table
         headCells={headerData}
         rowData={rowData}

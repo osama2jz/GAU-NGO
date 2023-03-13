@@ -16,6 +16,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import EditUserModal from "../../Users/AllUsers/EditUserModal";
 import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
+import userlogo from "../../../assets/teacher.png";
 import Card from "../Card";
 import { useStyles } from "./styles";
 
@@ -36,6 +37,8 @@ const UserPage = (props) => {
   const [rowData, setRowData] = useState([]);
   const [loading,setLoading]=useState(false)
   const [allUsers,setAllUsers]=useState()
+  const [reportData, setReportData] = useState([]);
+
 
   //API call for fetching all users Count
   const { data4, status4 } = useQuery(
@@ -59,6 +62,8 @@ const UserPage = (props) => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone: obj?.phoneNumber,
+
           };
           return user;
         });
@@ -102,6 +107,10 @@ const UserPage = (props) => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone: obj?.phoneNumber,
+            image:obj?.profileImage ? obj?.profileImage : userlogo,
+
+
           };
           return user;
         });
@@ -136,6 +145,9 @@ const UserPage = (props) => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone: obj?.phoneNumber,
+            image:obj?.profileImage ? obj?.profileImage : userlogo,
+
           };
           return user;
         });
@@ -170,6 +182,9 @@ const UserPage = (props) => {
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone: obj?.phoneNumber,
+            image:obj?.profileImage ? obj?.profileImage : userlogo,
+
           };
           return user;
         });
@@ -304,7 +319,7 @@ const UserPage = (props) => {
   ];
 
   return (
-    <Container className={classes.main} size="lg">
+    <Container className={classes.main} size="xl">
       <Flex justify="center" align="center" mb="md">
         <Anchor
           fz={12}
@@ -328,7 +343,7 @@ const UserPage = (props) => {
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" className={classes.main}>
+      ) :(<Container mt="md" size={1035} className={classes.main}>
       <Table
         headCells={headerData}
         rowData={rowData}
@@ -339,6 +354,7 @@ const UserPage = (props) => {
         setStatusChangeId={setStatusChangeId}
         setDeleteData={setDeleteID}
         setViewModalData={setViewModalData}
+        setReportData={setReportData}
       />
       {totalPages > 1 && (
         <Pagination
@@ -363,7 +379,7 @@ const UserPage = (props) => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        <ViewUserModal id={viewModalData} />
+        <ViewUserModal id={viewModalData} reportData={reportData}/>
       </ViewModal>
       <EditModal
         opened={openEditModal}
