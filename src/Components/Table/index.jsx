@@ -18,7 +18,7 @@ import { showNotification } from "@mantine/notifications";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
-import user from "../../assets/teacher.png";
+import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
@@ -177,11 +177,9 @@ const Table = ({
                           {head.view}
                         </ActionIcon>
                         {head.edit && (
-                         
                           <ActionIcon
                             onClick={() => {
                               if (setEditId) {
-                                
                                 navigate(`/userEdit/${row.id}`);
                                 window.location.reload();
                                 return;
@@ -194,37 +192,31 @@ const Table = ({
                                     editData: row,
                                   },
                                 });
-                                return 
+                                return;
                               }
                               if (setReportData) {
-                               setReportData(row);
-                              
+                                setReportData(row);
                               }
                               // setEditData ?
                               if (setEditDoc) {
                                 setEditDoc(row);
-                               
                               }
 
-                            //  if(setEditModalState){
-                            //    setEditModalState(true);
-                            //  }
-                                setEditModalState(true);
-                                // return
-                          
+                              //  if(setEditModalState){
+                              //    setEditModalState(true);
+                              //  }
+                              setEditModalState(true);
+                              // return
+
                               setEditModalState(true);
                               // if(setViewModalData){
                               //   return setViewModalData(row.id);
                               // }
-                              
-                            
-                              
+
                               navigate();
                               // setOpened(true);
                             }}
-                            
                             disabled={row.status === "SCHEDULED" ? true : false}
-
                           >
                             {head.edit}
                           </ActionIcon>
@@ -261,10 +253,10 @@ const Table = ({
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
-                      <Flex gap={3} p="0px" m="0px">
+                      <Flex gap={"lg"} p="0px" m="0px" align={"center"}>
                         {row.image && (
                           <Avatar
-                            src={row.image || user}
+                            src={row.image || userImage}
                             width="30px"
                             radius={"xl"}
                           />

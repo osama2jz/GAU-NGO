@@ -15,21 +15,15 @@ import moment from "moment";
 
 export default function Chart({ data = [] }) {
   const { classes } = useStyles();
-  const [data1,setData1]=useState()
-  const today=moment().format("MMMM YYYY")
- 
-// console.log(data)
-  const a=data.sort((a, b) => {
+  const [data1, setData1] = useState();
+  const today = moment().format("MMMM YYYY");
+
+  const a = data.sort((a, b) => {
     return a._id.day - b._id.day;
-  })
+  });
 
-  console.log(a)
-
-
-
-  
   // setData1(sorting)
-  
+
   return (
     <Card
       shadow="xl"

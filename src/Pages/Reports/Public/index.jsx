@@ -38,7 +38,7 @@ function PublicReport() {
   const [reportData, setReportData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [pdfData,setPdfData] = useState([])
+  const [pdfData, setPdfData] = useState([]);
 
   let headerData = [
     {
@@ -100,7 +100,7 @@ function PublicReport() {
 
   //API call for fetching Public Reports
   const { data, status } = useQuery(
-   [ "fetchPublicReports",activePage],
+    ["fetchPublicReports", activePage],
     () => {
       return axios.get(
         `${
@@ -119,15 +119,16 @@ function PublicReport() {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
             id: obj.reportId,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
-            role:  obj?.role === "socialWorker"
-            ? "Social Worker"
-            : obj.role === "psychologist"
-            ? "Psychologist"
-            : "Lawyer",
+            role:
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
@@ -138,20 +139,16 @@ function PublicReport() {
         });
         setRowData(data);
         setTotalPages(response?.data?.data?.totalPages);
-
       },
     }
   );
 
-   //API call for fetching Private Reports
-   const { data1, status1 } = useQuery(
+  //API call for fetching Private Reports
+  const { data1, status1 } = useQuery(
     "fetchPrivateReports",
     () => {
       return axios.get(
-        `${
-          backendUrl +
-          `/api/case/listUserReports/public/${user.id}/0/0`
-        }`,
+        `${backendUrl + `/api/case/listUserReports/public/${user.id}/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -218,7 +215,7 @@ function PublicReport() {
           setViewModalState={setOpenViewModal}
           setReportData={setReportData}
         />
-         {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
@@ -230,18 +227,18 @@ function PublicReport() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Report #2345"
+        title="Public Report"
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
+        <Flex direction="column" align="center" justify={"space-between"}>
+        
+            {/* <Avatar
               radius="xl"
               size={150}
               src={userlogo}
               className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            /> */}
+          
+         
             <Text size={24} weight="bold" mb="sm" align="center">
               {reportData?.name}
             </Text>
@@ -266,9 +263,9 @@ function PublicReport() {
                 <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>
             </Container>
-          </Grid.Col>
-        </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
+          
+        </Flex>
+        <Text className={classes.textheading} mt="md">Report Comments</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

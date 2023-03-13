@@ -186,18 +186,18 @@ function ReferalReport() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Report #2345"
+        title={reportData?.type + " "+"Report" }
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
+        <Flex direction={"column"} align="center" justify={"space-between"}>
+          
+            {/* <Avatar
               radius="xl"
               size={150}
               src={userlogo}
               className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            /> */}
+         
+       
             <Text size={24} weight="bold" mb="sm" align="center">
               {reportData?.name}
             </Text>
@@ -222,9 +222,9 @@ function ReferalReport() {
                 <Text className={classes.textContent}>{reportData?.type}</Text>
               </SimpleGrid>
             </Container>
-          </Grid.Col>
-        </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
+         
+        </Flex>
+        <Text className={classes.textheading} mt="md">Report Comments</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

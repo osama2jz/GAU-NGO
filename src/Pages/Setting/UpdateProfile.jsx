@@ -1,7 +1,11 @@
 import {
-    Avatar, Container,
-    Flex,
-    Grid, Group, SimpleGrid, Text
+  Avatar,
+  Container,
+  Flex,
+  Grid,
+  Group,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
@@ -25,7 +29,6 @@ export const UpdateProfile = () => {
   const [profileImage, setProfileImage] = useState(user?.profileImage);
   const [files, setFiles] = useState([]);
 
-  
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -130,7 +133,7 @@ export const UpdateProfile = () => {
               )}
             </Container>
 
-            <Dropzone
+            {/* <Dropzone
               accept={IMAGE_MIME_TYPE}
               maxFiles={1}
               style={{ width: "150px" }}
@@ -138,11 +141,11 @@ export const UpdateProfile = () => {
                 setFiles(v);
               }}
             >
-              {/* <Text align="center" className={classes.upload}>
+               <Text align="center" className={classes.upload}>
                 <Upload size={16} />
                 Upload
-              </Text> */}
-            </Dropzone>
+              </Text> 
+            </Dropzone> */}
           </Grid.Col>
           <Grid.Col md={12} lg={6}>
             <SimpleGrid
