@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
@@ -22,6 +22,7 @@ import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
+import userlogo from "../../../assets/teacher.png";
 
 export const ViewProfessionals = () => {
   const { classes } = useStyles();
@@ -32,15 +33,17 @@ export const ViewProfessionals = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState("");
+  // const [filter, setFilter] = useState("all");
+  // const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
-  const [activePage, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
-  
+
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState();
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const [reportData, setReportData] = useState([]);
 
@@ -99,12 +102,17 @@ export const ViewProfessionals = () => {
 
   //API call for fetching all professionals
   const { data, status } = useQuery(
-    ["fetchUser", filter, search, activePage],
+    ["fetchUser", activePage, search,filter],
     () => {
+      let link =
+      search.length > 0 || filter !== "all"
+        ? `/api/user/listUsers/${filter}/0/0/${search}`
+        : `/api/user/listUsers/${filter}/${activePage}/10`;
       return axios.get(
         `${
-          backendUrl + `/api/user/listUsers/all/1/10`
-          // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
+          // backendUrl + `/api/user/listUsers/all/${activePage}/10`
+          backendUrl + link
+
         }`,
         {
           headers: {
@@ -118,7 +126,7 @@ export const ViewProfessionals = () => {
         let data = response.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             userType:
               obj.userType === "socialWorker"
@@ -133,6 +141,7 @@ export const ViewProfessionals = () => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
+            image: obj.profileImage ? obj.profileImage : userlogo,
           };
           return user;
         });
@@ -189,14 +198,14 @@ export const ViewProfessionals = () => {
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
             <SelectMenu
-              placeholder="Filter by Status"
+              placeholder="Filter by Type"
               pb="0px"
-              value={"all"}
+              value={filter}
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
                 { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychlogist" },
+                { label: "Psychlogist", value: "psychologist" },
                 { label: "Social Worker", value: "socialWorker" },
               ]}
             />

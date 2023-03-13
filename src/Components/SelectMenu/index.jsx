@@ -23,7 +23,7 @@ const SelectMenu = ({
   searchable,
   required,
   label,
-  pb = "sm",
+  pb,
   data,
   setData,
   clearable,

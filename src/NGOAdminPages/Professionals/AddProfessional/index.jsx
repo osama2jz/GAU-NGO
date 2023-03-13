@@ -88,38 +88,25 @@ export const AddProfessional = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-     
-
       if (imageData === "" || fileData === "") {
-        if (imageData=== "") {
+        if (imageData === "") {
           setUploadError("Please upload the Profile Photo");
         }
         if (fileData === "") {
           setFileError("Please upload the file");
         }
       } else {
-        form.setFieldValue("profileImage", imageData);
-        form.setFieldValue("IDDetails", fileData);
+        // console.log("for");
+        // form.setFieldValue("profileImage", imageData);
+        // form.setFieldValue("IDDetails", fileData);
+        // console.log("form", form.values);
+        // console.log("values", values);
         return axios.post(`${backendUrl + "/api/user/create"}`, values, {
           headers: {
             "x-access-token": user.token,
           },
         });
       }
-      // if (values?.profileImage?.length > 0 && values?.IDDetails?.length > 0) {
-      //   return axios.post(`${backendUrl + "/api/user/create"}`, values, {
-      //     headers: {
-      //       "x-access-token": user.token,
-      //     },
-      //   });
-      // } else {
-      //   showNotification({
-      //     title: "Upload Failed",
-      //     message: "Please upload all the required files",
-      //     color: "red.0",
-      //   });
-      //   setUploadError("Please upload the file");
-      // }
     },
     {
       onSuccess: (response) => {
@@ -194,8 +181,10 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log("link", link);
+
             // form.setFieldValue("documentURL", link);
+            form.setFieldValue("IDDetails", link);
+
             setFileData(link);
           }
         });
@@ -245,9 +234,10 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log("link", link);
+            // console.log("link", link);
             // form.setFieldValue("documentURL", link);
-            setImageData(link)
+            form.setFieldValue("profileImage", link);
+            setImageData(link);
           }
         });
       }

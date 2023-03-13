@@ -55,6 +55,7 @@ function EditAppointments() {
     },
   ]);
 
+  const [fileLoader,setFileLoader]=useState(false)
   let { state } = useLocation();
 
   const { editData } = state ?? "";
@@ -87,6 +88,7 @@ function EditAppointments() {
             message: "Appoinment uploaded Successfully",
             title: "Success",
           });
+          navigate(-1)
         }
         else{
           showNotification({
@@ -95,11 +97,7 @@ function EditAppointments() {
             title: "Error",
           });
         }
-        // showNotification({
-        //   color: "green.0",
-        //   message: "Documents uploaded Successfully",
-        //   title: "Success",
-        // });
+      
       },
     }
   );
@@ -137,7 +135,7 @@ function EditAppointments() {
   );
 
   const handleFileInput = (file, index) => {
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
@@ -180,7 +178,7 @@ function EditAppointments() {
           }
         });
       }
-      // setFileLoader(false);
+      setFileLoader(false);
     });
   };
 
@@ -274,28 +272,37 @@ function EditAppointments() {
                     setOtherDocument([...otherDocument]);
                   }}
                 />
-                {i?.documentURL ? (
+                {/* {i?.documentURL ? (
                   <Anchor mt="xl" href={i?.documentURL} target="_blank">View File Here</Anchor>
-                ) : (
+                ) : ( */}
+               
                   <FileInput
-                    placeholder={"Upload"}
-                    mb="md"
-                    ml={"0px"}
-                    accept="file/pdf"
-                    styles={(theme) => ({
-                      root: {
-                        margin: "auto",
-                      },
-                      input: {
-                        border: "1px solid rgb(0, 0, 0, 0.1)",
-                        borderRadius: "5px",
-                        // width: "250px",
-                      },
-                    })}
-                    icon={<FileUpload size={20} />}
-                    onChange={(e) => handleFileInput(e, index)}
-                  />
-                )}
+                  placeholder={i?.documentURL ? "Uploaded" :"Upload"}
+                  bg={i?.documentURL ? "green.0" : ""}
+                 
+                  mb="md"
+                  ml={"0px"}
+                  accept="file/pdf"
+                  styles={(theme) => ({
+                    root: {
+                      margin: "auto",
+                      
+                    },
+                    input: {
+                      border: "1px solid rgb(0, 0, 0, 0.1)",
+                      borderRadius: "5px",
+                      // width: "250px",
+                     
+                    },
+                    
+                  })}
+                  icon={<FileUpload size={20} />}
+                  onChange={(e) => handleFileInput(e, index)}
+
+                />
+              
+                 
+                {/* )} */}
               </>
             ))}
           </SimpleGrid>
@@ -310,6 +317,7 @@ function EditAppointments() {
           <Button
             label="Update"
             primary={true}
+            disabled={fileLoader}
             onClick={() => handleUploadDocuments.mutate()}
           />
         </Group>

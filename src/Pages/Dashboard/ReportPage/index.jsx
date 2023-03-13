@@ -313,7 +313,7 @@ const UserPage = (props) => {
       {loader ? (
         <Loader minHeight="40vh" />
       ) : (
-        <Container mt="md" className={classes.main}>
+        <Container mt="md"  size={1035} className={classes.main}>
           <Table
             headCells={headerData}
             rowData={rowData}
@@ -333,28 +333,30 @@ const UserPage = (props) => {
         </Container>
       )}
 
-      <ViewModal
+<ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Report #2345"
+        title= {reportData?.type === "Private" ? "Private Report" : "Public Report"}
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
+        <Flex direction="column" align="center" justify={"space-between"}>
+        
+            {/* <Avatar
               radius="xl"
               size={150}
               src={userlogo}
               className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+            /> */}
+          
+         
             <Text size={24} weight="bold" mb="sm" align="center">
               {reportData?.name}
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
                 <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>{reportData?.case}</Text>
+                <Text className={classes.textContent}>
+                  {reportData?.caseNo}
+                </Text>
                 <Text className={classes.textheading}>Added By</Text>
                 <Text className={classes.textContent}>
                   {reportData?.addedBy}
@@ -366,17 +368,12 @@ const UserPage = (props) => {
                   {reportData?.type} Report
                 </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
-                <Text className={classes.textContent}>{reportData?.type}</Text>
-
-                <Text></Text>
+             
               </SimpleGrid>
-              <Container></Container>
             </Container>
-          </Grid.Col>
-        </Grid>
-        {/* <hr/> */}
-        <Text className={classes.textheading}>Report Comments</Text>
+          
+        </Flex>
+        <Text className={classes.textheading} mt="md">Report Comments</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

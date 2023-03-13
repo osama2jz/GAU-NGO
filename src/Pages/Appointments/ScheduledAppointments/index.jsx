@@ -40,7 +40,6 @@ function ScheduledAppointments() {
   const queryClient = useQueryClient();
   const [id, setId] = useState();
 
-  
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
     "fetchAppointments",
@@ -85,7 +84,6 @@ function ScheduledAppointments() {
     }
   );
 
-
   //API call for Cancel Appointments
   const CancelAppointments = async (id) => {
     try {
@@ -98,26 +96,24 @@ function ScheduledAppointments() {
         }
       );
       setOpenViewModal(false);
-      if(response.data.status){
+      if (response.data.status) {
         navigate(routeNames.socialWorker.allAppointments);
         showNotification({
           title: "Appointment Cancelled",
           message: "Appointment Cancelled Successfully",
           color: "green.0",
-        })
-        
-      }
-      else{
+        });
+      } else {
         showNotification({
           title: "Appointment Not Cancelled",
           message: "Appointment Not Cancelled Successfully",
           color: "red.0",
-        })
+        });
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   let headerData = [
     {
@@ -230,53 +226,57 @@ function ScheduledAppointments() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Appointment #2345"
-        size="560px"
+        title="Appointment Details"
+        
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Text size={24} weight="bold" mb="sm" align="center">
-             {reportData?.name}
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Appointee</Text>
-                <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-                <Text className={classes.textheading}>Case Name</Text>
-                <Text className={classes.textContent}>{reportData?.caseName}</Text>
-                <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>{reportData?.time}</Text>
-                <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textContent}>
-                <Badge variant="outline" color={reportData?.status=== "SCHEDULED" ? "blue.0" :"red.0"}>{reportData?.status}</Badge>
-                </Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
-        <Group position="right" mt="lg">
-         
-           <Button
-        label={" Cancel Appointment"}
-        onClick={() => {
-          // setId(reportData?.appointId);
-          // queryClient.invalidateQueries("CancelAppointments",id);
-          CancelAppointments(reportData?.appointId);
-        }}
-       
+        <Flex direction={"column"} align="center" justify={"space-between"}>
+          <Avatar
+            radius="xl"
+            size={150}
+            src={userlogo}
+            className={classes.avatar}
+          />
 
-        // type="Cancel Appo"
-        />
+          <Text size={24} weight="bold" mb="sm" align="center">
+            {reportData?.name}
+          </Text>
+          <Container w={"100%"} ml="md">
+            <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>Appointee</Text>
+              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+              <Text className={classes.textheading}>Case Name</Text>
+              <Text className={classes.textContent}>
+                {reportData?.caseName}
+              </Text>
+              <Text className={classes.textheading}>Appointment Date</Text>
+              <Text className={classes.textContent}>{reportData?.date}</Text>
+              <Text className={classes.textheading}>Appointment Time</Text>
+              <Text className={classes.textContent}>{reportData?.time}</Text>
+              <Text className={classes.textheading}>Status</Text>
+              <Text className={classes.textContent}>
+                <Badge
+                  variant="outline"
+                  color={
+                    reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
+                  }
+                >
+                  {reportData?.status}
+                </Badge>
+              </Text>
+            </SimpleGrid>
+          </Container>
+        </Flex>
+        <Group position="right" mt="lg">
+          <Button
+            label={" Cancel Appointment"}
+            onClick={() => {
+              // setId(reportData?.appointId);
+              // queryClient.invalidateQueries("CancelAppointments",id);
+              CancelAppointments(reportData?.appointId);
+            }}
+
+            // type="Cancel Appo"
+          />
         </Group>
       </ViewModal>
     </Container>

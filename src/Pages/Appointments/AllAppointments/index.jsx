@@ -82,7 +82,7 @@ function AllAppointments() {
           return appointment;
         });
         setRowData(data);
-        setTotalPages(data?.length / 10);
+        setTotalPages(Math.ceil(data?.length / 10));
       },
     }
   );
@@ -136,6 +136,7 @@ function AllAppointments() {
       disablePadding: true,
       label: "Status",
     },
+   
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
@@ -152,7 +153,7 @@ function AllAppointments() {
       user.role === "Psychologist" ||
       user.role === "Lawyer"
     ) {
-      headerData.splice(7, 0, {
+      headerData.splice(8, 0, {
         id: "start",
         numeric: false,
         disablePadding: true,
@@ -171,10 +172,10 @@ function AllAppointments() {
   );
   const paginated = useMemo(() => {
     if (activePage == 1) {
-      return filteredItems.splice(0, 10);
+      return filteredItems.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
-      return filteredItems.splice(a, a + 10);
+      return filteredItems.slice(a, a + 10);
     }
   }, [activePage, filteredItems]);
 
@@ -241,48 +242,43 @@ function AllAppointments() {
         title="Appointment #2345"
         size="560px"
       >
-        <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Text size={24} weight="bold" mb="sm" align="center">
-              {reportData?.name}
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Appointee</Text>
-                <Text className={classes.textContent}>
-                  {reportData?.addedBy}
-                </Text>
-                <Text className={classes.textheading}>Case Name</Text>
-                <Text className={classes.textContent}>
-                  {reportData?.caseName}
-                </Text>
-                <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>{reportData?.time}</Text>
-                <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textContent}>
-                  <Badge
-                    variant="outline"
-                    color={
-                      reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
-                    }
-                  >
-                    {reportData?.status}
-                  </Badge>
-                </Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
+        <Flex direction={"column"} align="center" justify={"space-between"}>
+          <Avatar
+            radius="xl"
+            size={150}
+            src={userlogo}
+            className={classes.avatar}
+          />
+
+          <Text size={24} weight="bold" mb="sm" align="center">
+            {reportData?.name}
+          </Text>
+          <Container w={"100%"} ml="md">
+            <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>Appointee</Text>
+              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+              <Text className={classes.textheading}>Case Name</Text>
+              <Text className={classes.textContent}>
+                {reportData?.caseName}
+              </Text>
+              <Text className={classes.textheading}>Appointment Date</Text>
+              <Text className={classes.textContent}>{reportData?.date}</Text>
+              <Text className={classes.textheading}>Appointment Time</Text>
+              <Text className={classes.textContent}>{reportData?.time}</Text>
+              <Text className={classes.textheading}>Status</Text>
+              <Text className={classes.textContent}>
+                <Badge
+                  variant="outline"
+                  color={
+                    reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
+                  }
+                >
+                  {reportData?.status}
+                </Badge>
+              </Text>
+            </SimpleGrid>
+          </Container>
+        </Flex>
       </ViewModal>
     </Container>
   );

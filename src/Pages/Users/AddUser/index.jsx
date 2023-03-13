@@ -1,4 +1,4 @@
-import { Anchor, Avatar, Container, Grid, Group, Text } from "@mantine/core";
+import { Anchor, Avatar, Container, Grid, Group, Input, Text } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -25,6 +25,7 @@ export const AddUser = () => {
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
   const [fileUploading,setFileUploading]=useState(false)
+  const [error,setError]=useState()
   
   const form = useForm({
     validateInputOnChange: true,
@@ -69,11 +70,22 @@ export const AddUser = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/create"}`, values, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      if(values?.profileImage===""){
+        setError("Please upload a profile image")
+        showNotification({
+          title: "Upload Failed",
+          message: "Please upload a profile image",
+          color: "red.0",
+        })
+
+      }else{
+        return axios.post(`${backendUrl + "/api/user/create"}`, values, {
+          headers: {
+            "x-access-token": user.token,
+          },
+        });
+      }
+     
     },
     {
       onSuccess: (response) => {
@@ -99,13 +111,7 @@ export const AddUser = () => {
     return <Loader />;
   }
 
-  if (handleAddUser.isError) {
-    showNotification({
-      title: "Error",
-      message: "Something went wrong",
-      color: "red.0",
-    });
-  }
+ 
 
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
@@ -195,7 +201,8 @@ export const AddUser = () => {
             )}
           </Container>
 
-          <Dropzone
+<Input.Wrapper error={error} size={"md"}>
+<Dropzone
             accept={IMAGE_MIME_TYPE}
             maxFiles={1}
             style={{ width: "150px" }}
@@ -210,6 +217,8 @@ export const AddUser = () => {
             </Text>)}
             
           </Dropzone>
+</Input.Wrapper>
+          
         </Group>
         <Container p={"0px"} size="xl" m={"sm"}>
           <Grid>

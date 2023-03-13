@@ -15,6 +15,7 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ViewUserModal from "../AllUsers/ViewUserModal";
 const VerificationScheduled = () => {
@@ -113,6 +114,8 @@ const VerificationScheduled = () => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
+            image:obj?.profileImage ? obj?.profileImage : userlogo,
+
           };
           return user;
         });
@@ -186,7 +189,7 @@ const VerificationScheduled = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Schedule Details"
-        size="550px"
+        
       >
         <ViewUserModal id={viewModalData} reportData={reportData}/>
       </ViewModal>

@@ -39,7 +39,6 @@ function ReferalReport() {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
-
   console.log(caseNo);
 
   let headerData = [
@@ -86,11 +85,18 @@ function ReferalReport() {
       label: "Date",
     },
     {
+      id: "type",
+      numeric: false,
+      disablePadding: true,
+      label: "Report Type",
+    },
+    {
       id: "file",
       numeric: false,
       disablePadding: true,
       label: "Report File",
     },
+
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
@@ -179,52 +185,46 @@ function ReferalReport() {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
-
           />
         )}
       </Container>
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={reportData?.type + " "+"Report" }
+        title={reportData?.type + " " + "Report"}
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
-          
-            {/* <Avatar
+          {/* <Avatar
               radius="xl"
               size={150}
               src={userlogo}
               className={classes.avatar}
             /> */}
-         
-       
-            <Text size={24} weight="bold" mb="sm" align="center">
-              {reportData?.name}
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>
-                  {reportData?.case}
-                </Text>
-                <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>
-                  {reportData?.addedBy}
-                </Text>
-                <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
-                <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
-                </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
-                <Text className={classes.textContent}>{reportData?.type}</Text>
-              </SimpleGrid>
-            </Container>
-         
+          <Text size={24} weight="bold" mb="sm" align="center">
+            {reportData?.name}
+          </Text>
+          <Container w={"100%"} ml="md">
+            <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textContent}>{reportData?.case}</Text>
+              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textContent}>{reportData?.date}</Text>
+              <Text className={classes.textheading}>Report File</Text>
+              <Anchor href={reportData?.file} target="_blank">
+                {reportData?.type} Report
+              </Anchor>
+
+              <Text className={classes.textheading}>Report Type</Text>
+              <Text className={classes.textContent}>{reportData?.type}</Text>
+            </SimpleGrid>
+          </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">Report Comments</Text>
+        <Text className={classes.textheading} mt="md">
+          Report Comments
+        </Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
