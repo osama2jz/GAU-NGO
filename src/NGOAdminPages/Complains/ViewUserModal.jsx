@@ -5,6 +5,7 @@ import {
   Container,
   Text,
   Badge,
+  Flex,
 } from "@mantine/core";
 import { useStyles } from "./styles";
 
@@ -16,37 +17,38 @@ function ViewUserModal({ id, reportData }) {
 
   return (
     <>
-      <Grid align="center" justify={"space-between"}>
-        <Grid.Col md={4}>
-          <Avatar
+      <Flex direction={"column"} align="center" justify={"space-between"}>
+       
+          {/* <Avatar
             radius="sm"
             size={130}
             src={userlogo}
             className={classes.avatar}
           />
-        </Grid.Col>
-        <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+      */}
+        
           <Text size={24} weight="bold" mb="sm" align="center">
             {reportData?.name}
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2}>
-              <Text className={classes.textheading}>Amount Donated </Text>
+              <Text className={classes.textheading}>Complaint Subject </Text>
               <Text className={classes.textContent}>{reportData?.amount}</Text>
-              <Text className={classes.textheading}>Donation Date</Text>
+              <Text className={classes.textheading}>Complaint Date</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Description</Text>
+              
+              <Text className={classes.textheading}>NGO Name</Text>
+              <Text className={classes.textContent}>{reportData?.ngo}</Text>
+            </SimpleGrid>
+          </Container>
+        
+      </Flex>
+      <Text  mt="md" className={classes.textheading}>Description</Text>
               <Text className={classes.textContent}>
                 {reportData?.description
                   ? reportData?.description
                   : "No Description"}
               </Text>
-              <Text className={classes.textheading}>NGO Name</Text>
-              <Text className={classes.textContent}>{reportData?.ngo}</Text>
-            </SimpleGrid>
-          </Container>
-        </Grid.Col>
-      </Grid>
     </>
   );
 }

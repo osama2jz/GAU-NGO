@@ -1,4 +1,4 @@
-import { Container, Grid, Group, useMantineTheme } from "@mantine/core";
+import { Avatar, Container, Grid, Group, SimpleGrid, Text, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -24,6 +24,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 // import routeNames from "../../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import userImage from "../../../assets/teacher.png";
 
 
 export const AddComplains = () => {
@@ -31,20 +32,51 @@ export const AddComplains = () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [statusChangeId, setStatusChangeId] = useState("");
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [viewModalData, setViewModalData] = useState();
-  const [deleteID, setDeleteID] = useState("");
-  const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
+  const [professionalsData,setProfessionalsData]=useState([])
+  const [professional,setProfessional]=useState()
 
+  console.log("professional",professional)
  
+ //API call for fetching all professionals
+ const { data1, status1 } = useQuery(
+  ["fetchProfessionals", activePage, search, filter],
+  () => {
+    return axios.get(`${backendUrl + `/api/user/listUsers/all/0/0`}`, {
+      headers: {
+        "x-access-token": user.token,
+      },
+    });
+  },
+  {
+    onSuccess: (response) => {
+      let data = response.data?.data?.map((obj, ind) => {
+        let user = {
+          value: obj._id.toString(),
+          label: obj?.firstName + " " + obj?.lastName,
+          // userType:
+          //   obj.userType === "socialWorker"
+          //     ? "Social Worker"
+          //     : obj?.userType === "psychologist"
+          //     ? "Psychologist"
+          //     : obj?.userType === "lawyer"
+          //     ? "Lawyer"
+          //     : "",
+          email: obj.email,
+          image:obj?.profileImage,
+
+        };
+        return user;
+      });
+      setProfessionalsData(data);
+     
+    },
+  }
+);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -64,6 +96,7 @@ export const AddComplains = () => {
     },
   });
 
+  console.log("professionalsData",professionalsData)
   
   const handleAddComplaint = useMutation(
     (values) => {
@@ -93,6 +126,20 @@ export const AddComplains = () => {
     }
   );
 
+  const SelectItem = ({ image, label, email, ...others }) => (
+    <div {...others}>
+      <Group noWrap>
+        <Avatar radius={"50%"} src={image || userImage} />
+        <div>
+          <Text size="sm">{label}</Text>
+          <Text size="xs" opacity={0.65}>
+            {email}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  );
+
   if (handleAddComplaint.isLoading) {
     return <Loader />;
   }
@@ -104,16 +151,34 @@ export const AddComplains = () => {
         onSubmit={form.onSubmit((values) => handleAddComplaint.mutate(values))}
       >
       <Container className={classes.innerContainer} size="xl">
-     
-      <InputField
+        <SimpleGrid cols={2}>
+        <InputField
           label="Subject"
-          placeholder="subject"
+          placeholder="Subject"
           form={form}
           validateName="subject"
         />
+          {/* {status === "loading" ? (
+          <Loader minHeight="40px"/>
+        ) : ( */}
+          <SelectMenu
+            searchable={true}
+            itemComponent={SelectItem}
+            placeholder="Enter User name or Id"
+            clearable={true}
+            setData={setProfessional}
+            label="Search Professional"
+            data={professionalsData}
+            value={professional}
+            // disabled={editId ? true : false}
+          />
+        {/* )} */}
+        </SimpleGrid>
+     
+     
         <TextArea
         label="Description"
-        placeholder="description"
+        placeholder="Complaint Description"
         form={form}
         validateName="description"
         />

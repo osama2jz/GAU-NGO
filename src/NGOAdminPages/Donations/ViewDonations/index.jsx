@@ -141,21 +141,15 @@ export const ViewDonations = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              pb="0px"
-              value={"all"}
-              setData={setFilter}
-              data={[
-                { label: "All", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "InActive", value: "inactive" },
-              ]}
-            />
-          </Grid.Col>
+      
           <Grid.Col sm={3} ml="auto">
-         
+            <Button
+              label={"Add Donation"}
+              bg={true}
+              leftIcon={"plus"}
+              styles={{ float: "right" }}
+              onClick={() => navigate(routeNames.user.addDonation)}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

@@ -89,7 +89,7 @@ export const ViewComplains = () => {
 
   //API call for fetching all donations
   const { data, status } = useQuery(
-    ["fetchAllComplains", filter, search, activePage],
+    ["fetchAllDonations", filter, search, activePage],
     () => {
       return axios.get(
         `${
@@ -123,6 +123,8 @@ export const ViewComplains = () => {
     }
   );
 
+ 
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Complaints"} />
@@ -137,19 +139,7 @@ export const ViewComplains = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              pb="0px"
-              value={"all"}
-              setData={setFilter}
-              data={[
-                { label: "All", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "InActive", value: "inactive" },
-              ]}
-            />
-          </Grid.Col>
+         
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add Complain"}
