@@ -13,12 +13,22 @@ import Webcam from "react-webcam";
 import userImage from "../../../../assets/teacher.png";
 import Button from "../../../../Components/Button";
 import Loader from "../../../../Components/Loader";
+import ViewModal from "../../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 
-const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setImg,faceID,setFaceId}) => {
+const Step1 = ({
+  setSelectedUser,
+  setSelectedCase,
+  newCase,
+  setNewCase,
+  img,
+  setImg,
+  faceID,
+  setFaceId,
+}) => {
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState();
@@ -26,8 +36,10 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
   const [userData, setUserData] = useState([]);
   const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
+  const [goToWhite, setGoToWhite] = useState(false);
 
-  
+  const [disabledIdBtn, setDisabledIdBtn] = useState(false);
+  const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
 
   const videoConstraints = {
@@ -43,10 +55,12 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
   }, [webcamRef]);
 
   const handleOpenCamera = () => {
+    setDisabledIdBtn(true);
     setShowCamera(true);
   };
 
   const handleCloseCamera = () => {
+    setDisabledIdBtn(false);
     setShowCamera(false);
   };
 
@@ -148,15 +162,25 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
   );
 
   const handleVerifyID = async () => {
+    setDisabledCameraBtn(true);
+    faceio.restartSession();
+    setGoToWhite(true);
     try {
-      faceio
+      await faceio
         .authenticate({
           locale: "auto", // Default user locale
         })
         .then((userData) => {
           setFaceId(userData.payload);
+          setGoToWhite(false);
+          // setDisabledCameraBtn(false);
+        }).finally(() => {
+          setGoToWhite(false);
+          setDisabledCameraBtn(false);
         });
     } catch (error) {
+      setGoToWhite(false);
+      setDisabledCameraBtn(false);
       console.log("error", error);
     }
   };
@@ -167,6 +191,9 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
     return <Loader />;
   }
 
+  if (goToWhite) {
+    return <Container h={"100vh"}></Container>;
+  }
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
@@ -186,6 +213,8 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
             margin: "auto",
           }}
           onClick={handleVerifyID}
+          disabled={disabledIdBtn}
+
         />
 
         <Divider
@@ -216,7 +245,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
             ) : (
               <Flex direction={"column"} gap="sm">
                 <img src={img} alt="screenshot" />
-                <Button onClick={() => setImg(null)} label="Retake" bg={true}/>
+                <Button onClick={() => setImg(null)} label="Retake" bg={true} />
               </Flex>
             )}
           </Container>
@@ -224,6 +253,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
           <Button
             label={"Capture Photo"}
             onClick={handleOpenCamera}
+            // disabled={(Object.keys(faceID).length === 0)!==true}
             leftIcon="faceid"
             iconWidth="24px"
             styles={{
@@ -233,11 +263,12 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase ,img,setI
               margin: "auto",
             }}
             bg={true}
+            disabled={disabledCameraBtn}
           />
         )}
       </Group>
       {userFetching === "loading" ? (
-        <Loader minHeight={"5vh"}/>
+        <Loader minHeight={"5vh"} />
       ) : selectedUser ? (
         <Container size={"lg"} p="0px">
           <UserInfo userData={selectedUser} loading={userFetching} />

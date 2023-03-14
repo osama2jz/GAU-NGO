@@ -85,7 +85,7 @@ console.log("data", data);
     });
 
     doc.save(`${title}.pdf`);
-    setdata([])
+    // setdata([])
     
   };
 

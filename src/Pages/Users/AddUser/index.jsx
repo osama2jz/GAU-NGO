@@ -129,6 +129,11 @@ export const AddUser = () => {
   });
 
   const handleImageInput = (file, type) => {
+    console.log(file);
+    const fileName =file.name
+    const sanitizedFileName = fileName.replace(/\s+/g, "")
+    // const sanitizedFile = new File([file], sanitizedFileName, {type: file.type})
+    console.log(sanitizedFileName);
     // setFileLoader(true);
     //s3 configs
     setFileUploading(true)
@@ -148,7 +153,7 @@ export const AddUser = () => {
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,

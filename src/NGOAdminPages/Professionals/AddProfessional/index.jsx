@@ -143,6 +143,8 @@ export const AddProfessional = () => {
   const handleFileInput = (file, type) => {
     // setFileLoader(true);
     //s3 configs
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     setFileError("");
     setFileUploading(true);
     const aws = new AWS.S3();
@@ -161,7 +163,7 @@ export const AddProfessional = () => {
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,
@@ -181,6 +183,7 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            console.log(link);
 
             // form.setFieldValue("documentURL", link);
             form.setFieldValue("IDDetails", link);
@@ -196,6 +199,8 @@ export const AddProfessional = () => {
   const handleImageInput = (file, type) => {
     // setFileLoader(true);
     //s3 configs
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     setUploadError("");
     setImageUploading(true);
     const aws = new AWS.S3();
@@ -214,7 +219,7 @@ export const AddProfessional = () => {
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,

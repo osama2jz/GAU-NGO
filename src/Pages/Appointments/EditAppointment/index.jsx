@@ -65,7 +65,8 @@ function EditAppointments() {
     if (editData) setNumInputs(editData?.doc);
     setOtherDocument(editData?.doc);
   }, [editData?.doc]);
-  console.log("Num Inputs: ", otherDocument);
+
+  console.log(editData)
 
   //Upload Document
   const handleUploadDocuments = useMutation(
@@ -135,6 +136,8 @@ function EditAppointments() {
   );
 
   const handleFileInput = (file, index) => {
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
@@ -153,7 +156,7 @@ function EditAppointments() {
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,
@@ -205,7 +208,7 @@ function EditAppointments() {
             <Avatar
               radius="xl"
               size={150}
-              src={userlogo}
+              src={editData?.image || userlogo}
               className={classes.avatar}
             />
           </Grid.Col>

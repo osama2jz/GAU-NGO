@@ -24,7 +24,8 @@ const DoubleTabs = ({
   const { classes } = useStyles();
 
   const handleFileInput = (file, type) => {
-    console.log("file", file);
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     setPrivateReportCheck(true);
     // setFileLoader(true);
     //s3 configs
@@ -44,7 +45,7 @@ const DoubleTabs = ({
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,

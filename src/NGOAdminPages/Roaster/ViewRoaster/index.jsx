@@ -1,7 +1,7 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
@@ -29,7 +29,7 @@ export const ViewRoasters = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
@@ -38,7 +38,6 @@ export const ViewRoasters = () => {
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
 
-  console.log("user", user);
   const [reportData, setReportData] = useState([]);
 
   let headerData = [
@@ -84,7 +83,7 @@ export const ViewRoasters = () => {
 
   //API call for fetching all schedule
   const { data, status } = useQuery(
-    ["fetchSchedule", filter, search, activePage],
+    ["fetchSchedule"],
     () => {
       return axios.get(
         `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
@@ -113,8 +112,7 @@ export const ViewRoasters = () => {
                 ? "Admin"
                 : "",
             status: obj.schedule ? "Schduled" : "Not Scheduled",
-            ngo:user?.name,
-
+            ngo: user?.name,
           };
           return User;
         });
@@ -154,7 +152,22 @@ export const ViewRoasters = () => {
     });
     setOpenDeleteModal(false);
   };
-console.log("viewModaldta", viewModalData)
+
+  // console.log("rowData", rowData);
+  const filteredItems = rowData.filter(
+    (item) =>
+      item?.name?.toLowerCase().includes(search.toLowerCase()) &&
+      item?.userType?.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const paginated = useMemo(() => {
+    if (activePage === 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      return filteredItems.slice((activePage - 1) * 10, activePage * 10);
+    }
+  }, [activePage, filteredItems]);
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Roasters"} />
@@ -173,13 +186,13 @@ console.log("viewModaldta", viewModalData)
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
-              value={"all"}
+              value={filter}
               setData={setFilter}
               data={[
-                { label: "All", value: "all" },
+                { label: "All", value: "" },
                 { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychlogist" },
-                { label: "Social Worker", value: "socialWorker" },
+                { label: "Psychlogist", value: "psychologist" },
+                { label: "Social Worker", value: "social Worker" },
               ]}
             />
           </Grid.Col>
@@ -198,7 +211,7 @@ console.log("viewModaldta", viewModalData)
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
@@ -227,7 +240,12 @@ console.log("viewModaldta", viewModalData)
         message="Do you really want to delete these records? This process cannot be undone."
       />
 
-      <ViewRoasterModal id={viewModalData} reportData={reportData} opened={openViewModal} setOpened={setOpenViewModal}/>
+      <ViewRoasterModal
+        id={viewModalData}
+        reportData={reportData}
+        opened={openViewModal}
+        setOpened={setOpenViewModal}
+      />
     </Container>
   );
 };

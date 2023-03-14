@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
@@ -32,7 +32,7 @@ export const ViewBranches = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
@@ -86,12 +86,11 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchBranches", filter, search, activePage],
+    ["fetchBranches", activePage],
     () => {
       return axios.get(
         `${
-          backendUrl +
-          `/api/ngo/listAllBranches`
+          backendUrl + `/api/ngo/listAllBranches`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -110,11 +109,13 @@ export const ViewBranches = () => {
             name: obj?.branchName,
             location: obj?.branchLocation,
             description: obj?.branchDescription,
-            accStatus: obj?.branchStatus
+            accStatus: obj?.branchStatus,
           };
           return branch;
         });
         setRowData(data);
+        setTotalPages(Math.ceil(data?.length / 10));
+
         // setTotalPages(response.data.totalPages);
       },
     }
@@ -151,6 +152,30 @@ export const ViewBranches = () => {
     setOpenDeleteModal(false);
   };
 
+  const filteredItem = rowData.filter((item) => {
+    if (filter === "") {
+      return item.name.toLowerCase().includes(search.toLowerCase());
+    } else
+      return (
+        item.name.toLowerCase().includes(search.toLowerCase()) &&
+        item.accStatus === filter
+      );
+  });
+
+  const Paginated=useMemo(()=>{
+    if(activePage===1){
+      return filteredItem.slice(0,10)
+    }else{
+      let a = (activePage - 1) * 10;
+      console.log("a",a)
+      
+      return filteredItem.slice(a, a + 10);
+    
+    }
+  },[activePage,filteredItem])
+
+ 
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Branches"} />
@@ -169,17 +194,17 @@ export const ViewBranches = () => {
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
-              value={"all"}
+              value={filter}
               setData={setFilter}
               data={[
-                { label: "All", value: "all" },
+                { label: "All", value: "" },
                 { label: "Active", value: "active" },
                 { label: "InActive", value: "inactive" },
               ]}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-           <Button
+            <Button
               label={"Add Branch"}
               bg={true}
               leftIcon={"plus"}
@@ -193,7 +218,7 @@ export const ViewBranches = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={Paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
@@ -234,7 +259,11 @@ export const ViewBranches = () => {
         setOpened={setOpenEditModal}
         title="Edit Branch Details"
       >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} reportData={reportData}  />
+        <EditUserModal
+          id={viewModalData}
+          setOpenEditModal={setOpenEditModal}
+          reportData={reportData}
+        />
       </EditModal>
     </Container>
   );

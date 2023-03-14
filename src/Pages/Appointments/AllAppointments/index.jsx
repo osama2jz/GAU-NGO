@@ -19,7 +19,7 @@ import { useStyles } from "./styles";
 import calender from "../../../assets/calendar.png";
 import ViewAppointment from "./ViewAppointment";
 import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
+
 import ContainerHeader from "../../../Components/ContainerHeader";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
@@ -27,6 +27,8 @@ import { useQuery } from "react-query";
 import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
+import defaultUser from "../../../assets/teacher.png";
+
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -43,7 +45,7 @@ function AllAppointments() {
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
-    "fetchAllAppointments",
+    "fetchAllAppointmentsData",
     () => {
       return axios.get(
         `${backendUrl + `/api/appointment/listUserAppointments/all`}`,
@@ -58,7 +60,7 @@ function AllAppointments() {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,
@@ -78,6 +80,7 @@ function AllAppointments() {
             appointId: obj?.appointmentId,
             doc: obj?.documents,
             reportData: obj?.reports,
+            image:obj?.appointmentUserImage ? obj?.appointmentUserImage : defaultUser,
           };
           return appointment;
         });
@@ -175,6 +178,7 @@ function AllAppointments() {
       return filteredItems.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
+
       return filteredItems.slice(a, a + 10);
     }
   }, [activePage, filteredItems]);
@@ -246,7 +250,7 @@ function AllAppointments() {
           <Avatar
             radius="xl"
             size={150}
-            src={userlogo}
+            src={defaultUser}
             className={classes.avatar}
           />
 

@@ -96,7 +96,7 @@ const Layout = () => {
         <Container
           bg={theme.colors.container}
           size="xl"
-          style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.034 " }}
+          style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.034 "}}
         >
           <Outlet />
         </Container>

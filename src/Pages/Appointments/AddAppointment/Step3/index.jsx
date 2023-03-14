@@ -52,6 +52,8 @@ const Step3 = ({
   const handleFileInput = (file, index) => {
     // setFileLoader(true);
     //s3 configs
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
     // console.log(aws);
@@ -68,7 +70,7 @@ const Step3 = ({
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,

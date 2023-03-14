@@ -132,7 +132,7 @@ const Table = ({
         <tbody>
           {rowDatas?.map((row, index) => {
             return (
-              <tr key={index}>
+              <tr key={row.id}>
                 {headCells?.map((head, index) => {
                   return head.id === "actions" ? (
                     <td key={index}>
@@ -219,6 +219,7 @@ const Table = ({
                             disabled={
                               row.status === "SCHEDULED" ||
                               row.status === "unverified" ||
+                              row.status === "CANCELLED" ||
                               row.status === "INPROGRESS" 
                                 ? true
                                 : false
