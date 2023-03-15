@@ -129,7 +129,7 @@ export const AddDonations = () => {
           />
           <Group position="right" mt="sm">
             <Button label="Cancel" onClick={() => form.reset()} />
-            <Button label={"Donate"} bg={true} type="submit" />
+            <Button label={"Donate"} bg={true} type="submit" leftIcon={"dollar"}/>
           </Group>
         </Container>
       </form>

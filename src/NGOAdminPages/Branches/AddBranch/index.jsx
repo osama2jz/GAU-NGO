@@ -68,9 +68,9 @@ export const AddBranch =() => {
     }
   );
 
-  if (handleAddBranch.isLoading) {
-    return <Loader />;
-  }
+  // if (handleAddBranch.isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -119,6 +119,7 @@ export const AddBranch =() => {
             leftIcon={"plus"}
             primary={true}
             type="submit"
+            loading={handleAddBranch.isLoading}
           />
         </Group>
       </form>

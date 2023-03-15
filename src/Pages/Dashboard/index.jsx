@@ -74,8 +74,40 @@ const Dashboard = () => {
     },
   ]);
 
+ const [cardData3, setCardData3] = useState([
+  {
+    title: "TOTAL APPOINTMENTS",
+    value: 23,
+    progress: 78,
+    color: "red.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  {
+    title: "TOTAL DONATIONS",
+    value: 45,
+    progress: 78,
+    color: "green.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  {
+    title: "TOTAL COMPLAINTS",
+    value: 89,
+    progress: 78,
+    color: "blue.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  
+ ])
+
   const allCard = useMemo(() => {
     if (user.role == "Admin") return [...cardData1, ...cardData];
+    if(user.role=="User") return [...cardData3]
     else return cardData;
   }, []);
 

@@ -86,7 +86,7 @@ export const ViewRoasters = () => {
     ["fetchSchedule"],
     () => {
       return axios.get(
-        `${backendUrl + `/api/schedule/listNGOUsersSchedule/`}`,
+        `${backendUrl + `/api/schedule/listNGOUsersSchedule`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -111,7 +111,7 @@ export const ViewRoasters = () => {
                 : obj?.role === "ngoadmin"
                 ? "Admin"
                 : "",
-            status: obj.schedule ? "Schduled" : "Not Scheduled",
+            status: obj?.schedule ? "Schduled" : "Not Scheduled",
             ngo: user?.name,
           };
           return User;

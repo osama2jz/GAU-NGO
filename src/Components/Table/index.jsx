@@ -277,9 +277,10 @@ const Table = ({
                     </td>
                   ) : head.id === "file" ? (
                     <td key={index} align="center">
+                     {row?.file  ? 
                       <Anchor href={row?.file} target={"_blank"}>
                         Report file
-                      </Anchor>
+                      </Anchor> : <Text>No Report</Text>}
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">

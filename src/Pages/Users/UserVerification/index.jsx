@@ -19,7 +19,7 @@ import { Step2 } from "./Step2";
 import { Step3 } from "./Step3";
 import { Step4 } from "./Step4";
 import { useStyles } from "./styles";
-import { useParams ,useLocation} from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -39,16 +39,16 @@ export const UserVerification = () => {
   const [userdata, setUserData] = useState("");
   const [edit, setEdit] = useState(false);
 
+ 
   let { state } = useLocation();
 
   const { editTime } = state ?? "";
   const { editId } = useParams();
-    
 
   const { data, status } = useQuery(
     "fetchUsertoEditData",
     () => {
-      console.log("hello")
+      console.log("hello");
       return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
         headers: {
           "x-access-token": user.token,
@@ -112,6 +112,8 @@ export const UserVerification = () => {
             : new Date()
         );
 
+        form.setFieldValue("phoneNo", response?.data?.data?.phoneNumber);
+
         //Socio Family Situation
         form.setFieldValue(
           "socioFamily",
@@ -153,22 +155,25 @@ export const UserVerification = () => {
         );
 
         //Work Experience
-        // response?.data?.data?.userConsentForm?.workExperience.map((item) => {
-        //   let obj={
-        //     id:item.id,
-        //     workExperience:item.workExperience,
-        //     startDate:item.startDate,
-        //     endDate:item.endDate,
-        //   }
-        //   console.log("workExperience",obj)
-        //   return
+        let workData= response?.data?.data?.userConsentForm?.workExperience.map((item,index) => {
+          console.log("item", item);
+          return  {
+            id: item._id,
+            contract: item.contract,
+            position: item.position,
+            startDate: moment(item.startDate).format("YYYY-MM-DD"),
+            endDate: moment(item.endDate).format("YYYY-MM-DD"),
+            enterprise: item.enterprise,
+            duration: item.duration,
+          };
+          
+        });
+        console.log("item", workData);
+        setWorkExperience(workData);
 
-        // })
-
-       
-        setWorkExperience(
-          response?.data?.data?.userConsentForm?.workExperience
-        );
+        // setWorkExperience(
+        //   response?.data?.data?.userConsentForm?.workExperience
+        // );
 
         //Training Studies
         setTrainingStudies(
@@ -228,6 +233,8 @@ export const UserVerification = () => {
 
   const handleVerifyUser = useMutation(
     (url) => {
+      let a = moment(moment()).diff(form.values.dateOfBirth, "years");
+
       const values = {
         userId: userid,
         consentForm: {
@@ -237,7 +244,7 @@ export const UserVerification = () => {
             dateOfBirth: alldata.dateOfBirth,
             email: alldata.email,
             country: alldata.country,
-            age: alldata.age,
+            age: a,
             address: alldata.address,
             city: alldata.city,
             demand: alldata.demand,
@@ -308,7 +315,7 @@ export const UserVerification = () => {
       dateOfBirth: "",
       phoneNo: "",
       email: "",
-      // age: "",
+      age: "",
       country: "",
       address: "",
       city: "",

@@ -52,7 +52,7 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
             caseNo: obj?.caseNo,
@@ -101,7 +101,7 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
             caseNo: obj?.caseNo,
@@ -149,7 +149,7 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
             caseNo: obj?.caseNo,
@@ -196,7 +196,7 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
             caseNo: obj?.caseNo,

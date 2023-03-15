@@ -40,13 +40,14 @@ root.render(
             ".mantine-19tsm68": {
               color: "red",
             },
+            
             ".mantine-pimw6z":{
               color:'red'
             },
             ".mantine-Checkbox-input:checked": {
                 backgroundColor: "green",
             },
-            ".mantine-1s8spa1":{
+            ".mantine-InputWrapper-required":{
               color:'red'
             },
             ".mantine-Modal-title":{

@@ -38,6 +38,8 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,
     if(editData){
       const index = workExperience.findIndex((item) => item.id === editData.id);
       values.id = workExperience.length + 1;
+      values.endDate = new Date(values.endDate)
+      values.startDate = new Date(values.startDate)
       workExperience[index] = values;
       setWorkExperience([...workExperience]);
       setOpenModal(false);

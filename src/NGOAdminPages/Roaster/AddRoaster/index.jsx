@@ -60,11 +60,11 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
-      values.ngoId = user.ngoId;
-      values.timeStartSlot = moment(values.timeStartSlot).format("HH:mm");
-      values.timeEndSlot = moment(values.timeEndSlot).format("HH:mm");
-      values.dateStart = moment(values.dateStart).format("YYYY-MM-DD");
-      values.dateEnd = moment(values.dateEnd).format("YYYY-MM-DD");
+      values.ngoId = user?.ngoId;
+      values.timeStartSlot = moment(values?.timeStartSlot).format("HH:mm");
+      values.timeEndSlot = moment(values?.timeEndSlot).format("HH:mm");
+      values.dateStart = moment(values?.dateStart).format("YYYY-MM-DD");
+      values.dateEnd = moment(values?.dateEnd).format("YYYY-MM-DD");
       return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
         headers: {
           "x-access-token": user.token,
@@ -139,9 +139,7 @@ export const AddRoaster = () => {
     }
   );
 
-  if (handleAddRoaster.isLoading) {
-    return <Loader />;
-  }
+  
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -160,6 +158,7 @@ export const AddRoaster = () => {
               form={form}
               data={branches}
               validateName="branchId"
+              searchable={true}
             />
           </Grid.Col>
           <Grid.Col sm={6}>
@@ -226,6 +225,7 @@ export const AddRoaster = () => {
           placeholder="Select Users"
           validateName="users"
           data={professionals}
+          searchable={true}
         />
 
         <Group position="right" mt="sm">
@@ -238,6 +238,7 @@ export const AddRoaster = () => {
             leftIcon={"plus"}
             primary={true}
             type="submit"
+            loading={handleAddRoaster.isLoading}
           />
         </Group>
       </form>

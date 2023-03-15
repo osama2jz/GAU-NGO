@@ -406,9 +406,9 @@ export const AddProfessional = () => {
             </Grid.Col>
           </Grid>
           <Group position="right" mt="sm">
-            {fileUploading ? (
+            {/* {fileUploading ? (
               <Loader minHeight="40px" />
-            ) : (
+            ) : ( */}
               <>
                 <Button
                   label="Cancel"
@@ -422,9 +422,10 @@ export const AddProfessional = () => {
                   leftIcon={"plus"}
                   primary={true}
                   type="submit"
+                  loading={handleAddUser.isLoading || fileUploading || imageUploading}
                 />
               </>
-            )}
+            {/* )} */}
           </Group>
         </Container>
       </form>

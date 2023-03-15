@@ -49,7 +49,7 @@ const useStyles = createStyles((theme, { role }) => ({
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
     maxHeight: "75vh",
-   
+    overflow: "auto",
   },
   logo: {
     display: "flex",

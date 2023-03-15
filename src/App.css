@@ -13,7 +13,7 @@
   left: 60% !important;
 }
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
@@ -23,9 +23,9 @@
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
-  background: red;
+  background: rgb(190, 190, 190);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 166, 0, 0.584);
+  background: rgb(190, 190, 190,0.5);
   cursor: pointer;
-} */
+}

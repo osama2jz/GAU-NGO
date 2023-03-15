@@ -141,13 +141,14 @@ export const ViewComplains = () => {
           </Grid.Col>
          
           <Grid.Col sm={3} ml="auto">
-            <Button
+           {user.role==="User" &&  <Button
               label={"Add Complain"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.user.addComplaint)}
-            />
+            />}
+           
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

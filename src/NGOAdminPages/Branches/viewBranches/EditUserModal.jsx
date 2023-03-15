@@ -106,6 +106,7 @@ function ViewUserModal({ id, setOpenEditModal, reportData }) {
           <Button
             label={"Save Update"}
             primary={true}
+            loading={handleEdit.isLoading}
             className={classes.btn}
             type="submit"
           />
