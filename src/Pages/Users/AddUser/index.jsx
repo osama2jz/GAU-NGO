@@ -1,4 +1,12 @@
-import { Anchor, Avatar, Container, Grid, Group, Input, Text } from "@mantine/core";
+import {
+  Anchor,
+  Avatar,
+  Container,
+  Grid,
+  Group,
+  Input,
+  Text,
+} from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -24,9 +32,9 @@ export const AddUser = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
-  const [fileUploading,setFileUploading]=useState(false)
-  const [error,setError]=useState()
-  
+  const [fileUploading, setFileUploading] = useState(false);
+  const [error, setError] = useState();
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -70,22 +78,20 @@ export const AddUser = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      if(values?.profileImage===""){
-        setError("Please upload a profile image")
+      if (values?.profileImage === "") {
+        setError("Please upload a profile image");
         showNotification({
           title: "Upload Failed",
           message: "Please upload a profile image",
           color: "red.0",
-        })
-
-      }else{
+        });
+      } else {
         return axios.post(`${backendUrl + "/api/user/create"}`, values, {
           headers: {
             "x-access-token": user.token,
           },
         });
       }
-     
     },
     {
       onSuccess: (response) => {
@@ -107,11 +113,9 @@ export const AddUser = () => {
     }
   );
 
-  if (handleAddUser.isLoading) {
-    return <Loader />;
-  }
-
- 
+  // if (handleAddUser.isLoading) {
+  //   return <Loader />;
+  // }
 
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
@@ -130,13 +134,13 @@ export const AddUser = () => {
 
   const handleImageInput = (file, type) => {
     console.log(file);
-    const fileName =file.name
-    const sanitizedFileName = fileName.replace(/\s+/g, "")
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     // const sanitizedFile = new File([file], sanitizedFileName, {type: file.type})
     console.log(sanitizedFileName);
     // setFileLoader(true);
     //s3 configs
-    setFileUploading(true)
+    setFileUploading(true);
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
     // console.log(aws);
@@ -177,7 +181,7 @@ export const AddUser = () => {
 
             form.setFieldValue("profileImage", link);
           }
-          setFileUploading(false)
+          setFileUploading(false);
         });
       }
       // setFileLoader(false);
@@ -206,24 +210,26 @@ export const AddUser = () => {
             )}
           </Container>
 
-<Input.Wrapper error={error} size={"md"}>
-<Dropzone
-            accept={IMAGE_MIME_TYPE}
-            maxFiles={1}
-            style={{ width: "150px" }}
-            onDrop={(v) => {
-              setFiles(v);
-              handleImageInput(v[0]);
-            }}
-          >
-            {fileUploading ? <Loader minHeight="5vh"/> : (<Text align="center" className={classes.upload}>
-              <Upload size={16} />
-              Upload
-            </Text>)}
-            
-          </Dropzone>
-</Input.Wrapper>
-          
+          <Input.Wrapper error={error} size={"md"}>
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              maxFiles={1}
+              style={{ width: "150px" }}
+              onDrop={(v) => {
+                setFiles(v);
+                handleImageInput(v[0]);
+              }}
+            >
+              {fileUploading ? (
+                <Loader minHeight="5vh" />
+              ) : (
+                <Text align="center" className={classes.upload}>
+                  <Upload size={16} />
+                  Upload
+                </Text>
+              )}
+            </Dropzone>
+          </Input.Wrapper>
         </Group>
         <Container p={"0px"} size="xl" m={"sm"}>
           <Grid>
@@ -296,7 +302,7 @@ export const AddUser = () => {
               leftIcon={"plus"}
               primary={true}
               type="submit"
-              disabled={fileUploading }
+              loading={handleAddUser.isLoading || fileUploading}
             />
           </Group>
         </Container>

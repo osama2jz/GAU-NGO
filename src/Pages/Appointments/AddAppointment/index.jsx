@@ -41,6 +41,7 @@ const AddAppointment = () => {
   const [newCase, setNewCase] = useState("");
   const [slot, setSlot] = useState("");
   const [age, setAge] = useState(19);
+  const [fileLoader, setFileLoader] = useState(false);
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -153,13 +154,13 @@ const AddAppointment = () => {
 
   const handleNextSubmit = () => {
     if (active == 0) {
-      if (img === null && (Object.keys(faceID).length === 0)===true) {
+      if (img === null && (Object.keys(faceID).length === 0) === true) {
         showNotification({
           color: "red.0",
           message: "Please Verify Face ID or Attach Photo.",
           title: "Report Missing",
         });
-        return
+        return;
       } else {
         handleCreateCase.mutate();
         setActive(active);
@@ -208,7 +209,7 @@ const AddAppointment = () => {
   return (
     <Container className={classes.addAppointment} size="xl" p={"0px"}>
       <ContainerHeader label={" Start an Appointment"} />
-      <Container className={classes.innerContainer} size="xl" >
+      <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="md"
           active={active}
@@ -295,6 +296,7 @@ const AddAppointment = () => {
             <Step3
               selectedUser={selectedUser}
               caseNo={caseNo}
+              setFileLoader={setFileLoader}
               reportFiles={reportFiles}
               setReportFiles={setReportFiles}
               privatereportFiles={privatereportFiles}
@@ -348,6 +350,11 @@ const AddAppointment = () => {
             )}
             <Button
               onClick={handleNextSubmit}
+              loading={
+                handleCreateCase.isLoading ||
+                handleCreateReport.isLoading ||
+                fileLoader
+              }
               label={
                 active === 3 ? "Refer" : active === 4 ? "Finish" : "Save & Next"
               }

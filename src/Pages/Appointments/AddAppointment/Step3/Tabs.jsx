@@ -15,19 +15,18 @@ const DoubleTabs = ({
   setPrivateReportFiles,
   privateReportCheck,
   setPrivateReportCheck,
+  setFileLoader,
 
 }) => {
   const [files, setFiles] = useState([]);
   const [files2, setFiles2] = useState([]);
-  const [document, setDocument] = useState();
-  const [comments, setcomments] = useState("");
   const { classes } = useStyles();
 
   const handleFileInput = (file, type) => {
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
     setPrivateReportCheck(true);
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
@@ -65,16 +64,16 @@ const DoubleTabs = ({
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log("link", link);
             type === "public"
-              ? setReportFiles({
-                  ...reportFiles,
-                  reportFile: link,
-                })
-              : setPrivateReportFiles({
-                  ...privatereportFiles,
-                  reportFile: link,
-                });
+            ? setReportFiles({
+              ...reportFiles,
+              reportFile: link,
+            })
+            : setPrivateReportFiles({
+              ...privatereportFiles,
+              reportFile: link,
+            });
+            setFileLoader(false);
           }
         });
       }

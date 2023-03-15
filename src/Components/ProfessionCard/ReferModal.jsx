@@ -95,9 +95,10 @@ const ReferModal = ({
           />
           <Button
             label="Done"
+            loading={onSubmit?.isLoading || handleReferToExpert?.isLoading}
             onClick={() => {
               buttonChange ? onSubmit.mutate() : handleReferToExpert.mutate();
-              setOpened(false);
+              onSubmit.isSuccess && setOpened(false);
             }}
             disabled={!slot}
             primary={true}

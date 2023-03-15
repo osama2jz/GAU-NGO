@@ -38,6 +38,7 @@ const Button = ({
   onClick,
   w,
   compact,
+  loading,
   type,
   iconWidth = "16px",
   disabled,
@@ -49,6 +50,7 @@ const Button = ({
       sx={styles}
       compact={compact}
       disabled={disabled}
+      loading={loading}
       w={w}
       size={size}
       leftIcon={

@@ -19,6 +19,8 @@ export const Step1 = ({ user, setUser }) => {
   const { id, editId } = useParams();
   const [userData, setUserData] = useState([]);
   const matches = useMediaQuery("(min-width: 600px)");
+  const [goToWhite, setGoToWhite] = useState(false);
+
  
 
   const { user: usertoken } = useContext(UserContext);
@@ -68,6 +70,7 @@ export const Step1 = ({ user, setUser }) => {
   );
 
   const handleVerifyID = async () => {
+    setGoToWhite(true);
     try {
       let response = await faceio.enroll({
         locale: "auto",
@@ -81,6 +84,8 @@ export const Step1 = ({ user, setUser }) => {
       Enrollment Date: ${response.timestamp}
       Gender: ${response.details.gender}
       Age Approximation: ${response.details.age}`);
+      setGoToWhite(false);
+
     } catch (error) {
       console.log("error", error);
     }
@@ -99,6 +104,10 @@ export const Step1 = ({ user, setUser }) => {
       </Group>
     </div>
   );
+
+  if (goToWhite) {
+    return <Container h={"100vh"}></Container>;
+  }
   return (
     <Container>
       <Container

@@ -21,6 +21,7 @@ const Step3 = ({
   selectedUser,
   caseNo,
   reportFiles,
+  setFileLoader,
   setReportFiles,
   setPrivateReportFiles,
   privatereportFiles,
@@ -50,7 +51,7 @@ const Step3 = ({
   }
 
   const handleFileInput = (file, index) => {
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -92,6 +93,7 @@ const Step3 = ({
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
             otherDocument[index].documentURL = link;
             setOtherDocument([...otherDocument]);
+            setFileLoader(false);
           }
         });
       }
@@ -123,6 +125,7 @@ const Step3 = ({
         setPrivateReportFiles={setPrivateReportFiles}
         setPrivateReportCheck={setPrivateReportCheck}
         privateReportCheck={privateReportCheck}
+        setFileLoader={setFileLoader}
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
