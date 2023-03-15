@@ -198,7 +198,7 @@ function ViewAppointments() {
             <Avatar
               radius="xl"
               size={150}
-              src={userlogo}
+              src={editData?.image || userlogo}
               className={classes.avatar}
             />
           </Grid.Col>

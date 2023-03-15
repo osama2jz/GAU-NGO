@@ -29,6 +29,8 @@ import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import defaultUser from "../../../assets/teacher.png";
 
+import hello from "../../../assets/calendar.png"
+
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -80,7 +82,7 @@ function AllAppointments() {
             appointId: obj?.appointmentId,
             doc: obj?.documents,
             reportData: obj?.reports,
-            image:obj?.appointmentUserImage ? obj?.appointmentUserImage : defaultUser,
+            image:obj?.appointmentUserImage!=="N/A" ? obj?.appointmentUserImage : defaultUser,
           };
           return appointment;
         });

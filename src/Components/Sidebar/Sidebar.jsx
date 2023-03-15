@@ -49,11 +49,7 @@ const useStyles = createStyles((theme, { role }) => ({
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
     maxHeight: "75vh",
-    overflow: "scroll",
-    "::-webkit-scrollbar": {
-      display: "none",
-      scrollBehavior: "smooth",
-    },
+   
   },
   logo: {
     display: "flex",
