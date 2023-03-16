@@ -63,6 +63,7 @@ function AllAppointments() {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
+            userid:obj?.appointmentUserId,
             sr: ind + 1,
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,

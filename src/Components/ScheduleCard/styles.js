@@ -2,7 +2,7 @@ import { createStyles } from "@mantine/core";
 export const useStyles = createStyles((theme) => ({
     card: {
     //   position: 'relative',
-      cursor: 'pointer',
+      // cursor: 'pointer',
     //   overflow: 'hidden',
       transition: 'transform 150ms ease, box-shadow 100ms ease',
     //   padding: theme.spacing.xl,

@@ -181,7 +181,6 @@ const Table = ({
                             onClick={() => {
                               if (setEditId) {
                                 navigate(`/userEdit/${row.id}`);
-                                window.location.reload();
                                 return;
                                 // setEditId(row.id);
                                 // alert("edit id")
@@ -337,10 +336,10 @@ const Table = ({
                         onClick={() => {
                           user.role === "Psychologist"
                             ? navigate(
-                                `/start-appointment-p/${row.id}/${row.appointId}`
+                                `/start-appointment-p/${row.userid}/${row.appointId}`
                               )
                             : navigate(
-                                `/start-appointment/${row.id}/${row.appointId}`
+                                `/start-appointment/${row.userid}/${row.appointId}`
                               );
                         }}
                         disabled={

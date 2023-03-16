@@ -7,8 +7,15 @@ import {
   Settings,
   UserPlus,
   Users,
+  Building,
+  FileText,
+  Clock,
+  CurrencyDollar,
+  FileBarcode
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
+import userlogo from "../../assets/dollar.svg";
+
 export const ngoAdminSideBarData = [
   {
     label: "Dashboard",
@@ -17,7 +24,7 @@ export const ngoAdminSideBarData = [
   },
   {
     label: "Branches",
-    icon: Users,
+    icon: Building,
     links: [
       {
         label: "Add Branch",
@@ -25,7 +32,7 @@ export const ngoAdminSideBarData = [
       },
       {
         label: "View Branches",
-        icon: UserPlus,
+        icon: Users,
         link: routeNames.ngoAdmin.viewBranches,
       },
     ],
@@ -47,7 +54,7 @@ export const ngoAdminSideBarData = [
   },
   {
     label: "Roasters",
-    icon: Users,
+    icon: Clock,
     links: [
       {
         label: "Add Roaster",
@@ -96,12 +103,12 @@ export const ngoAdminSideBarData = [
   },
   {
     label: "Complaints",
-    icon: Report,
+    icon: FileText,
     links: [{ label: "View Complaints", link: routeNames.ngoAdmin.complaints }],
   },
   {
     label: "Documents",
-    icon: Report,
+    icon: FileBarcode,
     links: [
       { label: "Add Document", link: routeNames.ngoAdmin.addDocument },
       { label: "View Documents", link: routeNames.ngoAdmin.viewDocuments },
@@ -109,7 +116,7 @@ export const ngoAdminSideBarData = [
   },
   {
     label: "Donations",
-    icon: Report,
+    icon: CurrencyDollar,
     links: [
       // { label: "Add Donations", link: routeNames.ngoAdmin.addDonation },
       { label: "View Donations", link: routeNames.ngoAdmin.viewDonations },

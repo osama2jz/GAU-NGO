@@ -96,7 +96,7 @@ const MySchedule = ({ Userid, setSlot }) => {
             <SimpleGrid
               breakpoints={[
                 { minWidth: "md", cols: 2 },
-                { minWidth: "lg", cols: 3 },
+                { minWidth: "lg", cols: 2 },
                 { minWidth: "xs", cols: 1 },
               ]}
               spacing="xl"

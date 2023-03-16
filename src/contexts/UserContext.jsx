@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     name: userData?.name,
     firstName: "",
-    lastName:"",
+    lastName: "",
     id: userData?.userId,
     email: userData?.email,
     ngoId: userData?.ngoId,
@@ -46,6 +46,7 @@ export const UserProvider = ({ children }) => {
       );
     },
     {
+      refetchOnWindowFocus: false,
       onSuccess: (response) => {
         let user = response.data.data;
         setUser((u) => ({

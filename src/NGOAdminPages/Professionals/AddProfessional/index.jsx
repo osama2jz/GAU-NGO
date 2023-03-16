@@ -26,6 +26,7 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import userlogo from "../../../assets/teacher.png";
 
 export const AddProfessional = () => {
   const { classes } = useStyles();

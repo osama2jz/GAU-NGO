@@ -117,6 +117,8 @@ export const ViewRoasters = () => {
           return User;
         });
         setRowData(data);
+        setTotalPages(Math.ceil(data?.length / 10));
+
         // setTotalPages(response.data.totalPages);
       },
     }

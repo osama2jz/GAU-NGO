@@ -1,7 +1,7 @@
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
@@ -10,6 +10,7 @@ import Button from "../../Components/Button";
 import ContainerHeader from "../../Components/ContainerHeader";
 import InputField from "../../Components/InputField";
 import Loader from "../../Components/Loader";
+import Pagination from "../../Components/Pagination";
 import SelectMenu from "../../Components/SelectMenu";
 import Table from "../../Components/Table";
 import ViewModal from "../../Components/ViewModal/viewUser";
@@ -37,8 +38,6 @@ export const ViewComplains = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
-
-  console.log("user", user);
 
   const [reportData, setReportData] = useState([]);
 
@@ -89,7 +88,7 @@ export const ViewComplains = () => {
 
   //API call for fetching all donations
   const { data, status } = useQuery(
-    ["fetchAllDonations", filter, search, activePage],
+    ["fetchAllComplains"],
     () => {
       return axios.get(
         `${
@@ -118,13 +117,23 @@ export const ViewComplains = () => {
           return branch;
         });
         setRowData(data);
-        // setTotalPages(response.data.totalPages);
+        setTotalPages(Math.ceil(data?.length / 10));
+
       },
     }
   );
 
- 
-
+  const filteredItem = rowData.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const paginated = useMemo(() => {
+    if (activePage === 1) {
+      return filteredItem.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItem.slice(a, a + 10);
+    }
+  }, [filteredItem, activePage]);
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Complaints"} />
@@ -139,16 +148,17 @@ export const ViewComplains = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-         
+
           <Grid.Col sm={3} ml="auto">
-           {user.role==="User" &&  <Button
-              label={"Add Complain"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.user.addComplaint)}
-            />}
-           
+            {user.role === "User" && (
+              <Button
+                label={"Add Complain"}
+                bg={true}
+                leftIcon={"plus"}
+                styles={{ float: "right" }}
+                onClick={() => navigate(routeNames.user.addComplaint)}
+              />
+            )}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -156,7 +166,7 @@ export const ViewComplains = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
@@ -167,14 +177,14 @@ export const ViewComplains = () => {
             setReportData={setReportData}
           />
         )}
-        {/* {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
             total={totalPages}
             radius="xl"
           />
-        )} */}
+        )}
       </Container>
 
       <ViewModal

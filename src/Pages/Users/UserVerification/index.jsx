@@ -39,7 +39,6 @@ export const UserVerification = () => {
   const [userdata, setUserData] = useState("");
   const [edit, setEdit] = useState(false);
 
- 
   let { state } = useLocation();
 
   const { editTime } = state ?? "";
@@ -56,7 +55,7 @@ export const UserVerification = () => {
       });
     },
     {
-      staleTime: 300000,
+      refetchOnWindowFocus: false,
       onSuccess: (response) => {
         // console.log("response", response);
         setUserId(response?.data?.data?._id);
@@ -155,19 +154,21 @@ export const UserVerification = () => {
         );
 
         //Work Experience
-        let workData= response?.data?.data?.userConsentForm?.workExperience.map((item,index) => {
-          console.log("item", item);
-          return  {
-            id: item._id,
-            contract: item.contract,
-            position: item.position,
-            startDate: moment(item.startDate).format("YYYY-MM-DD"),
-            endDate: moment(item.endDate).format("YYYY-MM-DD"),
-            enterprise: item.enterprise,
-            duration: item.duration,
-          };
-          
-        });
+        let workData =
+          response?.data?.data?.userConsentForm?.workExperience.map(
+            (item, index) => {
+              console.log("item", item);
+              return {
+                id: item._id,
+                contract: item.contract,
+                position: item.position,
+                startDate: moment(item.startDate).format("YYYY-MM-DD"),
+                endDate: moment(item.endDate).format("YYYY-MM-DD"),
+                enterprise: item.enterprise,
+                duration: item.duration,
+              };
+            }
+          );
         console.log("item", workData);
         setWorkExperience(workData);
 

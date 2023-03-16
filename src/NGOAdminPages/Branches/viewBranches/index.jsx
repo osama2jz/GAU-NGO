@@ -86,7 +86,7 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchBranches", activePage],
+    ["fetchBranches"],
     () => {
       return axios.get(
         `${

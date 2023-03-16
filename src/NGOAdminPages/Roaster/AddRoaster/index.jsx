@@ -74,12 +74,26 @@ export const AddRoaster = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          showNotification({
-            title: "Users Scheuled",
-            message: "Schedule has been created Successfully!",
-            color: "green.0",
-          });
-          navigate(routeNames.ngoAdmin.viewRoasters);
+          if(response?.data?.message[0]?.scheduleMessage){
+            console.log("hello")
+            // navigate(routeNames.ngoAdmin.viewRoasters);
+            showNotification({
+              title: "Failed",
+              message: response?.data?.message[0]?.scheduleMessage,
+              color: "red.0",
+            });
+          
+          }else{
+            console.log("high")
+            // showNotification({
+            //   title: "Users Scheuled",
+            //   message: "Schedule has been created Successfully!",
+            //   color: "green.0",
+            // });
+            navigate(routeNames.ngoAdmin.viewRoasters);
+          }
+          
+         
         } else {
           showNotification({
             title: "Failed",

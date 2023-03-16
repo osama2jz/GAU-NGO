@@ -8,25 +8,25 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import { useContext, useState } from "react";
+import { showNotification } from "@mantine/notifications";
+import axios from "axios";
+import { useContext, useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
+import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-import routeNames from "../../../Routes/routeNames";
 import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useQuery, useQueryClient } from "react-query";
-import { useStyles } from "./styles";
-import { UserContext } from "../../../contexts/UserContext";
 import { backendUrl } from "../../../constants/constants";
-import moment from "moment";
-import axios from "axios";
-import Loader from "../../../Components/Loader";
-import { showNotification } from "@mantine/notifications";
+import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
+import { useStyles } from "./styles";
 
 function ScheduledAppointments() {
   const { classes } = useStyles();
@@ -34,11 +34,11 @@ function ScheduledAppointments() {
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
+  const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState();
+
   const [reportData, setReportData] = useState([]);
-  const queryClient = useQueryClient();
-  const [id, setId] = useState();
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -57,8 +57,9 @@ function ScheduledAppointments() {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
-            id: obj.appointmentUserId,
+            id: obj.appointmentId,
             sr: ind + 1,
+            userid: obj.appointmentUserId,
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,
             name: obj.appointmentUser,
@@ -79,7 +80,7 @@ function ScheduledAppointments() {
           return appointment;
         });
         setRowData(data);
-        console.log(response);
+        setTotalPages(Math.ceil(data.length / 10));
       },
     }
   );
@@ -184,6 +185,23 @@ function ScheduledAppointments() {
       label: "Actions",
     },
   ];
+
+  const filteredItems = rowData.filter(
+    (item) =>
+      item.name.toLowerCase().includes(search.toLowerCase()) ||
+      item.caseName.toLowerCase().includes(search.toLowerCase()) ||
+      item.caseNo.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginated = useMemo(() => {
+    if (activePage === 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItems.slice(a, a + 10);
+    }
+  }, [activePage, filteredItems]);
+
   if (status === "loading") {
     return <Loader />;
   }
@@ -193,7 +211,12 @@ function ScheduledAppointments() {
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+            />
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
             <SelectMenu
@@ -216,18 +239,25 @@ function ScheduledAppointments() {
         </Grid>
         <Table
           headCells={headerData}
-          rowData={rowData}
+          rowData={paginated}
           setViewModalState={setOpenViewModal}
           reportData={reportData}
           setReportData={setReportData}
         />
+        {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
+          />
+        )}
       </Container>
 
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="Appointment Details"
-        
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
           <Avatar

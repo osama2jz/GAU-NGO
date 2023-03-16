@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
@@ -39,8 +39,6 @@ export const ViewDonations = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
-
-  console.log("user", user);
 
   const [reportData, setReportData] = useState([]);
 
@@ -91,12 +89,11 @@ export const ViewDonations = () => {
 
   //API call for fetching all donations
   const { data, status } = useQuery(
-    ["fetchDonations", filter, search, activePage],
+    ["fetchDonations"],
     () => {
       return axios.get(
         `${
-          backendUrl +
-          `/api/donation/listDonation`
+          backendUrl + `/api/donation/listDonation`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -115,17 +112,29 @@ export const ViewDonations = () => {
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.amount,
             date: moment(obj?.createdAt).format("DD-MM-YYYY"),
-            ngo:obj?.ngoId?.ngoName,
+            ngo: obj?.ngoId?.ngoName,
             description: obj?.description,
           };
           return branch;
         });
         setRowData(data);
+        setTotalPages(Math.ceil(data?.length / 10));
+
         // setTotalPages(response.data.totalPages);
       },
     }
   );
 
+  const filteredItems = rowData.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      return filteredItems.slice((activePage - 1) * 10, activePage * 10);
+    }
+  }, [activePage, filteredItems]);
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -141,15 +150,17 @@ export const ViewDonations = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-      
+
           <Grid.Col sm={3} ml="auto">
-            <Button
-              label={"Add Donation"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.user.addDonation)}
-            />
+            {user.role === "User" && (
+              <Button
+                label={"Add Donation"}
+                bg={true}
+                leftIcon={"plus"}
+                styles={{ float: "right" }}
+                onClick={() => navigate(routeNames.user.addDonation)}
+              />
+            )}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -157,7 +168,7 @@ export const ViewDonations = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}
@@ -168,16 +179,16 @@ export const ViewDonations = () => {
             setReportData={setReportData}
           />
         )}
-        {/* {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
             total={totalPages}
             radius="xl"
           />
-        )} */}
+        )}
       </Container>
-      
+
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
@@ -186,7 +197,6 @@ export const ViewDonations = () => {
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-     
     </Container>
   );
 };

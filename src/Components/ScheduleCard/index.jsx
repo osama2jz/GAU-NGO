@@ -10,18 +10,20 @@ const Cards = ({ data ,setSlot}) => {
       withBorder
       radius="md"
       className={classes.card}
-      w={390}
+      w={370}
       h={160}
       shadow="xl"
       onClick={()=>setSlot && setSlot(data?.scheduleId)}
+      style={{ cursor: "pointer"  ,
+      }}
     >
       {/* <Stack> */}
-      <Text size={21} weight={700}>
+      <Text size={22} weight={700}>
         {data?.title}
       </Text>
-      <Flex align="center" gap={6} mt="sm">
+      <Flex align="center" justify={"flex-start"} gap={6} mt="sm">
         <Image src={user} width={17} height={17} />
-        <Text size="sm" color="dimmed" weight={500}>
+        <Text size="md" color="dimmed" weight={500}>
           {data?.branch}
         </Text>
       </Flex>

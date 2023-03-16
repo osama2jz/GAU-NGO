@@ -77,7 +77,7 @@ const Dashboard = () => {
  const [cardData3, setCardData3] = useState([
   {
     title: "TOTAL APPOINTMENTS",
-    value: 23,
+    value: null,
     progress: 78,
     color: "red.0",
     progressTitle: "Response Rate",
@@ -86,7 +86,7 @@ const Dashboard = () => {
   },
   {
     title: "TOTAL DONATIONS",
-    value: 45,
+    value: null,
     progress: 78,
     color: "green.0",
     progressTitle: "Response Rate",
@@ -95,8 +95,8 @@ const Dashboard = () => {
   },
   {
     title: "TOTAL COMPLAINTS",
-    value: 89,
-    progress: 78,
+    value: null,
+    progress: 50,
     color: "blue.0",
     progressTitle: "Response Rate",
     icon: "branch",
@@ -115,7 +115,7 @@ const Dashboard = () => {
   const { data: statsData, status } = useQuery(
     "stats",
     () => {
-      let link=user.role=="Admin"?"/api/ngo/admin-ngo-statistics":"/api/ngo/statistics"
+      let link=user.role=="Admin"?"/api/ngo/admin-ngo-statistics":user.role=="User" ?  "/api/ngo/user-statistics" :"/api/ngo/statistics" ;
       return axios.get(`${backendUrl + link}`, {
         headers: {
           "x-access-token": user.token,
@@ -137,19 +137,32 @@ const Dashboard = () => {
             let users = cardData[0];
             let app = cardData[1];
             let reports = cardData[2];
-            users.value = response.data.data.totalUsers;
-            app.value = response.data.data.totalAppointments;
-            reports.value = response.data.data.totalReports;
+            users.value = response?.data?.data?.totalUsers;
+            app.value = response?.data?.data?.totalAppointments;
+            reports.value = response?.data?.data?.totalReports;
             setCardData([users, app, reports]);
-            setChartData(response.data.data.graphData);
+            setChartData(response?.data?.data?.graphData);
+          }
+          else if(user.role=="User"){
+            let app = cardData3[0];
+            let donations = cardData3[1];
+            let complaints = cardData3[2];
+
+            app.value = response?.data?.data?.allAppointments;
+            donations.value = response?.data?.data?.allDonations;
+            complaints.value = response?.data?.data?.allComplaints;
+
+            setCardData3([app, donations, complaints]);
+            setChartData(response?.data?.data?.graphData);
+
           }
           else{
             let users = cardData[0];
             let app = cardData[1];
             let reports = cardData[2];
-            users.value = response.data.data.allNgoUsers;
-            app.value = response.data.data.allAppointments;
-            reports.value = response.data.data.allReports;
+            users.value = response?.data?.data?.allNgoUsers;
+            app.value = response?.data?.data?.allAppointments;
+            reports.value = response?.data?.data?.allReports;
             setCardData([users, app, reports]);
             setChartData(response.data.data.graphData);
           }

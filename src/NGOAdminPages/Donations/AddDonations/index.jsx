@@ -103,7 +103,7 @@ export const AddDonations = () => {
   }
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"Add Donation"} />
+      <ContainerHeader label={"Make Donation"} />
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => 

@@ -97,9 +97,9 @@ const MySchedule = () => {
           <Container mt="md">
             <SimpleGrid
               breakpoints={[
-                { minWidth: "md", cols: 2 },
+                { minWidth: "md", cols: 3 },
                 { minWidth: "lg", cols: 3},
-                { minWidth: "xs", cols: 1 },
+                { minWidth: "xs", cols: 2 },
               ]}
               spacing="xl"
             >

@@ -32,7 +32,7 @@ const Cards = ({ data, setUrl, url, setPage }) => {
         style={{
           cursor: "pointer",
           backgroundColor: data.url === url ? "" : "",
-          border: data.url === url ? "2px solid green" : "",
+          border: data.url === url ? "2px solid #ADB5BD" : "",
         }}
       >
         <Flex align={"center"} justify="space-between" mt="none">
@@ -51,7 +51,7 @@ const Cards = ({ data, setUrl, url, setPage }) => {
           {data.value ? data.value : "0"}
         </Text>
         {/* <Text size="xs" m="none">50%</Text> */}
-        <Progress mt="sm" value={90} color={data.color} size={6} />
+        <Progress mt="sm" value={88} color={data.color} size={6} />
       </Card>
     </>
   );
