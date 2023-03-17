@@ -1,4 +1,5 @@
 import { Container, Grid, Group } from "@mantine/core";
+// import { TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -60,12 +61,22 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
-      values.ngoId = user?.ngoId;
-      values.timeStartSlot = moment(values?.timeStartSlot).format("HH:mm");
-      values.timeEndSlot = moment(values?.timeEndSlot).format("HH:mm");
-      values.dateStart = moment(values?.dateStart).format("YYYY-MM-DD");
-      values.dateEnd = moment(values?.dateEnd).format("YYYY-MM-DD");
-      return axios.post(`${backendUrl + "/api/schedule/create"}`, values, {
+      let obj={
+        ngoId: user?.ngoId,
+        branchId:values?.branchId,
+        scheduleType:values?.scheduleType,
+        dateStart:moment(values?.dateStart).format("YYYY-MM-DD"),
+        timeStartSlot:moment(values?.timeStartSlot).format("HH:mm"),
+        dateEnd:moment(values?.dateEnd).format("YYYY-MM-DD"),
+        timeEndSlot:moment(values?.timeEndSlot).format("HH:mm"),
+        users:values?.users
+      }
+      // values.ngoId = user?.ngoId;
+      // values.timeStartSlot = moment(values?.timeStartSlot).format("HH:mm");
+      // values.timeEndSlot = moment(values?.timeEndSlot).format("HH:mm");
+      // values.dateStart = moment(values?.dateStart).format("YYYY-MM-DD");
+      // values.dateEnd = moment(values?.dateEnd).format("YYYY-MM-DD");
+      return axios.post(`${backendUrl + "/api/schedule/create"}`, obj, {
         headers: {
           "x-access-token": user.token,
         },
@@ -85,11 +96,11 @@ export const AddRoaster = () => {
           
           }else{
             console.log("high")
-            // showNotification({
-            //   title: "Users Scheuled",
-            //   message: "Schedule has been created Successfully!",
-            //   color: "green.0",
-            // });
+            showNotification({
+              title: "Users Scheuled",
+              message: "Schedule has been created Successfully!",
+              color: "green.0",
+            });
             navigate(routeNames.ngoAdmin.viewRoasters);
           }
           
@@ -220,6 +231,7 @@ export const AddRoaster = () => {
               placeholder="Start Time"
               form={form}
               validateName="timeStartSlot"
+              // {...form?.getInputProps("timeStartSlot")}
             />
           </Grid.Col>
           <Grid.Col sm={6}>
@@ -229,6 +241,8 @@ export const AddRoaster = () => {
               placeholder="End Time"
               form={form}
               validateName="timeEndSlot"
+              // {...form?.getInputProps("timeEndSlot")}
+
             />
           </Grid.Col>
         </Grid>
