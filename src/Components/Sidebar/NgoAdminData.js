@@ -99,6 +99,7 @@ export const ngoAdminSideBarData = [
     links: [
       { label: "Private", link: routeNames.ngoAdmin.privateReport },
       { label: "Public", link: routeNames.ngoAdmin.publicReport },
+      { label: "Case Reports", link: routeNames.socialWorker.referalReport },
     ],
   },
   {

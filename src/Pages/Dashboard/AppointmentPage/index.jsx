@@ -423,6 +423,8 @@ const UserPage = (props) => {
           </Container>
         </Flex>
         <Group position="right" mt="lg">
+        {
+            reportData?.status === "SCHEDULED" && (
           <Button
             label={" Cancel Appointment"}
             onClick={() => {
@@ -432,7 +434,7 @@ const UserPage = (props) => {
             }}
 
             // type="Cancel Appo"
-          />
+          />)}
         </Group>
       </ViewModal>
     </Container>

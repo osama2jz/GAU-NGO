@@ -10,7 +10,7 @@ import { showNotification } from "@mantine/notifications";
 function DownloadPdf({ headCells, data, title ,setdata}) {
   const { classes } = useStyles();
 
-console.log("data", data);
+// console.log("data", data);
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 

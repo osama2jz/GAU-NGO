@@ -241,9 +241,10 @@ function PrivateReport() {
               <Text className={classes.textheading}>Date</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
               <Text className={classes.textheading}>Report File</Text>
-              <Anchor href={reportData?.file} target="_blank">
+              {reportData?.file ?  <Anchor href={reportData?.file} target="_blank">
                 {reportData?.type} Report
-              </Anchor>
+              </Anchor> : <Text className={classes.textContent}>No Report</Text>}
+             
 
               {/* <Text className={classes.textheading}>Report Type</Text>
               <Text className={classes.textContent}>{reportData?.type}</Text> */}

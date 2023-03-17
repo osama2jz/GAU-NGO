@@ -1,5 +1,9 @@
 import React, { useContext, useState } from "react";
-import step2 from "../../../assets/step2.png";
+
+import step1 from "../../../assets/selectUserIn.png";
+import step2 from "../../../assets/inMeetingIn.png";
+import step3 from "../../../assets/uploadRepIn.png";
+import step4 from "../../../assets/referIn.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Step1 from "./Step1";
@@ -113,9 +117,9 @@ const AddAppointment = () => {
           <Stepper.Step
             icon={
               <img
-                src={step2}
+                src={step1}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }
@@ -134,7 +138,7 @@ const AddAppointment = () => {
               <img
                 src={step2}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }

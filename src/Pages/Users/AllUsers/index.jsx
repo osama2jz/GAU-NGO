@@ -132,6 +132,7 @@ export const AllUser = () => {
             sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj?.firstName + " " + obj?.lastName,
             email: obj?.email,
+            age: obj?.userConsentForm?.personalInformation?.age,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,
             date: new moment(obj?.createdAt).format("DD-MMM-YYYY"),
@@ -197,7 +198,7 @@ export const AllUser = () => {
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
-              value={"all"}
+              value={filter}
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },

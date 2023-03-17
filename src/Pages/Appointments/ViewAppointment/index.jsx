@@ -229,7 +229,7 @@ function ViewAppointments() {
                   <Badge
                     variant="outline"
                     color={
-                      editData?.status === "SCHEDULED" ? "blue.0" : "red.0"
+                      editData?.status === "SCHEDULED" ||  editData?.status === "INPROGRESS"? "green.0" : "red.0"
                     }
                   >
                     {editData?.status}

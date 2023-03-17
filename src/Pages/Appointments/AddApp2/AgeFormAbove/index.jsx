@@ -80,7 +80,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata }) => {
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
-        Psycology Form Over 18
+        Psychology Form Over 18
       </Text>
       <form
         className={classes.form}

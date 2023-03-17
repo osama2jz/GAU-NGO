@@ -164,9 +164,9 @@ export const AddDocument = () => {
     }
   );
 
-  if (handleAddDocument.isLoading) {
-    return <Loader />;
-  }
+  // if (handleAddDocument.isLoading) {
+  //   return <Loader />;
+  // }
 
  
 
@@ -197,6 +197,7 @@ export const AddDocument = () => {
             leftIcon={"plus"}
             primary={true}
             type="submit"
+            loading={handleAddDocument.isLoading}
           />
         </Group>
       </form>

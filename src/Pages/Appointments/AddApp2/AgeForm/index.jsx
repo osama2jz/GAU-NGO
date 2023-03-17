@@ -80,7 +80,7 @@ export const AgeForm = ({ setActive, active, setAlldata }) => {
   return (
     <Container size="lg">
        <Text fz={20} fw="bolder" align="center" mb={"xl"}>
-        Age Form Under 18
+       Psychology Form Under 18
       </Text>
       <form
         className={classes.form}

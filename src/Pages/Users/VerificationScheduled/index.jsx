@@ -18,6 +18,7 @@ import routeNames from "../../../Routes/routeNames";
 import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ViewUserModal from "../AllUsers/ViewUserModal";
+import Pagination from "../../../Components/Pagination";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -182,6 +183,15 @@ const VerificationScheduled = () => {
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setReportData={setReportData}
+          />
+          
+        )}
+         {totalPages > 1 && (
+          <Pagination
+            activePage={activePage}
+            setPage={setPage}
+            total={totalPages}
+            radius="xl"
           />
         )}
       </Container>

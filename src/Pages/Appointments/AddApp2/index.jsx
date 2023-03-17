@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import ContainerHeader from "../../../Components/ContainerHeader";
-import step2 from "../../../assets/step2.png";
+import step1 from "../../../assets/selectUserIn.png";
+import step2 from "../../../assets/inMeetingIn.png";
+import step3 from "../../../assets/uploadRepIn.png";
+import step4 from "../../../assets/referIn.png";
 import Button from "../../../Components/Button";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -40,7 +43,7 @@ const AddApp2 = () => {
   const [caseNo, setCaseNo] = useState("");
   const [newCase, setNewCase] = useState("");
   const [slot, setSlot] = useState("");
-  const [age, setAge] = useState(19);
+  const [age, setAge] = useState(17);
 
   const [reportFiles, setReportFiles] = useState({
     reportComments: "",
@@ -189,16 +192,16 @@ const AddApp2 = () => {
           classNames={{
             separator: classes.seperator,
             separatorActive: classes.activeSep,
-            stepIcon: classes.stepIcon,
+            // stepIcon: classes.stepIcon,
             stepCompletedIcon: classes.stepCompletedIcon,
           }}
         >
           <Stepper.Step
             icon={
               <img
-                src={step2}
+                src={step1}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }
@@ -217,7 +220,7 @@ const AddApp2 = () => {
                 <img
                   src={step2}
                   className={classes.stepIcon}
-                  width="40px"
+                  width="70px"
                   alt="icon"
                 />
               }
@@ -237,7 +240,7 @@ const AddApp2 = () => {
               <img
                 src={step2}
                 className={classes.stepIcon}
-                width="40px"
+                width=" 70px"
                 alt="icon"
               />
             }
@@ -253,9 +256,9 @@ const AddApp2 = () => {
           <Stepper.Step
             icon={
               <img
-                src={step2}
+                src={step3}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }
@@ -278,7 +281,7 @@ const AddApp2 = () => {
               <img
                 src={step2}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }
@@ -289,9 +292,9 @@ const AddApp2 = () => {
           <Stepper.Step
             icon={
               <img
-                src={step2}
+                src={step4}
                 className={classes.stepIcon}
-                width="40px"
+                width="70px"
                 alt="icon"
               />
             }

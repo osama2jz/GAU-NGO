@@ -98,6 +98,7 @@ function PublicReport() {
     },
   ];
 
+  console.log("pdfData", pdfData);
   //API call for fetching Public Reports
   const { data, status } = useQuery(
     ["fetchPublicReports", activePage],
@@ -178,6 +179,7 @@ function PublicReport() {
           };
           return appointment;
         });
+        console.log("data", data);
         setPdfData(data);
       },
     }
@@ -255,9 +257,9 @@ function PublicReport() {
                 <Text className={classes.textheading}>Date</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
                 <Text className={classes.textheading}>Report File</Text>
-                <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
-                </Anchor>
+                {reportData?.file ?  <Anchor href={reportData?.file} target="_blank">
+                {reportData?.type} Report
+              </Anchor> : <Text className={classes.textContent}>No Report</Text>}
 
                 <Text className={classes.textheading}>Report Type</Text>
                 <Text className={classes.textContent}>{reportData?.type}</Text>

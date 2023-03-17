@@ -297,16 +297,21 @@ function ScheduledAppointments() {
           </Container>
         </Flex>
         <Group position="right" mt="lg">
-          <Button
-            label={" Cancel Appointment"}
-            onClick={() => {
-              // setId(reportData?.appointId);
-              // queryClient.invalidateQueries("CancelAppointments",id);
-              CancelAppointments(reportData?.appointId);
-            }}
-
-            // type="Cancel Appo"
-          />
+          {
+            reportData?.status === "SCHEDULED" && (
+              <Button
+              label={" Cancel Appointment"}
+              onClick={() => {
+                // setId(reportData?.appointId);
+                // queryClient.invalidateQueries("CancelAppointments",id);
+                CancelAppointments(reportData?.appointId);
+              }}
+  
+              // type="Cancel Appo"
+            />
+            )
+          }
+         
         </Group>
       </ViewModal>
     </Container>
