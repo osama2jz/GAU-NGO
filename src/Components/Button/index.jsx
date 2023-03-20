@@ -42,7 +42,8 @@ const Button = ({
   type,
   iconWidth = "16px",
   disabled,
-  size="sm"
+  size="sm",
+  variant="filled",
 }) => {
   const { classes, cx } = useStyles({ bg, primary, disabled });
   return (
@@ -53,6 +54,7 @@ const Button = ({
       loading={loading}
       w={w}
       size={size}
+      variant={variant}
       leftIcon={
         leftIcon ? (
           <img

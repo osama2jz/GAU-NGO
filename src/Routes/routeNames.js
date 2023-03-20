@@ -75,6 +75,7 @@ const routeNames = {
   ngoAdmin: {
     dashboard: "/",
     addBranch: "/add-branch",
+    editBranch: "/edit-branch/:id",
     viewBranches: "/view-branches",
     addProfessional: "/add-professional",
     viewProfessionals: "/view-professionals",

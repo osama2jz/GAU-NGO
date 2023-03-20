@@ -40,6 +40,7 @@ const Table = ({
   editDoc,
   setEditId,
   setEditIDApp,
+  setEditBranch
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -187,6 +188,14 @@ const Table = ({
                               }
                               if (setEditIDApp) {
                                 navigate(`/edit-appointment/${row.id}`, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                                return;
+                              }
+                              if (setEditBranch) {
+                                navigate(`/edit-branch/${row.id}`, {
                                   state: {
                                     editData: row,
                                   },

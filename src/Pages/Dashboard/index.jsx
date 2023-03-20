@@ -23,7 +23,7 @@ const Dashboard = () => {
       color: "red.0",
       progressTitle: "Response Rate",
       icon: "userD",
-      link: user.role=="Admin" ? "" :routeNames.socialWorker.userPageDashboard,
+      link: routeNames.socialWorker.userPageDashboard,
     },
     {
       title: "TOTAL APPOINTMENTS",
@@ -32,7 +32,7 @@ const Dashboard = () => {
       color: "green.0",
       progressTitle: "Response Rate",
       icon: "apD",
-      link: user.role=="Admin" ?"":routeNames.socialWorker.appointmentPageDashboard,
+      link: routeNames.socialWorker.appointmentPageDashboard,
     },
     {
       title: "TOTAL REPORTS",
@@ -41,7 +41,7 @@ const Dashboard = () => {
       color: "blue.0",
       progressTitle: "Response Rate",
       icon: "reD",
-      link: user.role=="Admin" ? "":routeNames.socialWorker.reportPageDashboard,
+      link: routeNames.socialWorker.reportPageDashboard,
     },
   ]);
   const [cardData1, setCardData1] = useState([
@@ -52,7 +52,7 @@ const Dashboard = () => {
       color: "red.0",
       progressTitle: "Response Rate",
       icon: "branch",
-      link:  user.role=="Admin" ? "":routeNames.ngoAdmin.branchPageDashboard,
+      link: routeNames.ngoAdmin.branchPageDashboard,
     },
     {
       title: "TOTAL PROFESSIONALS",
@@ -61,7 +61,7 @@ const Dashboard = () => {
       color: "green.0",
       progressTitle: "Response Rate",
       icon: "proD",
-      link:  user.role=="Admin" ? "":routeNames.ngoAdmin.professionPageDashboard,
+      link: routeNames.ngoAdmin.professionPageDashboard,
     },
     {
       title: "TOTAL CASES",
@@ -70,7 +70,7 @@ const Dashboard = () => {
       color: "blue.0",
       progressTitle: "Response Rate",
       icon: "caseD",
-      link: user.role=="Admin" ? "": routeNames.socialWorker.reportPageDashboard,
+      link: routeNames.socialWorker.reportPageDashboard,
     },
   ]);
 

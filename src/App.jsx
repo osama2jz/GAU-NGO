@@ -156,6 +156,8 @@ function App() {
             element={<CreateAppointment />}
           />
           <Route path={routeNames.ngoAdmin.addBranch} element={<AddBranch />} />
+          <Route path={routeNames.ngoAdmin.editBranch} element={<AddBranch />} />
+
           <Route
             path={routeNames.ngoAdmin.viewBranches}
             element={<ViewBranches />}

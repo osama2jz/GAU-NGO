@@ -24,7 +24,6 @@ import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 import userlogo from "../../../assets/teacher.png";
 
-
 export const AllUser = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -42,12 +41,10 @@ export const AllUser = () => {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
-  const [editId,setEditId] = useState("");
+  const [editId, setEditId] = useState("");
 
   const [reportData, setReportData] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
-  
 
   let headerData = [
     {
@@ -137,9 +134,9 @@ export const AllUser = () => {
             accStatus: obj?.userStatus,
             date: new moment(obj?.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            consentSign:obj?.userConsentForm?.consentSignatures,
-            aggrementSign:obj?.userConsentForm?.agreementSignatures,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
+            consentSign: obj?.userConsentForm?.consentSignatures,
+            aggrementSign: obj?.userConsentForm?.agreementSignatures,
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
           };
           return user;
         });
@@ -186,15 +183,16 @@ export const AllUser = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              onChange={(v) => setSearch(v.target.value)}
+              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6}lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
@@ -207,8 +205,17 @@ export const AllUser = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
-            {user.role === "Social Worker" && (
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setFilter("all");
+                setSearch("");
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
+            {user.role === "Social Worker" || user.role==="Admin" && (
               <Button
                 label={"Add User"}
                 bg={true}

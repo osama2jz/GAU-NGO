@@ -26,7 +26,7 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import userlogo from "../../../assets/teacher.png";
+import InputMask from "react-input-mask";
 
 export const AddProfessional = () => {
   const { classes } = useStyles();
@@ -76,10 +76,10 @@ export const AddProfessional = () => {
         )
           ? null
           : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
-      phoneNumber: (value) =>
-        value?.length < 8 || value?.length > 12
-          ? "Please enter a valid phone number"
-          : null,
+          phoneNumber: (value) =>
+        /^(\+1\s?)?(\d{3}|\(\d{3}\))[\s\-]?\d{3}[\s\-]?\d{4}$/.test(value)
+          ? null
+          : "Invalid Phone Number e.g +1 234 567 8900",
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
       // profileImage: (value) =>
@@ -89,19 +89,31 @@ export const AddProfessional = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      if (imageData === "" || fileData === "") {
+      console.log("values", values);
+      console.log("imageData", imageData);
+      if (
+        imageData === "" || values?.userType !== "user" ? fileData === "" : ""
+      ) {
         if (imageData === "") {
+          console.log("hello");
           setUploadError("Please upload the Profile Photo");
         }
-        if (fileData === "") {
+        if (fileData === "" && values?.userType !== "user") {
+          console.log("hello");
           setFileError("Please upload the file");
         }
       } else {
-        // console.log("for");
-        // form.setFieldValue("profileImage", imageData);
-        // form.setFieldValue("IDDetails", fileData);
-        // console.log("form", form.values);
-        // console.log("values", values);
+        // const data = {
+        //   firstName: values.firstName,
+        //   lastName: values.lastName,
+        //   email: values.email,
+        //   phoneNumber: values.phoneNumber,
+        //   password: values.password,
+        //   profileImage: imageData,
+        //   userType: values.userType,
+        // };
+        // const reqData = form.values?.userType === "user" ? data : values;
+        // console.log("reqData", reqData);
         return axios.post(`${backendUrl + "/api/user/create"}`, values, {
           headers: {
             "x-access-token": user.token,
@@ -117,7 +129,9 @@ export const AddProfessional = () => {
             message: "New User added Successfully!",
             color: "green.0",
           });
-          navigate(routeNames.ngoAdmin.viewProfessionals);
+          form.values?.userType === "user"
+            ? navigate(routeNames.ngoAdmin.allUsers)
+            : navigate(routeNames.ngoAdmin.viewProfessionals);
         } else {
           showNotification({
             title: "Failed",
@@ -128,18 +142,6 @@ export const AddProfessional = () => {
       },
     }
   );
-
-  if (handleAddUser.isLoading) {
-    return <Loader />;
-  }
-
-  // if (handleAddUser.isError) {
-  //   showNotification({
-  //     title: "Error",
-  //     message: "Something went wrong",
-  //     color: "red",
-  //   });
-  // }
 
   const handleFileInput = (file, type) => {
     // setFileLoader(true);
@@ -190,10 +192,10 @@ export const AddProfessional = () => {
             form.setFieldValue("IDDetails", link);
 
             setFileData(link);
+            setFileUploading(false);
           }
         });
       }
-      setFileUploading(false);
     });
   };
 
@@ -240,14 +242,14 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            // console.log("link", link);
+            setImageData(link);
+            console.log("link", link);
             // form.setFieldValue("documentURL", link);
             form.setFieldValue("profileImage", link);
-            setImageData(link);
+            setImageUploading(false);
           }
         });
       }
-      setImageUploading(false);
     });
   };
 
@@ -310,20 +312,21 @@ export const AddProfessional = () => {
         </Group>
         <Container p={"0px"} size="xs" m={"sm"}>
           <Grid>
-            <Grid.Col sm={6}>
+            <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <SelectMenu
                 data={[
+                  // { label: "User", value: "user" },
                   { label: "Lawyer", value: "lawyer" },
                   { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
                 ]}
                 placeholder="Select role"
-                label="Professional Type"
+                label="User Type"
                 form={form}
                 validateName="userType"
               />
             </Grid.Col>
-            <Grid.Col sm={6}>
+            <Grid.Col sm={6} hidden={form.values.userType === "user"}>
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
                   label="Upload Document"
@@ -377,12 +380,16 @@ export const AddProfessional = () => {
             </Grid.Col>
             <Grid.Col sm={6}>
               <InputField
-                type="number"
+                
                 label="Phone Number"
                 required={true}
-                placeholder="+123456789"
+                placeholder="+1 212 456 7890"
+                component={InputMask}
+                mask="+1 999 999 9999"
                 form={form}
                 validateName="phoneNumber"
+
+               
               />
             </Grid.Col>
           </Grid>
@@ -410,22 +417,22 @@ export const AddProfessional = () => {
             {/* {fileUploading ? (
               <Loader minHeight="40px" />
             ) : ( */}
-              <>
-                <Button
-                  label="Cancel"
-                  onClick={() =>
-                    navigate(routeNames.ngoAdmin.viewProfessionals)
-                  }
-                />
+            <>
+              <Button
+                label="Cancel"
+                onClick={() => navigate(routeNames.ngoAdmin.viewProfessionals)}
+              />
 
-                <Button
-                  label="Add Professional"
-                  leftIcon={"plus"}
-                  primary={true}
-                  type="submit"
-                  loading={handleAddUser.isLoading || fileUploading || imageUploading}
-                />
-              </>
+              <Button
+                label="Add Professional"
+                leftIcon={"plus"}
+                primary={true}
+                type="submit"
+                loading={
+                  handleAddUser.isLoading || fileUploading || imageUploading
+                }
+              />
+            </>
             {/* )} */}
           </Group>
         </Container>

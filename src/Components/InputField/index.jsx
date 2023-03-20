@@ -2,7 +2,7 @@ import { createStyles, TextInput } from "@mantine/core";
 
 const useStyles = createStyles((theme, { borderWhite, disabled }) => ({
   input: {
-    backgroundColor: disabled? theme.colors.gray: "transparent",
+    backgroundColor: disabled ? theme.colors.gray : "transparent",
     border: borderWhite
       ? "1px solid rgb(255, 255, 255, 0.2)"
       : "1px solid rgb(0, 0, 0, 0.1)",
@@ -32,6 +32,8 @@ const InputField = ({
   validateName,
   disabled,
   onKeyDown,
+  mask,
+  component,
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
   return (
@@ -45,6 +47,8 @@ const InputField = ({
       onChange={onChange}
       onKeyDown={onKeyDown}
       disabled={disabled}
+      component={component}
+      mask={mask}
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (

@@ -85,14 +85,11 @@ export const ViewRoasters = () => {
   const { data, status } = useQuery(
     ["fetchSchedule"],
     () => {
-      return axios.get(
-        `${backendUrl + `/api/schedule/listNGOUsersSchedule`}`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.get(`${backendUrl + `/api/schedule/listNGOUsersSchedule`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -176,15 +173,17 @@ export const ViewRoasters = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              onChange={(v) => setSearch(v.target.value)}
+
+              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6} lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
@@ -198,7 +197,16 @@ export const ViewRoasters = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setFilter("");
+                setSearch("")
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Roaster"}
               bg={true}

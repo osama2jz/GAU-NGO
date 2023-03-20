@@ -102,7 +102,7 @@ export const ViewProfessionals = () => {
 
   //API call for fetching all professionals
   const { data, status } = useQuery(
-    ["fetchUser", activePage, search,filter],
+    ["fetchUserProfessionals", activePage, search,filter],
     () => {
       let link =
       search.length > 0 || filter !== "all"
@@ -168,7 +168,7 @@ export const ViewProfessionals = () => {
           message: "User Status changed Successfully!",
           color: "green.0",
         });
-        queryClient.invalidateQueries("fetchUser");
+        queryClient.invalidateQueries("fetchUserProfessionals");
       },
     }
   );
@@ -188,15 +188,16 @@ export const ViewProfessionals = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              onChange={(v) => setSearch(v.target.value)}           
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6}lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Type"
               pb="0px"
@@ -210,7 +211,23 @@ export const ViewProfessionals = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={6} lg={1} md={3}style={{ textAlign: "end" }} >
+            <Button
+              label={"Clear Filters"}
+              // styles={{ float: "right" }}
+              // leftIcon={"multiply"}
+              // onClick={() => {
+              //   setFilter("");
+              //   setSearch("");
+              // }}
+              onClick={() => {
+                setFilter("all");
+                setSearch("");
+
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Professional"}
               bg={true}

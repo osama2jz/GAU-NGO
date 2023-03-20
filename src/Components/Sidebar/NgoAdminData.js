@@ -38,7 +38,7 @@ export const ngoAdminSideBarData = [
     ],
   },
   {
-    label: "Professionals",
+    label: "Professional",
     icon: Users,
     links: [
       {
