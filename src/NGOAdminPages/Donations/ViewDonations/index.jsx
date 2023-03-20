@@ -147,7 +147,17 @@ export const ViewDonations = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
+              onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setFilter("all");
+                setSearch("");
+              }}
             />
           </Grid.Col>
 
