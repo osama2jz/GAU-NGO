@@ -98,9 +98,9 @@ export const AddDonations = () => {
     }
   );
 
-  if (handleAddComplaint.isLoading) {
-    return <Loader />;
-  }
+  // if (handleAddComplaint.isLoading) {
+  //   return <Loader />;
+  // }
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Make Donation"} />
@@ -123,7 +123,7 @@ export const AddDonations = () => {
 
           <TextArea
             label="Description"
-            placeholder="Complaint Description"
+            placeholder="Description"
             form={form}
             validateName="description"
           />

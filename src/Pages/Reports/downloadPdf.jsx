@@ -70,6 +70,7 @@ function DownloadPdf({ headCells, data, title ,setdata}) {
       halign: "left",
       rowPageBreak: "avoid",
       tableWidth: "auto",
+     
 
       columns: headCells.slice(0,-1).map((col) => {
         return {

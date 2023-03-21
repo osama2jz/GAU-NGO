@@ -17,6 +17,7 @@ import { useQuery } from "react-query";
 
 function ViewUserModal({ id, reportData }) {
   const { classes } = useStyles();
+  const {user}=useContext(UserContext)
 
   return (
     <>
@@ -30,11 +31,17 @@ function ViewUserModal({ id, reportData }) {
           /> */}
        
        
-          <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
-          </Text>
+          
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2}>
+              {user.role === "admin" && (
+                <>
+                <Text className={classes.textheading}>Person Donated </Text>
+                <Text className={classes.textContent}>
+                {reportData?.name}
+              </Text></>
+                
+              )}
             
               <Text className={classes.textheading}>Amount Donated </Text>
               <Text className={classes.textContent}>{reportData?.amount}</Text>

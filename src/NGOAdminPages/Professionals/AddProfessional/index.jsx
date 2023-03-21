@@ -14,8 +14,8 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
-import { FileUpload, Upload } from "tabler-icons-react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { FileUpload, InfoCircle, Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -40,6 +40,35 @@ export const AddProfessional = () => {
   const [filerror, setFileError] = useState("");
   const [imageData, setImageData] = useState("");
   const [fileData, setFileData] = useState("");
+  const {id}=useParams()
+  let {state}=useLocation()
+  const {editData}=state ?? ""
+console.log(editData)
+
+  useEffect(()=>{
+    if(editData){
+      // const a=editData?.name.substring(0, editData?.name.indexOf(' ')); 
+      const b=editData?.phone.substring(1); 
+      // console.log(a)
+      console.log(b)
+      form.setFieldValue("firstName",editData?.name.substring(0, editData?.name.indexOf(' ')) )
+      form.setFieldValue("lastName",editData?.name.substring(editData?.name.indexOf(' ')))
+      form.setFieldValue("email",editData?.email)
+      form.setFieldValue("phoneNumber",editData?.phone)
+      form.setFieldValue("userType",editData?.userType)
+      form.setFieldValue("IDDetails",editData?.idDetails)
+      form.setFieldValue("profileImage",editData?.image)
+
+      setImageData(editData?.image)
+      setFileData(editData?.idDetails)
+
+      console.log("file Data",fileData)
+      console.log(editData?.image.includes("https://") )
+
+    }
+
+  },[editData])
+ 
 
   const form = useForm({
     validateInputOnChange: true,
@@ -71,15 +100,15 @@ export const AddProfessional = () => {
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
 
       password: (value) =>
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
-          value
-        )
+       id || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+        value
+      )
           ? null
           : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
           phoneNumber: (value) =>
-        /^(\+1\s?)?(\d{3}|\(\d{3}\))[\s\-]?\d{3}[\s\-]?\d{4}$/.test(value)
+        /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Invalid Phone Number e.g +1 234 567 8900",
+          : "Invalid Phone Number e.g +34 234 5673 890",
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
       // profileImage: (value) =>
@@ -90,9 +119,9 @@ export const AddProfessional = () => {
   const handleAddUser = useMutation(
     (values) => {
       console.log("values", values);
-      console.log("imageData", imageData);
+      // console.log("imageData", imageData);
       if (
-        imageData === "" || values?.userType !== "user" ? fileData === "" : ""
+        imageData === "" || fileData === "" 
       ) {
         if (imageData === "") {
           console.log("hello");
@@ -114,7 +143,15 @@ export const AddProfessional = () => {
         // };
         // const reqData = form.values?.userType === "user" ? data : values;
         // console.log("reqData", reqData);
-        return axios.post(`${backendUrl + "/api/user/create"}`, values, {
+
+        if (id) {
+          values = { ...values, userId: id };
+        }
+
+        console.log("values", values);
+        const link = id ? "/api/user/edit" : "/api/user/create";
+        console.log("link", link);
+        return axios.post(`${backendUrl + link}`, values, {
           headers: {
             "x-access-token": user.token,
           },
@@ -125,8 +162,8 @@ export const AddProfessional = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "User Added",
-            message: "New User added Successfully!",
+            title: id ? "Information Updated":"Professional Added",
+            message: id ? "Professional Information Updated Successfully! ":"Professional added Successfully!",
             color: "green.0",
           });
           form.values?.userType === "user"
@@ -269,7 +306,7 @@ export const AddProfessional = () => {
   });
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={"Add Professional"} />
+      <ContainerHeader label={id ? "Edit Professional":"Add Professional"} />
 
       <form
         className={classes.form}
@@ -285,8 +322,12 @@ export const AddProfessional = () => {
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={"https://www.w3schools.com/howto/img_avatar.png"}
-              />
+                src={id ? editData?.image : "https://www.w3schools.com/howto/img_avatar.png"}
+              //   src={id
+              //     ? editData?.profileImage.includes("http") :"https://www.w3schools.com/howto/img_avatar.png"}
+              // />
+             
+            />
             )}
           </Container>
           <Input.Wrapper error={uploadError} size={"md"}>
@@ -320,7 +361,9 @@ export const AddProfessional = () => {
                   { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
                 ]}
-                placeholder="Select role"
+                
+                disabled={id ? true : false}
+                placeholder={id ? form.values.userType :"Select role"}
                 label="User Type"
                 form={form}
                 validateName="userType"
@@ -330,7 +373,7 @@ export const AddProfessional = () => {
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
                   label="Upload Document"
-                  placeholder="Upload Document"
+                  placeholder={form.values?.IDDetails !==""? "Uploaded" :"Upload Document"}
                   accept="file/pdf"
                   styles={(theme) => ({
                     root: {
@@ -383,9 +426,9 @@ export const AddProfessional = () => {
                 
                 label="Phone Number"
                 required={true}
-                placeholder="+1 212 456 7890"
+                placeholder="+34 91 1234 567"
                 component={InputMask}
-                mask="+1 999 999 9999"
+                mask="+34 99 9999 999"
                 form={form}
                 validateName="phoneNumber"
 
@@ -393,26 +436,29 @@ export const AddProfessional = () => {
               />
             </Grid.Col>
           </Grid>
-          <Grid>
-            <Grid.Col sm={6}>
-              <PassInput
-                label="Password"
-                required={true}
-                placeholder="*******"
-                form={form}
-                validateName="password"
-              />
-            </Grid.Col>
-            <Grid.Col sm={6}>
-              <PassInput
-                label="Confirm Password"
-                required={true}
-                placeholder="*******"
-                form={form}
-                validateName="confirmPassword"
-              />
-            </Grid.Col>
-          </Grid>
+          {!id && (
+              <Grid>
+              <Grid.Col sm={6}>
+                <PassInput
+                  label="Password"
+                  required={true}
+                  placeholder="*******"
+                  form={form}
+                  validateName="password"
+                />
+              </Grid.Col>
+              <Grid.Col sm={6}>
+                <PassInput
+                  label="Confirm Password"
+                  required={true}
+                  placeholder="*******"
+                  form={form}
+                  validateName="confirmPassword"
+                />
+              </Grid.Col>
+            </Grid>
+          ) }
+        
           <Group position="right" mt="sm">
             {/* {fileUploading ? (
               <Loader minHeight="40px" />
@@ -424,8 +470,8 @@ export const AddProfessional = () => {
               />
 
               <Button
-                label="Add Professional"
-                leftIcon={"plus"}
+                label={id ? "Update" : "Add Professional"}
+                leftIcon={id ? "":"plus"}
                 primary={true}
                 type="submit"
                 loading={

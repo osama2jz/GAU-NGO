@@ -12,6 +12,8 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
   },
 }));
 
+
+
 const Datepicker = ({
   placeholder = "Select Date",
   icon,
@@ -28,9 +30,13 @@ const Datepicker = ({
   onChange,
   maxDate,
   minDate,
+ 
   
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
+  const disabledDays = {
+    daysOfWeek: [0], // Sunday is represented by 0
+  };
   return (
     <DatePicker
       size={size}
@@ -47,6 +53,7 @@ const Datepicker = ({
       classNames={{ input: classes.root }}
       {...form?.getInputProps(validateName)}
       inputFormat={labelFormat}
+      disabledDays={disabledDays}
     />
   );
 };

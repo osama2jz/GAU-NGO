@@ -44,6 +44,7 @@ export const ViewProfessionals = () => {
   const [totalPages, setTotalPages] = useState();
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [editProfessional,setEditProfessional]=useState()
 
   const [reportData, setReportData] = useState([]);
 
@@ -142,6 +143,7 @@ export const ViewProfessionals = () => {
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
             image: obj.profileImage ? obj.profileImage : userlogo,
+            idDetails: obj.IDDetails ? obj.IDDetails : "",
           };
           return user;
         });
@@ -245,12 +247,13 @@ export const ViewProfessionals = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            setEditModalState={setOpenEditModal}
+            // setEditModalState={setOpenEditModal}
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
+            setEditProfessional={setEditProfessional}
           />
         )}
         {totalPages > 1 && (

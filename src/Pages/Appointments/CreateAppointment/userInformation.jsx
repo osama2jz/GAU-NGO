@@ -1,11 +1,13 @@
 import { Card, Container, Flex, Group, Text } from "@mantine/core";
 import userImage from "../../../assets/teacher.png";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
+import { UserContext } from "../../../contexts/UserContext";
 
 export const UserInfo = ({ userData, loading }) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const [data, setData] = useState([]);
+  const {user} =useContext(UserContext)
 
   useEffect(() => {
     setData([
@@ -45,10 +47,10 @@ export const UserInfo = ({ userData, loading }) => {
         display: "flex",
         flexDirection: matches ? "row" : "column",
         alignItems: "center",
-        border: "1px solid rgb(0,0,0,0.1)",
+        border: `0.5px solid rgb(0,0,0,0.1)`,
       }}
     >
-      <img width={"180px"} src={userImage} alt="img" />
+      <img width={user.role==="User"?"250px":"200px"} src={userData?.data?.data?.profileImage || userImage} alt="img" style={{padding:"20px" }} />
       <Container w="100%">
         {data.map((obj) => {
           return (

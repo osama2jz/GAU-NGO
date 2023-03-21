@@ -23,11 +23,11 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
           <Container p={"0px"}>
             <Text
               bg={
-                scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
+                scheduleDates?.includes(moment(date).format("YYYY-MM-DD")) &&
                 "green.0"
               }
               color={
-                scheduleDates.includes(moment(date).format("YYYY-MM-DD")) &&
+                scheduleDates?.includes(moment(date).format("YYYY-MM-DD")) &&
                 "rgb(255, 255, 255)"
               }
             >

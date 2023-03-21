@@ -27,6 +27,9 @@ export const AddRoaster = () => {
   const { user } = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
+  const disabledDayss = {
+    daysOfWeek: [0], // Sunday is represented by 0
+  };
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -58,6 +61,9 @@ export const AddRoaster = () => {
           : null,
     },
   });
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
   const handleAddRoaster = useMutation(
     (values) => {
@@ -208,7 +214,7 @@ export const AddRoaster = () => {
               required={true}
               placeholder="Start Date"
               form={form}
-              minDate={new Date()}
+              minDate={tomorrow}
               validateName="dateStart"
             />
           </Grid.Col>
@@ -220,6 +226,7 @@ export const AddRoaster = () => {
               minDate={new Date(form.values.dateStart)}
               form={form}
               validateName="dateEnd"
+              
             />
           </Grid.Col>
         </Grid>
