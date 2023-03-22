@@ -1,4 +1,4 @@
-import { Container } from "@mantine/core";
+import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
@@ -31,7 +31,7 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
     },
   });
 
-  console.log("editData", editData)
+
 
   const addRefrences = (values) => {
     if(editData){
@@ -93,12 +93,24 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
           form={form}
           validateName="relation"
         />
+         <Group position="right" mt="md">
+         <Button
+          label={"Reset"}
+         
+          className={classes.btn}
+          onClick={() => {
+            form.reset();
+            setEditData("");
+          }}
+        />
         <Button
-          label={"Add"}
+          label={editData? "Update":"Add"}
+          leftIcon={editData? "":"plus"}
           primary={true}
           className={classes.btn}
           type="submit"
         />
+        </Group>
       </form>
     </Container>
   );

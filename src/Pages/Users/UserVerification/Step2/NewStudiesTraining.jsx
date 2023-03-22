@@ -1,4 +1,4 @@
-import { Container } from "@mantine/core";
+import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
@@ -91,12 +91,24 @@ function NewStudiesTrainingModal({
           form={form}
           validateName="completionYear"
         />
+         <Group position="right" mt="md">
+         <Button
+          label={"Reset"}
+         
+          className={classes.btn}
+          onClick={() => {
+            form.reset();
+            setEditData("");
+          }}
+        />
         <Button
-          label={"Add"}
+         label={editData? "Update":"Add"}
+         leftIcon={editData? "":"plus"}
           primary={true}
           className={classes.btn}
           type="submit"
         />
+        </Group>
       </form>
     </Container>
   );

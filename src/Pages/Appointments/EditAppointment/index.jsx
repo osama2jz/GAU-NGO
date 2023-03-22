@@ -104,7 +104,7 @@ function EditAppointments() {
   );
 
   function addInputField(id) {
-    setNumInputs([...numInputs, id]);
+    setNumInputs([...numInputs, editData?.id]);
     const obj = {
       documentName: "",
       documentURL: "",
@@ -119,7 +119,7 @@ function EditAppointments() {
     () => {
       setLoading(true);
       //   console.log(user);
-      return axios.get(backendUrl + `/api/user/listSingleUser/${id}`, {
+      return axios.get(backendUrl + `/api/user/listSingleUser/${editData?.id}`, {
         headers: {
           "x-access-token": user?.token,
         },
@@ -131,7 +131,7 @@ function EditAppointments() {
         setSelectedUser(response);
         setLoading(false);
       },
-      enabled: !!id,
+      enabled: !!editData?.id,
     }
   );
 
@@ -321,6 +321,7 @@ function EditAppointments() {
             label="Update"
             primary={true}
             disabled={fileLoader}
+            loading={fileLoader}
             onClick={() => handleUploadDocuments.mutate()}
           />
         </Group>

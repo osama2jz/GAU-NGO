@@ -143,7 +143,11 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (row.accStatus === "active") {
-                                navigate(`/userVerification/${row.id}`);
+                                navigate(`/userVerification`,{
+                                  state: {
+                                    id:row.id
+                                  }
+                                });
                               } else {
                                 showNotification({
                                   title: "User is not verified",
@@ -163,7 +167,7 @@ const Table = ({
                               setReportData(row);
                             }
                             if (setEditIDApp) {
-                              navigate(`/view-appointment/${row.id}`, {
+                              navigate(`/view-appointment`, {
                                 state: {
                                   editData: row,
                                 },
@@ -182,13 +186,17 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (setEditId) {
-                                navigate(`/userEdit/${row.id}`);
+                                navigate(`/user-Edit`,{
+                                  state: {
+                                    editId: row.id,
+                                  }
+                                });
                                 return;
                                 // setEditId(row.id);
                                 // alert("edit id")
                               }
                               if (setEditIDApp) {
-                                navigate(`/edit-appointment/${row.id}`, {
+                                navigate(`/edit-appointment`, {
                                   state: {
                                     editData: row,
                                   },
@@ -204,7 +212,7 @@ const Table = ({
                                 return;
                               }
                               if (setEditProfessional) {
-                                navigate(`/edit-professional/${row.id}`, {
+                                navigate(`/edit-professional`, {
                                   state: {
                                     editData: row,
                                   },
@@ -331,10 +339,16 @@ const Table = ({
                   ) : head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
-                        label={"Verify"}
+                        label={
+                          row.status === "unverified" ? "Verify" : "Verified"
+                        }
                         onClick={() => {
                           if (row.accStatus === "active") {
-                            navigate(`/userVerification/${row.id}`);
+                            navigate(`/userVerification`,{
+                              state:{
+                                id:row.id
+                              }
+                            });
                           } else {
                             showNotification({
                               title: "User Inactive",
@@ -346,6 +360,7 @@ const Table = ({
                         disabled={row.status === "unverified" ? false : true}
                         primary={row.status !== "unverified" ? true : false}
                         compact={true}
+                        w="70px"
                       />
                     </td>
                   ) : head.id === "start" ? (
@@ -358,7 +373,13 @@ const Table = ({
                                 `/start-appointment-p/${row.userid}/${row.appointId}`
                               )
                             : navigate(
-                                `/start-appointment/${row.userid}/${row.appointId}`
+                                `/start-appointment`,{
+                                  state:{
+                                    id:row.userid,
+                                    appId:row.appointId
+      
+                                  }
+                                }
                               );
                         }}
                         disabled={

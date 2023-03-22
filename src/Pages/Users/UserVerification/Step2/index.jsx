@@ -452,7 +452,7 @@ export const Step2 = ({
               primary={true}
               leftIcon={"plus"}
               className={classes.btn}
-              onClick={() => setopenTrainingModal(true)}
+              onClick={() =>{ setopenTrainingModal(true);setEditData("")}}
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
@@ -503,7 +503,7 @@ export const Step2 = ({
               primary={true}
               leftIcon={"plus"}
               className={classes.btn}
-              onClick={() => setOpenModal(true)}
+              onClick={() => {setOpenModal(true);setEditData("")}}
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
@@ -603,7 +603,7 @@ export const Step2 = ({
             primary={true}
             leftIcon={"plus"}
             className={classes.btn}
-            onClick={() => setOpenViewModal(true)}
+            onClick={() => {setOpenViewModal(true);setEditData("")}}
           />
         </Group>
         <Divider color="#C8C8C8" mt="xl" mb="md" />
@@ -664,7 +664,7 @@ export const Step2 = ({
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Add Professional References"
+        title={editData ? "Edit Professional References":"Add Professional References"}
       >
         <NewProfessionalModal
           setOpenViewModal={setOpenViewModal}
@@ -677,7 +677,7 @@ export const Step2 = ({
       <ViewModal
         opened={openModal}
         setOpened={setOpenModal}
-        title="Add Work Experience"
+        title={editData ? "Edit Work Experience" :"Add Work Experience"}
       >
         <NewWorkModal
           workExperience={workExperience}
@@ -690,7 +690,7 @@ export const Step2 = ({
       <ViewModal
         opened={openTrainingModal}
         setOpened={setopenTrainingModal}
-        title="Add Studies and Training"
+        title={editData ? "Edit Studies and Training":"Add Studies and Training"}
       >
         <NewTrainingModal
           trainingStudies={trainingStudies}

@@ -43,7 +43,8 @@ export const AddProfessional = () => {
   const {id}=useParams()
   let {state}=useLocation()
   const {editData}=state ?? ""
-console.log(editData)
+
+  const isUpdate=editData ? true : false
 
   useEffect(()=>{
     if(editData){
@@ -67,7 +68,7 @@ console.log(editData)
 
     }
 
-  },[editData])
+  },[isUpdate,editData])
  
 
   const form = useForm({
@@ -100,7 +101,7 @@ console.log(editData)
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
 
       password: (value) =>
-       id || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+      isUpdate || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
         value
       )
           ? null
@@ -144,12 +145,12 @@ console.log(editData)
         // const reqData = form.values?.userType === "user" ? data : values;
         // console.log("reqData", reqData);
 
-        if (id) {
-          values = { ...values, userId: id };
+        if (editData?.id) {
+          values = { ...values, userId: editData?.id };
         }
 
         console.log("values", values);
-        const link = id ? "/api/user/edit" : "/api/user/create";
+        const link = editData?.id ? "/api/user/edit" : "/api/user/create";
         console.log("link", link);
         return axios.post(`${backendUrl + link}`, values, {
           headers: {
@@ -162,8 +163,8 @@ console.log(editData)
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: id ? "Information Updated":"Professional Added",
-            message: id ? "Professional Information Updated Successfully! ":"Professional added Successfully!",
+            title: isUpdate ? "Information Updated":"Professional Added",
+            message: isUpdate ? "Professional Information Updated Successfully! ":"Professional added Successfully!",
             color: "green.0",
           });
           form.values?.userType === "user"
@@ -322,7 +323,7 @@ console.log(editData)
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={id ? editData?.image : "https://www.w3schools.com/howto/img_avatar.png"}
+                src={isUpdate ? editData?.image : "https://www.w3schools.com/howto/img_avatar.png"}
               //   src={id
               //     ? editData?.profileImage.includes("http") :"https://www.w3schools.com/howto/img_avatar.png"}
               // />
@@ -362,8 +363,8 @@ console.log(editData)
                   { label: "Social Worker", value: "socialWorker" },
                 ]}
                 
-                disabled={id ? true : false}
-                placeholder={id ? form.values.userType :"Select role"}
+                disabled={isUpdate ? true : false}
+                placeholder={isUpdate ? form.values.userType :"Select role"}
                 label="User Type"
                 form={form}
                 validateName="userType"
@@ -436,7 +437,7 @@ console.log(editData)
               />
             </Grid.Col>
           </Grid>
-          {!id && (
+          {!isUpdate && (
               <Grid>
               <Grid.Col sm={6}>
                 <PassInput
@@ -470,8 +471,8 @@ console.log(editData)
               />
 
               <Button
-                label={id ? "Update" : "Add Professional"}
-                leftIcon={id ? "":"plus"}
+                label={isUpdate ? "Update" : "Add Professional"}
+                leftIcon={isUpdate ? "":"plus"}
                 primary={true}
                 type="submit"
                 loading={

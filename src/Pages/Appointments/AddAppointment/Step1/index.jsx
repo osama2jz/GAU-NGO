@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import userImage from "../../../../assets/teacher.png";
 import Button from "../../../../Components/Button";
@@ -28,13 +28,19 @@ const Step1 = ({
   setImg,
   faceID,
   setFaceId,
+  id
 }) => {
+  const {state}=useLocation();
+  // const {id}=state??""
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
-  const { id, appId } = useParams();
+
+  console.log("id",id)
+  
+  // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
   const [goToWhite, setGoToWhite] = useState(false);
 

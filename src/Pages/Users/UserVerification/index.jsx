@@ -41,8 +41,8 @@ export const UserVerification = () => {
 
   let { state } = useLocation();
 
-  const { editTime } = state ?? "";
-  const { editId } = useParams();
+  const { editTime,editId } = state ?? "";
+  // const { editId } = useParams();
 
   const { data, status } = useQuery(
     "fetchUsertoEditData",

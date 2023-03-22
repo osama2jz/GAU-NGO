@@ -1,6 +1,6 @@
 import { Avatar, Card, Container, Group, Text } from "@mantine/core";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import Button from "../../../../Components/Button";
 import { UserContext } from "../../../../contexts/UserContext";
@@ -10,16 +10,34 @@ import userImage from "../../../../assets/teacher.png";
 
 import { useStyles } from "../styles";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 import Loader from "../../../../Components/Loader";
 
 export const Step1 = ({ user, setUser }) => {
   const { classes } = useStyles();
-  const { id, editId } = useParams();
+  // const { id, editId } = useParams();
   const [userData, setUserData] = useState([]);
   const matches = useMediaQuery("(min-width: 600px)");
   const [goToWhite, setGoToWhite] = useState(false);
+
+ 
+
+  const {state}=useLocation()
+  const {id}=state ??""
+  const {editId}=state ??""
+
+  // const memo=useMemo(()=>{
+  //   const {id}=state ??""
+  //   return id
+
+  // },[state])
+
+  // console.log("memo", memo)
+  
+
+  console.log("id", id);
+  console.log("editId", editId);
 
  
 
@@ -31,13 +49,15 @@ export const Step1 = ({ user, setUser }) => {
   }, [faceio]);
 
   useEffect(() => {
-    if (id) {
+    if (id ) {
       setUser(id);
     }
     // if(editId){
     //   setUser(editId);
     // }
   }, [id, editId]);
+
+  console.log("user", user);
 
   const { data: users, status } = useQuery(
     "fetchVerified",

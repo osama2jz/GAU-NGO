@@ -124,18 +124,18 @@ function ScheduledAppointments() {
       label: "Sr No.",
     },
 
-    {
-      id: "caseName",
-      numeric: false,
-      disablePadding: true,
-      label: "Case Name",
-    },
-    {
-      id: "caseNo",
-      numeric: false,
-      disablePadding: true,
-      label: "Case No.",
-    },
+    // {
+    //   id: "caseName",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Case Name",
+    // },
+    // {
+    //   id: "caseNo",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Case No.",
+    // },
     {
       id: "name",
       numeric: false,
@@ -210,15 +210,16 @@ function ScheduledAppointments() {
       <ContainerHeader label={"Appointment Scheduled"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
               pb="0"
+              onChange={(v)=>setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6}lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               data={[
@@ -227,7 +228,16 @@ function ScheduledAppointments() {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setFilter("");
+                setSearch("");
+              }}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
               bg={true}
@@ -272,7 +282,7 @@ function ScheduledAppointments() {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Appointee</Text>
+              <Text className={classes.textheading}>Added By</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
               <Text className={classes.textheading}>Case Name</Text>
               <Text className={classes.textContent}>

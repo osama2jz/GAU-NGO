@@ -44,7 +44,7 @@ export const ViewProfessionals = () => {
   const [totalPages, setTotalPages] = useState();
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [editProfessional,setEditProfessional]=useState()
+  
 
   const [reportData, setReportData] = useState([]);
 
@@ -229,7 +229,7 @@ export const ViewProfessionals = () => {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
             <Button
               label={"Add Professional"}
               bg={true}
@@ -253,7 +253,7 @@ export const ViewProfessionals = () => {
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
-            setEditProfessional={setEditProfessional}
+            setEditProfessional={true}
           />
         )}
         {totalPages > 1 && (
@@ -281,13 +281,7 @@ export const ViewProfessionals = () => {
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit User Details"
-      >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
-      </EditModal>
+     
     </Container>
   );
 };

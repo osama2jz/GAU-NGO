@@ -159,7 +159,18 @@ const VerificationScheduled = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              value={search}
+              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              onChange={(v) => setSearch(v.target.value)}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                
+                setSearch("");
+              }}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">

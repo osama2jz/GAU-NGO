@@ -19,7 +19,7 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import routeNames from "../../../Routes/routeNames";
 import { UserContext } from "../../../contexts/UserContext";
 import { AgeForm } from "./AgeForm";
@@ -34,8 +34,11 @@ const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { id, appId } = useParams();
+  // const { id, appId } = useParams();
   const { user } = useContext(UserContext);
+
+  const {state}=useLocation();
+  const {id,appId}=state ?? ""
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -246,6 +249,7 @@ const AddAppointment = () => {
               setImg={setImg}
               faceID={faceID}
               setFaceId={setFaceId}
+              id={id}
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (

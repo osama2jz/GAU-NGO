@@ -6,7 +6,13 @@ import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
 import moment from "moment";
 import Datepicker from "../../../../Components/Datepicker";
-function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,setEditData }) {
+function NewWorkModal({
+  setOpenModal,
+  workExperience,
+  setWorkExperience,
+  editData,
+  setEditData,
+}) {
   const { classes } = useStyles();
   useEffect(() => {
     if (editData) {
@@ -35,18 +41,17 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,
     },
   });
   const AddWorkExperience = (values) => {
-    if(editData){
+    if (editData) {
       const index = workExperience.findIndex((item) => item.id === editData.id);
       values.id = workExperience.length + 1;
-      values.endDate = new Date(values.endDate)
-      values.startDate = new Date(values.startDate)
+      values.endDate = new Date(values.endDate);
+      values.startDate = new Date(values.startDate);
       workExperience[index] = values;
       setWorkExperience([...workExperience]);
       setOpenModal(false);
       form.reset();
       setEditData("");
-
-    }else{
+    } else {
       values.id = workExperience.length + 1;
       values.endDate = moment(values.endDate).format("DD/MM/YYYY");
       values.startDate = moment(values.startDate).format("DD/MM/YYYY");
@@ -54,7 +59,6 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,
       form.reset();
       setOpenModal(false);
     }
-   
   };
 
   return (
@@ -108,9 +112,17 @@ function NewWorkModal({setOpenModal, workExperience, setWorkExperience,editData,
         />
         <Group position="right" mt="md">
           <Button
-            label={"Add"}
+            label={"Reset"}
+            className={classes.btn}
+            onClick={() => {
+              form.reset();
+              setEditData("");
+            }}
+          />
+          <Button
+            label={editData ? "Update" : "Add"}
+            leftIcon={editData ? "" : "plus"}
             primary={true}
-            leftIcon={"plus"}
             className={classes.btn}
             type="submit"
           />

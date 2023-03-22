@@ -44,7 +44,8 @@ export const AllUser = () => {
   const [editId, setEditId] = useState("");
 
   const [reportData, setReportData] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  
+  console.log("user",user)
 
   let headerData = [
     {
@@ -215,7 +216,7 @@ export const AllUser = () => {
             />
           </Grid.Col>
           <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
-            {user.role === "Social Worker" || user.role==="Admin" && (
+            {user.role === "Social Worker" && (
               <Button
                 label={"Add User"}
                 bg={true}
