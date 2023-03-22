@@ -1,30 +1,47 @@
 import {
-  AppShell,
-  Navbar,
-  Header,
-  Burger,
-  MediaQuery,
-  Text,
-  useMantineTheme,
-  Group,
-  Container,
+  AppShell, Burger, Container, Group, MediaQuery, Navbar, useMantineTheme
 } from "@mantine/core";
 import { useContext, useState } from "react";
-import { Navigate, Outlet, redirect, useNavigate } from "react-router-dom";
-import { SideBar } from "../Components/Sidebar/Sidebar";
+import {
+  Navigate,
+  Outlet, useLocation,
+  useNavigate
+} from "react-router-dom";
 import Topbar from "../Components/Header/index";
-import { socialSideBarData } from "../Components/Sidebar/SocialWorkerData";
-import { UserContext } from "../contexts/UserContext";
-import { psychSideBarData } from "../Components/Sidebar/PsychologistData";
-import routeNames from "../Routes/routeNames";
 import { LawyerSidebarData } from "../Components/Sidebar/LawyerSidebarData";
 import { ngoAdminSideBarData } from "../Components/Sidebar/NgoAdminData";
+import { psychSideBarData } from "../Components/Sidebar/PsychologistData";
+import { SideBar } from "../Components/Sidebar/Sidebar";
+import { socialSideBarData } from "../Components/Sidebar/SocialWorkerData";
 import { UserSidebarData } from "../Components/Sidebar/UserSidebarData";
+import { UserContext } from "../contexts/UserContext";
+import routeNames from "../Routes/routeNames";
 
 const Layout = () => {
   const theme = useMantineTheme();
+  const navigate = useNavigate();
   const [opened, setOpened] = useState(false);
   const { user } = useContext(UserContext);
+  const location = useLocation();
+
+  const allowed = () => {
+    if (
+      (user?.role == "Social Worker" &&
+        Object.values(routeNames.socialWorker).includes(location.pathname)) ||
+      (user?.role == "Admin" &&
+        Object.values(routeNames.ngoAdmin).includes(location.pathname)) ||
+      (user?.role == "Lawyer" &&
+        Object.values(routeNames.lawyer).includes(location.pathname)) ||
+      (user?.role == "Psychologist" &&
+        Object.values(routeNames.pysch).includes(location.pathname)) ||
+      (user?.role == "User" &&
+        Object.values(routeNames.user).includes(location.pathname))
+    ) {
+      return true;
+    } else {
+      navigate(-1);
+    }
+  };
 
   return user?.role && user?.token ? (
     <AppShell
@@ -63,23 +80,7 @@ const Layout = () => {
         </Navbar>
       }
       footer={<></>}
-      header={
-        <></>
-        //   <Header height={{ base: 60, md: 60, sm: 65 }} bg={theme.colors.primary}>
-        //     <Group noWrap>
-        // <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-        //   <Burger
-        //     opened={opened}
-        //     onClick={() => setOpened((o) => !o)}
-        //     size="sm"
-        //     color={theme.colors.gray}
-        //     mr="xl"
-        //   />
-        // </MediaQuery>
-        //       <Topbar />
-        //     </Group>
-        //   </Header>
-      }
+      header={<></>}
     >
       <Container mih="100%" size="xl" p={"0px"}>
         <Group noWrap>
@@ -96,9 +97,9 @@ const Layout = () => {
         <Container
           bg={theme.colors.container}
           size="xl"
-          style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.034 "}}
+          style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.034 " }}
         >
-          <Outlet />
+          {allowed() && <Outlet />}
         </Container>
       </Container>
     </AppShell>
