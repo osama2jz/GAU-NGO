@@ -23,6 +23,7 @@ const DeleteModal = ({
   onCancel,
   onDelete,
   label,
+  loading,
   message,
 }) => {
   const { classes, cx } = useStyles();
@@ -43,6 +44,7 @@ const DeleteModal = ({
           <Button label="Cancel" onClick={onCancel} compact={true} />
           <Button
             label="Delete"
+            loading={loading}
             onClick={onDelete}
             primary={true}
             compact={true}

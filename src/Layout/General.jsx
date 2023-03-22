@@ -1,12 +1,14 @@
 import {
-  AppShell, Burger, Container, Group, MediaQuery, Navbar, useMantineTheme
+  AppShell,
+  Burger,
+  Container,
+  Group,
+  MediaQuery,
+  Navbar,
+  useMantineTheme,
 } from "@mantine/core";
 import { useContext, useState } from "react";
-import {
-  Navigate,
-  Outlet, useLocation,
-  useNavigate
-} from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Topbar from "../Components/Header/index";
 import { LawyerSidebarData } from "../Components/Sidebar/LawyerSidebarData";
 import { ngoAdminSideBarData } from "../Components/Sidebar/NgoAdminData";

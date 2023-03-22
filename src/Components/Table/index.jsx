@@ -41,7 +41,7 @@ const Table = ({
   setEditId,
   setEditIDApp,
   setEditBranch,
-  setEditProfessional
+  setEditProfessional,
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -196,7 +196,7 @@ const Table = ({
                                 return;
                               }
                               if (setEditBranch) {
-                                navigate(`/edit-branch/${row.id}`, {
+                                navigate(`/edit-branch`, {
                                   state: {
                                     editData: row,
                                   },
@@ -237,7 +237,7 @@ const Table = ({
                               row.status === "SCHEDULED" ||
                               row.status === "unverified" ||
                               row.status === "CANCELLED" ||
-                              row.status === "INPROGRESS" 
+                              row.status === "INPROGRESS"
                                 ? true
                                 : false
                             }
@@ -278,13 +278,13 @@ const Table = ({
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
                       <Flex gap={"lg"} p="0px" m="0px" align={"center"}>
-                        {/* {row.image && ( */}
+                        {row.image && (
                           <Avatar
                             src={row.image || userImage}
                             width="30px"
                             radius={"xl"}
                           />
-                        {/* )} */}
+                        )}
                         <Text lineClamp={1}>
                           {row[head?.id]?.length > 100
                             ? row[head?.id].substring(0, 10) + "..."
@@ -294,17 +294,18 @@ const Table = ({
                     </td>
                   ) : head.id === "file" ? (
                     <td key={index} align="center">
-                     {row?.file!==""  ? 
-                      <Anchor href={row?.file} target={"_blank"}>
-                        Report file
-                      </Anchor> : <Text>No Report</Text>}
+                      {row?.file !== "" ? (
+                        <Anchor href={row?.file} target={"_blank"}>
+                          Report file
+                        </Anchor>
+                      ) : (
+                        <Text>No Report</Text>
+                      )}
                     </td>
                   ) : head.id === "accStatus" ? (
                     <td key={index} align="center">
                       <Switch
                         onChange={(v) => {
-                          setStatusChangeId(row.id);
-                          console.log(headCells[1].label);
                           headCells[1].label !== "Branch Name"
                             ? onStatusChange({
                                 userId: row.id,
