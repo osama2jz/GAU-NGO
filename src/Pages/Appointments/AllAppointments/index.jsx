@@ -29,8 +29,7 @@ import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import defaultUser from "../../../assets/teacher.png";
 
-import hello from "../../../assets/calendar.png"
-
+import hello from "../../../assets/calendar.png";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -63,7 +62,7 @@ function AllAppointments() {
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
-            userid:obj?.appointmentUserId,
+            userid: obj?.appointmentUserId,
             sr: ind + 1,
             caseName: obj?.caseName,
             caseNo: obj?.caseNo,
@@ -83,8 +82,9 @@ function AllAppointments() {
             appointId: obj?.appointmentId,
             doc: obj?.documents,
             reportData: obj?.reports,
-            image:obj?.appointmentUserImage!=="N/A" ? obj?.appointmentUserImage : defaultUser,
-
+            image: obj?.appointmentUserImage
+              ? obj?.appointmentUserImage
+              : defaultUser,
           };
           return appointment;
         });
@@ -149,7 +149,7 @@ function AllAppointments() {
       disablePadding: true,
       label: "Status",
     },
-   
+
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
