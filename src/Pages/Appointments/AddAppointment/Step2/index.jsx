@@ -147,14 +147,14 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
           </Text>
           <Text ml={10}>{caseNo}</Text>
         </Flex>
-        <Flex align={"center"}>
+        {/* <Flex align={"center"}>
           <Text fz={18} fw={"bold"}>
             Date:
           </Text>
           <Text ml={10}>XXXX</Text>
-        </Flex>
+        </Flex> */}
       </Flex>
-      <Container size={"sm"} p="0px">
+      <Container size="36rem">
         <UserInfo userData={selectedUser} />
       </Container>
       <Text align="center" fw={"bold"} mt="xl">

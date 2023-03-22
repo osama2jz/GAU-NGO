@@ -30,6 +30,8 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
+  
+
   useEffect(() => {
     queryClient.invalidateQueries("userFetched");
     queryClient.invalidateQueries("casesFetched");
@@ -135,7 +137,7 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
   return (
     <Container p={"0px"} size="xl">
       <Text fz={20} fw="bolder" align="center">
-        Select User
+     { usertoken.role ==="User" ? "Personal Information":"Select User"}
       </Text>
 
       {usertoken.role !== "User" ?   <SimpleGrid

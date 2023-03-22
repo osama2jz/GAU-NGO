@@ -48,7 +48,7 @@ export const UserInfo = ({ userData, loading }) => {
         border: "1px solid rgb(0,0,0,0.1)",
       }}
     >
-      <img width={"180px"} src={userImage} alt="img" />
+      <img width={"180px"} src={userData?.data?.data?.profileImage || userImage} alt="img" />
       <Container w="100%">
         {data.map((obj) => {
           return (

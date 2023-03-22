@@ -73,7 +73,7 @@ function AllAppointments() {
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
-            addedBy: obj?.appointmentWith,
+            addedBy: obj?.addedBy,
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
@@ -84,6 +84,7 @@ function AllAppointments() {
             doc: obj?.documents,
             reportData: obj?.reports,
             image:obj?.appointmentUserImage!=="N/A" ? obj?.appointmentUserImage : defaultUser,
+
           };
           return appointment;
         });
@@ -100,12 +101,18 @@ function AllAppointments() {
       label: "Sr#",
     },
 
-    {
-      id: "caseNo",
-      numeric: false,
-      disablePadding: true,
-      label: "Case No.",
-    },
+    // {
+    //   id: "caseNo",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Case No.",
+    // },
+    // {
+    //   id: "caseName",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Case Name",
+    // },
     {
       id: "name",
       numeric: false,
@@ -116,7 +123,7 @@ function AllAppointments() {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Appointee",
+      label: "Added By",
     },
     {
       id: "role",

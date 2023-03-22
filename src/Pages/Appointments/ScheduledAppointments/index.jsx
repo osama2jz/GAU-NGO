@@ -67,7 +67,7 @@ function ScheduledAppointments() {
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
-            addedBy: obj?.appointmentWith,
+            addedBy: obj?.addedBy,
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
@@ -146,7 +146,7 @@ function ScheduledAppointments() {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Appointee",
+      label: "Added By",
     },
     {
       id: "role",

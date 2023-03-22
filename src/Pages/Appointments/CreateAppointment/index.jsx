@@ -13,7 +13,7 @@ import { useStyles } from "./styles";
 
 import { Container, Group, Stepper, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContext";
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -33,16 +33,21 @@ const AddAppointment = () => {
   const [referedTo, setReferedTo] = useState("");
   const [slot, setSlot] = useState("");
 
+
+
   const handleNextSubmit = () => {
     if (active == 0) {
-      if (!selectedUser || selectedCase.length < 1) {
-        showNotification({
-          color: "red.0",
-          message: "Please Select User information",
-          title: "Incomplete Info",
-        });
-        return;
+      if(user.role !=="User"){
+        if (!selectedUser || selectedCase.length < 1) {
+          showNotification({
+            color: "red.0",
+            message: "Please Select User information",
+            title: "Incomplete Info",
+          });
+          return;
+        }
       }
+     
     }
 
     setActive(active + 1);
@@ -52,6 +57,7 @@ const AddAppointment = () => {
   const handleCreateAppointment = useMutation(
     () => {
       let object = {};
+      if(user.role !=="User"){
       if (selectedCase.length > 0 && newCase.length < 1) {
         object = {
           previousAppointmentLinked: true,
@@ -68,6 +74,14 @@ const AddAppointment = () => {
           scheduleId: slot,
           caseName: newCase,
         };
+      }}
+      else{
+        object = {
+          previousAppointmentLinked: false,
+          appointmentUser: selectedUser.data.data._id,
+          appointmentWith: referedTo,
+          scheduleId: slot,
+        }
       }
 
       return axios.post(`${backendUrl + "/api/appointment/create"}`, object, {
@@ -123,7 +137,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="1. Select User"
+            label={user.role ==="User" ? "1.Personal Information":"1. Select User"}
           >
             <Step1
               setSelectedUser={setSelectedUser}
