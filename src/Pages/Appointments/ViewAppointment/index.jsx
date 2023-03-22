@@ -40,6 +40,7 @@ function ViewAppointments() {
           id: obj?.reportId,
           sr:ind+1,
           caseNo: editData?.caseNo,
+          
           name: editData?.name,
           addedBy: obj?.createdBy?.firstName +""+ obj?.createdBy?.lastName,
           role:
@@ -50,7 +51,7 @@ function ViewAppointments() {
               : "Lawyer",
           type: obj.reportType === "private" ? "Private" : "Public",
           comments: obj?.reportComments,
-          file: obj?.reportFile,
+          file: obj?.reportFile ? obj?.reportFile : "",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
         };
         return appointment;
@@ -58,19 +59,20 @@ function ViewAppointments() {
       setRowData(data);
 
       let data1 = editData?.doc?.map((obj, ind) => {
-        if (obj?.documentURL !== "") {
+        // if (obj?.documentURL !== "") {
         let appointment = {
           id: obj?.reportId,
           sr:ind+1,
           caseNo: editData?.caseNo,
           name: editData?.name,
           docName: obj?.documentName,
-          file: obj?.documentURL ? obj?.documentURL : "No Document",
+          file: obj?.documentURL ? obj?.documentURL : "",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
         };
         return appointment;
       }
-      });
+      // }
+      );
       let newData=data1.filter((obj) => obj != undefined);
       setDocData(newData);
     }

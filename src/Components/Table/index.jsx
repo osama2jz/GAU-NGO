@@ -294,7 +294,7 @@ const Table = ({
                     </td>
                   ) : head.id === "file" ? (
                     <td key={index} align="center">
-                     {row?.file  ? 
+                     {row?.file!==""  ? 
                       <Anchor href={row?.file} target={"_blank"}>
                         Report file
                       </Anchor> : <Text>No Report</Text>}
