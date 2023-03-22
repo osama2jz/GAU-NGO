@@ -78,6 +78,7 @@ const routeNames = {
     editBranch: "/edit-branch/:id",
     viewBranches: "/view-branches",
     addProfessional: "/add-professional",
+    editProfessional: "/edit-professional/:id",
     viewProfessionals: "/view-professionals",
     addRoaster: "/add-roaster",
     viewRoasters: "/view-roasters",

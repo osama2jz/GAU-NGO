@@ -543,7 +543,7 @@ export const Step2 = ({
             <InputField
               label="Revenue"
               required={true}
-              placeholder="$$"
+              placeholder="€€"
               form={form}
               type={"number"}
               validateName="revenue"
@@ -551,7 +551,7 @@ export const Step2 = ({
             <InputField
               label="Expenses"
               required={true}
-              placeholder="$$"
+              placeholder="€€"
               type={"number"}
               form={form}
               validateName="expenses"
@@ -560,14 +560,14 @@ export const Step2 = ({
               label="Aids or Bonuses"
               required={true}
               // type={"number"}
-              placeholder="$$"
+              placeholder="€€"
               form={form}
               validateName="aidsBonuses"
             />
             <InputField
               label="Debit"
               required={true}
-              placeholder="$$"
+              placeholder="€€"
               type={"number"}
               form={form}
               validateName="debt"
@@ -575,7 +575,7 @@ export const Step2 = ({
             <InputField
               label="Housing"
               required={true}
-              placeholder="$$"
+              placeholder="€€"
               // type={"number"}
               form={form}
               validateName="housing"

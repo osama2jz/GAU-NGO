@@ -27,6 +27,7 @@ import moment from "moment";
 import axios from "axios";
 import DownloadPdf from "../downloadPdf";
 import Pagination from "../../../Components/Pagination";
+import Loader from "../../../Components/Loader";
 
 function PrivateReport() {
   const { classes } = useStyles();
@@ -202,12 +203,15 @@ function PrivateReport() {
             />
           </Grid.Col>
         </Grid>
+        {status == "loading" ? (
+          <Loader />
+        ) : (
         <Table
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
           setReportData={setReportData}
-        />
+        />)}
         {totalPages > 1 && (
           <Pagination
             activePage={activePage}

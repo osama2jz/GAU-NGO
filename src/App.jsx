@@ -166,6 +166,10 @@ function App() {
             path={routeNames.ngoAdmin.addProfessional}
             element={<AddProfessional />}
           />
+           <Route
+            path={routeNames.ngoAdmin.editProfessional}
+            element={<AddProfessional />}
+          />
           <Route
             path={routeNames.ngoAdmin.viewProfessionals}
             element={<ViewProfessionals />}

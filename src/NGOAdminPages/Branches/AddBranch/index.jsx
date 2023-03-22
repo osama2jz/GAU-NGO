@@ -55,9 +55,9 @@ export const AddBranch = () => {
         value?.length < 4 ? "Please enter branch Description" : null,
 
       branchContact: (value) =>
-        /^(\+1\s?)?(\d{3}|\(\d{3}\))[\s\-]?\d{3}[\s\-]?\d{4}$/.test(value)
+        /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Invalid Phone Number e.g +1 234 567 8900",
+          : "Invalid Phone Number e.g +34 234 5673 890",
       branchEmail: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
       branchPointOfContact: (value) =>
@@ -267,9 +267,9 @@ export const AddBranch = () => {
               <InputField
                 label="Branch Contact"
                 required={true}
-                placeholder="+1 212 456 7890"
+                placeholder="+34 21 4564 790"
                 component={InputMask}
-                mask="+1 999 999 9999"
+                mask="+34 99 9999 999"
                 form={form}
                 validateName="branchContact"
               />

@@ -211,12 +211,15 @@ function PublicReport() {
             />
           </Grid.Col>
         </Grid>
+        {status == "loading" ? (
+          <Loader />
+        ) : (
         <Table
           headCells={headerData}
           rowData={rowData}
           setViewModalState={setOpenViewModal}
           setReportData={setReportData}
-        />
+        />)}
         {totalPages > 1 && (
           <Pagination
             activePage={activePage}

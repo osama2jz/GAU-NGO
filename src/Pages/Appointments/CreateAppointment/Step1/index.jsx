@@ -137,7 +137,8 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
       <Text fz={20} fw="bolder" align="center">
         Select User
       </Text>
-      <SimpleGrid
+
+      {usertoken.role !== "User" ?   <SimpleGrid
         breakpoints={[
           { minWidth: "md", cols: 1 },
           {
@@ -193,13 +194,25 @@ const Step1 = ({ setSelectedUser, setSelectedCase, newCase, setNewCase }) => {
           />
         </SimpleGrid>
         {userFetching === "loading" ? (
-          <Loader />
+          <Loader minHeight="40px" />
         ) : selectedUser ? (
           <UserInfo userData={selectedUser} loading={userFetching} />
         ) : (
           ""
         )}
-      </SimpleGrid>
+      </SimpleGrid> : 
+      <Container size="36rem" >
+          <UserInfo userData={selectedUser} loading={userFetching} />
+
+        </Container>
+      
+       
+      }
+      
+    
+
+      
+      
     </Container>
   );
 };

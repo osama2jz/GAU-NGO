@@ -40,7 +40,8 @@ const Table = ({
   editDoc,
   setEditId,
   setEditIDApp,
-  setEditBranch
+  setEditBranch,
+  setEditProfessional
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -202,6 +203,14 @@ const Table = ({
                                 });
                                 return;
                               }
+                              if (setEditProfessional) {
+                                navigate(`/edit-professional/${row.id}`, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                                return;
+                              }
                               if (setReportData) {
                                 setReportData(row);
                               }
@@ -269,13 +278,13 @@ const Table = ({
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
                       <Flex gap={"lg"} p="0px" m="0px" align={"center"}>
-                        {row.image && (
+                        {/* {row.image && ( */}
                           <Avatar
                             src={row.image || userImage}
                             width="30px"
                             radius={"xl"}
                           />
-                        )}
+                        {/* )} */}
                         <Text lineClamp={1}>
                           {row[head?.id]?.length > 100
                             ? row[head?.id].substring(0, 10) + "..."
