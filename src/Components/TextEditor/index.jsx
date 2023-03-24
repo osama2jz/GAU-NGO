@@ -1,16 +1,16 @@
 import { RichTextEditor, Link } from "@mantine/tiptap";
 import { createStyles } from "@mantine/core";
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, { minHeight }) => ({
   root: {
     border: "1px solid rgb(0, 0, 0, 0.1)",
   },
   content: {
-    minHeight: "300px",
+    minHeight: minHeight,
   },
 }));
-const TextEditor = ({ setValue, editor }) => {
-  const { classes, cx } = useStyles();
+const TextEditor = ({ minHeight = "300px", editor }) => {
+  const { classes, cx } = useStyles({ minHeight });
   return (
     <RichTextEditor
       editor={editor}

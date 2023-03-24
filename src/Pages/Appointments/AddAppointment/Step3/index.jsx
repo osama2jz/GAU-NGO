@@ -1,22 +1,18 @@
-import React, { useContext, useState } from "react";
 import {
-  SimpleGrid,
   Container,
-  Flex,
-  Text,
-  useMantineTheme,
   Divider,
   FileInput,
+  Flex,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
-import { useStyles } from "../styles";
-import DoubleTabs from "./Tabs";
-import InputField from "../../../../Components/InputField";
+import React, { useContext, useState } from "react";
 import Button from "../../../../Components/Button";
-
-import { Dropzone } from "@mantine/dropzone";
-import { UserContext } from "../../../../contexts/UserContext";
+import InputField from "../../../../Components/InputField";
+import DoubleTabs from "./Tabs";
 import { FileUpload } from "tabler-icons-react";
 import { s3Config } from "../../../../constants/constants";
+import { UserContext } from "../../../../contexts/UserContext";
 const Step3 = ({
   selectedUser,
   caseNo,
@@ -31,13 +27,7 @@ const Step3 = ({
   privateReportCheck,
 }) => {
   const { user } = useContext(UserContext);
-  // console.log("User", user)
   const [numInputs, setNumInputs] = useState([1]);
-  // const [otherDocument, setOtherDocument] = useState([{
-  //   documentName: "",
-  //   documentURL: "",
-  //   createdBy: user.id
-  // }]);
 
   function addInputField(id) {
     setNumInputs([...numInputs, id]);
@@ -129,7 +119,9 @@ const Step3 = ({
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
-      <Text align="center" fw={"bolder"}>Other Documents</Text>
+      <Text align="center" fw={"bolder"}>
+        Other Documents
+      </Text>
 
       {numInputs?.map((i, index) => (
         <SimpleGrid
@@ -140,7 +132,7 @@ const Step3 = ({
         >
           <InputField
             label={"Document Name"}
-            placeholder="enter document name"
+            placeholder="Enter document name"
             onChange={(e) => {
               // update value at current index in other document array
               otherDocument[index].documentName = e.target.value;

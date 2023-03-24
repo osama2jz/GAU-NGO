@@ -79,6 +79,9 @@ export const AddBranch = () => {
       form.setFieldValue("branchEmail", editData?.branchEmail);
       form.setFieldValue("branchContact", editData?.branchContact);
     }
+    else{
+      form.reset()
+    }
   }, [isUpdate, editData]);
 
   const handleAddBranch = useMutation(

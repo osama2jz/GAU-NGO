@@ -1,28 +1,26 @@
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
-import { useEditor } from "@tiptap/react";
-import axios from "axios";
+import { Link } from "@mantine/tiptap";
 import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
 import SubScript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
-import Loader from "../../../Components/Loader";
 import SelectMenu from "../../../Components/SelectMenu";
 import TextEditor from "../../../Components/TextEditor";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import { Link } from "@mantine/tiptap";
-import {useLocation} from 'react-router-dom'
 
 export const AddDocument = () => {
   const { classes } = useStyles();
@@ -163,10 +161,6 @@ export const AddDocument = () => {
       },
     }
   );
-
-  // if (handleAddDocument.isLoading) {
-  //   return <Loader />;
-  // }
 
  
 

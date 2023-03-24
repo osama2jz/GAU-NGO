@@ -12,6 +12,7 @@ import { useLocation, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import userImage from "../../../../assets/teacher.png";
 import Button from "../../../../Components/Button";
+import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../../constants/constants";
@@ -28,9 +29,9 @@ const Step1 = ({
   setImg,
   faceID,
   setFaceId,
-  id
+  id,
 }) => {
-  const {state}=useLocation();
+  const { state } = useLocation();
   // const {id}=state??""
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
@@ -38,8 +39,8 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  console.log("id",id)
-  
+  console.log("id", id);
+
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
   const [goToWhite, setGoToWhite] = useState(false);
@@ -180,7 +181,8 @@ const Step1 = ({
           setFaceId(userData.payload);
           setGoToWhite(false);
           // setDisabledCameraBtn(false);
-        }).finally(() => {
+        })
+        .finally(() => {
           setGoToWhite(false);
           setDisabledCameraBtn(false);
         });
@@ -220,7 +222,6 @@ const Step1 = ({
           }}
           onClick={handleVerifyID}
           disabled={disabledIdBtn}
-
         />
 
         <Divider
@@ -230,6 +231,11 @@ const Step1 = ({
           color={"rgb(0,0,0,0.5)"}
           // my="md"
         />
+        {showCamera && <Flex direction={"column"}>
+          <InputField label={"Person Name"} />
+          <InputField label={"Person Contact"} />
+          <InputField label={"Person ID"} />
+        </Flex>}
         {showCamera ? (
           <Container>
             {img === null ? (

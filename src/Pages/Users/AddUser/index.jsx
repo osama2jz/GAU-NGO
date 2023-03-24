@@ -113,10 +113,6 @@ export const AddUser = () => {
     }
   );
 
-  // if (handleAddUser.isLoading) {
-  //   return <Loader />;
-  // }
-
   const previews = files.map((file, index) => {
     const imageUrl = URL.createObjectURL(file);
     return (
@@ -133,11 +129,8 @@ export const AddUser = () => {
   });
 
   const handleImageInput = (file, type) => {
-    console.log(file);
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
-    // const sanitizedFile = new File([file], sanitizedFileName, {type: file.type})
-    console.log(sanitizedFileName);
     // setFileLoader(true);
     //s3 configs
     setFileUploading(true);

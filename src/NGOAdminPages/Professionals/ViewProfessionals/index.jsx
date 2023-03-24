@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useDeferredValue, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
@@ -31,10 +31,6 @@ export const ViewProfessionals = () => {
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [statusChangeId, setStatusChangeId] = useState("");
-  // const [filter, setFilter] = useState("all");
-  // const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
@@ -44,7 +40,7 @@ export const ViewProfessionals = () => {
   const [totalPages, setTotalPages] = useState();
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  
+  const defferedSearch = useDeferredValue(search);
 
   const [reportData, setReportData] = useState([]);
 
@@ -80,12 +76,6 @@ export const ViewProfessionals = () => {
       label: "Registration Date",
     },
     {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "User Status",
-    },
-    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -103,17 +93,16 @@ export const ViewProfessionals = () => {
 
   //API call for fetching all professionals
   const { data, status } = useQuery(
-    ["fetchUserProfessionals", activePage, search,filter],
+    ["fetchUserProfessionals", activePage, defferedSearch, filter],
     () => {
       let link =
-      search.length > 0 || filter !== "all"
-        ? `/api/user/listUsers/${filter}/0/0/${search}`
-        : `/api/user/listUsers/${filter}/${activePage}/10`;
+        defferedSearch.length > 0 || filter !== "all"
+          ? `/api/user/listUsers/${filter}/0/0/${defferedSearch}`
+          : `/api/user/listUsers/${filter}/${activePage}/10`;
       return axios.get(
         `${
           // backendUrl + `/api/user/listUsers/all/${activePage}/10`
           backendUrl + link
-
         }`,
         {
           headers: {
@@ -138,7 +127,7 @@ export const ViewProfessionals = () => {
                 ? "Lawyer"
                 : "",
             email: obj.email,
-            status: obj.verificationStatus,
+            // status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
@@ -170,6 +159,7 @@ export const ViewProfessionals = () => {
           message: "User Status changed Successfully!",
           color: "green.0",
         });
+        setOpenDeleteModal(false);
         queryClient.invalidateQueries("fetchUserProfessionals");
       },
     }
@@ -181,7 +171,6 @@ export const ViewProfessionals = () => {
       userId: deleteID,
       userStatus: "deleted",
     });
-    setOpenDeleteModal(false);
   };
 
   return (
@@ -195,11 +184,11 @@ export const ViewProfessionals = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
-              onChange={(v) => setSearch(v.target.value)}           
+              value={defferedSearch}
+              onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6}lg={3} md={3}>
+          <Grid.Col sm={6} lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Type"
               pb="0px"
@@ -213,19 +202,12 @@ export const ViewProfessionals = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3}style={{ textAlign: "end" }} >
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
-              // styles={{ float: "right" }}
-              // leftIcon={"multiply"}
-              // onClick={() => {
-              //   setFilter("");
-              //   setSearch("");
-              // }}
               onClick={() => {
                 setFilter("all");
                 setSearch("");
-
               }}
             />
           </Grid.Col>
@@ -247,8 +229,6 @@ export const ViewProfessionals = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            // setEditModalState={setOpenEditModal}
-            setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
@@ -270,18 +250,19 @@ export const ViewProfessionals = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={handleDeleted}
+        loading={handleChangeStatus.isLoading}
         label="Are you Sure?"
-        message="Do you really want to delete these records? This process cannot be undone."
+        message="Do you really want to delete these record? This process cannot be undone."
       />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Details"
+        size="600px"
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-     
     </Container>
   );
 };

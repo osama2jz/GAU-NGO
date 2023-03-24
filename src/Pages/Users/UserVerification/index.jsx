@@ -3,9 +3,10 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import step2 from "../../../assets/step2.png";
 import step3 from "../../../assets/step3.png";
 import step4 from "../../../assets/step4.png";
@@ -19,7 +20,6 @@ import { Step2 } from "./Step2";
 import { Step3 } from "./Step3";
 import { Step4 } from "./Step4";
 import { useStyles } from "./styles";
-import { useParams, useLocation } from "react-router-dom";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
@@ -34,17 +34,15 @@ export const UserVerification = () => {
   const [trainingStudies, setTrainingStudies] = useState([]);
   const [refrences, setRefrences] = useState([]);
   const [consentSignature, setConsentSignature] = useState("");
-  const [agreementSignature, setAgreementSignature] = useState("");
   const [userid, setUserId] = useState("");
   const [userdata, setUserData] = useState("");
-  const [edit, setEdit] = useState(false);
 
   let { state } = useLocation();
 
-  const { editTime,editId } = state ?? "";
+  const { editId } = state ?? "";
   // const { editId } = useParams();
 
-  const { data, status } = useQuery(
+  const _ = useQuery(
     "fetchUsertoEditData",
     () => {
       console.log("hello");
@@ -358,13 +356,6 @@ export const UserVerification = () => {
       housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
     },
   });
-  // useEffect(() => {
-  //   if (form?.values?.dateOfBirth)
-  //     form.setFieldValue(
-  //       "age",
-  //       moment(moment()).diff(form.values.dateOfBirth, "years")
-  //     );
-  // }, [form.values.dateOfBirth]);
   return (
     <Container className={classes.userVerification} size="lg" p={"0px"}>
       <ContainerHeader label={editId ? "Edit User" : "User Verification"} />

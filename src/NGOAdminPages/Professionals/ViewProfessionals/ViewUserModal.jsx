@@ -5,6 +5,7 @@ import {
   Container,
   Text,
   Badge,
+  Anchor,
 } from "@mantine/core";
 import { useStyles } from "./styles";
 import axios from "axios";
@@ -39,7 +40,7 @@ function ViewUserModal({ id, reportData }) {
         <Avatar
           radius="xl"
           size={150}
-          src={userlogo}
+          src={reportData?.image || userlogo}
           className={classes.avatar}
         />
       </Grid.Col>
@@ -49,17 +50,12 @@ function ViewUserModal({ id, reportData }) {
         </Text>
         <Container w={"100%"}>
           <SimpleGrid cols={2} spacing="xs">
-            {/* <Text className={classes.textheading}>Date of Birth</Text>
-            <Text className={classes.textContent}>Date of Birth</Text> */}
             <Text className={classes.textheading}>Profession</Text>
-            <Text className={classes.textContent}>
-              {reportData?.userType}
-            </Text>
+            <Text className={classes.textContent}>{reportData?.userType}</Text>
             <Text className={classes.textheading}>Email</Text>
             <Text className={classes.textContent}>{reportData?.email}</Text>
             <Text className={classes.textheading}>Phone Number</Text>
             <Text className={classes.textContent}>{reportData?.phone}</Text>
-            
 
             <Text className={classes.textheading}>Status</Text>
 
@@ -69,15 +65,10 @@ function ViewUserModal({ id, reportData }) {
             >
               {reportData?.accStatus}
             </Badge>
-            <Text className={classes.textheading}>User Status</Text>
-
-            <Badge
-              variant="outline"
-              color={reportData?.status === "unverified" ? "red.0" : "green.0"}
-              radius="md"
-            >
-              {reportData?.status}
-            </Badge>
+            <Text className={classes.textheading}>ID Document</Text>
+            <Anchor target={"_blank"} href={reportData?.idDetails}>
+              View File
+            </Anchor>
           </SimpleGrid>
         </Container>
       </Grid.Col>

@@ -1,35 +1,31 @@
 import {
+  Avatar,
+  Badge,
   Container,
   Flex,
   Grid,
-  Text,
-  Avatar,
   SimpleGrid,
-  Badge,
+  Text,
 } from "@mantine/core";
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { Edit, Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
+import ViewModal from "../../../Components/ViewModal/viewUser";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import calender from "../../../assets/calendar.png";
-import ViewAppointment from "./ViewAppointment";
-import ViewModal from "../../../Components/ViewModal/viewUser";
 
-import ContainerHeader from "../../../Components/ContainerHeader";
 import axios from "axios";
-import { backendUrl } from "../../../constants/constants";
 import { useQuery } from "react-query";
-import { UserContext } from "../../../contexts/UserContext";
+import defaultUser from "../../../assets/teacher.png";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
-import defaultUser from "../../../assets/teacher.png";
-
-import hello from "../../../assets/calendar.png";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -60,33 +56,37 @@ function AllAppointments() {
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          let appointment = {
-            id: obj.appointmentId,
-            userid: obj?.appointmentUserId,
-            sr: ind + 1,
-            caseName: obj?.caseName,
-            caseNo: obj?.caseNo,
-            name: obj?.appointmentUser,
-            caseId: obj?.caseId,
-            email: "N/A",
-            status: obj?.appointmentStatus?.toUpperCase(),
-            time: obj?.scheduledTime,
-            date: obj?.addedDate,
-            addedBy: obj?.addedBy,
-            role:
-              obj?.role === "socialWorker"
-                ? "Social Worker"
-                : obj.role === "psychologist"
-                ? "Psychologist"
-                : "Lawyer",
-            appointId: obj?.appointmentId,
-            doc: obj?.documents,
-            reportData: obj?.reports,
-            image: obj?.appointmentUserImage
-              ? obj?.appointmentUserImage
-              : defaultUser,
-          };
-          return appointment;
+          if (obj?.appointmentStatus !== "scheduled") {
+            let appointment = {
+              id: obj.appointmentId,
+              userid: obj?.appointmentUserId,
+              sr: ind + 1,
+              caseName: obj?.caseName,
+              caseNo: obj?.caseNo,
+              name: obj?.appointmentUser,
+              caseId: obj?.caseId,
+              email: "N/A",
+              status: obj?.appointmentStatus?.toUpperCase(),
+              time: obj?.scheduledTime,
+              date: obj?.addedDate,
+              addedBy: obj?.addedBy,
+              role:
+                obj?.role === "socialWorker"
+                  ? "Social Worker"
+                  : obj.role === "psychologist"
+                  ? "Psychologist"
+                  : "Lawyer",
+              appointId: obj?.appointmentId,
+              doc: obj?.documents,
+              docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
+                .length,
+              reportData: obj?.reports,
+              image: obj?.appointmentUserImage
+                ? obj?.appointmentUserImage
+                : defaultUser,
+            };
+            return appointment;
+          }
         });
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
@@ -100,19 +100,6 @@ function AllAppointments() {
       disablePadding: true,
       label: "Sr#",
     },
-
-    // {
-    //   id: "caseNo",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Case No.",
-    // },
-    // {
-    //   id: "caseName",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Case Name",
-    // },
     {
       id: "name",
       numeric: false,
@@ -144,6 +131,12 @@ function AllAppointments() {
       label: "Time",
     },
     {
+      id: "docs",
+      numeric: false,
+      disablePadding: true,
+      label: "Missing Documents",
+    },
+    {
       id: "status",
       numeric: false,
       disablePadding: true,
@@ -159,23 +152,23 @@ function AllAppointments() {
     },
   ];
 
-  const newData = useMemo(() => {
-    let arr = headerData;
-    if (
-      user.role === "Social Worker" ||
-      user.role === "Psychologist" ||
-      user.role === "Lawyer"
-    ) {
-      headerData.splice(8, 0, {
-        id: "start",
-        numeric: false,
-        disablePadding: true,
-        label: "Start",
-      });
-      arr = headerData;
-    }
-    return arr;
-  }, [user]);
+  // const newData = useMemo(() => {
+  //   let arr = headerData;
+  //   if (
+  //     user.role === "Social Worker" ||
+  //     user.role === "Psychologist" ||
+  //     user.role === "Lawyer"
+  //   ) {
+  //     headerData.splice(8, 0, {
+  //       id: "start",
+  //       numeric: false,
+  //       disablePadding: true,
+  //       label: "Start",
+  //     });
+  //     arr = headerData;
+  //   }
+  //   return arr;
+  // }, [user]);
 
   const filteredItems = rowData.filter(
     (item) =>
@@ -211,7 +204,7 @@ function AllAppointments() {
               // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6}lg={3} md={3}>
+          <Grid.Col sm={6} lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               value={filter}
@@ -220,7 +213,7 @@ function AllAppointments() {
               data={[
                 { label: "All", value: "" },
                 { label: "Closed", value: "closed" },
-                { label: "Scheduled", value: "scheduled" },
+                // { label: "Scheduled", value: "scheduled" },
                 { label: "Cancelled", value: "cancelled" },
               ]}
             />
@@ -245,7 +238,7 @@ function AllAppointments() {
           </Grid.Col>
         </Grid>
         <Table
-          headCells={newData}
+          headCells={headerData}
           rowData={paginated}
           setViewModalState={setOpenViewModal}
           setEditIDApp={setEditId}

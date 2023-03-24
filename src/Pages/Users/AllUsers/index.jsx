@@ -44,8 +44,8 @@ export const AllUser = () => {
   const [editId, setEditId] = useState("");
 
   const [reportData, setReportData] = useState([]);
-  
-  console.log("user",user)
+
+  console.log("user", user);
 
   let headerData = [
     {
@@ -164,6 +164,7 @@ export const AllUser = () => {
           message: "User Status changed Successfully!",
           color: "green.0",
         });
+        setOpenDeleteModal(false);
         queryClient.invalidateQueries("fetchUser");
       },
     }
@@ -175,7 +176,6 @@ export const AllUser = () => {
       userId: deleteID,
       userStatus: "deleted",
     });
-    setOpenDeleteModal(false);
   };
 
   return (
@@ -189,11 +189,11 @@ export const AllUser = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
+              value={search}
               onChange={(v) => setSearch(v.target.value)}
-              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6}lg={3} md={3}>
+          <Grid.Col sm={6} lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
@@ -258,6 +258,7 @@ export const AllUser = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={handleDeleted}
+        loading={handleChangeStatus.isLoading}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />

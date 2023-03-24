@@ -1,23 +1,16 @@
 import {
-  Grid,
   Avatar,
-  SimpleGrid,
-  Container,
-  Text,
   Badge,
+  Container,
+  Grid,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
-import { useStyles } from "./styles";
-import axios from "axios";
-import { backendUrl } from "../../../constants/constants";
-import { UserContext } from "../../../contexts/UserContext";
-import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/ngob.png";
-import { useQuery } from "react-query";
+import { useStyles } from "./styles";
 
 function ViewUserModal({ id, reportData }) {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
-  const [userdata, setUserData] = useState();
 
   return (
     <>
@@ -36,6 +29,14 @@ function ViewUserModal({ id, reportData }) {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2}>
+              <Text className={classes.textheading}>Point Of Contact </Text>
+              <Text className={classes.textContent}>
+                {reportData?.branchPointOfContact}
+              </Text>
+              <Text className={classes.textheading}>Branch Contact </Text>
+              <Text className={classes.textContent}>
+                {reportData?.branchContact}
+              </Text>
               <Text className={classes.textheading}>Branch Address </Text>
               <Text className={classes.textContent}>
                 {reportData?.location}
@@ -49,16 +50,16 @@ function ViewUserModal({ id, reportData }) {
               >
                 {reportData?.accStatus}
               </Badge>
-              
             </SimpleGrid>
           </Container>
         </Grid.Col>
       </Grid>
       <Container w={"100%"} mt={"md"}>
-      <Text className={classes.textheading}>Branch Description</Text>
-      <Text>{reportData?.description ? reportData?.description :"No Description"}</Text>
-        </Container>
-      
+        <Text className={classes.textheading}>Branch Description</Text>
+        <Text>
+          {reportData?.description ? reportData?.description : "No Description"}
+        </Text>
+      </Container>
     </>
   );
 }
