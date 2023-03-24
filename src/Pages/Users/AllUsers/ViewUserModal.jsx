@@ -50,8 +50,8 @@ function ViewUserModal({ id, reportData }) {
       </Text>
       <Container w={!matches ? "100%" : "85%"} p={"0px"}>
         <SimpleGrid cols={2} spacing="xs" w={"100%"}>
-        <Text className={classes.textheading}>Age</Text>
-          <Text className={classes.textContent}>{reportData?.age}</Text>
+        {/* <Text className={classes.textheading}>Age</Text>
+          <Text className={classes.textContent}>{reportData?.age}</Text> */}
           <Text className={classes.textheading}>Email</Text>
           <Text className={classes.textContent}>{reportData?.email}</Text>
           <Text className={classes.textheading}>Phone Number</Text>

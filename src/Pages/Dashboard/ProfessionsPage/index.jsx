@@ -1,4 +1,11 @@
-import { Anchor, Container, Flex, Grid, Text,useMantineTheme } from "@mantine/core";
+import {
+  Anchor,
+  Container,
+  Flex,
+  Grid,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
@@ -7,7 +14,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
-import EditModal from "../../../Components/EditModal/editModal";
+
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
@@ -15,11 +22,11 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
-import EditUserModal from "../../Users/AllUsers/EditUserModal";
-import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
-import Card from "../Card";
-import { useStyles } from "./styles";
 
+import ViewUserModal from "../../../NGOAdminPages/Professionals/ViewProfessionals/ViewProfessionalModal";
+import Card from "../Card";
+import userlogo from "../../../assets/teacher.png";
+import { useStyles } from "./styles";
 
 const ProfessionPage = (props) => {
   const { classes } = useStyles();
@@ -37,18 +44,18 @@ const ProfessionPage = (props) => {
   const [url, setUrl] = useState(`/api/user/listUsers/professionals`);
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
-  const [loading,setLoading]=useState(false)
-  const [allUsers,setAllUsers]=useState()
+  const [loading, setLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState();
   const [reportData, setReportData] = useState([]);
 
-  
-  //API call for fetching all Professions 
+  //API call for fetching all Professions
   const { data, status } = useQuery(
-    ["fetchProfessionUser"],
+    ["fetchProfessionUser", activePage],
     () => {
+      setLoading(true)
       return axios.get(
         `${
-          backendUrl + `/api/user/listUsers/professionals`
+          backendUrl + `/api/user/listUsers/all/${activePage}/10`
           // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -63,8 +70,57 @@ const ProfessionPage = (props) => {
         let data = response.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: ind + 1,
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
+            userType:
+              obj.userType === "socialWorker"
+                ? "Social Worker"
+                : obj?.userType === "psychologist"
+                ? "Psychologist"
+                : obj?.userType === "lawyer"
+                ? "Lawyer"
+                : "",
+            email: obj.email,
+            status: obj.verificationStatus,
+            accStatus: obj.userStatus,
+            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            phone: obj.phoneNumber,
+            image: obj.profileImage ? obj.profileImage : userlogo,
+          };
+          return user;
+        });
+        setRowData(data);
+        setTotalPages(response.data.totalPages);
+        setLoading(false)
+      },
+    }
+  );
+
+ 
+   //API call for fetching all Professions Count
+   const { data1, status1 } = useQuery(
+    ["fetchProfessionUserCount"],
+    () => {
+      return axios.get(
+        `${
+          backendUrl + `/api/user/listUsers/all/0/0`
+          // `/api//user/listUsers/${activePage}/10/${filter}/${search}`
+        }`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data?.data?.map((obj, ind) => {
+          let user = {
+            id: obj._id,
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
+            name: obj.firstName + " " + obj.lastName,
+           
             userType:
               obj.userType === "socialWorker"
                 ? "Social Worker"
@@ -81,12 +137,21 @@ const ProfessionPage = (props) => {
           };
           return user;
         });
-        setRowData(data);
-        // setTotalPages(response.data.totalPages);
+        setAllUsers(data);
       },
     }
   );
- 
+
+  const socialWorker = allUsers && allUsers?.filter(
+    (e) => e.userType === "Social Worker"
+  )
+  
+  const lawyer = allUsers && allUsers?.filter(
+    (e) => e.userType === "Lawyer"
+  )
+  const psychologist = allUsers && allUsers?.filter(
+    (e) => e.userType === "Psychologist"
+  )
 
   let headerData = [
     {
@@ -159,7 +224,7 @@ const ProfessionPage = (props) => {
     // },
     {
       title: "SOCIAL WORKERS",
-      value: "0",
+      value: socialWorker?.length==="0"?"0":socialWorker?.length,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -168,7 +233,7 @@ const ProfessionPage = (props) => {
     },
     {
       title: "PSYCHOLOGISTS",
-      value: "0",
+      value: psychologist?.length==="0"?"0":psychologist?.length,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -177,7 +242,7 @@ const ProfessionPage = (props) => {
     },
     {
       title: "LAWYERS",
-      value: "0" ,
+      value: lawyer?.length==="0"?"0":lawyer?.length,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
@@ -186,8 +251,8 @@ const ProfessionPage = (props) => {
     },
   ];
 
-   //API call for changing user status
-   const handleChangeStatus = useMutation(
+  //API call for changing user status
+  const handleChangeStatus = useMutation(
     (values) => {
       return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
         headers: {
@@ -197,23 +262,23 @@ const ProfessionPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        if(response.data.status){
+        if (response.data.status) {
           navigate(routeNames.ngoAdmin.professionPageDashboard);
           showNotification({
             title: "Status Updated",
-            message: deleteID ? "User deleted successfully!" : "Status updated successfully!",
+            message: deleteID
+              ? "User deleted successfully!"
+              : "Status updated successfully!",
             color: "green.0",
           });
           queryClient.invalidateQueries("fetchProfessionUser");
-        }
-        else{
+        } else {
           showNotification({
             title: "Error",
-            message: deleteID ?"User not deleted!" : "Status not updated!",
+            message: deleteID ? "User not deleted!" : "Status not updated!",
             color: "red.0",
           });
         }
-        
       },
     }
   );
@@ -245,38 +310,45 @@ const ProfessionPage = (props) => {
       </Flex>
       <Grid>
         {a.map((item, index) => (
-          <Grid.Col md={"auto"} >
-            <Card w={"240"} data={item} setUrl={setUrl} url={url} setPage={setPage}/>
+          <Grid.Col md={"auto"}>
+            <Card
+              w={"240"}
+              data={item}
+              setUrl={setUrl}
+              url={url}
+              setPage={setPage}
+            />
           </Grid.Col>
         ))}
       </Grid>
       {loading ? (
-        <Loader minHeight="40vh" />
-      ) :(
-      <Container mt="md"  size={1035} className={classes.main}>
-      <Table
-        headCells={headerData}
-        rowData={rowData}
-        setViewModalState={setOpenViewModal}
-        setEditModalState={setOpenEditModal}
-        setDeleteModalState={setOpenDeleteModal}
-        onStatusChange={handleChangeStatus.mutate}
-        setStatusChangeId={setStatusChangeId}
-        setDeleteData={setDeleteID}
-        setViewModalData={setViewModalData}
-        setReportData={setReportData}
-
-      />
-      {totalPages > 1 && (
-        <Pagination
-          activePage={activePage}
-          setPage={setPage}
-          total={totalPages}
-          radius="xl"
-        />
+        <Loader />
+      ) : (
+        <Container mt="md" size={1035} className={classes.main}>
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+           
+            setDeleteModalState={setOpenDeleteModal}
+            onStatusChange={handleChangeStatus.mutate}
+            setStatusChangeId={setStatusChangeId}
+            setDeleteData={setDeleteID}
+            setViewModalData={setViewModalData}
+            setReportData={setReportData}
+            setEditProfessional={true}
+          />
+          {totalPages > 1 && (
+            <Pagination
+              activePage={activePage}
+              setPage={setPage}
+              total={totalPages}
+              radius="xl"
+            />
+          )}
+        </Container>
       )}
-    </Container>)}
-      
+
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
@@ -288,17 +360,11 @@ const ProfessionPage = (props) => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Detail"
+        title="Professional Detail"
       >
-        <ViewUserModal id={viewModalData} reportData={reportData}/>
+        <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit User Details"
-      >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
-      </EditModal>
+    
     </Container>
   );
 };

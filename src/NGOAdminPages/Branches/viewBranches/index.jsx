@@ -19,9 +19,9 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
-import EditUserModal from "./EditUserModal";
+
 import { useStyles } from "./styles";
-import ViewUserModal from "./ViewUserModal";
+import ViewBranchModal from "./ViewBranchModal";
 
 export const ViewBranches = () => {
   const { classes } = useStyles();
@@ -40,7 +40,7 @@ export const ViewBranches = () => {
   const [totalPages, setTotalPages] = useState(1);
   const { user } = useContext(UserContext);
 
-  const [reportData, setReportData] = useState([]);
+  const [BranchData, setBranchData] = useState([]);
 
   let headerData = [
     {
@@ -56,10 +56,10 @@ export const ViewBranches = () => {
       label: "Branch Name",
     },
     {
-      id: "location",
+      id: "branchEmail",
       numeric: false,
       disablePadding: true,
-      label: "Address",
+      label: "Email",
     },
     {
       id: "branchPointOfContact",
@@ -252,7 +252,7 @@ export const ViewBranches = () => {
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
-            setReportData={setReportData}
+            setReportData={setBranchData}
             setEditBranch={true}
           />
         )}
@@ -278,21 +278,10 @@ export const ViewBranches = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="Branch Details"
-        size="600px"
       >
-        <ViewUserModal id={viewModalData} reportData={reportData} />
+        <ViewBranchModal id={viewModalData} reportData={BranchData} />
       </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit Branch Details"
-      >
-        <EditUserModal
-          id={viewModalData}
-          setOpenEditModal={setOpenEditModal}
-          reportData={reportData}
-        />
-      </EditModal>
+     
     </Container>
   );
 };

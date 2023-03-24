@@ -19,9 +19,9 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
-import EditUserModal from "./EditUserModal";
+
 import { useStyles } from "./styles";
-import ViewUserModal from "./ViewUserModal";
+import ViewProfessionalModal from "./ViewProfessionalModal";
 import userlogo from "../../../assets/teacher.png";
 
 export const ViewProfessionals = () => {
@@ -257,11 +257,10 @@ export const ViewProfessionals = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Details"
-        size="600px"
+        title="Professional Details"
       >
         {/* <ViewUser id={viewModalData}/> */}
-        <ViewUserModal id={viewModalData} reportData={reportData} />
+        <ViewProfessionalModal id={viewModalData} reportData={reportData} />
       </ViewModal>
     </Container>
   );

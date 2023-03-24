@@ -48,7 +48,7 @@ export const AddBranch = () => {
 
     validate: {
       branchName: (value) =>
-        /^\w.{5,40}$/.test(value) ? null : "Please enter valid branch name.",
+        /^\w.{2,40}$/.test(value) ? null : "Please enter valid branch name.",
       branchLocation: (value) =>
         value?.length < 2 ? "Please enter last branch address" : null,
       branchDescription: (value) =>
@@ -61,7 +61,7 @@ export const AddBranch = () => {
       branchEmail: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
       branchPointOfContact: (value) =>
-        value?.length < 3 ? "Please enter Point of Contact" : null,
+      /^\w.{3,16}$/.test(value) ?  null :"Please enter Point of Contact" ,
     },
   });
 
@@ -300,7 +300,7 @@ export const AddBranch = () => {
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
-              onClick={() => navigate(routeNames.ngoAdmin.viewBranches)}
+              onClick={() => navigate(-1)}
             />
 
             <Button

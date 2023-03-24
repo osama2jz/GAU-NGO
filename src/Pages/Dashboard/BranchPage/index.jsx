@@ -2,7 +2,7 @@ import { Anchor, Container, Flex, Grid, Text,useMantineTheme } from "@mantine/co
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
@@ -14,8 +14,8 @@ import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import EditUserModal from "../../Users/AllUsers/EditUserModal";
-import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
+
+import ViewUserModal from "../../../NGOAdminPages/Branches/viewBranches/ViewBranchModal";
 import Card from "../Card";
 import { useStyles } from "./styles";
 
@@ -39,9 +39,11 @@ const BranchPage = (props) => {
   const [loading,setLoading]=useState(false)
   const [allUsers,setAllUsers]=useState()
   const [allData,setAllData]=useState()
+  const [BranchData, setBranchData] = useState([]);
 
   
   //API call for fetching all branches
+ 
   let headerData = [
     {
       id: "sr",
@@ -56,16 +58,22 @@ const BranchPage = (props) => {
       label: "Branch Name",
     },
     {
-      id: "location",
+      id: "branchEmail",
       numeric: false,
       disablePadding: true,
-      label: "Address",
+      label: "Email",
     },
     {
-      id: "description",
+      id: "branchPointOfContact",
       numeric: false,
       disablePadding: true,
-      label: "Branch Description",
+      label: "Point of Contact",
+    },
+    {
+      id: "contact",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Contact",
     },
     {
       id: "accStatus",
@@ -111,15 +119,32 @@ const BranchPage = (props) => {
             name: obj?.branchName,
             location: obj?.branchLocation,
             description: obj?.branchDescription,
-            accStatus: obj?.branchStatus
+            contact: obj?.branchContact || "N/A",
+            accStatus: obj?.branchStatus,
+            image: obj?.branchPicture ? obj?.branchPicture : ngoDefault,
+            branchPointOfContact: obj?.branchPointOfContact,
+            branchEmail: obj?.branchEmail,
+            branchContact: obj?.branchContact,
           };
           return branch;
         });
         setRowData(data);
+        setTotalPages(Math.ceil(data?.length / 10));
+
         // setTotalPages(response.data.totalPages);
       },
     }
   );
+
+  
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return rowData.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return rowData.slice(a, a + 10);
+    }
+  }, [activePage, rowData]);
 
   const active = allData && allData?.filter((e) => e.branchStatus === "active"
   )
@@ -184,10 +209,10 @@ const BranchPage = (props) => {
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" className={classes.main}>
+      ) :(<Container mt="md" size={1035} className={classes.main}>
       <Table
         headCells={headerData}
-        rowData={rowData}
+        rowData={paginated}
         setViewModalState={setOpenViewModal}
         setEditModalState={setOpenEditModal}
         setDeleteModalState={setOpenDeleteModal}
@@ -195,6 +220,9 @@ const BranchPage = (props) => {
         setStatusChangeId={setStatusChangeId}
         setDeleteData={setDeleteID}
         setViewModalData={setViewModalData}
+        setReportData={setBranchData}
+        setEditBranch={true}
+
       />
       {totalPages > 1 && (
         <Pagination
@@ -219,15 +247,9 @@ const BranchPage = (props) => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        <ViewUserModal id={viewModalData} />
+        <ViewUserModal id={viewModalData} reportData={BranchData}/>
       </ViewModal>
-      <EditModal
-        opened={openEditModal}
-        setOpened={setOpenEditModal}
-        title="Edit User Details"
-      >
-        <EditUserModal id={viewModalData} setOpenEditModal={setOpenEditModal} />
-      </EditModal>
+      
     </Container>
   );
 };
