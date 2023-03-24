@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
+import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
 
 const Table = ({
@@ -35,6 +36,7 @@ const Table = ({
   setEditDoc,
   setEditId,
   setEditIDApp,
+  setEditProject,
   setEditBranch,
   setEditProfessional,
 }) => {
@@ -198,6 +200,14 @@ const Table = ({
                               }
                               if (setEditBranch) {
                                 navigate(`/edit-branch`, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                                return;
+                              }
+                              if (setEditProject) {
+                                navigate(routeNames.ngoAdmin.addProject, {
                                   state: {
                                     editData: row,
                                   },

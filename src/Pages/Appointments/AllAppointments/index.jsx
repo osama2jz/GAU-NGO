@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Badge,
-  Container,
-  Flex,
-  Grid,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
+import { Container, Grid } from "@mantine/core";
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { Edit, Eye } from "tabler-icons-react";
@@ -14,7 +6,6 @@ import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
-import ViewModal from "../../../Components/ViewModal/viewUser";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 
@@ -33,7 +24,6 @@ function AllAppointments() {
   const { user } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [reportData, setReportData] = useState([]);
   const [editid, setEditId] = useState();
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -55,8 +45,12 @@ function AllAppointments() {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
-          if (obj?.appointmentStatus !== "scheduled") {
+        let data = response.data.data
+          .filter((obj) =>
+            user.role === "User" ? obj : obj?.appointmentStatus !== "scheduled"
+          )
+          .map((obj, ind) => {
+            // if (obj?.appointmentStatus !== "scheduled") {
             let appointment = {
               id: obj.appointmentId,
               userid: obj?.appointmentUserId,
@@ -86,8 +80,8 @@ function AllAppointments() {
                 : defaultUser,
             };
             return appointment;
-          }
-        });
+            // }
+          });
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
       },
@@ -152,24 +146,6 @@ function AllAppointments() {
     },
   ];
 
-  // const newData = useMemo(() => {
-  //   let arr = headerData;
-  //   if (
-  //     user.role === "Social Worker" ||
-  //     user.role === "Psychologist" ||
-  //     user.role === "Lawyer"
-  //   ) {
-  //     headerData.splice(8, 0, {
-  //       id: "start",
-  //       numeric: false,
-  //       disablePadding: true,
-  //       label: "Start",
-  //     });
-  //     arr = headerData;
-  //   }
-  //   return arr;
-  // }, [user]);
-
   const filteredItems = rowData.filter(
     (item) =>
       (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -200,8 +176,8 @@ function AllAppointments() {
               placeholder="Search"
               leftIcon="search"
               pb="0"
+              value={search}
               onChange={(v) => setSearch(v.target.value)}
-              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
           <Grid.Col sm={6} lg={3} md={3}>
@@ -252,51 +228,6 @@ function AllAppointments() {
           />
         )}
       </Container>
-
-      <ViewModal
-        opened={openViewModal}
-        setOpened={setOpenViewModal}
-        title="Appointment #2345"
-        size="560px"
-      >
-        <Flex direction={"column"} align="center" justify={"space-between"}>
-          <Avatar
-            radius="xl"
-            size={150}
-            src={defaultUser}
-            className={classes.avatar}
-          />
-
-          <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
-          </Text>
-          <Container w={"100%"} ml="md">
-            <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Appointee</Text>
-              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Case Name</Text>
-              <Text className={classes.textContent}>
-                {reportData?.caseName}
-              </Text>
-              <Text className={classes.textheading}>Appointment Date</Text>
-              <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Appointment Time</Text>
-              <Text className={classes.textContent}>{reportData?.time}</Text>
-              <Text className={classes.textheading}>Status</Text>
-              <Text className={classes.textContent}>
-                <Badge
-                  variant="outline"
-                  color={
-                    reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
-                  }
-                >
-                  {reportData?.status}
-                </Badge>
-              </Text>
-            </SimpleGrid>
-          </Container>
-        </Flex>
-      </ViewModal>
     </Container>
   );
 }

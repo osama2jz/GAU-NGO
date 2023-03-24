@@ -11,7 +11,7 @@ import {
   FileText,
   Clock,
   CurrencyDollar,
-  FileBarcode
+  FileBarcode,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 import userlogo from "../../assets/dollar.svg";
@@ -32,8 +32,21 @@ export const ngoAdminSideBarData = [
       },
       {
         label: "View Branches",
-        icon: Users,
         link: routeNames.ngoAdmin.viewBranches,
+      },
+    ],
+  },
+  {
+    label: "Projects",
+    icon: Building,
+    links: [
+      {
+        label: "Add Project",
+        link: routeNames.ngoAdmin.addProject,
+      },
+      {
+        label: "View Projects",
+        link: routeNames.ngoAdmin.viewProject,
       },
     ],
   },
@@ -47,7 +60,6 @@ export const ngoAdminSideBarData = [
       },
       {
         label: "View Professionals",
-        icon: UserPlus,
         link: routeNames.ngoAdmin.viewProfessionals,
       },
     ],
@@ -62,7 +74,6 @@ export const ngoAdminSideBarData = [
       },
       {
         label: "View Roasters",
-        icon: UserPlus,
         link: routeNames.ngoAdmin.viewRoasters,
       },
     ],
@@ -73,7 +84,6 @@ export const ngoAdminSideBarData = [
     links: [
       {
         label: "Add User",
-        icon: UserPlus,
         link: routeNames.ngoAdmin.addUser,
       },
       { label: "View Users", link: routeNames.ngoAdmin.allUsers },
@@ -119,7 +129,6 @@ export const ngoAdminSideBarData = [
     label: "Donations",
     icon: CurrencyDollar,
     links: [
-      // { label: "Add Donations", link: routeNames.ngoAdmin.addDonation },
       { label: "View Donations", link: routeNames.ngoAdmin.viewDonations },
     ],
   },

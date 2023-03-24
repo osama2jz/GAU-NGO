@@ -33,6 +33,7 @@ const InputField = ({
   disabled,
   onKeyDown,
   mask,
+  maxLength,
   component,
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
@@ -43,6 +44,7 @@ const InputField = ({
       pb={pb}
       type={type}
       size={size}
+      maxLength={maxLength}
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}

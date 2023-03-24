@@ -1,19 +1,34 @@
 import { NotificationsProvider } from "@mantine/notifications";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import GeneralLayout from "./Layout/General";
+import { AddBranch } from "./NGOAdminPages/Branches/AddBranch";
+import { ViewBranches } from "./NGOAdminPages/Branches/viewBranches";
+import { ViewComplains } from "./NGOAdminPages/Complains";
+import { AddComplains } from "./NGOAdminPages/Complains/addComplaints";
+import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
+import { ViewDocuments } from "./NGOAdminPages/Documents/ViewDocuments";
+import { AddDonations } from "./NGOAdminPages/Donations/AddDonations";
+import { ViewDonations } from "./NGOAdminPages/Donations/ViewDonations";
+import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
+import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionals";
+import AddProject from "./NGOAdminPages/Projects/AddProject";
+import { ViewProjects } from "./NGOAdminPages/Projects/ViewProjects";
+import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
+import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
+import AddApp2 from "./Pages/Appointments/AddApp2";
 import AddAppointment from "./Pages/Appointments/AddAppointment";
-import CreateAppointment from "./Pages/Appointments/CreateAppointment";
 import AllAppointments from "./Pages/Appointments/AllAppointments";
+import CreateAppointment from "./Pages/Appointments/CreateAppointment";
+import EditAppointments from "./Pages/Appointments/EditAppointment";
 import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
+import ViewAppointments from "./Pages/Appointments/ViewAppointment";
 import Dashboard from "./Pages/Dashboard";
 import AppointmentPageDashboard from "./Pages/Dashboard/AppointmentPage/index";
+import BranchDashboard from "./Pages/Dashboard/BranchPage";
+import ProfessionDashboard from "./Pages/Dashboard/ProfessionsPage";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import UserPageDashboard from "./Pages/Dashboard/UserPage";
-import ProfessionDashboard from "./Pages/Dashboard/ProfessionsPage";
-import BranchDashboard from "./Pages/Dashboard/BranchPage";
 import Login from "./Pages/Login";
 import MySchedule from "./Pages/MySchedule/Schedule";
 import PrivateReport from "./Pages/Reports/Private";
@@ -27,22 +42,6 @@ import VerificationScheduled from "./Pages/Users/VerificationScheduled";
 import { ScheduleUser } from "./Pages/UserVerification/Schedule";
 import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import routeNames from "./Routes/routeNames";
-import { AddBranch } from "./NGOAdminPages/Branches/AddBranch";
-import { ViewBranches } from "./NGOAdminPages/Branches/viewBranches";
-import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
-import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionals";
-import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
-import { AddDocument } from "./NGOAdminPages/Documents/AddDocument";
-import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
-import AddApp2 from "./Pages/Appointments/AddApp2";
-import { ViewDocuments } from "./NGOAdminPages/Documents/ViewDocuments";
-import { ViewDonations } from "./NGOAdminPages/Donations/ViewDonations";
-import { ViewComplains } from "./NGOAdminPages/Complains";
-import { AddComplains } from "./NGOAdminPages/Complains/addComplaints";
-import EditAppointments from "./Pages/Appointments/EditAppointment";
-import ViewAppointment from "./Pages/Appointments/AllAppointments/ViewAppointment";
-import ViewAppointments from "./Pages/Appointments/ViewAppointment";
-import { AddDonations } from "./NGOAdminPages/Donations/AddDonations";
 
 function App() {
   return (
@@ -57,6 +56,14 @@ function App() {
           <Route
             path={routeNames.socialWorker.dashboard}
             element={<Dashboard />}
+          />
+          <Route
+            path={routeNames.ngoAdmin.addProject}
+            element={<AddProject />}
+          />
+          <Route
+            path={routeNames.ngoAdmin.viewProject}
+            element={<ViewProjects />}
           />
           <Route path={routeNames.socialWorker.addUser} element={<AddUser />} />
           <Route
@@ -156,7 +163,10 @@ function App() {
             element={<CreateAppointment />}
           />
           <Route path={routeNames.ngoAdmin.addBranch} element={<AddBranch />} />
-          <Route path={routeNames.ngoAdmin.editBranch} element={<AddBranch />} />
+          <Route
+            path={routeNames.ngoAdmin.editBranch}
+            element={<AddBranch />}
+          />
 
           <Route
             path={routeNames.ngoAdmin.viewBranches}
@@ -166,7 +176,7 @@ function App() {
             path={routeNames.ngoAdmin.addProfessional}
             element={<AddProfessional />}
           />
-           <Route
+          <Route
             path={routeNames.ngoAdmin.editProfessional}
             element={<AddProfessional />}
           />
@@ -194,9 +204,9 @@ function App() {
             path={routeNames.ngoAdmin.viewDonations}
             element={<ViewDonations />}
           />
-           <Route
+          <Route
             path={routeNames.user.addDonation}
-            element={<AddDonations/>}
+            element={<AddDonations />}
           />
           <Route
             path={routeNames.ngoAdmin.complaints}
@@ -206,7 +216,7 @@ function App() {
             path={routeNames.user.addComplaint}
             element={<AddComplains />}
           />
-           <Route
+          <Route
             path={routeNames.socialWorker.editAppoinment}
             element={<EditAppointments />}
           />

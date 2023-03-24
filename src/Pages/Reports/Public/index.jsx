@@ -1,33 +1,26 @@
 import {
-  Container,
+  Anchor, Container,
   Flex,
-  Grid,
-  Image,
-  Menu,
-  SimpleGrid,
-  Text,
-  Avatar,
-  Anchor,
+  Grid, SimpleGrid,
+  Text
 } from "@mantine/core";
+import axios from "axios";
+import moment from "moment";
 import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { Edit, Eye, Trash } from "tabler-icons-react";
-import download from "../../../assets/download.svg";
+import { Eye } from "tabler-icons-react";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
+import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useStyles } from "./styles";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import { UserContext } from "../../../contexts/UserContext";
 import { backendUrl } from "../../../constants/constants";
-import { useQuery } from "react-query";
-import moment from "moment";
-import axios from "axios";
+import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
-import Loader from "../../../Components/Loader";
-import Pagination from "../../../Components/Pagination";
+import { useStyles } from "./styles";
 
 function PublicReport() {
   const { classes } = useStyles();

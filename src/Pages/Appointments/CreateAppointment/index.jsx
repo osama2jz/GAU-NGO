@@ -32,6 +32,7 @@ const AddAppointment = () => {
   const [newCase, setNewCase] = useState("");
   const [referedTo, setReferedTo] = useState("");
   const [slot, setSlot] = useState("");
+  const [projectId, setProjectId] = useState("");
 
 
 
@@ -65,6 +66,7 @@ const AddAppointment = () => {
           previousAppointmentLinkedId: selectedCase,
           appointmentWith: referedTo,
           scheduleId: slot,
+          projectId:"2",
         };
       } else {
         object = {
@@ -73,6 +75,7 @@ const AddAppointment = () => {
           appointmentWith: referedTo,
           scheduleId: slot,
           caseName: newCase,
+          projectId:"2",
         };
       }}
       else{
@@ -144,6 +147,8 @@ const AddAppointment = () => {
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}
+              setProjectId={setProjectId}
+              projectId={projectId}
             />
           </Stepper.Step>
 

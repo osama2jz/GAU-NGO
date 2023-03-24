@@ -37,8 +37,8 @@ const AddAppointment = () => {
   // const { id, appId } = useParams();
   const { user } = useContext(UserContext);
 
-  const {state}=useLocation();
-  const {id,appId}=state ?? ""
+  const { state } = useLocation();
+  const { id, appId } = state ?? "";
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -72,13 +72,7 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
-  const [otherDocument, setOtherDocument] = useState([
-    {
-      documentName: "",
-      documentURL: "",
-      createdBy: user.id,
-    },
-  ]);
+  const [otherDocument, setOtherDocument] = useState([]);
 
   //create case
   const handleCreateCase = useMutation(
@@ -235,7 +229,6 @@ const AddAppointment = () => {
                 className={classes.stepIcon}
                 width="72px"
                 alt="icon"
-                
               />
             }
             label="1. Select User"

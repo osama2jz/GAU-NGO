@@ -85,6 +85,8 @@ const routeNames = {
     addProfessional: "/add-professional",
     editProfessional: "/edit-professional",
     viewProfessionals: "/view-professionals",
+    addProject: "/add-project",
+    viewProject: "/view-project",
     addRoaster: "/add-roaster",
     viewRoasters: "/view-roasters",
     addUser: "/add-user",

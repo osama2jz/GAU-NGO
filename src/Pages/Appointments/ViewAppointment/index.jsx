@@ -105,12 +105,6 @@ function ViewAppointments() {
       disablePadding: true,
       label: "Added By",
     },
-    // {
-    //   id: "role",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Role",
-    // },
     {
       id: "date",
       numeric: false,
@@ -145,19 +139,6 @@ function ViewAppointments() {
       disablePadding: true,
       label: "Case #",
     },
-
-    // {
-    //   id: "addedBy",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Added By",
-    // },
-    // {
-    //   id: "role",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Role",
-    // },
     {
       id: "docName",
       numeric: false,

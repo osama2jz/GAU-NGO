@@ -47,6 +47,7 @@ export const UserInfo = ({ userData, loading }) => {
         display: "flex",
         flexDirection: matches ? "row" : "column",
         alignItems: "center",
+        height:'250px',
         border: `0.5px solid rgb(0,0,0,0.1)`,
       }}
     >
