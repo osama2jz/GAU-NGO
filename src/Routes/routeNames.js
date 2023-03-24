@@ -125,6 +125,8 @@ const routeNames = {
     addComplaint: "/add-complaint",
     viewComplaint: "/view-complaints",
     settings: "/settings",
+    editAppoinment: "/edit-appointment",
+    viewAppoinment: "/view-appointment",
   },
 };
 

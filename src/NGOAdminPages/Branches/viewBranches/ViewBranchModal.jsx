@@ -23,7 +23,7 @@ function ViewUserModal({ id, reportData }) {
           className={classes.avatar}
         />
 
-        <Text size={24} weight="bold" mb="sm" align="center">
+        <Text size={24} weight="bold" mb="sm" align="center" mt={"md"}>
           {reportData?.name}
         </Text>
         <Container w={!matches ? "100%" : "85%"} p={"0px"}>
@@ -47,7 +47,7 @@ function ViewUserModal({ id, reportData }) {
               variant="outline"
               color={reportData?.accStatus === "inactive" ? "red.0" : "green.0"}
               w={"100px"}
-              ml="20px"
+              // ml="20px"
             >
               {reportData?.accStatus}
             </Badge>

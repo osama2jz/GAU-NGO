@@ -300,7 +300,7 @@ export const AddBranch = () => {
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
-              onClick={() => navigate(routeNames.ngoAdmin.viewBranches)}
+              onClick={() => navigate(-1)}
             />
 
             <Button

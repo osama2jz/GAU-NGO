@@ -113,15 +113,12 @@ export const AddProfessional = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      console.log("values", values);
       // console.log("imageData", imageData);
       if (imageData === "" || fileData === "") {
         if (imageData === "") {
-          console.log("hello");
           setUploadError("Please upload the Profile Photo");
         }
         if (fileData === "" && values?.userType !== "user") {
-          console.log("hello");
           setFileError("Please upload the file");
         }
       } else {
@@ -464,7 +461,7 @@ export const AddProfessional = () => {
             <>
               <Button
                 label="Cancel"
-                onClick={() => navigate(routeNames.ngoAdmin.viewProfessionals)}
+                onClick={() => navigate(-1)}
               />
 
               <Button
