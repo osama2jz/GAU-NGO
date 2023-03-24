@@ -61,7 +61,7 @@ export const AddBranch = () => {
       branchEmail: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
       branchPointOfContact: (value) =>
-        value?.length < 3 ? "Please enter Point of Contact" : null,
+      /^\w.{3,16}$/.test(value) ?  null :"Please enter Point of Contact" ,
     },
   });
 

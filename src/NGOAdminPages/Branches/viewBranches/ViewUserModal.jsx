@@ -5,6 +5,7 @@ import {
   Container,
   Text,
   Badge,
+  Flex,
 } from "@mantine/core";
 import { useStyles } from "./styles";
 import axios from "axios";
@@ -13,29 +14,45 @@ import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/ngob.png";
 import { useQuery } from "react-query";
+import { useMediaQuery } from "@mantine/hooks";
 
 function ViewUserModal({ id, reportData }) {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [userdata, setUserData] = useState();
+  const matches = useMediaQuery("(min-width: 640px)");
+
+  console.log("repotdata", reportData);
 
   return (
     <>
-      <Grid align="center" justify={"space-between"}>
-        <Grid.Col md={4}>
+      <Flex direction={"column"} align="center" >
+       
           <Avatar
             radius="sm"
-            size={130}
-            src={userlogo}
+            size={150}
+            src={reportData?.image}
             className={classes.avatar}
           />
-        </Grid.Col>
-        <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+       
+        
           <Text size={24} weight="bold" mb="sm" align="center">
             {reportData?.name}
           </Text>
-          <Container w={"100%"} ml="md">
-            <SimpleGrid cols={2}>
+          <Container w={!matches ? "100%" : "85%"} p={"0px"}>
+            <SimpleGrid cols={2}  spacing="xs" w={"100%"}>
+            <Text className={classes.textheading}>Branch Email </Text>
+              <Text className={classes.textContent}>
+                {reportData?.branchEmail}
+              </Text>
+              <Text className={classes.textheading}>Point of Contact </Text>
+              <Text className={classes.textContent}>
+                {reportData?.branchPointOfContact}
+              </Text>
+              <Text className={classes.textheading}>Contact Number </Text>
+              <Text className={classes.textContent}>
+                {reportData?.branchContact}
+              </Text>
               <Text className={classes.textheading}>Branch Address </Text>
               <Text className={classes.textContent}>
                 {reportData?.location}
@@ -46,14 +63,16 @@ function ViewUserModal({ id, reportData }) {
                 color={
                   reportData?.accStatus === "inactive" ? "red.0" : "green.0"
                 }
+                w={"100px"}
+                ml="20px"
               >
                 {reportData?.accStatus}
               </Badge>
               
             </SimpleGrid>
           </Container>
-        </Grid.Col>
-      </Grid>
+       
+      </Flex>
       <Container w={"100%"} mt={"md"}>
       <Text className={classes.textheading}>Branch Description</Text>
       <Text>{reportData?.description ? reportData?.description :"No Description"}</Text>
