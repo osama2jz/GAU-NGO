@@ -56,16 +56,22 @@ export const ViewBranches = () => {
       label: "Branch Name",
     },
     {
-      id: "location",
+      id: "branchEmail",
       numeric: false,
       disablePadding: true,
-      label: "Address",
+      label: "Email",
     },
     {
-      id: "description",
+      id: "branchPointOfContact",
       numeric: false,
       disablePadding: true,
-      label: "Branch Description",
+      label: "Point of Contact",
+    },
+    {
+      id: "contact",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Contact",
     },
     {
       id: "accStatus",
@@ -108,6 +114,7 @@ export const ViewBranches = () => {
             name: obj?.branchName,
             location: obj?.branchLocation,
             description: obj?.branchDescription,
+            contact: obj?.branchContact || "N/A",
             accStatus: obj?.branchStatus,
             image: obj?.branchPicture ? obj?.branchPicture : ngoDefault,
             branchPointOfContact: obj?.branchPointOfContact,
@@ -162,15 +169,19 @@ export const ViewBranches = () => {
     });
   };
 
-  const filteredItem = rowData.filter((item) => {
-    if (filter === "") {
-      return item.name.toLowerCase().includes(search.toLowerCase());
-    } else
-      return (
-        item.name.toLowerCase().includes(search.toLowerCase()) &&
-        item.accStatus === filter
-      );
-  });
+  const filteredItem = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      if (filter === "") {
+        return item.name.toLowerCase().includes(search.toLowerCase());
+      } else
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) &&
+          item.accStatus === filter
+        );
+    });
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    return filtered;
+  }, [rowData, search, filter]);
 
   const Paginated = useMemo(() => {
     if (activePage === 1) {
@@ -192,7 +203,7 @@ export const ViewBranches = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
+              value={search}
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>

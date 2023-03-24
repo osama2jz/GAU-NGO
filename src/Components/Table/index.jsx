@@ -1,26 +1,25 @@
 import {
   ActionIcon,
+  Anchor,
   Avatar,
   Badge,
+  Container,
   Flex,
   Group,
   Paper,
   ScrollArea,
-  Container,
   Switch,
   Table as TableMantine,
   Text,
   useMantineTheme,
-  Anchor,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "tabler-icons-react";
 import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
-import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
 
 const Table = ({
@@ -28,16 +27,12 @@ const Table = ({
   rowData,
   setViewModalData,
   setViewModalState,
-  setOpened,
-  setStatusChangeId,
-  setEditData,
   setDeleteModalState,
   setEditModalState,
   setDeleteData,
   onStatusChange,
   setReportData,
   setEditDoc,
-  editDoc,
   setEditId,
   setEditIDApp,
   setEditBranch,
@@ -143,10 +138,10 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (row.accStatus === "active") {
-                                navigate(`/userVerification`,{
+                                navigate(`/userVerification`, {
                                   state: {
-                                    id:row.id
-                                  }
+                                    id: row.id,
+                                  },
                                 });
                               } else {
                                 showNotification({
@@ -186,14 +181,12 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (setEditId) {
-                                navigate(`/user-Edit`,{
+                                navigate(`/userVerification`, {
                                   state: {
                                     editId: row.id,
-                                  }
+                                  },
                                 });
                                 return;
-                                // setEditId(row.id);
-                                // alert("edit id")
                               }
                               if (setEditIDApp) {
                                 navigate(`/edit-appointment`, {
@@ -222,24 +215,11 @@ const Table = ({
                               if (setReportData) {
                                 setReportData(row);
                               }
-                              // setEditData ?
                               if (setEditDoc) {
                                 setEditDoc(row);
                               }
-
-                              //  if(setEditModalState){
-                              //    setEditModalState(true);
-                              //  }
                               setEditModalState(true);
-                              // return
-
                               setEditModalState(true);
-                              // if(setViewModalData){
-                              //   return setViewModalData(row.id);
-                              // }
-
-                              navigate();
-                              // setOpened(true);
                             }}
                             disabled={
                               row.status === "SCHEDULED" ||
@@ -332,7 +312,7 @@ const Table = ({
                         color={"green.0"}
                         w="50%"
                         styles={{
-                          track: { backgroundColor: theme.colors.gray },
+                          track: { backgroundColor: theme.colors.red },
                         }}
                       />
                     </td>
@@ -344,10 +324,10 @@ const Table = ({
                         }
                         onClick={() => {
                           if (row.accStatus === "active") {
-                            navigate(`/userVerification`,{
-                              state:{
-                                id:row.id
-                              }
+                            navigate(`/userVerification`, {
+                              state: {
+                                id: row.id,
+                              },
                             });
                           } else {
                             showNotification({
@@ -372,15 +352,12 @@ const Table = ({
                             ? navigate(
                                 `/start-appointment-p/${row.userid}/${row.appointId}`
                               )
-                            : navigate(
-                                `/start-appointment`,{
-                                  state:{
-                                    id:row.userid,
-                                    appId:row.appointId
-      
-                                  }
-                                }
-                              );
+                            : navigate(`/start-appointment`, {
+                                state: {
+                                  id: row.userid,
+                                  appId: row.appointId,
+                                },
+                              });
                         }}
                         disabled={
                           row.status === "SCHEDULED" ||

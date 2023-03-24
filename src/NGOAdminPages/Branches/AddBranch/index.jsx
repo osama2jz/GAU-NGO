@@ -48,7 +48,7 @@ export const AddBranch = () => {
 
     validate: {
       branchName: (value) =>
-        /^\w.{5,40}$/.test(value) ? null : "Please enter valid branch name.",
+        /^\w.{2,40}$/.test(value) ? null : "Please enter valid branch name.",
       branchLocation: (value) =>
         value?.length < 2 ? "Please enter last branch address" : null,
       branchDescription: (value) =>
@@ -78,6 +78,9 @@ export const AddBranch = () => {
       );
       form.setFieldValue("branchEmail", editData?.branchEmail);
       form.setFieldValue("branchContact", editData?.branchContact);
+    }
+    else{
+      form.reset()
     }
   }, [isUpdate, editData]);
 

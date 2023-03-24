@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Avatar,
   Container,
   FileInput,
@@ -13,9 +12,10 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import InputMask from "react-input-mask";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { FileUpload, InfoCircle, Upload } from "tabler-icons-react";
+import { FileUpload, Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -26,11 +26,9 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import InputMask from "react-input-mask";
 
 export const AddProfessional = () => {
   const { classes } = useStyles();
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [files, setFiles] = useState([]);
@@ -40,36 +38,33 @@ export const AddProfessional = () => {
   const [filerror, setFileError] = useState("");
   const [imageData, setImageData] = useState("");
   const [fileData, setFileData] = useState("");
-  const {id}=useParams()
-  let {state}=useLocation()
-  const {editData}=state ?? ""
+  const { id } = useParams();
+  let { state } = useLocation();
+  const { editData } = state ?? "";
 
-  const isUpdate=editData ? true : false
+  const isUpdate = editData ? true : false;
 
-  useEffect(()=>{
-    if(editData){
-      // const a=editData?.name.substring(0, editData?.name.indexOf(' ')); 
-      const b=editData?.phone.substring(1); 
-      // console.log(a)
-      console.log(b)
-      form.setFieldValue("firstName",editData?.name.substring(0, editData?.name.indexOf(' ')) )
-      form.setFieldValue("lastName",editData?.name.substring(editData?.name.indexOf(' ')))
-      form.setFieldValue("email",editData?.email)
-      form.setFieldValue("phoneNumber",editData?.phone)
-      form.setFieldValue("userType",editData?.userType)
-      form.setFieldValue("IDDetails",editData?.idDetails)
-      form.setFieldValue("profileImage",editData?.image)
-
-      setImageData(editData?.image)
-      setFileData(editData?.idDetails)
-
-      console.log("file Data",fileData)
-      console.log(editData?.image.includes("https://") )
-
+  useEffect(() => {
+    if (editData) {
+      form.setFieldValue(
+        "firstName",
+        editData?.name.substring(0, editData?.name.indexOf(" "))
+      );
+      form.setFieldValue(
+        "lastName",
+        editData?.name.substring(editData?.name.indexOf(" "))
+      );
+      form.setFieldValue("email", editData?.email);
+      form.setFieldValue("phoneNumber", editData?.phone);
+      form.setFieldValue("userType", editData?.userType);
+      form.setFieldValue("IDDetails", editData?.idDetails);
+      form.setFieldValue("profileImage", editData?.image);
+      setImageData(editData?.image);
+      setFileData(editData?.idDetails);
+    } else {
+      form.reset();
     }
-
-  },[isUpdate,editData])
- 
+  }, [isUpdate, editData]);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -101,19 +96,18 @@ export const AddProfessional = () => {
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
 
       password: (value) =>
-      isUpdate || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
-        value
-      )
+        isUpdate ||
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+          value
+        )
           ? null
           : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
-          phoneNumber: (value) =>
+      phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
           : "Invalid Phone Number e.g +34 234 5673 890",
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
-      // profileImage: (value) =>
-      //   value.length < 1 ? "Please upload a profile image" : null,
     },
   });
 
@@ -121,9 +115,7 @@ export const AddProfessional = () => {
     (values) => {
       console.log("values", values);
       // console.log("imageData", imageData);
-      if (
-        imageData === "" || fileData === "" 
-      ) {
+      if (imageData === "" || fileData === "") {
         if (imageData === "") {
           console.log("hello");
           setUploadError("Please upload the Profile Photo");
@@ -163,8 +155,10 @@ export const AddProfessional = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? "Information Updated":"Professional Added",
-            message: isUpdate ? "Professional Information Updated Successfully! ":"Professional added Successfully!",
+            title: isUpdate ? "Information Updated" : "Professional Added",
+            message: isUpdate
+              ? "Professional Information Updated Successfully! "
+              : "Professional added Successfully!",
             color: "green.0",
           });
           form.values?.userType === "user"
@@ -307,7 +301,7 @@ export const AddProfessional = () => {
   });
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={id ? "Edit Professional":"Add Professional"} />
+      <ContainerHeader label={id ? "Edit Professional" : "Add Professional"} />
 
       <form
         className={classes.form}
@@ -323,12 +317,15 @@ export const AddProfessional = () => {
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={isUpdate ? editData?.image : "https://www.w3schools.com/howto/img_avatar.png"}
-              //   src={id
-              //     ? editData?.profileImage.includes("http") :"https://www.w3schools.com/howto/img_avatar.png"}
-              // />
-             
-            />
+                src={
+                  isUpdate
+                    ? editData?.image
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
+                //   src={id
+                //     ? editData?.profileImage.includes("http") :"https://www.w3schools.com/howto/img_avatar.png"}
+                // />
+              />
             )}
           </Container>
           <Input.Wrapper error={uploadError} size={"md"}>
@@ -362,9 +359,8 @@ export const AddProfessional = () => {
                   { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
                 ]}
-                
                 disabled={isUpdate ? true : false}
-                placeholder={isUpdate ? form.values.userType :"Select role"}
+                placeholder={isUpdate ? form.values.userType : "Select role"}
                 label="User Type"
                 form={form}
                 validateName="userType"
@@ -374,7 +370,11 @@ export const AddProfessional = () => {
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
                   label="Upload Document"
-                  placeholder={form.values?.IDDetails !==""? "Uploaded" :"Upload Document"}
+                  placeholder={
+                    form.values?.IDDetails !== ""
+                      ? "Uploaded"
+                      : "Upload Document"
+                  }
                   accept="file/pdf"
                   styles={(theme) => ({
                     root: {
@@ -424,7 +424,6 @@ export const AddProfessional = () => {
             </Grid.Col>
             <Grid.Col sm={6}>
               <InputField
-                
                 label="Phone Number"
                 required={true}
                 placeholder="+34 91 1234 567"
@@ -432,13 +431,11 @@ export const AddProfessional = () => {
                 mask="+34 99 9999 999"
                 form={form}
                 validateName="phoneNumber"
-
-               
               />
             </Grid.Col>
           </Grid>
           {!isUpdate && (
-              <Grid>
+            <Grid>
               <Grid.Col sm={6}>
                 <PassInput
                   label="Password"
@@ -458,8 +455,8 @@ export const AddProfessional = () => {
                 />
               </Grid.Col>
             </Grid>
-          ) }
-        
+          )}
+
           <Group position="right" mt="sm">
             {/* {fileUploading ? (
               <Loader minHeight="40px" />
@@ -472,7 +469,7 @@ export const AddProfessional = () => {
 
               <Button
                 label={isUpdate ? "Update" : "Add Professional"}
-                leftIcon={isUpdate ? "":"plus"}
+                leftIcon={isUpdate ? "" : "plus"}
                 primary={true}
                 type="submit"
                 loading={

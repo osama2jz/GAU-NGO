@@ -1,10 +1,14 @@
-import {
-  Anchor, FileInput, Grid, Tabs, Text
-} from "@mantine/core";
-import React, { useState } from "react";
-import { FileUpload } from "tabler-icons-react";
-import TextArea from "../../../../Components/TextArea";
-import { s3Config } from "../../../../constants/constants";
+import { Grid, Tabs, Text } from "@mantine/core";
+import { Link } from "@mantine/tiptap";
+import Highlight from "@tiptap/extension-highlight";
+import SubScript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import React from "react";
+import TextEditor from "../../../../Components/TextEditor";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 const DoubleTabs = ({
@@ -13,73 +17,97 @@ const DoubleTabs = ({
   reportFiles,
   privatereportFiles,
   setPrivateReportFiles,
-  privateReportCheck,
   setPrivateReportCheck,
   setFileLoader,
-
 }) => {
-  const [files, setFiles] = useState([]);
-  const [files2, setFiles2] = useState([]);
+  // const [files, setFiles] = useState([]);
+  // const [files2, setFiles2] = useState([]);
   const { classes } = useStyles();
 
-  const handleFileInput = (file, type) => {
-    const fileName = file.name;
-    const sanitizedFileName = fileName.replace(/\s+/g, "");
-    setPrivateReportCheck(true);
-    setFileLoader(true);
-    //s3 configs
-    const aws = new AWS.S3();
-    AWS.config.region = s3Config.region;
-    // console.log(aws);
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: s3Config.IdentityPoolId,
-    });
+  const editorr = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: "",
+  });
 
-    AWS.config.credentials.get(function (err) {
-      if (err) alert(err);
-      // console.log(AWS.config.credentials);
-    });
-    var bucket = new AWS.S3({
-      params: {
-        Bucket: s3Config.bucketName,
-      },
-    });
-    var objKey = sanitizedFileName;
-    var params = {
-      Key: objKey,
-      ContentType: file.type,
-      Body: file,
-      ACL: "public-read",
-    };
-    bucket.upload(params, function (err, data) {
-      if (err) {
-        results.innerHTML = "ERROR: " + err;
-      } else {
-        bucket.listObjects(function (err, data) {
-          if (err) {
-            showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
-              color: "red.0",
-            });
-          } else {
-            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            type === "public"
-            ? setReportFiles({
-              ...reportFiles,
-              reportFile: link,
-            })
-            : setPrivateReportFiles({
-              ...privatereportFiles,
-              reportFile: link,
-            });
-            setFileLoader(false);
-          }
-        });
-      }
-      setPrivateReportCheck(false);
-    });
-  };
+  const editorr2 = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: "",
+  });
+
+  // const handleFileInput = (file, type) => {
+  //   const fileName = file.name;
+  //   const sanitizedFileName = fileName.replace(/\s+/g, "");
+  //   setPrivateReportCheck(true);
+  //   setFileLoader(true);
+  //   //s3 configs
+  //   const aws = new AWS.S3();
+  //   AWS.config.region = s3Config.region;
+  //   // console.log(aws);
+  //   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+  //     IdentityPoolId: s3Config.IdentityPoolId,
+  //   });
+
+  //   AWS.config.credentials.get(function (err) {
+  //     if (err) alert(err);
+  //     // console.log(AWS.config.credentials);
+  //   });
+  //   var bucket = new AWS.S3({
+  //     params: {
+  //       Bucket: s3Config.bucketName,
+  //     },
+  //   });
+  //   var objKey = sanitizedFileName;
+  //   var params = {
+  //     Key: objKey,
+  //     ContentType: file.type,
+  //     Body: file,
+  //     ACL: "public-read",
+  //   };
+  //   bucket.upload(params, function (err, data) {
+  //     if (err) {
+  //       results.innerHTML = "ERROR: " + err;
+  //     } else {
+  //       bucket.listObjects(function (err, data) {
+  //         if (err) {
+  //           showNotification({
+  //             title: "Upload Failed",
+  //             message: "Something went Wrong",
+  //             color: "red.0",
+  //           });
+  //         } else {
+  //           let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+  //           type === "public"
+  //           ? setReportFiles({
+  //             ...reportFiles,
+  //             reportFile: link,
+  //           })
+  //           : setPrivateReportFiles({
+  //             ...privatereportFiles,
+  //             reportFile: link,
+  //           });
+  //           setFileLoader(false);
+  //         }
+  //       });
+  //     }
+  //     setPrivateReportCheck(false);
+  //   });
+  // };
   return (
     <>
       <Tabs
@@ -99,14 +127,15 @@ const DoubleTabs = ({
 
         <Tabs.Panel value="public" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Upload Public Report
+            Public Report
           </Text>
-          <Grid mt={30} justify="space-between">
-          <Grid.Col sm={12} md={6} xs={12}>
+          <Grid mt={30} justify="space-between" align={"center"}>
+            <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
             </Grid.Col>
             <Grid.Col md={6}>
-              <TextArea
+              <TextEditor editor={editorr} minHeight="200px" />
+              {/* <TextArea
                 rows={5}
                 label="Add Comments"
                 placeholder={"Enter Comments"}
@@ -143,21 +172,22 @@ const DoubleTabs = ({
                 })}
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "public")}
-              />
+              /> */}
             </Grid.Col>
           </Grid>
         </Tabs.Panel>
 
         <Tabs.Panel value="private" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Upload Private Report
+            Private Report
           </Text>
-          <Grid mt={30} justify="space-between">
+          <Grid mt={30} justify="space-between" align={"center"}>
             <Grid.Col sm={12} md={6} xs={12}>
-                <UserInfo userData={selectedUser} />
+              <UserInfo userData={selectedUser} />
             </Grid.Col>
             <Grid.Col md={6}>
-              <TextArea
+              <TextEditor editor={editorr2} minHeight="200px" />
+              {/* <TextArea
                 label="Add Comments"
                 placeholder={"Enter Comments"}
                 rows={5}
@@ -194,7 +224,7 @@ const DoubleTabs = ({
                 })}
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "private")}
-              />
+              /> */}
             </Grid.Col>
           </Grid>
         </Tabs.Panel>

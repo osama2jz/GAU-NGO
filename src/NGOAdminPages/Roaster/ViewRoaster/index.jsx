@@ -94,7 +94,7 @@ export const ViewRoasters = () => {
     {
       onSuccess: (response) => {
         let data = response.data?.data?.map((obj, ind) => {
-          let User = {
+          let objj = {
             id: obj.userId,
             sr: ind + 1,
             name: obj.fullName,
@@ -111,7 +111,7 @@ export const ViewRoasters = () => {
             status: obj?.schedule ? "Schduled" : "Not Scheduled",
             ngo: user?.name,
           };
-          return User;
+          return objj;
         });
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
@@ -153,11 +153,15 @@ export const ViewRoasters = () => {
   };
 
   // console.log("rowData", rowData);
-  const filteredItems = rowData.filter(
-    (item) =>
-      item?.name?.toLowerCase().includes(search.toLowerCase()) &&
-      item?.userType?.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter(
+      (item) =>
+        item?.name?.toLowerCase().includes(search.toLowerCase()) &&
+        item?.userType?.toLowerCase().includes(filter.toLowerCase())
+    );
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    return filtered;
+  }, [search, filter]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -202,7 +206,7 @@ export const ViewRoasters = () => {
               label={"Clear Filters"}
               onClick={() => {
                 setFilter("");
-                setSearch("")
+                setSearch("");
               }}
             />
           </Grid.Col>
