@@ -64,9 +64,15 @@ export const AddUser = () => {
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
-        )
-          ? null
-          : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
+        ) ? null : (
+          <ul>
+            <li>Password must contain 8 to 15 characters with</li>
+            <li>at least one captial alphabet.</li>
+            <li>at least one small alphabet.</li>
+            <li>at least one digit and one special character.</li>
+            <li>at least one special character.</li>
+          </ul>
+        ),
       phoneNumber: (value) =>
         value?.length < 8 || value?.length > 12
           ? "Please enter a valid phone number"
