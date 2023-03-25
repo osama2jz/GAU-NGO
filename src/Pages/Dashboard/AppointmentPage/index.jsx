@@ -288,7 +288,7 @@ const UserPage = (props) => {
     },
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
+      view: <Eye  />,
       numeric: false,
       label: "Actions",
     },
@@ -359,7 +359,7 @@ const UserPage = (props) => {
       {loading ? (
         <Loader minHeight="40vh" />
       ) : (
-        <Container mt="md" size={1035} className={classes.main}>
+        <Container mt="md" size={1095} className={classes.main}>
           <Table
             headCells={headerData}
             rowData={paginated}

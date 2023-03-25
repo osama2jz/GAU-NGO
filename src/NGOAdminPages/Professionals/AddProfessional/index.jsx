@@ -111,7 +111,7 @@ export const AddProfessional = () => {
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please Enter a valid phone number.",
+          : "Please enter valid phone number ",
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
     },
@@ -449,12 +449,17 @@ export const AddProfessional = () => {
               <Loader minHeight="40px" />
             ) : ( */}
             <>
-              <Button label="Cancel" onClick={() => navigate(-1)} />
+              <Button
+                label="Cancel"
+                onClick={() => navigate(-1)}
+              
+              />
 
               <Button
                 label={isUpdate ? "Update" : "Add Professional"}
                 leftIcon={isUpdate ? "" : "plus"}
                 primary={true}
+               
                 type="submit"
                 loading={
                   handleAddUser.isLoading || fileUploading || imageUploading

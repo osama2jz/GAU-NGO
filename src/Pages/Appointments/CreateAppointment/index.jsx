@@ -66,7 +66,7 @@ const AddAppointment = () => {
           previousAppointmentLinkedId: selectedCase,
           appointmentWith: referedTo,
           scheduleId: slot,
-          projectId:"2",
+          projectId:projectId,
         };
       } else {
         object = {
@@ -75,7 +75,7 @@ const AddAppointment = () => {
           appointmentWith: referedTo,
           scheduleId: slot,
           caseName: newCase,
-          projectId:"2",
+          projectId:projectId,
         };
       }}
       else{

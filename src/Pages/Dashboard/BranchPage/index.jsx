@@ -83,9 +83,9 @@ const BranchPage = (props) => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
+      view: <Eye  />,
+      edit: <Edit  />,
+      delete: <Trash  />,
       numeric: false,
       label: "Actions",
     },
@@ -167,7 +167,7 @@ const BranchPage = (props) => {
       title: "ACTIVE BRANCHES",
       value: active ? active.length : 0,
       progress: 78,
-      color: "#748FFC",
+      color: "green.0",
       progressTitle: "Response Rate",
       icon: "userD",
       // url: `/all`,
@@ -176,7 +176,7 @@ const BranchPage = (props) => {
       title: "INACTIVE BRANCHES",
       value: inactive ? inactive.length : 0,
       progress: 78,
-      color: "#A9E34B",
+      color: "red.0",
       progressTitle: "Response Rate",
       icon: "userD",
       // url: `/verified`,
@@ -209,7 +209,7 @@ const BranchPage = (props) => {
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" size={1035} className={classes.main}>
+      ) :(<Container mt="md" size={1095} className={classes.main}>
       <Table
         headCells={headerData}
         rowData={paginated}
