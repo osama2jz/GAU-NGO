@@ -37,10 +37,10 @@ export const UserProvider = ({ children }) => {
     "fetchUserSingle",
     () => {
       return axios.get(
-        `${backendUrl + `/api/user/listSingleUser/${userData.userId}`}`,
+        `${backendUrl + `/api/user/listSingleUser/${userData?.userId}`}`,
         {
           headers: {
-            "x-access-token": userData.token,
+            "x-access-token": userData?.token,
           },
         }
       );
@@ -59,6 +59,7 @@ export const UserProvider = ({ children }) => {
           profileImage: user?.profileImage,
         }));
       },
+      enabled: !!userData?.token
     }
   );
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

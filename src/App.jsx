@@ -29,7 +29,12 @@ import BranchDashboard from "./Pages/Dashboard/BranchPage";
 import ProfessionDashboard from "./Pages/Dashboard/ProfessionsPage";
 import ReportPageDashboard from "./Pages/Dashboard/ReportPage/index";
 import UserPageDashboard from "./Pages/Dashboard/UserPage";
-import Login from "./Pages/Login";
+import Auth from "./Pages/Login";
+import ForgetPassword from "./Pages/Login/ForgetPassword";
+import NewPassword from "./Pages/Login/ForgetPassword/NewPassword";
+import OTP from "./Pages/Login/ForgetPassword/OTP";
+import Login from "./Pages/Login/Login";
+import Signup from "./Pages/Login/Signup";
 import MySchedule from "./Pages/MySchedule/Schedule";
 import PrivateReport from "./Pages/Reports/Private";
 import PublicReport from "./Pages/Reports/Public";
@@ -51,7 +56,13 @@ function App() {
       style={{ marginTop: "60px" }}
     >
       <Routes>
-        <Route path={routeNames.general.login} element={<Login />} />
+        <Route path={routeNames.general.auth} element={<Auth />}>
+          <Route path={routeNames.general.login} element={<Login />} />
+          <Route path={routeNames.general.signup} element={<Signup />} />
+          <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
+          <Route path={routeNames.general.otp} element={<OTP />} />
+          <Route path={routeNames.general.resetPassword} element={<NewPassword />} />
+        </Route>
         <Route path="/" element={<GeneralLayout />}>
           <Route
             path={routeNames.socialWorker.dashboard}
