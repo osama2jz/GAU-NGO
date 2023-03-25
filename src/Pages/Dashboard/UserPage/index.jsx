@@ -302,7 +302,7 @@ const UserPage = (props) => {
       title: "VERIFIED",
       value: verifiedCount ? verifiedCount :<Loader minHeight="5vh" />,
       progress: 78,
-      color: "#A9E34B",
+      color: "green.0",
       progressTitle: "Response Rate",
       icon: "userD",
       url: `/verified`,
@@ -311,7 +311,7 @@ const UserPage = (props) => {
       title: "UNVERIFIED",
       value: unverifiedCount ? unverifiedCount: <Loader minHeight="5vh" />,
       progress: 78,
-      color: "#087F5B",
+      color: "red.0",
       progressTitle: "Response Rate",
       icon: "userD",
       url: `/unverified`,
@@ -343,7 +343,7 @@ const UserPage = (props) => {
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" size={1035} className={classes.main}>
+      ) :(<Container mt="md" size={1095} className={classes.main}>
       <Table
         headCells={headerData}
         rowData={rowData}
