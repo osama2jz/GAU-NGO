@@ -68,6 +68,7 @@ function ViewAppointments() {
           docName: obj?.documentName,
           file: obj?.documentURL ? obj?.documentURL : "",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
+         
         };
         return appointment;
       }

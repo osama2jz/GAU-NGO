@@ -76,6 +76,9 @@ function ScheduledAppointments() {
                 : "Lawyer",
 
             appointId: obj?.appointmentId,
+            image: obj?.appointmentUserImage
+            ? obj?.appointmentUserImage
+            : userlogo,
           };
           return appointment;
         });
@@ -210,34 +213,26 @@ function ScheduledAppointments() {
       <ContainerHeader label={"Appointment Scheduled"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
+              value={search}
               pb="0"
               onChange={(v)=>setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6}lg={3} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              data={[
-                { label: "verified", value: "verified" },
-                { label: "Pending", value: "pending" },
-              ]}
-            />
-          </Grid.Col>
+          
           <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                setFilter("");
                 setSearch("");
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
+          <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add Appointment"}
               bg={true}
@@ -273,7 +268,7 @@ function ScheduledAppointments() {
           <Avatar
             radius="xl"
             size={150}
-            src={userlogo}
+            src={reportData?.image}
             className={classes.avatar}
           />
 
