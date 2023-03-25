@@ -86,8 +86,7 @@ function PrivateReport() {
     },
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
-      // delete: <Trash color="red" />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
@@ -206,12 +205,13 @@ function PrivateReport() {
         {status == "loading" ? (
           <Loader />
         ) : (
-        <Table
-          headCells={headerData}
-          rowData={rowData}
-          setViewModalState={setOpenViewModal}
-          setReportData={setReportData}
-        />)}
+          <Table
+            headCells={headerData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+            setReportData={setReportData}
+          />
+        )}
         {totalPages > 1 && (
           <Pagination
             activePage={activePage}
@@ -245,17 +245,22 @@ function PrivateReport() {
               <Text className={classes.textheading}>Date</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
               <Text className={classes.textheading}>Report File</Text>
-              {reportData?.file ?  <Anchor href={reportData?.file} target="_blank">
-                {reportData?.type} Report
-              </Anchor> : <Text className={classes.textContent}>No Report</Text>}
-             
+              {reportData?.file ? (
+                <Anchor href={reportData?.file} target="_blank">
+                  {reportData?.type} Report
+                </Anchor>
+              ) : (
+                <Text className={classes.textContent}>No Report</Text>
+              )}
 
               {/* <Text className={classes.textheading}>Report Type</Text>
               <Text className={classes.textContent}>{reportData?.type}</Text> */}
             </SimpleGrid>
           </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">Report Comments</Text>
+        <Text className={classes.textheading} mt="md">
+          Report Comments
+        </Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

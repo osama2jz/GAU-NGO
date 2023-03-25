@@ -22,7 +22,6 @@ import ViewUserModal from "./ViewUserModal";
 import { useMutation } from "react-query";
 import { showNotification } from "@mantine/notifications";
 
-
 export const ViewDocuments = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -38,21 +37,19 @@ export const ViewDocuments = () => {
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
   const { user } = useContext(UserContext);
-  const [editDoc, setEditDoc] = useState()
+  const [editDoc, setEditDoc] = useState();
 
   const [reportData, setReportData] = useState([]);
 
-
   useEffect(() => {
-    if(editDoc){
+    if (editDoc) {
       navigate(routeNames.ngoAdmin.addDocument, {
         state: {
           editdata: editDoc,
         },
       });
     }
-
-  },[editDoc])
+  }, [editDoc]);
 
   let headerData = [
     {
@@ -75,9 +72,9 @@ export const ViewDocuments = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -113,11 +110,15 @@ export const ViewDocuments = () => {
   //API call for deleting a document
   const handleDeleteDocument = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/lookup/updateDocument"}`, values, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.post(
+        `${backendUrl + "/api/lookup/updateDocument"}`,
+        values,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -125,14 +126,16 @@ export const ViewDocuments = () => {
         if (response.data.status) {
           showNotification({
             title: "Document Created",
-            message: deleteID ?"Document Deleted Successfully":"Document Updated Successfully!",
+            message: deleteID
+              ? "Document Deleted Successfully"
+              : "Document Updated Successfully!",
             color: "green.0",
           });
           // navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
             title: "Failed",
-            message: deleteID ? "Failed to Delete": "Failed to Update",
+            message: deleteID ? "Failed to Delete" : "Failed to Update",
             color: "red.0",
           });
         }
@@ -221,7 +224,6 @@ export const ViewDocuments = () => {
       >
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-
     </Container>
   );
 };

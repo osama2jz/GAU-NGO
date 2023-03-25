@@ -139,8 +139,8 @@ function AllAppointments() {
 
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
+      view: <Eye />,
+      edit: <Edit />,
       numeric: false,
       label: "Actions",
     },

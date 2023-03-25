@@ -55,116 +55,97 @@ const Index = ({}) => {
   const { classes, theme, cx } = useStyles();
   const navigate = useNavigate();
   const matches = useMediaQuery("(min-width: 640px)");
+  const matches2 = useMediaQuery("(min-width: 1020px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const { user } = useContext(UserContext);
 
   return (
     <Container fluid className={classes.header} p="0px">
       <Group
-        position="right"
-        // align={"center"}
+        position="left"
         noWrap
         className={classes.headerSub}
       >
-        <Flex direction={"column"} style={{ marginRight: "auto" }}>
+        <Flex direction={"column"} style={{ margin: matches2&&"auto" }} align="center">
           <Text fw={"bolder"} fz="xl">
-            {user.role}
+            {user.role} Dashboard
           </Text>
           <Text fz="xs">
             Welcome Back <b>{user.name}</b>
           </Text>
         </Flex>
-        {/* <MediaQuery
-          query="(max-width: 650px)"
-          styles={{
-            display: "none",
-          }}
-        >
-          <Container
-            w={500}
-            smallerthan="sm"
-            styles={{
-              display: "none",
-            }}
+        <div style={{ position: "absolute", right: "0" }}>
+          {/* <Notifications /> */}
+          <Menu
+            width={matches && "target"}
+            shadow="xl"
+            position="bottom-start"
+            transition="pop-top-left"
+            offset={20}
+            onClose={() => setUserMenuOpened(false)}
+            onOpen={() => setUserMenuOpened(true)}
           >
-            <InputField
-              placeholder="Search"
-              leftIcon="search"
-              size="sm"
-              pb="0px"
-            />
-          </Container>
-        </MediaQuery> */}
-        <Notifications />
-        <Menu
-          width={matches && "target"}
-          shadow="xl"
-          position="bottom-start"
-          transition="pop-top-left"
-          offset={20}
-          onClose={() => setUserMenuOpened(false)}
-          onOpen={() => setUserMenuOpened(true)}
-        >
-          <Menu.Target>
-            <UnstyledButton
-              className={cx(classes.user, {
-                [classes.userActive]: userMenuOpened,
-              })}
-            >
-              <Group spacing={7} noWrap>
-                <MediaQuery
-                  query="(max-width: 650px)"
-                  styles={{
-                    display: "none",
-                  }}
-                >
-                  <Flex direction={"column"} gap="4px" mr={"md"}>
-                    <Text
-                      weight={500}
-                      size="lg"
-                      sx={{
-                        lineHeight: 1,
-                      }}
-                      mr={3}
-                    >
-                      {user.name}
-                    </Text>
-                    <Text size="xs" color={"rgb(0,0,0,0.5)"}>
-                      {user.email}
-                    </Text>
-                  </Flex>
-                </MediaQuery>
-                <Avatar
-                  src={user?.profileImage || userImage}
-                  radius="xl"
-                  size={50}
-                />
-              </Group>
-            </UnstyledButton>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item
-              onClick={() => navigate(routeNames.socialWorker.settings)}
-            >
-              <Flex gap={"md"}>
-                <Settings />
-                <Text>Settings</Text>
-              </Flex>
-            </Menu.Item>
-            <Menu.Item
-              // color="red"
-              onClick={() => {
-                localStorage.removeItem("userData");
-                navigate(routeNames.general.login);
-              }}
-            >
-              <Flex gap={"md"}>
-                <Power />
-                Logout
-              </Flex>
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+            <Menu.Target>
+              <UnstyledButton
+                className={cx(classes.user, {
+                  [classes.userActive]: userMenuOpened,
+                })}
+              >
+                <Group spacing={7} noWrap>
+                  <MediaQuery
+                    query="(max-width: 650px)"
+                    styles={{
+                      display: "none",
+                    }}
+                  >
+                    <Flex direction={"column"} gap="4px" mr={"md"}>
+                      <Text
+                        weight={500}
+                        size="lg"
+                        sx={{
+                          lineHeight: 1,
+                        }}
+                        mr={3}
+                      >
+                        {user.name}
+                      </Text>
+                      <Text size="xs" color={"rgb(0,0,0,0.5)"}>
+                        {user.email}
+                      </Text>
+                    </Flex>
+                  </MediaQuery>
+                  <Avatar
+                    src={user?.profileImage || userImage}
+                    radius="xl"
+                    size={50}
+                  />
+                </Group>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                onClick={() => navigate(routeNames.socialWorker.settings)}
+              >
+                <Flex gap={"md"} align="center">
+                  <Settings />
+                  <Text>Settings</Text>
+                </Flex>
+              </Menu.Item>
+              <Menu.Item
+                color="red"
+                onClick={() => {
+                  localStorage.removeItem("userData");
+                  navigate(routeNames.general.login);
+                }}
+              >
+                <Flex gap={"md"} align="center">
+                  <Power />
+                  Logout
+                </Flex>
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </div>
       </Group>
     </Container>
   );

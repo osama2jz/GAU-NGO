@@ -22,6 +22,7 @@ const AddProject = () => {
   let editData = state?.editData;
 
   useEffect(() => {
+    console.log(editData);
     if (editData) form.setValues(editData);
     else form.reset();
   }, [editData]);
@@ -45,7 +46,12 @@ const AddProject = () => {
 
   const handleAddProject = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/project/create"}`, values, {
+      let link = backendUrl + "/api/project/create";
+      if (editData) {
+        link = backendUrl + "/api/project/edit";
+        values.projectId = editData.id;
+      }
+      return axios.post(link, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -101,7 +107,7 @@ const AddProject = () => {
               onClick={() => navigate(routeNames.ngoAdmin.viewProject)}
             />
             <Button
-              label={editData? "Update Project": "Add Project"}
+              label={editData ? "Update Project" : "Add Project"}
               bg={true}
               type="submit"
               loading={handleAddProject.isLoading}

@@ -39,7 +39,7 @@ export const ViewProjects = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [projectData,setProjectData]=useState()
+  const [projectData, setProjectData] = useState();
 
   let headerData = [
     {
@@ -68,9 +68,9 @@ export const ViewProjects = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -191,9 +191,9 @@ export const ViewProjects = () => {
               pb="0px"
               data={[
                 { label: "All", value: "" },
-                { label: "Closed", value: "closed" },
+                { label: "Active", value: "active" },
                 // { label: "Scheduled", value: "scheduled" },
-                { label: "Cancelled", value: "cancelled" },
+                { label: "Inactive", value: "inactive" },
               ]}
             />
           </Grid.Col>
@@ -208,11 +208,11 @@ export const ViewProjects = () => {
           </Grid.Col>
           <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
             <Button
-              label={"Add Appointment"}
+              label={"Add Project"}
               bg={true}
               leftIcon={"plus"}
               styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
+              onClick={() => navigate(routeNames.ngoAdmin.addProject)}
             />
           </Grid.Col>
         </Grid>
@@ -252,7 +252,6 @@ export const ViewProjects = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title={"View Project"}
-        
       >
         <ViewProjectModal id={viewModalData} reportData={projectData} />
       </ViewModal>

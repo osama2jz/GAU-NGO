@@ -81,20 +81,27 @@ export const ngoAdminSideBarData = [
   {
     label: "User",
     icon: Users,
-    links: [{ label: "View Users", link: routeNames.ngoAdmin.allUsers }],
+    links: [
+      {
+        label: "Add User",
+        icon: UserPlus,
+        link: routeNames.ngoAdmin.addUser,
+      },
+      { label: "View Users", link: routeNames.ngoAdmin.allUsers },
+    ],
   },
   {
     label: "Appointment",
     icon: CalendarEvent,
     links: [
       {
+        label: "Add Appointment",
+        link: routeNames.ngoAdmin.addAppoinment,
+      },
+      {
         label: "View Appointments",
         link: routeNames.ngoAdmin.allAppointments,
       },
-      // {
-      //   label: "Add Appointment",
-      //   link: routeNames.ngoAdmin.addAppoinment,
-      // },
     ],
   },
   {
