@@ -119,9 +119,22 @@ export const ViewDonations = () => {
     }
   );
 
-  const filteredItems = rowData.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredItems = rowData.filter((item) =>
+  //   item.name.toLowerCase().includes(search.toLowerCase())
+  // );
+
+
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+    
+        return item.name.toLowerCase().includes(search.toLowerCase());
+    });
+    setPage(1)
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    return filtered;
+  }, [rowData, search, filter]);
+
+
   const paginated = useMemo(() => {
     if (activePage == 1) {
       return filteredItems.slice(0, 10);
