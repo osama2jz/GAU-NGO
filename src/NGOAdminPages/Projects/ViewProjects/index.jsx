@@ -105,56 +105,50 @@ export const ViewProjects = () => {
   );
 
   //API call for deleting a document
-  const handleDeleteDocument = useMutation(
+  const handleStatusChange = useMutation(
     (values) => {
-      return axios.post(
-        `${backendUrl + "/api/lookup/updateDocument"}`,
-        values,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.post(`${backendUrl + "/api/project/edit"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
-        console.log("response", response);
-        if (response.data.status) {
-          showNotification({
-            title: "Document Created",
-            message: deleteID
-              ? "Document Deleted Successfully"
-              : "Document Updated Successfully!",
-            color: "green.0",
-          });
-          // navigate(routeNames.ngoAdmin.viewDocuments);
-        } else {
-          showNotification({
-            title: "Failed",
-            message: deleteID ? "Failed to Delete" : "Failed to Update",
-            color: "red.0",
-          });
-        }
-        queryClient.invalidateQueries("fetchDocumentsAll");
+        showNotification({
+          title: "Sucess",
+          message: "Status changed successfully",
+          color: "green.0",
+        });
+        setOpenDeleteModal(false);
+
+        queryClient.invalidateQueries("fetchProjects");
       },
     }
   );
 
   //API call for deleting project
   const handleDeleted = () => {
-    handleDeleteDocument.mutate({
-      documentId: deleteID,
+    handleStatusChange.mutate({
+      projectId: deleteID,
       status: "deleted",
     });
-    setOpenDeleteModal(false);
   };
 
-  const filteredItems = rowData.filter(
-    (item) =>
-      item?.projectName?.toLowerCase().includes(search.toLowerCase()) &&
-      item?.accStatus?.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      if (filter === "") {
+        return item.projectName.toLowerCase().includes(search.toLowerCase());
+      } else
+        return (
+          item.projectName.toLowerCase().includes(search.toLowerCase()) &&
+          item.accStatus === filter
+        );
+    });
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    return filtered;
+  }, [rowData, search, filter]);
+
   const paginated = useMemo(() => {
     if (activePage == 1) {
       return filteredItems.slice(0, 10);
@@ -226,6 +220,7 @@ export const ViewProjects = () => {
             setViewModalData={setViewModalData}
             setStatusChangeId={setStatusChangeId}
             setDeleteData={setDeleteID}
+            onStatusChange={handleStatusChange.mutate}
             setEditProject={true}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setProjectData}
@@ -245,6 +240,7 @@ export const ViewProjects = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={handleDeleted}
+        loading={handleStatusChange.isLoading}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />

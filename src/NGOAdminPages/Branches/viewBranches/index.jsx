@@ -5,13 +5,12 @@ import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Edit, Eye, Trash } from "tabler-icons-react";
+import ngoDefault from "../../../assets/ngoDefault.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
-import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
-import ngoDefault from "../../../assets/ngoDefault.png";
 import Pagination from "../../../Components/Pagination";
 import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
@@ -26,11 +25,9 @@ import ViewBranchModal from "./ViewBranchModal";
 export const ViewBranches = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme = useMantineTheme();
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
@@ -179,6 +176,7 @@ export const ViewBranches = () => {
           item.accStatus === filter
         );
     });
+    setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
     return filtered;
   }, [rowData, search, filter]);
@@ -223,8 +221,6 @@ export const ViewBranches = () => {
           <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
-              // styles={{ float: "right" }}
-              // leftIcon={"multiply"}
               onClick={() => {
                 setFilter("");
                 setSearch("");
@@ -281,7 +277,6 @@ export const ViewBranches = () => {
       >
         <ViewBranchModal id={viewModalData} reportData={BranchData} />
       </ViewModal>
-     
     </Container>
   );
 };

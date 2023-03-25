@@ -18,6 +18,7 @@ const ViewModal = ({ opened, setOpened, children, title, size = "500px" }) => {
       onClose={() => setOpened(false)}
       centered
       size={size}
+      radius="lg"
       classNames={{ title: classes.title }}
     >
       {children}

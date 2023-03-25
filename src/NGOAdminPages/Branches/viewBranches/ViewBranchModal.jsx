@@ -2,10 +2,8 @@ import {
   Avatar,
   Badge,
   Container,
-  Flex,
-  Grid,
-  SimpleGrid,
-  Text,
+  Flex, SimpleGrid,
+  Text
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useStyles } from "./styles";

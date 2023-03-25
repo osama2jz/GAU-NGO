@@ -11,7 +11,7 @@ import {
   Switch,
   Table as TableMantine,
   Text,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
@@ -177,6 +177,7 @@ const Table = ({
                             // setViewModalData(row.id);
                           }}
                           color={"blue.9"}
+                          variant="outline"
                         >
                           {head.view}
                         </ActionIcon>
@@ -242,6 +243,7 @@ const Table = ({
                                 : false
                             }
                             color="green.9"
+                            variant="outline"
                           >
                             {head.edit}
                           </ActionIcon>
@@ -254,7 +256,7 @@ const Table = ({
                             }}
                             disabled={row.accStatus === "inactive"}
                             color="red.9"
-                            
+                            variant="outline"
                           >
                             {head.delete}
                           </ActionIcon>
@@ -310,19 +312,26 @@ const Table = ({
                     <td key={index} align="center">
                       <Switch
                         onChange={(v) => {
-                          headCells[1].label !== "Branch Name"
-                            ? onStatusChange({
-                                userId: row.id,
-                                userStatus: v.target.checked
-                                  ? "active"
-                                  : "inactive",
-                              })
-                            : onStatusChange({
-                                branchId: row.id,
-                                branchStatus: v.target.checked
-                                  ? "active"
-                                  : "inactive",
-                              });
+                          if (headCells[1].label === "Branch Name") {
+                            onStatusChange({
+                              branchId: row.id,
+                              branchStatus: v.target.checked
+                                ? "active"
+                                : "inactive",
+                            });
+                          } else if (headCells[1].label === "Project Name") {
+                            onStatusChange({
+                              projectId: row.id,
+                              status: v.target.checked ? "active" : "inactive",
+                            });
+                          } else {
+                            onStatusChange({
+                              userId: row.id,
+                              userStatus: v.target.checked
+                                ? "active"
+                                : "inactive",
+                            });
+                          }
                         }}
                         defaultChecked={row[head?.id] === "active"}
                         color={"green.9"}

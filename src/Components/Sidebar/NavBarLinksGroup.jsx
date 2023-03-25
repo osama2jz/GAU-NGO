@@ -9,16 +9,15 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
-import routeNames from "../../Routes/routeNames";
 
 const useStyles = createStyles((theme) => ({
   mainLink: {
     fontWeight: 600,
     display: "block",
     width: "100%",
-    margin:'1px 0px',
+    margin: "1px 0px",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    borderBottom:'1px solid rgb(0,0,0,0.2)',
+    borderBottom: "1px solid rgb(0,0,0,0.1)",
     fontSize: theme.fontSizes.lg,
     borderRadius: "5px",
     "&:hover": {
@@ -28,7 +27,7 @@ const useStyles = createStyles((theme) => ({
 
   link: {
     fontWeight: 500,
-    margin:'1px',
+    margin: "1px",
     display: "block",
     textDecoration: "none",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
