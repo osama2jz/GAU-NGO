@@ -18,8 +18,9 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     margin:'1px 0px',
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-    borderRadius: "10px",
+    borderBottom:'1px solid rgb(0,0,0,0.2)',
     fontSize: theme.fontSizes.lg,
+    borderRadius: "5px",
     "&:hover": {
       backgroundColor: theme.colors.blueSide,
     },
@@ -34,11 +35,7 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: 31,
     marginLeft: 30,
     fontSize: theme.fontSizes.sm,
-    borderRadius: "10px",
-    // color: "rgb(0,0,0,0.6)",
-    borderLeft: `1px solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+    borderRadius: "5px",
 
     "&:hover": {
       backgroundColor: theme.colors.blueSide,
@@ -87,7 +84,7 @@ export function LinksGroup({
         borderRight:
           location?.pathname === link.link &&
           label === globalOpen &&
-          `10px solid ${theme.colors.blue}`,
+          `10px solid ${theme.colors.blue[9]}`,
       }}
       bg={
         location?.pathname === link.link && label === globalOpen
@@ -116,7 +113,7 @@ export function LinksGroup({
           borderRight:
             location?.pathname === link &&
             label === globalOpen &&
-            `10px solid ${theme.colors.blue}`,
+            `10px solid ${theme.colors.blue[9]}`,
         }}
         bg={
           location?.pathname === link && label === globalOpen

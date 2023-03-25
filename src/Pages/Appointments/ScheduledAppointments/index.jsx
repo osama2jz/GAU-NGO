@@ -123,19 +123,6 @@ function ScheduledAppointments() {
       disablePadding: true,
       label: "Sr No.",
     },
-
-    // {
-    //   id: "caseName",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Case Name",
-    // },
-    // {
-    //   id: "caseNo",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Case No.",
-    // },
     {
       id: "name",
       numeric: false,
@@ -180,7 +167,7 @@ function ScheduledAppointments() {
     },
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
@@ -215,11 +202,11 @@ function ScheduledAppointments() {
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              onChange={(v)=>setSearch(v.target.value)}
+              onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6}lg={3} md={3}>
+          <Grid.Col sm={6} lg={3} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               data={[
@@ -307,21 +294,18 @@ function ScheduledAppointments() {
           </Container>
         </Flex>
         <Group position="right" mt="lg">
-          {
-            reportData?.status === "SCHEDULED" && (
-              <Button
+          {reportData?.status === "SCHEDULED" && (
+            <Button
               label={" Cancel Appointment"}
               onClick={() => {
                 // setId(reportData?.appointId);
                 // queryClient.invalidateQueries("CancelAppointments",id);
                 CancelAppointments(reportData?.appointId);
               }}
-  
+
               // type="Cancel Appo"
             />
-            )
-          }
-         
+          )}
         </Group>
       </ViewModal>
     </Container>

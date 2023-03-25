@@ -176,6 +176,7 @@ const Table = ({
                             setViewModalState(true);
                             // setViewModalData(row.id);
                           }}
+                          color={"blue.9"}
                         >
                           {head.view}
                         </ActionIcon>
@@ -232,6 +233,7 @@ const Table = ({
                               setEditModalState(true);
                             }}
                             disabled={
+                              row.accStatus === "inactive" ||
                               row.status === "SCHEDULED" ||
                               row.status === "unverified" ||
                               row.status === "CANCELLED" ||
@@ -239,6 +241,7 @@ const Table = ({
                                 ? true
                                 : false
                             }
+                            color="green.9"
                           >
                             {head.edit}
                           </ActionIcon>
@@ -249,6 +252,9 @@ const Table = ({
                               setDeleteModalState(true);
                               setDeleteData(row.id);
                             }}
+                            disabled={row.accStatus === "inactive"}
+                            color="red.9"
+                            
                           >
                             {head.delete}
                           </ActionIcon>
@@ -264,10 +270,10 @@ const Table = ({
                           row[head?.id] === "CLOSED" ||
                           row[head?.id] === "CANCELLED" ||
                           row[head?.id] === "Not Scheduled"
-                            ? "red.0"
-                            : "green.0"
+                            ? "red.9"
+                            : "green.9"
                         }
-                        variant="outline"
+                        variant="filled"
                         w={"120px"}
                       >
                         {row[head?.id]}
@@ -319,7 +325,7 @@ const Table = ({
                               });
                         }}
                         defaultChecked={row[head?.id] === "active"}
-                        color={"green.0"}
+                        color={"green.9"}
                         w="50%"
                         styles={{
                           track: { backgroundColor: theme.colors.red },
@@ -343,7 +349,7 @@ const Table = ({
                             showNotification({
                               title: "User Inactive",
                               message: "Please Activate user first",
-                              color: "red.0",
+                              color: "red.9",
                             });
                           }
                         }}

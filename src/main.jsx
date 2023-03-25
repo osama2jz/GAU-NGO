@@ -14,16 +14,48 @@ root.render(
       <MantineProvider
         theme={{
           colors: {
-            blue: ["#3268A7"],
+            blue: [
+              "#1864AB",
+              "#D0EBFF",
+              "#A5D8FF",
+              "#74C0FC",
+              "#4DABF7",
+              "#339AF0",
+              "#228BE6",
+              "#1C7ED6",
+              "#1971C2",
+              "#1864AB",
+            ],
             blueHover: "rgb(50, 104, 157,0.7)",
             blueSide: "rgb(50, 104, 157,0.1)",
-            red: ["rgb(207, 30, 28)"],
+            red: [
+              "#C92A2A",
+              "#FFE3E3",
+              "#FFC9C9",
+              "#FFA8A8",
+              "#FF8787",
+              "#FF6B6B",
+              "#FA5252",
+              "#F03E3E",
+              "#E03131",
+              "#C92A2A",
+            ],
             redHover: "rgb(207, 30, 28, 0.7)",
-            green: ["rgb(15, 123, 50)"],
+            green: [
+              "#2B8A3E",
+              "#D3F9D8",
+              "#B2F2BB",
+              "#8CE99A",
+              "#69DB7C",
+              "#51CF66",
+              "#40C057",
+              "#37B24D",
+              "#2F9E44",
+              "#2B8A3E",
+            ],
             greenHover: "rgb(15, 123, 50, 0.7)",
             black: ["#000000"],
             container: "#F5F6FA",
-            gray: "#E7E7E780",
             heading: "#56606E",
             white: "white",
             grayDark: "rgb(0,0,0,0.5)",
@@ -40,18 +72,18 @@ root.render(
             ".mantine-19tsm68": {
               color: "red",
             },
-            
-            ".mantine-pimw6z":{
-              color:'red'
+
+            ".mantine-pimw6z": {
+              color: "red",
             },
             ".mantine-Checkbox-input:checked": {
-                backgroundColor: "green",
+              backgroundColor: "green",
             },
-            ".mantine-InputWrapper-required":{
-              color:'red'
+            ".mantine-InputWrapper-required": {
+              color: "red",
             },
-            ".mantine-Modal-title":{
-              margin:'auto',
+            ".mantine-Modal-title": {
+              margin: "auto",
             },
             ".mantine-Select-item": {
               "&[data-hovered]": {

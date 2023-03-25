@@ -2,10 +2,11 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
+import { Edit, Eye, Trash } from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import DeleteModal from "../../../Components/DeleteModal";
@@ -22,17 +23,16 @@ import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
-import userlogo from "../../../assets/teacher.png";
 
 export const AllUser = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
+  const { user } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [statusChangeId, setStatusChangeId] = useState("");
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
@@ -40,12 +40,8 @@ export const AllUser = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
-  const [editId, setEditId] = useState("");
 
   const [reportData, setReportData] = useState([]);
-
-  console.log("user", user);
 
   let headerData = [
     {
@@ -86,9 +82,9 @@ export const AllUser = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -216,7 +212,7 @@ export const AllUser = () => {
             />
           </Grid.Col>
           <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
-            {user.role === "Social Worker" && (
+            {(user.role === "Social Worker" || user.role === "Admin") && (
               <Button
                 label={"Add User"}
                 bg={true}
@@ -235,13 +231,11 @@ export const AllUser = () => {
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            // setEditModalState={null}
-            setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
-            setEditId={setEditId}
+            setEditId={true}
           />
         )}
         {totalPages > 1 && (

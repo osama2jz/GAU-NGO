@@ -48,8 +48,8 @@ const useStyles = createStyles((theme, { role }) => ({
   linksInner: {
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
-    maxHeight: "75vh",
-    overflow: "auto",
+    // maxHeight: "75vh",
+    // overflow: "auto",
   },
   logo: {
     display: "flex",
@@ -125,9 +125,9 @@ export function SideBar({ sideBarLinks, setOpened, opened }) {
           </Text>
         </Group>
         <div className={classes.linksInner}>{links}</div>
-        <Flex direction={"column"} className={classes.footer}>
+        {/* <Flex direction={"column"} className={classes.footer}>
           {bottoms}
-        </Flex>
+        </Flex> */}
       </Navbar.Section>
     </Navbar>
   );

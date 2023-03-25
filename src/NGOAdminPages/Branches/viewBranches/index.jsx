@@ -81,9 +81,9 @@ export const ViewBranches = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      edit: <Edit color={theme.colors.green} />,
-      delete: <Trash color={theme.colors.red} />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },

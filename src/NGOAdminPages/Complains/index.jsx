@@ -24,16 +24,11 @@ import ViewUserModal from "./ViewUserModal";
 export const ViewComplains = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme = useMantineTheme();
-  const queryClient = useQueryClient();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [statusChangeId, setStatusChangeId] = useState("");
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
-  const [deleteID, setDeleteID] = useState("");
+
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -80,7 +75,7 @@ export const ViewComplains = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
@@ -118,7 +113,6 @@ export const ViewComplains = () => {
         });
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
-
       },
     }
   );
@@ -179,11 +173,6 @@ export const ViewComplains = () => {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            setEditModalState={setOpenEditModal}
-            setStatusChangeId={setStatusChangeId}
-            // onStatusChange={handleChangeStatus.mutate}
-            setDeleteData={setDeleteID}
-            setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
           />
         )}

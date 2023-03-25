@@ -99,7 +99,7 @@ function ReferalReport() {
 
     {
       id: "actions",
-      view: <Eye color="#4069bf" />,
+      view: <Eye />,
       // delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",

@@ -73,9 +73,7 @@ export const ViewRoasters = () => {
     },
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
-      // edit: <Edit color={theme.colors.green} />,
-      // delete: <Trash color={theme.colors.red} />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
