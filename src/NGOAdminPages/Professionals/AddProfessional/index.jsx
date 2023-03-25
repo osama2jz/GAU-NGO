@@ -99,9 +99,15 @@ export const AddProfessional = () => {
         isUpdate ||
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
-        )
-          ? null
-          : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
+        ) ? null : (
+          <ul>
+            Password must contain 8 to 15 characters with
+            <li>at least one captial alphabet.</li>
+            <li>at least one small alphabet.</li>
+            <li>at least one digit and one special character.</li>
+            <li>at least one special character.</li>
+          </ul>
+        ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
@@ -122,18 +128,6 @@ export const AddProfessional = () => {
           setFileError("Please upload the file");
         }
       } else {
-        // const data = {
-        //   firstName: values.firstName,
-        //   lastName: values.lastName,
-        //   email: values.email,
-        //   phoneNumber: values.phoneNumber,
-        //   password: values.password,
-        //   profileImage: imageData,
-        //   userType: values.userType,
-        // };
-        // const reqData = form.values?.userType === "user" ? data : values;
-        // console.log("reqData", reqData);
-
         if (editData?.id) {
           values = { ...values, userId: editData?.id };
         }
@@ -319,9 +313,6 @@ export const AddProfessional = () => {
                     ? editData?.image
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
-                //   src={id
-                //     ? editData?.profileImage.includes("http") :"https://www.w3schools.com/howto/img_avatar.png"}
-                // />
               />
             )}
           </Container>
@@ -380,7 +371,6 @@ export const AddProfessional = () => {
                     input: {
                       border: "1px solid rgb(0, 0, 0, 0.1)",
                       borderRadius: "5px",
-                      // width: "250px",
                     },
                   })}
                   icon={<FileUpload size={20} />}

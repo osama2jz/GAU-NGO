@@ -60,7 +60,7 @@ root.render(
             white: "white",
             grayDark: "rgb(0,0,0,0.5)",
           },
-          primaryColor: "cyan",
+          primaryColor: "green",
           globalStyles: (theme) => ({
             ".mantine-Radio-radio": {
               border: `1px solid gray`,
