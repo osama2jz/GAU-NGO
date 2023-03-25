@@ -41,13 +41,12 @@ const DeleteModal = ({
         </Text>
         <Text align="center">{message}</Text>
         <Group pt={"sm"} ml={"auto"}>
-          <Button label="Cancel" onClick={onCancel} compact={true} />
+          <Button label="Cancel" onClick={onCancel}/>
           <Button
             label="Delete"
             loading={loading}
             onClick={onDelete}
             primary={true}
-            compact={true}
           />
         </Group>
       </Container>

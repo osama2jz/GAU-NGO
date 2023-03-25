@@ -23,12 +23,9 @@ import ViewRoasterModal from "./ViewRoasterModal";
 export const ViewRoasters = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme = useMantineTheme();
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [statusChangeId, setStatusChangeId] = useState("");
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
@@ -150,7 +147,6 @@ export const ViewRoasters = () => {
     setOpenDeleteModal(false);
   };
 
-  // console.log("rowData", rowData);
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter(
       (item) =>
@@ -159,7 +155,7 @@ export const ViewRoasters = () => {
     );
     setTotalPages(Math.ceil(filtered?.length / 10));
     return filtered;
-  }, [search, filter]);
+  }, [search, filter, rowData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -226,8 +222,6 @@ export const ViewRoasters = () => {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
-            setEditModalState={setOpenEditModal}
-            setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
