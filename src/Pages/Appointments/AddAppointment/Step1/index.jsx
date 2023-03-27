@@ -30,6 +30,9 @@ const Step1 = ({
   faceID,
   setFaceId,
   id,
+  setOtherUserName,
+  setotherUserMobile,
+  setotherUserId,
 }) => {
   const { state } = useLocation();
   // const {id}=state??""
@@ -39,7 +42,7 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  console.log("id", id);
+  
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
@@ -57,9 +60,15 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc);
+   
+    
     setImg(imageSrc);
   }, [webcamRef]);
+
+
+
+
+  
 
   const handleOpenCamera = () => {
     setDisabledIdBtn(true);
@@ -231,11 +240,22 @@ const Step1 = ({
           color={"rgb(0,0,0,0.5)"}
           // my="md"
         />
-        {showCamera && <Flex direction={"column"}>
-          <InputField label={"Person Name"} />
-          <InputField label={"Person Contact"} />
-          <InputField label={"Person ID"} />
-        </Flex>}
+        {showCamera && (
+          <Flex direction={"column"}>
+            <InputField
+              label={"Person Name"}
+              onChange={(e) => setOtherUserName(e.target.value)}
+            />
+            <InputField
+              label={"Person Contact"}
+              onChange={(e) => setotherUserMobile(e.target.value)}
+            />
+            <InputField
+              label={"Person ID"}
+              onChange={(e) => setotherUserId(e.target.value)}
+            />
+          </Flex>
+        )}
         {showCamera ? (
           <Container>
             {img === null ? (

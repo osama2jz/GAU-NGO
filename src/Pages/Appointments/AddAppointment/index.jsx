@@ -11,7 +11,15 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { useStyles } from "./styles";
-
+import Highlight from "@tiptap/extension-highlight";
+import SubScript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { Link } from "@mantine/tiptap";
+import TextEditor from "../../../Components/TextEditor";
 import {
   Container,
   Group,
@@ -29,6 +37,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useMutation } from "react-query";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "@mantine/form";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -56,15 +65,45 @@ const AddAppointment = () => {
 
   const [privateReportCheck, setPrivateReportCheck] = useState(false);
   const [publicReportCheck, setPublicReportCheck] = useState(false);
+  const [otherUserName, setOtherUserName] = useState("");
+  const [otherUserMobile, setotherUserMobile] = useState("");
+  const [otherUserId, setotherUserId] = useState("");
 
   const [userCase, setUserCase] = useState();
 
-  const [reportFiles, setReportFiles] = useState({
+  const editorr = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: "",
+  });
+
+  const editorr2 = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: "",
+  });
+
+  const [reportPublicFiles, setReportFiles] = useState({
     reportComments: "",
     reportFile: "",
     reportType: "public",
     createdBy: user.id,
   });
+
   const [privatereportFiles, setPrivateReportFiles] = useState({
     reportComments: "",
     reportFile: "",
@@ -72,19 +111,36 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
+  console.log(editorr?.getHTML());
   const [otherDocument, setOtherDocument] = useState([]);
 
   //create case
   const handleCreateCase = useMutation(
     () => {
       let object = {};
-
-      object = {
-        previousCaseLinked: false,
-        appointmentId: appId,
-        caseLinkedUser: id,
-        Image: img,
-      };
+      if (
+        otherUserId !== "" ||
+        otherUserMobile !== "" ||
+        otherUserName !== ""
+      ) {
+        object = {
+          previousCaseLinked: false,
+          appointmentId: appId,
+          caseLinkedUser: id,
+          Image: img,
+          otherUser: true,
+          otherUserId: otherUserId,
+          otherUserMobile: otherUserMobile,
+          otherUserName: otherUserName,
+        };
+      } else {
+        object = {
+          previousCaseLinked: false,
+          appointmentId: appId,
+          caseLinkedUser: id,
+          Image: img,
+        };
+      }
 
       return axios.post(`${backendUrl + "/api/case/create"}`, object, {
         headers: {
@@ -106,10 +162,14 @@ const AddAppointment = () => {
   //create report
   const handleCreateReport = useMutation(
     () => {
+      reportPublicFiles.reportComments = editorr?.getHTML();
+      privatereportFiles.reportComments = editorr2?.getHTML();
+      
       const value = {
         caseId: selectedCase,
-        reportFiles: [reportFiles, privatereportFiles],
+        reportFiles: [reportPublicFiles, privatereportFiles],
       };
+      
       return axios.post(`${backendUrl + "/api/case/caseReports"}`, value, {
         headers: {
           "x-access-token": user.token,
@@ -167,33 +227,33 @@ const AddAppointment = () => {
       }
     }
     if (active == 2) {
-      if (
-        reportFiles.reportComments === "" ||
-        privatereportFiles.reportComments === ""
-      ) {
-        showNotification({
-          color: "red.0",
-          message: "Please add public and private report for this appointment.",
-          title: "Report Missing",
-        });
-        return;
-        // alert("comment is required")
-      }
-      if (
-        reportFiles.reportFile === "" &&
-        privatereportFiles.reportFile === ""
-      ) {
-        showNotification({
-          color: "red.0",
-          message:
-            "Please add public and private report Files for this appointment.",
-          title: "Report Missing",
-        });
-        return;
-      } else {
+      // if (
+      //   reportFiles.reportComments === "" ||
+      //   privatereportFiles.reportComments === ""
+      // ) {
+      //   showNotification({
+      //     color: "red.0",
+      //     message: "Please add public and private report for this appointment.",
+      //     title: "Report Missing",
+      //   });
+      //   return;
+      //   // alert("comment is required")
+      // }
+      // if (
+      //   reportFiles.reportFile === "" &&
+      //   privatereportFiles.reportFile === ""
+      // ) {
+      //   showNotification({
+      //     color: "red.0",
+      //     message:
+      //       "Please add public and private report Files for this appointment.",
+      //     title: "Report Missing",
+      //   });
+      //   return;
+      // } else {
         handleCreateReport.mutate();
         setActive(active + 1);
-      }
+      // }
     }
     if (user.role === "Psychologist") {
       active < 5
@@ -243,6 +303,9 @@ const AddAppointment = () => {
               faceID={faceID}
               setFaceId={setFaceId}
               id={id}
+              setOtherUserName={setOtherUserName}
+              setotherUserMobile={setotherUserMobile}
+              setotherUserId={setotherUserId}
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (
@@ -298,7 +361,7 @@ const AddAppointment = () => {
               selectedUser={selectedUser}
               caseNo={caseNo}
               setFileLoader={setFileLoader}
-              reportFiles={reportFiles}
+              reportFiles={reportPublicFiles}
               setReportFiles={setReportFiles}
               privatereportFiles={privatereportFiles}
               setPrivateReportFiles={setPrivateReportFiles}
@@ -306,6 +369,8 @@ const AddAppointment = () => {
               setOtherDocument={setOtherDocument}
               setPrivateReportCheck={setPrivateReportCheck}
               privateReportCheck={privateReportCheck}
+              editorr={editorr}
+              editorr2={editorr2}
             />
           </Stepper.Step>
           <Stepper.Step
@@ -353,8 +418,8 @@ const AddAppointment = () => {
               onClick={handleNextSubmit}
               loading={
                 handleCreateCase.isLoading ||
-                handleCreateReport.isLoading ||
-                fileLoader
+                handleCreateReport.isLoading 
+                // fileLoader
               }
               label={
                 active === 3 ? "Refer" : active === 4 ? "Finish" : "Save & Next"

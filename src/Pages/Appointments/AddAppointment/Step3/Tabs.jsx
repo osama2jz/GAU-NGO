@@ -19,36 +19,41 @@ const DoubleTabs = ({
   setPrivateReportFiles,
   setPrivateReportCheck,
   setFileLoader,
+  editorr,
+  editorr2
+
 }) => {
   // const [files, setFiles] = useState([]);
   // const [files2, setFiles2] = useState([]);
   const { classes } = useStyles();
 
-  const editorr = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Superscript,
-      SubScript,
-      Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-    ],
-    content: "",
-  });
+  // const editorr = useEditor({
+  //   extensions: [
+  //     StarterKit,
+  //     Underline,
+  //     Link,
+  //     Superscript,
+  //     SubScript,
+  //     Highlight,
+  //     TextAlign.configure({ types: ["heading", "paragraph"] }),
+  //   ],
+  //   content: "",
+  // });
 
-  const editorr2 = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Superscript,
-      SubScript,
-      Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-    ],
-    content: "",
-  });
+  // const editorr2 = useEditor({
+  //   extensions: [
+  //     StarterKit,
+  //     Underline,
+  //     Link,
+  //     Superscript,
+  //     SubScript,
+  //     Highlight,
+  //     TextAlign.configure({ types: ["heading", "paragraph"] }),
+  //   ],
+  //   content: "",
+  // });
+
+ 
 
   // const handleFileInput = (file, type) => {
   //   const fileName = file.name;

@@ -123,9 +123,15 @@ export const ViewComplains = () => {
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    return filtered;
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
   }, [rowData, search, filter]);
-  
+
   const paginated = useMemo(() => {
     if (activePage === 1) {
       return filteredItem.slice(0, 10);

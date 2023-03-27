@@ -30,6 +30,9 @@ const Datepicker = ({
   onChange,
   maxDate,
   minDate,
+  disabled,
+ 
+  
  
   
 }) => {
@@ -43,7 +46,7 @@ const Datepicker = ({
       icon={icon}
       maxDate={maxDate}
       minDate={minDate}
-      clearable={false}
+      clearable={true}
       dropdownType={dropdownType}
       placeholder={placeholder}
       label={label}
@@ -53,7 +56,7 @@ const Datepicker = ({
       classNames={{ input: classes.root }}
       {...form?.getInputProps(validateName)}
       inputFormat={labelFormat}
-      disabledDays={disabledDays}
+      disabled={disabled}
     />
   );
 };

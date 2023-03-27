@@ -25,6 +25,8 @@ const Step3 = ({
   setOtherDocument,
   setPrivateReportCheck,
   privateReportCheck,
+  editorr2,
+  editorr
 }) => {
   const { user } = useContext(UserContext);
   const [numInputs, setNumInputs] = useState([1]);
@@ -116,6 +118,8 @@ const Step3 = ({
         setPrivateReportCheck={setPrivateReportCheck}
         privateReportCheck={privateReportCheck}
         setFileLoader={setFileLoader}
+        editorr2={editorr2}
+        editorr={editorr}
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 

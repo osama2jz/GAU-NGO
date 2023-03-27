@@ -24,6 +24,8 @@ const Step1 = ({
   setNewCase,
   setProjectId,
   projectId,
+
+
 }) => {
   const queryClient = useQueryClient();
   const { user: usertoken } = useContext(UserContext);
@@ -119,9 +121,10 @@ const Step1 = ({
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
-    ["casesFetched", user],
+    ["casesFetched", user,projectId],
     () => {
-      return axios.get(backendUrl + `/api/case/listUserCases/${user}`, {
+      console.log("p",projectId)
+      return axios.get(backendUrl + `/api/case/listUserCases/${user}/${projectId}`, {
         headers: {
           "x-access-token": usertoken?.token,
         },
@@ -138,7 +141,7 @@ const Step1 = ({
         });
         setCases(data);
       },
-      enabled: !!user,
+      enabled: !!user || !!projectId,
     }
   );
 
@@ -207,7 +210,7 @@ const Step1 = ({
                 data={projects}
               />
             )}
-            {casesfetching !== "loading" && (
+            {casesfetching !== "loading" ? (
               <SelectMenu
                 searchable={true}
                 placeholder={
@@ -216,10 +219,10 @@ const Step1 = ({
                 label="Search User Case"
                 creatable={true}
                 setData={setSelectedCase}
-                disabled={newCase.length > 0}
+                disabled={newCase.length > 0 || cases.length < 1}
                 data={cases}
               />
-            )}
+            ):<Loader minHeight="40px" />}
             <Divider
               label="OR"
               labelPosition="center"

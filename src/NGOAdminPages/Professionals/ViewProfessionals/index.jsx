@@ -196,9 +196,9 @@ export const ViewProfessionals = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "all" },
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychologist" },
                 { label: "Social Worker", value: "socialWorker" },
+                { label: "Psychlogist", value: "psychologist" },
+                { label: "Lawyer", value: "lawyer" },
               ]}
             />
           </Grid.Col>

@@ -131,7 +131,14 @@ export const ViewDonations = () => {
     });
     setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
-    return filtered;
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+    
   }, [rowData, search, filter]);
 
 
@@ -169,7 +176,7 @@ export const ViewDonations = () => {
           </Grid.Col>
 
           <Grid.Col sm={3} ml="auto">
-            {user.role === "User" && (
+            {user.role === "User" ||  user.role === "Admin" &&  (
               <Button
                 label={"Add Donation"}
                 bg={true}

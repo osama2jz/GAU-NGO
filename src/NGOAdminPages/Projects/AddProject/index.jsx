@@ -1,12 +1,14 @@
-import { Container, Group } from "@mantine/core";
+import { Container, Grid, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router";
+import { CalendarEvent } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import Datepicker from "../../../Components/Datepicker";
 import InputField from "../../../Components/InputField";
 import TextArea from "../../../Components/TextArea";
 import { backendUrl } from "../../../constants/constants";
@@ -21,6 +23,7 @@ const AddProject = () => {
   const { state } = useLocation();
   let editData = state?.editData;
 
+  
   useEffect(() => {
     console.log(editData);
     if (editData) form.setValues(editData);
@@ -32,6 +35,8 @@ const AddProject = () => {
     initialValues: {
       projectName: "",
       description: "",
+      dateStart: "",
+      dateEnd: "",
     },
 
     validate: {
@@ -43,6 +48,9 @@ const AddProject = () => {
         value?.length < 2 ? "Please enter description" : null,
     },
   });
+
+  console.log(form.values)
+
 
   const handleAddProject = useMutation(
     (values) => {
@@ -93,6 +101,29 @@ const AddProject = () => {
             required={"true"}
             maxLength={50}
           />
+          <Grid>
+            <Grid.Col sm={6}>
+              <Datepicker
+                label={"Start Date"}
+                icon={<CalendarEvent size={16} />}
+                labelFormat={"DD/MM/YYYY"}
+                form={form}
+                validateName="dateStart"
+              />
+            </Grid.Col>
+            <Grid.Col sm={6}>
+              <Datepicker
+                label={"End Date"}
+                minDate={new Date(form.values.dateStart)}
+                form={form}
+                validateName="dateEnd"
+                icon={<CalendarEvent size={16} />}
+                labelFormat={"DD/MM/YYYY"}
+                disabled={form.values.dateStart === null || form.values.dateStart === "" ? true : false}
+                
+              />
+            </Grid.Col>
+          </Grid>
 
           <TextArea
             label="Description"
@@ -108,7 +139,7 @@ const AddProject = () => {
             />
             <Button
               label={editData ? "Update Project" : "Add Project"}
-              bg={true}
+              primary={true}
               type="submit"
               loading={handleAddProject.isLoading}
               leftIcon={"plus"}

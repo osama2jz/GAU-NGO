@@ -130,6 +130,7 @@ export const ngoAdminSideBarData = [
     label: "Donations",
     icon: CurrencyDollar,
     links: [
+      { label: "Make Donation", link: routeNames.user.addDonation },
       { label: "View Donations", link: routeNames.ngoAdmin.viewDonations },
     ],
   },

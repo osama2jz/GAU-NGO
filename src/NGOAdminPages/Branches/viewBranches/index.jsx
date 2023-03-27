@@ -176,9 +176,17 @@ export const ViewBranches = () => {
           item.accStatus === filter
         );
     });
+    
     setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
-    return filtered;
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+    // return filtered;
   }, [rowData, search, filter]);
 
   const Paginated = useMemo(() => {

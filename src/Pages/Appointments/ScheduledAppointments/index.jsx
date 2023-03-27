@@ -200,7 +200,7 @@ function ScheduledAppointments() {
       <ContainerHeader label={"Appointment Scheduled"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -227,7 +227,7 @@ function ScheduledAppointments() {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
               bg={true}

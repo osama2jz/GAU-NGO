@@ -146,7 +146,14 @@ export const ViewProjects = () => {
         );
     });
     setTotalPages(Math.ceil(filtered?.length / 10));
-    return filtered;
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+   
   }, [rowData, search, filter]);
 
   const paginated = useMemo(() => {
@@ -168,7 +175,7 @@ export const ViewProjects = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={5} lg={4} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -177,7 +184,8 @@ export const ViewProjects = () => {
               value={search}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
+         
+          <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               value={filter}
@@ -188,6 +196,20 @@ export const ViewProjects = () => {
                 { label: "Active", value: "active" },
                 // { label: "Scheduled", value: "scheduled" },
                 { label: "Inactive", value: "inactive" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={2} md={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              value={filter}
+              setData={setFilter}
+              pb="0px"
+              data={[
+                { label: "All", value: "" },
+                { label: "Complete", value: "complete" },
+                // { label: "Scheduled", value: "scheduled" },
+                { label: "InComplete", value: "incomplete" },
               ]}
             />
           </Grid.Col>
