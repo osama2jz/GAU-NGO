@@ -34,7 +34,6 @@ export const AddBranch = () => {
   const { user } = useContext(UserContext);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
-  const [imageData, setImageData] = useState(null);
 
   let { state } = useLocation();
   const { editData } = state ?? "";
@@ -46,7 +45,7 @@ export const AddBranch = () => {
       branchName: "",
       branchLocation: "",
       branchDescription: "",
-      branchPicture: "",
+      branchPicture: null,
       branchContact: "",
       branchEmail: "",
       branchPointOfContact: "",
@@ -73,7 +72,6 @@ export const AddBranch = () => {
 
   useEffect(() => {
     if (isUpdate) {
-      setImageData(editData?.branchPicture);
       form.setFieldValue("branchName", editData?.name);
       form.setFieldValue("branchDescription", editData?.description);
       form.setFieldValue("branchLocation", editData?.location);
@@ -91,7 +89,7 @@ export const AddBranch = () => {
 
   const handleAddBranch = useMutation(
     (values) => {
-      if (imageData === null) {
+      if (values.branchPicture === null) {
         setUploadError("Please upload the Branch Photo");
       } else {
         if (isUpdate) {
@@ -171,8 +169,6 @@ export const AddBranch = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            setImageData(link);
-
             form.setFieldValue("branchPicture", link);
             setImageUploading(false);
           }
@@ -199,18 +195,12 @@ export const AddBranch = () => {
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={
-                  isUpdate
-                    ? editData?.image
-                    : imageData
-                    ? imageData
-                    : ngoDefault
-                }
+                src={form.values.branchPicture || ngoDefault}
               />
             )}
           </Container>
-          {imageData ? (
-            <Anchor onClick={() => setImageData(null)}>Remove</Anchor>
+          {form.values.branchPicture ? (
+            <Anchor onClick={() => form.setFieldValue("branchPicture",null)}>Remove</Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
               <Dropzone

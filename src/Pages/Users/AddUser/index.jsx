@@ -187,9 +187,8 @@ export const AddUser = () => {
                 m={"0px"}
                 p={"0px"}
                 src={
-                  form.values.profileImage
-                    ? form.values.profileImage
-                    : "https://www.w3schools.com/howto/img_avatar.png"
+                  form.values.profileImage ||
+                  "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
             )}
@@ -212,10 +211,10 @@ export const AddUser = () => {
                 {/* {fileUploading ? (
                   <Loader minHeight="5vh" />
                 ) : ( */}
-                  <Text align="center" className={classes.upload}>
-                    <Upload size={16} />
-                    Upload
-                  </Text>
+                <Text align="center" className={classes.upload}>
+                  <Upload size={16} />
+                  Upload
+                </Text>
                 {/* )} */}
               </Dropzone>
             </Input.Wrapper>

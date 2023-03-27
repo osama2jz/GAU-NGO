@@ -36,7 +36,6 @@ export const AddProfessional = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [filerror, setFileError] = useState("");
-  const [imageData, setImageData] = useState("");
   const [fileData, setFileData] = useState("");
   const { id } = useParams();
   let { state } = useLocation();
@@ -59,7 +58,6 @@ export const AddProfessional = () => {
       form.setFieldValue("userType", editData?.userType);
       form.setFieldValue("IDDetails", editData?.idDetails);
       form.setFieldValue("profileImage", editData?.image);
-      setImageData(editData?.image);
       setFileData(editData?.idDetails);
     } else {
       form.reset();
@@ -76,7 +74,7 @@ export const AddProfessional = () => {
       password: "",
       confirmPassword: "",
       userType: "",
-      profileImage: "",
+      profileImage: null,
       IDDetails: "",
     },
 
@@ -119,8 +117,8 @@ export const AddProfessional = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      if (imageData === "" || fileData === "") {
-        if (imageData === "") {
+      if (values.profileImage === null || fileData === "") {
+        if (values.profileImage === null) {
           setUploadError("Please upload the Profile Photo");
         }
         if (fileData === "" && values?.userType !== "user") {
@@ -259,7 +257,6 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            setImageData(link);
             form.setFieldValue("profileImage", link);
             setImageUploading(false);
           }
@@ -287,17 +284,16 @@ export const AddProfessional = () => {
                 m={"0px"}
                 p={"0px"}
                 src={
-                  isUpdate
-                    ? editData?.image
-                    : imageData
-                    ? imageData
-                    : "https://www.w3schools.com/howto/img_avatar.png"
+                  form.values.profileImage ||
+                  "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
             )}
           </Container>
-          {imageData ? (
-            <Anchor onClick={() => setImageData(null)}>Remove</Anchor>
+          {form.values.profileImage ? (
+            <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
+              Remove
+            </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
               <Dropzone
