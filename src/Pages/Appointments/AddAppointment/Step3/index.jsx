@@ -31,7 +31,10 @@ const Step3 = ({
   const { user } = useContext(UserContext);
 
   const addInputField = () => {
-    if (otherDocument[otherDocument.length - 1].documentName !== "") {
+    if (
+      otherDocument.length === 0 ||
+      otherDocument[otherDocument.length - 1].documentName !== ""
+    ) {
       const obj = {
         documentName: "",
         documentURL: "",

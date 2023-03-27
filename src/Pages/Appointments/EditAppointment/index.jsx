@@ -2,11 +2,14 @@ import {
   Anchor,
   Avatar,
   Badge,
-  Container, Divider, FileInput, Flex,
+  Container,
+  Divider,
+  FileInput,
+  Flex,
   Grid,
   Group,
   SimpleGrid,
-  Text
+  Text,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -79,7 +82,10 @@ function EditAppointments() {
   );
 
   const addInputField = () => {
-    if (otherDocument[otherDocument.length - 1].documentName !== "") {
+    if (
+      otherDocument.length === 0 ||
+      otherDocument[otherDocument.length - 1].documentName !== ""
+    ) {
       const obj = {
         documentName: "",
         documentURL: "",
