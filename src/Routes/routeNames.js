@@ -94,6 +94,8 @@ const routeNames = {
     viewProject: "/view-project",
     addRoaster: "/add-roaster",
     viewRoasters: "/view-roasters",
+    editAppoinment: "/edit-appointment",
+    viewAppoinment: "/view-appointment",
     addUser: "/add-user",
     allUsers: "/all-users",
     scheduleUser: "/schedule-user",

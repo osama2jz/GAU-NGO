@@ -42,8 +42,6 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  
-
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
   const [goToWhite, setGoToWhite] = useState(false);
@@ -60,15 +58,9 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-   
-    
+
     setImg(imageSrc);
   }, [webcamRef]);
-
-
-
-
-  
 
   const handleOpenCamera = () => {
     setDisabledIdBtn(true);

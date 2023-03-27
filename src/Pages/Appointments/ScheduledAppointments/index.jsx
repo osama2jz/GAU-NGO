@@ -201,7 +201,7 @@ function ScheduledAppointments() {
       <ContainerHeader label={"Appointment Scheduled"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={8} lg={5} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -211,16 +211,7 @@ function ScheduledAppointments() {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              data={[
-                { label: "verified", value: "verified" },
-                { label: "Pending", value: "pending" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={4} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
@@ -228,7 +219,7 @@ function ScheduledAppointments() {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
+          <Grid.Col sm={12} lg={6} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
               bg={true}
