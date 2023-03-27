@@ -45,7 +45,7 @@ export const AddUser = () => {
       password: "",
       confirmPassword: "",
       userType: "user",
-      profileImage: "",
+      profileImage: null,
     },
 
     validate: {
@@ -119,21 +119,6 @@ export const AddUser = () => {
     }
   );
 
-  const previews = files.map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
-    return (
-      <Avatar
-        size={200}
-        key={index}
-        src={imageUrl}
-        radius="xl"
-        m={"0px"}
-        p="0px"
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
-    );
-  });
-
   const handleImageInput = (file, type) => {
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -176,14 +161,11 @@ export const AddUser = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log("link", link);
-
             form.setFieldValue("profileImage", link);
           }
           setFileUploading(false);
         });
       }
-      // setFileLoader(false);
     });
   };
   return (
@@ -196,39 +178,48 @@ export const AddUser = () => {
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
-            {files.length > 0 ? (
-              previews
+            {fileUploading ? (
+              <Loader minHeight="200px" />
             ) : (
               <Avatar
                 size={200}
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={"https://www.w3schools.com/howto/img_avatar.png"}
+                src={
+                  form.values.profileImage
+                    ? form.values.profileImage
+                    : "https://www.w3schools.com/howto/img_avatar.png"
+                }
               />
             )}
           </Container>
-
-          <Input.Wrapper error={error} size={"md"}>
-            <Dropzone
-              accept={IMAGE_MIME_TYPE}
-              maxFiles={1}
-              style={{ width: "150px" }}
-              onDrop={(v) => {
-                setFiles(v);
-                handleImageInput(v[0]);
-              }}
-            >
-              {fileUploading ? (
-                <Loader minHeight="5vh" />
-              ) : (
-                <Text align="center" className={classes.upload}>
-                  <Upload size={16} />
-                  Upload
-                </Text>
-              )}
-            </Dropzone>
-          </Input.Wrapper>
+          {form.values.profileImage ? (
+            <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
+              Remove
+            </Anchor>
+          ) : (
+            <Input.Wrapper error={error} size={"md"}>
+              <Dropzone
+                accept={IMAGE_MIME_TYPE}
+                maxFiles={1}
+                style={{ width: "150px" }}
+                onDrop={(v) => {
+                  setFiles(v);
+                  handleImageInput(v[0]);
+                }}
+              >
+                {/* {fileUploading ? (
+                  <Loader minHeight="5vh" />
+                ) : ( */}
+                  <Text align="center" className={classes.upload}>
+                    <Upload size={16} />
+                    Upload
+                  </Text>
+                {/* )} */}
+              </Dropzone>
+            </Input.Wrapper>
+          )}
         </Group>
         <Container p={"0px"} size="xl" m={"sm"}>
           <Grid>

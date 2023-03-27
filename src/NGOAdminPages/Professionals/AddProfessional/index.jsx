@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Avatar,
   Container,
   FileInput,
@@ -31,7 +32,6 @@ export const AddProfessional = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [files, setFiles] = useState([]);
   const [fileUploading, setFileUploading] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -206,9 +206,6 @@ export const AddProfessional = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log(link);
-
-            // form.setFieldValue("documentURL", link);
             form.setFieldValue("IDDetails", link);
 
             setFileData(link);
@@ -263,8 +260,6 @@ export const AddProfessional = () => {
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
             setImageData(link);
-            console.log("link", link);
-            // form.setFieldValue("documentURL", link);
             form.setFieldValue("profileImage", link);
             setImageUploading(false);
           }
@@ -273,20 +268,6 @@ export const AddProfessional = () => {
     });
   };
 
-  const previews = files.map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
-    return (
-      <Avatar
-        size={200}
-        key={index}
-        src={imageUrl}
-        radius="xl"
-        m={"0px"}
-        p="0px"
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
-    );
-  });
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={id ? "Edit Professional" : "Add Professional"} />
@@ -297,8 +278,8 @@ export const AddProfessional = () => {
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
-            {files.length > 0 ? (
-              previews
+            {imageUploading ? (
+              <Loader minHeight="200px" />
             ) : (
               <Avatar
                 size={200}
@@ -308,38 +289,38 @@ export const AddProfessional = () => {
                 src={
                   isUpdate
                     ? editData?.image
+                    : imageData
+                    ? imageData
                     : "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
             )}
           </Container>
-          <Input.Wrapper error={uploadError} size={"md"}>
-            <Dropzone
-              accept={IMAGE_MIME_TYPE}
-              maxFiles={1}
-              style={{ width: "150px" }}
-              onDrop={(v) => {
-                setFiles(v);
-                handleImageInput(v[0], "pic");
-              }}
-            >
-              {imageUploading ? (
-                <Loader minHeight="5vh" />
-              ) : (
+          {imageData ? (
+            <Anchor onClick={() => setImageData(null)}>Remove</Anchor>
+          ) : (
+            <Input.Wrapper error={uploadError} size={"md"}>
+              <Dropzone
+                accept={IMAGE_MIME_TYPE}
+                maxFiles={1}
+                style={{ width: "150px" }}
+                onDrop={(v) => {
+                  handleImageInput(v[0], "pic");
+                }}
+              >
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} />
                   Upload
                 </Text>
-              )}
-            </Dropzone>
-          </Input.Wrapper>
+              </Dropzone>
+            </Input.Wrapper>
+          )}
         </Group>
         <Container p={"0px"} size="xs" m={"sm"}>
           <Grid>
             <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <SelectMenu
                 data={[
-                  // { label: "User", value: "user" },
                   { label: "Lawyer", value: "lawyer" },
                   { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
