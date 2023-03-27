@@ -1,6 +1,11 @@
 const routeNames = {
   general: {
-    login: "/login",
+    auth: "/auth",
+    login: "/auth/login",
+    signup: "/auth/signup",
+    forgetPassword: "/auth/forget-password",
+    otp: "/auth/verify-otp",
+    resetPassword: "/auth/reset-password",
     dashboard: "/",
   },
   socialWorker: {

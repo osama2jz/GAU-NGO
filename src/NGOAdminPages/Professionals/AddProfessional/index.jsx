@@ -119,7 +119,6 @@ export const AddProfessional = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      // console.log("imageData", imageData);
       if (imageData === "" || fileData === "") {
         if (imageData === "") {
           setUploadError("Please upload the Profile Photo");
@@ -132,9 +131,7 @@ export const AddProfessional = () => {
           values = { ...values, userId: editData?.id };
         }
 
-        console.log("values", values);
         const link = editData?.id ? "/api/user/edit" : "/api/user/create";
-        console.log("link", link);
         return axios.post(`${backendUrl + link}`, values, {
           headers: {
             "x-access-token": user.token,
@@ -445,28 +442,17 @@ export const AddProfessional = () => {
           )}
 
           <Group position="right" mt="sm">
-            {/* {fileUploading ? (
-              <Loader minHeight="40px" />
-            ) : ( */}
-            <>
-              <Button
-                label="Cancel"
-                onClick={() => navigate(-1)}
-              
-              />
+            <Button label="Cancel" onClick={() => navigate(-1)} />
 
-              <Button
-                label={isUpdate ? "Update" : "Add Professional"}
-                leftIcon={isUpdate ? "" : "plus"}
-                primary={true}
-               
-                type="submit"
-                loading={
-                  handleAddUser.isLoading || fileUploading || imageUploading
-                }
-              />
-            </>
-            {/* )} */}
+            <Button
+              label={isUpdate ? "Update" : "Add Professional"}
+              leftIcon={isUpdate ? "" : "plus"}
+              primary={true}
+              type="submit"
+              loading={
+                handleAddUser.isLoading || fileUploading || imageUploading
+              }
+            />
           </Group>
         </Container>
       </form>

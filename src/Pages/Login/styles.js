@@ -7,7 +7,7 @@ export const useStyles = createStyles((theme) => ({
   },
   form: {
     margin: "auto",
-    width: "50%",
+    width: "70%",
     [`@media (max-width: 600px)`]: {
       width: "90%",
     },

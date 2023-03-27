@@ -1,10 +1,12 @@
 import React from "react";
 import { Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 const ContainerHeader = ({ label }) => {
- return (
-  <Text fz={28} fw={600} align="center">
-   {label}
-  </Text>
- );
+  const isMobile = useMediaQuery("(max-width: 820px)");
+  return (
+    <Text size={isMobile ? 30 : 40} weight={700} align="center">
+      {label}
+    </Text>
+  );
 };
 export default ContainerHeader;
