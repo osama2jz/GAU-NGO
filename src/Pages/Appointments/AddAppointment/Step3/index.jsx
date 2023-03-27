@@ -26,21 +26,20 @@ const Step3 = ({
   setPrivateReportCheck,
   privateReportCheck,
   editorr2,
-  editorr
+  editorr,
 }) => {
   const { user } = useContext(UserContext);
-  const [numInputs, setNumInputs] = useState([1]);
 
-  function addInputField(id) {
-    setNumInputs([...numInputs, id]);
-
-    const obj = {
-      documentName: "",
-      documentURL: "",
-      createdBy: user.id,
-    };
-    setOtherDocument([...otherDocument, obj]);
-  }
+  const addInputField = () => {
+    if (otherDocument[otherDocument.length - 1].documentName !== "") {
+      const obj = {
+        documentName: "",
+        documentURL: "",
+        createdBy: user.id,
+      };
+      setOtherDocument([...otherDocument, obj]);
+    }
+  };
 
   const handleFileInput = (file, index) => {
     setFileLoader(true);
@@ -89,7 +88,6 @@ const Step3 = ({
           }
         });
       }
-      // setFileLoader(false);
     });
   };
 
@@ -127,7 +125,7 @@ const Step3 = ({
         Other Documents
       </Text>
 
-      {numInputs?.map((i, index) => (
+      {otherDocument?.map((i, index) => (
         <SimpleGrid
           breakpoints={[
             { minWidth: "md", cols: 2 },
@@ -165,8 +163,8 @@ const Step3 = ({
         </SimpleGrid>
       ))}
       <Button
-        label={"Other Documents"}
-        onClick={() => addInputField(2)}
+        label={"Add Document"}
+        onClick={() => addInputField()}
         bg={true}
       />
     </Container>
