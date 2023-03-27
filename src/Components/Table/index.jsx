@@ -381,6 +381,7 @@ const Table = ({
                                 state: {
                                   id: row.userid,
                                   appId: row.appointId,
+                                  appData: row,
                                 },
                               });
                         }}

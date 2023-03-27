@@ -79,6 +79,7 @@ function ScheduledAppointments() {
             image: obj?.appointmentUserImage
             ? obj?.appointmentUserImage
             : userlogo,
+            project:obj?.project,
           };
           return appointment;
         });

@@ -81,7 +81,7 @@ const VerificationScheduled = () => {
 
     {
       id: "actions",
-      view: <Eye color={theme.colors.blue} />,
+      view: <Eye  />,
       numeric: false,
       label: "Actions",
     },
