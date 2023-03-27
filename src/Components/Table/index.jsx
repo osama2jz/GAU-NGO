@@ -11,7 +11,7 @@ import {
   Switch,
   Table as TableMantine,
   Text,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
@@ -39,6 +39,7 @@ const Table = ({
   setEditProject,
   setEditBranch,
   setEditProfessional,
+  ...props
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -306,6 +307,25 @@ const Table = ({
                         </Anchor>
                       ) : (
                         <Text>No Report</Text>
+                      )}
+                    </td>
+                  ) : head.id === "reply" ? (
+                    <td key={index} align="center">
+                      {row?.reply ? (
+                        <Badge color={"green"} variant="filled">
+                          {" "}
+                          Replied
+                        </Badge>
+                      ) : (
+                        <Anchor
+                          color={"red"}
+                          onClick={() => {
+                            props.setOpenReplyModal(true);
+                            props.setReplyModalId(row?.id);
+                          }}
+                        >
+                          Reply Now{" "}
+                        </Anchor>
                       )}
                     </td>
                   ) : head.id === "accStatus" ? (

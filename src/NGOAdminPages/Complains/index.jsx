@@ -1,25 +1,23 @@
-import { Container, Grid, useMantineTheme } from "@mantine/core";
+import { Container, Grid } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
 import Button from "../../Components/Button";
-
 import ContainerHeader from "../../Components/ContainerHeader";
 import InputField from "../../Components/InputField";
 import Loader from "../../Components/Loader";
 import Pagination from "../../Components/Pagination";
-import SelectMenu from "../../Components/SelectMenu";
 import Table from "../../Components/Table";
 import ViewModal from "../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
-// import routeNames from "../../../Routes/routeNames";
+import ReplyModal from "./ComplainReply";
 import { useStyles } from "./styles";
-import ViewUserModal from "./ViewUserModal";
+import ViewComplaintModal from "./ViewComplaintModal";
 
 export const ViewComplains = () => {
   const { classes } = useStyles();
@@ -27,7 +25,9 @@ export const ViewComplains = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [openReplyModal, setOpenReplyModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
+  const [replyModalId, setReplyModalId] = useState(null);
 
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
@@ -68,10 +68,10 @@ export const ViewComplains = () => {
       label: "Complaint Description",
     },
     {
-      id: "ngo",
+      id: "reply",
       numeric: false,
       disablePadding: true,
-      label: "NGO Name",
+      label: "Reply",
     },
     {
       id: "actions",
@@ -107,6 +107,7 @@ export const ViewComplains = () => {
             amount: obj?.subject,
             date: moment(obj?.createdAt).format("DD-MM-YYYY"),
             ngo: obj?.ngoId?.ngoName,
+            reply: obj?.reply,
             description: obj?.description,
           };
           return branch;
@@ -184,7 +185,8 @@ export const ViewComplains = () => {
             headCells={headerData}
             rowData={paginated}
             setViewModalState={setOpenViewModal}
-            setViewModalData={setViewModalData}
+            setOpenReplyModal={setOpenReplyModal}
+            setReplyModalId={setReplyModalId}
             setReportData={setReportData}
           />
         )}
@@ -203,9 +205,13 @@ export const ViewComplains = () => {
         setOpened={setOpenViewModal}
         title="Complaint Details"
       >
-        {/* <ViewUser id={viewModalData}/> */}
-        <ViewUserModal id={viewModalData} reportData={reportData} />
+        <ViewComplaintModal id={viewModalData} reportData={reportData} />
       </ViewModal>
+      <ReplyModal
+        setOpenReplyModal={setOpenReplyModal}
+        openReplyModal={openReplyModal}
+        replyModalId={replyModalId}
+      />
     </Container>
   );
 };
