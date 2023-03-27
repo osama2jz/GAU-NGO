@@ -1,16 +1,6 @@
-import React, { useContext, useState } from "react";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import step1 from "../../../assets/selectUserIn.png";
-import step2 from "../../../assets/inMeetingIn.png";
-import step3 from "../../../assets/uploadRepIn.png";
-import step4 from "../../../assets/referIn.png";
-import Button from "../../../Components/Button";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Step4 from "./Step4";
-import Step5 from "./Step5";
-import { useStyles } from "./styles";
+import { Container, Group, Stepper, useMantineTheme } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { Link } from "@mantine/tiptap";
 import Highlight from "@tiptap/extension-highlight";
 import SubScript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
@@ -18,26 +8,27 @@ import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Link } from "@mantine/tiptap";
-import TextEditor from "../../../Components/TextEditor";
-import {
-  Container,
-  Group,
-  Stepper,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import routeNames from "../../../Routes/routeNames";
+import step2 from "../../../assets/inMeetingIn.png";
+import step4 from "../../../assets/referIn.png";
+import step1 from "../../../assets/selectUserIn.png";
+import step3 from "../../../assets/uploadRepIn.png";
+import Button from "../../../Components/Button";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import routeNames from "../../../Routes/routeNames";
 import { AgeForm } from "./AgeForm";
 import { AgeFormAbove } from "./AgeFormAbove";
-import { showNotification } from "@mantine/notifications";
-import { backendUrl } from "../../../constants/constants";
-import { useMutation } from "react-query";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useForm } from "@mantine/form";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
+import Step5 from "./Step5";
+import { useStyles } from "./styles";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -47,9 +38,7 @@ const AddAppointment = () => {
   const { user } = useContext(UserContext);
 
   const { state } = useLocation();
-  const { id, appId,appData } = state ?? "";
-
-  console.log("project", appData)
+  const { id, appId, appData } = state ?? "";
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -66,12 +55,12 @@ const AddAppointment = () => {
   const [faceID, setFaceId] = useState({});
 
   const [privateReportCheck, setPrivateReportCheck] = useState(false);
-  const [publicReportCheck, setPublicReportCheck] = useState(false);
   const [otherUserName, setOtherUserName] = useState("");
   const [otherUserMobile, setotherUserMobile] = useState("");
   const [otherUserId, setotherUserId] = useState("");
 
   const [userCase, setUserCase] = useState();
+  const [projectId, setProjectId] = useState("");
 
   const editorr = useEditor({
     extensions: [
@@ -119,6 +108,7 @@ const AddAppointment = () => {
   const handleCreateCase = useMutation(
     () => {
       let object = {};
+
       if (
         otherUserId !== "" ||
         otherUserMobile !== "" ||
@@ -160,17 +150,88 @@ const AddAppointment = () => {
     }
   );
 
+  //create UserCase
+  const handleCreateUserCase = useMutation(
+    () => {
+      let object = {};
+      if (
+        otherUserId !== "" ||
+        otherUserMobile !== "" ||
+        otherUserName !== ""
+      ) {
+        if (selectedCase.length > 0 && newCase.length < 1) {
+          object = {
+            previousCaseLinked: true,
+            appointmentId: appId,
+            caseLinkedUser: id,
+            Image: img,
+            otherUser: true,
+            otherUserId: otherUserId,
+            otherUserMobile: otherUserMobile,
+            otherUserName: otherUserName,
+            previousCaseLinkedId: selectedCase,
+            projectId: projectId,
+          };
+        } else {
+          object = {
+            previousCaseLinked: false,
+            appointmentId: appId,
+            caseLinkedUser: id,
+            Image: img,
+            caseName: newCase,
+            projectId: projectId,
+          };
+        }
+      } else {
+        if (selectedCase.length > 0 && newCase.length < 1) {
+          object = {
+            previousCaseLinked: true,
+            appointmentId: appId,
+            caseLinkedUser: id,
+            Image: img,
+            previousCaseLinkedId: selectedCase,
+            projectId: projectId,
+          };
+        } else {
+          object = {
+            previousCaseLinked: false,
+            appointmentId: appId,
+            caseLinkedUser: id,
+            Image: img,
+            caseName: newCase,
+            projectId: projectId,
+          };
+        }
+      }
+
+      return axios.post(`${backendUrl + "/api/case/create"}`, object, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // console.log("response", response);
+        setSelectedCase(response?.data?.data?.caseId);
+        setCaseNo(response?.data?.data?.caseNo);
+        setUserCase(response?.data?.data?.caseNo);
+        setActive(active + 1);
+      },
+    }
+  );
+
   //create report
   const handleCreateReport = useMutation(
     () => {
       reportPublicFiles.reportComments = editorr?.getHTML();
       privatereportFiles.reportComments = editorr2?.getHTML();
-      
+
       const value = {
         caseId: selectedCase,
         reportFiles: [reportPublicFiles, privatereportFiles],
       };
-      
+
       return axios.post(`${backendUrl + "/api/case/caseReports"}`, value, {
         headers: {
           "x-access-token": user.token,
@@ -252,8 +313,8 @@ const AddAppointment = () => {
       //   });
       //   return;
       // } else {
-        handleCreateReport.mutate();
-        setActive(active + 1);
+      handleCreateReport.mutate();
+      setActive(active + 1);
       // }
     }
     if (user.role === "Psychologist") {
@@ -307,6 +368,9 @@ const AddAppointment = () => {
               setOtherUserName={setOtherUserName}
               setotherUserMobile={setotherUserMobile}
               setotherUserId={setotherUserId}
+              appData={appData}
+              setProjectId={setProjectId}
+              projectId={projectId}
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (
@@ -418,8 +482,7 @@ const AddAppointment = () => {
             <Button
               onClick={handleNextSubmit}
               loading={
-                handleCreateCase.isLoading ||
-                handleCreateReport.isLoading 
+                handleCreateCase.isLoading || handleCreateReport.isLoading
                 // fileLoader
               }
               label={
