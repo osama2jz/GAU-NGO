@@ -47,7 +47,9 @@ const AddAppointment = () => {
   const { user } = useContext(UserContext);
 
   const { state } = useLocation();
-  const { id, appId } = state ?? "";
+  const { id, appId,appData } = state ?? "";
+
+  console.log("project", appData)
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -111,7 +113,6 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
-  console.log(editorr?.getHTML());
   const [otherDocument, setOtherDocument] = useState([]);
 
   //create case

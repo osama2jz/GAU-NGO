@@ -251,6 +251,22 @@ const Step1 = ({
         </SimpleGrid>
       ) : (
         <Container size="36rem">
+           {projectsLoading !== "loading" && (
+              <SelectMenu
+                searchable={true}
+                placeholder={
+                  projects.length < 1
+                    ? "No Projects Found"
+                    : "Enter Project Name"
+                }
+                label="Search Project"
+                creatable={true}
+                setData={setProjectId}
+                value={projectId}
+                // disabled={newCase.length > 0}
+                data={projects}
+              />
+            )}
           <UserInfo userData={selectedUser} loading={userFetching} />
         </Container>
       )}

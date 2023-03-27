@@ -1,4 +1,11 @@
-import { Anchor, Container, Flex, Grid, Text,useMantineTheme } from "@mantine/core";
+import {
+  Anchor,
+  Container,
+  Flex,
+  Grid,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
@@ -14,18 +21,19 @@ import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import ViewUserModal from "../../../NGOAdminPages/Branches/viewBranches/ViewBranchModal";
+import routeNames from "../../../Routes/routeNames";
 import Card from "../Card";
 import { useStyles } from "./styles";
-
 
 const BranchPage = (props) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [activePage, setPage] = useState(1);
   const theme = useMantineTheme();
-
+  const queryClient = new QueryClient();
   const [totalPages, setTotalPages] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -36,14 +44,13 @@ const BranchPage = (props) => {
   const [url, setUrl] = useState(`/api/user/listUsers/professionals`);
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
-  const [loading,setLoading]=useState(false)
-  const [allUsers,setAllUsers]=useState()
-  const [allData,setAllData]=useState()
+  const [loading, setLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState();
+  const [allData, setAllData] = useState();
   const [BranchData, setBranchData] = useState([]);
 
-  
   //API call for fetching all branches
- 
+
   let headerData = [
     {
       id: "sr",
@@ -83,9 +90,9 @@ const BranchPage = (props) => {
     },
     {
       id: "actions",
-      view: <Eye  />,
-      edit: <Edit  />,
-      delete: <Trash  />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -97,8 +104,7 @@ const BranchPage = (props) => {
     () => {
       return axios.get(
         `${
-          backendUrl +
-          `/api/ngo/listAllBranches`
+          backendUrl + `/api/ngo/listAllBranches`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -110,8 +116,7 @@ const BranchPage = (props) => {
     },
     {
       onSuccess: (response) => {
-        setAllData(response.data.data)
-        console.log(response.data.data)
+        setAllData(response.data.data);
         let data = response.data.data.map((obj, ind) => {
           let branch = {
             id: obj._id,
@@ -136,7 +141,46 @@ const BranchPage = (props) => {
     }
   );
 
-  
+  //API call for changing user status
+  const handleChangeStatus = useMutation(
+    (values) => {
+      return axios.post(`${backendUrl + "/api/ngo/editBranch"}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        // navigate(routeNames.ngoAdmin.branchPageDashboard);
+        showNotification({
+          title: "Status Updated",
+          message: deleteID
+            ? "Branch Deleted Successfully!"
+            : "Branch Status changed Successfully!",
+          color: "green.0",
+        });
+        setOpenDeleteModal(false);
+        queryClient.invalidateQueries("fetchBranches");
+      },
+      onError: (res) => {
+        showNotification({
+          title: "Error",
+          message: "Something Went Wrong!",
+          color: "red.0",
+        });
+      },
+    }
+  );
+
+  //API call for deleting user
+  const handleDeleted = () => {
+    handleChangeStatus.mutate({
+      branchId: deleteID,
+      branchStatus: "deleted",
+    });
+  };
+
   const paginated = useMemo(() => {
     if (activePage == 1) {
       return rowData.slice(0, 10);
@@ -146,17 +190,15 @@ const BranchPage = (props) => {
     }
   }, [activePage, rowData]);
 
-  const active = allData && allData?.filter((e) => e.branchStatus === "active"
-  )
-  
-  const inactive = allData && allData?.filter(
-    (e) => e.branchStatus === "inactive"
-  )
+  const active = allData && allData?.filter((e) => e.branchStatus === "active");
+
+  const inactive =
+    allData && allData?.filter((e) => e.branchStatus === "inactive");
 
   const a = [
     {
       title: "TOTAL BRANCHES",
-      value: active ? active?.length + inactive?.length : 0 ,
+      value: active ? active?.length + inactive?.length : 0,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -181,7 +223,6 @@ const BranchPage = (props) => {
       icon: "userD",
       // url: `/verified`,
     },
-  
   ];
 
   return (
@@ -202,43 +243,51 @@ const BranchPage = (props) => {
       </Flex>
       <Grid>
         {a.map((item, index) => (
-          <Grid.Col md={"auto"} >
-            <Card w={"240"} data={item} setUrl={setUrl} url={url} setPage={setPage}/>
+          <Grid.Col md={"auto"}>
+            <Card
+              w={"240"}
+              data={item}
+              setUrl={setUrl}
+              url={url}
+              setPage={setPage}
+            />
           </Grid.Col>
         ))}
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" size={1095} className={classes.main}>
-      <Table
-        headCells={headerData}
-        rowData={paginated}
-        setViewModalState={setOpenViewModal}
-        setEditModalState={setOpenEditModal}
-        setDeleteModalState={setOpenDeleteModal}
-        // onStatusChange={handleChangeStatus.mutate}
-        setStatusChangeId={setStatusChangeId}
-        setDeleteData={setDeleteID}
-        setViewModalData={setViewModalData}
-        setReportData={setBranchData}
-        setEditBranch={true}
-
-      />
-      {totalPages > 1 && (
-        <Pagination
-          activePage={activePage}
-          setPage={setPage}
-          total={totalPages}
-          radius="xl"
-        />
+      ) : (
+        <Container mt="md" size={1095} className={classes.main}>
+          <Table
+            headCells={headerData}
+            rowData={paginated}
+            setViewModalState={setOpenViewModal}
+            setEditModalState={setOpenEditModal}
+            setDeleteModalState={setOpenDeleteModal}
+            onStatusChange={handleChangeStatus.mutate}
+            setStatusChangeId={setStatusChangeId}
+            setDeleteData={setDeleteID}
+            setViewModalData={setViewModalData}
+            setReportData={setBranchData}
+            setEditBranch={true}
+          />
+          {totalPages > 1 && (
+            <Pagination
+              activePage={activePage}
+              setPage={setPage}
+              total={totalPages}
+              radius="xl"
+            />
+          )}
+        </Container>
       )}
-    </Container>)}
-      
+
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
-        // onDelete={handleDeleted}
+        onDelete={handleDeleted}
+        loading={handleChangeStatus.isLoading}
         label="Are you Sure?"
         message="Do you really want to delete these records? This process cannot be undone."
       />
@@ -247,9 +296,8 @@ const BranchPage = (props) => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        <ViewUserModal id={viewModalData} reportData={BranchData}/>
+        <ViewUserModal id={viewModalData} reportData={BranchData} />
       </ViewModal>
-      
     </Container>
   );
 };
