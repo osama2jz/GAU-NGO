@@ -1,4 +1,4 @@
-import { Avatar, Container, Divider, Flex, Group, Text } from "@mantine/core";
+import { Avatar, Container, Divider, Flex, Group, Text,SimpleGrid,Grid } from "@mantine/core";
 import axios from "axios";
 import React, {
   useCallback,
@@ -14,6 +14,7 @@ import userImage from "../../../../assets/teacher.png";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
+import SelectMenu from "../../../../Components/SelectMenu";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
@@ -33,6 +34,9 @@ const Step1 = ({
   setOtherUserName,
   setotherUserMobile,
   setotherUserId,
+  appData,
+  projectId,
+  setProjectId,
 }) => {
   const { state } = useLocation();
   // const {id}=state??""
@@ -41,6 +45,9 @@ const Step1 = ({
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [projects, setProjetcs] = useState([]);
+
+  console.log("appData", appData)
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
@@ -84,11 +91,11 @@ const Step1 = ({
     faceio = new faceIO("fioa89bd");
   }, [faceio]);
 
-  //all users
-  const { data: users, status } = useQuery(
+   //all users
+   const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
-      return axios.get(backendUrl + "/api/ngo/listNGOVerifiedUsers", {
+      return axios.get(backendUrl + "/api/ngo/listNGOUsers/user/0/0/verified", {
         headers: {
           "x-access-token": usertoken?.token,
         },
@@ -97,14 +104,44 @@ const Step1 = ({
     {
       onSuccess: (response) => {
         let data = response.data.data.map((obj, ind) => {
-          let user = {
-            value: obj._id.toString(),
-            label: obj?.firstName + " " + obj?.lastName,
-            email: obj?.email || "",
-          };
-          return user;
+          if (obj.userStatus === "active") {
+            let user = {
+              value: obj._id.toString(),
+              label: obj?.firstName + " " + obj?.lastName,
+              email: obj?.email || "",
+            };
+            return user;
+          }
         });
-        setUserData(data);
+        let newData = data.filter((item) => item !== undefined);
+        setUserData(newData);
+      },
+    }
+  );
+
+  //all projects
+  const { status: projectsLoading } = useQuery(
+    "fetchProjects",
+    () => {
+      return axios.get(backendUrl + "/api/project/listProjects", {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response.data.data.map((obj, ind) => {
+          if (obj.status === "active") {
+            let user = {
+              value: obj._id.toString(),
+              label: obj?.projectName,
+            };
+            return user;
+          }
+        });
+        let newData = data.filter((item) => item !== undefined);
+        setProjetcs(newData);
       },
     }
   );
@@ -119,10 +156,9 @@ const Step1 = ({
         },
       });
     },
-
     {
+      cacheTime: 0,
       onSuccess: (response) => {
-        // setCases([]),
         setSelectedUser(response);
       },
       enabled: !!user,
@@ -131,9 +167,10 @@ const Step1 = ({
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
-    ["casesFetched", user],
+    ["casesFetched", user,projectId],
     () => {
-      return axios.get(backendUrl + `/api/case/listUserCases/${user}`, {
+      console.log("p",projectId)
+      return axios.get(backendUrl + `/api/case/listUserCases/${user}/${projectId}`, {
         headers: {
           "x-access-token": usertoken?.token,
         },
@@ -150,7 +187,7 @@ const Step1 = ({
         });
         setCases(data);
       },
-      enabled: !!user,
+      enabled: !!user || !!projectId,
     }
   );
 
@@ -161,13 +198,15 @@ const Step1 = ({
 
         <div>
           <Text size="sm">{label}</Text>
-          <Text size="xs" opacity={0.66}>
+          <Text size="xs" opacity={0.65}>
             {email}
           </Text>
         </div>
       </Group>
     </div>
   );
+
+  
 
   const handleVerifyID = async () => {
     setDisabledCameraBtn(true);
@@ -291,7 +330,91 @@ const Step1 = ({
           />
         )}
       </Group>
-      {userFetching === "loading" ? (
+      {appData?.project==="N/A" ? 
+       <SimpleGrid
+       breakpoints={[
+         { minWidth: "md", cols: 1 },
+         {
+           minWidth: "lg",
+           cols: selectedUser || selectedUser === "loading" ? 2 : 1,
+         },
+         { minWidth: "xs", cols: 1 },
+       ]}
+     >
+       <SimpleGrid align={"flex-end"}>
+         {usertoken.role !== "User" && (
+           <SelectMenu
+             searchable={true}
+             itemComponent={SelectItem}
+             placeholder="Enter User name or Id"
+             clearable={true}
+             setData={setUser}
+             value={user}
+             label="Search User"
+             data={userData}
+           />
+         )}
+         {projectsLoading !== "loading" && (
+           <SelectMenu
+             searchable={true}
+             placeholder={
+               projects.length < 1
+                 ? "No Projects Found"
+                 : "Enter Project Name"
+             }
+             label="Search Project"
+             creatable={true}
+             setData={setProjectId}
+             value={projectId}
+             // disabled={newCase.length > 0}
+             data={projects}
+           />
+         )}
+         {casesfetching !== "loading" ? (
+           <SelectMenu
+             searchable={true}
+             placeholder={
+               cases.length < 1 ? "No cases found" : "Enter case name or id"
+             }
+             label="Search User Case"
+             creatable={true}
+             setData={setSelectedCase}
+             disabled={newCase.length > 0 || cases.length < 1}
+             data={cases}
+           />
+         ):<Loader minHeight="40px" />}
+         <Divider
+           label="OR"
+           labelPosition="center"
+           color={"black.0"}
+           m="0px"
+           p={"0px"}
+         />
+         <InputField
+           label={"Create New Case"}
+           placeholder="Enter case name"
+           value={newCase}
+           pb="0px"
+           onChange={(v) => {
+             setNewCase(v.target.value);
+             setSelectedCase(v.target.value);
+           }}
+         />
+       </SimpleGrid>
+       {userFetching === "loading" ? (
+         <Loader minHeight="40px" />
+       ) : selectedUser ? (
+        <Grid mt={30} justify="space-between" align={"center"} ml={"md"}>
+            <Grid.Col sm={12} md={12} xs={12} lg={11}>
+            <UserInfo userData={selectedUser} loading={userFetching} />
+            </Grid.Col>
+            </Grid>
+        
+       ) : (
+         ""
+       )}
+     </SimpleGrid>
+      :userFetching == "loading" ? (
         <Loader minHeight={"5vh"} />
       ) : selectedUser ? (
         <Container size={"lg"} p="0px">
@@ -300,6 +423,7 @@ const Step1 = ({
       ) : (
         ""
       )}
+      
     </Flex>
   );
 };
