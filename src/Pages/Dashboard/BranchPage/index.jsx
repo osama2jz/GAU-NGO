@@ -294,7 +294,7 @@ const BranchPage = (props) => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="User Details"
+        title="Branch Details"
       >
         <ViewUserModal id={viewModalData} reportData={BranchData} />
       </ViewModal>

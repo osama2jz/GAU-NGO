@@ -67,16 +67,16 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
-      let obj={
+      let obj = {
         ngoId: user?.ngoId,
-        branchId:values?.branchId,
-        scheduleType:values?.scheduleType,
-        dateStart:moment(values?.dateStart).format("YYYY-MM-DD"),
-        timeStartSlot:moment(values?.timeStartSlot).format("HH:mm"),
-        dateEnd:moment(values?.dateEnd).format("YYYY-MM-DD"),
-        timeEndSlot:moment(values?.timeEndSlot).format("HH:mm"),
-        users:values?.users
-      }
+        branchId: values?.branchId,
+        scheduleType: values?.scheduleType,
+        dateStart: moment(values?.dateStart).format("YYYY-MM-DD"),
+        timeStartSlot: moment(values?.timeStartSlot).format("HH:mm"),
+        dateEnd: moment(values?.dateEnd).format("YYYY-MM-DD"),
+        timeEndSlot: moment(values?.timeEndSlot).format("HH:mm"),
+        users: values?.users,
+      };
       // values.ngoId = user?.ngoId;
       // values.timeStartSlot = moment(values?.timeStartSlot).format("HH:mm");
       // values.timeEndSlot = moment(values?.timeEndSlot).format("HH:mm");
@@ -91,17 +91,16 @@ export const AddRoaster = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          if(response?.data?.message[0]?.scheduleMessage){
-            console.log("hello")
+          if (response?.data?.message[0]?.scheduleMessage) {
+            console.log("hello");
             // navigate(routeNames.ngoAdmin.viewRoasters);
             showNotification({
               title: "Failed",
               message: response?.data?.message[0]?.scheduleMessage,
               color: "red.0",
             });
-          
-          }else{
-            console.log("high")
+          } else {
+            console.log("high");
             showNotification({
               title: "Users Scheuled",
               message: "Schedule has been created Successfully!",
@@ -109,8 +108,6 @@ export const AddRoaster = () => {
             });
             navigate(routeNames.ngoAdmin.viewRoasters);
           }
-          
-         
         } else {
           showNotification({
             title: "Failed",
@@ -137,7 +134,7 @@ export const AddRoaster = () => {
         let data = response.data?.data?.map((obj, ind) => {
           let user = {
             value: obj._id,
-            label: obj.firstName + " " + obj.lastName,
+            label: ind + 1 + ". " + obj.firstName + " " + obj.lastName,
           };
           return user;
         });
@@ -158,19 +155,22 @@ export const AddRoaster = () => {
     },
     {
       onSuccess: (response) => {
+        
         let data = response.data.data.map((obj, ind) => {
-          let branch = {
-            value: obj._id,
-            label: obj.branchName,
-          };
-          return branch;
+          if(obj?.branchStatus==="active"){
+            let branch = {
+              value: obj._id,
+              label: obj.branchName,
+            };
+            return branch;
+          }
+          
         });
-        setBranches(data);
+        let filteredData = data.filter((obj) => obj !== undefined);
+        setBranches(filteredData);
       },
     }
   );
-
-  
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -226,11 +226,10 @@ export const AddRoaster = () => {
               minDate={new Date(form.values.dateStart)}
               form={form}
               validateName="dateEnd"
-              
             />
           </Grid.Col>
         </Grid>
-        <Grid>
+        {/* <Grid>
           <Grid.Col sm={6}>
             <Timepicker
               label="Start Time"
@@ -249,10 +248,9 @@ export const AddRoaster = () => {
               form={form}
               validateName="timeEndSlot"
               // {...form?.getInputProps("timeEndSlot")}
-
             />
           </Grid.Col>
-        </Grid>
+        </Grid> */}
         <MultiSelect
           label="Select Users"
           form={form}

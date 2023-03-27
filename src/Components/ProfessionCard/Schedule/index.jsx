@@ -11,12 +11,14 @@ import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import moment from "moment";
 
-const MySchedule = ({ Userid, setSlot }) => {
+const MySchedule = ({ Userid, setSlot ,slot}) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
+
+  console.log("slot",slot)
 
   // console.log(Userid);
 
@@ -105,7 +107,7 @@ const MySchedule = ({ Userid, setSlot }) => {
                 (item, index) =>
                   !item.booked && (
                     <Flex justify={"center"}>
-                      <ScheduleCard data={item} setSlot={setSlot} />
+                      <ScheduleCard data={item} setSlot={setSlot} slot={slot}/>
                     </Flex>
                   )
               )}

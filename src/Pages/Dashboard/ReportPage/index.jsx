@@ -22,6 +22,8 @@ import { UserContext } from "../../../contexts/UserContext";
 import Card from "../Card";
 import { useStyles } from "./styles";
 import Pagination from "../../../Components/Pagination";
+import ReactHtmlParser from "react-html-parser";
+import TextArea from "../../../Components/TextArea";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -313,7 +315,7 @@ const UserPage = (props) => {
       {loader ? (
         <Loader minHeight="40vh" />
       ) : (
-        <Container mt="md"  size={1095} className={classes.main}>
+        <Container mt="md" size={1095} className={classes.main}>
           <Table
             headCells={headerData}
             rowData={rowData}
@@ -333,48 +335,41 @@ const UserPage = (props) => {
         </Container>
       )}
 
-<ViewModal
+      <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title= {reportData?.type === "Private" ? "Private Report" : "Public Report"}
+        title={
+          reportData?.type === "Private" ? "Private Report" : "Public Report"
+        }
       >
         <Flex direction="column" align="center" justify={"space-between"}>
-        
-            {/* <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            /> */}
-          
-         
-            <Text size={24} weight="bold" mb="sm" align="center">
-              {reportData?.name}
-            </Text>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
-                <Text className={classes.textContent}>
-                  {reportData?.caseNo}
-                </Text>
-                <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>
-                  {reportData?.addedBy}
-                </Text>
-                <Text className={classes.textheading}>Date</Text>
-                <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
-                <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
-                </Anchor>
-
-             
-              </SimpleGrid>
-            </Container>
-          
+          <Container w={"100%"} ml="md">
+            <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>User Name: </Text>
+              <Text className={classes.textContent}>{reportData?.name}</Text>
+              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textContent}>{reportData?.caseNo}</Text>
+              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textContent}>{reportData?.addedBy}</Text>
+              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textContent}>{reportData?.date}</Text>
+              <Text className={classes.textheading}>Report File</Text>
+              <Anchor href={reportData?.file} target="_blank">
+                {reportData?.type} Report
+              </Anchor>
+            </SimpleGrid>
+          </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">Report Comments</Text>
-        <Text>{reportData?.comments}</Text>
+
+        <Container w={"100%"} ml="sm" bgr={"initial"} pr={"xl"}>
+          <Text className={classes.textheading} mt="md">
+            Report Comments
+          </Text>
+
+          <Text align="justify">
+            {ReactHtmlParser(reportData?.comments)}
+          </Text>
+        </Container>
       </ViewModal>
     </Container>
   );

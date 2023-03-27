@@ -58,6 +58,7 @@ function ViewUserModal({ id, reportData }) {
           {reportData?.description ? reportData?.description : "No Description"}
         </Text>
       </Container>
+     
     </>
   );
 }
