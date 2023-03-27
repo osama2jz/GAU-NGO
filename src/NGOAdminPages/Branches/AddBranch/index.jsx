@@ -1,4 +1,12 @@
-import { Avatar, Container, Grid, Group, Input, Text } from "@mantine/core";
+import {
+  Anchor,
+  Avatar,
+  Container,
+  Grid,
+  Group,
+  Input,
+  Text,
+} from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -24,11 +32,8 @@ export const AddBranch = () => {
 
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [files, setFiles] = useState([]);
-  // const [fileUploading, setFileUploading] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
-  const [imageData, setImageData] = useState(null);
 
   let { state } = useLocation();
   const { editData } = state ?? "";
@@ -40,7 +45,7 @@ export const AddBranch = () => {
       branchName: "",
       branchLocation: "",
       branchDescription: "",
-      branchPicture: "",
+      branchPicture: null,
       branchContact: "",
       branchEmail: "",
       branchPointOfContact: "",
@@ -61,13 +66,12 @@ export const AddBranch = () => {
       branchEmail: (value) =>
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
       branchPointOfContact: (value) =>
-      /^\w.{3,16}$/.test(value) ?  null :"Please enter Point of Contact" ,
+        /^\w.{3,16}$/.test(value) ? null : "Please enter Point of Contact",
     },
   });
 
   useEffect(() => {
     if (isUpdate) {
-      setImageData(editData?.branchPicture);
       form.setFieldValue("branchName", editData?.name);
       form.setFieldValue("branchDescription", editData?.description);
       form.setFieldValue("branchLocation", editData?.location);
@@ -78,15 +82,14 @@ export const AddBranch = () => {
       );
       form.setFieldValue("branchEmail", editData?.branchEmail);
       form.setFieldValue("branchContact", editData?.branchContact);
-    }
-    else{
-      form.reset()
+    } else {
+      form.reset();
     }
   }, [isUpdate, editData]);
 
   const handleAddBranch = useMutation(
     (values) => {
-      if (imageData === null) {
+      if (values.branchPicture === null) {
         setUploadError("Please upload the Branch Photo");
       } else {
         if (isUpdate) {
@@ -166,8 +169,6 @@ export const AddBranch = () => {
             });
           } else {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            setImageData(link);
-
             form.setFieldValue("branchPicture", link);
             setImageUploading(false);
           }
@@ -175,21 +176,6 @@ export const AddBranch = () => {
       }
     });
   };
-
-  const previews = files.map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
-    return (
-      <Avatar
-        size={200}
-        key={index}
-        src={imageUrl}
-        radius="xl"
-        m={"0px"}
-        p="0px"
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
-    );
-  });
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -201,38 +187,41 @@ export const AddBranch = () => {
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
-            {files.length > 0 ? (
-              previews
+            {imageUploading ? (
+              <Loader minHeight="200px" />
             ) : (
               <Avatar
                 size={200}
                 radius="xl"
                 m={"0px"}
                 p={"0px"}
-                src={isUpdate ? editData?.image : ngoDefault}
+                src={form.values.branchPicture || ngoDefault}
               />
             )}
           </Container>
-          <Input.Wrapper error={uploadError} size={"md"}>
-            <Dropzone
-              accept={IMAGE_MIME_TYPE}
-              maxFiles={1}
-              style={{ width: "150px" }}
-              onDrop={(v) => {
-                setFiles(v);
-                handleImageInput(v[0]);
-              }}
-            >
-              {imageUploading ? (
-                <Loader minHeight="5vh" />
-              ) : (
+          {form.values.branchPicture ? (
+            <Anchor onClick={() => form.setFieldValue("branchPicture",null)}>Remove</Anchor>
+          ) : (
+            <Input.Wrapper error={uploadError} size={"md"}>
+              <Dropzone
+                accept={IMAGE_MIME_TYPE}
+                maxFiles={1}
+                style={{ width: "150px" }}
+                onDrop={(v) => {
+                  handleImageInput(v[0]);
+                }}
+              >
+                {/* {imageUploading ? (
+                  <Loader minHeight="5vh" />
+                ) : ( */}
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} />
                   Upload
                 </Text>
-              )}
-            </Dropzone>
-          </Input.Wrapper>
+                {/* )} */}
+              </Dropzone>
+            </Input.Wrapper>
+          )}
         </Group>
         <Container p={"0px"} size="xs" m={"sm"}>
           <Grid>
@@ -298,10 +287,7 @@ export const AddBranch = () => {
             validateName="branchDescription"
           />
           <Group position="right" mt="sm">
-            <Button
-              label="Cancel"
-              onClick={() => navigate(-1)}
-            />
+            <Button label="Cancel" onClick={() => navigate(-1)} />
 
             <Button
               label={isUpdate ? "Update" : "Add Branch"}

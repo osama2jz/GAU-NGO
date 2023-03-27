@@ -60,7 +60,7 @@ const Index = ({}) => {
   const { user } = useContext(UserContext);
 
   return (
-    <Container fluid className={classes.header} p="0px">
+    <Container fluid className={classes.header} p="0px" pb={"5px"}>
       <Group
         position="left"
         noWrap
@@ -74,14 +74,15 @@ const Index = ({}) => {
             Welcome Back <b>{user.name}</b>
           </Text>
         </Flex>
-        <div style={{ position: "absolute", right: "0" }}>
+        <div style={{ position: "absolute", right: "20px" }}>
           {/* <Notifications /> */}
           <Menu
             width={matches && "target"}
+            withArrow
             shadow="xl"
-            position="bottom-start"
+            position="bottom-end"
             transition="pop-top-left"
-            offset={20}
+            offset={5}
             onClose={() => setUserMenuOpened(false)}
             onOpen={() => setUserMenuOpened(true)}
           >
