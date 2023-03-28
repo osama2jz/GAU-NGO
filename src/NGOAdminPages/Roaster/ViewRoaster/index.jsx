@@ -103,7 +103,7 @@ export const ViewRoasters = () => {
                 : obj?.role === "ngoadmin"
                 ? "Admin"
                 : "",
-            status: obj?.schedule ? "Schduled" : "Not Scheduled",
+            status: obj?.schedule ? "Scheduled" : "Not Scheduled",
             ngo: user?.name,
           };
           return objj;

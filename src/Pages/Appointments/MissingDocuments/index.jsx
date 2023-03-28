@@ -81,8 +81,9 @@ const MissingDocuments = () => {
               return appointment;
             }
           });
-        setRowData(data);
-        setTotalPages(Math.ceil(data?.length / 10));
+        let newNotNull = data.filter((obj) => obj !== undefined);
+        setRowData(newNotNull);
+        setTotalPages(Math.ceil(newNotNull?.length / 10));
       },
     }
   );

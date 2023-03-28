@@ -11,7 +11,7 @@ import {
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
@@ -31,6 +31,7 @@ import { useStyles } from "./styles";
 function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -90,9 +91,9 @@ function ScheduledAppointments() {
   );
 
   //API call for Cancel Appointments
-  const CancelAppointments = async (id) => {
-    try {
-      const response = await axios.get(
+  const CancelAppointments = useMutation(
+    (id) => {
+      return axios.get(
         `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
         {
           headers: {
@@ -100,25 +101,19 @@ function ScheduledAppointments() {
           },
         }
       );
-      setOpenViewModal(false);
-      if (response.data.status) {
-        navigate(routeNames.socialWorker.allAppointments);
+    },
+    {
+      onSuccess: (response) => {
         showNotification({
           title: "Appointment Cancelled",
           message: "Appointment Cancelled Successfully",
           color: "green.0",
         });
-      } else {
-        showNotification({
-          title: "Appointment Not Cancelled",
-          message: "Appointment Not Cancelled Successfully",
-          color: "red.0",
-        });
-      }
-    } catch (error) {
-      console.log(error);
+        queryClient.invalidateQueries("fetchAppointments");
+        setOpenViewModal(false)
+      },
     }
-  };
+  );
 
   let headerData = [
     {
@@ -198,7 +193,7 @@ function ScheduledAppointments() {
   }
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={"Appointment Scheduled"} />
+      <ContainerHeader label={"Appointment Schedule"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
           <Grid.Col sm={8} lg={5} md={6}>
@@ -290,8 +285,9 @@ function ScheduledAppointments() {
           {reportData?.status === "SCHEDULED" && (
             <Button
               label={" Cancel Appointment"}
+              loading={CancelAppointments.isLoading}
               onClick={() => {
-                CancelAppointments(reportData?.appointId);
+                CancelAppointments.mutate(reportData?.appointId);
               }}
             />
           )}

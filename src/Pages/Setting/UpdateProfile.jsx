@@ -11,7 +11,8 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import ReactInputMask from "react-input-mask";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 import { CircleX, Upload } from "tabler-icons-react";
@@ -29,6 +30,9 @@ export const UpdateProfile = () => {
   const [profileImage, setProfileImage] = useState(user?.profileImage);
   const [files, setFiles] = useState([]);
 
+  useEffect(() => {
+    form.setValues(user);
+  });
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -48,9 +52,9 @@ export const UpdateProfile = () => {
           ? null
           : "Please enter last name between 2 to 15 characters",
       phoneNumber: (value) =>
-        value?.length < 8 || value?.length > 12
-          ? "Please enter a valid phone number"
-          : null,
+        /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
+          ? null
+          : "Please enter valid phone number ",
     },
   });
 
@@ -184,6 +188,8 @@ export const UpdateProfile = () => {
                 required={true}
                 placeholder="phone number"
                 form={form}
+                component={ReactInputMask}
+                mask="+34 99 9999 999"
                 validateName="phoneNumber"
               />
             </SimpleGrid>
@@ -194,7 +200,7 @@ export const UpdateProfile = () => {
             label="Cancel"
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           />
-          <Button label="Save Changes" primary={true} type="submit" />
+          <Button label="Save Changes" primary={true} type="submit" loading={handleSettings.isLoading}/>
         </Group>
       </form>
     </Container>

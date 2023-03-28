@@ -2,11 +2,9 @@ import { Grid, Tabs, Text } from "@mantine/core";
 import React from "react";
 import TextEditor from "../../../../Components/TextEditor";
 import { useRef } from "react";
-import { useReactToPdf } from "react-to-pdf";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import Button from "../../../../Components/Button";
-import Pdf from "react-to-pdf";
 const DoubleTabs = ({
   selectedUser,
   setReportFiles,

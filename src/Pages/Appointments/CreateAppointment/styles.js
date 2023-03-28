@@ -17,7 +17,7 @@ export const useStyles = createStyles((theme) => ({
   },
   steps: {
     width: "50%",
-    margin:'auto'
+    margin: "auto",
   },
   tab: {
     marginTop: "50px",
@@ -45,8 +45,8 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: "rgb(0,0,0,0.1)",
   },
   stepIcon: {
-    // border:'1px solid black',
-    //   borderRadius: "50%",
+    display: "flex",
+    margin: "auto",
   },
   subHeading: {
     fontSize: "18px",

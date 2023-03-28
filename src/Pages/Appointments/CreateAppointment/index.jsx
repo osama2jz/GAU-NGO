@@ -136,7 +136,7 @@ const AddAppointment = () => {
               <img
                 src={step1}
                 className={classes.stepIcon}
-                width="70px"
+                width="50px"
                 alt="icon"
               />
             }
@@ -157,7 +157,7 @@ const AddAppointment = () => {
               <img
                 src={step2}
                 className={classes.stepIcon}
-                width="70px"
+                width="50px"
                 alt="icon"
               />
             }

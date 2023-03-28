@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
           profileImage: user?.profileImage,
         }));
       },
-      enabled: !!userData?.token
+      enabled: !!userData?.token,
     }
   );
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

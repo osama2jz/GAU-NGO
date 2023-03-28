@@ -96,7 +96,12 @@ export const UpdatePassword = () => {
             label="Cancel"
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           />
-          <Button label="Update Password" primary={true} type="submit" />
+          <Button
+            label="Update Password"
+            primary={true}
+            type="submit"
+            loading={handleUpdate.isLoading}
+          />
         </Group>
       </form>
     </Container>

@@ -24,8 +24,6 @@ const Step1 = ({
   setNewCase,
   setProjectId,
   projectId,
-
-
 }) => {
   const queryClient = useQueryClient();
   const { user: usertoken } = useContext(UserContext);
@@ -121,14 +119,17 @@ const Step1 = ({
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
-    ["casesFetched", user,projectId],
+    ["casesFetched", user, projectId],
     () => {
-      console.log("p",projectId)
-      return axios.get(backendUrl + `/api/case/listUserCases/${user}/${projectId}`, {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
+      console.log("p", projectId);
+      return axios.get(
+        backendUrl + `/api/case/listUserCases/${user}/${projectId}`,
+        {
+          headers: {
+            "x-access-token": usertoken?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -222,7 +223,9 @@ const Step1 = ({
                 disabled={newCase.length > 0 || cases.length < 1}
                 data={cases}
               />
-            ):<Loader minHeight="40px" />}
+            ) : (
+              <Loader minHeight="40px" />
+            )}
             <Divider
               label="OR"
               labelPosition="center"
@@ -251,7 +254,6 @@ const Step1 = ({
         </SimpleGrid>
       ) : (
         <Container size="36rem">
-         
           <UserInfo userData={selectedUser} loading={userFetching} />
         </Container>
       )}

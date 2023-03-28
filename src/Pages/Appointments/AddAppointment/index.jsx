@@ -37,7 +37,6 @@ const AddAppointment = () => {
   const publicRef = useRef();
   // const { id, appId } = useParams();
   const { user } = useContext(UserContext);
-
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
@@ -62,8 +61,6 @@ const AddAppointment = () => {
 
   const [userCase, setUserCase] = useState();
   const [projectId, setProjectId] = useState("");
-
-  console.log(active);
 
   const editorr = useEditor({
     extensions: [
@@ -158,7 +155,6 @@ const AddAppointment = () => {
   //create UserCase
   const handleCreateUserCase = useMutation(
     () => {
-      console.log("usercase", userCase);
       let object = {};
       if (
         otherUserId !== "" ||
@@ -283,7 +279,8 @@ const AddAppointment = () => {
   const handleNextSubmit = () => {
     if (active == 0) {
       if (appData?.project === "N/A") {
-        if (selectedUser || selectedCase.length > 1) {
+        console.log("sasa", selectedUser, selectedCase);
+        if (!selectedUser || selectedCase.length < 1) {
           showNotification({
             color: "red.0",
             message: "Please Select User or Create Case.",
@@ -320,11 +317,11 @@ const AddAppointment = () => {
             return;
           }
         }
-        appData?.project === "N/A"
-          ? handleCreateUserCase.mutate()
-          : handleCreateCase.mutate();
-        setActive(active + 1);
       }
+      appData?.project === "N/A"
+        ? handleCreateUserCase.mutate()
+        : handleCreateCase.mutate();
+      setActive(active + 1);
     }
     if (active == 2) {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
@@ -334,20 +331,7 @@ const AddAppointment = () => {
           title: "Report Missing",
         });
         return;
-        // alert("comment is required")
       }
-      // if (
-      //   reportFiles.reportFile === "" &&
-      //   privatereportFiles.reportFile === ""
-      // ) {
-      //   showNotification({
-      //     color: "red.0",
-      //     message:
-      //       "Please add public and private report Files for this appointment.",
-      //     title: "Report Missing",
-      //   });
-      //   return;
-      // } else {
       handleCreateReport.mutate();
       setActive(active + 1);
       // }
