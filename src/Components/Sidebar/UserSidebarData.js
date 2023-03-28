@@ -23,6 +23,10 @@ export const UserSidebarData = [
         label: "View Appointments",
         link: routeNames.user.allAppointments,
       },
+      {
+        label: "Missing Documents",
+        link: routeNames.user.missingDocuments,
+      },
     ],
   },
   {

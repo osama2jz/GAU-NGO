@@ -41,6 +41,10 @@ export const socialSideBarData = [
         label: "View Appointments",
         link: routeNames.socialWorker.allAppointments,
       },
+      {
+        label: "Missing Documents",
+        link: routeNames.socialWorker.missingDocuments,
+      },
     ],
   },
   {

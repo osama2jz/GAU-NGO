@@ -102,6 +102,10 @@ export const ngoAdminSideBarData = [
         label: "View Appointments",
         link: routeNames.ngoAdmin.allAppointments,
       },
+      {
+        label: "Missing Documents",
+        link: routeNames.ngoAdmin.missingDocuments,
+      },
     ],
   },
   {

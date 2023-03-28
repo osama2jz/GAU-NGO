@@ -91,7 +91,7 @@ const Step2 = ({
     <>
       <Container size="lg" px={"0px"}>
         <Text fz={32} fw="bolder" align="center" mb={"md"}>
-          Refer to Experts
+          Select Appointment Slot
         </Text>
         <Grid align={"center"} py="md">
           <Grid.Col md={6}>

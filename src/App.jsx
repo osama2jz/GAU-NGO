@@ -21,6 +21,7 @@ import AddAppointment from "./Pages/Appointments/AddAppointment";
 import AllAppointments from "./Pages/Appointments/AllAppointments";
 import CreateAppointment from "./Pages/Appointments/CreateAppointment";
 import EditAppointments from "./Pages/Appointments/EditAppointment";
+import MissingDocuments from "./Pages/Appointments/MissingDocuments";
 import ScheduledAppointment from "./Pages/Appointments/ScheduledAppointments";
 import ViewAppointments from "./Pages/Appointments/ViewAppointment";
 import Dashboard from "./Pages/Dashboard";
@@ -59,9 +60,15 @@ function App() {
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
-          <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
+          <Route
+            path={routeNames.general.forgetPassword}
+            element={<ForgetPassword />}
+          />
           <Route path={routeNames.general.otp} element={<OTP />} />
-          <Route path={routeNames.general.resetPassword} element={<NewPassword />} />
+          <Route
+            path={routeNames.general.resetPassword}
+            element={<NewPassword />}
+          />
         </Route>
         <Route path="/" element={<GeneralLayout />}>
           <Route
@@ -104,6 +111,10 @@ function App() {
           <Route
             path={routeNames.socialWorker.allAppointments}
             element={<AllAppointments />}
+          />
+          <Route
+            path={routeNames.socialWorker.missingDocuments}
+            element={<MissingDocuments />}
           />
           <Route
             path={routeNames.socialWorker.scheduledAppointments}
