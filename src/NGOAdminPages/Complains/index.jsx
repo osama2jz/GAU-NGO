@@ -10,6 +10,7 @@ import ContainerHeader from "../../Components/ContainerHeader";
 import InputField from "../../Components/InputField";
 import Loader from "../../Components/Loader";
 import Pagination from "../../Components/Pagination";
+import SelectMenu from "../../Components/SelectMenu";
 import Table from "../../Components/Table";
 import ViewModal from "../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../constants/constants";
@@ -23,7 +24,7 @@ export const ViewComplains = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
@@ -120,7 +121,17 @@ export const ViewComplains = () => {
 
   const filteredItem = useMemo(() => {
     let filtered = rowData.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
+      if (filter === "") {
+        return item.name.toLowerCase().includes(search.toLowerCase());
+      } else if (filter === "responded") {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) && item.reply
+        );
+      } else {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) && !item.reply
+        );
+      }
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -156,11 +167,24 @@ export const ViewComplains = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              pb="0px"
+              value={filter}
+              setData={setFilter}
+              data={[
+                { label: "All", value: "" },
+                { label: "Responded", value: "responded" },
+                { label: "Non-Responded", value: "nonResponded" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col sm={3} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                setFilter("all");
+                setFilter("");
                 setSearch("");
               }}
             />
