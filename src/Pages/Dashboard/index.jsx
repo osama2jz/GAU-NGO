@@ -70,7 +70,7 @@ const Dashboard = () => {
       color: "blue.0",
       progressTitle: "Response Rate",
       icon: "caseD",
-      link: routeNames.socialWorker.reportPageDashboard,
+      // link: routeNames.socialWorker.reportPageDashboard,
     },
   ]);
 

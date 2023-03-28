@@ -21,6 +21,7 @@ import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
 import { useMutation } from "react-query";
 import { showNotification } from "@mantine/notifications";
+import moment from "moment/moment";
 
 export const ViewDocuments = () => {
   const { classes } = useStyles();
@@ -65,6 +66,12 @@ export const ViewDocuments = () => {
       label: "Document Name",
     },
     {
+      id: "createdDate",
+      numeric: false,
+      disablePadding: true,
+      label: "Created Date",
+    },
+    {
       id: "content",
       numeric: false,
       disablePadding: true,
@@ -74,7 +81,7 @@ export const ViewDocuments = () => {
       id: "actions",
       view: <Eye />,
       edit: <Edit />,
-      delete: <Trash />,
+      // delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -99,6 +106,7 @@ export const ViewDocuments = () => {
             name: obj?.lookupId?.lookupName,
             content: obj?.documentText,
             lookupId: obj?.lookupId?._id,
+            createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
           };
           return doc;
         });
@@ -153,6 +161,10 @@ export const ViewDocuments = () => {
     setOpenDeleteModal(false);
   };
 
+  const filteredItems=rowData.filter((item) => (
+    item.name.toLowerCase().includes(search.toLowerCase())
+  ))
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Documents"} />
@@ -164,22 +176,21 @@ export const ViewDocuments = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
+              value={search}
+              onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              pb="0px"
-              value={"all"}
-              setData={setFilter}
-              data={[
-                { label: "All", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "InActive", value: "inactive" },
-              ]}
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setFilter("all");
+                setSearch("");
+              }}
             />
           </Grid.Col>
+
           <Grid.Col sm={3} ml="auto">
             <Button
               label={"Add Document"}
@@ -189,13 +200,14 @@ export const ViewDocuments = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addDocument)}
             />
           </Grid.Col>
+          
         </Grid>
         {status == "loading" ? (
           <Loader />
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={filteredItems}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setEditModalState={setOpenEditModal}

@@ -77,7 +77,7 @@ const ReferModal = ({
         },
       }}
     >
-      <MySchedule Userid={id} setSlot={setSlot} />
+      <MySchedule Userid={id} setSlot={setSlot} slot={slot} />
       <Container>
         {!buttonChange && (
           <TextArea

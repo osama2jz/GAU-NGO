@@ -3,8 +3,9 @@ import clock from "../../assets/clock-solid.svg";
 import meeting from "../../assets/handshake-solid.svg";
 import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
-const Cards = ({ data ,setSlot}) => {
+const Cards = ({ data ,setSlot,slot}) => {
   const { classes } = useStyles();
+  console.log(data)
   return (
     <Card
       withBorder
@@ -14,7 +15,9 @@ const Cards = ({ data ,setSlot}) => {
       h={160}
       shadow="xl"
       onClick={()=>setSlot && setSlot(data?.scheduleId)}
+      // bg={slot === data?.scheduleId ? "grey" : "white"}
       style={{ cursor: "pointer"  ,
+      border: slot === data?.scheduleId ? "3px solid green" : ""
       }}
     >
       {/* <Stack> */}
