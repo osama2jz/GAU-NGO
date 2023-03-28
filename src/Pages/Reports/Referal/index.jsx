@@ -27,6 +27,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import DownloadPdf from "../downloadPdf";
+import ReactHtmlParser from "react-html-parser";
 
 function ReferalReport() {
   const { classes } = useStyles();
@@ -131,6 +132,7 @@ function ReferalReport() {
             date: obj?.addedDate,
             file: obj?.reportFile,
             comments: obj?.comments,
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
             type: obj.reportType === "private" ? "Private" : "Public",
             role:
               obj?.role === "lawyer"
@@ -194,12 +196,12 @@ function ReferalReport() {
         title={reportData?.type + " " + "Report"}
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
-          {/* <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            /> */}
+          <Avatar
+            radius="xl"
+            size={150}
+            src={reportData?.image || userlogo}
+            className={classes.avatar}
+          />
 
           <Text size={24} weight="bold" mb="sm" align="center">
             {reportData?.name}
@@ -213,19 +215,19 @@ function ReferalReport() {
               <Text className={classes.textheading}>Date</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
               <Text className={classes.textheading}>Report File</Text>
-              <Anchor href={reportData?.file} target="_blank">
-                {reportData?.type} Report
-              </Anchor>
+              {reportData?.file ? (
+                <Anchor href={reportData?.file} target="_blank">
+                  {reportData?.type} Report
+                </Anchor>
+              ) : (
+                <Text className={classes.textContent}>No Report</Text>
+              )}
 
               <Text className={classes.textheading}>Report Type</Text>
               <Text className={classes.textContent}>{reportData?.type}</Text>
             </SimpleGrid>
           </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">
-          Report Comments
-        </Text>
-        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

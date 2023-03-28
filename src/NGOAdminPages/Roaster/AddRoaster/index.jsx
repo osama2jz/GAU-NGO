@@ -1,5 +1,4 @@
 import { Container, Grid, Group } from "@mantine/core";
-// import { TimeInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -9,11 +8,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Datepicker from "../../../Components/Datepicker";
-import InputField from "../../../Components/InputField";
-import Loader from "../../../Components/Loader";
 import MultiSelect from "../../../Components/MultiSelect";
 import SelectMenu from "../../../Components/SelectMenu";
-import TextArea from "../../../Components/TextArea";
 import Timepicker from "../../../Components/Timepicker";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
@@ -38,9 +34,9 @@ export const AddRoaster = () => {
       scheduleType: "",
       users: "",
       dateStart: "",
-      timeStartSlot: "",
+      // timeStartSlot: "",
       dateEnd: "",
-      timeEndSlot: "",
+      // timeEndSlot: "",
     },
 
     validate: {
@@ -67,6 +63,7 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
+      console.log("s")
       let obj = {
         ngoId: user?.ngoId,
         branchId: values?.branchId,
@@ -77,11 +74,7 @@ export const AddRoaster = () => {
         timeEndSlot: moment(values?.timeEndSlot).format("HH:mm"),
         users: values?.users,
       };
-      // values.ngoId = user?.ngoId;
-      // values.timeStartSlot = moment(values?.timeStartSlot).format("HH:mm");
-      // values.timeEndSlot = moment(values?.timeEndSlot).format("HH:mm");
-      // values.dateStart = moment(values?.dateStart).format("YYYY-MM-DD");
-      // values.dateEnd = moment(values?.dateEnd).format("YYYY-MM-DD");
+    
       return axios.post(`${backendUrl + "/api/schedule/create"}`, obj, {
         headers: {
           "x-access-token": user.token,
@@ -171,7 +164,6 @@ export const AddRoaster = () => {
       },
     }
   );
-
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add Roaster"} />
@@ -229,7 +221,7 @@ export const AddRoaster = () => {
             />
           </Grid.Col>
         </Grid>
-        {/* <Grid>
+        <Grid>
           <Grid.Col sm={6}>
             <Timepicker
               label="Start Time"
@@ -250,7 +242,7 @@ export const AddRoaster = () => {
               // {...form?.getInputProps("timeEndSlot")}
             />
           </Grid.Col>
-        </Grid> */}
+        </Grid>
         <MultiSelect
           label="Select Users"
           form={form}

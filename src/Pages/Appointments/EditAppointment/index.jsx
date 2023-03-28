@@ -158,10 +158,11 @@ function EditAppointments() {
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
             otherDocument[index].documentURL = link;
             setOtherDocument([...otherDocument]);
+            setFileLoader(false);
           }
         });
       }
-      setFileLoader(false);
+      
     });
   };
 

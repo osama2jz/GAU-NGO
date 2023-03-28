@@ -192,6 +192,10 @@ function ViewAppointments() {
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
+              {/* <Text className={classes.textheading}>User Name</Text>
+                <Text className={classes.textContent}>
+                  {editData?.name}
+                </Text> */}
                 <Text className={classes.textheading}>Added By</Text>
                 <Text className={classes.textContent}>
                   {editData?.addedBy}

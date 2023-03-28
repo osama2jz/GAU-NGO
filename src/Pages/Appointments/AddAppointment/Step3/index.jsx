@@ -27,6 +27,7 @@ const Step3 = ({
   privateReportCheck,
   editorr2,
   editorr,
+  publicRef,
 }) => {
   const { user } = useContext(UserContext);
 
@@ -103,12 +104,6 @@ const Step3 = ({
           </Text>
           <Text>{caseNo}</Text>
         </SimpleGrid>
-        <Flex align={"center"}>
-          <Text fz={18} fw={"bold"}>
-            Date:
-          </Text>
-          <Text ml={10}>XXXX</Text>
-        </Flex>
       </Flex>
       <DoubleTabs
         selectedUser={selectedUser}
@@ -121,6 +116,7 @@ const Step3 = ({
         setFileLoader={setFileLoader}
         editorr2={editorr2}
         editorr={editorr}
+        publicRef={publicRef}
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 

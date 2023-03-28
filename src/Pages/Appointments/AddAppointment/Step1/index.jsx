@@ -1,4 +1,13 @@
-import { Avatar, Container, Divider, Flex, Group, Text,SimpleGrid,Grid } from "@mantine/core";
+import {
+  Avatar,
+  Container,
+  Divider,
+  Flex,
+  Group,
+  Text,
+  SimpleGrid,
+  Grid,
+} from "@mantine/core";
 import axios from "axios";
 import React, {
   useCallback,
@@ -47,8 +56,6 @@ const Step1 = ({
   const [userData, setUserData] = useState([]);
   const [projects, setProjetcs] = useState([]);
 
-  console.log("appData", appData)
-
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
   const [goToWhite, setGoToWhite] = useState(false);
@@ -91,8 +98,8 @@ const Step1 = ({
     faceio = new faceIO("fioa89bd");
   }, [faceio]);
 
-   //all users
-   const { data: users, status } = useQuery(
+  //all users
+  const { data: users, status } = useQuery(
     "fetchVerified",
     () => {
       return axios.get(backendUrl + "/api/ngo/listNGOUsers/user/0/0/verified", {
@@ -167,14 +174,16 @@ const Step1 = ({
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
-    ["casesFetched", user,projectId],
+    ["casesFetched", user, projectId],
     () => {
-      console.log("p",projectId)
-      return axios.get(backendUrl + `/api/case/listUserCases/${user}/${projectId}`, {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
+      return axios.get(
+        backendUrl + `/api/case/listUserCases/${user}/${projectId}`,
+        {
+          headers: {
+            "x-access-token": usertoken?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -187,7 +196,7 @@ const Step1 = ({
         });
         setCases(data);
       },
-      enabled: !!user || !!projectId,
+      enabled: !!user && !!projectId,
     }
   );
 
@@ -205,8 +214,6 @@ const Step1 = ({
       </Group>
     </div>
   );
-
-  
 
   const handleVerifyID = async () => {
     setDisabledCameraBtn(true);
@@ -330,91 +337,95 @@ const Step1 = ({
           />
         )}
       </Group>
-      {appData?.project==="N/A" ? 
-       <SimpleGrid
-       breakpoints={[
-         { minWidth: "md", cols: 1 },
-         {
-           minWidth: "lg",
-           cols: selectedUser || selectedUser === "loading" ? 2 : 1,
-         },
-         { minWidth: "xs", cols: 1 },
-       ]}
-     >
-       <SimpleGrid align={"flex-end"}>
-         {usertoken.role !== "User" && (
-           <SelectMenu
-             searchable={true}
-             itemComponent={SelectItem}
-             placeholder="Enter User name or Id"
-             clearable={true}
-             setData={setUser}
-             value={user}
-             label="Search User"
-             data={userData}
-           />
-         )}
-         {projectsLoading !== "loading" && (
-           <SelectMenu
-             searchable={true}
-             placeholder={
-               projects.length < 1
-                 ? "No Projects Found"
-                 : "Enter Project Name"
-             }
-             label="Search Project"
-             creatable={true}
-             setData={setProjectId}
-             value={projectId}
-             // disabled={newCase.length > 0}
-             data={projects}
-           />
-         )}
-         {casesfetching !== "loading" ? (
-           <SelectMenu
-             searchable={true}
-             placeholder={
-               cases.length < 1 ? "No cases found" : "Enter case name or id"
-             }
-             label="Search User Case"
-             creatable={true}
-             setData={setSelectedCase}
-             disabled={newCase.length > 0 || cases.length < 1}
-             data={cases}
-           />
-         ):<Loader minHeight="40px" />}
-         <Divider
-           label="OR"
-           labelPosition="center"
-           color={"black.0"}
-           m="0px"
-           p={"0px"}
-         />
-         <InputField
-           label={"Create New Case"}
-           placeholder="Enter case name"
-           value={newCase}
-           pb="0px"
-           onChange={(v) => {
-             setNewCase(v.target.value);
-             setSelectedCase(v.target.value);
-           }}
-         />
-       </SimpleGrid>
-       {userFetching === "loading" ? (
-         <Loader minHeight="40px" />
-       ) : selectedUser ? (
-        <Grid mt={30} justify="space-between" align={"center"} ml={"md"}>
-            <Grid.Col sm={12} md={12} xs={12} lg={11}>
-            <UserInfo userData={selectedUser} loading={userFetching} />
-            </Grid.Col>
+      {appData?.project === "N/A" ? (
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "md", cols: 1 },
+            {
+              minWidth: "lg",
+              cols: selectedUser || selectedUser === "loading" ? 2 : 1,
+            },
+            { minWidth: "xs", cols: 1 },
+          ]}
+        >
+          <SimpleGrid align={"flex-end"}>
+            {usertoken.role !== "User" && (
+              <SelectMenu
+                searchable={true}
+                itemComponent={SelectItem}
+                placeholder="Enter User name or Id"
+                clearable={true}
+                setData={setUser}
+                value={user}
+                label="Search User"
+                data={userData}
+                required
+              />
+            )}
+            {projectsLoading !== "loading" && (
+              <SelectMenu
+                searchable={true}
+                placeholder={
+                  projects.length < 1
+                    ? "No Projects Found"
+                    : "Enter Project Name"
+                }
+                label="Search Project"
+                creatable={true}
+                setData={setProjectId}
+                value={projectId}
+                // disabled={newCase.length > 0}
+                data={projects}
+                required
+              />
+            )}
+            {casesfetching !== "loading" ? (
+              <SelectMenu
+                searchable={true}
+                placeholder={
+                  cases.length < 1 ? "No cases found" : "Enter case name or id"
+                }
+                label="Search User Case"
+                creatable={true}
+                setData={setSelectedCase}
+                disabled={newCase.length > 0 || cases.length < 1}
+                data={cases}
+                required
+              />
+            ) : (
+              <Loader minHeight="40px" />
+            )}
+            <Divider
+              label="OR"
+              labelPosition="center"
+              color={"black.0"}
+              m="0px"
+              p={"0px"}
+            />
+            <InputField
+              label={"Create New Case"}
+              placeholder="Enter case name"
+              value={newCase}
+              pb="0px"
+              onChange={(v) => {
+                setNewCase(v.target.value);
+                setSelectedCase(v.target.value);
+              }}
+            />
+          </SimpleGrid>
+          {userFetching === "loading" ? (
+            <Loader minHeight="40px" />
+          ) : selectedUser ? (
+            <Grid mt={30} justify="space-between" align={"center"} ml={"md"}>
+              <Grid.Col sm={12} md={12} xs={12} lg={11}>
+                <UserInfo userData={selectedUser} loading={userFetching} />
+              </Grid.Col>
             </Grid>
-        
-       ) : (
-         ""
-       )}
-     </SimpleGrid>
-      :userFetching == "loading" ? (
+          ) : (
+            ""
+          )}
+        </SimpleGrid>
+      ) : userFetching == "loading" ? (
         <Loader minHeight={"5vh"} />
       ) : selectedUser ? (
         <Container size={"lg"} p="0px">
@@ -423,7 +434,6 @@ const Step1 = ({
       ) : (
         ""
       )}
-      
     </Flex>
   );
 };

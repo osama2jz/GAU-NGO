@@ -30,15 +30,9 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [caseTrue, setCaseTrue] = useState(false);
-  console.log("caseNo", caseNo)
-
-  // useEffect(() => {
-  //   if (caseNo) {
-  //     setCaseTrue(false)
-  //   }
-  // }, [caseNo])
-
+  const [search,setSearch]=useState("")
+  const [filter,setFilter]=useState("")
+ 
   let headerData = [
     {
       id: "sr",
@@ -135,6 +129,13 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
     
   );
 
+  const filtered=reports.filter((report)=>(
+    (report.name.toLowerCase().includes(search.toLowerCase()) ||
+    report.addedBy.toLowerCase().includes(search.toLowerCase())) &&
+    report?.role.toLowerCase().includes(filter.toLowerCase())
+  ))
+
+
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"md"}>
@@ -147,18 +148,12 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
           </Text>
           <Text ml={10}>{caseNo}</Text>
         </Flex>
-        {/* <Flex align={"center"}>
-          <Text fz={18} fw={"bold"}>
-            Date:
-          </Text>
-          <Text ml={10}>XXXX</Text>
-        </Flex> */}
       </Flex>
-      <Container size="36rem">
+      {/* <Container size="36rem">
         <UserInfo userData={selectedUser} />
-      </Container>
+      </Container> */}
       <Text align="center" fw={"bold"} mt="xl">
-        User Reports
+        Previous Reports
       </Text>
       {loading ? (
         <Loader />
@@ -166,22 +161,29 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         <Container p={"xs"} className={classes.innerContainer}>
           <Grid align={"center"} py="md">
             <Grid.Col sm={6}>
-              <InputField placeholder="Search" leftIcon="search" pb="0" />
+              <InputField placeholder="Search By Professional Name" leftIcon="search" pb="0"
+              onChange={(e)=>{setSearch(e.target.value)}}
+              value={search}
+             />
             </Grid.Col>
             <Grid.Col sm={6}>
               <SelectMenu
                 placeholder="Added By"
                 data={[
-                  { label: "Lawyer", value: "lawyer" },
-                  { label: "Psychologist", value: "psychologistng" },
+                  { label: "All", value: "" },
                   { label: "Social Worker", value: "socailworker" },
+                  { label: "Psychologist", value: "psychologistng" },
+                  { label: "Lawyer", value: "lawyer" },
+                 
                 ]}
+                setData={setFilter}
+                value={filter}
               />
             </Grid.Col>
           </Grid>
           <Table
             headCells={headerData}
-            rowData={reports}
+            rowData={filtered}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
           />
@@ -229,8 +231,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Container>
           </Grid.Col>
         </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
-        <Text>{reportData?.comments}</Text>
+       
       </ViewModal>
     </Container>
   );

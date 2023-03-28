@@ -1,4 +1,4 @@
-import { Anchor, Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
+import { Anchor, Avatar, Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
@@ -16,6 +16,8 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
+import ReactHtmlParser from "react-html-parser";
+import userlogo from "../../../assets/teacher.png";
 
 function PublicReport() {
   const { classes } = useStyles();
@@ -120,6 +122,7 @@ function PublicReport() {
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
 
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
           };
@@ -223,13 +226,12 @@ function PublicReport() {
         title="Public Report"
       >
         <Flex direction="column" align="center" justify={"space-between"}>
-          {/* <Avatar
-              radius="xl"
-              size={150}
-              src={userlogo}
-              className={classes.avatar}
-            /> */}
-
+          <Avatar
+            radius="xl"
+            size={150}
+            src={reportData?.image || userlogo}
+            className={classes.avatar}
+          />
           <Text size={24} weight="bold" mb="sm" align="center">
             {reportData?.name}
           </Text>
@@ -255,10 +257,6 @@ function PublicReport() {
             </SimpleGrid>
           </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">
-          Report Comments
-        </Text>
-        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

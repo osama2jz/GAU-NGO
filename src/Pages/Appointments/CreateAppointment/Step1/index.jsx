@@ -141,7 +141,7 @@ const Step1 = ({
         });
         setCases(data);
       },
-      enabled: !!user || !!projectId,
+      enabled: !!user && !!projectId,
     }
   );
 

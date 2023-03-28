@@ -9,7 +9,7 @@ import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import step2 from "../../../assets/inMeetingIn.png";
@@ -34,6 +34,7 @@ const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
+  const publicRef = useRef();
   // const { id, appId } = useParams();
   const { user } = useContext(UserContext);
 
@@ -62,6 +63,8 @@ const AddAppointment = () => {
   const [userCase, setUserCase] = useState();
   const [projectId, setProjectId] = useState("");
 
+  console.log(active);
+
   const editorr = useEditor({
     extensions: [
       StarterKit,
@@ -72,6 +75,7 @@ const AddAppointment = () => {
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
+
     content: "",
   });
 
@@ -107,6 +111,7 @@ const AddAppointment = () => {
   //create case
   const handleCreateCase = useMutation(
     () => {
+      console.log("case", caseNo);
       let object = {};
 
       if (
@@ -153,6 +158,7 @@ const AddAppointment = () => {
   //create UserCase
   const handleCreateUserCase = useMutation(
     () => {
+      console.log("usercase", userCase);
       let object = {};
       if (
         otherUserId !== "" ||
@@ -170,7 +176,7 @@ const AddAppointment = () => {
             otherUserMobile: otherUserMobile,
             otherUserName: otherUserName,
             previousCaseLinkedId: selectedCase,
-            projectId: projectId,
+            // projectId: projectId,
           };
         } else {
           object = {
@@ -276,31 +282,60 @@ const AddAppointment = () => {
 
   const handleNextSubmit = () => {
     if (active == 0) {
-      if (img === null && (Object.keys(faceID).length === 0) === true) {
-        showNotification({
-          color: "red.0",
-          message: "Please Verify Face ID or Attach Photo.",
-          title: "Report Missing",
-        });
-        return;
+      if (appData?.project === "N/A") {
+        if (selectedUser || selectedCase.length > 1) {
+          showNotification({
+            color: "red.0",
+            message: "Please Select User or Create Case.",
+            title: "Report Missing",
+          });
+          return;
+        }
       } else {
-        handleCreateCase.mutate();
-        setActive(active);
+        if (img === null && (Object.keys(faceID).length === 0) === true) {
+          showNotification({
+            color: "red.0",
+            message: "Please Verify Face ID or Attach Photo.",
+            title: "Report Missing",
+          });
+          return;
+        }
+        if (
+          otherUserName !== "" ||
+          otherUserMobile !== "" ||
+          otherUserId !== ""
+        ) {
+          if (
+            otherUserName !== "" &&
+            otherUserMobile !== "" &&
+            otherUserId !== "" &&
+            !(img === null && (Object.keys(faceID).length === 0) === true)
+          ) {
+          } else {
+            showNotification({
+              color: "red.0",
+              message: "Please Add Other User Information.",
+              title: "Report Missing",
+            });
+            return;
+          }
+        }
+        appData?.project === "N/A"
+          ? handleCreateUserCase.mutate()
+          : handleCreateCase.mutate();
+        setActive(active + 1);
       }
     }
     if (active == 2) {
-      // if (
-      //   reportFiles.reportComments === "" ||
-      //   privatereportFiles.reportComments === ""
-      // ) {
-      //   showNotification({
-      //     color: "red.0",
-      //     message: "Please add public and private report for this appointment.",
-      //     title: "Report Missing",
-      //   });
-      //   return;
-      //   // alert("comment is required")
-      // }
+      if (editorr?.getText() === "" || editorr2?.getText() === "") {
+        showNotification({
+          color: "red.0",
+          message: "Please add public and private report for this appointment.",
+          title: "Report Missing",
+        });
+        return;
+        // alert("comment is required")
+      }
       // if (
       //   reportFiles.reportFile === "" &&
       //   privatereportFiles.reportFile === ""
@@ -436,6 +471,7 @@ const AddAppointment = () => {
               privateReportCheck={privateReportCheck}
               editorr={editorr}
               editorr2={editorr2}
+              publicRef={publicRef}
             />
           </Stepper.Step>
           <Stepper.Step

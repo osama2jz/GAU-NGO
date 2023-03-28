@@ -101,7 +101,7 @@ const AddAppointment = () => {
             message: "Appointment Created Successfully",
             color: "green.0",
           });
-          navigate(routeNames.socialWorker.allAppointments);
+          navigate(routeNames.socialWorker.scheduledAppointments);
         } else {
           showNotification({
             title: "Error",

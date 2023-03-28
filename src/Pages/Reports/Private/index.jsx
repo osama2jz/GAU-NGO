@@ -28,6 +28,7 @@ import axios from "axios";
 import DownloadPdf from "../downloadPdf";
 import Pagination from "../../../Components/Pagination";
 import Loader from "../../../Components/Loader";
+import ReactHtmlParser from "react-html-parser";
 
 function PrivateReport() {
   const { classes } = useStyles();
@@ -127,6 +128,7 @@ function PrivateReport() {
             comments: obj.comments,
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
           };
           return appointment;
         });
@@ -168,6 +170,7 @@ function PrivateReport() {
             comments: obj.comments,
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
           };
           return appointment;
         });
@@ -227,15 +230,17 @@ function PrivateReport() {
         title="Private Report"
       >
         <Flex direction="column" align="center" justify={"space-between"}>
-          {/* <Avatar
-            radius="50%"
+          <Avatar
+            radius="xl"
             size={150}
-            src={userlogo}
+            src={reportData?.image || userlogo}
             className={classes.avatar}
-          /> */}
+          />
+
           <Text size={24} weight="bold" mb="sm" align="center">
             {reportData?.name}
           </Text>
+
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
               <Text className={classes.textheading}>Case # </Text>
@@ -258,10 +263,6 @@ function PrivateReport() {
             </SimpleGrid>
           </Container>
         </Flex>
-        <Text className={classes.textheading} mt="md">
-          Report Comments
-        </Text>
-        <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>
   );

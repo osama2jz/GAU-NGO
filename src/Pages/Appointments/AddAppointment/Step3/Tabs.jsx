@@ -9,8 +9,12 @@ import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React from "react";
 import TextEditor from "../../../../Components/TextEditor";
+import { useRef } from "react";
+import { useReactToPdf } from "react-to-pdf";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
+import Button from "../../../../Components/Button";
+import Pdf from "react-to-pdf";
 const DoubleTabs = ({
   selectedUser,
   setReportFiles,
@@ -20,8 +24,8 @@ const DoubleTabs = ({
   setPrivateReportCheck,
   setFileLoader,
   editorr,
-  editorr2
-
+  editorr2,
+  publicRef,
 }) => {
   // const [files, setFiles] = useState([]);
   // const [files2, setFiles2] = useState([]);
@@ -52,8 +56,6 @@ const DoubleTabs = ({
   //   ],
   //   content: "",
   // });
-
- 
 
   // const handleFileInput = (file, type) => {
   //   const fileName = file.name;
@@ -113,6 +115,7 @@ const DoubleTabs = ({
   //     setPrivateReportCheck(false);
   //   });
   // };
+
   return (
     <>
       <Tabs
@@ -134,11 +137,20 @@ const DoubleTabs = ({
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
             Public Report
           </Text>
-          <Grid mt={30} justify="space-between" align={"center"}>
-            <Grid.Col sm={12} md={6} xs={12}>
+          {/* <div className="App">
+      <Pdf targetRef={publicRef} filename="code-example.pdf">
+        {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
+      </Pdf>
+      <div ref={publicRef}>
+        <h1>Appointment</h1>
+        <h2>{editorr.getHTML()}</h2>
+      </div>
+    </div> */}
+          {/* <Grid mt={30} justify="space-between" align={"center"}> */}
+            {/* <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
-            </Grid.Col>
-            <Grid.Col md={6}>
+            </Grid.Col> */}
+            {/* <Grid.Col md={6}> */}
               <TextEditor editor={editorr} minHeight="200px" />
               {/* <TextArea
                 rows={5}
@@ -178,19 +190,19 @@ const DoubleTabs = ({
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "public")}
               /> */}
-            </Grid.Col>
-          </Grid>
+            {/* </Grid.Col> */}
+          {/* </Grid> */}
         </Tabs.Panel>
 
         <Tabs.Panel value="private" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
             Private Report
           </Text>
-          <Grid mt={30} justify="space-between" align={"center"}>
-            <Grid.Col sm={12} md={6} xs={12}>
+          {/* <Grid mt={30} justify="space-between" align={"center"}> */}
+            {/* <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
-            </Grid.Col>
-            <Grid.Col md={6}>
+            </Grid.Col> */}
+            {/* <Grid.Col md={6}> */}
               <TextEditor editor={editorr2} minHeight="200px" />
               {/* <TextArea
                 label="Add Comments"
@@ -230,8 +242,8 @@ const DoubleTabs = ({
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "private")}
               /> */}
-            </Grid.Col>
-          </Grid>
+            {/* </Grid.Col> */}
+          {/* </Grid> */}
         </Tabs.Panel>
       </Tabs>
     </>
