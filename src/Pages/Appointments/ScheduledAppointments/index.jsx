@@ -77,9 +77,9 @@ function ScheduledAppointments() {
 
             appointId: obj?.appointmentId,
             image: obj?.appointmentUserImage
-            ? obj?.appointmentUserImage
-            : userlogo,
-            project:obj?.project,
+              ? obj?.appointmentUserImage
+              : userlogo,
+            project: obj?.project,
           };
           return appointment;
         });
@@ -258,12 +258,10 @@ function ScheduledAppointments() {
             src={reportData?.image}
             className={classes.avatar}
           />
-
-          <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
-          </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
+              <Text className={classes.textheading}>Name</Text>
+              <Text className={classes.textContent}>{reportData?.name}</Text>
               <Text className={classes.textheading}>Added By</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
               <Text className={classes.textheading}>Case Name</Text>
@@ -277,9 +275,9 @@ function ScheduledAppointments() {
               <Text className={classes.textheading}>Status</Text>
               <Text className={classes.textContent}>
                 <Badge
-                  variant="outline"
+                  variant="filled"
                   color={
-                    reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
+                    reportData?.status === "SCHEDULED" ? "green.0" : "red.0"
                   }
                 >
                   {reportData?.status}
@@ -293,12 +291,8 @@ function ScheduledAppointments() {
             <Button
               label={" Cancel Appointment"}
               onClick={() => {
-                // setId(reportData?.appointId);
-                // queryClient.invalidateQueries("CancelAppointments",id);
                 CancelAppointments(reportData?.appointId);
               }}
-
-              // type="Cancel Appo"
             />
           )}
         </Group>

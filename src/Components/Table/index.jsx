@@ -303,10 +303,10 @@ const Table = ({
                     <td key={index} align="center">
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
-                          Report file
+                          View file
                         </Anchor>
                       ) : (
-                        <Text>No Report</Text>
+                        <Text>No File</Text>
                       )}
                     </td>
                   ) : head.id === "reply" ? (
@@ -417,11 +417,11 @@ const Table = ({
                     </td>
                   ) : (
                     <td key={index} align="center">
-                      {/* {head.date &&
-                      row[head?.id]?.split("T")[0] +
-                        " " +
-                        row[head?.id]?.split("T")[1].split(".")[0]} */}
-                      <Text lineClamp={1}>
+                      <Text
+                        lineClamp={1}
+                        color={head.id === "docs" && "red.9"}
+                        fw={head.id === "docs" && 1000}
+                      >
                         {row[head?.id]?.length > 100
                           ? row[head?.id]?.substring(0, 10) + "..."
                           : row[head?.id]?.toLocaleString()}

@@ -34,6 +34,10 @@ export const LawyerSidebarData = [
         label: "View Appointments",
         link: routeNames.lawyer.allAppointments,
       },
+      {
+        label: "Missing Documents",
+        link: routeNames.lawyer.missingDocuments,
+      },
     ],
   },
   {

@@ -55,7 +55,7 @@ const Index = ({}) => {
   const { classes, theme, cx } = useStyles();
   const navigate = useNavigate();
   const matches = useMediaQuery("(min-width: 640px)");
-  const matches2 = useMediaQuery("(min-width: 1020px)");
+  const matches2 = useMediaQuery("(min-width: 1100px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const { user } = useContext(UserContext);
 
@@ -67,10 +67,10 @@ const Index = ({}) => {
         className={classes.headerSub}
       >
         <Flex direction={"column"} style={{ margin: matches2&&"auto" }} align="center">
-          <Text fw={"bolder"} fz="xl">
+          <Text fw={"bolder"} fz={matches2 && "xl"}>
             {user.role} Dashboard
           </Text>
-          <Text fz="xs">
+          <Text fz="xs" >
             Welcome Back <b>{user.name}</b>
           </Text>
         </Flex>

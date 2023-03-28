@@ -1,10 +1,9 @@
 import { Container, Grid } from "@mantine/core";
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { Edit, Eye } from "tabler-icons-react";
+import { Eye, Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
@@ -18,16 +17,13 @@ import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-function AllAppointments() {
+const MissingDocuments = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [editid, setEditId] = useState();
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
 
   //API call for fetching All Scheduled Appointments
@@ -50,37 +46,40 @@ function AllAppointments() {
             user.role === "User" ? obj : obj?.appointmentStatus !== "scheduled"
           )
           .map((obj, ind) => {
-            // if (obj?.appointmentStatus !== "scheduled") {
-            let appointment = {
-              id: obj.appointmentId,
-              userid: obj?.appointmentUserId,
-              sr: ind + 1,
-              caseName: obj?.caseName,
-              caseNo: obj?.caseNo,
-              name: obj?.appointmentUser,
-              caseId: obj?.caseId,
-              email: "N/A",
-              status: obj?.appointmentStatus?.toUpperCase(),
-              time: obj?.scheduledTime,
-              date: obj?.addedDate,
-              addedBy: obj?.addedBy,
-              role:
-                obj?.role === "socialWorker"
-                  ? "Social Worker"
-                  : obj.role === "psychologist"
-                  ? "Psychologist"
-                  : "Lawyer",
-              appointId: obj?.appointmentId,
-              doc: obj?.documents,
-              docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
-                .length,
-              reportData: obj?.reports,
-              image: obj?.appointmentUserImage
-                ? obj?.appointmentUserImage
-                : defaultUser,
-            };
-            return appointment;
-            // }
+            if (
+              obj?.documents.filter((obj) => obj.documentURL.length < 1)
+                .length > 0
+            ) {
+              let appointment = {
+                id: obj.appointmentId,
+                userid: obj?.appointmentUserId,
+                sr: ind + 1,
+                caseName: obj?.caseName,
+                caseNo: obj?.caseNo,
+                name: obj?.appointmentUser,
+                caseId: obj?.caseId,
+                email: "N/A",
+                status: obj?.appointmentStatus?.toUpperCase(),
+                time: obj?.scheduledTime,
+                date: obj?.addedDate,
+                addedBy: obj?.addedBy,
+                role:
+                  obj?.role === "socialWorker"
+                    ? "Social Worker"
+                    : obj.role === "psychologist"
+                    ? "Psychologist"
+                    : "Lawyer",
+                appointId: obj?.appointmentId,
+                doc: obj?.documents,
+                docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
+                  .length,
+                reportData: obj?.reports,
+                image: obj?.appointmentUserImage
+                  ? obj?.appointmentUserImage
+                  : defaultUser,
+              };
+              return appointment;
+            }
           });
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
@@ -124,12 +123,12 @@ function AllAppointments() {
       disablePadding: true,
       label: "Time",
     },
-    // {
-    //   id: "docs",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Missing Documents",
-    // },
+    {
+      id: "docs",
+      numeric: false,
+      disablePadding: true,
+      label: "Missing Documents",
+    },
     {
       id: "status",
       numeric: false,
@@ -140,7 +139,7 @@ function AllAppointments() {
     {
       id: "actions",
       view: <Eye />,
-      edit: <Edit />,
+      edit: <Upload />,
       numeric: false,
       label: "Actions",
     },
@@ -148,9 +147,8 @@ function AllAppointments() {
 
   const filteredItems = rowData.filter(
     (item) =>
-      (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
-      item?.status?.toLowerCase().includes(filter.toLowerCase())
+      item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.caseNo?.toLowerCase().includes(search.toLowerCase())
   );
   const paginated = useMemo(() => {
     if (activePage == 1) {
@@ -167,11 +165,11 @@ function AllAppointments() {
   }
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={"View Appointments"} />
+      <ContainerHeader label={"Missing Documents"} />
 
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col xs={5} lg={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -180,30 +178,15 @@ function AllAppointments() {
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              value={filter}
-              setData={setFilter}
-              pb="0px"
-              data={[
-                { label: "All", value: "" },
-                { label: "Closed", value: "closed" },
-                // { label: "Scheduled", value: "scheduled" },
-                { label: "Cancelled", value: "cancelled" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col xs={3} lg={2} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                setFilter("");
                 setSearch("");
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
+          <Grid.Col xs={4} lg={4} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
               bg={true}
@@ -216,8 +199,8 @@ function AllAppointments() {
         <Table
           headCells={headerData}
           rowData={paginated}
-          setViewModalState={setOpenViewModal}
-          setEditIDApp={setEditId}
+          setViewModalState={true}
+          setEditIDApp={true}
         />
         {totalPages > 1 && (
           <Pagination
@@ -230,6 +213,6 @@ function AllAppointments() {
       </Container>
     </Container>
   );
-}
+};
 
-export default AllAppointments;
+export default MissingDocuments;
