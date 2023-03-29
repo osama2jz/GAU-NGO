@@ -1,21 +1,19 @@
-import { Card, Flex, Image, Text } from "@mantine/core";
+import { Badge, Card, Flex, Image, Text } from "@mantine/core";
 import clock from "../../assets/clock-solid.svg";
 import meeting from "../../assets/handshake-solid.svg";
 import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
 const Cards = ({ data ,setSlot,slot}) => {
   const { classes } = useStyles();
-  console.log(data)
   return (
     <Card
       withBorder
       radius="md"
       className={classes.card}
       w={370}
-      h={160}
+      // h={160}
       shadow="xl"
       onClick={()=>setSlot && setSlot(data?.scheduleId)}
-      // bg={slot === data?.scheduleId ? "grey" : "white"}
       style={{ cursor: "pointer"  ,
       border: slot === data?.scheduleId ? "3px solid green" : ""
       }}
@@ -36,6 +34,7 @@ const Cards = ({ data ,setSlot,slot}) => {
           {data?.startTime} {"-"} {data?.endTime}
         </Text>
       </Flex>
+        <Badge variant="filled" color={data?.booked ? "red.0" : 'green.0'}>{data?.booked ? "Booked" : "Not Booked"}</Badge>
     </Card>
   );
 };

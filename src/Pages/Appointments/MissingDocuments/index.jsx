@@ -42,47 +42,46 @@ const MissingDocuments = () => {
     {
       onSuccess: (response) => {
         let data = response.data.data
-          .filter((obj) =>
-            user.role === "User" ? obj : obj?.appointmentStatus !== "scheduled"
-          )
-          .map((obj, ind) => {
-            if (
+          .filter(
+            (obj) =>
+              (user.role === "User"
+                ? obj
+                : obj?.appointmentStatus === "closed") &&
               obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length > 0
-            ) {
-              let appointment = {
-                id: obj.appointmentId,
-                userid: obj?.appointmentUserId,
-                sr: ind + 1,
-                caseName: obj?.caseName,
-                caseNo: obj?.caseNo,
-                name: obj?.appointmentUser,
-                caseId: obj?.caseId,
-                email: "N/A",
-                status: obj?.appointmentStatus?.toUpperCase(),
-                time: obj?.scheduledTime,
-                date: obj?.addedDate,
-                addedBy: obj?.addedBy,
-                role:
-                  obj?.role === "socialWorker"
-                    ? "Social Worker"
-                    : obj.role === "psychologist"
-                    ? "Psychologist"
-                    : "Lawyer",
-                appointId: obj?.appointmentId,
-                doc: obj?.documents,
-                docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
-                  .length,
-                reportData: obj?.reports,
-                image: obj?.appointmentUserImage
-                  ? obj?.appointmentUserImage
-                  : defaultUser,
-              };
-              return appointment;
-            }
+          )
+          .map((obj, ind) => {
+            let appointment = {
+              id: obj.appointmentId,
+              userid: obj?.appointmentUserId,
+              sr: ind + 1,
+              caseName: obj?.caseName,
+              caseNo: obj?.caseNo,
+              name: obj?.appointmentUser,
+              caseId: obj?.caseId,
+              email: "N/A",
+              status: obj?.appointmentStatus?.toUpperCase(),
+              time: obj?.scheduledTime,
+              date: obj?.addedDate,
+              addedBy: obj?.addedBy,
+              role:
+                obj?.role === "socialWorker"
+                  ? "Social Worker"
+                  : obj.role === "psychologist"
+                  ? "Psychologist"
+                  : "Lawyer",
+              appointId: obj?.appointmentId,
+              doc: obj?.documents,
+              docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
+                .length,
+              reportData: obj?.reports,
+              image: obj?.appointmentUserImage
+                ? obj?.appointmentUserImage
+                : defaultUser,
+            };
+            return appointment;
           });
-        let newNotNull = data.filter((obj) => obj !== undefined);
-        setRowData(newNotNull);
+        setRowData(data);
         setTotalPages(Math.ceil(newNotNull?.length / 10));
       },
     }
@@ -172,7 +171,7 @@ const MissingDocuments = () => {
         <Grid align={"center"} py="md">
           <Grid.Col xs={5} lg={6}>
             <InputField
-              placeholder="Search"
+              placeholder="Search user name"
               leftIcon="search"
               pb="0"
               value={search}

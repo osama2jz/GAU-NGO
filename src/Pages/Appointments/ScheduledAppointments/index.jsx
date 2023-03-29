@@ -284,7 +284,7 @@ function ScheduledAppointments() {
         <Group position="right" mt="lg">
           {reportData?.status === "SCHEDULED" && (
             <Button
-              label={" Cancel Appointment"}
+              label={"Cancel Appointment"}
               loading={CancelAppointments.isLoading}
               onClick={() => {
                 CancelAppointments.mutate(reportData?.appointId);

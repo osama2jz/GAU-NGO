@@ -21,11 +21,9 @@ export const Step1 = ({ user, setUser }) => {
   const matches = useMediaQuery("(min-width: 600px)");
   const [goToWhite, setGoToWhite] = useState(false);
 
- 
-
-  const {state}=useLocation()
-  const {id}=state ??""
-  const {editId}=state ??""
+  const { state } = useLocation();
+  const { id } = state ?? "";
+  const { editId } = state ?? "";
 
   // const memo=useMemo(()=>{
   //   const {id}=state ??""
@@ -34,12 +32,9 @@ export const Step1 = ({ user, setUser }) => {
   // },[state])
 
   // console.log("memo", memo)
-  
 
   console.log("id", id);
   console.log("editId", editId);
-
- 
 
   const { user: usertoken } = useContext(UserContext);
   let faceio = new faceIO("fioa89bd");
@@ -49,15 +44,13 @@ export const Step1 = ({ user, setUser }) => {
   }, [faceio]);
 
   useEffect(() => {
-    if (id ) {
+    if (id) {
       setUser(id);
     }
     // if(editId){
     //   setUser(editId);
     // }
   }, [id, editId]);
-
-  console.log("user", user);
 
   const { data: users, status } = useQuery(
     "fetchVerified",
@@ -73,18 +66,19 @@ export const Step1 = ({ user, setUser }) => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
-          if (obj.userStatus === "active") {
+        let data = response.data.data
+          ?.filter((obj) => obj.userStatus === "active")
+          ?.map((obj, ind) => {
             let user = {
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
               email: obj?.email || "",
+              image: obj?.profileImage,
             };
             return user;
-          }
-        });
-        let newData = data.filter((obj) => obj != undefined);
-        setUserData(newData);
+          });
+
+        setUserData(data);
       },
     }
   );
@@ -105,7 +99,6 @@ export const Step1 = ({ user, setUser }) => {
       Gender: ${response.details.gender}
       Age Approximation: ${response.details.age}`);
       setGoToWhite(false);
-
     } catch (error) {
       console.log("error", error);
     }
@@ -114,7 +107,7 @@ export const Step1 = ({ user, setUser }) => {
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
       <Group noWrap>
-        <Avatar src={image || userImage} />
+        <Avatar src={image}>{label.split(" ")[1][0]}</Avatar>
         <div>
           <Text size="sm">{label}</Text>
           <Text size="xs" opacity={0.65}>
@@ -138,7 +131,7 @@ export const Step1 = ({ user, setUser }) => {
         mt={50}
       >
         {status === "loading" ? (
-          <Loader minHeight="40px"/>
+          <Loader minHeight="40px" />
         ) : (
           <SelectMenu
             searchable={true}

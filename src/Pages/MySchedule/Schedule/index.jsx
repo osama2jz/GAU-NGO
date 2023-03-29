@@ -1,5 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { ColorSwatch, Container, Flex, Grid, Group, SimpleGrid, Text } from "@mantine/core";
+import {
+  ColorSwatch,
+  Container,
+  Flex,
+  Grid,
+  Group,
+  SimpleGrid,
+  Text,
+} from "@mantine/core";
 import { useStyles } from "./styles";
 import ScheduleCard from "../../../Components/ScheduleCard";
 import CalendarDate from "../../../Components/Calendar";
@@ -10,6 +18,8 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import moment from "moment";
+import Button from "../../../Components/Button";
+import LeaveModal from "./LeaveModal";
 
 const MySchedule = () => {
   const { classes } = useStyles();
@@ -17,6 +27,7 @@ const MySchedule = () => {
   const { user } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
     getSchedule.mutate(date);
@@ -63,6 +74,8 @@ const MySchedule = () => {
             branch: obj.branchName,
             startTime: obj.timeStart,
             endTime: obj.timeEnd,
+            booked: obj?.booked,
+            branchId: obj?.branchId
           };
           return user;
         });
@@ -88,17 +101,22 @@ const MySchedule = () => {
             scheduleDates={scheduleDates}
           />
         </Container>
+        {/* <Flex direction={"column"} justify={"center"} align="center" gap={"xl"}> */}
         <Text size={18} weight={700} color={"gray"} align="center">
           {moment(date).format("DD MMMM")} Schedule
         </Text>
+        {/* </Flex> */}
         {getSchedule.status === "loading" ? (
           <Loader minHeight="100px" />
         ) : scheduleData.length > 0 ? (
           <Container mt="md">
+            <Group position="right" mb="md">
+              <Button label={"Mark as Leave"} onClick={()=>setOpened(true)}/>
+            </Group>
             <SimpleGrid
               breakpoints={[
                 { minWidth: "md", cols: 3 },
-                { minWidth: "lg", cols: 3},
+                { minWidth: "lg", cols: 3 },
                 { minWidth: "xs", cols: 2 },
               ]}
               spacing="xl"
@@ -116,6 +134,7 @@ const MySchedule = () => {
           </Text>
         )}
       </Container>
+      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId}/>
     </Container>
   );
 };
