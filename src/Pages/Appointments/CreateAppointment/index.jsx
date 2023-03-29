@@ -56,7 +56,9 @@ const AddAppointment = () => {
 
   //create appointment
   const handleCreateAppointment = useMutation(
-    () => {
+    ({slotid,referedToId}) => {
+      console.log("slot",slotid)
+      console.log("referedToId",referedToId)
       let object = {};
       if(user.role !=="User"){
       if (selectedCase.length > 0 && newCase.length < 1) {
@@ -64,16 +66,16 @@ const AddAppointment = () => {
           previousAppointmentLinked: true,
           appointmentUser: selectedUser.data.data._id,
           previousAppointmentLinkedId: selectedCase,
-          appointmentWith: referedTo,
-          scheduleId: slot,
+          appointmentWith: referedToId,
+          scheduleId: slotid,
           projectId:projectId,
         };
       } else {
         object = {
           previousAppointmentLinked: false,
           appointmentUser: selectedUser.data.data._id,
-          appointmentWith: referedTo,
-          scheduleId: slot,
+          appointmentWith: referedToId,
+          scheduleId: slotid,
           caseName: newCase,
           projectId:projectId,
         };
@@ -82,8 +84,8 @@ const AddAppointment = () => {
         object = {
           previousAppointmentLinked: false,
           appointmentUser: selectedUser.data.data._id,
-          appointmentWith: referedTo,
-          scheduleId: slot,
+          appointmentWith: referedToId,
+          scheduleId: slotid,
         }
       }
 

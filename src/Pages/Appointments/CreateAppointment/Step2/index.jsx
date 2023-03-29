@@ -21,10 +21,11 @@ const Step2 = ({
 }) => {
   const { user } = useContext(UserContext);
   const [cardData, setCardData] = useState([]);
-  const [typeFilter, setTypeFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("socialWorker");
   const [search, setSearch] = useState("");
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log(professionalCardData);
 
   const { data: users, status } = useQuery(
@@ -56,8 +57,13 @@ const Step2 = ({
     }
   );
 
+  useEffect(() => {
+    getSchedule.mutate();
+  }, []);
+
   const getSchedule = useMutation(
     () => {
+      setLoading(true);
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
         { date: date, type: typeFilter },
@@ -76,7 +82,7 @@ const Step2 = ({
             name: obj?.fullName,
             role: obj?.role,
             branchId: obj?.branchId,
-            schedule: obj?.schedule,
+            schedule: obj?.scheduleId,
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
@@ -84,42 +90,43 @@ const Step2 = ({
           return card;
         });
         setProfessionalCardData(data);
+        setLoading(false);
       },
     }
   );
 
   //filters
-  useEffect(() => {
-    //all data
-    let data = users?.data?.data?.map((obj, ind) => {
-      let card = {
-        userId: obj?.userId,
-        name: obj?.fullName,
-        role: obj?.role,
-        branches: obj?.branches.map((e) => ({
-          label: e.branchName,
-          value: e.branchId,
-        })),
-        schedule: obj?.schedule,
-      };
-      return card;
-    });
-    if (typeFilter === "all" && search === "") {
-      setCardData(data);
-    } else if (typeFilter === "all" && search !== "") {
-      let filtered = data.filter((obj) =>
-        obj.name.toLowerCase().includes(search.toLowerCase())
-      );
-      setCardData(filtered);
-    } else {
-      let filtered = data.filter(
-        (obj) =>
-          obj.role === typeFilter &&
-          obj.name.toLowerCase().includes(search.toLowerCase())
-      );
-      setCardData(filtered);
-    }
-  }, [typeFilter, search]);
+  // useEffect(() => {
+  //   //all data
+  //   let data = users?.data?.data?.map((obj, ind) => {
+  //     let card = {
+  //       userId: obj?.userId,
+  //       name: obj?.fullName,
+  //       role: obj?.role,
+  //       branches: obj?.branches.map((e) => ({
+  //         label: e.branchName,
+  //         value: e.branchId,
+  //       })),
+  //       schedule: obj?.schedule,
+  //     };
+  //     return card;
+  //   });
+  //   if (typeFilter === "all" && search === "") {
+  //     setCardData(data);
+  //   } else if (typeFilter === "all" && search !== "") {
+  //     let filtered = data.filter((obj) =>
+  //       obj.name.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setCardData(filtered);
+  //   } else {
+  //     let filtered = data.filter(
+  //       (obj) =>
+  //         obj.role === typeFilter &&
+  //         obj.name.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setCardData(filtered);
+  //   }
+  // }, [typeFilter, search]);
 
   if (status === "loading") {
     return <Loader />;
@@ -146,6 +153,7 @@ const Step2 = ({
               onChange={(v) => {
                 setDate(moment(v).format("YYYY-MM-DD"));
               }}
+              value={new Date()}
             />
           </Grid.Col>
           <Grid.Col md={5}>
@@ -169,7 +177,7 @@ const Step2 = ({
                 getSchedule.mutate();
               }}
               bg={true}
-              // loading={getSchedule.isLoading}
+              loading={getSchedule.isLoading}
             />
           </Grid.Col>
         </Grid>
@@ -197,31 +205,31 @@ const Step2 = ({
             </Text>
           )}
         </Grid> */}
-
-        <Grid>
-          {cardData.length ? (
-            cardData?.map(
-              (e) =>
-                e.schedule && (
-                  <Grid.Col md={6} lg={4} xl={3}>
-                    <Cards
-                      onSubmit={onSubmit}
-                      buttonChange={true}
-                      cardData={e}
-                      setReferedTo={setReferedTo}
-                      referedTo={referedTo}
-                      setSlot={setSlot}
-                      slot={slot}
-                    />
-                  </Grid.Col>
-                )
-            )
-          ) : (
-            <Text fw={"bold"} align="center" m={"auto"}>
-              No Users found.
-            </Text>
-          )}
-        </Grid>
+        {loading ? (
+          <Loader minHeight={"200px"} />
+        ) : (
+          <Grid>
+            {professionalCardData.length ? (
+              professionalCardData?.map((e) => (
+                <Grid.Col md={6} lg={4} xl={3}>
+                  <Cards
+                    onSubmit={onSubmit}
+                    buttonChange={true}
+                    cardData={e}
+                    setReferedTo={setReferedTo}
+                    referedTo={referedTo}
+                    setSlot={setSlot}
+                    slot={slot}
+                  />
+                </Grid.Col>
+              ))
+            ) : (
+              <Text fw={"bold"} align="center" m={"auto"} color="dimmed">
+                No Professional Available
+              </Text>
+            )}
+          </Grid>
+        )}
       </Container>
     </>
   );

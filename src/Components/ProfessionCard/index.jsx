@@ -1,8 +1,8 @@
-import { Avatar, Badge, Card, Grid, Stack, Text } from "@mantine/core";
+import { Avatar, Badge, Card, Flex, Grid, Stack, Text } from "@mantine/core";
 import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { CalendarEvent, Clock } from "tabler-icons-react";
+import { CalendarEvent, Clock, Clock2 } from "tabler-icons-react";
 import defaultLogo from "../../assets/teacher.png";
 import Button from "../../Components/Button";
 import Datepicker from "../../Components/Datepicker";
@@ -29,6 +29,7 @@ const Cards = ({
   const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
 
+  console.log(cardData);
   // const dates = useMemo(() => {
   //   return cardData?.schedule?.map((obj) =>
   //     moment(obj.dateStart).format("yyyy-MM-DD")
@@ -46,12 +47,12 @@ const Cards = ({
         withBorder
       >
         <Badge
-          color={cardData?.schedule ? "green.0" : "red.0"}
+          color={cardData?.scheduleStatus ? "green.0" : "red.0"}
           radius="xl"
           variant="outline"
           className={classes.badge}
         >
-          {cardData?.schedule ? "Available" : "Not Available"}
+          {cardData?.scheduleStatus ? "Available" : "Not Available"}
         </Badge>
         <Avatar src={defaultLogo} size={90} />
         <Text size="lg" fw={680} mb={0} pb={0}>
@@ -64,56 +65,34 @@ const Cards = ({
             ? "Lawyer"
             : "Psychologist"}
         </Text>
-        <Stack spacing="xs" mb="xs">
-          {/* <Select
-            placeholder="Branch"
-            size="xs"
-            
-            onChange={(e) => {
-              setNewReferCase({...referCase,branchId:e})
-            }}
-            
-            data={cardData?.branches || []}
-            // setData={setSelectedData}
-          /> */}
-          {/* <Grid>
-            <Grid.Col span={6}>
-              <Datepicker
-                size="xs"
-                icon={<CalendarEvent size={16} />}
-                labelFormat={"DD/MM/YY"}
-                excludeDate={dates}
-                dropdownType="modal"
-                onChange={(e) =>
-                  setNewReferCase({
-                    ...referCase,
-                    referedCaseAppointmentDate: moment(e).format("yyyy-MM-DD"),
-                  })
-                }
-              />
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Timepicker
-                icon={<Clock size={16} />}
-                onChange={(e) =>
-                  setNewReferCase({
-                    ...referCase,
-                    referedCaseAppointmentTime: moment(e).format("hh:mm"),
-                  })
-                }
-              />
-            </Grid.Col>
-          </Grid> */}
-        </Stack>
+        <Flex align={"center"} gap={6} mt="xs" mb={"md"}>
+          <CalendarEvent size={"20px"} />
+          <Text size="md" fw={500}>
+            {cardData?.timeStartSlot}-{cardData?.timeEndSlot}
+          </Text>
+        </Flex>
+
         <Button
           label={buttonChange ? "Schedule" : "Refer"}
           bg={true}
           className={classes.button}
+          // onClick={() => {
+          //   setReferModal(true);
+          //   setReferedTo(cardData?.userId);
+          // }}
+          loading={onSubmit?.isLoading}
           onClick={() => {
-            setReferModal(true);
-            setReferedTo(cardData?.userId);
+            onSubmit.mutate({
+              slotid: cardData?.schedule,
+              referedToId: cardData?.userId,
+            });
+            console.log("DATA PASSED", {
+              slotid: cardData?.schedule,
+              referedToId: cardData?.userId,
+            });
+            // alert(cardData?.timeStartSlot)
           }}
-          styles={{ width: "100%", marginBottom: "5px" }}
+          styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
         />
 
