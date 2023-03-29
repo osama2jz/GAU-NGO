@@ -110,7 +110,7 @@ function ScheduledAppointments() {
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchAppointments");
-        setOpenViewModal(false)
+        setOpenViewModal(false);
       },
     }
   );
@@ -172,12 +172,26 @@ function ScheduledAppointments() {
     },
   ];
 
-  const filteredItems = rowData.filter(
-    (item) =>
-      item.name.toLowerCase().includes(search.toLowerCase()) ||
-      item.caseName.toLowerCase().includes(search.toLowerCase()) ||
-      item.caseNo.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.caseName.toLowerCase().includes(search.toLowerCase()) ||
+          item.caseNo.toLowerCase().includes(search.toLowerCase())
+        );
+    });
+
+    setPage(1);
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+    // return filtered;
+  }, [rowData, search]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {

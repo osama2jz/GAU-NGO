@@ -26,7 +26,7 @@ const Step2 = ({
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(professionalCardData);
+ 
 
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -76,6 +76,7 @@ const Step2 = ({
     },
     {
       onSuccess: (response) => {
+        console.log(response);
         let data = response.data.data.map((obj, ind) => {
           let card = {
             userId: obj?.userId,
