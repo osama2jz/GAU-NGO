@@ -33,6 +33,7 @@ export const ViewProjects = () => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [statusChangeId, setStatusChangeId] = useState("");
   const [filter, setFilter] = useState("");
+  const [filter2, setFilter2] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
@@ -61,11 +62,18 @@ export const ViewProjects = () => {
       label: "Created Date",
     },
     {
+      id: "status",
+      numeric: false,
+      disablePadding: true,
+      label: "Project Status",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
       label: "Status",
     },
+
     {
       id: "actions",
       view: <Eye />,
@@ -96,6 +104,8 @@ export const ViewProjects = () => {
             createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
             description: obj?.description,
             accStatus: obj?.status,
+            status:
+              obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
           };
           return project;
         });
@@ -136,14 +146,26 @@ export const ViewProjects = () => {
   };
 
   const filteredItems = useMemo(() => {
+    console.log(rowData, filter2);
     let filtered = rowData.filter((item) => {
-      if (filter === "") {
+      if (filter === "" && filter2 === "") {
         return item.projectName.toLowerCase().includes(search.toLowerCase());
-      } else
+      } else if (filter !== "" && filter2 === "")
         return (
           item.projectName.toLowerCase().includes(search.toLowerCase()) &&
           item.accStatus === filter
         );
+      else if (filter === "" && filter2 !== "")
+        return (
+          item.projectName.toLowerCase().includes(search.toLowerCase()) &&
+          item.status === filter2
+        );
+      else {
+        return (
+          item.projectName.toLowerCase().includes(search.toLowerCase()) &&
+          item.status === filter2 && item.accStatus === filter
+        );
+      }
     });
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
@@ -153,8 +175,7 @@ export const ViewProjects = () => {
       };
     });
     return a;
-   
-  }, [rowData, search, filter]);
+  }, [rowData, search, filter, filter2]);
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
@@ -184,7 +205,7 @@ export const ViewProjects = () => {
               value={search}
             />
           </Grid.Col>
-         
+
           <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
@@ -202,14 +223,13 @@ export const ViewProjects = () => {
           <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
-              value={filter}
-              setData={setFilter}
+              value={filter2}
+              setData={setFilter2}
               pb="0px"
               data={[
                 { label: "All", value: "" },
-                { label: "Complete", value: "complete" },
-                // { label: "Scheduled", value: "scheduled" },
-                { label: "InComplete", value: "incomplete" },
+                { label: "In Progress", value: "inprogress" },
+                { label: "Complete", value: "completed" },
               ]}
             />
           </Grid.Col>
@@ -218,6 +238,7 @@ export const ViewProjects = () => {
               label={"Clear Filters"}
               onClick={() => {
                 setFilter("");
+                setFilter2("");
                 setSearch("");
               }}
             />

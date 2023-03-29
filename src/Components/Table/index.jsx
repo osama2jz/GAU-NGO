@@ -272,7 +272,8 @@ const Table = ({
                           row[head?.id] === "unverified" ||
                           row[head?.id] === "CLOSED" ||
                           row[head?.id] === "CANCELLED" ||
-                          row[head?.id] === "Not Scheduled"
+                          row[head?.id] === "Not Scheduled" ||
+                          row[head?.id] === "inprogress"
                             ? "red.9"
                             : "green.9"
                         }

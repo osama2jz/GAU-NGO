@@ -74,10 +74,6 @@ const Cards = ({
           label={buttonChange ? "Schedule" : "Refer"}
           bg={true}
           className={classes.button}
-          // onClick={() => {
-          //   setReferModal(true);
-          //   setReferedTo(cardData?.userId);
-          // }}
           loading={onSubmit?.isLoading}
           onClick={() => {
             !buttonChange

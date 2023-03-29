@@ -10,11 +10,14 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Loader from "../../../Components/Loader";
 import moment from "moment";
+import LeaveModal from "./LeaveModal";
+import Button from "../../Button";
 
-const MySchedule = ({ Userid, setSlot ,slot}) => {
+const MySchedule = ({ Userid, setSlot, slot }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user } = useContext(UserContext);
+  const [opened, setOpened] = useState(false);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
 
@@ -66,6 +69,7 @@ const MySchedule = ({ Userid, setSlot ,slot}) => {
             startTime: obj?.timeStart,
             endTime: obj?.timeEnd,
             scheduleId: obj?.scheduleId,
+            branchId: obj?.branchId,
             booked: obj?.booked,
           };
           return user;
@@ -93,6 +97,9 @@ const MySchedule = ({ Userid, setSlot ,slot}) => {
       ) : scheduleData.length > 0 ? (
         scheduleData.filter((item) => !item.booked).length > 0 ? (
           <Container mt="md">
+            <Group position="right" mb="md">
+              <Button label={"Mark as Leave"} onClick={() => setOpened(true)} />
+            </Group>
             <SimpleGrid
               breakpoints={[
                 { minWidth: "md", cols: 2 },
@@ -105,7 +112,7 @@ const MySchedule = ({ Userid, setSlot ,slot}) => {
                 (item, index) =>
                   !item.booked && (
                     <Flex justify={"center"}>
-                      <ScheduleCard data={item} setSlot={setSlot} slot={slot}/>
+                      <ScheduleCard data={item} setSlot={setSlot} slot={slot} />
                     </Flex>
                   )
               )}
@@ -121,6 +128,12 @@ const MySchedule = ({ Userid, setSlot ,slot}) => {
           No Duties Assigned
         </Text>
       )}
+      <LeaveModal
+        opened={opened}
+        setOpened={setOpened}
+        date={date}
+        branchId={scheduleData[0]?.branchId}
+      />
     </Container>
   );
 };

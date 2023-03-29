@@ -323,6 +323,7 @@ export const AddProfessional = () => {
                 ]}
                 disabled={isUpdate ? true : false}
                 placeholder={isUpdate ? form.values.userType : "Select role"}
+                required={true}
                 label="User Type"
                 form={form}
                 validateName="userType"
@@ -337,6 +338,7 @@ export const AddProfessional = () => {
                       ? "Uploaded"
                       : "Upload Document"
                   }
+                  required={true}
                   accept="file/pdf"
                   styles={(theme) => ({
                     root: {
