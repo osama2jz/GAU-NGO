@@ -68,21 +68,12 @@ const Cards = ({
           label={buttonChange ? "Schedule" : "Refer"}
           bg={true}
           className={classes.button}
-          // onClick={() => {
-          //   setReferModal(true);
-          //   setReferedTo(cardData?.userId);
-          // }}
           loading={onSubmit?.isLoading}
           onClick={() => {
             onSubmit.mutate({
               slotid: cardData?.schedule,
               referedToId: cardData?.userId,
             });
-            console.log("DATA PASSED", {
-              slotid: cardData?.schedule,
-              referedToId: cardData?.userId,
-            });
-            // alert(cardData?.timeStartSlot)
           }}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
