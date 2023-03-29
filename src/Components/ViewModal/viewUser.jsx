@@ -9,6 +9,9 @@ const ViewModal = ({ opened, setOpened, children, title, size = "500px" }) => {
       color: "#5C5F66",
       // marginLeft:"150px"
     },
+    root:{
+    
+    }
   }));
   const { classes } = useStyles();
   return (
@@ -19,7 +22,7 @@ const ViewModal = ({ opened, setOpened, children, title, size = "500px" }) => {
       centered
       size={size}
       radius="lg"
-      classNames={{ title: classes.title }}
+      classNames={{ title: classes.title, body: classes.root }}
     >
       {children}
     </ModalMantine>
