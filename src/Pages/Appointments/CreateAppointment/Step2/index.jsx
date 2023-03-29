@@ -22,7 +22,6 @@ const Step2 = ({
   const { user } = useContext(UserContext);
   const [cardData, setCardData] = useState([]);
   const [typeFilter, setTypeFilter] = useState("socialWorker");
-  const [search, setSearch] = useState("");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -59,7 +58,7 @@ const Step2 = ({
 
   useEffect(() => {
     getSchedule.mutate();
-  }, []);
+  }, [date, typeFilter]);
 
   const getSchedule = useMutation(
     () => {
@@ -96,39 +95,9 @@ const Step2 = ({
     }
   );
 
-  //filters
-  // useEffect(() => {
-  //   //all data
-  //   let data = users?.data?.data?.map((obj, ind) => {
-  //     let card = {
-  //       userId: obj?.userId,
-  //       name: obj?.fullName,
-  //       role: obj?.role,
-  //       branches: obj?.branches.map((e) => ({
-  //         label: e.branchName,
-  //         value: e.branchId,
-  //       })),
-  //       schedule: obj?.schedule,
-  //     };
-  //     return card;
-  //   });
-  //   if (typeFilter === "all" && search === "") {
-  //     setCardData(data);
-  //   } else if (typeFilter === "all" && search !== "") {
-  //     let filtered = data.filter((obj) =>
-  //       obj.name.toLowerCase().includes(search.toLowerCase())
-  //     );
-  //     setCardData(filtered);
-  //   } else {
-  //     let filtered = data.filter(
-  //       (obj) =>
-  //         obj.role === typeFilter &&
-  //         obj.name.toLowerCase().includes(search.toLowerCase())
-  //     );
-  //     setCardData(filtered);
-  //   }
-  // }, [typeFilter, search]);
-
+  const filtered = professionalCardData.filter((obj) =>
+    obj.name.toLowerCase().includes(search.toLowerCase())
+  );
   if (status === "loading") {
     return <Loader />;
   }
@@ -140,78 +109,48 @@ const Step2 = ({
           Select Appointment Slot
         </Text>
         <Grid align={"center"} py="md">
-          {/* <Grid.Col md={6}>
+          <Grid.Col md={12} lg={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
+              label={"Search Professional"}
               pb="0"
               onChange={(v) => setSearch(v.target.value)}
             />
-          </Grid.Col> */}
-          <Grid.Col md={5}>
+          </Grid.Col>
+          <Grid.Col md={6} lg={3}>
             <Datepicker
               placeholder="Select Date"
+              label={"Select Date"}
               onChange={(v) => {
                 setDate(moment(v).format("YYYY-MM-DD"));
               }}
               value={new Date()}
+              minDate={new Date()}
             />
           </Grid.Col>
-          <Grid.Col md={5}>
+          <Grid.Col md={6} lg={3}>
             <SelectMenu
               placeholder="Select by Type"
               setData={setTypeFilter}
+              label={"Filter Professionals"}
               value={typeFilter}
               data={[
-                { label: "All", value: "all" },
+                // { label: "All", value: "all" },
                 { label: "Lawyer", value: "lawyer" },
                 { label: "Psychologist", value: "psychologist" },
                 { label: "Social Worker", value: "socialWorker" },
               ]}
             />
           </Grid.Col>
-          <Grid.Col md={2} style={{ textAlign: "end" }}>
-            <Button
-              label={"Search "}
-              w={"130px"}
-              onClick={() => {
-                getSchedule.mutate();
-              }}
-              bg={true}
-              loading={getSchedule.isLoading}
-            />
-          </Grid.Col>
         </Grid>
-        {/* <Grid>
-          {cardData.length ? (
-            cardData?.map(
-              (e) =>
-                e.schedule && (
-                  <Grid.Col md={6} lg={4} xl={3}>
-                    <Cards
-                      onSubmit={onSubmit}
-                      buttonChange={true}
-                      cardData={e}
-                      setReferedTo={setReferedTo}
-                      referedTo={referedTo}
-                      setSlot={setSlot}
-                      slot={slot}
-                    />
-                  </Grid.Col>
-                )
-            )
-          ) : (
-            <Text fw={"bold"} align="center" m={"auto"}>
-              No Users found.
-            </Text>
-          )}
-        </Grid> */}
+
         {loading ? (
           <Loader minHeight={"200px"} />
         ) : (
           <Grid>
-            {professionalCardData.length ? (
-              professionalCardData?.map((e) => (
+            {filtered.length ? (
+              filtered?.map((e) => (
                 <Grid.Col md={6} lg={4} xl={3}>
                   <Cards
                     onSubmit={onSubmit}

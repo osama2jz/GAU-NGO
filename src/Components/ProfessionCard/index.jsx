@@ -26,7 +26,6 @@ const Cards = ({
 }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
 
   return (

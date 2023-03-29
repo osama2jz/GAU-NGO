@@ -12,8 +12,6 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
   },
 }));
 
-
-
 const Datepicker = ({
   placeholder = "Select Date",
   icon,
@@ -24,17 +22,14 @@ const Datepicker = ({
   excludeDate,
   size = "md",
   form,
-  dropdownType="popover",
+  dropdownType = "popover",
   validateName,
   labelFormat,
   onChange,
   maxDate,
   minDate,
   disabled,
- 
-  
- 
-  
+  value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   const disabledDays = {
@@ -44,13 +39,16 @@ const Datepicker = ({
     <DatePicker
       size={size}
       icon={icon}
+      defaultValue={value}
       maxDate={maxDate}
       minDate={minDate}
       clearable={true}
       dropdownType={dropdownType}
       placeholder={placeholder}
       label={label}
-      excludeDate={(date)=>excludeDate && !excludeDate?.includes(moment(date).format("YYYY-MM-DD"))}
+      excludeDate={(date) =>
+        excludeDate && !excludeDate?.includes(moment(date).format("YYYY-MM-DD"))
+      }
       required={required}
       onChange={onChange}
       classNames={{ input: classes.root }}
