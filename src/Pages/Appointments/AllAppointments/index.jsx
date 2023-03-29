@@ -146,12 +146,33 @@ function AllAppointments() {
     },
   ];
 
-  const filteredItems = rowData.filter(
-    (item) =>
-      (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+  
+
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      if (filter === "") {
+        return (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search.toLowerCase()));
+      } else
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
         item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
       item?.status?.toLowerCase().includes(filter.toLowerCase())
-  );
+        );
+    });
+    
+    setPage(1)
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+    // return filtered;
+  }, [rowData, search, filter]);
+
   const paginated = useMemo(() => {
     if (activePage == 1) {
       return filteredItems.slice(0, 10);
