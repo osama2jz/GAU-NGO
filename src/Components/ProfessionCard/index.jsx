@@ -28,6 +28,12 @@ const Cards = ({
   const navigate = useNavigate();
   const [referModal, setReferModal] = useState(false);
 
+
+  const OpenReferModal = (slotid, referedToId) => {
+    setReferModal(true);
+    setReferedTo(referedToId);
+    setSlot(slotid);
+  };
   return (
     <>
       <Card
@@ -70,10 +76,15 @@ const Cards = ({
           className={classes.button}
           loading={onSubmit?.isLoading}
           onClick={() => {
-            onSubmit.mutate({
-              slotid: cardData?.schedule,
-              referedToId: cardData?.userId,
-            });
+            !buttonChange
+              ? OpenReferModal({
+                  slotid: cardData?.schedule,
+                  referedToId: cardData?.userId,
+                })
+              : onSubmit.mutate({
+                  slotid: cardData?.schedule,
+                  referedToId: cardData?.userId,
+                });
           }}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
@@ -94,10 +105,10 @@ const Cards = ({
         opened={referModal}
         setOpened={setReferModal}
         setSlot={setSlot}
-        id={referedTo}
+        id={cardData?.userId}
         onSubmit={onSubmit}
         buttonChange={buttonChange}
-        slot={slot}
+        slot={cardData?.schedule}
         caseId={caseId}
       />
       {/* <ReferNewCaseModal opened={referNewModal} setOpened={setReferNewModal} /> */}
