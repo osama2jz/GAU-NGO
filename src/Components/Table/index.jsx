@@ -159,29 +159,31 @@ const Table = ({
                             {row.status === "unverified" ? head.verify : ""}
                           </ActionIcon>
                         )}
-                        <ActionIcon
-                          onClick={() => {
-                            if (setReportData) {
-                              setReportData(row);
-                            }
-                            if (setEditIDApp) {
-                              navigate(`/view-appointment`, {
-                                state: {
-                                  editData: row,
-                                },
-                              });
-                            }
-                            if (setViewModalData) {
-                              setViewModalData(row.id);
-                            }
-                            setViewModalState(true);
-                            // setViewModalData(row.id);
-                          }}
-                          color={"blue.9"}
-                          variant="outline"
-                        >
-                          {head.view}
-                        </ActionIcon>
+                        {head.view && (
+                          <ActionIcon
+                            onClick={() => {
+                              if (setReportData) {
+                                setReportData(row);
+                              }
+                              if (setEditIDApp) {
+                                navigate(`/view-appointment`, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                              }
+                              if (setViewModalData) {
+                                setViewModalData(row.id);
+                              }
+                              setViewModalState(true);
+                              // setViewModalData(row.id);
+                            }}
+                            color={"blue.9"}
+                            variant="outline"
+                          >
+                            {head.view}
+                          </ActionIcon>
+                        )}
                         {head.edit && (
                           <ActionIcon
                             onClick={() => {

@@ -177,6 +177,7 @@ export const Step2 = ({
       label: "Actions",
     },
   ];
+  
   const { data1, status1 } = useQuery(
     "getDescrimination",
     () => {
@@ -393,13 +394,7 @@ export const Step2 = ({
             validateName="address"
           />
         </SimpleGrid>
-        <SimpleGrid
-          breakpoints={[
-            { minWidth: "md", cols: 2 },
-            { minWidth: "lg", cols: 2 },
-            { minWidth: "xs", cols: 1 },
-          ]}
-        >
+        <Group align={"flex-end"}>
           <Radio.Group
             label="Select Identity"
             spacing="xl"
@@ -420,16 +415,12 @@ export const Step2 = ({
               label="Residential ID"
             />
           </Radio.Group>
-          {/* <Stack> */}
 
           <FileInput
             label="Upload Document"
             placeholder="Upload Document"
             accept="file/pdf"
             styles={(theme) => ({
-              root: {
-                margin: "auto",
-              },
               input: {
                 border: "1px solid rgb(0, 0, 0, 0.1)",
                 borderRadius: "5px",
@@ -439,20 +430,21 @@ export const Step2 = ({
             icon={<FileUpload size={20} />}
             onChange={(e) => handleFileInput(e)}
           />
-          {fileLoader && <Loader minHeight="50px" />}
-        </SimpleGrid>
+        </Group>
 
         {/** Studies and training */}
         <Card mt="sm">
           <Text className={classes.subHeading}>Studies and Training*</Text>
-
           <Group position="right">
             <Button
               label={"Add New"}
               primary={true}
               leftIcon={"plus"}
               className={classes.btn}
-              onClick={() =>{ setopenTrainingModal(true);setEditData("")}}
+              onClick={() => {
+                setopenTrainingModal(true);
+                setEditData("");
+              }}
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
@@ -503,7 +495,10 @@ export const Step2 = ({
               primary={true}
               leftIcon={"plus"}
               className={classes.btn}
-              onClick={() => {setOpenModal(true);setEditData("")}}
+              onClick={() => {
+                setOpenModal(true);
+                setEditData("");
+              }}
             />
           </Group>
           <Divider color="#C8C8C8" mt="md" mb="md" />
@@ -603,7 +598,10 @@ export const Step2 = ({
             primary={true}
             leftIcon={"plus"}
             className={classes.btn}
-            onClick={() => {setOpenViewModal(true);setEditData("")}}
+            onClick={() => {
+              setOpenViewModal(true);
+              setEditData("");
+            }}
           />
         </Group>
         <Divider color="#C8C8C8" mt="xl" mb="md" />
@@ -664,7 +662,11 @@ export const Step2 = ({
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={editData ? "Edit Professional References":"Add Professional References"}
+        title={
+          editData
+            ? "Edit Professional References"
+            : "Add Professional References"
+        }
       >
         <NewProfessionalModal
           setOpenViewModal={setOpenViewModal}
@@ -677,7 +679,7 @@ export const Step2 = ({
       <ViewModal
         opened={openModal}
         setOpened={setOpenModal}
-        title={editData ? "Edit Work Experience" :"Add Work Experience"}
+        title={editData ? "Edit Work Experience" : "Add Work Experience"}
       >
         <NewWorkModal
           workExperience={workExperience}
@@ -690,7 +692,9 @@ export const Step2 = ({
       <ViewModal
         opened={openTrainingModal}
         setOpened={setopenTrainingModal}
-        title={editData ? "Edit Studies and Training":"Add Studies and Training"}
+        title={
+          editData ? "Edit Studies and Training" : "Add Studies and Training"
+        }
       >
         <NewTrainingModal
           trainingStudies={trainingStudies}
