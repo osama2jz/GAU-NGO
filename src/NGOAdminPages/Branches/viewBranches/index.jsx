@@ -117,6 +117,8 @@ export const ViewBranches = () => {
             branchPointOfContact: obj?.branchPointOfContact,
             branchEmail: obj?.branchEmail,
             branchContact: obj?.branchContact,
+            branchStartTime:obj?.branchStartTime,
+            branchEndTime:obj?.branchEndTime,
           };
           return branch;
         });

@@ -36,20 +36,7 @@ export const ngoAdminSideBarData = [
       },
     ],
   },
-  {
-    label: "Projects",
-    icon: Building,
-    links: [
-      {
-        label: "Add Project",
-        link: routeNames.ngoAdmin.addProject,
-      },
-      {
-        label: "View Projects",
-        link: routeNames.ngoAdmin.viewProject,
-      },
-    ],
-  },
+ 
   {
     label: "Professional",
     icon: Users,
@@ -88,6 +75,20 @@ export const ngoAdminSideBarData = [
         link: routeNames.ngoAdmin.addUser,
       },
       { label: "View Users", link: routeNames.ngoAdmin.allUsers },
+    ],
+  },
+  {
+    label: "Projects",
+    icon: Building,
+    links: [
+      {
+        label: "Add Project",
+        link: routeNames.ngoAdmin.addProject,
+      },
+      {
+        label: "View Projects",
+        link: routeNames.ngoAdmin.viewProject,
+      },
     ],
   },
   {

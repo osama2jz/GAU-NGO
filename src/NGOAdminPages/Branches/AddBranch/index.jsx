@@ -24,8 +24,11 @@ import TextArea from "../../../Components/TextArea";
 import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import Timepicker from "../../../Components/Timepicker";
+
 import { useStyles } from "./styles";
 import InputMask from "react-input-mask";
+import moment from "moment";
 
 export const AddBranch = () => {
   const { classes } = useStyles();
@@ -39,6 +42,8 @@ export const AddBranch = () => {
   const { editData } = state ?? "";
   const isUpdate = editData ? true : false;
 
+  //create a new data with time 00:00:00 and add the editData.branchStartTime to it
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -49,6 +54,8 @@ export const AddBranch = () => {
       branchContact: "",
       branchEmail: "",
       branchPointOfContact: "",
+      branchStartTime: "",
+      branchEndTime: "",
     },
 
     validate: {
@@ -67,11 +74,27 @@ export const AddBranch = () => {
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
       branchPointOfContact: (value) =>
         /^\w.{3,16}$/.test(value) ? null : "Please enter Point of Contact",
+      branchStartTime: (value) =>
+        value?.length < 1 ? "Please Select start time." : null,
+      branchEndTime: (value, values) =>
+        moment(value).diff(moment(values?.branchStartTime), "minutes") < 1
+          ? "End Time cannot be before Start time"
+          : null,
     },
   });
 
   useEffect(() => {
     if (isUpdate) {
+      let startTime = new Date();
+      let endTime = new Date();
+      startTime.setHours(0, 0, 0, 0);
+      startTime.setHours(editData?.branchStartTime?.split(":")[0]);
+
+      endTime.setHours(0, 0, 0, 0);
+      endTime.setHours(editData?.branchEndTime?.split(":")[0]);
+
+      form.setFieldValue("branchStartTime", startTime);
+      form.setFieldValue("branchEndTime", endTime);
       form.setFieldValue("branchName", editData?.name);
       form.setFieldValue("branchDescription", editData?.description);
       form.setFieldValue("branchLocation", editData?.location);
@@ -82,6 +105,7 @@ export const AddBranch = () => {
       );
       form.setFieldValue("branchEmail", editData?.branchEmail);
       form.setFieldValue("branchContact", editData?.branchContact);
+      // form.setFieldValue("branchEndTime", moment(editData?.branchEndTime).format("HH:mm"));
     } else {
       form.reset();
     }
@@ -95,10 +119,25 @@ export const AddBranch = () => {
         if (isUpdate) {
           values = { ...values, branchId: editData?.id };
         }
+
+        let obj = {
+          branchName: values?.branchName,
+          branchLocation: values?.branchLocation,
+          branchDescription: values?.branchDescription,
+          branchPicture: values?.branchPicture,
+          branchContact: values?.branchContact,
+          branchEmail: values?.branchEmail,
+          branchPointOfContact: values?.branchPointOfContact,
+          branchStartTime: moment(values?.branchStartTime).format("HH:mm"),
+          branchEndTime: moment(values?.branchEndTime).format("HH:mm"),
+        };
+        if (isUpdate) {
+          obj = { ...obj, branchId: editData?.id };
+        }
         const link = editData?.id
           ? "/api/ngo/editBranch"
           : "/api/ngo/createBranch";
-        return axios.post(`${backendUrl + link}`, values, {
+        return axios.post(`${backendUrl + link}`, obj, {
           headers: {
             "x-access-token": user.token,
           },
@@ -200,7 +239,9 @@ export const AddBranch = () => {
             )}
           </Container>
           {form.values.branchPicture ? (
-            <Anchor onClick={() => form.setFieldValue("branchPicture",null)}>Remove</Anchor>
+            <Anchor onClick={() => form.setFieldValue("branchPicture", null)}>
+              Remove
+            </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
               <Dropzone
@@ -277,7 +318,26 @@ export const AddBranch = () => {
               />
             </Grid.Col>
           </Grid>
-
+          <Grid>
+            <Grid.Col sm={6}>
+              <Timepicker
+                label="Start Time"
+                required={true}
+                placeholder="Start Time"
+                form={form}
+                validateName="branchStartTime"
+              />
+            </Grid.Col>
+            <Grid.Col sm={6}>
+              <Timepicker
+                label="End Time"
+                required={true}
+                placeholder="End Time"
+                form={form}
+                validateName="branchEndTime"
+              />
+            </Grid.Col>
+          </Grid>
           <TextArea
             placeholder={"Branch Details"}
             label="Description"

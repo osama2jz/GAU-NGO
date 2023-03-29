@@ -18,8 +18,6 @@ const MySchedule = ({ Userid, setSlot ,slot}) => {
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
 
-  console.log("slot",slot)
-
   // console.log(Userid);
 
   useEffect(() => {

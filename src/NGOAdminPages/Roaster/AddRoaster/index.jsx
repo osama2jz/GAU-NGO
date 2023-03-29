@@ -49,12 +49,7 @@ export const AddRoaster = () => {
         value?.length < 1 ? "Please Select start date." : null,
       dateEnd: (value) =>
         value?.length < 1 ? "Please Select end date." : null,
-      timeStartSlot: (value) =>
-        value?.length < 1 ? "Please Select start time." : null,
-      timeEndSlot: (value, values) =>
-        moment(value).diff(moment(values?.timeStartSlot), "minutes") < 1
-          ? "End Time cannot be before Start time"
-          : null,
+      
     },
   });
 
@@ -63,18 +58,18 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
-      console.log("s")
+      console.log("s");
       let obj = {
         ngoId: user?.ngoId,
         branchId: values?.branchId,
         scheduleType: values?.scheduleType,
         dateStart: moment(values?.dateStart).format("YYYY-MM-DD"),
-        timeStartSlot: moment(values?.timeStartSlot).format("HH:mm"),
+
         dateEnd: moment(values?.dateEnd).format("YYYY-MM-DD"),
-        timeEndSlot: moment(values?.timeEndSlot).format("HH:mm"),
+
         users: values?.users,
       };
-    
+
       return axios.post(`${backendUrl + "/api/schedule/create"}`, obj, {
         headers: {
           "x-access-token": user.token,
@@ -148,16 +143,14 @@ export const AddRoaster = () => {
     },
     {
       onSuccess: (response) => {
-        
         let data = response.data.data.map((obj, ind) => {
-          if(obj?.branchStatus==="active"){
+          if (obj?.branchStatus === "active") {
             let branch = {
               value: obj._id,
               label: obj.branchName,
             };
             return branch;
           }
-          
         });
         let filteredData = data.filter((obj) => obj !== undefined);
         setBranches(filteredData);
@@ -221,28 +214,7 @@ export const AddRoaster = () => {
             />
           </Grid.Col>
         </Grid>
-        <Grid>
-          <Grid.Col sm={6}>
-            <Timepicker
-              label="Start Time"
-              required={true}
-              placeholder="Start Time"
-              form={form}
-              validateName="timeStartSlot"
-              // {...form?.getInputProps("timeStartSlot")}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6}>
-            <Timepicker
-              label="End Time"
-              required={true}
-              placeholder="End Time"
-              form={form}
-              validateName="timeEndSlot"
-              // {...form?.getInputProps("timeEndSlot")}
-            />
-          </Grid.Col>
-        </Grid>
+        
         <MultiSelect
           label="Select Users"
           form={form}

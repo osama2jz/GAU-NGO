@@ -153,8 +153,15 @@ export const ViewRoasters = () => {
         item?.name?.toLowerCase().includes(search.toLowerCase()) &&
         item?.userType?.toLowerCase().includes(filter.toLowerCase())
     );
+    setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
-    return filtered;
+    let a=filtered.map((item,ind)=>{
+      return{
+        ...item,
+        sr:ind+1
+      }
+    })
+    return a;
   }, [search, filter, rowData]);
 
   const paginated = useMemo(() => {
@@ -177,6 +184,7 @@ export const ViewRoasters = () => {
               leftIcon="search"
               pb="0"
               onChange={(v) => setSearch(v.target.value)}
+              value={search}
 
               // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
