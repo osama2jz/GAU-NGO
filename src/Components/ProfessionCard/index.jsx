@@ -26,15 +26,7 @@ const Cards = ({
 }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
   const [referModal, setReferModal] = useState(false);
-
-  console.log(cardData);
-  // const dates = useMemo(() => {
-  //   return cardData?.schedule?.map((obj) =>
-  //     moment(obj.dateStart).format("yyyy-MM-DD")
-  //   );
-  // }, [cardData]);
 
   return (
     <>
