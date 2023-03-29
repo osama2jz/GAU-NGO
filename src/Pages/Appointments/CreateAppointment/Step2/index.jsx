@@ -25,6 +25,7 @@ const Step2 = ({
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
  
 
   const { data: users, status } = useQuery(
@@ -95,8 +96,8 @@ const Step2 = ({
     }
   );
 
-  const filtered = professionalCardData.filter((obj) =>
-    obj.name.toLowerCase().includes(search.toLowerCase())
+  const filtered = professionalCardData?.filter((obj) =>
+    obj?.name.toLowerCase().includes(search.toLowerCase())
   );
   if (status === "loading") {
     return <Loader />;
@@ -115,6 +116,7 @@ const Step2 = ({
               leftIcon="search"
               label={"Search Professional"}
               pb="0"
+              value={search}
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>

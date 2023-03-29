@@ -77,7 +77,7 @@ const ReferModal = ({
         },
       }}
     >
-      <MySchedule Userid={id} setSlot={setSlot} slot={slot} />
+      {/* <MySchedule Userid={id} setSlot={setSlot} slot={slot} /> */}
       <Container>
         {!buttonChange && (
           <TextArea
@@ -94,10 +94,10 @@ const ReferModal = ({
             }}
           />
           <Button
-            label="Done"
-            loading={onSubmit?.isLoading || handleReferToExpert?.isLoading}
+            label="Submit"
+            loading={handleReferToExpert?.isLoading}
             onClick={() => {
-              buttonChange ? onSubmit.mutate() : handleReferToExpert.mutate();
+              handleReferToExpert.mutate();
               onSubmit.isSuccess && setOpened(false);
             }}
             disabled={!slot}

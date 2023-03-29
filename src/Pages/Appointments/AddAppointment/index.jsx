@@ -40,7 +40,7 @@ const AddAppointment = () => {
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
-  const [active, setActive] = useState(4);
+  const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
