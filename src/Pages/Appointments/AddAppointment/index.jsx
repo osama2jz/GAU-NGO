@@ -90,18 +90,24 @@ const AddAppointment = () => {
   });
 
   const [reportPublicFiles, setReportFiles] = useState({
+    reportTitle:"",
     reportComments: "",
     reportFile: "",
     reportType: "public",
     createdBy: user.id,
   });
 
+  console.log("reportPublicFiles", reportPublicFiles);
+
   const [privatereportFiles, setPrivateReportFiles] = useState({
+    reportTitle:"",
     reportComments: "",
     reportFile: "",
     reportType: "private",
     createdBy: user.id,
   });
+
+  console.log("privatereportFiles", privatereportFiles);
 
   const [otherDocument, setOtherDocument] = useState([]);
 

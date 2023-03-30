@@ -29,6 +29,7 @@ import DownloadPdf from "../downloadPdf";
 import Pagination from "../../../Components/Pagination";
 import Loader from "../../../Components/Loader";
 import ReactHtmlParser from "react-html-parser";
+import { useMemo } from "react";
 
 function PrivateReport() {
   const { classes } = useStyles();
@@ -40,6 +41,10 @@ function PrivateReport() {
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pdfData, setPdfData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
+  const [projectData, setProjectData] = useState([]);
+  const [SelectedProject, setSelectedProject] = useState("");
 
   let headerData = [
     {
@@ -178,29 +183,87 @@ function PrivateReport() {
       },
     }
   );
+
+    //API call for fetching all projects
+    const { data: projects, status: statusProject } = useQuery(
+      "fetchProjects",
+      () => {
+        return axios.get(`${backendUrl + `/api/project/listProjects`}`, {
+          headers: {
+            "x-access-token": user.token,
+          },
+        });
+      },
+      {
+        onSuccess: (response) => {
+          let data = response?.data?.data?.map((obj, ind) => {
+            let project = {
+              label: obj?.projectName,
+              value: obj?.projectName,
+            };
+            return project;
+          });
+          setProjectData(data);
+        },
+      }
+    );
+
+  const filterData = useMemo(() => {
+    const filtered = pdfData.filter((item) => {
+      if (filter == "") {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.caseNo.toLowerCase().includes(search.toLowerCase())
+        );
+      } else {
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.role?.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    });
+    setPage(1);
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    let a = filtered.map((obj, ind) => {
+      return {
+        ...obj,
+        sr: ind + 1,
+      };
+    });
+
+    return a;
+  }, [search, filter, pdfData]);
+
+  const paginated = useMemo(() => {
+    if (activePage === 1) {
+      return filterData.slice(0, 10);
+    } else {
+      return filterData.slice((activePage - 1) * 10, activePage * 10);
+    }
+  });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
       <ContainerHeader label={"Private"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" />
+            <InputField placeholder="Search" leftIcon="search" pb="0" 
+             value={search}
+             onChange={(e) => setSearch(e.target.value)}/>
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6} md={3} lg={3}>
             <SelectMenu
-              placeholder="Added By"
-              data={[
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychologist", value: "psychologistng" },
-                { label: "Social Worker", value: "socailworker" },
-              ]}
+              placeholder="Projects"
+              data={projectData}
+              setData={setSelectedProject}
             />
           </Grid.Col>
+        
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
               headCells={headerData}
-              setdata={setRowData}
-              data={pdfData}
+              data={filterData}
               title="Download reports"
             />
           </Grid.Col>
@@ -210,7 +273,7 @@ function PrivateReport() {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
           />

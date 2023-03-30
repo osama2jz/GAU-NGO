@@ -78,6 +78,7 @@ function AllAppointments() {
               image: obj?.appointmentUserImage
                 ? obj?.appointmentUserImage
                 : defaultUser,
+             
             };
             return appointment;
             // }
@@ -87,6 +88,8 @@ function AllAppointments() {
       },
     }
   );
+
+ 
   let headerData = [
     {
       id: "sr",

@@ -43,7 +43,7 @@ function ScheduledAppointments() {
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
-    "fetchAppointments",
+    "fetchAppointmentsData",
     () => {
       return axios.get(
         `${backendUrl + `/api/appointment/listUserAppointments/scheduled`}`,
@@ -81,6 +81,7 @@ function ScheduledAppointments() {
               ? obj?.appointmentUserImage
               : userlogo,
             project: obj?.project,
+            refer: obj?.refered===true? "Refered": "New",
           };
           return appointment;
         });
@@ -89,6 +90,8 @@ function ScheduledAppointments() {
       },
     }
   );
+
+  console.log("rowData", rowData);
 
   //API call for Cancel Appointments
   const CancelAppointments = useMutation(
@@ -151,6 +154,12 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Time",
+    },
+    {
+      id: "refer",
+      numeric: false,
+      disablePadding: true,
+      label: "Refered",
     },
     {
       id: "status",
