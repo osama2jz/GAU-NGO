@@ -50,24 +50,16 @@ const Login = () => {
           navigate(routeNames.general.verificationPending, {
             state: { data: response.data },
           });
+        } else if (!response.data.status) {
+          showNotification({
+            title: "Error",
+            message: response.data.message,
+            color: "red.0",
+          });
         } else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
         }
-        // } else {
-        //   showNotification({
-        //     title:
-        //       response.data.message === "Verification Pending"
-        //         ? response.data.message
-        //         : "Invalid Credentials",
-        //     message:
-        //       response.data.message === "Verification Pending"
-        //         ? "Your Account verification is pending."
-        //         : "Please Enter correct email and password to login.",
-        //     color: "red.0",
-        //   });
-        // }
-        // navigate(routeNames.socialWorker.allUsers);
       },
     }
   );

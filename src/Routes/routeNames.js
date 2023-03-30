@@ -138,10 +138,12 @@ const routeNames = {
     addDonation: "/add-donation",
     viewDonations: "/view-donations",
     addComplaint: "/add-complaint",
+    missingDocuments: "/missing-document-appointments",
     viewComplaint: "/view-complaints",
     settings: "/settings",
     editAppoinment: "/edit-appointment",
     viewAppoinment: "/view-appointment",
+    complaints: "/complaints-public",
   },
 };
 
