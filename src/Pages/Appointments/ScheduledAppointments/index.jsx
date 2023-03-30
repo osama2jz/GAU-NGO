@@ -68,7 +68,8 @@ function ScheduledAppointments() {
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
-            addedBy: obj?.addedBy,
+            addedBy:obj?.refered===true ? obj?.referedName :obj?.addedBy,
+            // addedBy: obj?.addedBy,
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
@@ -112,7 +113,7 @@ function ScheduledAppointments() {
           message: "Appointment Cancelled Successfully",
           color: "green.0",
         });
-        queryClient.invalidateQueries("fetchAppointments");
+        navigate(routeNames.appointments.allAppointments);
         setOpenViewModal(false);
       },
     }

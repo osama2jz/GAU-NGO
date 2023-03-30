@@ -49,6 +49,8 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
+  console.log("selectedCase", selectedCase);
+
   //Camera Image
   const [img, setImg] = useState(null);
   //Face Io
@@ -90,24 +92,20 @@ const AddAppointment = () => {
   });
 
   const [reportPublicFiles, setReportFiles] = useState({
-    reportTitle:"",
+    reportTitle: "",
     reportComments: "",
     reportFile: "",
     reportType: "public",
     createdBy: user.id,
   });
 
-  console.log("reportPublicFiles", reportPublicFiles);
-
   const [privatereportFiles, setPrivateReportFiles] = useState({
-    reportTitle:"",
+    reportTitle: "",
     reportComments: "",
     reportFile: "",
     reportType: "private",
     createdBy: user.id,
   });
-
-  console.log("privatereportFiles", privatereportFiles);
 
   const [otherDocument, setOtherDocument] = useState([]);
 
@@ -150,10 +148,19 @@ const AddAppointment = () => {
     {
       onSuccess: (response) => {
         // console.log("response", response);
-        setSelectedCase(response?.data?.data?.caseId);
-        setCaseNo(response?.data?.data?.caseNo);
-        setUserCase(response?.data?.data?.caseNo);
-        setActive(active + 1);
+        if (response.data.status) {
+          setSelectedCase(response?.data?.data?.caseId);
+          setCaseNo(response?.data?.data?.caseNo);
+          setUserCase(response?.data?.data?.caseNo);
+          setActive(active + 1);
+        } else {
+          showNotification({
+            title: "Error",
+            message: response?.data?.message,
+            color: theme.colors.red[9],
+            timeout: 5000,
+          });
+        }
       },
     }
   );
@@ -161,6 +168,7 @@ const AddAppointment = () => {
   //create UserCase
   const handleCreateUserCase = useMutation(
     () => {
+      console.log("user Case");
       let object = {};
       if (
         otherUserId !== "" ||
@@ -168,6 +176,8 @@ const AddAppointment = () => {
         otherUserName !== ""
       ) {
         if (selectedCase.length > 0 && newCase.length < 1) {
+          console.log("Other User Case");
+
           object = {
             previousCaseLinked: true,
             appointmentId: appId,
@@ -188,6 +198,10 @@ const AddAppointment = () => {
             Image: img,
             caseName: newCase,
             projectId: projectId,
+            otherUser: true,
+            otherUserId: otherUserId,
+            otherUserMobile: otherUserMobile,
+            otherUserName: otherUserName,
           };
         }
       } else {
@@ -220,11 +234,19 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        // console.log("response", response);
-        setSelectedCase(response?.data?.data?.caseId);
-        setCaseNo(response?.data?.data?.caseNo);
-        setUserCase(response?.data?.data?.caseNo);
-        setActive(active + 1);
+        console.log("response", response);
+        if (response.data.status) {
+          setSelectedCase(response?.data?.data?.caseId);
+          setCaseNo(response?.data?.data?.caseNo);
+          setUserCase(response?.data?.data?.caseNo);
+          // setActive(active + 1);
+        } else {
+          showNotification({
+            color: "red.0",
+            message: response.data.message,
+            title: "Error",
+          });
+        }
       },
     }
   );
@@ -285,21 +307,20 @@ const AddAppointment = () => {
   const handleNextSubmit = () => {
     if (active == 0) {
       if (appData?.project === "N/A") {
-        console.log("sasa", selectedUser, selectedCase);
-        if (!selectedUser || selectedCase.length < 1) {
+        if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
             message: "Please Select User or Create Case.",
-            title: "Report Missing",
+            title: "User Case",
           });
+
           return;
         }
-      } else {
         if (img === null && (Object.keys(faceID).length === 0) === true) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
-            title: "Report Missing",
+            title: "Face Recognition",
           });
           return;
         }
@@ -318,7 +339,36 @@ const AddAppointment = () => {
             showNotification({
               color: "red.0",
               message: "Please Add Other User Information.",
-              title: "Report Missing",
+              title: "User Information",
+            });
+            return;
+          }
+        }
+      } else {
+        if (img === null && (Object.keys(faceID).length === 0) === true) {
+          showNotification({
+            color: "red.0",
+            message: "Please Verify Face ID or Attach Photo.",
+            title: "Face Recognition",
+          });
+          return;
+        }
+        if (
+          otherUserName !== "" ||
+          otherUserMobile !== "" ||
+          otherUserId !== ""
+        ) {
+          if (
+            otherUserName !== "" &&
+            otherUserMobile !== "" &&
+            otherUserId !== "" &&
+            !(img === null && (Object.keys(faceID).length === 0) === true)
+          ) {
+          } else {
+            showNotification({
+              color: "red.0",
+              message: "Please Add Other User Information.",
+              title: "User Information",
             });
             return;
           }
@@ -327,7 +377,7 @@ const AddAppointment = () => {
       appData?.project === "N/A"
         ? handleCreateUserCase.mutate()
         : handleCreateCase.mutate();
-      setActive(active + 1);
+      // setActive(active + 1);
     }
     if (active == 2) {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {

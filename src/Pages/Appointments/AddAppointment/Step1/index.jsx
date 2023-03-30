@@ -29,6 +29,7 @@ import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
+import InputMask from "react-input-mask";
 
 const Step1 = ({
   setSelectedUser,
@@ -286,6 +287,9 @@ const Step1 = ({
             />
             <InputField
               label={"Person Contact"}
+              placeholder="+34 21 4564 790"
+              component={InputMask}
+              mask="+34 99 9999 999"
               onChange={(e) => setotherUserMobile(e.target.value)}
             />
             <InputField
