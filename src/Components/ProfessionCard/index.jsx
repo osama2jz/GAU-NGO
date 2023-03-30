@@ -22,17 +22,41 @@ const Cards = ({
   referedTo,
   setSlot,
   onSubmit,
+  verification = false,
   caseId,
 }) => {
   const { classes } = useStyles();
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [referModal, setReferModal] = useState(false);
-
 
   const OpenReferModal = (slotid, referedToId) => {
     setReferModal(true);
     setReferedTo(referedToId);
     setSlot(slotid);
+  };
+
+  const handleSubmit = () => {
+    if (!buttonChange) {
+      OpenReferModal({
+        slotid: cardData?.schedule,
+        referedToId: cardData?.userId,
+      });
+    } else {
+      if (verification) {
+        onSubmit.mutate({
+          appointmentUser: user?.id,
+          appointmentWith: cardData.userId,
+          scheduleId: cardData?.schedule,
+          appointmentType: "verification",
+        });
+      } else {
+        onSubmit.mutate({
+          slotid: cardData?.schedule,
+          referedToId: cardData?.userId,
+        });
+      }
+    }
   };
   return (
     <>
@@ -75,17 +99,7 @@ const Cards = ({
           bg={true}
           className={classes.button}
           loading={onSubmit?.isLoading}
-          onClick={() => {
-            !buttonChange
-              ? OpenReferModal({
-                  slotid: cardData?.schedule,
-                  referedToId: cardData?.userId,
-                })
-              : onSubmit.mutate({
-                  slotid: cardData?.schedule,
-                  referedToId: cardData?.userId,
-                });
-          }}
+          onClick={handleSubmit}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
         />

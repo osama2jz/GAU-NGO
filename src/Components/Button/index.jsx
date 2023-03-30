@@ -1,4 +1,8 @@
-import { Button as ButtonMantine, createStyles, useMantineTheme } from "@mantine/core";
+import {
+  Button as ButtonMantine,
+  createStyles,
+  useMantineTheme,
+} from "@mantine/core";
 
 const useStyles = createStyles((theme, { bg, primary, disabled }) => ({
   rootPrimary: {
@@ -42,11 +46,12 @@ const Button = ({
   type,
   iconWidth = "16px",
   disabled,
-  size="sm",
-  variant="filled",
+  size = "sm",
+  variant = "filled",
+  ...props
 }) => {
   const { classes, cx } = useStyles({ bg, primary, disabled });
-  const theme=useMantineTheme()
+  const theme = useMantineTheme();
   return (
     <ButtonMantine
       sx={styles}
@@ -72,6 +77,7 @@ const Button = ({
         root: disabled ? classes.disabled : classes.rootPrimary,
       }}
       onClick={onClick}
+      {...props}
     >
       {label}
     </ButtonMantine>

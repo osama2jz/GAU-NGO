@@ -24,9 +24,7 @@ const Step2 = ({
   const [typeFilter, setTypeFilter] = useState("socialWorker");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
- 
 
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -63,7 +61,6 @@ const Step2 = ({
 
   const getSchedule = useMutation(
     () => {
-      setLoading(true);
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
         { date: date, type: typeFilter },
@@ -90,7 +87,6 @@ const Step2 = ({
           return card;
         });
         setProfessionalCardData(data);
-        setLoading(false);
       },
     }
   );
@@ -146,7 +142,7 @@ const Step2 = ({
           </Grid.Col>
         </Grid>
 
-        {loading ? (
+        {getSchedule.isLoading ? (
           <Loader minHeight={"200px"} />
         ) : (
           <Grid>

@@ -7,6 +7,8 @@ const routeNames = {
     otp: "/auth/verify-otp",
     resetPassword: "/auth/reset-password",
     dashboard: "/",
+    verificationSchedule: "/schedule-verification",
+    verificationPending: "/auth/pending-verification",
   },
   socialWorker: {
     dashboard: "/",

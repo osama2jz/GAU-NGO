@@ -37,22 +37,36 @@ const Login = () => {
     },
     {
       onSuccess: (response) => {
-        if (response.data.status) {
+        if (
+          response.data.verificationStatus === "unverified" &&
+          !response.data.appointmentBooked
+        ) {
+          localStorage.setItem("userData", JSON.stringify(response.data));
+          navigate(routeNames.general.verificationSchedule);
+        } else if (
+          response.data.verificationStatus === "unverified" &&
+          response.data.appointmentBooked
+        ) {
+          navigate(routeNames.general.verificationPending, {
+            state: { data: response.data },
+          });
+        } else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
-        } else {
-          showNotification({
-            title:
-              response.data.message === "Verification Pending"
-                ? response.data.message
-                : "Invalid Credentials",
-            message:
-              response.data.message === "Verification Pending"
-                ? "Your Account verification is pending."
-                : "Please Enter correct email and password to login.",
-            color: "red.0",
-          });
         }
+        // } else {
+        //   showNotification({
+        //     title:
+        //       response.data.message === "Verification Pending"
+        //         ? response.data.message
+        //         : "Invalid Credentials",
+        //     message:
+        //       response.data.message === "Verification Pending"
+        //         ? "Your Account verification is pending."
+        //         : "Please Enter correct email and password to login.",
+        //     color: "red.0",
+        //   });
+        // }
         // navigate(routeNames.socialWorker.allUsers);
       },
     }
@@ -80,7 +94,9 @@ const Login = () => {
       />
       <Flex justify="space-between" mt="md">
         <Checkbox label="Remember me" />
-        <Anchor onClick={()=>navigate(routeNames.general.forgetPassword)}>Forgot Password?</Anchor>
+        <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
+          Forgot Password?
+        </Anchor>
       </Flex>
       <Divider
         label="OR"

@@ -177,7 +177,7 @@ export const Step2 = ({
       label: "Actions",
     },
   ];
-  
+
   const { data1, status1 } = useQuery(
     "getDescrimination",
     () => {

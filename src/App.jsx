@@ -36,6 +36,8 @@ import NewPassword from "./Pages/Login/ForgetPassword/NewPassword";
 import OTP from "./Pages/Login/ForgetPassword/OTP";
 import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Login/Signup";
+import VerificationSchedule from "./Pages/Login/VerificationSchedule";
+import VerificationPending from "./Pages/Login/VerificationSchedule/VerificationPending";
 import MySchedule from "./Pages/MySchedule/Schedule";
 import PrivateReport from "./Pages/Reports/Private";
 import PublicReport from "./Pages/Reports/Public";
@@ -61,6 +63,10 @@ function App() {
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
           <Route
+            path={routeNames.general.verificationPending}
+            element={<VerificationPending />}
+          />
+          <Route
             path={routeNames.general.forgetPassword}
             element={<ForgetPassword />}
           />
@@ -70,6 +76,10 @@ function App() {
             element={<NewPassword />}
           />
         </Route>
+        <Route
+          path={routeNames.general.verificationSchedule}
+          element={<VerificationSchedule />}
+        />
         <Route path="/" element={<GeneralLayout />}>
           <Route
             path={routeNames.socialWorker.dashboard}
