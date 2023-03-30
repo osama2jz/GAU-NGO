@@ -35,6 +35,7 @@ const InputField = ({
   mask,
   maxLength,
   component,
+  mb
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
   return (
@@ -50,6 +51,7 @@ const InputField = ({
       onKeyDown={onKeyDown}
       disabled={disabled}
       component={component}
+      mb={mb}
       mask={mask}
       {...form?.getInputProps(validateName)}
       icon={

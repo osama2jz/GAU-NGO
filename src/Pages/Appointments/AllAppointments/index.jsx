@@ -17,6 +17,7 @@ import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import DownloadPdf from "../../Reports/downloadPdf";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -63,7 +64,8 @@ function AllAppointments() {
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
               date: obj?.addedDate,
-              addedBy: obj?.addedBy,
+              addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
+
               role:
                 obj?.role === "socialWorker"
                   ? "Social Worker"
@@ -87,6 +89,7 @@ function AllAppointments() {
       },
     }
   );
+
   let headerData = [
     {
       id: "sr",
@@ -146,22 +149,22 @@ function AllAppointments() {
     },
   ];
 
-  
-
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter((item) => {
       if (filter === "") {
-        return (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase()));
+        return (
+          item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+        );
       } else
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
-      item?.status?.toLowerCase().includes(filter.toLowerCase())
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.status?.toLowerCase().includes(filter.toLowerCase())
         );
     });
-    
-    setPage(1)
+
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {
@@ -192,7 +195,7 @@ function AllAppointments() {
 
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={6} lg={5} md={4}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -201,7 +204,7 @@ function AllAppointments() {
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
+          <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               value={filter}
@@ -215,7 +218,7 @@ function AllAppointments() {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={8} lg={1} md={2} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
@@ -224,7 +227,8 @@ function AllAppointments() {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
+          
+          <Grid.Col sm={4} lg={4} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
               bg={true}
@@ -233,6 +237,14 @@ function AllAppointments() {
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
             />
           </Grid.Col>
+          <Grid.Col sm={12}>
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              title="Download reports"
+            />
+          </Grid.Col>
+       
         </Grid>
         <Table
           headCells={headerData}

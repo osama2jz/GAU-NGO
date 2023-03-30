@@ -43,7 +43,7 @@ function ScheduledAppointments() {
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
-    "fetchAppointments",
+    "fetchAppointmentsData",
     () => {
       return axios.get(
         `${backendUrl + `/api/appointment/listUserAppointments/scheduled`}`,
@@ -68,7 +68,8 @@ function ScheduledAppointments() {
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
-            addedBy: obj?.addedBy,
+            addedBy:obj?.refered===true ? obj?.referedName :obj?.addedBy,
+            // addedBy: obj?.addedBy,
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
@@ -81,6 +82,7 @@ function ScheduledAppointments() {
               ? obj?.appointmentUserImage
               : userlogo,
             project: obj?.project,
+            refer: obj?.refered===true? "Refered": "New",
           };
           return appointment;
         });
@@ -89,6 +91,8 @@ function ScheduledAppointments() {
       },
     }
   );
+
+  console.log("rowData", rowData);
 
   //API call for Cancel Appointments
   const CancelAppointments = useMutation(
@@ -109,7 +113,7 @@ function ScheduledAppointments() {
           message: "Appointment Cancelled Successfully",
           color: "green.0",
         });
-        queryClient.invalidateQueries("fetchAppointments");
+        navigate(routeNames.appointments.allAppointments);
         setOpenViewModal(false);
       },
     }
@@ -151,6 +155,12 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Time",
+    },
+    {
+      id: "refer",
+      numeric: false,
+      disablePadding: true,
+      label: "Refered",
     },
     {
       id: "status",

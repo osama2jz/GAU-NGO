@@ -1,10 +1,12 @@
-import { Grid, Tabs, Text } from "@mantine/core";
+import { Grid, Tabs, Text,Container } from "@mantine/core";
 import React from "react";
 import TextEditor from "../../../../Components/TextEditor";
 import { useRef } from "react";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import Button from "../../../../Components/Button";
+import InputField from "../../../../Components/InputField";
+
 const DoubleTabs = ({
   selectedUser,
   setReportFiles,
@@ -137,12 +139,21 @@ const DoubleTabs = ({
       </div>
     </div> */}
           {/* <Grid mt={30} justify="space-between" align={"center"}> */}
-            {/* <Grid.Col sm={12} md={6} xs={12}>
+          {/* <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
             </Grid.Col> */}
-            {/* <Grid.Col md={6}> */}
-              <TextEditor editor={editorr} minHeight="200px" />
-              {/* <TextArea
+          {/* <Grid.Col md={6}> */}
+          
+            <InputField label={"Title"} placeholder="Title" pb="0" mb={"md"}
+            onChange={(e)=>setReportFiles({
+              ...reportFiles,
+              reportTitle:e.target.value,
+
+            })}/>
+        
+
+          <TextEditor editor={editorr} minHeight="200px" />
+          {/* <TextArea
                 rows={5}
                 label="Add Comments"
                 placeholder={"Enter Comments"}
@@ -180,7 +191,7 @@ const DoubleTabs = ({
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "public")}
               /> */}
-            {/* </Grid.Col> */}
+          {/* </Grid.Col> */}
           {/* </Grid> */}
         </Tabs.Panel>
 
@@ -189,12 +200,18 @@ const DoubleTabs = ({
             Private Report
           </Text>
           {/* <Grid mt={30} justify="space-between" align={"center"}> */}
-            {/* <Grid.Col sm={12} md={6} xs={12}>
+          {/* <Grid.Col sm={12} md={6} xs={12}>
               <UserInfo userData={selectedUser} />
             </Grid.Col> */}
-            {/* <Grid.Col md={6}> */}
-              <TextEditor editor={editorr2} minHeight="200px" />
-              {/* <TextArea
+          {/* <Grid.Col md={6}> */}
+          <InputField label={"Title"} placeholder="Title" pb="0" mb={"md"}
+            onChange={(e)=>setPrivateReportFiles({
+              ...privatereportFiles,
+              reportTitle:e.target.value,
+
+            })}/>
+          <TextEditor editor={editorr2} minHeight="200px" />
+          {/* <TextArea
                 label="Add Comments"
                 placeholder={"Enter Comments"}
                 rows={5}
@@ -232,7 +249,7 @@ const DoubleTabs = ({
                 icon={<FileUpload size={20} />}
                 onChange={(e) => handleFileInput(e, "private")}
               /> */}
-            {/* </Grid.Col> */}
+          {/* </Grid.Col> */}
           {/* </Grid> */}
         </Tabs.Panel>
       </Tabs>

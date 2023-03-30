@@ -93,7 +93,7 @@ function DownloadPdf({ headCells, data, title ,setdata}) {
   return (
     <Menu shadow="md" width={"target"} className={classes.export}>
       <Menu.Target>
-        <Flex gap={4} align="center" justify={"space-around"}>
+        <Flex gap={4} align="center" justify={"space-around"} style={{border: "1px solid rgb(0, 0, 0, 0.1)"}}>
           <Image src={download} width={18} height={18} />
           <Text>Export PDF</Text>
         </Flex>
