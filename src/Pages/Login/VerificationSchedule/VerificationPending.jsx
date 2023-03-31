@@ -17,8 +17,7 @@ const VerificationPending = () => {
         visit on site to verify your account.
       </Text>
       <Text>
-        <b>Appointment Date:</b>{" "}
-        {moment(state?.data.appointmentDate).format("DD MMM YYYY")}
+        <b>Appointment Date:</b> {state?.data.appointmentDate}
         <br />
         <b>Appointment Time:</b> {state?.data.appointmentTime}
       </Text>

@@ -91,9 +91,9 @@ export const AddUser = () => {
           </ul>
         ),
       phoneNumber: (value) =>
-        value?.length < 8 || value?.length > 12
-          ? "Please enter a valid phone number"
-          : null,
+        /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
+          ? null
+          : "Please enter valid phone number ",
       confirmPassword: (value, values) =>
         value !== values?.password ? "Passwords did not match" : null,
     },
@@ -270,10 +270,11 @@ export const AddUser = () => {
             </Grid.Col>
             <Grid.Col sm={6}>
               <InputField
-                type="number"
                 label="Phone Number"
                 required={true}
-                placeholder="+123456789"
+                placeholder="+34 91 1234 567"
+                component={InputMask}
+                mask="+34 99 9999 999"
                 form={form}
                 validateName="phoneNumber"
               />

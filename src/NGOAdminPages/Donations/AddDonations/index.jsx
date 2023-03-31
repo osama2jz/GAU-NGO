@@ -1,38 +1,20 @@
 import {
-  Avatar,
-  Container,
-  Grid,
-  Group,
-  SimpleGrid,
-  Text,
-  useMantineTheme,
+  Container, Group, useMantineTheme
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
 import { useContext, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { Checks, Edit, Eye, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
-
 import ContainerHeader from "../../../Components/ContainerHeader";
-import DeleteModal from "../../../Components/DeleteModal";
-import EditModal from "../../../Components/EditModal/editModal";
 import InputField from "../../../Components/InputField";
-import Loader from "../../../Components/Loader";
-import Pagination from "../../../Components/Pagination";
-import SelectMenu from "../../../Components/SelectMenu";
-import Table from "../../../Components/Table";
 import TextArea from "../../../Components/TextArea";
-import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
-// import routeNames from "../../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import userImage from "../../../assets/teacher.png";
 
 export const AddDonations = () => {
   const { classes } = useStyles();
@@ -129,7 +111,7 @@ export const AddDonations = () => {
           />
           <Group position="right" mt="sm">
             <Button label="Cancel" onClick={()=>navigate(-1)} />
-            <Button label={"Donate"} bg={true} type="submit" leftIcon={"dollar"}/>
+            <Button label={"Donate"} bg={true} type="submit" leftIcon={"euro"}/>
           </Group>
         </Container>
       </form>

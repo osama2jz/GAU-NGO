@@ -22,6 +22,7 @@ const Cards = ({
   referedTo,
   setSlot,
   onSubmit,
+  handleCreateAppointment,
   verification = false,
   caseId,
   setOpened
@@ -45,7 +46,7 @@ const Cards = ({
       });
     } else {
       if (verification) {
-        onSubmit.mutate({
+        handleCreateAppointment.mutate({
           appointmentUser: user?.id,
           appointmentWith: cardData.userId,
           scheduleId: cardData?.schedule,
