@@ -20,13 +20,13 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
   const [opened, setOpened] = useState(false);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
+  const [refetch, setRefetch] = useState(false);
 
-  // console.log(Userid);
 
   useEffect(() => {
     getSchedule.mutate(date);
     getScheduleDates.mutate();
-  }, []);
+  }, [refetch]);
 
   const getScheduleDates = useMutation(
     () => {
@@ -132,6 +132,8 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
         opened={opened}
         setOpened={setOpened}
         date={date}
+        userId={Userid}
+        setRefetch={setRefetch}
         branchId={scheduleData[0]?.branchId}
       />
     </Container>

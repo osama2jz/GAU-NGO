@@ -7,7 +7,7 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId }) => {
+const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -26,7 +26,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId }) => {
       return axios.post(
         `${backendUrl + "/api/schedule/cancel"}`,
         {
-          userId: user.id,
+          userId: userId,
           leaveDate: date,
           type: "schedule",
           branchId: branchId,
@@ -47,6 +47,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId }) => {
             color: "green.0",
           });
           setOpened(false);
+          setRefetch((v) => !v);
         } else {
           showNotification({
             title: "Leave",

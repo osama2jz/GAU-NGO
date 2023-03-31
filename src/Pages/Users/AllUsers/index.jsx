@@ -33,7 +33,8 @@ export const AllUser = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("");
+  const [filter2, setFilter2] = useState("");
   const [search, setSearch] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
@@ -106,12 +107,9 @@ export const AllUser = () => {
 
   //API call for fetching all users
   const { data, status } = useQuery(
-    ["fetchUser", filter, search, activePage],
+    ["fetchUser"],
     () => {
-      let link =
-        search.length > 0 || filter !== "all"
-          ? `/api/ngo/listNGOUsers/user/0/0/${filter}/${search}`
-          : `/api/ngo/listNGOUsers/user/${activePage}/10/${filter}/${search}`;
+      let link = `/api/ngo/listNGOUsers/user/0/0/all`;
       return axios.get(`${backendUrl + link}`, {
         headers: {
           "x-access-token": user.token,
@@ -174,44 +172,99 @@ export const AllUser = () => {
     });
   };
 
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      if (filter === "" && filter2 === "") {
+        return item.name.toLowerCase().includes(search.toLowerCase());
+      } else if (filter !== "" && filter2 === "")
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) &&
+          item.status === filter
+        );
+      else if (filter === "" && filter2 !== "")
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) &&
+          item.accStatus === filter2
+        );
+      else {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) &&
+          item.accStatus === filter2 &&
+          item.status === filter
+        );
+      }
+    });
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+  }, [rowData, search, filter, filter2]);
+
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItems.slice(a, a + 10);
+    }
+  }, [activePage, filteredItems]);
+
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"View Users"} />
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={12} lg={4} md={6}>
             <InputField
-              placeholder="Search"
+              placeholder="Search Name"
               leftIcon="search"
               pb="0"
               value={search}
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
+          <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by Status"
               pb="0px"
               value={filter}
               setData={setFilter}
               data={[
-                { label: "All", value: "all" },
-                { label: "verified", value: "verified" },
+                { label: "All", value: "" },
+                { label: "Verified", value: "verified" },
                 { label: "Unverified", value: "unverified" },
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={2} md={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              pb="0px"
+              value={filter2}
+              setData={setFilter2}
+              data={[
+                { label: "All", value: "" },
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ]}
+            />
+          </Grid.Col>
+          <Grid.Col sm={9} lg={1} md={9} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                setFilter("all");
+                setFilter("");
+                setFilter2("");
                 setSearch("");
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={3} lg={3} md={3} style={{ textAlign: "end" }}>
             {(user.role === "Social Worker" || user.role === "Admin") && (
               <Button
                 label={"Add User"}
@@ -228,7 +281,7 @@ export const AllUser = () => {
         ) : (
           <Table
             headCells={newData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             onStatusChange={handleChangeStatus.mutate}
