@@ -18,6 +18,7 @@ const Step2 = ({
   setSlot,
   onSubmit,
   slot,
+  setOpened
 }) => {
   const { user } = useContext(UserContext);
   const [cardData, setCardData] = useState([]);
@@ -25,6 +26,8 @@ const Step2 = ({
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [search, setSearch] = useState("");
+
+  
 
   const { data: users, status } = useQuery(
     "referSchedule",
@@ -157,6 +160,7 @@ const Step2 = ({
                     referedTo={referedTo}
                     setSlot={setSlot}
                     slot={slot}
+                    setOpened={setOpened}
                   />
                 </Grid.Col>
               ))

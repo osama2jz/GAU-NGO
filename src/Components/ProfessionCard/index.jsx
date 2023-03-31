@@ -24,6 +24,7 @@ const Cards = ({
   onSubmit,
   verification = false,
   caseId,
+  setOpened
 }) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
@@ -98,8 +99,9 @@ const Cards = ({
           label={buttonChange ? "Schedule" : "Refer"}
           bg={true}
           className={classes.button}
-          loading={onSubmit?.isLoading}
-          onClick={handleSubmit}
+          // loading={onSubmit?.isLoading}
+          // onClick={handleSubmit}
+          onClick={()=>{setOpened(true),setReferedTo(cardData?.userId),setSlot(cardData?.schedule)}}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
         />

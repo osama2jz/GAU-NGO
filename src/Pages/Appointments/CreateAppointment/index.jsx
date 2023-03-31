@@ -19,6 +19,7 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
+import ConfirmationModal from "./ConfirmationModal";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -33,12 +34,11 @@ const AddAppointment = () => {
   const [referedTo, setReferedTo] = useState("");
   const [slot, setSlot] = useState("");
   const [projectId, setProjectId] = useState("");
-
-
+  const [opened, setOpened] = useState(false);
 
   const handleNextSubmit = () => {
     if (active == 0) {
-      if(user.role !=="User"){
+      if (user.role !== "User") {
         if (!selectedUser || selectedCase.length < 1) {
           showNotification({
             color: "red.0",
@@ -48,7 +48,6 @@ const AddAppointment = () => {
           return;
         }
       }
-     
     }
 
     setActive(active + 1);
@@ -56,37 +55,37 @@ const AddAppointment = () => {
 
   //create appointment
   const handleCreateAppointment = useMutation(
-    ({slotid,referedToId}) => {
-      console.log("slot",slotid)
-      console.log("referedToId",referedToId)
+    () => {
+      // { slotid, referedToId }
+      console.log("hello")
       let object = {};
-      if(user.role !=="User"){
-      if (selectedCase.length > 0 && newCase.length < 1) {
-        object = {
-          previousAppointmentLinked: true,
-          appointmentUser: selectedUser.data.data._id,
-          previousAppointmentLinkedId: selectedCase,
-          appointmentWith: referedToId,
-          scheduleId: slotid,
-          projectId:projectId,
-        };
+      if (user.role !== "User") {
+        if (selectedCase.length > 0 && newCase.length < 1) {
+          object = {
+            previousAppointmentLinked: true,
+            appointmentUser: selectedUser.data.data._id,
+            previousAppointmentLinkedId: selectedCase,
+            appointmentWith: referedTo,
+            scheduleId: slot,
+            projectId: projectId,
+          };
+        } else {
+          object = {
+            previousAppointmentLinked: false,
+            appointmentUser: selectedUser.data.data._id,
+            appointmentWith: referedTo,
+            scheduleId: slot,
+            caseName: newCase,
+            projectId: projectId,
+          };
+        }
       } else {
         object = {
           previousAppointmentLinked: false,
           appointmentUser: selectedUser.data.data._id,
-          appointmentWith: referedToId,
-          scheduleId: slotid,
-          caseName: newCase,
-          projectId:projectId,
+          appointmentWith: referedTo,
+          scheduleId: slot,
         };
-      }}
-      else{
-        object = {
-          previousAppointmentLinked: false,
-          appointmentUser: selectedUser.data.data._id,
-          appointmentWith: referedToId,
-          scheduleId: slotid,
-        }
       }
 
       return axios.post(`${backendUrl + "/api/appointment/create"}`, object, {
@@ -103,7 +102,9 @@ const AddAppointment = () => {
             message: "Appointment Created Successfully",
             color: "green.0",
           });
-          navigate(routeNames.socialWorker.scheduledAppointments);
+          user.role !== "User"
+            ? navigate(routeNames.socialWorker.scheduledAppointments)
+            : navigate(routeNames.user.allAppointments);
         } else {
           showNotification({
             title: "Error",
@@ -111,7 +112,6 @@ const AddAppointment = () => {
             color: "red.0",
           });
         }
-        // console.log(response)
       },
     }
   );
@@ -142,7 +142,9 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label={user.role ==="User" ? "1.Personal Information":"1. Select User"}
+            label={
+              user.role === "User" ? "1.Personal Information" : "1. Select User"
+            }
           >
             <Step1
               setSelectedUser={setSelectedUser}
@@ -172,6 +174,7 @@ const AddAppointment = () => {
               setSlot={setSlot}
               slot={slot}
               onSubmit={handleCreateAppointment}
+              setOpened={setOpened}
             />
           </Stepper.Step>
         </Stepper>
@@ -189,6 +192,11 @@ const AddAppointment = () => {
           )}
         </Group>
       </Container>
+      <ConfirmationModal
+        setOpened={setOpened}
+        opened={opened}
+        onSubmit={handleCreateAppointment}
+      />
     </Container>
   );
 };

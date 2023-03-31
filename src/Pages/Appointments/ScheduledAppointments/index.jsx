@@ -17,6 +17,7 @@ import { Eye } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
@@ -40,6 +41,7 @@ function ScheduledAppointments() {
   const [totalPages, setTotalPages] = useState();
 
   const [reportData, setReportData] = useState([]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -68,7 +70,7 @@ function ScheduledAppointments() {
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
-            addedBy:obj?.refered===true ? obj?.referedName :obj?.addedBy,
+            addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,
             role:
               obj?.role === "socialWorker"
@@ -82,7 +84,7 @@ function ScheduledAppointments() {
               ? obj?.appointmentUserImage
               : userlogo,
             project: obj?.project,
-            refer: obj?.refered===true? "Refered": "New",
+            refer: obj?.refered === true ? "Refered" : "New",
           };
           return appointment;
         });
@@ -91,8 +93,6 @@ function ScheduledAppointments() {
       },
     }
   );
-
-  console.log("rowData", rowData);
 
   //API call for Cancel Appointments
   const CancelAppointments = useMutation(
@@ -113,7 +113,8 @@ function ScheduledAppointments() {
           message: "Appointment Cancelled Successfully",
           color: "green.0",
         });
-        navigate(routeNames.appointments.allAppointments);
+        navigate(routeNames.socialWorker.allAppointments);
+        setOpenDeleteModal(false);
         setOpenViewModal(false);
       },
     }
@@ -184,11 +185,11 @@ function ScheduledAppointments() {
 
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter((item) => {
-        return (
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.caseName.toLowerCase().includes(search.toLowerCase()) ||
-          item.caseNo.toLowerCase().includes(search.toLowerCase())
-        );
+      return (
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.caseName.toLowerCase().includes(search.toLowerCase()) ||
+        item.caseNo.toLowerCase().includes(search.toLowerCase())
+      );
     });
 
     setPage(1);
@@ -264,7 +265,17 @@ function ScheduledAppointments() {
           />
         )}
       </Container>
-
+      <DeleteModal
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={() => {
+          CancelAppointments.mutate(reportData?.appointId);
+        }}
+        loading={CancelAppointments.isLoading}
+        label="Are you Sure?"
+        message="Do you really want to cancel this appointment?"
+      />
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
@@ -309,9 +320,8 @@ function ScheduledAppointments() {
           {reportData?.status === "SCHEDULED" && (
             <Button
               label={"Cancel Appointment"}
-              loading={CancelAppointments.isLoading}
               onClick={() => {
-                CancelAppointments.mutate(reportData?.appointId);
+                setOpenViewModal(false), setOpenDeleteModal(true);
               }}
             />
           )}

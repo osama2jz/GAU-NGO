@@ -236,6 +236,7 @@ export const AllUser = () => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
             setEditId={true}
+            setOpenEditModal={setOpenEditModal}
           />
         )}
         {totalPages > 1 && (

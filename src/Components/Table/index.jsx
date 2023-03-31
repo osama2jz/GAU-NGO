@@ -39,6 +39,7 @@ const Table = ({
   setEditProject,
   setEditBranch,
   setEditProfessional,
+  setOpenEditModal,
   ...props
 }) => {
   const navigate = useNavigate();
@@ -188,12 +189,24 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (setEditId) {
-                                navigate(`/userVerification`, {
-                                  state: {
-                                    editId: row.id,
-                                  },
-                                });
-                                return;
+                                if(row.status === "unverified"){
+                                  navigate(`/add-user`, {
+                                    state: {
+                                      editData: row,
+                                    },
+                                  });
+                                  return;
+
+                                }
+                                else{
+
+                                  navigate(`/userVerification`, {
+                                    state: {
+                                      editId: row.id,
+                                    },
+                                  });
+                                  return;
+                                }
                               }
                               if (setEditIDApp) {
                                 navigate(`/edit-appointment`, {
@@ -239,7 +252,7 @@ const Table = ({
                             disabled={
                               row.accStatus === "inactive" ||
                               row.status === "SCHEDULED" ||
-                              row.status === "unverified" ||
+                              
                               row.status === "CANCELLED" ||
                               row.status === "INPROGRESS"
                                 ? true

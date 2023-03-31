@@ -11,9 +11,9 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CircleX, Upload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
@@ -34,6 +34,23 @@ export const AddUser = () => {
   const [files, setFiles] = useState([]);
   const [fileUploading, setFileUploading] = useState(false);
   const [error, setError] = useState();
+
+  const {state}=useLocation()
+  const {editData}=state??""
+
+  console.log("editdata",editData)
+
+  useEffect(()=>{
+   if(editData){
+    form.setFieldValue("firstName",editData?.firstName)
+    form.setFieldValue("lastName",editData?.lastName)
+    form.setFieldValue("email",editData?.email)
+    form.setFieldValue("phoneNumber",editData?.phone)
+    form.setFieldValue("userType",editData?.userType)
+
+   }
+  },[editData])
+
 
   const form = useForm({
     validateInputOnChange: true,
