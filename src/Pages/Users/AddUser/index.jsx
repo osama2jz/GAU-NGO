@@ -12,6 +12,7 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import ReactInputMask from "react-input-mask";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CircleX, Upload } from "tabler-icons-react";
@@ -38,15 +39,21 @@ export const AddUser = () => {
   const {state}=useLocation()
   const {editData}=state??""
 
-  console.log("editdata",editData)
 
   useEffect(()=>{
    if(editData){
-    form.setFieldValue("firstName",editData?.firstName)
-    form.setFieldValue("lastName",editData?.lastName)
+    form.setFieldValue(
+      "firstName",
+      editData?.name.substring(0, editData?.name.indexOf(" "))
+    );
+    form.setFieldValue(
+      "lastName",
+      editData?.name.substring(editData?.name.indexOf(" "))
+    );
     form.setFieldValue("email",editData?.email)
     form.setFieldValue("phoneNumber",editData?.phone)
     form.setFieldValue("userType",editData?.userType)
+    form.setFieldValue("profileImage",editData?.image)
 
    }
   },[editData])
@@ -79,6 +86,7 @@ export const AddUser = () => {
         /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
 
       password: (value) =>
+      editData ||
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
@@ -101,7 +109,7 @@ export const AddUser = () => {
 
   const handleAddUser = useMutation(
     (values) => {
-      if (values?.profileImage === "") {
+      if (values?.profileImage === null) {
         setError("Please upload a profile image");
         showNotification({
           title: "Upload Failed",
@@ -109,7 +117,11 @@ export const AddUser = () => {
           color: "red.0",
         });
       } else {
-        return axios.post(`${backendUrl + "/api/user/create"}`, values, {
+        if (editData?.id) {
+          values = { ...values, userId: editData?.id };
+        }
+        let link=editData? "/api/user/edit":"/api/user/create"
+        return axios.post(`${backendUrl + link}`, values, {
           headers: {
             "x-access-token": user.token,
           },
@@ -120,11 +132,13 @@ export const AddUser = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "User Added",
-            message: "New User added Successfully!",
+            title: editData ? "Information Updated":"User Added",
+            message: editData
+            ? "User Information Updated Successfully! ":"New User added Successfully!",
             color: "green.0",
           });
           navigate(routeNames.socialWorker.allUsers);
+          form.reset()
         } else {
           showNotification({
             title: "Failed",
@@ -187,7 +201,7 @@ export const AddUser = () => {
   };
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={"Add User"} />
+      <ContainerHeader label={editData?"Edit User":"Add User"} />
 
       <form
         className={classes.form}
@@ -266,6 +280,8 @@ export const AddUser = () => {
                 placeholder="xyz@gmail.com"
                 form={form}
                 validateName="email"
+                disabled={editData?true:false}
+
               />
             </Grid.Col>
             <Grid.Col sm={6}>
@@ -273,15 +289,16 @@ export const AddUser = () => {
                 label="Phone Number"
                 required={true}
                 placeholder="+34 91 1234 567"
-                component={InputMask}
+                component={ReactInputMask}
                 mask="+34 99 9999 999"
                 form={form}
                 validateName="phoneNumber"
               />
             </Grid.Col>
           </Grid>
-
-          <PassInput
+          {!editData && (
+            <>
+            <PassInput
             label="Password"
             required={true}
             placeholder="*******"
@@ -295,18 +312,23 @@ export const AddUser = () => {
             form={form}
             validateName="confirmPassword"
           />
-          <Text pb={"sm"} size="sm">
+           <Text pb={"sm"} size="sm">
             By pressing “Submit” I declare that i’ve read and agree to the{" "}
             <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
           </Text>
+          </>
+          ) }
+
+          
+         
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
               onClick={() => navigate(routeNames.socialWorker.allUsers)}
             />
             <Button
-              label="Add User"
-              leftIcon={"plus"}
+              label={editData ? "Update":"Add User"}
+              leftIcon={editData ?"":"plus"}
               primary={true}
               type="submit"
               loading={handleAddUser.isLoading || fileUploading}

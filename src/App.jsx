@@ -47,6 +47,7 @@ import { AddUser } from "./Pages/Users/AddUser";
 import { AllUser } from "./Pages/Users/AllUsers";
 import { UserVerification } from "./Pages/Users/UserVerification";
 import VerificationScheduled from "./Pages/Users/VerificationScheduled";
+import ViewUser from "./Pages/Users/ViewUser";
 import { ScheduleUser } from "./Pages/UserVerification/Schedule";
 import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import routeNames from "./Routes/routeNames";
@@ -97,6 +98,10 @@ function App() {
           <Route
             path={routeNames.socialWorker.allUsers}
             element={<AllUser />}
+          />
+          <Route
+            path={routeNames.socialWorker.viewUser}
+            element={<ViewUser />}
           />
           <Route
             path={routeNames.socialWorker.scheduleUser}

@@ -134,6 +134,7 @@ export const AllUser = () => {
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,
             image: obj?.profileImage ? obj?.profileImage : userlogo,
+            consentform:obj?.userConsentForm
           };
           return user;
         });

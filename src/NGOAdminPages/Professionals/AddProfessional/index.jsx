@@ -332,7 +332,7 @@ export const AddProfessional = () => {
             <Grid.Col sm={6} hidden={form.values.userType === "user"}>
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
-                  label="Upload Document"
+                  label="Upload Residential Id"
                   placeholder={
                     form.values?.IDDetails !== ""
                       ? "Uploaded"

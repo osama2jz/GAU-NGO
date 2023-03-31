@@ -40,6 +40,7 @@ const Table = ({
   setEditBranch,
   setEditProfessional,
   setOpenEditModal,
+
   ...props
 }) => {
   const navigate = useNavigate();
@@ -176,7 +177,19 @@ const Table = ({
                               if (setViewModalData) {
                                 setViewModalData(row.id);
                               }
-                              setViewModalState(true);
+                              if (setViewModalState) {
+                                if (row.status === "verified") {
+                                  navigate(routeNames.ngoAdmin.viewUser, {
+                                    state: {
+                                      userData: row,
+                                    },
+                                  });
+                                  return;
+                                } else {
+                                  setViewModalState(true);
+                                }
+                              }
+
                               // setViewModalData(row.id);
                             }}
                             color={"blue.9"}
@@ -189,17 +202,14 @@ const Table = ({
                           <ActionIcon
                             onClick={() => {
                               if (setEditId) {
-                                if(row.status === "unverified"){
+                                if (row.status === "unverified") {
                                   navigate(`/add-user`, {
                                     state: {
                                       editData: row,
                                     },
                                   });
                                   return;
-
-                                }
-                                else{
-
+                                } else {
                                   navigate(`/userVerification`, {
                                     state: {
                                       editId: row.id,
@@ -252,7 +262,6 @@ const Table = ({
                             disabled={
                               row.accStatus === "inactive" ||
                               row.status === "SCHEDULED" ||
-                              
                               row.status === "CANCELLED" ||
                               row.status === "INPROGRESS"
                                 ? true
