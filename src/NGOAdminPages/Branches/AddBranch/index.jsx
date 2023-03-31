@@ -54,8 +54,8 @@ export const AddBranch = () => {
       branchContact: "",
       branchEmail: "",
       branchPointOfContact: "",
-      branchStartTime: "",
-      branchEndTime: "",
+      branchStartTime: null,
+      branchEndTime: null,
     },
 
     validate: {

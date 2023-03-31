@@ -12,17 +12,15 @@ const useStyles = createStyles((theme, { borderWhite }) => ({
 }));
 
 const Timepicker = ({
-  placeholder,
   icon,
   required,
   label,
   pb = "sm",
   borderWhite,
-  onChange,
   form,
   size = "md",
   validateName,
-  value
+  value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   return (
@@ -30,11 +28,8 @@ const Timepicker = ({
       label={label}
       size={size}
       placeholder="Pick time"
-      // format="12"
       icon={icon}
-      // defaultValue={new Date()}
-      amLabel=""
-      // pmLabel="pm"
+      format="24"
       classNames={{ input: classes.root }}
       required={required}
       {...form?.getInputProps(validateName)}
