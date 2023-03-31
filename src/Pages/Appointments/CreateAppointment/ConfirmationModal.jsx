@@ -23,7 +23,7 @@ const LeaveModal = ({ opened, setOpened, onSubmit }) => {
 
   return (
     <Modal
-      title={"Schdeule"}
+      title={"Schedule"}
       opened={opened}
       onClose={() => setOpened(false)}
       centered
@@ -31,19 +31,17 @@ const LeaveModal = ({ opened, setOpened, onSubmit }) => {
       classNames={{ title: classes.title, body: classes.root }}
     >
       <Container>
-        <Text>
-          Are you sure you want to mark  as leave? It will <b>cancel</b> all of
-          your appointments for this day.
-        </Text>
+        <Text>Are you sure you want to schedule this appointment?</Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
           <Button
             label={"Yes"}
             primary={true}
             w="100px"
-            onClick={()=>{onSubmit.mutate()}}
+            onClick={() => {
+              onSubmit.mutate();
+            }}
             loading={onSubmit.isLoading}
-            
           />
         </Group>
       </Container>
