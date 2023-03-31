@@ -60,11 +60,15 @@ const VerificationSchedule = ({}) => {
   //create appointment
   const handleCreateAppointment = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/appointment/create"}`, values, {
-        headers: {
-          "x-access-token": user?.token,
-        },
-      });
+      return axios.post(
+        `${backendUrl + "/api/user/scheduleVerification"}`,
+        values,
+        {
+          headers: {
+            "x-access-token": user?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
@@ -74,7 +78,22 @@ const VerificationSchedule = ({}) => {
             message: "Appointment Created Successfully",
             color: "green.0",
           });
-          navigate(routeNames.general.verificationPending);
+          let appointmentTime =
+            response.data.data.split(" ")[
+              response.data.data.split(" ").length - 1
+            ];
+          let appointmentDate = response.data.data
+            .split(" ")
+            .slice(0, 4)
+            .join(" ");
+          navigate(routeNames.general.verificationPending, {
+            state: {
+              data: {
+                appointmentTime: appointmentTime,
+                appointmentDate: appointmentDate,
+              },
+            },
+          });
         } else {
           showNotification({
             title: "Error",
@@ -157,7 +176,7 @@ const VerificationSchedule = ({}) => {
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Cards
-                  onSubmit={handleCreateAppointment}
+                  handleCreateAppointment={handleCreateAppointment}
                   buttonChange={true}
                   cardData={e}
                   verification={true}

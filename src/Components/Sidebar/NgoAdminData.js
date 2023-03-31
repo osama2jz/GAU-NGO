@@ -14,7 +14,6 @@ import {
   FileBarcode,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
-import userlogo from "../../assets/dollar.svg";
 
 export const ngoAdminSideBarData = [
   {

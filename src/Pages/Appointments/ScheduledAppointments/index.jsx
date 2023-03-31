@@ -83,6 +83,7 @@ function ScheduledAppointments() {
               : userlogo,
             project: obj?.project,
             refer: obj?.refered===true? "Refered": "New",
+            referedComment: obj?.referedComment
           };
           return appointment;
         });
@@ -302,6 +303,8 @@ function ScheduledAppointments() {
                   {reportData?.status}
                 </Badge>
               </Text>
+              <Text className={classes.textheading}>Refferal Comment</Text>
+              <Text className={classes.textContent}>{reportData?.referedComment}</Text>
             </SimpleGrid>
           </Container>
         </Flex>
