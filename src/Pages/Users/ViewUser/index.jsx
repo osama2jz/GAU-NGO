@@ -9,20 +9,71 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import React from "react";
+import axios from "axios";
+import moment from "moment/moment";
+import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
 import Table from "../../../Components/Table";
 import TextArea from "../../../Components/TextArea";
+import { backendUrl } from "../../../constants/constants";
+import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
 
 function ViewUser() {
   const { classes } = useStyles();
   const { state } = useLocation();
   const { userData } = state ?? "";
+  const {id,setId}=useState(userData)
+  const {user}=useContext(UserContext)
+  const [data, setData] = useState();
+  console.log("data", userData);
 
-  console.log(userData);
+  const [workData, setWorkData] = useState([]);
+
+  const _ = useQuery(
+    "fetchUsertoEditData",
+    () => {
+     
+      return axios.get(`${backendUrl + `/api/user/listSingleUser/${userData}`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        setData(response?.data?.data)
+
+        //Work Experience
+        let workData =
+          response?.data?.data?.userConsentForm?.workExperience.map(
+            (item, index) => {
+            
+              return {
+                id: item._id,
+                contract: item.contract,
+                position: item.position,
+                startDate: moment(item.startDate).format("YYYY-MM-DD"),
+                endDate: moment(item.endDate).format("YYYY-MM-DD"),
+                enterprise: item.enterprise,
+                duration: item.duration,
+              };
+            }
+          );
+
+        setWorkData(workData);
+      },
+      enabled: !!userData,
+    }
+  );
+
+
+
+  // console.log(data);
   let headerData = [
     {
       id: "fullName",
@@ -131,7 +182,7 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Personal Information
@@ -143,7 +194,7 @@ function ViewUser() {
                 // m={"0px"}
                 // p={"0px"}
                 src={
-                  userData?.image ||
+                  data?.image ||
                   "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
@@ -157,51 +208,41 @@ function ViewUser() {
                 // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
               >
                 <Text className={classes.textheading}>First Name</Text>
-                <Text>
-                  {userData?.consentform?.personalInformation?.firstName}
-                </Text>
+                <Text>{data?.userConsentForm?.personalInformation?.firstName}</Text>
                 <Text className={classes.textheading}>Last Name</Text>
-                <Text>
-                  {userData?.consentform?.personalInformation?.lastName}
-                </Text>
+                <Text>{data?.userConsentForm?.personalInformation?.lastName}</Text>
                 <Text className={classes.textheading}>Email</Text>
-                <Text style={{ wordBreak: "break-all" }}>
-                  {userData?.email}
-                </Text>
+                <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
                 <Text className={classes.textheading}>Phone Number</Text>
-                <Text>{userData?.phone}</Text>
+                <Text>{data?.phoneNumber}</Text>
                 <Text className={classes.textheading}>Date of Birth</Text>
                 <Text>
-                  {userData?.consentform?.personalInformation?.dateOfBirth?.substring(
+                  {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
                     0,
                     10
                   )}
                 </Text>
                 <Text className={classes.textheading}> Identity</Text>
                 <Anchor
-                  href={userData?.consentform?.personalInformation?.documentURL}
+                  href={data?.userConsentForm?.personalInformation?.documentURL}
                   target={"_blank"}
                 >
                   <Text>
-                    {userData?.consentform?.personalInformation
-                      ?.documentType === "residentialId"
+                    {data?.userConsentForm?.personalInformation?.documentType ===
+                    "residentialId"
                       ? "Residential Id"
-                      : userData?.consentform?.personalInformation
-                          ?.documentType === "passport"
+                      : data?.userConsentForm?.personalInformation?.documentType ===
+                        "passport"
                       ? "Passport"
                       : "National ID"}
                   </Text>
                 </Anchor>
                 <Text className={classes.textheading}>Country</Text>
-                <Text>
-                  {userData?.consentform?.personalInformation?.country}
-                </Text>
+                <Text>{data?.userConsentForm?.personalInformation?.country}</Text>
                 <Text className={classes.textheading}>City</Text>
-                <Text>{userData?.consentform?.personalInformation?.city}</Text>
+                <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
                 <Text className={classes.textheading}>Address</Text>
-                <Text>
-                  {userData?.consentform?.personalInformation?.address}
-                </Text>
+                <Text>{data?.userConsentForm?.personalInformation?.address}</Text>
               </SimpleGrid>
             </Flex>
           </Container>
@@ -217,14 +258,14 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Studies and Training
             </Text>
             <Table
               headCells={headerData3}
-              rowData={userData?.consentform?.studiesTraining}
+              rowData={data?.userConsentForm?.studiesTraining}
             />
           </Container>
 
@@ -239,15 +280,12 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Work Experience
             </Text>
-            <Table
-              headCells={headerData2}
-              rowData={userData?.consentform?.workExperience}
-            />
+            <Table headCells={headerData2} rowData={workData} />
           </Container>
           <Container
             className={classes.inputContainer}
@@ -260,11 +298,12 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Discrimination And Voilence
             </Text>
+            <Text>{data?.userConsentForm?.discriminationVoilence?.discriminationVoilenceValue}</Text>
           </Container>
           <Container
             className={classes.inputContainer}
@@ -277,14 +316,14 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Professional References
             </Text>
             <Table
               headCells={headerData}
-              rowData={userData?.consentform?.professionalReferences}
+              rowData={data?.userConsentForm?.professionalReferences}
             />
           </Container>
           <Container
@@ -298,11 +337,12 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Socio-Family Situation
             </Text>
+            <Text>{data?.userConsentForm?.socioFamilySituation?.socioFamily}</Text>
           </Container>
           <Container
             className={classes.inputContainer}
@@ -315,7 +355,7 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Economic Situation
@@ -328,17 +368,15 @@ function ViewUser() {
               ]}
             >
               <Text fw="bold">Revenue</Text>
-              <Text>{userData?.consentform?.economicSituation?.revenue}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.revenue}</Text>
               <Text fw="bold">Expenses</Text>
-              <Text>{userData?.consentform?.economicSituation?.expenses}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.expenses}</Text>
               <Text fw="bold">Aids or Bonuses</Text>
-              <Text>
-                {userData?.consentform?.economicSituation?.aidsBonuses}
-              </Text>
+              <Text>{data?.userConsentForm?.economicSituation?.aidsBonuses}</Text>
               <Text fw="bold">Debit</Text>
-              <Text>{userData?.consentform?.economicSituation?.debt}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.debt}</Text>
               <Text fw="bold">Housing</Text>
-              <Text>{userData?.consentform?.economicSituation?.housing}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.housing}</Text>
             </SimpleGrid>
           </Container>
           <Container
@@ -352,11 +390,12 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Health Aspects
             </Text>
+            <Text>{data?.userConsentForm?.healthAspects?.healthAspects}</Text>
           </Container>
           <Container
             className={classes.inputContainer}
@@ -369,12 +408,12 @@ function ViewUser() {
               fz={"lg"}
               fw="bold"
               mb="xl"
-              bg={"#CED4DA"}
+              bg={"#E9ECEF"}
               p={2.5}
             >
               Demand
             </Text>
-            <Text>{userData?.consentform?.personalInformation?.demand}</Text>
+            <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
           </Container>
         </Container>
       </Container>

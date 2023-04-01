@@ -40,6 +40,7 @@ export const UserVerification = () => {
   let { state } = useLocation();
 
   const { editId } = state ?? "";
+  console.log("editId", editId);
   // const { editId } = useParams();
 
   const _ = useQuery(

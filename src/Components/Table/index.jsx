@@ -193,7 +193,7 @@ const Table = ({
                                 if (row.status === "verified") {
                                   navigate(routeNames.ngoAdmin.viewUser, {
                                     state: {
-                                      userData: row,
+                                      userData: row.id,
                                     },
                                   });
                                   return;
