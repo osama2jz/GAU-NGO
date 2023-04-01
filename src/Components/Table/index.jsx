@@ -11,6 +11,7 @@ import {
   Switch,
   Table as TableMantine,
   Text,
+  Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
@@ -82,8 +83,8 @@ const Table = ({
     setRowDatas(rowDataCopy);
   };
   return (
-    <Paper component={ScrollArea} w={"100%"}>
-      <TableMantine striped withBorder width={"100%"}>
+    <Paper component={ScrollArea}>
+      <TableMantine striped withBorder>
         <thead
           style={{
             backgroundColor: "lightgray",
@@ -108,8 +109,15 @@ const Table = ({
                   <Group
                     style={{
                       flexWrap: "nowrap",
-                      flexShrink: 0,
-                      width: head.id === "id" ? "40px" : "",
+                      // flexShrink: 0,
+                      width:
+                        head.id === "id"
+                          ? "40px"
+                          : head.id === "name"
+                          ? "180px"
+                          : head.id === "accStatus"
+                          ? "auto"
+                          : "100px",
                     }}
                     spacing={3}
                     align={"center"}
@@ -317,11 +325,13 @@ const Table = ({
                             radius={"xl"}
                           />
                         )}
-                        <Text lineClamp={1}>
-                          {row[head?.id]?.length > 100
-                            ? row[head?.id].substring(0, 10) + "..."
-                            : row[head?.id]}
-                        </Text>
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
                       </Flex>
                     </td>
                   ) : head.id === "file" ? (
@@ -408,7 +418,7 @@ const Table = ({
                           }
                         }}
                         disabled={row.status === "unverified" ? false : true}
-                        primary={row.status !== "unverified" ? true : false}
+                        bg={row.status === "unverified" && true}
                         compact={true}
                         w="70px"
                       />
@@ -442,15 +452,17 @@ const Table = ({
                     </td>
                   ) : (
                     <td key={index} align="center">
-                      <Text
-                        lineClamp={1}
-                        color={head.id === "docs" && "red.9"}
-                        fw={head.id === "docs" && 1000}
-                      >
-                        {row[head?.id]?.length > 100
-                          ? row[head?.id]?.substring(0, 10) + "..."
-                          : row[head?.id]?.toLocaleString()}
-                      </Text>
+                      <Tooltip label={row[head?.id]}>
+                        <Text
+                          lineClamp={1}
+                          color={head.id === "docs" && "red.9"}
+                          fw={head.id === "docs" && 1000}
+                        >
+                          {row[head?.id]?.length > 100
+                            ? row[head?.id]?.substring(0, 10) + "..."
+                            : row[head?.id]?.toLocaleString()}
+                        </Text>
+                      </Tooltip>
                     </td>
                   );
                 })}

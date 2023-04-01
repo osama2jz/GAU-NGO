@@ -100,6 +100,12 @@ const MissingDocuments = () => {
       label: "Name",
     },
     {
+      id: "caseNo",
+      numeric: false,
+      disablePadding: true,
+      label: "Case No.",
+    },
+    {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
