@@ -133,7 +133,7 @@ const MissingDocuments = () => {
       id: "docs",
       numeric: false,
       disablePadding: true,
-      label: "Missing Documents",
+      label: "Missing Docs",
     },
     {
       id: "status",

@@ -122,16 +122,20 @@ const Table = ({
                     spacing={3}
                     align={"center"}
                     // position={head.numeric === true ? "right" : "left"}
-                    position="center"
+                    // position="center"
                   >
                     <Text align="center">{head?.label}</Text>
                     {head.id !== "actions" &&
                       head.id !== "image" &&
                       (!sorted.reversed === true &&
                       sorted.sorted === head.id ? (
-                        <ArrowDown size={16} />
+                        <ActionIcon>
+                          <ArrowDown size={16} />
+                        </ActionIcon>
                       ) : (
-                        <ArrowUp size={16} />
+                        <ActionIcon>
+                          <ArrowUp size={16} />
+                        </ActionIcon>
                       ))}
                   </Group>
                 </th>
@@ -310,14 +314,14 @@ const Table = ({
                             : "green.9"
                         }
                         variant="filled"
-                        w={"120px"}
+                        w={"100px"}
                       >
                         {row[head?.id]}
                       </Badge>
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index} align="center">
-                      <Flex gap={"lg"} p="0px" m="0px" align={"center"}>
+                      <Flex gap={"lg"} p="0px" m="0px">
                         {row.image && (
                           <Avatar
                             src={row.image || userImage}
@@ -451,7 +455,7 @@ const Table = ({
                       />
                     </td>
                   ) : (
-                    <td key={index} align="center">
+                    <td key={index}>
                       <Tooltip label={row[head?.id]}>
                         <Text
                           lineClamp={1}

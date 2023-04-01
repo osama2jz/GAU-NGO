@@ -193,7 +193,7 @@ function ViewUser() {
                   </Text>
                 </Anchor>
                 <Text className={classes.textheading}>Country</Text>
-                <Text >
+                <Text>
                   {userData?.consentform?.personalInformation?.country}
                 </Text>
                 <Text className={classes.textheading}>City</Text>
@@ -323,49 +323,22 @@ function ViewUser() {
             <SimpleGrid
               breakpoints={[
                 { minWidth: "md", cols: 3 },
-                { minWidth: "lg", cols: 5 },
+                { minWidth: "lg", cols: 6 },
                 { minWidth: "xs", cols: 2 },
               ]}
             >
-              <Stack spacing="2">
-                <Text>Revenue</Text>
-                <Text
-                  className={classes.socio}
-                >
-                  {userData?.consentform?.economicSituation?.revenue}
-                </Text>
-              </Stack>
-              <Stack spacing="2">
-                <Text>Expenses</Text>
-                <Text
-                 className={classes.socio}
-                >
-                  {userData?.consentform?.economicSituation?.expenses}
-                </Text>
-              </Stack>
-
-              <Stack spacing="2">
-                <Text>Aids or Bonuses</Text>
-                <Text
-                  className={classes.socio}
-                >
-                  {userData?.consentform?.economicSituation?.aidsBonuses}
-                </Text>
-              </Stack>
-              <Stack spacing="2">
-                <Text>Debit</Text>
-                <Text className={classes.socio}>
-                  {userData?.consentform?.economicSituation?.debt}
-                </Text>
-              </Stack>
-              <Stack spacing="2">
-                <Text>Housing</Text>
-                <Text
-                 className={classes.socio}
-                >
-                  {userData?.consentform?.economicSituation?.housing}
-                </Text>
-              </Stack>
+              <Text fw="bold">Revenue</Text>
+              <Text>{userData?.consentform?.economicSituation?.revenue}</Text>
+              <Text fw="bold">Expenses</Text>
+              <Text>{userData?.consentform?.economicSituation?.expenses}</Text>
+              <Text fw="bold">Aids or Bonuses</Text>
+              <Text>
+                {userData?.consentform?.economicSituation?.aidsBonuses}
+              </Text>
+              <Text fw="bold">Debit</Text>
+              <Text>{userData?.consentform?.economicSituation?.debt}</Text>
+              <Text fw="bold">Housing</Text>
+              <Text>{userData?.consentform?.economicSituation?.housing}</Text>
             </SimpleGrid>
           </Container>
           <Container
@@ -401,9 +374,7 @@ function ViewUser() {
             >
               Demand
             </Text>
-            <TextArea
-              value={userData?.consentform?.personalInformation?.demand}
-            />
+            <Text>{userData?.consentform?.personalInformation?.demand}</Text>
           </Container>
         </Container>
       </Container>
