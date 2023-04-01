@@ -11,7 +11,6 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.white,
     padding: "20px",
     borderRadius: "20px",
-    borderRadius: "10px",
     width: "100%",
     marginTop: "20px",
   },
@@ -20,5 +19,23 @@ export const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  socio:{
+    border: "1px solid #E9ECEF",
+    height: "55%",
+    width: "100%",
+    padding: "10px",
+    borderRadius: "5px",
+  },
+  textheading: {
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "greyDark",
+  },
+  textContent: {
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#373A40",
+    marginLeft:'20px'
   },
 }));
