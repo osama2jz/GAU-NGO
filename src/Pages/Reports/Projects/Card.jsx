@@ -1,12 +1,10 @@
-import { Text, Card, Flex, Badge, Container } from "@mantine/core";
-import { useStyles } from "./styles";
-import { Users } from "tabler-icons-react";
-import { Progress } from "@mantine/core";
-import { Link, useNavigate } from "react-router-dom";
+import { Badge, Card, Flex, Progress, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
+import { useNavigate } from "react-router-dom";
 import routeNames from "../../../Routes/routeNames";
+import { useStyles } from "./styles";
 
-const Cards = ({ data, setUrl, url, setPage }) => {
+const Cards = ({ data, url }) => {
   const { classes } = useStyles();
   const matches = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
@@ -17,61 +15,44 @@ const Cards = ({ data, setUrl, url, setPage }) => {
   };
 
   return (
-    <>
-      <Card
-        className={classes.card}
-        shadow="lg"
-        h={150}
-        w={matches ? 330 : 240}
-        component="a"
-        radius={26}
-        withBorder
-        onClick={handleClick}
-        style={{
-          cursor: "pointer",
-          backgroundColor: data.url === url ? "" : "",
-          border: data.url === url ? "2px solid #ADB5BD" : "",
-        }}
-      >
-        <Badge
-          color={data?.status ? "blue.8" : "green.0"}
-          radius="xl"
-          variant="outline"
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            bottom: "10px",
-          }}
-        >
-          {data?.status ? "inprogress" : "completed"}
-        </Badge>
+    <Card
+      className={classes.card}
+      shadow="lg"
+      w={matches ? 330 : 240}
+      component="a"
+      radius={15}
+      withBorder
+      onClick={handleClick}
+      style={{
+        cursor: "pointer",
+        backgroundColor: data.url === url ? "" : "",
+        border: data.url === url ? "2px solid #ADB5BD" : "",
+      }}
+    >
+      <Text weight={800} size="xl" align="center">
+        {data.title}
+      </Text>
 
-        <Flex align={"center"} justify="space-between" mt="none">
-          <Text weight={800} size="xl" mt="sm" color={"#5C5F66"}>
-            {data.title}
-          </Text>
-          {/* <img
-            src={new URL(`../../assets/${data.icon}.png`, import.meta.url).href}
-            alt="icon"
-            width={"30px"}
-          /> */}
-
-          {/* <Users /> */}
-        </Flex>
-
-        <Text mt="0px" fw="bolder" size={30}>
-          {data.value ? data.value : Math.floor(Math.random() * 100)}
+      <Flex align={"center"} justify="space-between"> 
+        <Text mt="0px" fw="bolder" color={"green.0"}>
+          Total Cases: {data?.cases}
         </Text>
-        {/* <Text size="xs" m="none">50%</Text> */}
-        <Progress
-          mt="sm"
-          value={88}
-          color={data?.status ? "blue.8" : "green.0"}
-          size={6}
-        />
-      </Card>
-    </>
+        <Badge
+          color={data?.status ? "green.0" : "red.0"}
+          radius="xl"
+          size="xs"
+          variant="filled"
+        >
+          {data?.status ? "in progress" : "completed"}
+        </Badge>
+      </Flex>
+      <Text mt="0px" fw="bolder" color={"blue.0"}>
+        Total Reports: {data?.reports}
+      </Text>
+      <Text mt="0px" fw="bolder" color={"red.0"}>
+        Total Appointments: {data?.appointments}
+      </Text>
+    </Card>
   );
 };
 export default Cards;

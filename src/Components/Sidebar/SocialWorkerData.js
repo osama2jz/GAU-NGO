@@ -1,15 +1,20 @@
 import {
   CalendarEvent,
-  CalendarTime, LayoutDashboard,
+  CalendarTime,
+  LayoutDashboard,
   Power,
   Report,
   Settings,
   UserPlus,
-  Users
+  Users,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const socialSideBarData = [
-  { label: "Dashboard", icon: LayoutDashboard, link: routeNames.socialWorker.dashboard },
+  {
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    link: routeNames.socialWorker.dashboard,
+  },
   {
     label: "User",
     icon: Users,
@@ -50,9 +55,7 @@ export const socialSideBarData = [
   {
     label: "My Schedule",
     icon: CalendarTime,
-    links: [
-      { label: "My Schedule", link: routeNames.socialWorker.mySchedule },
-    ],
+    links: [{ label: "My Schedule", link: routeNames.socialWorker.mySchedule }],
   },
   {
     label: "Report",
@@ -60,7 +63,7 @@ export const socialSideBarData = [
     links: [
       { label: "Private", link: routeNames.socialWorker.privateReport },
       { label: "Public", link: routeNames.socialWorker.publicReport },
-      { label: "Case Reports", link: routeNames.socialWorker.referalReport },
+      { label: "Project Reports", link: routeNames.socialWorker.allProjects },
     ],
   },
 ];

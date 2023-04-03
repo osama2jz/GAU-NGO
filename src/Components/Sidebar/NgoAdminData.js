@@ -114,8 +114,8 @@ export const ngoAdminSideBarData = [
     links: [
       { label: "Private", link: routeNames.ngoAdmin.privateReport },
       { label: "Public", link: routeNames.ngoAdmin.publicReport },
-      { label: "All Projects", link: routeNames.socialWorker.allProjects },
-      { label: "Case Reports", link: routeNames.socialWorker.referalReport },
+      { label: "Project Reports", link: routeNames.socialWorker.allProjects },
+      // { label: "Case Reports", link: routeNames.socialWorker.referalReport },
     ],
   },
   {
