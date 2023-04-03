@@ -38,7 +38,7 @@ export const ViewProfessionals = () => {
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const defferedSearch = useDeferredValue(search);
 
@@ -93,12 +93,12 @@ export const ViewProfessionals = () => {
 
   //API call for fetching all professionals
   const { data, status } = useQuery(
-    ["fetchUserProfessionals", activePage, defferedSearch, filter],
+    ["fetchUserProfessionals"],
     () => {
       let link =
-        defferedSearch.length > 0 || filter !== "all"
-          ? `/api/user/listUsers/${filter}/0/0/${defferedSearch}`
-          : `/api/user/listUsers/${filter}/${activePage}/10`;
+        // defferedSearch.length > 0 || filter !== "all"
+        //   ? `/api/user/listUsers/${filter}/0/0/${defferedSearch}`
+        `/api/user/listUsers/all/0/0`;
       return axios.get(
         `${
           // backendUrl + `/api/user/listUsers/all/${activePage}/10`
@@ -116,7 +116,8 @@ export const ViewProfessionals = () => {
         let data = response.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
+            sr: ind + 1,
+
             name: obj.firstName + " " + obj.lastName,
             userType:
               obj.userType === "socialWorker"
@@ -173,6 +174,38 @@ export const ViewProfessionals = () => {
     });
   };
 
+  const FilteredData = useMemo(() => {
+    let filteredData = rowData.filter((obj) => {
+      if (filter === "") {
+        return obj?.name.toLowerCase().includes(search.toLowerCase());
+      } else {
+        return (
+          obj?.name.toLowerCase().includes(search.toLowerCase()) &&
+          obj?.userType.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+    });
+    setPage(1)
+    setTotalPages(Math.ceil(filteredData?.length / 10));
+    const a = filteredData.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+  },[rowData, search, filter]);
+
+  const Paginated = useMemo(() => {
+    if (activePage === 1) {
+      return FilteredData.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return FilteredData.slice(a, a + 10);
+    }
+  }, [activePage, FilteredData]);
+
+
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"View Professionals"} />
@@ -184,7 +217,7 @@ export const ViewProfessionals = () => {
               placeholder="Search"
               leftIcon="search"
               pb="0"
-              value={defferedSearch}
+              value={search}
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
@@ -195,8 +228,8 @@ export const ViewProfessionals = () => {
               value={filter}
               setData={setFilter}
               data={[
-                { label: "All", value: "all" },
-                { label: "Social Worker", value: "socialWorker" },
+                { label: "All", value: "" },
+                { label: "Social Worker", value: "social Worker" },
                 { label: "Psychlogist", value: "psychologist" },
                 { label: "Lawyer", value: "lawyer" },
               ]}
@@ -206,7 +239,7 @@ export const ViewProfessionals = () => {
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                setFilter("all");
+                setFilter("");
                 setSearch("");
               }}
             />
@@ -226,7 +259,7 @@ export const ViewProfessionals = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={Paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             onStatusChange={handleChangeStatus.mutate}

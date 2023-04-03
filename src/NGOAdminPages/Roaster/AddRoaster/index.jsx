@@ -23,9 +23,8 @@ export const AddRoaster = () => {
   const { user } = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const [select, setSelect] = useState([]);
-
 
   const form = useForm({
     validateInputOnChange: true,
@@ -53,28 +52,28 @@ export const AddRoaster = () => {
     // },
   });
 
-  // console.log("professions", professionals);
-  // console.log("select", select)
-
-  const selectedProfessional = professionals?.filter((item) =>select?.includes(item.value));
- 
+  const selectedProfessional = professionals?.filter((item) =>
+    select?.includes(item.value)
+  );
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const selectedBranch = branches?.filter(
+    (item) => item.value === form.values.branchId
+  );
 
   const handleAddRoaster = useMutation(
     (values) => {
       let obj = {
         ngoId: user?.ngoId,
         branchId: values?.branchId,
-        scheduleType: values?.scheduleType,
         dateStart: moment(values?.dateStart).format("YYYY-MM-DD"),
-
         dateEnd: moment(values?.dateEnd).format("YYYY-MM-DD"),
-
-        users: values?.users,
+        users: select,
       };
 
+      console.log(obj);
       return axios.post(`${backendUrl + "/api/schedule/create"}`, obj, {
         headers: {
           "x-access-token": user.token,
@@ -85,7 +84,6 @@ export const AddRoaster = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           if (response?.data?.message[0]?.scheduleMessage) {
-            console.log("hello");
             // navigate(routeNames.ngoAdmin.viewRoasters);
             showNotification({
               title: "Failed",
@@ -93,7 +91,6 @@ export const AddRoaster = () => {
               color: "red.0",
             });
           } else {
-            console.log("high");
             showNotification({
               title: "Users Scheuled",
               message: "Schedule has been created Successfully!",
@@ -132,8 +129,14 @@ export const AddRoaster = () => {
               label: ind + 1 + ". " + obj.firstName + " " + obj.lastName,
               email: obj?.email,
               image: obj?.profileImage,
-              role:obj?.userType==="socialWorker"? "Social Worker":obj?.userType==="laywer"?"Laywer":"Psychologist"
+              role:
+                obj?.userType === "socialWorker"
+                  ? "Social Worker"
+                  : obj?.userType === "lawyer"
+                  ? "Lawyer"
+                  : "Psychologist",
             };
+            // console.log("user", user);
             return user;
           });
         setProfessionals(data);
@@ -168,14 +171,14 @@ export const AddRoaster = () => {
     }
   );
 
-  const SelectItem = ({ image, label, email, ...others }) => (
+  const SelectItem = ({ image, label, role, ...others }) => (
     <div {...others}>
       <Group noWrap>
         <Avatar src={image}>{label.split(" ")[1][0]}</Avatar>
         <div>
           <Text size="sm">{label}</Text>
           <Text size="xs" opacity={0.65}>
-            {email}
+            {role}
           </Text>
         </div>
       </Group>
@@ -274,6 +277,9 @@ export const AddRoaster = () => {
         startDate={form.values.dateStart}
         endDate={form.values.dateEnd}
         selectedProfessional={selectedProfessional}
+        selectedBranch={selectedBranch}
+        // onSubmit={() => alert("hello")}
+        onSubmit={() => handleAddRoaster.mutate(form.values)}
       />
     </Container>
   );
