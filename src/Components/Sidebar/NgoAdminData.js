@@ -123,6 +123,13 @@ export const ngoAdminSideBarData = [
     links: [{ label: "View Complaints", link: routeNames.ngoAdmin.complaints }],
   },
   {
+    label: "User Forms",
+    icon: FileBarcode,
+    links: [
+      { label: "Update Forms", link: routeNames.ngoAdmin.userForms },
+    ],
+  },
+  {
     label: "Documents",
     icon: FileBarcode,
     links: [
@@ -138,6 +145,7 @@ export const ngoAdminSideBarData = [
       { label: "View Donations", link: routeNames.ngoAdmin.viewDonations },
     ],
   },
+  { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
 ];
 
 export const bottom = [

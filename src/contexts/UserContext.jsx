@@ -30,6 +30,7 @@ export const UserProvider = ({ children }) => {
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
+    documents: [],
   });
   const value = { user, setUser };
 
@@ -57,6 +58,7 @@ export const UserProvider = ({ children }) => {
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
           profileImage: user?.profileImage,
+          documents: response.data.documents
         }));
       },
       enabled: !!userData?.token,

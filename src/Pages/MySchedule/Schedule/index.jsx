@@ -28,11 +28,12 @@ const MySchedule = () => {
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
   const [opened, setOpened] = useState(false);
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
     getSchedule.mutate(date);
     getScheduleDates.mutate();
-  }, []);
+  }, [refetch]);
 
   const getScheduleDates = useMutation(
     () => {
@@ -134,7 +135,7 @@ const MySchedule = () => {
           </Text>
         )}
       </Container>
-      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId}/>
+      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch}/>
     </Container>
   );
 };

@@ -150,7 +150,7 @@ const Table = ({
                 {headCells?.map((head, index) => {
                   return head.id === "actions" ? (
                     <td key={index}>
-                      <Flex justify="center" gap={"sm"}>
+                      <Flex gap={"sm"}>
                         {head.verify && (
                           <ActionIcon
                             onClick={() => {
@@ -301,7 +301,7 @@ const Table = ({
                       </Flex>
                     </td>
                   ) : head.id === "status" ? (
-                    <td key={index} align="center">
+                    <td key={index}>
                       <Badge
                         radius="xs"
                         color={
@@ -320,8 +320,8 @@ const Table = ({
                       </Badge>
                     </td>
                   ) : head.id === "name" ? (
-                    <td key={index} align="center">
-                      <Flex gap={"lg"} p="0px" m="0px">
+                    <td key={index}>
+                      <Flex gap={"sm"} p="0px" m="0px">
                         {row.image && (
                           <Avatar
                             src={row.image || userImage}
@@ -339,7 +339,7 @@ const Table = ({
                       </Flex>
                     </td>
                   ) : head.id === "file" ? (
-                    <td key={index} align="center">
+                    <td key={index}>
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
                           View file

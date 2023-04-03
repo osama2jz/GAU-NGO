@@ -134,6 +134,7 @@ const routeNames = {
     viewDocuments: "/view-documents",
     addDonation: "/add-donation",
     viewDonations: "/view-donations",
+    userForms: "/user-forms",
   },
   user: {
     dashboard: "/",

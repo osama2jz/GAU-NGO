@@ -75,7 +75,6 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
           return user;
         });
         setScheduleData(data);
-        console.log(scheduleData);
       },
     }
   );

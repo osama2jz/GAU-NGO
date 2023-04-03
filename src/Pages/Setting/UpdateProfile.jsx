@@ -32,7 +32,7 @@ export const UpdateProfile = () => {
 
   useEffect(() => {
     form.setValues(user);
-  });
+  }, [user]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -56,19 +56,6 @@ export const UpdateProfile = () => {
           ? null
           : "Please enter valid phone number ",
     },
-  });
-
-  const previews = files.map((file, index) => {
-    const imageUrl = URL.createObjectURL(file);
-    return (
-      <Avatar
-        size={200}
-        key={index}
-        src={imageUrl}
-        radius="xl"
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
-    );
   });
 
   const handleSettings = useMutation(
@@ -103,11 +90,6 @@ export const UpdateProfile = () => {
       },
     }
   );
-
-  const deleteImage = () => {
-    setFiles([]);
-    setProfileImage("");
-  };
   return (
     <Container
       className={classes.container}
@@ -120,36 +102,16 @@ export const UpdateProfile = () => {
         <Grid>
           <Grid.Col md={12} p="md" align="center" lg={6}>
             <Container pos={"relative"} className={classes.imageContainer}>
-              {/* {(files.length > 0 || profileImage) && (
-                <CircleX className={classes.cross} onClick={deleteImage} />
-              )} */}
-              {files.length > 0 ? (
-                previews
-              ) : (
-                <Avatar
-                  size={200}
-                  radius="xl"
-                  src={
-                    profileImage ||
-                    "https://www.w3schools.com/howto/img_avatar.png"
-                  }
-                />
-              )}
+              <Avatar
+                size={200}
+                radius="xl"
+                className={classes.image}
+                src={
+                  profileImage ||
+                  "https://www.w3schools.com/howto/img_avatar.png"
+                }
+              />
             </Container>
-
-            {/* <Dropzone
-              accept={IMAGE_MIME_TYPE}
-              maxFiles={1}
-              style={{ width: "150px" }}
-              onDrop={(v) => {
-                setFiles(v);
-              }}
-            >
-               <Text align="center" className={classes.upload}>
-                <Upload size={16} />
-                Upload
-              </Text> 
-            </Dropzone> */}
           </Grid.Col>
           <Grid.Col md={12} lg={6}>
             <SimpleGrid
@@ -200,7 +162,12 @@ export const UpdateProfile = () => {
             label="Cancel"
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           />
-          <Button label="Save Changes" primary={true} type="submit" loading={handleSettings.isLoading}/>
+          <Button
+            label="Save Changes"
+            primary={true}
+            type="submit"
+            loading={handleSettings.isLoading}
+          />
         </Group>
       </form>
     </Container>

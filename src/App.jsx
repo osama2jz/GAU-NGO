@@ -13,6 +13,7 @@ import { ViewDonations } from "./NGOAdminPages/Donations/ViewDonations";
 import { AddProfessional } from "./NGOAdminPages/Professionals/AddProfessional";
 import { ViewProfessionals } from "./NGOAdminPages/Professionals/ViewProfessionals";
 import AddProject from "./NGOAdminPages/Projects/AddProject";
+import UserForms from "./NGOAdminPages/UserForms";
 import { ViewProjects } from "./NGOAdminPages/Projects/ViewProjects";
 import { AddRoaster } from "./NGOAdminPages/Roaster/AddRoaster";
 import { ViewRoasters } from "./NGOAdminPages/Roaster/ViewRoaster";
@@ -261,6 +262,7 @@ function App() {
             path={routeNames.socialWorker.viewAppoinment}
             element={<ViewAppointments />}
           />
+          <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
         </Route>
 
         <Route

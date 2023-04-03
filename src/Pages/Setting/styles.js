@@ -22,6 +22,13 @@ export const useStyles = createStyles((theme) => ({
   },
   tabs: {
     backgroundColor: "rgb(0,0,0,0.1)",
+    "&:hover": {
+      backgroundColor: theme.colors.blue[1],
+    },
+  },
+  image: {
+    border: "1px solid rgb(0,0,0,0.2)",
+    padding: "2px",
   },
   imageContainer: {
     display: "flex",
