@@ -101,8 +101,11 @@ export function LinksGroup({
         onClick={() => {
           setOpened((o) => !o);
           setGlobalOpen(label);
-          link && setSideOpen(false);
-          navigate(link);
+
+          if (link) {
+            setSideOpen(false);
+            link && navigate(link);
+          }
           if (label === "Log Out") {
             localStorage.removeItem("userData");
           }
@@ -120,7 +123,7 @@ export function LinksGroup({
             : ""
         }
       >
-        <Group position="apart" spacing={0} onClick={() => navigate(link)}>
+        <Group position="apart" spacing={0} onClick={() => link && navigate(link)}>
           <Text
             color={
               location?.pathname === link && label === globalOpen

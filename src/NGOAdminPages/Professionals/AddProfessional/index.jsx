@@ -27,6 +27,7 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import ViewModal from "../../Roaster/AddRoaster/ViewModal";
 
 export const AddProfessional = () => {
   const { classes } = useStyles();
@@ -272,6 +273,7 @@ export const AddProfessional = () => {
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
+       
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
@@ -332,7 +334,7 @@ export const AddProfessional = () => {
             <Grid.Col sm={6} hidden={form.values.userType === "user"}>
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
-                  label="Upload Residential Id"
+                  label="Upload National Id"
                   placeholder={
                     form.values?.IDDetails !== ""
                       ? "Uploaded"
@@ -435,6 +437,7 @@ export const AddProfessional = () => {
           </Group>
         </Container>
       </form>
+     
     </Container>
   );
 };
