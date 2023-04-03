@@ -7,7 +7,7 @@ import { useStyles } from "./Private/styles";
 import moment from "moment";
 import { showNotification } from "@mantine/notifications";
 
-function DownloadPdf({ headCells, data, title ,setdata}) {
+function DownloadPdf({ headCells, data, title ,setdata,label}) {
   const { classes } = useStyles();
 
 // console.log("data", data);
@@ -24,7 +24,7 @@ function DownloadPdf({ headCells, data, title ,setdata}) {
       new Date(person.date) <= new Date(today)
     );
   });
-  const filteredMonthly = data?.filter((person) => person.date.substr(3, 3) === today.format("MMM")
+  const filteredMonthly = data?.filter((person) => person?.date?.substr(3, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
@@ -38,7 +38,7 @@ function DownloadPdf({ headCells, data, title ,setdata}) {
             message: "No Reports for today",
             color: "green.0",
           })
-        : downloadPDF(filteredDaily, "Daily Reports");
+        : downloadPDF(filteredDaily, `Daily ${label}`);
     }
     if (name === "weekly") {
       filteredWeekly.length === 0
@@ -99,7 +99,7 @@ function DownloadPdf({ headCells, data, title ,setdata}) {
         </Flex>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item onClick={() => downloadPDF(data, "All Reports")}>All</Menu.Item>
+        <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>All</Menu.Item>
         <Menu.Item onClick={() => filter("daily")}>Daily</Menu.Item>
         <Menu.Item onClick={() => filter("weekly")}>Weekly</Menu.Item>
         <Menu.Item onClick={() => filter("monthly")}>Monthly</Menu.Item>

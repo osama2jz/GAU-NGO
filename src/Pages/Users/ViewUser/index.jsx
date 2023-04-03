@@ -1,25 +1,15 @@
 import {
-  ActionIcon,
   Anchor,
   Avatar,
-  Container,
-  Divider,
-  Flex,
-  Grid,
-  SimpleGrid,
-  Stack,
-  Text,
+  Container, Flex, SimpleGrid, Text
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment/moment";
-import React, { useEffect, useState } from "react";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import ContainerHeader from "../../../Components/ContainerHeader";
-import InputField from "../../../Components/InputField";
 import Table from "../../../Components/Table";
-import TextArea from "../../../Components/TextArea";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
@@ -28,7 +18,6 @@ function ViewUser() {
   const { classes } = useStyles();
   const { state } = useLocation();
   const { userData } = state ?? "";
-  const { id, setId } = useState(userData);
   const { user } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);

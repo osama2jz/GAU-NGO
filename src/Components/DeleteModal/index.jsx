@@ -25,6 +25,7 @@ const DeleteModal = ({
   label,
   loading,
   message,
+  close
 }) => {
   const { classes, cx } = useStyles();
   return (
@@ -43,7 +44,7 @@ const DeleteModal = ({
         <Group pt={"sm"} ml={"auto"}>
           <Button label="Cancel" onClick={onCancel}/>
           <Button
-            label="Delete"
+            label={close ?"Done":"Delete"}
             loading={loading}
             onClick={onDelete}
             primary={true}
