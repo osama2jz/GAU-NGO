@@ -1,4 +1,4 @@
-import { Container, Group } from "@mantine/core";
+import { Container, FileInput, Group, Input, SimpleGrid } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { Link } from "@mantine/tiptap";
@@ -13,11 +13,14 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FileUpload } from "tabler-icons-react";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
+import Datepicker from "../../../Components/Datepicker";
+import InputField from "../../../Components/InputField";
 import SelectMenu from "../../../Components/SelectMenu";
 import TextEditor from "../../../Components/TextEditor";
-import { backendUrl } from "../../../constants/constants";
+import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
@@ -27,54 +30,41 @@ export const AddDocument = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [documents, setDocuments] = useState([]);
+  const [filerror, setFileError] = useState("");
+  const [fileUploading, setFileUploading] = useState(false);
 
   let { state } = useLocation();
 
-  const {
-    editdata
-  } = state ?? "";
-
-  
-
-  const editorr = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Superscript,
-      SubScript,
-      Highlight,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-    ],
-    content: editdata?.content,
-  });
+  const { editdata } = state ?? "";
 
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      lookupId: "",
-      documentId:""
+      documentTitle: "",
+      documentURL: null,
+      expiryDate: "",
     },
 
     validate: {
-      lookupId: (value) =>
-        value?.length < 1 ? "Please Select Document Type" : null,
+      documentTitle: (value) =>
+        value?.length < 1 ? "Please enter document title" : null,
     },
   });
 
   useEffect(() => {
     if (editdata) {
-      form.setFieldValue("lookupId", editdata?.lookupId);
-      form.setFieldValue("documentId", editdata?.id);
-      // editorr.commands.setContent(editdata?.content);
+      form.setValues(editdata);
     }
-  },[editdata])
+  }, [editdata]);
 
   const handleAddDocument = useMutation(
     (values) => {
-      values.documentText = editorr.getHTML();
+      if (!form.values.documentURL) {
+        setFileError("Please upload the file");
+        return;
+      }
       return axios.post(
-        `${backendUrl + "/api/lookup/createDocuments"}`,
+        `${backendUrl + "/api/lookup/createAdminDocuments"}`,
         values,
         {
           headers: {
@@ -95,7 +85,7 @@ export const AddDocument = () => {
         } else {
           showNotification({
             title: "Failed",
-            message: "Document Already Exists!",
+            message: response.data.message,
             color: "red.0",
           });
         }
@@ -135,63 +125,114 @@ export const AddDocument = () => {
       },
     }
   );
-  //API call for fetching all documents
-  const { data, status } = useQuery(
-    "fetchDocumentsTypes",
-    () => {
-      return axios.get(
-        `${backendUrl + `/api/lookup/getLookupByType/documentTypes`}`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
-    },
-    {
-      onSuccess: (response) => {
-        let data = response.data?.data?.map((obj, ind) => {
-          let document = {
-            value: obj._id,
-            label: obj.lookupName,
-          };
-          return document;
-        });
-        setDocuments(data);
-      },
-    }
-  );
 
- 
+  const handleFileInput = (file, type) => {
+    // setFileLoader(true);
+    //s3 configs
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
+    setFileError("");
+    setFileUploading(true);
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = sanitizedFileName;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        results.innerHTML = "ERROR: " + err;
+      } else {
+        bucket.listObjects(function (err, data) {
+          if (err) {
+            showNotification({
+              title: "Upload Failed",
+              message: "Something went Wrong",
+              color: "red.0",
+            });
+          } else {
+            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+            form.setFieldValue("documentURL", link);
+            setFileUploading(false);
+          }
+        });
+      }
+    });
+  };
 
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={editdata ? "Edit Document":"Add Document"} />
+      <ContainerHeader label={editdata ? "Edit Document" : "Add Document"} />
       <form
         className={classes.form}
-        
-        onSubmit={form.onSubmit((values) => editdata ? handleEditDocument.mutate(values):handleAddDocument.mutate(values))}
+        onSubmit={form.onSubmit((values) =>
+          editdata
+            ? handleEditDocument.mutate(values)
+            : handleAddDocument.mutate(values)
+        )}
       >
-        <SelectMenu
-          label={"Select Document"}
-          placeholder="Document Type"
-          data={documents}
-          pb="md"
+        <InputField
+          label={"Document Title"}
+          placeholder="Enter Document Title"
+          required
           form={form}
-          validateName="lookupId"
+          validateName="documentTitle"
         />
-        <TextEditor editor={editorr} />
+        <SimpleGrid cols={2}>
+          <Datepicker
+            label={"Expiry Date"}
+            form={form}
+            validateName="expiryDate"
+          />
+          <Input.Wrapper error={filerror} size={"md"}>
+            <FileInput
+              label="Upload Document"
+              placeholder={"Upload Document"}
+              required={true}
+              size="md"
+              accept="file/pdf"
+              styles={(theme) => ({
+                root: {
+                  margin: "auto",
+                },
+                input: {
+                  border: "1px solid rgb(0, 0, 0, 0.1)",
+                  borderRadius: "5px",
+                },
+              })}
+              icon={<FileUpload size={20} />}
+              onChange={(e) => handleFileInput(e, "file")}
+            />
+          </Input.Wrapper>
+        </SimpleGrid>
         <Group position="right" mt="sm">
           <Button
             label="Cancel"
             onClick={() => navigate(routeNames.ngoAdmin.viewDocuments)}
           />
           <Button
-            label={editdata ? "Update Document":"Add Document"}
+            label={editdata ? "Update Document" : "Add Document"}
             leftIcon={"plus"}
             primary={true}
             type="submit"
-            loading={handleAddDocument.isLoading}
+            loading={handleAddDocument.isLoading || fileUploading}
           />
         </Group>
       </form>

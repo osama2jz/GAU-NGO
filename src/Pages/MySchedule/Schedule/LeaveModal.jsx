@@ -7,7 +7,7 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId }) => {
+const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -47,6 +47,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId }) => {
             color: "green.0",
           });
           setOpened(false);
+          setRefetch(true);
         } else {
           showNotification({
             title: "Leave",
@@ -68,8 +69,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId }) => {
     >
       <Container>
         <Text>
-          Are you sure you want to mark {date} as leave? It will <b>cancel</b> all of
-          your appointments for this day.
+          Are you sure you want to mark {date} as leave? It will <b>cancel</b>{" "}
+          all of your appointments for this day.
         </Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />

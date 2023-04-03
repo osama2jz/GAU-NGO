@@ -143,6 +143,7 @@ const routeNames = {
     allProjects: "/all-projects",
     projectCases: "/project-cases",
 
+    userForms: "/user-forms",
   },
   user: {
     dashboard: "/",

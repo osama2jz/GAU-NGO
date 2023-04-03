@@ -34,7 +34,6 @@ const VerificationScheduled = () => {
   const [statusChangeId, setStatusChangeId] = useState("");
   const [reportData, setReportData] = useState([]);
 
-
   let headerData = [
     {
       id: "sr",
@@ -58,7 +57,13 @@ const VerificationScheduled = () => {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
+      label: "Date",
+    },
+    {
+      id: "time",
+      numeric: false,
+      disablePadding: true,
+      label: "Time",
     },
     {
       id: "status",
@@ -81,7 +86,7 @@ const VerificationScheduled = () => {
 
     {
       id: "actions",
-      view: <Eye  />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
@@ -92,10 +97,7 @@ const VerificationScheduled = () => {
     ["fetchUser", search, activePage],
     () => {
       return axios.get(
-        `${
-          backendUrl +
-          `/api/ngo/listNGOUsers/user/${activePage}/10/unverified/${search}`
-        }`,
+        `${backendUrl + `/api/ngo/listNGOappointmentUsers/user/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -108,15 +110,15 @@ const VerificationScheduled = () => {
         let data = response.data.data.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
+            time: obj.scheduleTime,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
-
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
           };
           return user;
         });
@@ -126,8 +128,8 @@ const VerificationScheduled = () => {
     }
   );
 
-   //API call for changing user status
-   const handleChangeStatus = useMutation(
+  //API call for changing user status
+  const handleChangeStatus = useMutation(
     (values) => {
       return axios.post(`${backendUrl + "/api/user/changeStatus"}`, values, {
         headers: {
@@ -144,7 +146,6 @@ const VerificationScheduled = () => {
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");
-
       },
     }
   );
@@ -168,19 +169,20 @@ const VerificationScheduled = () => {
             <Button
               label={"Clear Filters"}
               onClick={() => {
-                
                 setSearch("");
               }}
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
-          {user.role ==="Social Worker" &&<Button
-              label={"Add User"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.socialWorker.addUser)}
-            />}
+            {user.role === "Social Worker" && (
+              <Button
+                label={"Add User"}
+                bg={true}
+                leftIcon={"plus"}
+                styles={{ float: "right" }}
+                onClick={() => navigate(routeNames.socialWorker.addUser)}
+              />
+            )}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -195,9 +197,8 @@ const VerificationScheduled = () => {
             onStatusChange={handleChangeStatus.mutate}
             setReportData={setReportData}
           />
-          
         )}
-         {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
@@ -210,9 +211,8 @@ const VerificationScheduled = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Schedule Details"
-        
       >
-        <ViewUserModal id={viewModalData} reportData={reportData}/>
+        <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
     </Container>
   );

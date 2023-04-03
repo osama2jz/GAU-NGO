@@ -118,6 +118,7 @@ const Index = ({}) => {
                   <Avatar
                     src={user?.profileImage || userImage}
                     radius="xl"
+                    style={{border:`2px solid ${theme.colors.green[0]}`}}
                     size={50}
                   />
                 </Group>

@@ -45,10 +45,10 @@ export const UserSidebarData = [
       { label: "View Complaint", link: routeNames.ngoAdmin.complaints },
     ],
   },
+  { label: "Settings", icon: Settings, link: routeNames.user.settings },
 ];
 
 export const bottom = [
-  { label: "Settings", icon: Settings, link: routeNames.user.settings },
   {
     label: "Log Out",
     link: "/",
