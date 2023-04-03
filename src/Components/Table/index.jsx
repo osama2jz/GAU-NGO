@@ -98,7 +98,7 @@ const Table = ({
                   key={index}
                   style={{
                     whiteSpace: "nowrap",
-                    width: head.id === "id" ? "50px" : "auto",
+                    width: head.id === "sr" ? "20px" : "auto",
                   }}
                   onClick={() => {
                     head.numeric === true
@@ -111,8 +111,8 @@ const Table = ({
                       flexWrap: "nowrap",
                       // flexShrink: 0,
                       width:
-                        head.id === "id"
-                          ? "40px"
+                        head.id === "sr"
+                          ? "50px"
                           : head.id === "name"
                           ? "180px"
                           : head.id === "accStatus"
@@ -338,6 +338,40 @@ const Table = ({
                         </Tooltip>
                       </Flex>
                     </td>
+                  ) :head.id === "totalAppointments" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                       
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                       <Anchor >
+                        View All
+                       </Anchor>
+                      </Flex>
+                    </td>
+                  ) :head.id === "totalReports" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                       
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                       <Anchor onClick={()=>{navigate(routeNames.socialWorker.referalReport,{
+                          state:{id:row.case}
+                       })}}>
+                        View All
+                       </Anchor>
+                      </Flex>
+                    </td>
                   ) : head.id === "file" ? (
                     <td key={index} align="center">
                       {row?.file !== "" ? (
@@ -400,7 +434,8 @@ const Table = ({
                         }}
                       />
                     </td>
-                  ) : head.id === "userVerify" ? (
+                  ) : 
+                  head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
                         label={
@@ -425,6 +460,22 @@ const Table = ({
                         bg={row.status === "unverified" && true}
                         compact={true}
                         w="70px"
+                      />
+                    </td>
+                  ) : head.id === "close" ? (
+                    <td key={index} >
+                      <Button
+                        label={
+                         "Close Case"
+                        }  
+                        onClick={() => {
+                          setDeleteModalState(true);
+                          setDeleteData(row.case);
+                        }}
+                    
+                        
+                        compact={true}
+                       
                       />
                     </td>
                   ) : head.id === "start" ? (

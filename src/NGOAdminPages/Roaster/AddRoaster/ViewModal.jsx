@@ -31,7 +31,7 @@ const LeaveModal = ({
   selectedProfessional,
   endDate,
   selectedBranch,
-
+  loading,
 }) => {
   const useStyles = createStyles((theme) => ({
     title: {
@@ -146,7 +146,7 @@ const LeaveModal = ({
           {selectedProfessional &&
             selectedProfessional.filter((item) => item.role === "Lawyer")
               .length > 0 && (
-              <Text fw={"bold"} fz={"md"} >
+              <Text fw={"bold"} fz={"md"}>
                 Lawyer
               </Text>
             )}
@@ -188,7 +188,13 @@ const LeaveModal = ({
         </Container>
         <Group position="right" mt={"xl"}>
           <Button label={"Review"} w="100px" onClick={() => setOpened(false)} />
-          <Button label={"Finish"} primary={true} w="100px" onClick={()=>onSubmit()} />
+          <Button
+            label={"Finish"}
+            primary={true}
+            w="100px"
+            onClick={() => onSubmit()}
+            loading={loading}
+          />
         </Group>
       </Container>
     </Modal>

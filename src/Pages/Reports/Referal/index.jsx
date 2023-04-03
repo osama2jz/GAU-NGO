@@ -9,8 +9,8 @@ import {
   Avatar,
   Anchor,
 } from "@mantine/core";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Edit, Eye, Trash } from "tabler-icons-react";
 import download from "../../../assets/download.svg";
 import InputField from "../../../Components/InputField";
@@ -40,7 +40,15 @@ function ReferalReport() {
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
-  console.log(caseNo);
+  const {state}=useLocation();
+  const {id}=state ??""
+
+  useEffect(() => {
+    if(id){
+      setCaseNo(id);
+    }
+  }, [id]);
+
 
   let headerData = [
     {
