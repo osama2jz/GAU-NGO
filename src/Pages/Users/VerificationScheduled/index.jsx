@@ -19,6 +19,7 @@ import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ViewUserModal from "../AllUsers/ViewUserModal";
 import Pagination from "../../../Components/Pagination";
+import DownloadPdf from "../../Reports/downloadPdf";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -155,7 +156,7 @@ const VerificationScheduled = () => {
       <ContainerHeader label={"Users Schedule"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -171,6 +172,14 @@ const VerificationScheduled = () => {
               onClick={() => {
                 setSearch("");
               }}
+            />
+          </Grid.Col>
+         
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              // data={filterData}
+              title="Download reports"
             />
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">

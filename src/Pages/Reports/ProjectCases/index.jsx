@@ -15,6 +15,7 @@ import { useStyles } from "./styles";
 import DeleteModal from "../../../Components/DeleteModal";
 import DownloadPdf from "../downloadPdf";
 import { showNotification } from "@mantine/notifications";
+import moment from "moment";
 
 function ProjectCases() {
   const { classes } = useStyles();
@@ -58,7 +59,7 @@ function ProjectCases() {
       disablePadding: true,
       label: "Case Name",
     },
-
+   
     {
       id: "totalAppointments",
       numeric: false,
@@ -70,6 +71,12 @@ function ProjectCases() {
       numeric: false,
       disablePadding: true,
       label: " Reports",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Created Date",
     },
 
     {
@@ -101,6 +108,7 @@ function ProjectCases() {
             caseName: obj?.caseName,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
+            date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
             
           };
           return report;

@@ -158,7 +158,7 @@ function ReferalReport() {
                 ? "Social Worker"
                 : obj.role === "psychologist"
                 ? "Psychologist"
-                : "Lawyer",
+                :   obj?.role === "ngoadmin" ? "NGOAdmin" :  obj?.role === "user" ?"User":"Lawyer",
             appointId: obj?.appointmentId,
             doc: obj?.documents,
             docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
