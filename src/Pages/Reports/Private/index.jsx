@@ -30,6 +30,7 @@ import Pagination from "../../../Components/Pagination";
 import Loader from "../../../Components/Loader";
 import ReactHtmlParser from "react-html-parser";
 import { useMemo } from "react";
+import Button from "../../../Components/Button";
 
 function PrivateReport() {
   const { classes } = useStyles();
@@ -58,6 +59,12 @@ function PrivateReport() {
       numeric: false,
       disablePadding: true,
       label: "Name",
+    },
+    {
+      id: "projectName",
+      numeric: false,
+      disablePadding: true,
+      label: "Project",
     },
     {
       id: "caseNo",
@@ -160,8 +167,8 @@ function PrivateReport() {
       onSuccess: (response) => {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
-            id: obj.reportId,
-            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
+            id: obj._id,
+            sr: ind + 1,
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
             addedBy: obj.addedBy,
@@ -176,6 +183,7 @@ function PrivateReport() {
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
             image: obj?.profileImage ? obj?.profileImage : userlogo,
+            projectName: obj?.projectName,
           };
           return appointment;
         });
@@ -184,29 +192,29 @@ function PrivateReport() {
     }
   );
 
-    //API call for fetching all projects
-    const { data: projects, status: statusProject } = useQuery(
-      "fetchProjects",
-      () => {
-        return axios.get(`${backendUrl + `/api/project/listProjects`}`, {
-          headers: {
-            "x-access-token": user.token,
-          },
-        });
-      },
-      {
-        onSuccess: (response) => {
-          let data = response?.data?.data?.map((obj, ind) => {
-            let project = {
-              label: obj?.projectName,
-              value: obj?.projectName,
-            };
-            return project;
-          });
-          setProjectData(data);
+  //API call for fetching all projects
+  const { data: projects, status: statusProject } = useQuery(
+    "fetchProjects",
+    () => {
+      return axios.get(`${backendUrl + `/api/project/listProjects`}`, {
+        headers: {
+          "x-access-token": user.token,
         },
-      }
-    );
+      });
+    },
+    {
+      onSuccess: (response) => {
+        let data = response?.data?.data?.map((obj, ind) => {
+          let project = {
+            label: obj?.projectName,
+            value: obj?.projectName,
+          };
+          return project;
+        });
+        setProjectData(data);
+      },
+    }
+  );
 
   const filterData = useMemo(() => {
     const filtered = pdfData.filter((item) => {
@@ -219,10 +227,11 @@ function PrivateReport() {
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
             item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
-          item?.role?.toLowerCase().includes(filter.toLowerCase())
+          item?.projectName?.toLowerCase().includes(filter.toLowerCase())
         );
       }
     });
+
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     let a = filtered.map((obj, ind) => {
@@ -247,19 +256,33 @@ function PrivateReport() {
       <ContainerHeader label={"Private"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
-            <InputField placeholder="Search" leftIcon="search" pb="0" 
-             value={search}
-             onChange={(e) => setSearch(e.target.value)}/>
+          <Grid.Col sm={5}>
+            <InputField
+              placeholder="Search"
+              leftIcon="search"
+              pb="0"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </Grid.Col>
           <Grid.Col sm={6} md={3} lg={3}>
             <SelectMenu
               placeholder="Projects"
               data={projectData}
-              setData={setSelectedProject}
+              setData={setFilter}
+              value={filter}
             />
           </Grid.Col>
-        
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setSearch("");
+                setFilter("");
+              }}
+            />
+          </Grid.Col>
+
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
               headCells={headerData}

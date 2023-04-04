@@ -16,6 +16,7 @@ import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import DownloadPdf from "../../Reports/downloadPdf";
 
 const MissingDocuments = () => {
   const { classes } = useStyles();
@@ -151,11 +152,29 @@ const MissingDocuments = () => {
     },
   ];
 
-  const filteredItems = rowData.filter(
-    (item) =>
-      item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-      item?.caseNo?.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredItems = rowData.filter((item) =>
+  //   {
+      
+  //     item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+  //     item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+  //   }
+     
+  // );
+
+  const filteredItems=useMemo(() => {
+    let filtered=rowData.filter((item) =>{
+      return item?.name?.toLowerCase().includes(search.toLowerCase()) || item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+    })
+    let a=filtered.map((obj, ind) => {
+      return{
+        ...obj,
+        sr: ind + 1,
+      }
+     
+    })
+    return a
+  }, [rowData, search]);
+
   const paginated = useMemo(() => {
     if (activePage == 1) {
       return filteredItems.slice(0, 10);
@@ -199,6 +218,13 @@ const MissingDocuments = () => {
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
+            />
+          </Grid.Col>
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              label={"Missing Documents"}
             />
           </Grid.Col>
         </Grid>

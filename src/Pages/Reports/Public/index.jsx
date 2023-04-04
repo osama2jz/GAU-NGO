@@ -27,6 +27,7 @@ import { useStyles } from "./styles";
 import ReactHtmlParser from "react-html-parser";
 import userlogo from "../../../assets/teacher.png";
 import { useMemo } from "react";
+import Button from "../../../Components/Button";
 
 function PublicReport() {
   const { classes } = useStyles();
@@ -41,8 +42,7 @@ function PublicReport() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [projectData, setProjectData] = useState([]);
-  const [SelectedProject, setSelectedProject] = useState("");
-
+  const [filter2, setfilter2] = useState("");
 
   let headerData = [
     {
@@ -58,11 +58,18 @@ function PublicReport() {
       label: "Name",
     },
     {
+      id: "projectName",
+      numeric: false,
+      disablePadding: true,
+      label: "Project",
+    },
+    {
       id: "caseNo",
       numeric: false,
       disablePadding: true,
       label: "Case #",
     },
+
     // {
     //   id: "report",
     //   numeric: false,
@@ -118,7 +125,7 @@ function PublicReport() {
       onSuccess: (response) => {
         let data = response?.data?.data?.data.map((obj, ind) => {
           let appointment = {
-            id: obj.reportId,
+            id: obj._Id,
             sr: ind + 1,
             caseNo: obj.caseNo,
             name: obj.caseLinkedUser,
@@ -134,6 +141,7 @@ function PublicReport() {
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
             image: obj?.profileImage ? obj?.profileImage : userlogo,
+            projectName: obj?.projectName,
           };
           return appointment;
         });
@@ -168,20 +176,34 @@ function PublicReport() {
   );
 
   const filterData = useMemo(() => {
-    const filtered = pdfData.filter((item) => {
-      if (filter == "") {
+    let filtered = pdfData.filter((item) => {
+      if (filter === "" && filter2 === "") {
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) ||
           item.caseNo.toLowerCase().includes(search.toLowerCase())
         );
-      } else {
+      } else if (filter !== "" && filter2 === "")
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
             item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
           item?.role?.toLowerCase().includes(filter.toLowerCase())
         );
+      else if (filter === "" && filter2 !== "")
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.projectName?.toLowerCase().includes(filter2.toLowerCase())
+        );
+      else {
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.role?.toLowerCase().includes(filter.toLowerCase()) &&
+          item?.projectName?.toLowerCase().includes(filter2.toLowerCase())
+        );
       }
     });
+
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     let a = filtered.map((obj, ind) => {
@@ -192,7 +214,7 @@ function PublicReport() {
     });
 
     return a;
-  }, [search, filter, pdfData]);
+  }, [search, filter, filter2, pdfData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -207,7 +229,7 @@ function PublicReport() {
       <ContainerHeader label={"Public"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6} md={4} lg={4}>
+          <Grid.Col sm={6} md={4} lg={5}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -216,7 +238,7 @@ function PublicReport() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3} lg={3}>
+          <Grid.Col sm={6} md={3} lg={2}>
             <SelectMenu
               placeholder="Added By"
               data={[
@@ -229,11 +251,22 @@ function PublicReport() {
               value={filter}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3} lg={3}>
+          <Grid.Col sm={6} md={3} lg={2}>
             <SelectMenu
               placeholder="Projects"
               data={projectData}
-              setData={setSelectedProject}
+              setData={setfilter2}
+              value={filter2}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+            <Button
+              label={"Clear Filters"}
+              onClick={() => {
+                setSearch("");
+                setFilter("");
+                setfilter2("");
+              }}
             />
           </Grid.Col>
           <Grid.Col sm={3} lg={2}>

@@ -217,14 +217,8 @@ const VerificationScheduled = () => {
               }}
             />
           </Grid.Col>
-         
-          <Grid.Col sm={3} ml="auto">
-            <DownloadPdf
-              headCells={headerData}
-              // data={filterData}
-              title="Download reports"
-            />
-          </Grid.Col>
+
+          
           <Grid.Col sm={3} ml="auto">
             {user.role === "Social Worker" && (
               <Button
@@ -235,6 +229,13 @@ const VerificationScheduled = () => {
                 onClick={() => navigate(routeNames.socialWorker.addUser)}
               />
             )}
+          </Grid.Col>
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              label={"Scheduled Users"}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
