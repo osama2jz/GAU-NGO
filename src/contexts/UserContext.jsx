@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
   const value = { user, setUser };
 
   const { data, status } = useQuery(
-    "fetchUserSingle",
+    "fetchMe",
     () => {
       return axios.get(
         `${backendUrl + `/api/user/listSingleUser/${userData?.userId}`}`,
