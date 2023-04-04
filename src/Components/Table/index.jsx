@@ -349,7 +349,9 @@ const Table = ({
                               : row[head?.id]}
                           </Text>
                         </Tooltip>
-                       <Anchor >
+                       <Anchor onClick={()=>{navigate(routeNames.socialWorker.projectAppointments,{
+                          state:{id:row.case}
+                       })}}>
                         View All
                        </Anchor>
                       </Flex>

@@ -105,7 +105,7 @@ function ProjectCases() {
             caseName: obj?.caseName,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            image:"https://www.w3schools.com/howto/img_avatar.png"
+            
           };
           return report;
         });

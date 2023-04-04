@@ -49,7 +49,7 @@ export const psychSideBarData = [
       { label: "Private", link: routeNames.pysch.privateReport },
       { label: "Public", link: routeNames.pysch.publicReport },
       { label: "Project Reports", link: routeNames.pysch.allProjects },
-      // { label: "Case Reports", link: routeNames.socialWorker.referalReport },
+     
     ],
   },
 ];

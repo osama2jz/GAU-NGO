@@ -50,7 +50,7 @@ export const LawyerSidebarData = [
       { label: "Private", link: routeNames.lawyer.privateReport },
       { label: "Public", link: routeNames.lawyer.publicReport },
       { label: "Project Reports", link: routeNames.lawyer.allProjects },
-      // { label: "Case Reports", link: routeNames.socialWorker.referalReport },
+     
     ],
   },
 ];

@@ -40,6 +40,8 @@ const routeNames = {
     referalReport: "/referal-report",
     projectCases: "/project-cases",
     allProjects: "/all-projects",
+    projectAppointments: "/project-appointments",
+
   },
   pysch: {
     dashboard: "/",
@@ -67,6 +69,8 @@ const routeNames = {
     referalReport: "/referal-report",
     projectCases: "/project-cases",
     allProjects: "/all-projects",
+    projectAppointments: "/project-appointments",
+
   },
   lawyer: {
     dashboard: "/",
@@ -95,6 +99,8 @@ const routeNames = {
     referalReport: "/referal-report",
     projectCases: "/project-cases",
     allProjects: "/all-projects",
+    projectAppointments: "/project-appointments",
+
   },
   ngoAdmin: {
     dashboard: "/",
@@ -142,6 +148,7 @@ const routeNames = {
     viewDonations: "/view-donations",
     allProjects: "/all-projects",
     projectCases: "/project-cases",
+    projectAppointments: "/project-appointments",
     userForms: "/user-forms",
   },
   user: {
@@ -159,6 +166,8 @@ const routeNames = {
     complaints: "/complaints-public",
     allProjects: "/all-projects",
     projectCases: "/project-cases",
+    projectAppointments: "/project-appointments",
+
   },
 };
 

@@ -44,30 +44,31 @@ function ReferalReport() {
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
- 
+  const [editid, setEditId] = useState();
+
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const isMobile = useMediaQuery("(max-width: 820px)");
+  
 
 
-  const {state}=useLocation();
-  const {id}=state ??""
+  const { state } = useLocation();
+  const { id } = state ?? "";
 
-  console.log(id)
+  console.log(id);
 
   useEffect(() => {
-    if(id){
+    if (id) {
       setCaseNo(id);
     }
   }, [id]);
-
 
   let headerData = [
     {
       id: "sr",
       numeric: true,
       disablePadding: true,
-      label: "Sr #",
+      label: "Sr#",
     },
     {
       id: "name",
@@ -75,18 +76,6 @@ function ReferalReport() {
       disablePadding: true,
       label: "Name",
     },
-    {
-      id: "case",
-      numeric: false,
-      disablePadding: true,
-      label: "Case #",
-    },
-    // {
-    //   id: "report",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Report #",
-    // },
     {
       id: "addedBy",
       numeric: false,
@@ -106,77 +95,93 @@ function ReferalReport() {
       label: "Date",
     },
     {
-      id: "type",
+      id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Report Type",
+      label: "Time",
     },
+    // {
+    //   id: "docs",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Missing Documents",
+    // },
     {
-      id: "file",
+      id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Report File",
+      label: "Status",
     },
 
     {
       id: "actions",
       view: <Eye />,
-      // delete: <Trash color="red" />,
+      edit: <Edit />,
       numeric: false,
       label: "Actions",
     },
   ];
 
-  
-
   const { data: users, status } = useQuery(
-    ["userCaseReports"],
+    ["userCaseProjects",id],
     () => {
       setLoading(true);
-      return axios.get(backendUrl + `/api/case/listReportsCaseNo/${id}`, {
-        headers: {
-          "x-access-token": user?.token,
-        },
-      });
+      return axios.get(
+        backendUrl + `/api/appointment/listUserAppointmentsCaseNo/${id}`,
+        {
+          headers: {
+            "x-access-token": user?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         console.log(response);
-        let data = response?.data?.data?.map((obj, ind) => {
-          let report = {
-            id: obj.reportId,
+        let data = response.data.data.map((obj, ind) => {
+          let appointment = {
+            id: obj.appointmentId,
+            userid: obj?.appointmentUserId,
             sr: ind + 1,
-            reportType: obj?.reportType === "private" ? "Private" : "Public",
-            name: obj?.caseLinkedUser,
-            case: obj?.caseNo,
-            addedBy: obj?.addedBy,
+            caseName: obj?.caseName,
+            caseNo: obj?.caseNo,
+            name: obj?.appointmentUser,
+            caseId: obj?.caseId,
+            email: "N/A",
+            status: obj?.appointmentStatus?.toUpperCase(),
+            time: obj?.scheduledTime,
             date: obj?.addedDate,
-            file: obj?.reportFile,
-            comments: obj?.comments,
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
-            type: obj.reportType === "private" ? "Private" : "Public",
+            addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
+
             role:
-              obj?.role === "lawyer"
-                ? "Lawyer"
-                : obj?.role === "psychologist"
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
                 ? "Psychologist"
-                : "Social Worker",
+                : "Lawyer",
+            appointId: obj?.appointmentId,
+            doc: obj?.documents,
+            docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
+              .length,
+            reportData: obj?.reports,
+            image: obj?.appointmentUserImage
+              ? obj?.appointmentUserImage
+              : userlogo,
           };
-          return report;
+          return appointment;
         });
 
         setRowData(data);
         setLoading(false);
       },
-      
+      enabled: !!id,
     }
   );
-
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
       if (filter == "") {
-        console.log("helloo")
+        console.log("helloo");
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) ||
           item.case.toLowerCase().includes(search.toLowerCase())
@@ -210,7 +215,7 @@ function ReferalReport() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-       <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center" mb="md">
         <Anchor
           fz={12}
           fw="bolder"
@@ -221,7 +226,7 @@ function ReferalReport() {
           <Text>Back</Text>
         </Anchor>
         <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Case Reports
+          Case Appointments
         </Text>
       </Flex>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
@@ -238,7 +243,6 @@ function ReferalReport() {
           <Grid.Col sm={6} md={3}>
             <Button
               label={"Clear Filter"}
-              
               onClick={() => {
                 setSearch("");
               }}
@@ -259,12 +263,13 @@ function ReferalReport() {
           <Table
             headCells={headerData}
             rowData={paginated}
+            // setViewModalState={setOpenViewModal}
+            // setReportData={setReportData}
             setViewModalState={setOpenViewModal}
-            setReportData={setReportData}
+            setEditIDApp={setEditId}
           />
-         
         )}
-         {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
