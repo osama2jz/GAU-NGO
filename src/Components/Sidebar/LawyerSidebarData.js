@@ -17,9 +17,7 @@ export const LawyerSidebarData = [
   {
     label: "User",
     icon: Users,
-    links: [
-      { label: "View Users", link: routeNames.lawyer.allUsers },
-    ],
+    links: [{ label: "View Users", link: routeNames.lawyer.allUsers }],
   },
   {
     label: "Appointment",
@@ -51,7 +49,8 @@ export const LawyerSidebarData = [
     links: [
       { label: "Private", link: routeNames.lawyer.privateReport },
       { label: "Public", link: routeNames.lawyer.publicReport },
-      { label: "Case Reports", link: routeNames.socialWorker.referalReport },
+      { label: "Project Reports", link: routeNames.lawyer.allProjects },
+      // { label: "Case Reports", link: routeNames.socialWorker.referalReport },
     ],
   },
 ];

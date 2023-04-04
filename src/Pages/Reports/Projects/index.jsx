@@ -1,46 +1,19 @@
-import {
-  Container,
-  Flex,
-  Grid,
-  Image,
-  Menu,
-  SimpleGrid,
-  Text,
-  Avatar,
-  Anchor,
-} from "@mantine/core";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Edit, Eye, Trash } from "tabler-icons-react";
-import download from "../../../assets/download.svg";
-import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
-import Table from "../../../Components/Table";
-import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useStyles } from "./styles";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import Button from "../../../Components/Button";
-import { useQuery, useQueryClient } from "react-query";
+import { Container, Grid } from "@mantine/core";
 import axios from "axios";
+import moment from "moment";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import Loader from "../../../Components/Loader";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Card from "./Card";
-import Loader from "../../../Components/Loader";
-import DownloadPdf from "../downloadPdf";
-import ReactHtmlParser from "react-html-parser";
-import moment from "moment";
+import { useStyles } from "./styles";
 
 function Projects() {
   const { classes } = useStyles();
-  const navigate = useNavigate();
-  const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [caseNo, setCaseNo] = useState("");
-  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
-  const [reportData, setReportData] = useState([]);
 
   //API call for fetching all projects
   const { data, status } = useQuery(
@@ -61,6 +34,9 @@ function Projects() {
             title: obj?.projectName,
             createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
             description: obj?.description,
+            appointments: obj?.totalAppointments,
+            cases: obj?.totalCases,
+            reports: obj?.totalReports,
             accStatus: obj?.status,
             status:
               obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
@@ -71,18 +47,21 @@ function Projects() {
       },
     }
   );
-  console.log("rowData", rowData);
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <ContainerHeader label={"All Projects"} />
+      <ContainerHeader label={"Project Reports"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
-        <Grid align={"center"} justify="center">
-          {rowData.map((item, index) => (
-            <Grid.Col md={"auto"}>
-              <Card data={item} />
-            </Grid.Col>
-          ))}
-        </Grid>
+        {status === "loading" ? (
+          <Loader />
+        ) : (
+          <Grid align={"center"} justify="center">
+            {rowData.map((item, index) => (
+              <Grid.Col md={"auto"}>
+                <Card data={item} />
+              </Grid.Col>
+            ))}
+          </Grid>
+        )}
       </Container>
     </Container>
   );
