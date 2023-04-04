@@ -19,6 +19,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewRoasterModal from "./ViewRoasterModal";
+import userlogo from "../../../assets/teacher.png";
 
 export const ViewRoasters = () => {
   const { classes } = useStyles();
@@ -105,6 +106,7 @@ export const ViewRoasters = () => {
                 : "",
             status: obj?.schedule ? "Scheduled" : "Not Scheduled",
             ngo: user?.name,
+            image:userlogo
           };
           return objj;
         });
