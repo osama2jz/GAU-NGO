@@ -48,18 +48,18 @@ function ProjectCases() {
     },
 
     {
-      id: "case",
-      numeric: false,
-      disablePadding: true,
-      label: "Case #",
-    },
-    {
       id: "caseName",
       numeric: false,
       disablePadding: true,
       label: "Case Name",
     },
-   
+    {
+      id: "case",
+      numeric: false,
+      disablePadding: true,
+      label: "Case #",
+    },
+
     {
       id: "totalAppointments",
       numeric: false,
@@ -132,7 +132,8 @@ function ProjectCases() {
     },
     {
       onSuccess: (response) => {
-        if (response?.data?.success) {
+        console.log(response);
+        if (response?.data?.status) {
           showNotification({
             title: "Case Closed",
             message: "Case Closed Successfully",

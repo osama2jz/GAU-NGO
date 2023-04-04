@@ -311,11 +311,11 @@ export const AddUser = () => {
             placeholder="*******"
             form={form}
             validateName="confirmPassword"
-          />
-           <Text pb={"sm"} size="sm">
+        />
+           {/* <Text pb={"sm"} size="sm">
             By pressing “Submit” I declare that i’ve read and agree to the{" "}
             <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
-          </Text>
+          </Text> */}
           </>
           ) }
 

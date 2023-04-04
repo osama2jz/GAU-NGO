@@ -65,7 +65,7 @@ export const AddDocument = () => {
       }
       return axios.post(
         `${backendUrl + "/api/lookup/createAdminDocuments"}`,
-        values,
+        { documents: [values] },
         {
           headers: {
             "x-access-token": user.token,

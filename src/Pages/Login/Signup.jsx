@@ -41,7 +41,7 @@ const Signup = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      userType: "",
+      userType: "user",
       ngoId: "",
       profileImage: "",
       IDDetails: null,
@@ -177,7 +177,7 @@ const Signup = () => {
     >
       <ContainerHeader label={"Sign Up"} />
       <Grid>
-        <Grid.Col sm={6}>
+        <Grid.Col sm={12}>
           <SelectMenu
             data={ngos}
             placeholder={"Select NGO"}
@@ -186,7 +186,7 @@ const Signup = () => {
             validateName="ngoId"
           />
         </Grid.Col>
-        <Grid.Col sm={6}>
+        {/* <Grid.Col sm={6}>
           <SelectMenu
             data={[
               { label: "User", value: "user" },
@@ -199,7 +199,7 @@ const Signup = () => {
             form={form}
             validateName="userType"
           />
-        </Grid.Col>
+        </Grid.Col> */}
 
         <Grid.Col sm={6}>
           <InputField
