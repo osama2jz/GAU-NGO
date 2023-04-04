@@ -114,15 +114,13 @@ const Table = ({
                         head.id === "sr"
                           ? "50px"
                           : head.id === "name"
-                          ? "180px"
-                          : head.id === "accStatus"
+                          ? "200px"
+                          : head.id === "accStatus" || head.id === "userVerify"
                           ? "auto"
-                          : "100px",
+                          : "130px",
                     }}
                     spacing={3}
                     align={"center"}
-                    // position={head.numeric === true ? "right" : "left"}
-                    // position="center"
                   >
                     <Text align="center">{head?.label}</Text>
                     {head.id !== "actions" &&
@@ -348,11 +346,18 @@ const Table = ({
                               : row[head?.id]}
                           </Text>
                         </Tooltip>
-                       <Anchor onClick={()=>{navigate(routeNames.socialWorker.projectAppointments,{
-                          state:{id:row.case}
-                       })}}>
-                        View All
-                       </Anchor>
+                        <Anchor
+                          onClick={() => {
+                            navigate(
+                              routeNames.socialWorker.projectAppointments,
+                              {
+                                state: { id: row.case },
+                              }
+                            );
+                          }}
+                        >
+                          View All
+                        </Anchor>
                       </Flex>
                     </td>
                   ) : head.id === "totalReports" ? (

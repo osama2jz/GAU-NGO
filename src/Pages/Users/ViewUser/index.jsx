@@ -1,7 +1,10 @@
 import {
   Anchor,
   Avatar,
-  Container, Flex, SimpleGrid, Text
+  Container,
+  Flex,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment/moment";
@@ -413,20 +416,38 @@ function ViewUser() {
           </Text>
           <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
         </Container>
-        <Text align="center" fz={"lg"} fw="bold" mb="xl" bg={"#E9ECEF"} p={2.5}>
-          Documents
-        </Text>
-        <ol>
-          {docs.map((obj) => {
-            return (
-              <li>
-                <Anchor href={obj.documentURL} target="_blank" pl="md">
-                  {obj.documentTitle}
-                </Anchor>
-              </li>
-            );
-          })}
-        </ol>
+        <Container
+          className={classes.inputContainer}
+          size={"xl"}
+          mt="xl"
+          p={"md"}
+        >
+          <Text
+            align="center"
+            fz={"lg"}
+            fw="bold"
+            mb="xl"
+            bg={"#E9ECEF"}
+            p={2.5}
+          >
+            Documents
+          </Text>
+          {docs.length ? (
+            <ol>
+              {docs.map((obj) => {
+                return (
+                  <li>
+                    <Anchor href={obj.documentURL} target="_blank" pl="md">
+                      {obj.documentTitle}
+                    </Anchor>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <Text align="center">No Document</Text>
+          )}
+        </Container>
       </Container>
     </Container>
   );

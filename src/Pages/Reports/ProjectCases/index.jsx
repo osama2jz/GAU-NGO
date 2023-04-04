@@ -101,7 +101,6 @@ function ProjectCases() {
             caseName: obj?.caseName,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            
           };
           return report;
         });
@@ -124,7 +123,8 @@ function ProjectCases() {
     },
     {
       onSuccess: (response) => {
-        if (response?.data?.success) {
+        console.log(response);
+        if (response?.data?.status) {
           showNotification({
             title: "Case Closed",
             message: "Case Closed Successfully",

@@ -120,7 +120,7 @@ export function SideBar({ sideBarLinks, setOpened, opened }) {
             className={classes.logo}
             onClick={() => navigate(routeNames.socialWorker.dashboard)}
           >
-            <img src={logo} alt="logo" width={"35px"} />
+            <img src={logo} alt="logo" width={"50px"} />
             GAU
           </Text>
         </Group>
