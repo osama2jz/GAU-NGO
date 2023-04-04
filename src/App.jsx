@@ -264,7 +264,6 @@ function App() {
             path={routeNames.socialWorker.viewAppoinment}
             element={<ViewAppointments />}
           />
-<<<<<<< HEAD
            <Route
             path={routeNames.socialWorker.allProjects}
             element={<AllProjects />}
@@ -274,9 +273,7 @@ function App() {
           }
             element={<ProjectCases />}
           />
-=======
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
->>>>>>> 8e66a0c59b9d86c75fe0eb6e6fe7bdfe8e25241e
         </Route>
 
         <Route
