@@ -2,6 +2,7 @@ import { Container, Grid, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
+import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router";
@@ -23,7 +24,6 @@ const AddProject = () => {
   const { state } = useLocation();
   let editData = state?.editData;
 
-  
   useEffect(() => {
     console.log(editData);
     if (editData) form.setValues(editData);
@@ -49,9 +49,6 @@ const AddProject = () => {
     },
   });
 
-  console.log(form.values)
-
-
   const handleAddProject = useMutation(
     (values) => {
       let link = backendUrl + "/api/project/create";
@@ -59,6 +56,8 @@ const AddProject = () => {
         link = backendUrl + "/api/project/edit";
         values.projectId = editData.id;
       }
+      values.dateStart = new moment(values.dateStart).format("YYYY-MM-DD");
+      values.dateEnd = new moment(values.dateEnd).format("YYYY-MM-DD");
       return axios.post(link, values, {
         headers: {
           "x-access-token": user.token,
@@ -119,8 +118,11 @@ const AddProject = () => {
                 validateName="dateEnd"
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
-                disabled={form.values.dateStart === null || form.values.dateStart === "" ? true : false}
-                
+                disabled={
+                  form.values.dateStart === null || form.values.dateStart === ""
+                    ? true
+                    : false
+                }
               />
             </Grid.Col>
           </Grid>
