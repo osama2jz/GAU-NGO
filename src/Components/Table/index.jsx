@@ -321,7 +321,7 @@ const Table = ({
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index}>
-                      <Flex gap={"sm"} p="0px" m="0px">
+                      <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {row.image && (
                           <Avatar
                             src={row.image || userImage}
@@ -439,7 +439,7 @@ const Table = ({
                       />
                     </td>
                   ) : head.id === "userVerify" ? (
-                    <td key={index} align="center">
+                    <td key={index}>
                       <Button
                         label={
                           row.status === "unverified" ? "Verify" : "Verified"

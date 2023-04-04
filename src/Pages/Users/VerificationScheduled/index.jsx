@@ -2,7 +2,7 @@ import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { Eye } from "tabler-icons-react";
@@ -19,16 +19,17 @@ import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ViewUserModal from "../AllUsers/ViewUserModal";
 import Pagination from "../../../Components/Pagination";
+import SelectMenu from "../../../Components/SelectMenu";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const theme = useMantineTheme();
   const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [statusChangeId, setStatusChangeId] = useState("");
@@ -94,7 +95,7 @@ const VerificationScheduled = () => {
 
   //API call for fetching all users
   const { data, status } = useQuery(
-    ["fetchUser", search, activePage],
+    ["fetchUser"],
     () => {
       return axios.get(
         `${backendUrl + `/api/ngo/listNGOappointmentUsers/user/0/0`}`,
@@ -123,7 +124,6 @@ const VerificationScheduled = () => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.totalPages);
       },
     }
   );
@@ -150,6 +150,36 @@ const VerificationScheduled = () => {
     }
   );
 
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      if (filter === "") {
+        return item.name.toLowerCase().includes(search.toLowerCase());
+      } else {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) &&
+          item.accStatus === filter
+        );
+      }
+    });
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+  }, [rowData, search, filter]);
+
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItems.slice(a, a + 10);
+    }
+  }, [activePage, filteredItems]);
+
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
       <ContainerHeader label={"Users Schedule"} />
@@ -161,8 +191,20 @@ const VerificationScheduled = () => {
               leftIcon="search"
               pb="0"
               value={search}
-              // onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
               onChange={(v) => setSearch(v.target.value)}
+            />
+          </Grid.Col>
+          <Grid.Col sm={6} lg={2} md={3}>
+            <SelectMenu
+              placeholder="Filter by Status"
+              pb="0px"
+              value={filter}
+              setData={setFilter}
+              data={[
+                { label: "All", value: "" },
+                { label: "Active", value: "active" },
+                { label: "Inactive", value: "inactive" },
+              ]}
             />
           </Grid.Col>
           <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
@@ -170,6 +212,7 @@ const VerificationScheduled = () => {
               label={"Clear Filters"}
               onClick={() => {
                 setSearch("");
+                setFilter("");
               }}
             />
           </Grid.Col>
@@ -190,7 +233,7 @@ const VerificationScheduled = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={rowData}
+            rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             setStatusChangeId={setStatusChangeId}
