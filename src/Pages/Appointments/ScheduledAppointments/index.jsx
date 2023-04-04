@@ -72,20 +72,25 @@ function ScheduledAppointments() {
             date: obj?.addedDate,
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,
-            role:
-              obj?.role === "socialWorker"
+            role: obj?.refered
+              ? obj?.referedRole === "socialWorker"
                 ? "Social Worker"
                 : obj.role === "psychologist"
                 ? "Psychologist"
-                : "Lawyer",
+                : "Lawyer"
+              : obj?.role === "socialWorker"
+              ? "Social Worker"
+              : obj.role === "psychologist"
+              ? "Psychologist"
+              : "Lawyer",
 
             appointId: obj?.appointmentId,
             image: obj?.appointmentUserImage
               ? obj?.appointmentUserImage
               : userlogo,
             project: obj?.project,
-            refer: obj?.refered===true? "Refered": "New",
-            referedComment: obj?.referedComment
+            refer: obj?.refered === true ? "Refered" : "New",
+            referedComment: obj?.referedComment,
           };
           return appointment;
         });
@@ -315,7 +320,9 @@ function ScheduledAppointments() {
                 </Badge>
               </Text>
               <Text className={classes.textheading}>Refferal Comment</Text>
-              <Text className={classes.textContent}>{reportData?.referedComment}</Text>
+              <Text className={classes.textContent}>
+                {reportData?.referedComment}
+              </Text>
             </SimpleGrid>
           </Container>
         </Flex>

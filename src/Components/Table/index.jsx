@@ -115,7 +115,9 @@ const Table = ({
                           ? "50px"
                           : head.id === "name"
                           ? "200px"
-                          : head.id === "accStatus" || head.id === "userVerify"
+                          : head.id === "accStatus" ||
+                            head.id === "userVerify" ||
+                            head.id === "start"
                           ? "auto"
                           : "130px",
                     }}
@@ -482,7 +484,7 @@ const Table = ({
                       />
                     </td>
                   ) : head.id === "start" ? (
-                    <td key={index} align="center">
+                    <td key={index}>
                       <Button
                         label="Start"
                         onClick={() => {

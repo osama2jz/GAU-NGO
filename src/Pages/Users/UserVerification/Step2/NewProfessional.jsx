@@ -1,10 +1,17 @@
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import React, { useEffect } from "react";
+import InputMask from "react-input-mask";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
-function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,setEditData}) {
+function NewProfessionalModal({
+  refrences,
+  setRefrences,
+  setOpenViewModal,
+  editData,
+  setEditData,
+}) {
   const { classes } = useStyles();
 
   useEffect(() => {
@@ -20,45 +27,38 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
       email: "",
       phone: "",
       center: "",
-      relation:""
+      relation: "",
     },
     validate: {
       fullName: (value) => (value.length < 1 ? "Please enter name" : null),
       center: (value) => (value?.length < 1 ? "Please enter center" : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       phone: (value) =>
-        value?.length < 8 ? "Please enter phone number" : null,
+        /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
+          ? null
+          : "Please enter valid phone number ",
     },
   });
 
-
-
   const addRefrences = (values) => {
-    if(editData){
-      const index = refrences.findIndex(
-        (item) => item.id === editData.id
-      );
+    if (editData) {
+      const index = refrences.findIndex((item) => item.id === editData.id);
       console.log("index", index);
       refrences[index] = values;
       setRefrences([...refrences]);
       setOpenViewModal(false);
       form.reset();
       setEditData("");
+    } else {
+      values.id = refrences.length + 1;
+      setRefrences([...refrences, values]);
+      setOpenViewModal(false);
+      form.reset();
     }
-    else{
-
-    values.id=refrences.length+1;
-    setRefrences([...refrences, values]);
-    setOpenViewModal(false);
-    form.reset();
-  }
-  }
+  };
   return (
     <Container>
-      <form
-        className={classes.form}
-        onSubmit={form.onSubmit(addRefrences)}
-      >
+      <form className={classes.form} onSubmit={form.onSubmit(addRefrences)}>
         <InputField
           label="Name"
           placeholder="name"
@@ -74,8 +74,9 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
         />
         <InputField
           label="Phone"
-          // required={true}
-          placeholder="+92 123 456 7890"
+          placeholder="+34 91 1234 567"
+          component={InputMask}
+          mask="+34 99 9999 999"
           form={form}
           validateName="phone"
         />
@@ -93,23 +94,22 @@ function NewProfessionalModal({refrences,setRefrences,setOpenViewModal,editData,
           form={form}
           validateName="relation"
         />
-         <Group position="right" mt="md">
-         <Button
-          label={"Reset"}
-         
-          className={classes.btn}
-          onClick={() => {
-            form.reset();
-            setEditData("");
-          }}
-        />
-        <Button
-          label={editData? "Update":"Add"}
-          leftIcon={editData? "":"plus"}
-          primary={true}
-          className={classes.btn}
-          type="submit"
-        />
+        <Group position="right" mt="md">
+          <Button
+            label={"Reset"}
+            className={classes.btn}
+            onClick={() => {
+              form.reset();
+              setEditData("");
+            }}
+          />
+          <Button
+            label={editData ? "Update" : "Add"}
+            leftIcon={editData ? "" : "plus"}
+            primary={true}
+            className={classes.btn}
+            type="submit"
+          />
         </Group>
       </form>
     </Container>

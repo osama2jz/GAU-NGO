@@ -61,16 +61,31 @@ const Index = ({}) => {
 
   return (
     <Container fluid className={classes.header} p="0px" pb={"5px"}>
-      <Group
-        position="left"
-        noWrap
-        className={classes.headerSub}
-      >
-        <Flex direction={"column"} style={{ margin: matches2&&"auto" }} align="center">
-          <Text fw={"bolder"} fz={matches2 && "xl"}>
-            {user.role} Dashboard
-          </Text>
-          <Text fz="xs" >
+      <Group position="left" noWrap className={classes.headerSub}>
+        <Flex
+          direction={"column"}
+          style={{ margin: matches2 && "auto" }}
+          align="center"
+        >
+          <Flex gap={"xs"}>
+            <Text
+              fw={"bolder"}
+              fz={matches2 && "xl"}
+              color={
+                user.role === "User"
+                  ? "green.0"
+                  : user.role === "Admin"
+                  ? "red.0"
+                  : "blue.0"
+              }
+            >
+              {user.role}
+            </Text>
+            <Text fw={"bolder"} fz={matches2 && "xl"}>
+              Dashboard
+            </Text>
+          </Flex>
+          <Text fz="xs">
             Welcome Back <b>{user.name}</b>
           </Text>
         </Flex>
@@ -118,7 +133,7 @@ const Index = ({}) => {
                   <Avatar
                     src={user?.profileImage || userImage}
                     radius="xl"
-                    style={{border:`2px solid ${theme.colors.green[0]}`}}
+                    style={{ border: `2px solid ${theme.colors.green[0]}` }}
                     size={50}
                   />
                 </Group>

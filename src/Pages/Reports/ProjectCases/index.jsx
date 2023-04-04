@@ -47,16 +47,16 @@ function ProjectCases() {
     },
 
     {
-      id: "case",
-      numeric: false,
-      disablePadding: true,
-      label: "Case #",
-    },
-    {
       id: "caseName",
       numeric: false,
       disablePadding: true,
       label: "Case Name",
+    },
+    {
+      id: "case",
+      numeric: false,
+      disablePadding: true,
+      label: "Case #",
     },
 
     {
