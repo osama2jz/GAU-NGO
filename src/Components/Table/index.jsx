@@ -338,10 +338,9 @@ const Table = ({
                         </Tooltip>
                       </Flex>
                     </td>
-                  ) :head.id === "totalAppointments" ? (
+                  ) : head.id === "totalAppointments" ? (
                     <td key={index} align="center">
                       <Flex gap={"lg"} p="0px" m="0px">
-                       
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>
                             {row[head?.id]?.length > 100
@@ -349,15 +348,12 @@ const Table = ({
                               : row[head?.id]}
                           </Text>
                         </Tooltip>
-                       <Anchor >
-                        View All
-                       </Anchor>
+                        <Anchor>View All</Anchor>
                       </Flex>
                     </td>
-                  ) :head.id === "totalReports" ? (
+                  ) : head.id === "totalReports" ? (
                     <td key={index} align="center">
                       <Flex gap={"lg"} p="0px" m="0px">
-                       
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>
                             {row[head?.id]?.length > 100
@@ -365,11 +361,15 @@ const Table = ({
                               : row[head?.id]}
                           </Text>
                         </Tooltip>
-                       <Anchor onClick={()=>{navigate(routeNames.socialWorker.referalReport,{
-                          state:{id:row.case}
-                       })}}>
-                        View All
-                       </Anchor>
+                        <Anchor
+                          onClick={() => {
+                            navigate(routeNames.socialWorker.referalReport, {
+                              state: { id: row.case },
+                            });
+                          }}
+                        >
+                          View All
+                        </Anchor>
                       </Flex>
                     </td>
                   ) : head.id === "file" ? (
@@ -434,8 +434,7 @@ const Table = ({
                         }}
                       />
                     </td>
-                  ) : 
-                  head.id === "userVerify" ? (
+                  ) : head.id === "userVerify" ? (
                     <td key={index} align="center">
                       <Button
                         label={
@@ -463,19 +462,14 @@ const Table = ({
                       />
                     </td>
                   ) : head.id === "close" ? (
-                    <td key={index} >
+                    <td key={index}>
                       <Button
-                        label={
-                         "Close Case"
-                        }  
+                        label={"Close Case"}
                         onClick={() => {
                           setDeleteModalState(true);
                           setDeleteData(row.case);
                         }}
-                    
-                        
                         compact={true}
-                       
                       />
                     </td>
                   ) : head.id === "start" ? (

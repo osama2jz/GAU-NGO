@@ -24,7 +24,6 @@ function ProjectCases() {
   const [caseNo, setCaseNo] = useState("");
   const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [activePage, setPage] = useState(1);
@@ -34,7 +33,7 @@ function ProjectCases() {
   const [filter, setFilter] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
-  const [close,setClose]=useState(false)
+  const [close, setClose] = useState(false);
 
   const { state } = useLocation();
   const { id } = state ?? "";
@@ -83,8 +82,6 @@ function ProjectCases() {
   const { data: users, status } = useQuery(
     ["userCaseProjectReports", caseNo],
     () => {
-      setLoading(true);
-      console.log("hello");
       return axios.get(
         backendUrl + `/api/case/listUserCasesProjectBased/${id}`,
         {
@@ -96,7 +93,6 @@ function ProjectCases() {
     },
     {
       onSuccess: (response) => {
-        console.log(response);
         let data = response?.data?.data?.map((obj, ind) => {
           let report = {
             id: obj.reportId,
@@ -105,21 +101,21 @@ function ProjectCases() {
             caseName: obj?.caseName,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            image:"https://www.w3schools.com/howto/img_avatar.png"
+            image: "https://www.w3schools.com/howto/img_avatar.png",
           };
           return report;
         });
 
         setPdfData(data);
-        setLoading(false);
       },
       // enabled: !!caseNo,
     }
   );
 
   const { data: closeCase, status: closeCaseStatus } = useQuery(
-    ["closeCase",close],
+    ["closeCase", close],
     () => {
+      setClose(false);
       return axios.get(backendUrl + `/api/case/close/${deleteID}`, {
         headers: {
           "x-access-token": user?.token,
@@ -139,14 +135,13 @@ function ProjectCases() {
         } else {
           showNotification({
             title: "Error",
-            message: "Something went wrong",
+            message: response.data.message,
             color: "red",
           });
         }
       },
-      enabled: !!close,
+      enabled: close,
     }
-    
   );
 
   const filterData = useMemo(() => {
@@ -228,7 +223,7 @@ function ProjectCases() {
           <Table
             headCells={headerData}
             rowData={paginated}
-            setViewModalState={setOpenViewModal}
+            setViewModalState={true}
             setReportData={setReportData}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
@@ -249,7 +244,7 @@ function ProjectCases() {
         onCancel={() => setOpenDeleteModal(false)}
         close={true}
         setDeleteData={setDeleteID}
-        onDelete={()=>setClose(true)}
+        onDelete={() => setClose(true)}
         // loading={handleChangeStatus.isLoading}
         label="Are you Sure?"
         message="Do you really want to close this case? This process cannot be undone."
