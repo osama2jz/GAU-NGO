@@ -117,7 +117,9 @@ const Table = ({
                           ? "200px"
                           : head.id === "accStatus" ||
                             head.id === "userVerify" ||
-                            head.id === "start"
+                            head.id === "start" ||
+                            head.id === "time" ||
+                            head.id === "refer"
                           ? "auto"
                           : "130px",
                     }}
