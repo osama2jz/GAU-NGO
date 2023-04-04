@@ -348,15 +348,11 @@ const Table = ({
                               : row[head?.id]}
                           </Text>
                         </Tooltip>
-<<<<<<< HEAD
-                        <Anchor>View All</Anchor>
-=======
                        <Anchor onClick={()=>{navigate(routeNames.socialWorker.projectAppointments,{
                           state:{id:row.case}
                        })}}>
                         View All
                        </Anchor>
->>>>>>> ab2a3ac3b63908af9fcf82d75c1eba0710953efe
                       </Flex>
                     </td>
                   ) : head.id === "totalReports" ? (
