@@ -54,6 +54,7 @@ import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import AllProjects from "./Pages/Reports/Projects";
 import ProjectCases from "./Pages/Reports/ProjectCases";
 import routeNames from "./Routes/routeNames";
+import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
 
 function App() {
   return (
@@ -271,6 +272,10 @@ function App() {
           <Route
             path={routeNames.socialWorker.projectCases}
             element={<ProjectCases />}
+          />
+           <Route
+            path={routeNames.socialWorker.projectAppointments}
+            element={<ProjectAppointments />}
           />
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
         </Route>

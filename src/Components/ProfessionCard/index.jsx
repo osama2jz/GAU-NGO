@@ -25,7 +25,7 @@ const Cards = ({
   handleCreateAppointment,
   verification = false,
   caseId,
-  // setOpened,
+  setOpened,
 }) => {
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
@@ -103,7 +103,9 @@ const Cards = ({
           // loading={onSubmit?.isLoading}
           // onClick={handleSubmit}
           onClick={() => {
-            setReferModal(true);
+            // setReferModal(true);
+            !buttonChange ? setReferModal(true) :
+            setOpened(true);
             setReferedTo(cardData?.userId);
             setSlot(cardData?.schedule);
           }}

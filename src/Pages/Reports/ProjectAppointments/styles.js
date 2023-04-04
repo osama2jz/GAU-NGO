@@ -10,17 +10,17 @@ export const useStyles = createStyles((theme) => ({
   heading: {
     color: theme.colors.heading,
   },
+  back: {
+    marginRight: "auto",
+    display: "flex",
+    alignItems: "center",
+  },
   innerContainer:{
     backgroundColor: theme.colors.white,
     padding: "20px",
     borderRadius: "20px",
     width: "100%",
     marginTop: "20px",
-  },
-  back: {
-    marginRight: "auto",
-    display: "flex",
-    alignItems: "center",
   },
   export: {
     border: `2px solid ${theme.colors.gray}`,
