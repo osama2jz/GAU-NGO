@@ -28,6 +28,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import DownloadPdf from "../../Reports/downloadPdf";
 
 function ScheduledAppointments() {
   const { classes } = useStyles();
@@ -252,6 +253,13 @@ function ScheduledAppointments() {
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.socialWorker.addAppoinment)}
+            />
+          </Grid.Col>
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              label={"Scheduled Appointments"}
             />
           </Grid.Col>
         </Grid>

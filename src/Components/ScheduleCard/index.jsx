@@ -15,7 +15,7 @@ const Cards = ({ data ,setSlot,slot}) => {
       shadow="xl"
       onClick={()=>setSlot && setSlot(data?.scheduleId)}
       style={{ cursor: "pointer"  ,
-      border: slot === data?.scheduleId ? "3px solid green" : ""
+      // border: slot === data?.scheduleId ? "3px solid green" : ""
       }}
     >
       {/* <Stack> */}

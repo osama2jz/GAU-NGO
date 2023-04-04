@@ -23,6 +23,7 @@ import routeNames from "../../../Routes/routeNames";
 import EditUserModal from "./EditUserModal";
 import { useStyles } from "./styles";
 import ViewUserModal from "./ViewUserModal";
+import DownloadPdf from "../../Reports/downloadPdf";
 
 export const AllUser = () => {
   const { classes } = useStyles();
@@ -265,8 +266,8 @@ export const AllUser = () => {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={3} lg={3} md={3} style={{ textAlign: "end" }}>
             {(user.role === "Social Worker" || user.role === "Admin") && (
+          <Grid.Col sm={3} lg={3} md={3} style={{ textAlign: "end" }}>
               <Button
                 label={"Add User"}
                 bg={true}
@@ -274,7 +275,15 @@ export const AllUser = () => {
                 styles={{ float: "right" }}
                 onClick={() => navigate(routeNames.socialWorker.addUser)}
               />
+          </Grid.Col>
             )}
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              title="Download reports"
+              label={"Users"}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -315,6 +324,7 @@ export const AllUser = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Details"
+       
       >
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>

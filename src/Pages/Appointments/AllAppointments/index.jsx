@@ -67,11 +67,11 @@ function AllAppointments() {
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
 
               role:
-                obj?.role === "socialWorker"
-                  ? "Social Worker"
-                  : obj.role === "psychologist"
-                  ? "Psychologist"
-                  : "Lawyer",
+              obj?.role === "socialWorker"
+                ? "Social Worker"
+                : obj.role === "psychologist"
+                ? "Psychologist"
+                :   obj?.role === "ngoadmin" ? "NGOAdmin" :  obj?.role === "user" ?"User":"Lawyer",
               appointId: obj?.appointmentId,
               doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)

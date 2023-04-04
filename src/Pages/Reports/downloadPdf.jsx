@@ -47,7 +47,7 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
             message: "No Reports for the week",
             color: "green.0",
           })
-        : downloadPDF(filteredWeekly, "Weekly Reports");
+        : downloadPDF(filteredWeekly, `Weekly ${label}`);
     }
     if (name === "monthly") {
       filteredMonthly.length === 0
@@ -56,7 +56,7 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
             message: "No Reports for the Month",
             color: "green.0",
           })
-        : downloadPDF(filteredMonthly, "Monthly Reports");
+        : downloadPDF(filteredMonthly, `Monthly ${label}`);
     }
   };
   const downloadPDF = (filteredData, title) => {

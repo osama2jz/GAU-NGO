@@ -19,6 +19,7 @@ import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
 import ViewUserModal from "../AllUsers/ViewUserModal";
 import Pagination from "../../../Components/Pagination";
+import DownloadPdf from "../../Reports/downloadPdf";
 import SelectMenu from "../../../Components/SelectMenu";
 const VerificationScheduled = () => {
   const { classes } = useStyles();
@@ -185,7 +186,7 @@ const VerificationScheduled = () => {
       <ContainerHeader label={"Users Schedule"} />
       <Container p={"xs"} className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={5}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -216,6 +217,8 @@ const VerificationScheduled = () => {
               }}
             />
           </Grid.Col>
+
+          
           <Grid.Col sm={3} ml="auto">
             {user.role === "Social Worker" && (
               <Button
@@ -226,6 +229,13 @@ const VerificationScheduled = () => {
                 onClick={() => navigate(routeNames.socialWorker.addUser)}
               />
             )}
+          </Grid.Col>
+          <Grid.Col sm={3} ml="auto">
+            <DownloadPdf
+              headCells={headerData}
+              data={filteredItems}
+              label={"Scheduled Users"}
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
