@@ -23,7 +23,7 @@ const ViewComplaintModal = ({ id, reportData }) => {
               ? reportData?.description
               : "No Description"}
           </Text>
-          <Text className={classes.textheading}>Your Reply</Text>
+          <Text className={classes.textheading}>Reply</Text>
           <Text className={classes.textContent}>
             {reportData?.reply || "Not Replied"}{" "}
           </Text>

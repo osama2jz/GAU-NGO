@@ -146,7 +146,6 @@ export const ViewProjects = () => {
   };
 
   const filteredItems = useMemo(() => {
-    console.log(rowData, filter2);
     let filtered = rowData.filter((item) => {
       if (filter === "" && filter2 === "") {
         return item.projectName.toLowerCase().includes(search.toLowerCase());
@@ -163,10 +162,12 @@ export const ViewProjects = () => {
       else {
         return (
           item.projectName.toLowerCase().includes(search.toLowerCase()) &&
-          item.status === filter2 && item.accStatus === filter
+          item.status === filter2 &&
+          item.accStatus === filter
         );
       }
     });
+    setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {

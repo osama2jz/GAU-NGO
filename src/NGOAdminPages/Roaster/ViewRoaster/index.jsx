@@ -67,7 +67,7 @@ export const ViewRoasters = () => {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: "Status",
     },
     {
       id: "actions",
@@ -104,7 +104,7 @@ export const ViewRoasters = () => {
                 : obj?.role === "ngoadmin"
                 ? "Admin"
                 : "",
-            status: obj?.schedule ? "Scheduled" : "Not Scheduled",
+            status: obj?.schedule ? "Scheduled" : "No Roaster",
             ngo: user?.name,
             image:userlogo
           };

@@ -62,12 +62,12 @@ export const ViewComplains = () => {
       disablePadding: true,
       label: "Complaint Date",
     },
-    {
-      id: "description",
-      numeric: false,
-      disablePadding: true,
-      label: "Complaint Description",
-    },
+    // {
+    //   id: "description",
+    //   numeric: false,
+    //   disablePadding: true,
+    //   label: "Complaint Description",
+    // },
     {
       id: "reply",
       numeric: false,
