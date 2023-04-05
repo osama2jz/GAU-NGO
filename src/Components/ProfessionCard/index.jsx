@@ -38,6 +38,7 @@ const Cards = ({
     setSlot(slotid);
   };
 
+  //not using idk why
   const handleSubmit = () => {
     if (!buttonChange) {
       OpenReferModal({
@@ -104,10 +105,13 @@ const Cards = ({
           // onClick={handleSubmit}
           onClick={() => {
             // setReferModal(true);
-            !buttonChange ? setReferModal(true) :
-            setOpened(true);
-            setReferedTo(cardData?.userId);
+            if (!buttonChange) {
+              setReferModal(true);
+            } else {
+              setOpened(true);
+            }
             setSlot(cardData?.schedule);
+            setReferedTo(cardData?.userId);
           }}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
