@@ -78,14 +78,14 @@ const Cards = ({
         >
           {cardData?.scheduleStatus ? "Available" : "Not Available"}
         </Badge>
-        <Avatar src={defaultLogo} size={90} />
+        <Avatar src={cardData?.image || defaultLogo} size={90} />
         <Text size="lg" fw={680} mb={0} pb={0}>
           {cardData.name}
         </Text>
         <Text size="md" mt={0} fw={600} color="red.0">
-          {cardData.role === "socialWorker"
+          {cardData?.role === "socialWorker"
             ? "Social Worker"
-            : cardData.role === "lawyer"
+            : cardData?.role === "lawyer"
             ? "Lawyer"
             : "Psychologist"}
         </Text>

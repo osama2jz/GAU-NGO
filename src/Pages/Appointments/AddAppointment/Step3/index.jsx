@@ -13,6 +13,8 @@ import DoubleTabs from "./Tabs";
 import { FileUpload } from "tabler-icons-react";
 import { s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
+import jsPDF from "jspdf";
+
 const Step3 = ({
   selectedUser,
   caseNo,

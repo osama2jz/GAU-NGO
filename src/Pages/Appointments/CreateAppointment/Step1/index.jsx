@@ -13,7 +13,7 @@ import userImage from "../../../../assets/teacher.png";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
 import SelectMenu from "../../../../Components/SelectMenu";
-import { backendUrl } from "../../../../constants/constants";
+import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { UserInfo } from "../userInformation";
 
@@ -31,6 +31,7 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [projects, setProjetcs] = useState([]);
   const [userData, setUserData] = useState([]);
+ 
 
   useEffect(() => {
     queryClient.invalidateQueries("userFetched");
@@ -170,6 +171,7 @@ const Step1 = ({
       <Text fz={20} fw="bolder" align="center">
         {usertoken.role === "User" ? "Personal Information" : "Select User"}
       </Text>
+
 
       {usertoken.role !== "User" ? (
         <SimpleGrid
