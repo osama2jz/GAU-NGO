@@ -86,6 +86,7 @@ const Step2 = ({
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
+            image:obj?.profileImage
           };
           return card;
         });

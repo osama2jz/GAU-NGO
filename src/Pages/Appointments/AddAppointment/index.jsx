@@ -40,7 +40,7 @@ const AddAppointment = () => {
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
@@ -49,7 +49,7 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
-  console.log("selectedCase", selectedCase);
+ 
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -112,7 +112,7 @@ const AddAppointment = () => {
   //create case
   const handleCreateCase = useMutation(
     () => {
-      console.log("case", caseNo);
+     
       let object = {};
 
       if (
@@ -168,7 +168,7 @@ const AddAppointment = () => {
   //create UserCase
   const handleCreateUserCase = useMutation(
     () => {
-      console.log("user Case");
+     
       let object = {};
       if (
         otherUserId !== "" ||
@@ -176,7 +176,7 @@ const AddAppointment = () => {
         otherUserName !== ""
       ) {
         if (selectedCase.length > 0 && newCase.length < 1) {
-          console.log("Other User Case");
+      
 
           object = {
             previousCaseLinked: true,
