@@ -78,6 +78,12 @@ function ProjectCases() {
       disablePadding: true,
       label: "Created Date",
     },
+    {
+      id: "status",
+      numeric: false,
+      disablePadding: true,
+      label: "Status",
+    },
 
     {
       id: "close",
@@ -106,10 +112,10 @@ function ProjectCases() {
             sr: ind + 1,
             case: obj?.caseNo,
             caseName: obj?.caseName,
+            status: obj?.status,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
             date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
-            
           };
           return report;
         });
@@ -121,7 +127,7 @@ function ProjectCases() {
   );
 
   const { data: closeCase, status: closeCaseStatus } = useQuery(
-    ["closeCase", close],
+    "closeCase",
     () => {
       setClose(false);
       return axios.get(backendUrl + `/api/case/close/${deleteID}`, {
@@ -254,7 +260,7 @@ function ProjectCases() {
         close={true}
         setDeleteData={setDeleteID}
         onDelete={() => setClose(true)}
-        // loading={handleChangeStatus.isLoading}
+        loading={closeCaseStatus === "loading"}
         label="Are you Sure?"
         message="Do you really want to close this case? This process cannot be undone."
       />

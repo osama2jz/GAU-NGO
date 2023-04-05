@@ -119,7 +119,8 @@ const Table = ({
                             head.id === "userVerify" ||
                             head.id === "start" ||
                             head.id === "time" ||
-                            head.id === "refer"
+                            head.id === "refer" ||
+                            head.id === "reply"
                           ? "auto"
                           : "130px",
                     }}
@@ -310,8 +311,9 @@ const Table = ({
                           row[head?.id] === "unverified" ||
                           row[head?.id] === "CLOSED" ||
                           row[head?.id] === "CANCELLED" ||
-                          row[head?.id] === "Not Scheduled" ||
-                          row[head?.id] === "inprogress"
+                          row[head?.id] === "No Roaster" ||
+                          row[head?.id] === "inprogress" ||
+                          row[head?.id] === "scheduled"
                             ? "red.9"
                             : "green.9"
                         }
@@ -396,11 +398,15 @@ const Table = ({
                       )}
                     </td>
                   ) : head.id === "reply" ? (
-                    <td key={index} align="center">
+                    <td key={index}>
                       {row?.reply ? (
                         <Badge color={"green"} variant="filled">
                           {" "}
                           Replied
+                        </Badge>
+                      ) : user.role === "User" ? (
+                        <Badge color={"red"} variant="filled">
+                          Pending
                         </Badge>
                       ) : (
                         <Anchor
@@ -483,6 +489,7 @@ const Table = ({
                           setDeleteData(row.case);
                         }}
                         compact={true}
+                        disabled={row.status==="finished"}
                       />
                     </td>
                   ) : head.id === "start" ? (
