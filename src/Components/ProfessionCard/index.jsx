@@ -79,7 +79,7 @@ const Cards = ({
         >
           {cardData?.scheduleStatus ? "Available" : "Not Available"}
         </Badge>
-        <Avatar src={cardData?.image || defaultLogo} size={90} />
+        <Avatar src={cardData?.image || defaultLogo} size={90} radius="50%" className={classes.img}/>
         <Text size="lg" fw={680} mb={0} pb={0}>
           {cardData.name}
         </Text>

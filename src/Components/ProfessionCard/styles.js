@@ -12,5 +12,10 @@ export const useStyles = createStyles((theme) => ({
     },
     button:{
         width:"100%",
+    },
+    img:{
+        border:"3px solid green",
+        // padding:'2px'
+        marginTop:'4px'
     }
 }));
