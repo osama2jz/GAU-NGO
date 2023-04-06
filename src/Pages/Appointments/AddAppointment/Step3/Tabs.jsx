@@ -85,70 +85,9 @@ const DoubleTabs = ({
   //   });
   // };
 
-  function generatePDF() {
-    const doc = new jsPDF();
-    const text = editorr.getHTML();
-    console.log(text, ReactHtmlParser(text));
-    doc.text(text, 10, 10);
-    const pdfBlob = new Blob([doc.output("blob")], { type: "application/pdf" });
+ 
 
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    console.log("pdfURl", pdfBlob);
-    handleFileInput(pdfBlob, "pdf");
-
-    // window.open(pdfUrl);
-  }
-
-  const handleFileInput = (file, type) => {
-    // setFileLoader(true);
-    //s3 configs
-    // const fileName = file.name;
-    // const sanitizedFileName = fileName.replace(/\s+/g, "");
-    // setFileError("");
-    // setFileUploading(true);
-    const aws = new AWS.S3();
-    AWS.config.region = s3Config.region;
-    // console.log(aws);
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: s3Config.IdentityPoolId,
-    });
-
-    AWS.config.credentials.get(function (err) {
-      if (err) alert(err);
-      // console.log(AWS.config.credentials);
-    });
-    var bucket = new AWS.S3({
-      params: {
-        Bucket: s3Config.bucketName,
-      },
-    });
-    var objKey = file.type;
-    var params = {
-      Key: objKey,
-      ContentType: file.type,
-      Body: file,
-      ACL: "public-read",
-    };
-    bucket.upload(params, function (err, data) {
-      if (err) {
-        results.innerHTML = "ERROR: " + err;
-      } else {
-        bucket.listObjects(function (err, data) {
-          if (err) {
-            showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
-              color: "red.0",
-            });
-          } else {
-            let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-            console.log("link", link);
-            // setFileUploading(false);
-          }
-        });
-      }
-    });
-  };
+ 
   return (
     <>
       <Tabs

@@ -39,17 +39,17 @@ export const AddRoaster = () => {
       // timeEndSlot: "",
     },
 
-    // validate: {
-    //   branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
-    //   // scheduleType: (value) =>
-    //   //   value?.length < 1 ? "Please Select Schedule Type" : null,
-    //   users: (value) =>
-    //     value?.length < 1 ? "Please Select at least one user." : null,
-    //   dateStart: (value) =>
-    //     value?.length < 1 ? "Please Select start date." : null,
-    //   dateEnd: (value) =>
-    //     value?.length < 1 ? "Please Select end date." : null,
-    // },
+    validate: {
+      branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
+      // scheduleType: (value) =>
+      //   value?.length < 1 ? "Please Select Schedule Type" : null,
+      // users: (value) =>
+      //   value?.length < 1 ? "Please Select at least one user." : null,
+      dateStart: (value) =>
+        value?.length < 1 ? "Please Select start date." : null,
+      dateEnd: (value) =>
+        value?.length < 1 ? "Please Select end date." : null,
+    },
   });
 
   const selectedProfessional = professionals?.filter((item) =>
@@ -192,7 +192,17 @@ export const AddRoaster = () => {
       <form
         className={classes.form}
         // onSubmit={form.onSubmit((values) => handleAddRoaster.mutate(values))}
-        onSubmit={form.onSubmit((values) => setOpened(true))}
+        onSubmit={form.onSubmit((values) => {
+          if (select.length === 0) {
+            showNotification({
+              title: "Failed",
+              message: "Please select at least one user.",
+              color: "red.0",
+            });
+          } else {
+            setOpened(true);
+          }
+        })}
       >
         <Grid>
           <Grid.Col sm={12}>

@@ -11,7 +11,7 @@ import {
   Text,
 } from "@mantine/core";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { ArrowNarrowLeft } from "tabler-icons-react";
@@ -19,10 +19,14 @@ import userlogo from "../../../assets/teacher.png";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Table from "../../../Components/Table";
 import { useStyles } from "./styles";
+import { UserContext } from "../../../contexts/UserContext";
 
 function ViewAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const {user}=useContext(UserContext)
+
+  console.log(user)
 
   const [rowData, setRowData] = useState([]);
   const [docData, setDocData] = useState([]);
@@ -187,11 +191,17 @@ function ViewAppointments() {
                 <Text className={classes.textContent}>
                   {editData?.name}
                 </Text>
+                <Text className={classes.textheading}>Appointment With</Text>
+                <Text className={classes.textContent}>
+                  {editData?.appointmentWith}
+                </Text>
                 <Text className={classes.textheading}>Added By</Text>
                 <Text className={classes.textContent}>
                   {editData?.addedBy}
                 </Text>
-                <Text className={classes.textheading}>Case #</Text>
+                {user.role!=="User" && (
+                  <>
+                   <Text className={classes.textheading}>Case #</Text>
                 <Text className={classes.textContent}>
                   {editData?.caseNo}
                 </Text>
@@ -199,6 +209,10 @@ function ViewAppointments() {
                 <Text className={classes.textContent}>
                   {editData?.caseName}
                 </Text>
+                  </>
+                 
+                )}
+                
                 <Text className={classes.textheading}>Appointment Date</Text>
                 <Text className={classes.textContent}>{editData?.date}</Text>
                 <Text className={classes.textheading}>Appointment Time</Text>

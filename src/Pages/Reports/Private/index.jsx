@@ -217,7 +217,7 @@ function PrivateReport() {
   );
 
   const filterData = useMemo(() => {
-    const filtered = pdfData.filter((item) => {
+    const filtered = pdfData?.filter((item) => {
       if (filter == "") {
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -234,7 +234,7 @@ function PrivateReport() {
 
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    let a = filtered.map((obj, ind) => {
+    let a = filtered?.map((obj, ind) => {
       return {
         ...obj,
         sr: ind + 1,
@@ -246,9 +246,9 @@ function PrivateReport() {
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
-      return filterData.slice(0, 10);
+      return filterData?.slice(0, 10);
     } else {
-      return filterData.slice((activePage - 1) * 10, activePage * 10);
+      return filterData?.slice((activePage - 1) * 10, activePage * 10);
     }
   });
   return (

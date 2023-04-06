@@ -197,7 +197,7 @@ const Step1 = ({
                 data={userData}
               />
             )}
-            {projectsLoading !== "loading" && (
+            {/* {projectsLoading !== "loading" && ( */}
               <SelectMenu
                 searchable={true}
                 placeholder={
@@ -212,7 +212,7 @@ const Step1 = ({
                 // disabled={newCase.length > 0}
                 data={projects}
               />
-            )}
+            {/* )} */}
             {casesfetching !== "loading" ? (
               <SelectMenu
                 searchable={true}

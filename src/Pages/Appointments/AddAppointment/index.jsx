@@ -18,7 +18,7 @@ import step1 from "../../../assets/selectUserIn.png";
 import step3 from "../../../assets/uploadRepIn.png";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
-import { backendUrl } from "../../../constants/constants";
+import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { AgeForm } from "./AgeForm";
@@ -29,6 +29,8 @@ import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
 import { useStyles } from "./styles";
+import jsPDF from "jspdf";
+import { useEffect } from "react";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -40,7 +42,7 @@ const AddAppointment = () => {
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
   const [caseNo, setCaseNo] = useState("");
@@ -48,8 +50,6 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
-
- 
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -63,6 +63,8 @@ const AddAppointment = () => {
 
   const [userCase, setUserCase] = useState();
   const [projectId, setProjectId] = useState("");
+
+  const [privateLink, setPrivateLink] = useState("");
 
   const editorr = useEditor({
     extensions: [
@@ -106,13 +108,13 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
+  console.log("privatereportFiles@@", privatereportFiles);
 
   const [otherDocument, setOtherDocument] = useState([]);
 
   //create case
   const handleCreateCase = useMutation(
     () => {
-     
       let object = {};
 
       if (
@@ -168,7 +170,6 @@ const AddAppointment = () => {
   //create UserCase
   const handleCreateUserCase = useMutation(
     () => {
-     
       let object = {};
       if (
         otherUserId !== "" ||
@@ -176,8 +177,6 @@ const AddAppointment = () => {
         otherUserName !== ""
       ) {
         if (selectedCase.length > 0 && newCase.length < 1) {
-      
-
           object = {
             previousCaseLinked: true,
             appointmentId: appId,
@@ -253,7 +252,9 @@ const AddAppointment = () => {
 
   //create report
   const handleCreateReport = useMutation(
-    () => {
+    async () => {
+      console.log("Create Appointmnet", reportPublicFiles, privatereportFiles);
+
       reportPublicFiles.reportComments = editorr?.getHTML();
       privatereportFiles.reportComments = editorr2?.getHTML();
 
@@ -304,7 +305,7 @@ const AddAppointment = () => {
     }
   );
 
-  const handleNextSubmit = () => {
+  const handleNextSubmit = async () => {
     if (active == 0) {
       if (appData?.project === "N/A") {
         if (!selectedUser || selectedCase?.length < 1) {
@@ -380,7 +381,10 @@ const AddAppointment = () => {
       // setActive(active + 1);
     }
     if (active == 2) {
-      if (editorr?.getText() === "" || editorr2?.getText() === "") {
+      if (
+        editorr?.getText() === ""
+        || editorr2?.getText() === ""
+      ) {
         showNotification({
           color: "red.0",
           message: "Please add public and private report for this appointment.",
@@ -388,21 +392,130 @@ const AddAppointment = () => {
         });
         return;
       }
-      handleCreateReport.mutate();
-      setActive(active + 1);
-      // }
-    }
-    if (user.role === "Psychologist") {
-      active < 5
-        ? setActive(active + 1)
-        : navigate(routeNames.socialWorker.allAppointments);
-    } else {
+
+      await handleReports();
+    } 
+    else {
       active < 4
         ? setActive(active + 1)
         : navigate(routeNames.socialWorker.allAppointments);
     }
+    
   };
 
+  async function handleGeneratePDF(value, type) {
+    return new Promise((resolve, reject) => {
+      console.log(`Create PDF ${type}`);
+
+      const doc = new jsPDF();
+      const text = value.getHTML();
+
+      doc.text(text, 10, 10);
+      const pdfBlob = new Blob([doc.output("blob")], {
+        type: `application/pdf`,
+      });
+
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      handleFileInput(pdfBlob, type)
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  const handleFileInput = (file, type) => {
+    console.log("type", type);
+
+    // setFileLoader(true);
+    //s3 configs
+    // const fileName = file.name;
+    // const sanitizedFileName = fileName.replace(/\s+/g, "");
+    // setFileError("");
+    // setFileUploading(true);
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    var objKey = type + "/" + Date.now() + "/" + file.type;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    return new Promise((resolve, reject) => {
+      bucket.upload(params, function (err, data) {
+        if (err) {
+          results.innerHTML = "ERROR: " + err;
+          reject(err);
+        } else {
+          bucket.listObjects(function (err, data) {
+            if (err) {
+              showNotification({
+                title: "Upload Failed",
+                message: "Something went Wrong",
+                color: "red.0",
+              });
+              reject(err);
+            } else {
+              let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+              if (type === "public") {
+                console.log("public report");
+                setReportFiles({ ...reportPublicFiles, reportFile: link });
+              }
+              if (type === "private") {
+                setPrivateReportFiles({
+                  ...privatereportFiles,
+                  reportFile: link,
+                });
+              }
+              // ? setReportFiles({ ...reportPublicFiles, reportFile: link })
+
+              console.log("link", link);
+              resolve();
+              // setFileUploading(false);
+            }
+          });
+        }
+      });
+    });
+  };
+
+  async function handleReports() {
+    try {
+      await handleGeneratePDF(editorr, "public");
+      await handleGeneratePDF(editorr2, "private");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    console.log("@@@reportPublicFiles", reportPublicFiles);
+    console.log("@@@privatereportFiles", privatereportFiles);
+    if (
+      privatereportFiles.reportFile !== "" &&
+      reportPublicFiles.reportFile !== ""
+    ) {
+      handleCreateReport.mutate();
+      setActive(active + 1);
+    }
+  }, [privatereportFiles, reportPublicFiles]);
   return (
     <Container className={classes.addAppointment} size="xl" p={"0px"}>
       <ContainerHeader label={" Start an Appointment"} />

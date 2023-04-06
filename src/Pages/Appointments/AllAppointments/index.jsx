@@ -65,7 +65,7 @@ function AllAppointments() {
               time: obj?.scheduledTime,
               date: obj?.addedDate,
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-
+              appointmentWith:obj?.appointmentWith,
               role:
               obj?.role === "socialWorker"
                 ? "Social Worker"

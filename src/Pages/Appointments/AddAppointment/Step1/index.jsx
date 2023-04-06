@@ -31,6 +31,7 @@ import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import InputMask from "react-input-mask";
 
+
 const Step1 = ({
   setSelectedUser,
   setSelectedCase,
@@ -331,7 +332,7 @@ const Step1 = ({
             leftIcon="faceid"
             iconWidth="24px"
             styles={{
-              width: "220px",
+              width: "230px",
               fontSize: "22px",
               height: "46px",
               margin: "auto",
