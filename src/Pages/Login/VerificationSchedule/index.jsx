@@ -18,7 +18,7 @@ import routeNames from "../../../Routes/routeNames";
 const VerificationSchedule = ({}) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [opened, setOpened] = useState(false);
@@ -28,7 +28,7 @@ const VerificationSchedule = ({}) => {
   useEffect(() => {
     getSchedule.mutate();
   }, [date]);
-
+console.log(user)
   const getSchedule = useMutation(
     () => {
       return axios.post(
@@ -53,7 +53,7 @@ const VerificationSchedule = ({}) => {
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
-            image: obj?.profileImage
+            image: obj?.profileImage,
           };
           return card;
         });
@@ -65,6 +65,7 @@ const VerificationSchedule = ({}) => {
   //create appointment
   const handleCreateAppointment = useMutation(
     (values) => {
+      console.log("here", user);
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
         {
@@ -135,6 +136,7 @@ const VerificationSchedule = ({}) => {
         label={"Log Out"}
         onClick={() => {
           localStorage.clear();
+          setUser();
           navigate(routeNames.general.login);
         }}
         styles={{ display: "flex", marginLeft: "auto" }}

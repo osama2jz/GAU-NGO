@@ -2,7 +2,7 @@ import { Anchor, Checkbox, Divider, Flex, Grid, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useMutation } from "react-query";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
@@ -13,10 +13,13 @@ import PassInput from "../../Components/PassInput";
 import { backendUrl } from "../../constants/constants";
 import routeNames from "../../Routes/routeNames";
 import { useStyles } from "./styles";
+import moment from "moment";
+import { UserContext } from "../../contexts/UserContext";
 
 const Login = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -47,8 +50,17 @@ const Login = () => {
           response.data.verificationStatus === "unverified" &&
           response.data.appointmentBooked
         ) {
+          let appointmentTime = response.data.appointmentTime;
+          let appointmentDate = moment(response.data.appointmentDate).format(
+            "DD MMM YYYY"
+          );
           navigate(routeNames.general.verificationPending, {
-            state: { data: response.data },
+            state: {
+              data: {
+                appointmentTime: appointmentTime,
+                appointmentDate: appointmentDate,
+              },
+            },
           });
         } else if (!response.data.status) {
           showNotification({
@@ -59,7 +71,9 @@ const Login = () => {
         } else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
+          return;
         }
+        setUser({ token: response.data.token, id: response.data.userId });
       },
     }
   );
