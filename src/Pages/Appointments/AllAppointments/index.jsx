@@ -80,6 +80,7 @@ function AllAppointments() {
               image: obj?.appointmentUserImage
                 ? obj?.appointmentUserImage
                 : defaultUser,
+                refer: obj?.refered === true ? "Refered" : "New",
             };
             return appointment;
             // }
@@ -127,12 +128,12 @@ function AllAppointments() {
       disablePadding: true,
       label: "Time",
     },
-    // {
-    //   id: "docs",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Missing Documents",
-    // },
+    {
+      id: "refer",
+      numeric: false,
+      disablePadding: true,
+      label: "Refered",
+    },
     {
       id: "status",
       numeric: false,

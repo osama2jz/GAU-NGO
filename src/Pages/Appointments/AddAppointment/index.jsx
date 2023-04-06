@@ -108,7 +108,7 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
-  console.log("privatereportFiles@@", privatereportFiles);
+  
 
   const [otherDocument, setOtherDocument] = useState([]);
 
@@ -381,10 +381,7 @@ const AddAppointment = () => {
       // setActive(active + 1);
     }
     if (active == 2) {
-      if (
-        editorr?.getText() === ""
-        || editorr2?.getText() === ""
-      ) {
+      if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
           message: "Please add public and private report for this appointment.",
@@ -394,13 +391,11 @@ const AddAppointment = () => {
       }
 
       await handleReports();
-    } 
-    else {
+    } else {
       active < 4
         ? setActive(active + 1)
         : navigate(routeNames.socialWorker.allAppointments);
     }
-    
   };
 
   async function handleGeneratePDF(value, type) {
@@ -430,7 +425,7 @@ const AddAppointment = () => {
   const handleFileInput = (file, type) => {
     console.log("type", type);
 
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
     // const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -489,7 +484,8 @@ const AddAppointment = () => {
 
               console.log("link", link);
               resolve();
-              // setFileUploading(false);
+              setFileLoader(false);
+
             }
           });
         }
@@ -506,8 +502,6 @@ const AddAppointment = () => {
     }
   }
   useEffect(() => {
-    console.log("@@@reportPublicFiles", reportPublicFiles);
-    console.log("@@@privatereportFiles", privatereportFiles);
     if (
       privatereportFiles.reportFile !== "" &&
       reportPublicFiles.reportFile !== ""
@@ -671,7 +665,7 @@ const AddAppointment = () => {
             <Button
               onClick={handleNextSubmit}
               loading={
-                handleCreateCase.isLoading || handleCreateReport.isLoading
+                handleCreateCase.isLoading || handleCreateReport.isLoading || fileLoader
                 // fileLoader
               }
               label={
