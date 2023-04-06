@@ -35,8 +35,8 @@ const AddProject = () => {
     initialValues: {
       projectName: "",
       description: "",
-      dateStart: "",
-      dateEnd: "",
+      startDate: "",
+      endDate: "",
     },
 
     validate: {
@@ -56,8 +56,8 @@ const AddProject = () => {
         link = backendUrl + "/api/project/edit";
         values.projectId = editData.id;
       }
-      values.dateStart = new moment(values.dateStart).format("YYYY-MM-DD");
-      values.dateEnd = new moment(values.dateEnd).format("YYYY-MM-DD");
+      values.startDate = new moment(values.startDate).format("YYYY-MM-DD");
+      values.endDate = new moment(values.endDate).format("YYYY-MM-DD");
       return axios.post(link, values, {
         headers: {
           "x-access-token": user.token,
@@ -107,19 +107,19 @@ const AddProject = () => {
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 form={form}
-                validateName="dateStart"
+                validateName="startDate"
               />
             </Grid.Col>
             <Grid.Col sm={6}>
               <Datepicker
                 label={"End Date"}
-                minDate={new Date(form.values.dateStart)}
+                minDate={new Date(form.values.startDate)}
                 form={form}
-                validateName="dateEnd"
+                validateName="endDate"
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 disabled={
-                  form.values.dateStart === null || form.values.dateStart === ""
+                  form.values.startDate === null || form.values.startDate === ""
                     ? true
                     : false
                 }

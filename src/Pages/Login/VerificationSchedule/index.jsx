@@ -9,6 +9,7 @@ import Button from "../../../Components/Button";
 import Datepicker from "../../../Components/Datepicker";
 import InputField from "../../../Components/InputField";
 // import Loader from "../../../Components/Loader";
+import ConfirmationModal from "../../Appointments/CreateAppointment/ConfirmationModal";
 import Cards from "../../../Components/ProfessionCard";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
@@ -17,14 +18,17 @@ import routeNames from "../../../Routes/routeNames";
 const VerificationSchedule = ({}) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [opened, setOpened] = useState(false);
+  const [slotId, setSlotId] = useState(null);
+  const [referedToId, setReferedToId] = useState(null);
 
   useEffect(() => {
     getSchedule.mutate();
   }, [date]);
-
+console.log(user)
   const getSchedule = useMutation(
     () => {
       return axios.post(
@@ -49,6 +53,7 @@ const VerificationSchedule = ({}) => {
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
+            image: obj?.profileImage,
           };
           return card;
         });
@@ -60,9 +65,15 @@ const VerificationSchedule = ({}) => {
   //create appointment
   const handleCreateAppointment = useMutation(
     (values) => {
+      console.log("here", user);
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
-        values,
+        {
+          appointmentUser: user?.id,
+          appointmentWith: referedToId,
+          scheduleId: slotId,
+          appointmentType: "verification",
+        },
         {
           headers: {
             "x-access-token": user?.token,
@@ -94,6 +105,7 @@ const VerificationSchedule = ({}) => {
               },
             },
           });
+          setOpened(false);
         } else {
           showNotification({
             title: "Error",
@@ -124,12 +136,13 @@ const VerificationSchedule = ({}) => {
         label={"Log Out"}
         onClick={() => {
           localStorage.clear();
+          setUser();
           navigate(routeNames.general.login);
         }}
         styles={{ display: "flex", marginLeft: "auto" }}
       />
       <Grid align={"center"} py="md">
-        <Grid.Col md={6}>
+        <Grid.Col sm={6}>
           <InputField
             placeholder="Search"
             leftIcon="search"
@@ -139,7 +152,7 @@ const VerificationSchedule = ({}) => {
             onChange={(v) => setSearch(v.target.value)}
           />
         </Grid.Col>
-        <Grid.Col md={6}>
+        <Grid.Col sm={6}>
           <Datepicker
             placeholder="Select Date"
             label={"Select Date"}
@@ -176,10 +189,13 @@ const VerificationSchedule = ({}) => {
                 style={{ display: "flex", justifyContent: "center" }}
               >
                 <Cards
-                  handleCreateAppointment={handleCreateAppointment}
+                  // handleCreateAppointment={handleCreateAppointment}
                   buttonChange={true}
                   cardData={e}
-                  verification={true}
+                  setReferedTo={setReferedToId}
+                  setSlot={setSlotId}
+                  // verification={true}
+                  setOpened={setOpened}
                 />
               </Grid.Col>
             ))
@@ -205,6 +221,11 @@ const VerificationSchedule = ({}) => {
           )}
         </Grid>
       )}
+      <ConfirmationModal
+        setOpened={setOpened}
+        opened={opened}
+        onSubmit={handleCreateAppointment}
+      />
     </Container>
   );
 };

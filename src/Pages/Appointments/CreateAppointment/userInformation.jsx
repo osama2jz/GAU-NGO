@@ -47,7 +47,6 @@ export const UserInfo = ({ userData, loading }) => {
         display: "flex",
         flexDirection: matches ? "row" : "column",
         alignItems: "center",
-        height:'250px',
         border: `0.5px solid rgb(0,0,0,0.1)`,
       }}
     >
@@ -56,10 +55,10 @@ export const UserInfo = ({ userData, loading }) => {
         {data.map((obj) => {
           return (
             <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"20px"}>
-              <Text fz={16} fw={"bold"}>
+              <Text fz={matches?16:12} fw={"bold"}>
                 {obj.key}
               </Text>
-              <Text opacity={"40%"} fz={16} fw={"bold"} ml="20px">
+              <Text opacity={"40%"} fz={matches?16:12} fw={"bold"} ml="20px">
                 {obj.value}
               </Text>
             </Flex>

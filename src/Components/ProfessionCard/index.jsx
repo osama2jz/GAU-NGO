@@ -38,6 +38,7 @@ const Cards = ({
     setSlot(slotid);
   };
 
+  //not using idk why
   const handleSubmit = () => {
     if (!buttonChange) {
       OpenReferModal({
@@ -78,7 +79,7 @@ const Cards = ({
         >
           {cardData?.scheduleStatus ? "Available" : "Not Available"}
         </Badge>
-        <Avatar src={cardData?.image || defaultLogo} size={90} />
+        <Avatar src={cardData?.image || defaultLogo} size={90} radius="50%" className={classes.img}/>
         <Text size="lg" fw={680} mb={0} pb={0}>
           {cardData.name}
         </Text>
@@ -104,10 +105,13 @@ const Cards = ({
           // onClick={handleSubmit}
           onClick={() => {
             // setReferModal(true);
-            !buttonChange ? setReferModal(true) :
-            setOpened(true);
-            setReferedTo(cardData?.userId);
+            if (!buttonChange) {
+              setReferModal(true);
+            } else {
+              setOpened(true);
+            }
             setSlot(cardData?.schedule);
+            setReferedTo(cardData?.userId);
           }}
           styles={{ width: "100%", marginBottom: "5px", marginTop: "0px" }}
           compact={true}
