@@ -25,17 +25,6 @@ export const Step1 = ({ user, setUser }) => {
   const { id } = state ?? "";
   const { editId } = state ?? "";
 
-  // const memo=useMemo(()=>{
-  //   const {id}=state ??""
-  //   return id
-
-  // },[state])
-
-  // console.log("memo", memo)
-
-  console.log("id", id);
-  console.log("editId", editId);
-
   const { user: usertoken } = useContext(UserContext);
   let faceio = new faceIO("fioa89bd");
 
@@ -47,9 +36,6 @@ export const Step1 = ({ user, setUser }) => {
     if (id) {
       setUser(id);
     }
-    // if(editId){
-    //   setUser(editId);
-    // }
   }, [id, editId]);
 
   const { data: users, status } = useQuery(
@@ -141,7 +127,7 @@ export const Step1 = ({ user, setUser }) => {
             setData={setUser}
             label="Search User"
             data={userData}
-            value={user}
+            value={user || id}
             disabled={editId ? true : false}
           />
         )}

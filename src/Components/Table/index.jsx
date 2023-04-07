@@ -118,7 +118,7 @@ const Table = ({
                           : head.id === "accStatus" ||
                             head.id === "userVerify" ||
                             head.id === "start" ||
-                            head.id === "time" ||
+                            // head.id === "time" ||
                             head.id === "refer" ||
                             head.id === "reply"
                           ? "auto"

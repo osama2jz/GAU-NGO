@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -34,14 +34,20 @@ export const UserVerification = () => {
   const [trainingStudies, setTrainingStudies] = useState([]);
   const [refrences, setRefrences] = useState([]);
   const [consentSignature, setConsentSignature] = useState("");
-  const [userid, setUserId] = useState("");
+  const [userid, setUserId] = useState(null);
   const [userdata, setUserData] = useState("");
 
   let { state } = useLocation();
 
   const { editId } = state ?? "";
-  console.log("editId", editId);
-  // const { editId } = useParams();
+  const { id } = state ?? "";
+
+  useEffect(() => {
+    if (id) {
+      setUserId(id);
+      console.log(id);
+    }
+  }, [id]);
 
   const _ = useQuery(
     "fetchUsertoEditData",

@@ -1,5 +1,4 @@
 import { Container, Group, Tabs } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import { Link } from "@mantine/tiptap";
 import Highlight from "@tiptap/extension-highlight";
@@ -10,15 +9,16 @@ import Underline from "@tiptap/extension-underline";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../Components/Button";
 import ContainerHeader from "../../Components/ContainerHeader";
 import TextEditor from "../../Components/TextEditor";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
+import Loader from "../../Components/Loader";
 import { useStyles } from "./styles";
 
 const userForms = () => {
@@ -92,7 +92,7 @@ const userForms = () => {
     }
   );
 
-  const _ = useQuery(
+  const { status: consentLoading } = useQuery(
     "fetchConsent",
     () => {
       return axios.get(
@@ -111,7 +111,7 @@ const userForms = () => {
       refetchOnWindowFocus: false,
     }
   );
-  const __ = useQuery(
+  const { status: agreementLoading } = useQuery(
     "agreement",
     () => {
       return axios.get(
@@ -150,7 +150,7 @@ const userForms = () => {
           <Tabs.Tab value="agreement">Agreement Form</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="consent" pt="xs">
-          <TextEditor editor={editorr} />
+          {consentLoading==="loading" ? <Loader minHeight="20vh"/> : <TextEditor editor={editorr} />}
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
@@ -167,7 +167,7 @@ const userForms = () => {
         </Tabs.Panel>
 
         <Tabs.Panel value="agreement" pt="xs">
-          <TextEditor editor={editorr2} />
+          {consentLoading==="loading" ? <Loader minHeight="20vh"/> : <TextEditor editor={editorr2} />}
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
