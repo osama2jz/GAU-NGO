@@ -2,7 +2,7 @@ import { Container, Grid, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
+import moment from "moment/moment";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router";
@@ -25,9 +25,12 @@ const AddProject = () => {
   let editData = state?.editData;
 
   useEffect(() => {
-    console.log(editData);
-    if (editData) form.setValues(editData);
-    else form.reset();
+    if (editData) {
+      form.setFieldValue("projectName", editData.projectName);
+      form.setFieldValue("description", editData.description);
+      form.setFieldValue("startDate", new Date(editData.startDate));
+      form.setFieldValue("endDate", new Date(editData.endDate));
+    } else form.reset();
   }, [editData]);
 
   const form = useForm({
@@ -107,6 +110,7 @@ const AddProject = () => {
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 form={form}
+                // value={form.values.startDate}
                 validateName="startDate"
               />
             </Grid.Col>

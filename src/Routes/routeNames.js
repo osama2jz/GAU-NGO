@@ -3,6 +3,7 @@ const routeNames = {
     auth: "/auth",
     login: "/auth/login",
     signup: "/auth/signup",
+    proSignup: "/auth/signup-professional",
     forgetPassword: "/auth/forget-password",
     otp: "/auth/verify-otp",
     resetPassword: "/auth/reset-password",

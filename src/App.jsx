@@ -37,6 +37,7 @@ import NewPassword from "./Pages/Login/ForgetPassword/NewPassword";
 import OTP from "./Pages/Login/ForgetPassword/OTP";
 import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Login/Signup";
+import ProfessionalSignup from "./Pages/Login/ProfessionalSignup";
 import VerificationSchedule from "./Pages/Login/VerificationSchedule";
 import VerificationPending from "./Pages/Login/VerificationSchedule/VerificationPending";
 import MySchedule from "./Pages/MySchedule/Schedule";
@@ -67,6 +68,7 @@ function App() {
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
+          <Route path={routeNames.general.proSignup} element={<ProfessionalSignup />} />
           <Route
             path={routeNames.general.verificationPending}
             element={<VerificationPending />}

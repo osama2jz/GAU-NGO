@@ -104,6 +104,8 @@ export const ViewProjects = () => {
             createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
             description: obj?.description,
             accStatus: obj?.status,
+            endDate: obj?.endDate,
+            startDate: obj?.startDate,
             status:
               obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
           };
