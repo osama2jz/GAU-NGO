@@ -83,7 +83,9 @@ function ScheduledAppointments() {
               ? "Social Worker"
               : obj.role === "psychologist"
               ? "Psychologist"
-              : "Lawyer",
+              : obj.role === "lawyer"
+              ? "Lawyer"
+              : "Admin",
 
             appointId: obj?.appointmentId,
             image: obj?.appointmentUserImage
