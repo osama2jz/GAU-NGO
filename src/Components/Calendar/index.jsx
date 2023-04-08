@@ -14,7 +14,7 @@ const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
         getSchedule.mutate(moment(v).format("YYYY-MM-DD"));
       }}
       minDate={new Date()}
-      maxDate={new Date(new Date().setMonth(new Date().getMonth() + 3, 0))}
+      // maxDate={new Date(new Date().setMonth(new Date().getMonth() + 3, 0))}
       fullWidth
       size={size}
       renderDay={(date) => {

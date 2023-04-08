@@ -1,46 +1,66 @@
 import {
-  Anchor,
-  Avatar,
   Container,
   Flex,
   Grid,
+  Image,
+  Menu,
   SimpleGrid,
   Text,
+  Avatar,
+  Anchor,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
-import axios from "axios";
-import { useContext, useEffect, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowNarrowLeft, Edit, Eye } from "tabler-icons-react";
-import userlogo from "../../../assets/teacher.png";
-import Button from "../../../Components/Button";
+import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
+import download from "../../../assets/download.svg";
 import InputField from "../../../Components/InputField";
-import Loader from "../../../Components/Loader";
+import SelectMenu from "../../../Components/SelectMenu";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
+import userlogo from "../../../assets/teacher.png";
+import { useStyles } from "./styles";
+import ContainerHeader from "../../../Components/ContainerHeader";
+import Button from "../../../Components/Button";
+import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
 import DownloadPdf from "../downloadPdf";
-import { useStyles } from "./styles";
+import ReactHtmlParser from "react-html-parser";
+import { useMemo } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 
-function ProjectAppointments() {
+function CaseAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
+  const [caseNo, setCaseNo] = useState("");
+  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [editid, setEditId] = useState();
 
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
   const isMobile = useMediaQuery("(max-width: 820px)");
 
   const { state } = useLocation();
   const { id } = state ?? "";
+
+  console.log(id);
+
+  useEffect(() => {
+    if (id) {
+      setCaseNo(id);
+    }
+  }, [id]);
+
   let headerData = [
     {
       id: "sr",
@@ -105,7 +125,7 @@ function ProjectAppointments() {
     () => {
       setLoading(true);
       return axios.get(
-        backendUrl + `/api/project/listProjectAppointments/${id}`,
+        backendUrl + `/api/appointment/listUserAppointmentsCaseNo/${id}`,
         {
           headers: {
             "x-access-token": user?.token,
@@ -115,6 +135,7 @@ function ProjectAppointments() {
     },
     {
       onSuccess: (response) => {
+        console.log(response);
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
@@ -142,7 +163,7 @@ function ProjectAppointments() {
                 : "Lawyer",
             appointId: obj?.appointmentId,
             doc: obj?.documents,
-            docs: obj?.documents?.filter((obj) => obj.documentURL.length < 1)
+            docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
               .length,
             reportData: obj?.reports,
             image: obj?.appointmentUserImage
@@ -161,10 +182,19 @@ function ProjectAppointments() {
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      return (
-        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
-      );
+      if (filter == "") {
+        console.log("helloo");
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.case.toLowerCase().includes(search.toLowerCase())
+        );
+      } else {
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.role?.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -176,7 +206,7 @@ function ProjectAppointments() {
     });
 
     return a;
-  }, [search, rowData]);
+  }, [search, filter, rowData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -198,7 +228,7 @@ function ProjectAppointments() {
           <Text>Back</Text>
         </Anchor>
         <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Project Appointments
+          Case Appointments
         </Text>
       </Flex>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
@@ -235,8 +265,10 @@ function ProjectAppointments() {
           <Table
             headCells={headerData}
             rowData={paginated}
+            // setViewModalState={setOpenViewModal}
+            // setReportData={setReportData}
             setViewModalState={setOpenViewModal}
-            setEditIDApp={true}
+            setEditIDApp={setEditId}
           />
         )}
         {totalPages > 1 && (
@@ -291,4 +323,4 @@ function ProjectAppointments() {
   );
 }
 
-export default ProjectAppointments;
+export default CaseAppointments;

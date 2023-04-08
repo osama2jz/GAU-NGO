@@ -12,9 +12,10 @@ import axios from "axios";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowNarrowLeft, Edit, Eye } from "tabler-icons-react";
+import { ArrowNarrowLeft, Eye } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
 import Loader from "../../../Components/Loader";
 import Table from "../../../Components/Table";
@@ -24,7 +25,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
 
-function ProjectAppointments() {
+function ProjectReports() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -37,22 +38,29 @@ function ProjectAppointments() {
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState("");
-  const isMobile = useMediaQuery("(max-width: 820px)");
+  const [filter, setFilter] = useState("");
 
   const { state } = useLocation();
   const { id } = state ?? "";
+
   let headerData = [
     {
       id: "sr",
       numeric: true,
       disablePadding: true,
-      label: "Sr#",
+      label: "Sr #",
     },
     {
       id: "name",
       numeric: false,
       disablePadding: true,
       label: "Name",
+    },
+    {
+      id: "case",
+      numeric: false,
+      disablePadding: true,
+      label: "Case #",
     },
     {
       id: "addedBy",
@@ -73,98 +81,82 @@ function ProjectAppointments() {
       label: "Date",
     },
     {
-      id: "time",
+      id: "type",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: "Report Type",
     },
-    // {
-    //   id: "docs",
-    //   numeric: false,
-    //   disablePadding: true,
-    //   label: "Missing Documents",
-    // },
     {
-      id: "status",
+      id: "file",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: "Report File",
     },
 
     {
       id: "actions",
       view: <Eye />,
-      edit: <Edit />,
       numeric: false,
       label: "Actions",
     },
   ];
 
   const { data: users, status } = useQuery(
-    ["userCaseProjects", id],
+    ["projectReports"],
     () => {
       setLoading(true);
-      return axios.get(
-        backendUrl + `/api/project/listProjectAppointments/${id}`,
-        {
-          headers: {
-            "x-access-token": user?.token,
-          },
-        }
-      );
+      return axios.get(backendUrl + `/api/case/listReportsProjectId/${id}`, {
+        headers: {
+          "x-access-token": user?.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
-          let appointment = {
-            id: obj.appointmentId,
-            userid: obj?.appointmentUserId,
+        console.log(response);
+        let data = response?.data?.data?.map((obj, ind) => {
+          let report = {
+            id: obj.reportId,
             sr: ind + 1,
-            caseName: obj?.caseName,
-            caseNo: obj?.caseNo,
-            name: obj?.appointmentUser,
-            caseId: obj?.caseId,
-            email: "N/A",
-            status: obj?.appointmentStatus?.toUpperCase(),
-            time: obj?.scheduledTime,
+            reportType: obj?.reportType === "private" ? "Private" : "Public",
+            name: obj?.caseLinkedUser,
+            case: obj?.caseNo,
+            addedBy: obj?.addedBy,
             date: obj?.addedDate,
-            addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-
+            file: obj?.reportFile,
+            comments: obj?.comments,
+            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            type: obj.reportType === "private" ? "Private" : "Public",
             role:
-              obj?.role === "socialWorker"
-                ? "Social Worker"
-                : obj.role === "psychologist"
+              obj?.role === "lawyer"
+                ? "Lawyer"
+                : obj?.role === "psychologist"
                 ? "Psychologist"
-                : obj?.role === "ngoadmin"
-                ? "NGOAdmin"
-                : obj?.role === "user"
-                ? "User"
-                : "Lawyer",
-            appointId: obj?.appointmentId,
-            doc: obj?.documents,
-            docs: obj?.documents?.filter((obj) => obj.documentURL.length < 1)
-              .length,
-            reportData: obj?.reports,
-            image: obj?.appointmentUserImage
-              ? obj?.appointmentUserImage
-              : userlogo,
+                : "Social Worker",
           };
-          return appointment;
+          return report;
         });
 
         setRowData(data);
         setLoading(false);
       },
-      enabled: !!id,
     }
   );
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      return (
-        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
-      );
+      if (filter == "") {
+        return (
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.case.toLowerCase().includes(search.toLowerCase())
+        );
+      } else {
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
+          item?.role?.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -176,7 +168,7 @@ function ProjectAppointments() {
     });
 
     return a;
-  }, [search, rowData]);
+  }, [search, filter, rowData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -197,9 +189,10 @@ function ProjectAppointments() {
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Project Appointments
-        </Text>
+        <ContainerHeader
+          label={"Project Reports"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
@@ -236,7 +229,7 @@ function ProjectAppointments() {
             headCells={headerData}
             rowData={paginated}
             setViewModalState={setOpenViewModal}
-            setEditIDApp={true}
+            setReportData={setReportData}
           />
         )}
         {totalPages > 1 && (
@@ -291,4 +284,4 @@ function ProjectAppointments() {
   );
 }
 
-export default ProjectAppointments;
+export default ProjectReports;

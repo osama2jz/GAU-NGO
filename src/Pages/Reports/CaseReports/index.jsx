@@ -1,66 +1,45 @@
 import {
+  Anchor,
+  Avatar,
   Container,
   Flex,
   Grid,
-  Image,
-  Menu,
   SimpleGrid,
   Text,
-  Avatar,
-  Anchor,
 } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useContext, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
-import download from "../../../assets/download.svg";
+import { ArrowNarrowLeft, Eye } from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
+import Button from "../../../Components/Button";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
+import Loader from "../../../Components/Loader";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useStyles } from "./styles";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import Button from "../../../Components/Button";
-import { useQuery, useQueryClient } from "react-query";
-import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import Loader from "../../../Components/Loader";
 import DownloadPdf from "../downloadPdf";
-import ReactHtmlParser from "react-html-parser";
-import { useMemo } from "react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useStyles } from "./styles";
 
-function ReferalReport() {
+function CaseReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [caseNo, setCaseNo] = useState("");
-  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
- 
+
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
-  const isMobile = useMediaQuery("(max-width: 820px)");
 
-
-  const {state}=useLocation();
-  const {id}=state ??""
-
-  console.log(id)
-
-  useEffect(() => {
-    if(id){
-      setCaseNo(id);
-    }
-  }, [id]);
-
+  const { state } = useLocation();
+  const { id } = state ?? "";
 
   let headerData = [
     {
@@ -121,13 +100,10 @@ function ReferalReport() {
     {
       id: "actions",
       view: <Eye />,
-      // delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
-
-  
 
   const { data: users, status } = useQuery(
     ["userCaseReports"],
@@ -141,7 +117,6 @@ function ReferalReport() {
     },
     {
       onSuccess: (response) => {
-        console.log(response);
         let data = response?.data?.data?.map((obj, ind) => {
           let report = {
             id: obj.reportId,
@@ -168,26 +143,15 @@ function ReferalReport() {
         setRowData(data);
         setLoading(false);
       },
-      
     }
   );
 
-
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      if (filter == "") {
-        console.log("helloo")
-        return (
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.case.toLowerCase().includes(search.toLowerCase())
-        );
-      } else {
-        return (
-          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
-          item?.role?.toLowerCase().includes(filter.toLowerCase())
-        );
-      }
+      return (
+        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+      );
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -199,7 +163,7 @@ function ReferalReport() {
     });
 
     return a;
-  }, [search, filter, rowData]);
+  }, [search, rowData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -210,7 +174,7 @@ function ReferalReport() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-       <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center" mb="md">
         <Anchor
           fz={12}
           fw="bolder"
@@ -220,9 +184,10 @@ function ReferalReport() {
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Case Reports
-        </Text>
+        <ContainerHeader
+          label={"Cases Reports"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
@@ -238,7 +203,6 @@ function ReferalReport() {
           <Grid.Col sm={6} md={3}>
             <Button
               label={"Clear Filter"}
-              
               onClick={() => {
                 setSearch("");
               }}
@@ -262,9 +226,8 @@ function ReferalReport() {
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
           />
-         
         )}
-         {totalPages > 1 && (
+        {totalPages > 1 && (
           <Pagination
             activePage={activePage}
             setPage={setPage}
@@ -316,4 +279,4 @@ function ReferalReport() {
   );
 }
 
-export default ReferalReport;
+export default CaseReport;

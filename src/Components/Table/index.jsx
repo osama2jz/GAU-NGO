@@ -354,12 +354,61 @@ const Table = ({
                         </Tooltip>
                         <Anchor
                           onClick={() => {
-                            navigate(
-                              routeNames.socialWorker.projectAppointments,
-                              {
-                                state: { id: row.case },
-                              }
-                            );
+                            row.projectName
+                              ? navigate(
+                                  routeNames.socialWorker.projectAppointments,
+                                  {
+                                    state: { id: row.id },
+                                  }
+                                )
+                              : navigate(
+                                  routeNames.socialWorker.caseAppointments,
+                                  {
+                                    state: { id: row.case },
+                                  }
+                                );
+                          }}
+                        >
+                          View All
+                        </Anchor>
+                      </Flex>
+                    </td>
+                  ) : head.id === "totalUsers" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                        <Anchor
+                          onClick={() => {
+                            navigate(routeNames.socialWorker.projectUsers, {
+                              state: { id: row.id },
+                            });
+                          }}
+                        >
+                          View All
+                        </Anchor>
+                      </Flex>
+                    </td>
+                  ) : head.id === "totalCases" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                        <Anchor
+                          onClick={() => {
+                            navigate(routeNames.socialWorker.projectCases, {
+                              state: { id: row.id },
+                            });
                           }}
                         >
                           View All
@@ -378,9 +427,19 @@ const Table = ({
                         </Tooltip>
                         <Anchor
                           onClick={() => {
-                            navigate(routeNames.socialWorker.referalReport, {
-                              state: { id: row.case },
-                            });
+                            row.projectName
+                              ? navigate(
+                                  routeNames.socialWorker.projectReport,
+                                  {
+                                    state: { id: row.id },
+                                  }
+                                )
+                              : navigate(
+                                  routeNames.socialWorker.referalReport,
+                                  {
+                                    state: { id: row.case },
+                                  }
+                                );
                           }}
                         >
                           View All
@@ -489,7 +548,7 @@ const Table = ({
                           setDeleteData(row.case);
                         }}
                         compact={true}
-                        disabled={row.status==="finished"}
+                        disabled={row.status === "closed"}
                       />
                     </td>
                   ) : head.id === "start" ? (

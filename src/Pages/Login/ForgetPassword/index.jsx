@@ -29,23 +29,20 @@ const ForgetPassword = () => {
 
   const handleLogin = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/signin"}`, values);
+      return axios.post(
+        `${backendUrl + "/api/user/sendUserPasswordResetEmail"}`,
+        values
+      );
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          window.location.href = routeNames.general.dashboard;
+          // localStorage.setItem("userData", JSON.stringify(response.data));
+          navigate(routeNames.general.otp);
         } else {
           showNotification({
-            title:
-              response.data.message === "Verification Pending"
-                ? response.data.message
-                : "Invalid Credentials",
-            message:
-              response.data.message === "Verification Pending"
-                ? "Your Account verification is pending."
-                : "Please Enter correct email and password to login.",
+            title: "Invalid Email",
+            message: response.data.message,
             color: "red.0",
           });
         }

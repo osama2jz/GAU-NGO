@@ -95,6 +95,10 @@ export const ngoAdminSideBarData = [
     icon: CalendarEvent,
     links: [
       {
+        label: "Appointment Schedule",
+        link: routeNames.ngoAdmin.scheduledAppointments,
+      },
+      {
         label: "Add Appointment",
         link: routeNames.ngoAdmin.addAppoinment,
       },

@@ -43,7 +43,7 @@ import VerificationPending from "./Pages/Login/VerificationSchedule/Verification
 import MySchedule from "./Pages/MySchedule/Schedule";
 import PrivateReport from "./Pages/Reports/Private";
 import PublicReport from "./Pages/Reports/Public";
-import ReferalReport from "./Pages/Reports/Referal";
+import CaseReports from "./Pages/Reports/CaseReports";
 import Settings from "./Pages/Setting";
 import { AddUser } from "./Pages/Users/AddUser";
 import { AllUser } from "./Pages/Users/AllUsers";
@@ -55,6 +55,9 @@ import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import AllProjects from "./Pages/Reports/Projects";
 import ProjectCases from "./Pages/Reports/ProjectCases";
 import routeNames from "./Routes/routeNames";
+import ProjectReports from "./Pages/Reports/ProjectReports";
+import ProjectUsers from "./Pages/Reports/ProjectUsers";
+import CaseAppointments from "./Pages/Reports/CaseAppointments";
 import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
 
 function App() {
@@ -68,7 +71,10 @@ function App() {
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
-          <Route path={routeNames.general.proSignup} element={<ProfessionalSignup />} />
+          <Route
+            path={routeNames.general.proSignup}
+            element={<ProfessionalSignup />}
+          />
           <Route
             path={routeNames.general.verificationPending}
             element={<VerificationPending />}
@@ -187,7 +193,11 @@ function App() {
           />
           <Route
             path={routeNames.socialWorker.referalReport}
-            element={<ReferalReport />}
+            element={<CaseReports />}
+          />
+          <Route
+            path={routeNames.socialWorker.projectUsers}
+            element={<ProjectUsers />}
           />
           <Route
             path={routeNames.socialWorker.startAppoinment}
@@ -275,7 +285,15 @@ function App() {
             path={routeNames.socialWorker.projectCases}
             element={<ProjectCases />}
           />
-           <Route
+          <Route
+            path={routeNames.socialWorker.projectReport}
+            element={<ProjectReports />}
+          />
+          <Route
+            path={routeNames.socialWorker.caseAppointments}
+            element={<CaseAppointments />}
+          />
+          <Route
             path={routeNames.socialWorker.projectAppointments}
             element={<ProjectAppointments />}
           />
