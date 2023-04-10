@@ -60,18 +60,22 @@ function AllAppointments() {
               caseNo: obj?.caseNo,
               name: obj?.appointmentUser,
               caseId: obj?.caseId,
-              email: "N/A",
+              appointmentWith: obj?.appointmentWith,
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
               date: obj?.addedDate,
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-              appointmentWith:obj?.appointmentWith,
+              appointmentWith: obj?.appointmentWith,
               role:
-              obj?.role === "socialWorker"
-                ? "Social Worker"
-                : obj.role === "psychologist"
-                ? "Psychologist"
-                :   obj?.role === "ngoadmin" ? "NGOAdmin" :  obj?.role === "user" ?"User":"Lawyer",
+                obj?.role === "socialWorker"
+                  ? "Social Worker"
+                  : obj.role === "psychologist"
+                  ? "Psychologist"
+                  : obj?.role === "ngoadmin"
+                  ? "NGOAdmin"
+                  : obj?.role === "user"
+                  ? "User"
+                  : "Lawyer",
               appointId: obj?.appointmentId,
               doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
@@ -80,7 +84,7 @@ function AllAppointments() {
               image: obj?.appointmentUserImage
                 ? obj?.appointmentUserImage
                 : defaultUser,
-                refer: obj?.refered === true ? "Refered" : "New",
+              refer: obj?.refered === true ? "Refered" : "New",
             };
             return appointment;
             // }
@@ -105,16 +109,22 @@ function AllAppointments() {
       label: "Name",
     },
     {
+      id: "appointmentWith",
+      numeric: false,
+      disablePadding: true,
+      label: "Professional",
+    },
+    {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Added By",
+      label: "Appointer",
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Role",
+      label: "Appointer Role",
     },
     {
       id: "date",
@@ -228,7 +238,7 @@ function AllAppointments() {
               }}
             />
           </Grid.Col>
-          
+
           <Grid.Col sm={4} lg={4} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
@@ -245,7 +255,6 @@ function AllAppointments() {
               title="Download reports"
             />
           </Grid.Col>
-       
         </Grid>
         <Table
           headCells={headerData}

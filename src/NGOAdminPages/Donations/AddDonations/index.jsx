@@ -30,10 +30,9 @@ export const AddDonations = () => {
     },
 
     validate: {
-      // amount: (value) =>
-      //   /^[a-zA-Z ]{2,40}$/.test(value) ? null : "Please enter amount",
-      addedBy: (value) =>
-        value?.length < 1 ? "Please enter description" : null,
+      amount: (value) =>
+        /^[a-zA-Z ]{2,40}$/.test(value) ? null : "Please enter amount",
+      addedBy: (value) => (value?.length < 1 ? "Please select user" : null),
       description: (value) =>
         value?.length < 2 ? "Please enter description" : null,
     },
@@ -128,16 +127,18 @@ export const AddDonations = () => {
               itemComponent={SelectItem}
               placeholder="Enter User name or Id"
               clearable={true}
+              required
+              form={form}
               validateName="addedBy"
-              value={user}
               label="Search User"
               data={userData}
             />
           )}
           <InputField
             label="Amount"
-            placeholder="Amount"
+            placeholder="Amount (€)"
             form={form}
+            required
             type={"number"}
             validateName="amount"
           />
@@ -146,6 +147,7 @@ export const AddDonations = () => {
             label="Description"
             placeholder="Description"
             form={form}
+            required
             validateName="description"
           />
           <Group position="right" mt="sm">

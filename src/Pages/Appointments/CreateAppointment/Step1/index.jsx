@@ -62,6 +62,7 @@ const Step1 = ({
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
               email: obj?.email || "",
+              image: obj?.profileImage
             };
             return user;
           }
@@ -122,7 +123,6 @@ const Step1 = ({
   const { data: casesData, status: casesfetching } = useQuery(
     ["casesFetched", user, projectId],
     () => {
-      console.log("p", projectId);
       return axios.get(
         backendUrl + `/api/case/listUserCases/${user}/${projectId}`,
         {

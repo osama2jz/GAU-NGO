@@ -328,10 +328,12 @@ const Table = ({
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {row.image && (
                           <Avatar
-                            src={row.image || userImage}
+                            src={row.image}
                             width="30px"
                             radius={"xl"}
-                          />
+                          >
+                            {row[head?.id][0]}
+                          </Avatar>
                         )}
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>

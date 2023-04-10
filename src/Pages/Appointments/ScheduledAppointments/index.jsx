@@ -65,6 +65,7 @@ function ScheduledAppointments() {
             sr: ind + 1,
             userid: obj.appointmentUserId,
             caseName: obj?.caseName,
+            appointmentWith: obj?.appointmentWith,
             caseNo: obj?.caseNo,
             name: obj.appointmentUser,
             email: "N/A",
@@ -143,16 +144,22 @@ function ScheduledAppointments() {
       label: "Name",
     },
     {
+      id: "appointmentWith",
+      numeric: false,
+      disablePadding: true,
+      label: "Professional",
+    },
+    {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Added By",
+      label: "Appointer",
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Role",
+      label: "Appointer Role",
     },
     {
       id: "date",
@@ -329,10 +336,14 @@ function ScheduledAppointments() {
                   {reportData?.status}
                 </Badge>
               </Text>
-              <Text className={classes.textheading}>Refferal Comment</Text>
-              <Text className={classes.textContent}>
-                {reportData?.referedComment}
-              </Text>
+              {reportData?.refered && (
+                <Text className={classes.textheading}>Refferal Comment</Text>
+              )}
+              {reportData?.refered && (
+                <Text className={classes.textContent}>
+                  {reportData?.referedComment}
+                </Text>
+              )}
             </SimpleGrid>
           </Container>
         </Flex>
