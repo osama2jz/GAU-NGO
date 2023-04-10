@@ -159,6 +159,8 @@ const routeNames = {
     caseAppointments: "/case-appointments",
     projectAppointments: "/project-appointments",
     userForms: "/user-forms",
+    addDictionary: "/add-dictionary",
+    ViewDictionary: "/view-dictionary",
   },
   user: {
     dashboard: "/",

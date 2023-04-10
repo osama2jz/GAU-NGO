@@ -59,6 +59,8 @@ import ProjectReports from "./Pages/Reports/ProjectReports";
 import ProjectUsers from "./Pages/Reports/ProjectUsers";
 import CaseAppointments from "./Pages/Reports/CaseAppointments";
 import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
+import { AddDictionary } from "./NGOAdminPages/Dictionary/AddDictionary/index.";
+import { ViewDictionary } from "./NGOAdminPages/Dictionary/ViewDictionary";
 
 function App() {
   return (
@@ -296,6 +298,14 @@ function App() {
           <Route
             path={routeNames.socialWorker.projectAppointments}
             element={<ProjectAppointments />}
+          />
+          <Route
+            path={routeNames.ngoAdmin.addDictionary}
+            element={<AddDictionary />}
+          />
+          <Route
+            path={routeNames.ngoAdmin.ViewDictionary}
+            element={<ViewDictionary />}
           />
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
         </Route>
