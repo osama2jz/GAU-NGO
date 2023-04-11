@@ -23,7 +23,7 @@ export const AddDictionary = () => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      languageId: "",
+      languageId: "6429912c360576272cf4acfe",
       actualText: "",
       translatedText: "",
     },
@@ -32,7 +32,9 @@ export const AddDictionary = () => {
       languageId: (value) =>
         value?.length < 1 ? "Please select your desired language" : null,
       actualText: (value) =>
-        value?.length < 1 ? "Please enter word you want to translate" : null,
+        /^[A-Za-z_]+$/.test(value)
+          ? null
+          : "Please enter word you want to translate",
       translatedText: (value) =>
         value?.length < 1 ? "Please enter meaning of the word" : null,
     },
@@ -97,7 +99,7 @@ export const AddDictionary = () => {
         onSubmit={form.onSubmit((values) => handleAddWord.mutate(values))}
       >
         <Container className={classes.innerContainer} size="xl">
-          <SelectMenu
+          {/* <SelectMenu
             searchable={true}
             placeholder="Search Language"
             clearable={true}
@@ -107,19 +109,19 @@ export const AddDictionary = () => {
             label="Select Language"
             data={langauges}
             pb="sm"
-          />
+          /> */}
 
           <InputField
             label="English Word"
-            placeholder="Actual Word"
+            placeholder="English Word"
             form={form}
             required
             validateName="actualText"
           />
 
           <InputField
-            label="Translated Word"
-            placeholder="Actual Word Meaning"
+            label="Spanish Meaning"
+            placeholder="Spanish Meaning"
             form={form}
             required
             validateName="translatedText"

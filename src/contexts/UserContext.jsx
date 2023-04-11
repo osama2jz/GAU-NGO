@@ -8,6 +8,13 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
+  let currentLanguage = localStorage.getItem("lang") || "spanish";
+  const [id, setId] = useState(
+    currentLanguage === "spanish"
+      ? "6429912c360576272cf4acfe"
+      : "64299127360576272cf4acfc"
+  );
+  const [lang, setLang] = useState([]);
   const [user, setUser] = useState({
     name: userData?.name,
     firstName: "",
@@ -15,6 +22,7 @@ export const UserProvider = ({ children }) => {
     id: userData?.userId,
     email: userData?.email,
     ngoId: userData?.ngoId,
+    lang: currentLanguage,
     phoneNumber: userData?.phoneNumber,
     role:
       userData?.userType === "socialWorker"
@@ -32,8 +40,26 @@ export const UserProvider = ({ children }) => {
     token: userData?.token,
     documents: [],
   });
-  const value = { user, setUser };
+  const value = { user, setUser, lang, translate };
 
+  function translate(value) {
+    if (value?.split(" ").length === 1) {
+      if (lang[value]) {
+        return lang[value];
+      } else {
+        return value;
+      }
+    } else {
+      let other = "";
+      value?.split(" ").forEach((i) => {
+        let a = translate(i);
+        other = other + " " + a;
+      });
+      return other;
+    }
+  }
+
+  //logded in user information
   const { data, status } = useQuery(
     "fetchMe",
     () => {
@@ -58,10 +84,28 @@ export const UserProvider = ({ children }) => {
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
           profileImage: user?.profileImage,
-          documents: response.data.documents
+          documents: response.data.documents,
         }));
       },
       enabled: !!userData?.token,
+    }
+  );
+
+  console.log(localStorage.getItem("lang"), currentLanguage);
+  //API call for fetching dictionary
+  const _ = useQuery(
+    ["fetchDictionary", id],
+    () => {
+      return axios.get(`${backendUrl + `/api/translation/list/${id}`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
+    },
+    {
+      onSuccess: (response) => {
+        setLang(response.data?.data);
+      },
     }
   );
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

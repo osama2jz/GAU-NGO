@@ -10,6 +10,7 @@ import { useContext, useMemo, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
 import { Users } from "tabler-icons-react";
+import ContainerHeader from "../../Components/ContainerHeader";
 
 const Dashboard = () => {
   const { classes } = useStyles();
@@ -177,9 +178,7 @@ const Dashboard = () => {
   );
   return (
     <Container className={classes.main} size="lg">
-      <Text fz={26} fw="bolder" mb="sm" align="center">
-        Dashboard
-      </Text>
+      <ContainerHeader label={"Dashboard"} />
 
       <Grid align={"center"} justify="center">
         {allCard.map((item, index) => (

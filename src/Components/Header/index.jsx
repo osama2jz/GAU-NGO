@@ -11,7 +11,7 @@ import {
   Flex,
   MediaQuery,
 } from "@mantine/core";
-import { Power, Settings } from "tabler-icons-react/dist";
+import { Language, Power, Settings } from "tabler-icons-react/dist";
 import InputField from "../InputField";
 import { useMediaQuery } from "@mantine/hooks";
 import Notifications from "../Notifications";
@@ -57,7 +57,7 @@ const Index = ({}) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const matches2 = useMediaQuery("(min-width: 1100px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   return (
     <Container fluid className={classes.header} p="0px" pb={"5px"}>
@@ -82,11 +82,11 @@ const Index = ({}) => {
               {user.role}
             </Text>
             <Text fw={"bolder"} fz={matches2 && "xl"}>
-              Dashboard
+              {translate("Dashboard")}
             </Text>
           </Flex>
           <Text fz="xs">
-            Welcome Back <b>{user.name}</b>
+            {translate("Welcome Back")} <b>{user.name}</b>
           </Text>
         </Flex>
         <div style={{ position: "absolute", right: "20px" }}>
@@ -145,7 +145,21 @@ const Index = ({}) => {
               >
                 <Flex gap={"md"} align="center">
                   <Settings />
-                  <Text>Settings</Text>
+                  <Text>{translate("Settings")}</Text>
+                </Flex>
+              </Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  localStorage.setItem(
+                    "lang",
+                    user.lang === "spanish" ? "english" : "spanish"
+                  );
+                  window.location.reload()
+                }}
+              >
+                <Flex gap={"md"} align="center">
+                  <Language />
+                  <Text>{translate("Switch Language")}</Text>
                 </Flex>
               </Menu.Item>
               <Menu.Item
@@ -157,7 +171,7 @@ const Index = ({}) => {
               >
                 <Flex gap={"md"} align="center">
                   <Power />
-                  Logout
+                  {translate("Logout")}
                 </Flex>
               </Menu.Item>
             </Menu.Dropdown>

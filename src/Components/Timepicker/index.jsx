@@ -1,5 +1,7 @@
 import { createStyles } from "@mantine/core";
 import { TimeInput } from "@mantine/dates";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 const useStyles = createStyles((theme, { borderWhite }) => ({
   root: {
     backgroundColor: "transparent",
@@ -23,11 +25,12 @@ const Timepicker = ({
   value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
+  const { translate } = useContext(UserContext);
   return (
     <TimeInput
-      label={label}
+      label={translate(label)}
       size={size}
-      placeholder="Pick time"
+      placeholder={translate("Pick time")}
       icon={icon}
       format="24"
       classNames={{ input: classes.root }}

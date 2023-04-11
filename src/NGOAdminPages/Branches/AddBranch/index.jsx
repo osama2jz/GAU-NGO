@@ -34,7 +34,7 @@ export const AddBranch = () => {
   const { classes } = useStyles();
 
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, lang } = useContext(UserContext);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
@@ -43,7 +43,7 @@ export const AddBranch = () => {
   const isUpdate = editData ? true : false;
 
   //create a new data with time 00:00:00 and add the editData.branchStartTime to it
-
+  
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {

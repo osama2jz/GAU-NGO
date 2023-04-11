@@ -26,7 +26,6 @@ export const AddDonations = () => {
       userId: "",
       amount: "",
       description: "",
-      addedBy: user.role === "User" ? user.id : "",
     },
 
     validate: {
@@ -68,10 +67,6 @@ export const AddDonations = () => {
 
   const handleAddComplaint = useMutation(
     (values) => {
-      let data = {
-        ...values,
-        userId: user.id,
-      };
       return axios.post(`${backendUrl + "/api/donation/donate"}`, data, {
         headers: {
           "x-access-token": user.token,
@@ -128,7 +123,7 @@ export const AddDonations = () => {
               clearable={true}
               required
               form={form}
-              validateName="addedBy"
+              validateName="userId"
               label="Search User"
               data={userData}
             />

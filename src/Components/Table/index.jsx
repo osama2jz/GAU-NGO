@@ -45,7 +45,7 @@ const Table = ({
   ...props
 }) => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const theme = useMantineTheme();
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
@@ -127,7 +127,7 @@ const Table = ({
                     spacing={3}
                     align={"center"}
                   >
-                    <Text align="center">{head?.label}</Text>
+                    <Text align="center">{translate (head?.label)}</Text>
                     {head.id !== "actions" &&
                       head.id !== "image" &&
                       (!sorted.reversed === true &&
@@ -327,11 +327,7 @@ const Table = ({
                     <td key={index}>
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {row.image && (
-                          <Avatar
-                            src={row.image}
-                            width="30px"
-                            radius={"xl"}
-                          >
+                          <Avatar src={row.image} width="30px" radius={"xl"}>
                             {row[head?.id][0]}
                           </Avatar>
                         )}
@@ -590,7 +586,7 @@ const Table = ({
                         >
                           {row[head?.id]?.length > 100
                             ? row[head?.id]?.substring(0, 10) + "..."
-                            : row[head?.id]?.toLocaleString()}
+                            : row[head?.id]}
                         </Text>
                       </Tooltip>
                     </td>
@@ -615,8 +611,7 @@ const Table = ({
             mt={8}
             color="rgb(0,0,0,0.5)"
           >
-            {" "}
-            No Data Found
+            {translate("No Data Found")}
           </Text>
         </Container>
       )}

@@ -32,9 +32,11 @@ const Step2 = ({
 
   const getSchedule = useMutation(
     () => {
+      let payload = { date: date, type: typeFilter };
+      if (selectedSlot !== "all") payload["slot"] = selectedSlot;
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
-        { date: date, type: typeFilter, slot: selectedSlot },
+        payload,
         {
           headers: {
             "x-access-token": user.token,
