@@ -30,8 +30,7 @@ export const AddDonations = () => {
     },
 
     validate: {
-      amount: (value) =>
-        /^[a-zA-Z ]{2,40}$/.test(value) ? null : "Please enter amount",
+      amount: (value) => (value > 0 ? null : "Please enter amount"),
       addedBy: (value) => (value?.length < 1 ? "Please select user" : null),
       description: (value) =>
         value?.length < 2 ? "Please enter description" : null,

@@ -206,7 +206,6 @@ const Step1 = ({
                     : "Enter Project Name"
                 }
                 label="Search Project"
-                creatable={true}
                 setData={setProjectId}
                 value={projectId}
                 // disabled={newCase.length > 0}
@@ -220,7 +219,6 @@ const Step1 = ({
                   cases.length < 1 ? "No cases found" : "Enter case name or id"
                 }
                 label="Search User Case"
-                creatable={true}
                 setData={setSelectedCase}
                 disabled={newCase.length > 0 || cases.length < 1}
                 data={cases}

@@ -24,17 +24,17 @@ const Step2 = ({
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedSlot, setSelectedSlot] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState("all");
 
   useEffect(() => {
     getSchedule.mutate();
-  }, [date, typeFilter]);
+  }, [date, typeFilter, selectedSlot]);
 
   const getSchedule = useMutation(
     () => {
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
-        { date: date, type: typeFilter },
+        { date: date, type: typeFilter, slot: selectedSlot },
         {
           headers: {
             "x-access-token": user.token,

@@ -5,6 +5,7 @@ export const s3Config = {
   bucketName: "testing-buck-22",
 };
 export const slots = [
+  { value: "all", label: "All" },
   { value: "00:00-01:00", label: "00:00-01:00" },
   { value: "01:00-02:00", label: "01:00-02:00" },
   { value: "02:00-03:00", label: "02:00-03:00" },
