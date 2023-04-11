@@ -11,9 +11,10 @@ import InputField from "../../../Components/InputField";
 // import Loader from "../../../Components/Loader";
 import ConfirmationModal from "../../Appointments/CreateAppointment/ConfirmationModal";
 import Cards from "../../../Components/ProfessionCard";
-import { backendUrl } from "../../../constants/constants";
+import { backendUrl, slots } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import SelectMenu from "../../../Components/SelectMenu";
 
 const VerificationSchedule = ({}) => {
   const navigate = useNavigate();
@@ -23,17 +24,17 @@ const VerificationSchedule = ({}) => {
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [opened, setOpened] = useState(false);
   const [slotId, setSlotId] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
 
   useEffect(() => {
     getSchedule.mutate();
-  }, [date]);
-console.log(user)
+  }, [date, selectedSlot]);
   const getSchedule = useMutation(
     () => {
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
-        { date: date, type: "socialWorker" },
+        { date: date, type: "socialWorker", slot: selectedSlot },
         {
           headers: {
             "x-access-token": user?.token,
@@ -152,7 +153,7 @@ console.log(user)
             onChange={(v) => setSearch(v.target.value)}
           />
         </Grid.Col>
-        <Grid.Col sm={6}>
+        <Grid.Col sm={3}>
           <Datepicker
             placeholder="Select Date"
             label={"Select Date"}
@@ -161,6 +162,15 @@ console.log(user)
             }}
             value={new Date()}
             minDate={new Date()}
+          />
+        </Grid.Col>
+        <Grid.Col sm={3}>
+          <SelectMenu
+            label={"Select Slot"}
+            placeholder="Select Slot"
+            data={slots}
+            value={selectedSlot}
+            onChange={setSelectedSlot}
           />
         </Grid.Col>
       </Grid>
