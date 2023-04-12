@@ -150,7 +150,7 @@ const Step1 = ({
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
       <Group noWrap>
-        <Avatar src={image || userImage} />
+        <Avatar src={image}>{label.split(" ")[1][0]}</Avatar>
 
         <div>
           <Text size="sm">{label}</Text>

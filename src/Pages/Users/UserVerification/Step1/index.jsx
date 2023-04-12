@@ -58,7 +58,7 @@ export const Step1 = ({ user, setUser }) => {
             let user = {
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
-              email: obj?.email || "",
+              email: obj?.email,
               image: obj?.profileImage,
             };
             return user;
@@ -103,7 +103,6 @@ export const Step1 = ({ user, setUser }) => {
       </Group>
     </div>
   );
-
   if (goToWhite) {
     return <Container h={"100vh"}></Container>;
   }

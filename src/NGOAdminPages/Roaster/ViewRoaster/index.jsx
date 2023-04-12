@@ -106,7 +106,7 @@ export const ViewRoasters = () => {
                 : "",
             status: obj?.schedule ? "Scheduled" : "No Roaster",
             ngo: user?.name,
-            image:userlogo
+            image:obj?.profileImage
           };
           return objj;
         });
