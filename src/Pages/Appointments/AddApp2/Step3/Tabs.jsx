@@ -128,12 +128,15 @@ const DoubleTabs = ({
                     margin: "auto",
                   },
                   input: {
-                    border: "1px solid rgb(0, 0, 0, 0.1)",
+                    border: "1px solid rgb(0, 0, 0, 0.5)",
                     borderRadius: "5px",
                     width: "200px",
                   },
+                  placeholder: {
+                    color: "black !important",
+                  },
                 })}
-                icon={<FileUpload size={20} />}
+                icon={<FileUpload size={20} color="green"/>}
                 onChange={(e) => handleFileInput(e, "public")}
               />
             </Grid.Col>
@@ -179,12 +182,15 @@ const DoubleTabs = ({
                     margin: "auto",
                   },
                   input: {
-                    border: "1px solid rgb(0, 0, 0, 0.1)",
+                    border: "1px solid rgb(0, 0, 0, 0.5)",
                     borderRadius: "5px",
                     width: "200px",
                   },
+                  placeholder: {
+                    color: "black !important",
+                  },
                 })}
-                icon={<FileUpload size={20} />}
+                icon={<FileUpload size={20} color="green"/>}
                 onChange={(e) => handleFileInput(e, "private")}
               />
             </Grid.Col>

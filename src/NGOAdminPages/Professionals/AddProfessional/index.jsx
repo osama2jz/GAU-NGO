@@ -273,7 +273,6 @@ export const AddProfessional = () => {
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
-       
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
@@ -307,7 +306,7 @@ export const AddProfessional = () => {
                 }}
               >
                 <Text align="center" className={classes.upload}>
-                  <Upload size={16} />
+                  <Upload size={16} color="green" />
                   Upload
                 </Text>
               </Dropzone>
@@ -347,11 +346,14 @@ export const AddProfessional = () => {
                       margin: "auto",
                     },
                     input: {
-                      border: "1px solid rgb(0, 0, 0, 0.1)",
+                      border: "1px solid rgb(0, 0, 0, 0.5)",
                       borderRadius: "5px",
                     },
+                    placeholder: {
+                      color: "black !important",
+                    },
                   })}
-                  icon={<FileUpload size={20} />}
+                  icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e, "file")}
                 />
               </Input.Wrapper>
@@ -437,7 +439,6 @@ export const AddProfessional = () => {
           </Group>
         </Container>
       </form>
-     
     </Container>
   );
 };

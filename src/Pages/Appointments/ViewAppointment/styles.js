@@ -27,7 +27,9 @@ export const useStyles = createStyles((theme) => ({
   },
   avatar: {
     // backgroundColor:'red',
-    marginRight: "10px",
+    // marginRight: "10px",
+    display:'flex',
+    justifyContent:'center !important',
   },
   textheading: {
     fontSize: "14px",

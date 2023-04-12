@@ -30,7 +30,7 @@ function EditAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
 
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [otherDocument, setOtherDocument] = useState([
     {
       documentName: "",
@@ -66,7 +66,7 @@ function EditAppointments() {
         if (response.status === 200) {
           showNotification({
             color: "green.0",
-            message: "Appoinment uploaded Successfully",
+            message: "Appoinment Updated Successfully",
             title: "Success",
           });
           navigate(-1);
@@ -162,7 +162,6 @@ function EditAppointments() {
           }
         });
       }
-      
     });
   };
 
@@ -183,47 +182,105 @@ function EditAppointments() {
             </Anchor>
           </Flex>
           <Grid align="center" justify={"space-between"}>
-            <Grid.Col md={4}>
+            <Grid.Col md={4} className={classes.avatar}>
               <Avatar
                 radius="xl"
                 size={150}
                 src={editData?.image || userlogo}
-                className={classes.avatar}
               />
             </Grid.Col>
             <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-              <Text size={24} weight="bold" mb="sm" align="center">
-                {editData?.name}
-              </Text>
-              <Container w={"100%"} ml="md">
+              <Container w={"100%"} ml="md" p="0px">
                 <SimpleGrid cols={2} spacing="xs">
-                  <Text className={classes.textheading}>Appointee</Text>
+                  <Text className={classes.textheading}>
+                    {translate("User Name")}
+                  </Text>
+                  <Text className={classes.textContent}>{editData?.name}</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Appointment With")}
+                  </Text>
+                  <Text className={classes.textContent}>
+                    {editData?.appointmentWith}
+                  </Text>
+                  <Text className={classes.textheading}>
+                    {translate("Added By")}
+                  </Text>
                   <Text className={classes.textContent}>
                     {editData?.addedBy}
                   </Text>
-                  <Text className={classes.textheading}>Case #</Text>
-                  <Text className={classes.textContent}>
-                    {editData?.caseNo}
+                  {user.role !== "User" && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Case #")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.caseNo}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Case Name")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.caseName}
+                      </Text>
+                    </>
+                  )}
+
+                  <Text className={classes.textheading}>
+                    {translate("Appointment Date")}
                   </Text>
-                  <Text className={classes.textheading}>Case Name</Text>
-                  <Text className={classes.textContent}>
-                    {editData?.caseName}
-                  </Text>
-                  <Text className={classes.textheading}>Appointment Date</Text>
                   <Text className={classes.textContent}>{editData?.date}</Text>
-                  <Text className={classes.textheading}>Appointment Time</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Appointment Time")}
+                  </Text>
                   <Text className={classes.textContent}>{editData?.time}</Text>
-                  <Text className={classes.textheading}>Status</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Status")}
+                  </Text>
                   <Text className={classes.textContent}>
                     <Badge
-                      variant="outline"
+                      variant="filled"
                       color={
-                        editData?.status === "SCHEDULED" ? "blue.0" : "red.0"
+                        editData?.status === "SCHEDULED" ||
+                        editData?.status === "INPROGRESS"
+                          ? "green.0"
+                          : "red.0"
                       }
                     >
                       {editData?.status}
                     </Badge>
                   </Text>
+                  {editData?.otherPersonName && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Name")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonName}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person ID")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonId}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Contact")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonMobile}
+                      </Text>
+                    </>
+                  )}
+                  {editData?.otherPersonImage && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Image")}
+                      </Text>
+                      <Anchor href={editData?.otherPersonImage} target="_blank">
+                        {translate("View Image")}
+                      </Anchor>
+                    </>
+                  )}
                 </SimpleGrid>
               </Container>
             </Grid.Col>
@@ -263,25 +320,26 @@ function EditAppointments() {
 
                 <FileInput
                   placeholder={i?.documentURL ? "Uploaded" : "Upload"}
-                  bg={i?.documentURL ? "green.0" : ""}
                   mb="md"
                   ml={"0px"}
                   accept="file/pdf"
+                  color="black"
                   styles={(theme) => ({
                     root: {
                       margin: "auto",
                     },
                     input: {
-                      border: "1px solid rgb(0, 0, 0, 0.1)",
+                      border: "1px solid rgb(0, 0, 0, 0.5)",
                       borderRadius: "5px",
                       // width: "250px",
                     },
+                    placeholder: {
+                      color: "black !important",
+                    },
                   })}
-                  icon={<FileUpload size={20} />}
+                  icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e, index)}
                 />
-
-                {/* )} */}
               </>
             ))}
           </SimpleGrid>
@@ -297,7 +355,7 @@ function EditAppointments() {
             label="Update"
             primary={true}
             disabled={fileLoader}
-            loading={fileLoader}
+            loading={handleUploadDocuments.isLoading}
             onClick={() => handleUploadDocuments.mutate()}
           />
         </Group>

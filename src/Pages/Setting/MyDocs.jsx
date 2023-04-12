@@ -243,8 +243,11 @@ const MyDocs = () => {
                     border: "1px solid rgb(0, 0, 0, 0.1)",
                     borderRadius: "5px",
                   },
+                  placeholder: {
+                    color: "black !important",
+                  },
                 })}
-                icon={<FileUpload size={20} />}
+                icon={<FileUpload size={20} color="green"/>}
                 onChange={(e) => handleFileInput(e, index)}
               />
             </Grid.Col>

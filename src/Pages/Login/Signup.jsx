@@ -275,7 +275,7 @@ const Signup = () => {
                   }
                   accept="file/pdf"
                   mb={"sm"}
-                  icon={<FileUpload size={20} />}
+                  icon={<FileUpload size={20} color="green"/>}
                   onChange={(e) => handleFileInput(e)}
                 />
               </Input.Wrapper>

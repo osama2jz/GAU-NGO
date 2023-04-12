@@ -6,7 +6,6 @@ export const useStyles = createStyles((theme) => ({
     borderRadius: "15px",
     padding: "20px",
     minHeight: "84vh",
-   
   },
   back: {
     marginRight: "auto",
@@ -24,8 +23,8 @@ export const useStyles = createStyles((theme) => ({
     marginTop: "20px",
   },
   avatar: {
-    // backgroundColor:'red',
-    marginRight: "10px",
+    display: "flex",
+    justifyContent: "center",
   },
   textheading: {
     fontSize: "14px",

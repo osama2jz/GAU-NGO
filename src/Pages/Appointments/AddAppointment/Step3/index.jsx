@@ -171,12 +171,15 @@ const Step3 = ({
                 margin: "auto",
               },
               input: {
-                border: "1px solid rgb(0, 0, 0, 0.1)",
+                border: "1px solid rgb(0, 0, 0, 0.5)",
                 borderRadius: "5px",
                 // width: "250px",
               },
+              placeholder: {
+                color: "black !important",
+              },
             })}
-            icon={<FileUpload size={20} />}
+            icon={<FileUpload size={20} color="green"/>}
             onChange={(e) => handleFileInput(e, index)}
           />
         </SimpleGrid>

@@ -83,6 +83,11 @@ function AllAppointments() {
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
               refer: obj?.refered === true ? "Refered" : "New",
+              otherPersonName: obj?.otherUserName,
+              otherPersonImage: obj?.otherUserImage,
+              otherPersonMobile: obj?.otherUserMobile,
+              otherPersonId: obj?.otherUserId,
+              attachedDocuments: obj?.attachedDocuments
             };
             return appointment;
             // }
