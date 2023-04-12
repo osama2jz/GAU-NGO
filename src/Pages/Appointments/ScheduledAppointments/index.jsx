@@ -89,9 +89,7 @@ function ScheduledAppointments() {
               : "Admin",
 
             appointId: obj?.appointmentId,
-            image: obj?.appointmentUserImage
-              ? obj?.appointmentUserImage
-              : userlogo,
+            image: obj?.appointmentUserImage,
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
