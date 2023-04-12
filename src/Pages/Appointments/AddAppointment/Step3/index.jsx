@@ -1,8 +1,10 @@
 import {
+  Checkbox,
   Container,
   Divider,
   FileInput,
   Flex,
+  Group,
   SimpleGrid,
   Text,
 } from "@mantine/core";
@@ -30,6 +32,7 @@ const Step3 = ({
   editorr2,
   editorr,
   publicRef,
+  setAttachedDocs,
 }) => {
   const { user } = useContext(UserContext);
 
@@ -96,7 +99,6 @@ const Step3 = ({
       }
     });
   };
-
   return (
     <Container size="lg">
       <Flex justify={"space-between"}>
@@ -120,6 +122,22 @@ const Step3 = ({
         editorr={editorr}
         publicRef={publicRef}
       />
+      <Divider color="#C8C8C8" mt="md" mb="md" />
+
+      <Text align="center" fw={"bolder"}>
+        User's Documents
+      </Text>
+      <Checkbox.Group
+        label="Select Documents from user's profile."
+        description="These are uploaded by user into his profile."
+        onChange={(v)=>setAttachedDocs(v)}
+      >
+        <Group mt="xs">
+          {selectedUser?.data?.documents.map((doc, key) => (
+            <Checkbox value={doc._id} label={doc?.documentTitle} key={key}/>
+          ))}
+        </Group>
+      </Checkbox.Group>
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>

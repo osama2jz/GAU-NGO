@@ -91,7 +91,6 @@ export const UserProvider = ({ children }) => {
     }
   );
 
-  console.log(localStorage.getItem("lang"), currentLanguage);
   //API call for fetching dictionary
   const _ = useQuery(
     ["fetchDictionary", id],

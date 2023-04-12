@@ -256,7 +256,7 @@ export const AllUser = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={9} lg={1} md={9} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={1} md={8} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
@@ -267,7 +267,7 @@ export const AllUser = () => {
             />
           </Grid.Col>
             {(user.role === "Social Worker" || user.role === "Admin") && (
-          <Grid.Col sm={3} lg={3} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
               <Button
                 label={"Add User"}
                 bg={true}

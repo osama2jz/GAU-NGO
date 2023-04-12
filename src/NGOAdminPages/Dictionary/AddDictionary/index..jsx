@@ -2,9 +2,9 @@ import { Avatar, Container, Group, Text, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -18,8 +18,19 @@ import { useStyles } from "./styles";
 export const AddDictionary = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const [langauges, setLanguages] = useState([]);
   const { user } = useContext(UserContext);
+  const { state } = useLocation();
+  const { editData } = state ?? "";
+  const [langauges, setLanguages] = useState([]);
+  useEffect(() => {
+    if (editData) {
+      form.setFieldValue("actualText", editData.actualWord);
+      form.setFieldValue("translatedText", editData.translated);
+      form.setFieldValue("translationId", editData.id);
+    } else {
+      form.reset();
+    }
+  }, [editData]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -66,7 +77,9 @@ export const AddDictionary = () => {
 
   const handleAddWord = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/translation/add"}`, values, {
+      let url = editData ? "edit" : "add";
+      // if (editData) values.translationId = editData.translationId;
+      return axios.post(`${backendUrl + "/api/translation/" + url}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -75,9 +88,10 @@ export const AddDictionary = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
+          let word = editData ? "Updated" : "Added";
           showNotification({
-            title: "Dictionary Added ",
-            message: "Dictionary Added Successfully!",
+            title: `Dictionary ${word}`,
+            message: `Dictionary ${word} Successfully!`,
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.ViewDictionary);
@@ -93,7 +107,9 @@ export const AddDictionary = () => {
   );
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"Add Dictionary"} />
+      <ContainerHeader
+        label={editData ? "Update Dictionary" : "Add Dictionary"}
+      />
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddWord.mutate(values))}
@@ -129,7 +145,7 @@ export const AddDictionary = () => {
           <Group position="right" mt="sm">
             <Button label="Cancel" onClick={() => navigate(-1)} />
             <Button
-              label={"Add"}
+              label={editData ? "Update" : "Add Word"}
               bg={true}
               type="submit"
               leftIcon={"plus"}

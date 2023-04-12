@@ -64,7 +64,7 @@ const AddAppointment = () => {
   const [userCase, setUserCase] = useState();
   const [projectId, setProjectId] = useState("");
 
-  const [privateLink, setPrivateLink] = useState("");
+  const [attachedDocs, setAttachedDocs] = useState([]);
 
   const editorr = useEditor({
     extensions: [
@@ -108,7 +108,6 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
-  
 
   const [otherDocument, setOtherDocument] = useState([]);
 
@@ -149,7 +148,6 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        // console.log("response", response);
         if (response.data.status) {
           setSelectedCase(response?.data?.data?.caseId);
           setCaseNo(response?.data?.data?.caseNo);
@@ -233,7 +231,6 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        console.log("response", response);
         if (response.data.status) {
           setSelectedCase(response?.data?.data?.caseId);
           setCaseNo(response?.data?.data?.caseNo);
@@ -253,8 +250,6 @@ const AddAppointment = () => {
   //create report
   const handleCreateReport = useMutation(
     async () => {
-      console.log("Create Appointmnet", reportPublicFiles, privatereportFiles);
-
       reportPublicFiles.reportComments = editorr?.getHTML();
       privatereportFiles.reportComments = editorr2?.getHTML();
 
@@ -287,6 +282,7 @@ const AddAppointment = () => {
       const value = {
         caseId: selectedCase,
         otherDocuments: otherDocument,
+        attachedDocument: attachedDocs
       };
       return axios.post(`${backendUrl + "/api/case/otherDocuments"}`, value, {
         headers: {
@@ -400,7 +396,6 @@ const AddAppointment = () => {
 
   async function handleGeneratePDF(value, type) {
     return new Promise((resolve, reject) => {
-      console.log(`Create PDF ${type}`);
 
       const doc = new jsPDF();
       const text = value.getHTML();
@@ -423,7 +418,6 @@ const AddAppointment = () => {
   }
 
   const handleFileInput = (file, type) => {
-    console.log("type", type);
 
     setFileLoader(true);
     //s3 configs
@@ -471,7 +465,6 @@ const AddAppointment = () => {
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
               if (type === "public") {
-                console.log("public report");
                 setReportFiles({ ...reportPublicFiles, reportFile: link });
               }
               if (type === "private") {
@@ -480,21 +473,21 @@ const AddAppointment = () => {
                   reportFile: link,
                 });
               }
-              // ? setReportFiles({ ...reportPublicFiles, reportFile: link })
-
-              console.log("link", link);
               resolve();
               setFileLoader(false);
-
             }
           });
         }
       });
     });
   };
-
   async function handleReports() {
     try {
+      showNotification({
+        title: "In Progress",
+        message: "Please wait while we generate reports for you.",
+        color: "green.0",
+      });
       await handleGeneratePDF(editorr, "public");
       await handleGeneratePDF(editorr2, "private");
     } catch (error) {
@@ -619,6 +612,7 @@ const AddAppointment = () => {
               editorr={editorr}
               editorr2={editorr2}
               publicRef={publicRef}
+              setAttachedDocs={setAttachedDocs}
             />
           </Stepper.Step>
           <Stepper.Step
@@ -665,7 +659,9 @@ const AddAppointment = () => {
             <Button
               onClick={handleNextSubmit}
               loading={
-                handleCreateCase.isLoading || handleCreateReport.isLoading || fileLoader
+                handleCreateCase.isLoading ||
+                handleCreateReport.isLoading ||
+                fileLoader
                 // fileLoader
               }
               label={

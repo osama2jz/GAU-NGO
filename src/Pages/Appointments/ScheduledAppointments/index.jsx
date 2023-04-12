@@ -336,10 +336,10 @@ function ScheduledAppointments() {
                   {reportData?.status}
                 </Badge>
               </Text>
-              {reportData?.refered && (
+              {reportData?.refer && (
                 <Text className={classes.textheading}>Refferal Comment</Text>
               )}
-              {reportData?.refered && (
+              {reportData?.refer && (
                 <Text className={classes.textContent}>
                   {reportData?.referedComment}
                 </Text>

@@ -41,7 +41,6 @@ const Table = ({
   setEditBranch,
   setEditProfessional,
   setOpenEditModal,
-
   ...props
 }) => {
   const navigate = useNavigate();
@@ -127,7 +126,7 @@ const Table = ({
                     spacing={3}
                     align={"center"}
                   >
-                    <Text align="center">{translate (head?.label)}</Text>
+                    <Text align="center">{translate(head?.label)}</Text>
                     {head.id !== "actions" &&
                       head.id !== "image" &&
                       (!sorted.reversed === true &&
@@ -271,8 +270,14 @@ const Table = ({
                               if (setEditDoc) {
                                 setEditDoc(row);
                               }
-                              setEditModalState(true);
-                              setEditModalState(true);
+                              if (props.setEditDictionary) {
+                                navigate(routeNames.ngoAdmin.addDictionary, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                              }
+                              setEditModalState && setEditModalState(true);
                             }}
                             disabled={
                               row.accStatus === "inactive" ||

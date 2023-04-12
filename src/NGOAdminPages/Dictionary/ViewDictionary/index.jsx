@@ -2,7 +2,7 @@ import { Container, Grid } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useMemo, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Edit, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
@@ -19,6 +19,7 @@ import { useStyles } from "./styles";
 
 export const ViewDictionary = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { classes } = useStyles();
   const { user } = useContext(UserContext);
   const [deleteID, setDeleteID] = useState("");
@@ -67,25 +68,23 @@ export const ViewDictionary = () => {
   const { data, status } = useQuery(
     ["fetchDictionary"],
     () => {
-      return axios.get(
-        `${backendUrl + `/api/translation/list/6429912c360576272cf4acfe`}`,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.get(`${backendUrl + `/api/translation/listAll`}`, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
-        const keys = Object.keys(response.data?.data);
-        const values = Object.values(response.data?.data);
-        const data = keys.map((key, index) => ({
-          sr: index + 1,
-          actualWord: key,
-          language: "Spanish",
-          translated: values[index],
-        }));
+        const data = response.data?.data
+          ?.filter((lang) => lang.languageId.lookupName === "Spanish")
+          .map((obj, index) => ({
+            sr: index + 1,
+            id: obj?._id,
+            actualWord: obj?.actualText,
+            language: obj?.languageId.lookupName,
+            translated: obj?.translatedText,
+          }));
         setRowData(data);
         setTotalPages(Math.ceil(data?.length / 10));
       },
@@ -192,9 +191,9 @@ export const ViewDictionary = () => {
           <Table
             headCells={headerData}
             rowData={paginated}
-            setReportData={true}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
+            setEditDictionary={true}
           />
         )}
         {totalPages > 1 && (

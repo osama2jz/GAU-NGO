@@ -154,12 +154,15 @@ const Index = ({}) => {
                     "lang",
                     user.lang === "spanish" ? "english" : "spanish"
                   );
-                  window.location.reload()
+                  window.location.reload();
                 }}
               >
                 <Flex gap={"md"} align="center">
                   <Language />
-                  <Text>{translate("Switch Language")}</Text>
+                  <Text>
+                    {translate("Switch to")}{" "}
+                    {user.lang === "spanish" ? "English" : "Spanish"}
+                  </Text>
                 </Flex>
               </Menu.Item>
               <Menu.Item

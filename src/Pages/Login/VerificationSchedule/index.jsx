@@ -32,7 +32,7 @@ const VerificationSchedule = ({}) => {
   }, [date, selectedSlot]);
   const getSchedule = useMutation(
     () => {
-      let payload = { date: date, type: typeFilter };
+      let payload = { date: date, type: "socialWorker" };
       if (selectedSlot !== "all") payload["slot"] = selectedSlot;
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
