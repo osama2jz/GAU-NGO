@@ -331,11 +331,11 @@ const Table = ({
                   ) : head.id === "name" ? (
                     <td key={index}>
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
-                        {row.image && (
+                        {/* {row.image && ( */}
                           <Avatar src={row.image} width="30px" radius={"xl"}>
-                            {row[head?.id][0]}
+                            {row[head?.id][0] +row[head?.id][1]}
                           </Avatar>
-                        )}
+                        {/* )} */}
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>
                             {row[head?.id]?.length > 100

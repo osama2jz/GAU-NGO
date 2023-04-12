@@ -81,9 +81,7 @@ function AllAppointments() {
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports,
-              image: obj?.appointmentUserImage
-                ? obj?.appointmentUserImage
-                : defaultUser,
+              image: obj?.appointmentUserImage,
               refer: obj?.refered === true ? "Refered" : "New",
             };
             return appointment;

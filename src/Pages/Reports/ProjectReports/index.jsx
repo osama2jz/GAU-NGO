@@ -125,7 +125,7 @@ function ProjectReports() {
             date: obj?.addedDate,
             file: obj?.reportFile,
             comments: obj?.comments,
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            image: obj?.profileImage,
             type: obj.reportType === "private" ? "Private" : "Public",
             role:
               obj?.role === "lawyer"

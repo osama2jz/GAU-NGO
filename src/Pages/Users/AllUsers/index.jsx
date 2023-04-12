@@ -132,7 +132,7 @@ export const AllUser = () => {
             phone: obj?.phoneNumber,
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            image: obj?.profileImage,
             consentform:obj?.userConsentForm
           };
           return user;

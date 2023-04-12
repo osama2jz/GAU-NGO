@@ -108,7 +108,7 @@ const UserPage = (props) => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
+            image:obj?.profileImage,
 
 
           };
@@ -146,7 +146,7 @@ const UserPage = (props) => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
+            image:obj?.profileImage,
 
           };
           return user;
@@ -183,7 +183,7 @@ const UserPage = (props) => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
+            image:obj?.profileImage,
 
           };
           return user;

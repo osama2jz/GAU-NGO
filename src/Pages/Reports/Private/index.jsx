@@ -140,7 +140,7 @@ function PrivateReport() {
             comments: obj.comments,
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            image: obj?.profileImage,
           };
           return appointment;
         });
@@ -182,7 +182,7 @@ function PrivateReport() {
             comments: obj.comments,
             file: obj?.reportFile,
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            image: obj?.profileImage,
             projectName: obj?.projectName,
           };
           return appointment;

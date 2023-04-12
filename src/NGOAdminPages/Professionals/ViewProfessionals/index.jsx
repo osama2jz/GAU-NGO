@@ -132,7 +132,7 @@ export const ViewProfessionals = () => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
-            image: obj.profileImage ? obj.profileImage : userlogo,
+            image: obj?.profileImage,
             idDetails: obj.IDDetails ? obj.IDDetails : "",
           };
           return user;

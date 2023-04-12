@@ -89,7 +89,7 @@ function ProjectUsers() {
             email: obj?.email,
             cases: obj?.totalCases,
             appointment: obj?.totalAppointments,
-            image: obj?.profileImage ? obj?.profileImage : userlogo,
+            image: obj?.profileImage,
           };
           return report;
         });
