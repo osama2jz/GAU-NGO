@@ -18,6 +18,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
+import moment from "moment";
 
 function ProjectUsers() {
   const { classes } = useStyles();
@@ -56,6 +57,12 @@ function ProjectUsers() {
       label: "Email",
     },
     {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Date",
+    },
+    {
       id: "appointment",
       numeric: false,
       disablePadding: true,
@@ -90,6 +97,7 @@ function ProjectUsers() {
             cases: obj?.totalCases,
             appointment: obj?.totalAppointments,
             image: obj?.profileImage,
+            date:moment(obj?.createdDate).format("YYYY-MMM-DD")
           };
           return report;
         });
@@ -167,7 +175,8 @@ function ProjectUsers() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
-              // title="Download reports"
+              title="Project Users"
+              label={"Project Users"}
             />
           </Grid.Col>
         </Grid>

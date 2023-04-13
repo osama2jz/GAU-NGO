@@ -24,6 +24,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
+import moment from "moment";
 
 function ProjectReports() {
   const { classes } = useStyles();
@@ -122,7 +123,7 @@ function ProjectReports() {
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
-            date: obj?.addedDate,
+            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
             file: obj?.reportFile,
             comments: obj?.comments,
             image: obj?.profileImage,
@@ -218,6 +219,8 @@ function ProjectReports() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
+              title={"Project Reports" }
+              label={"Project Reports"}
               // title="Download reports"
             />
           </Grid.Col>

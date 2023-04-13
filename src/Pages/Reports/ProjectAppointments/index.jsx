@@ -23,6 +23,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
+import moment from "moment";
 
 function ProjectAppointments() {
   const { classes } = useStyles();
@@ -127,9 +128,8 @@ function ProjectAppointments() {
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: obj?.addedDate,
+            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
@@ -225,7 +225,8 @@ function ProjectAppointments() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
-              // title="Download reports"
+              title="Project Appointments"
+              label={"Project Appointments"}
             />
           </Grid.Col>
         </Grid>

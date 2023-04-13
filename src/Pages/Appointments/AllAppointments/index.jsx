@@ -18,6 +18,7 @@ import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -63,9 +64,9 @@ function AllAppointments() {
               appointmentWith: obj?.appointmentWith,
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
-              date: obj?.addedDate,
+              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-              appointmentWith: obj?.appointmentWith,
+              
               role:
                 obj?.role === "socialWorker"
                   ? "Social Worker"
@@ -255,7 +256,8 @@ function AllAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="Download reports"
+              title="All Appointments"
+              label={"All Appointments"}
             />
           </Grid.Col>
         </Grid>

@@ -115,7 +115,7 @@ function ProjectCases() {
             status: obj?.status,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
+            date: new moment(obj?.createdDate).format("YYYY-MMM-DD"),
           };
           return report;
         });
