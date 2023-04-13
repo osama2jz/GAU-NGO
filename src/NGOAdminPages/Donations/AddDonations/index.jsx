@@ -23,14 +23,14 @@ export const AddDonations = () => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      userId: "",
+      userId: user.role === "User" ? user.id : "",
       amount: "",
       description: "",
     },
 
     validate: {
       amount: (value) => (value > 0 ? null : "Please enter amount"),
-      addedBy: (value) => (value?.length < 1 ? "Please select user" : null),
+      userId: (value) => (value?.length < 1 ? "Please select user" : null),
       description: (value) =>
         value?.length < 2 ? "Please enter description" : null,
     },
@@ -65,9 +65,9 @@ export const AddDonations = () => {
     }
   );
 
-  const handleAddComplaint = useMutation(
+  const handleAddDonation = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/donation/donate"}`, data, {
+      return axios.post(`${backendUrl + "/api/donation/donate"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -112,7 +112,7 @@ export const AddDonations = () => {
       <ContainerHeader label={"Make Donation"} />
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => handleAddComplaint.mutate(values))}
+        onSubmit={form.onSubmit((values) => handleAddDonation.mutate(values))}
       >
         <Container className={classes.innerContainer} size="xl">
           {user.role !== "User" && (
