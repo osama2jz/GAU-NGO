@@ -34,7 +34,7 @@ export const ViewProfessionals = () => {
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user ,translate} = useContext(UserContext);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
@@ -290,7 +290,7 @@ export const ViewProfessionals = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Professional Details"
+        title={translate("Professional Details")}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewProfessionalModal id={viewModalData} reportData={reportData} />

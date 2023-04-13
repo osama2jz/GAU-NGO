@@ -28,7 +28,7 @@ import { useStyles } from "./styles";
 export const AddDocument = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [documents, setDocuments] = useState([]);
   const [filerror, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
@@ -47,7 +47,7 @@ export const AddDocument = () => {
 
     validate: {
       documentTitle: (value) =>
-        value?.length < 1 ? "Please enter document title" : null,
+        value?.length < 1 ? translate("Please enter document title") : null,
     },
   });
 

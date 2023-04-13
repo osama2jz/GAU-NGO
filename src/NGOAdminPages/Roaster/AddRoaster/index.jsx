@@ -20,7 +20,7 @@ import ViewModal from "./ViewModal";
 export const AddRoaster = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user ,translate} = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
   const [opened, setOpened] = useState(false);
@@ -40,15 +40,15 @@ export const AddRoaster = () => {
     },
 
     validate: {
-      branchId: (value) => (value?.length < 1 ? "Please Select Branch" : null),
+      branchId: (value) => (value?.length < 1 ? translate("Please Select Branch") : null),
       // scheduleType: (value) =>
       //   value?.length < 1 ? "Please Select Schedule Type" : null,
       // users: (value) =>
       //   value?.length < 1 ? "Please Select at least one user." : null,
       dateStart: (value) =>
-        value?.length < 1 ? "Please Select start date." : null,
+        value?.length < 1 ? translate("Please Select start date.") : null,
       dateEnd: (value) =>
-        value?.length < 1 ? "Please Select end date." : null,
+        value?.length < 1 ? translate("Please Select end date.") : null,
     },
   });
 
@@ -196,7 +196,7 @@ export const AddRoaster = () => {
           if (select.length === 0) {
             showNotification({
               title: "Failed",
-              message: "Please select at least one user.",
+              message: translate("Please select at least one user."),
               color: "red.0",
             });
           } else {

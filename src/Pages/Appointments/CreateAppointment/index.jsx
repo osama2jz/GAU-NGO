@@ -25,7 +25,7 @@ const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -42,7 +42,7 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User information",
+            message: translate("Please Select User information"),
             title: "Incomplete Info",
           });
           return;
@@ -56,8 +56,7 @@ const AddAppointment = () => {
   //create appointment
   const handleCreateAppointment = useMutation(
     () => {
-      // { slotid, referedToId }
-      console.log("hello")
+      
       let object = {};
       if (user.role !== "User") {
         if (selectedCase.length > 0 && newCase.length < 1) {

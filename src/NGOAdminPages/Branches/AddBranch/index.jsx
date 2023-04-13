@@ -34,7 +34,7 @@ export const AddBranch = () => {
   const { classes } = useStyles();
 
   const navigate = useNavigate();
-  const { user, lang } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
@@ -43,7 +43,7 @@ export const AddBranch = () => {
   const isUpdate = editData ? true : false;
 
   //create a new data with time 00:00:00 and add the editData.branchStartTime to it
-  
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -60,25 +60,29 @@ export const AddBranch = () => {
 
     validate: {
       branchName: (value) =>
-        /^\w.{2,40}$/.test(value) ? null : "Please enter valid branch name.",
+        /^\w.{2,40}$/.test(value)
+          ? null
+          : translate("Please enter valid branch name."),
       branchLocation: (value) =>
-        value?.length < 2 ? "Please enter last branch address" : null,
+        value?.length < 2
+          ? translate("Please enter last branch address")
+          : null,
       branchDescription: (value) =>
-        value?.length < 4 ? "Please enter branch Description" : null,
+        value?.length < 4 ? translate("Please enter branch Description") : null,
 
       branchContact: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Invalid Phone Number e.g +34 234 5673 890",
+          : translate("Invalid Phone Number e.g +34 234 5673 890"),
       branchEmail: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
       branchPointOfContact: (value) =>
-        /^\w.{3,16}$/.test(value) ? null : "Please enter Point of Contact",
+        /^\w.{3,16}$/.test(value) ? null : translate("Please enter Point of Contact"),
       branchStartTime: (value) =>
-        value?.length < 1 ? "Please Select start time." : null,
+        value?.length < 1 ? translate("Please Select start time.") : null,
       branchEndTime: (value, values) =>
-        moment(value).diff(moment(values?.branchStartTime), "minutes") < 1
-          ? "End Time cannot be before Start time"
+        moment(value).diff(moment(values?.branchStartTime), translate("minutes")) < 1
+          ? translate("End Time cannot be before Start time")
           : null,
     },
   });
@@ -148,7 +152,7 @@ export const AddBranch = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? "Branch Detail Updated" : "Branch Added",
+            title: isUpdate ? translate("Branch Detail Updated") : "Branch Added",
             message: isUpdate
               ? "Branch Information Updated SuccessFully!"
               : "New Branch added Successfully!",

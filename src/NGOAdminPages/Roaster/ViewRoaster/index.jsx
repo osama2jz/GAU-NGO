@@ -34,7 +34,7 @@ export const ViewRoasters = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
 

@@ -35,7 +35,7 @@ function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -303,7 +303,7 @@ function ScheduledAppointments() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Appointment Details"
+        title={translate("Appointment Details")}
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
           <Avatar
@@ -312,21 +312,21 @@ function ScheduledAppointments() {
             src={reportData?.image}
             className={classes.avatar}
           />
-          <Container w={"100%"} ml="md">
-            <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Name</Text>
+          <Container w={"100%"} ml="md" >
+            <SimpleGrid cols={2} spacing="xs" mt={"md"}>
+              <Text className={classes.textheading}>{translate("Name")}</Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Case Name</Text>
+              <Text className={classes.textheading}>{("Case Name")}</Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>Appointment Date</Text>
+              <Text className={classes.textheading}>{("Appointment Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Appointment Time</Text>
+              <Text className={classes.textheading}>{("Appointment Time")}</Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
-              <Text className={classes.textheading}>Status</Text>
+              <Text className={classes.textheading}>{("Status")}</Text>
               <Text className={classes.textContent}>
                 <Badge
                   variant="filled"
@@ -338,7 +338,7 @@ function ScheduledAppointments() {
                 </Badge>
               </Text>
               {reportData?.refer === "Refered" && (
-                <Text className={classes.textheading}>Refferal Comment</Text>
+                <Text className={classes.textheading}>{("Refferal Comment")}</Text>
               )}
               {reportData?.refer === "Refered" && (
                 <Text className={classes.textContent}>

@@ -32,7 +32,7 @@ import Button from "../../../Components/Button";
 function PublicReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
@@ -309,27 +309,29 @@ function PublicReport() {
             src={reportData?.image || userlogo}
             className={classes.avatar}
           />
-          <Text size={24} weight="bold" mb="sm" align="center">
-            {reportData?.name}
-          </Text>
+         
           <Container w={"100%"} ml="md">
-            <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Case # </Text>
+            <SimpleGrid cols={2} spacing="xs" mt={"md"}>
+            <Text className={classes.textheading}>{translate("Name")} </Text>
+              <Text className={classes.textContent}>{reportData?.name}</Text>
+              <Text className={classes.textheading}>{translate("Case #")} </Text>
+
               <Text className={classes.textContent}>{reportData?.caseNo}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
+
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Report File</Text>
+              <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
                   {reportData?.type} Report
                 </Anchor>
               ) : (
-                <Text className={classes.textContent}>No Report</Text>
+                <Text className={classes.textContent}>{translate("No Report")}</Text>
               )}
 
-              <Text className={classes.textheading}>Report Type</Text>
+              <Text className={classes.textheading}>{translate("Report Type")}</Text>
               <Text className={classes.textContent}>{reportData?.type}</Text>
             </SimpleGrid>
           </Container>
