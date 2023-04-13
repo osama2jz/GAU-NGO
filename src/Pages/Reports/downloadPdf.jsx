@@ -7,15 +7,15 @@ import { useStyles } from "./Private/styles";
 import moment from "moment";
 import { showNotification } from "@mantine/notifications";
 
-function DownloadPdf({ headCells, data, title ,setdata,label}) {
+function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
 
-// console.log("data", data);
+  // console.log("data", data);
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
   const filteredDaily = data?.filter(
-    (person) => person.date === today.format("DD-MMM-YYYY")
+    (person) => person.date === today.format("YYYY-MMM-DD")
   );
 
   const filteredWeekly = data?.filter((person) => {
@@ -24,7 +24,8 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
       new Date(person.date) <= new Date(today)
     );
   });
-  const filteredMonthly = data?.filter((person) => person?.date?.substr(3, 3) === today.format("MMM")
+  const filteredMonthly = data?.filter(
+    (person) => person?.date?.substr(5, 3) === today.format("MMM")
   );
 
   const filter = (name) => {
@@ -35,7 +36,7 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
       filteredDaily.length === 0
         ? showNotification({
             title: "No Data",
-            message: "No Reports for today",
+            message: `No ${label} for today`,
             color: "green.0",
           })
         : downloadPDF(filteredDaily, `Daily ${label}`);
@@ -44,7 +45,7 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
       filteredWeekly.length === 0
         ? showNotification({
             title: "No Data",
-            message: "No Reports for the week",
+            message: `No ${label} for the week`,
             color: "green.0",
           })
         : downloadPDF(filteredWeekly, `Weekly ${label}`);
@@ -53,7 +54,7 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
       filteredMonthly.length === 0
         ? showNotification({
             title: "No Data",
-            message: "No Reports for the Month",
+            message: `No ${label} for the Month`,
             color: "green.0",
           })
         : downloadPDF(filteredMonthly, `Monthly ${label}`);
@@ -70,9 +71,8 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
       halign: "left",
       rowPageBreak: "avoid",
       tableWidth: "auto",
-     
 
-      columns: headCells.slice(0,-1).map((col) => {
+      columns: headCells.slice(0, -1).map((col) => {
         return {
           dataKey: col.id,
           header: col.label,
@@ -87,19 +87,25 @@ function DownloadPdf({ headCells, data, title ,setdata,label}) {
 
     doc.save(`${title}.pdf`);
     // setdata([])
-    
   };
 
   return (
     <Menu shadow="md" width={"target"} className={classes.export}>
       <Menu.Target>
-        <Flex gap={4} align="center" justify={"space-around"} style={{border: "1px solid rgb(0, 0, 0, 0.1)"}}>
+        <Flex
+          gap={4}
+          align="center"
+          justify={"space-around"}
+          style={{ border: "1px solid rgb(0, 0, 0, 0.1)" }}
+        >
           <Image src={download} width={18} height={18} />
           <Text>Export PDF</Text>
         </Flex>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>All</Menu.Item>
+        <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>
+          All
+        </Menu.Item>
         <Menu.Item onClick={() => filter("daily")}>Daily</Menu.Item>
         <Menu.Item onClick={() => filter("weekly")}>Weekly</Menu.Item>
         <Menu.Item onClick={() => filter("monthly")}>Monthly</Menu.Item>

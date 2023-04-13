@@ -139,7 +139,7 @@ function PublicReport() {
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+            date: new moment(obj.addedDate).format("YYYY-MMM-DD"),
             image: obj?.profileImage,
             projectName: obj?.projectName,
           };
@@ -273,7 +273,8 @@ function PublicReport() {
             <DownloadPdf
               headCells={headerData}
               data={filterData}
-              title="Download reports"
+              label={"Public Reports"}
+
             />
           </Grid.Col>
         </Grid>

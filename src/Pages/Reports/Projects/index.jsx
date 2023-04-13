@@ -90,7 +90,7 @@ function Projects() {
             id: obj._id,
             sr: ind + 1,
             projectName: obj?.projectName,
-            createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
+            createdDate: new moment(obj?.createdDate).format("YYYY-MMM-DD"),
             description: obj?.description,
             totalAppointments: obj?.totalAppointments,
             totalCases: obj?.totalCases,
