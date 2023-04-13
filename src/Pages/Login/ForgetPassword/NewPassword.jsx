@@ -4,7 +4,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import React from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -16,48 +16,61 @@ import { useStyles } from "../styles";
 const NewPassword = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { state } = useLocation();
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      email: "",
+      password: "",
+      password_confirmation: "",
+      otp: state?.otp,
     },
 
     validate: {
-      email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
+      password: (value) =>
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+          value
+        ) ? null : (
+          <ul>
+            <li>Password must contain 8 to 15 characters with</li>
+            <li>at least one captial alphabet.</li>
+            <li>at least one small alphabet.</li>
+            <li>at least one digit and one special character.</li>
+            <li>at least one special character.</li>
+          </ul>
+        ),
+      password_confirmation: (value, values) =>
+        value !== values?.password ? "Passwords did not match" : null,
     },
   });
 
-  const handleLogin = useMutation(
+  const handleReset = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/signin"}`, values);
+      return axios.post(`${backendUrl + "/api/user/changePassword"}`, values);
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          window.location.href = routeNames.general.dashboard;
+          navigate(routeNames.general.login);
+          showNotification({
+            title: "Password Changed",
+            message: response.data.message,
+            color: "green.0",
+          });
         } else {
           showNotification({
-            title:
-              response.data.message === "Verification Pending"
-                ? response.data.message
-                : "Invalid Credentials",
-            message:
-              response.data.message === "Verification Pending"
-                ? "Your Account verification is pending."
-                : "Please Enter correct email and password to login.",
+            title: "Error",
+            message: response.data.message,
             color: "red.0",
           });
         }
-        // navigate(routeNames.socialWorker.allUsers);
       },
     }
   );
   return (
     <form
       className={classes.form}
-      onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}
+      onSubmit={form.onSubmit((values) => handleReset.mutate(values))}
     >
       <ContainerHeader label={"Reset Password"} />
       <PassInput
@@ -68,7 +81,7 @@ const NewPassword = () => {
       <PassInput
         placeholder={"Confirm Password"}
         form={form}
-        validateName="password"
+        validateName="password_confirmation"
       />
       <Button
         label={"Reset"}
@@ -76,7 +89,7 @@ const NewPassword = () => {
         type="submit"
         w={"100%"}
         size="lg"
-        loading={handleLogin.status === "loading"}
+        loading={handleReset.isLoading}
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>

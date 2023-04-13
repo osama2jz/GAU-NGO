@@ -38,7 +38,12 @@ const ForgetPassword = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           // localStorage.setItem("userData", JSON.stringify(response.data));
-          navigate(routeNames.general.otp);
+          navigate(routeNames.general.otp, { state: { allowed: true } });
+          showNotification({
+            title: "Email Verified",
+            message: response.data.message,
+            color: "green.0",
+          });
         } else {
           showNotification({
             title: "Invalid Email",

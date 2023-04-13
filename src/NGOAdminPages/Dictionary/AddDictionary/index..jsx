@@ -43,9 +43,7 @@ export const AddDictionary = () => {
       languageId: (value) =>
         value?.length < 1 ? "Please select your desired language" : null,
       actualText: (value) =>
-        /^[A-Za-z_]+$/.test(value)
-          ? null
-          : "Please enter word you want to translate",
+        value.length > 0 ? null : "Please enter word you want to translate",
       translatedText: (value) =>
         value?.length < 1 ? "Please enter meaning of the word" : null,
     },
