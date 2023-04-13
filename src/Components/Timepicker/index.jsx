@@ -33,6 +33,7 @@ const Timepicker = ({
       placeholder={translate("Pick time")}
       icon={icon}
       format="24"
+      pb={pb}
       classNames={{ input: classes.root }}
       required={required}
       {...form?.getInputProps(validateName)}

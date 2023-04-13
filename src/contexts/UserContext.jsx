@@ -43,20 +43,20 @@ export const UserProvider = ({ children }) => {
   const value = { user, setUser, lang, translate };
 
   function translate(value) {
-    if (value?.split(" ").length === 1) {
+    // if (value?.split(" ").length === 1) {
       if (lang[value]) {
         return lang[value];
       } else {
         return value;
       }
-    } else {
-      let other = "";
-      value?.split(" ").forEach((i) => {
-        let a = translate(i);
-        other = other + " " + a;
-      });
-      return other;
-    }
+    // } else {
+    //   let other = "";
+    //   value?.split(" ").forEach((i) => {
+    //     let a = translate(i);
+    //     other = other + " " + a;
+    //   });
+    //   return other;
+    // }
   }
 
   //logded in user information
