@@ -29,6 +29,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 function ScheduledAppointments() {
   const { classes } = useStyles();
@@ -71,7 +72,8 @@ function ScheduledAppointments() {
             email: "N/A",
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: obj?.addedDate,
+            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,
             role: obj?.refered
@@ -266,6 +268,7 @@ function ScheduledAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
+              title={"Scheduled Appointments"}
               label={"Scheduled Appointments"}
             />
           </Grid.Col>
