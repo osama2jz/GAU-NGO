@@ -11,9 +11,12 @@ import InputField from "../../../Components/InputField";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const ForgetPassword = () => {
   const { classes } = useStyles();
+  const {translate } = useContext(UserContext);
   const navigate = useNavigate();
   const form = useForm({
     validateInputOnChange: true,
@@ -23,7 +26,7 @@ const ForgetPassword = () => {
 
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null : translate("Enter a valid email"),
     },
   });
 

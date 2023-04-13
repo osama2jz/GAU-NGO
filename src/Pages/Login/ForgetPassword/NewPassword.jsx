@@ -12,11 +12,14 @@ import PassInput from "../../../Components/PassInput";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const NewPassword = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { translate } = useContext(UserContext);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -32,15 +35,17 @@ const NewPassword = () => {
           value
         ) ? null : (
           <ul>
-            <li>Password must contain 8 to 15 characters with</li>
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
           </ul>
         ),
       password_confirmation: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password ? translate("Passwords did not match") : null,
     },
   });
 

@@ -12,10 +12,13 @@ import Loader from "../../../Components/Loader";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const OTP = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const {translate } = useContext(UserContext);
 
   const { state } = useLocation();
 
@@ -33,7 +36,7 @@ const OTP = () => {
     },
 
     validate: {
-      OTP: (value) => (value.length > 0 ? null : "Enter a valid OTP"),
+      OTP: (value) => (value.length > 0 ? null : translate("Enter a valid OTP")),
     },
   });
 

@@ -19,7 +19,7 @@ import { UserContext } from "../../contexts/UserContext";
 const Login = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser,translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -29,8 +29,8 @@ const Login = () => {
 
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
-      password: (value) => (value?.length < 1 ? "Enter password" : null),
+        /^\S+@\S+$/.test(value) ? null : translate("Enter a valid email"),
+      password: (value) => (value?.length < 1 ? translate("Enter password") : null),
     },
   });
 

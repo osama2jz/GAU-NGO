@@ -24,10 +24,13 @@ import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { FileUpload, Loader, Upload } from "tabler-icons-react";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const ProfessionalSignup = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const {translate} = useContext(UserContext);
   const [ngos, setNgos] = useState([]);
   const [fileError, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
@@ -49,39 +52,41 @@ const ProfessionalSignup = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? "Please select Professional type" : null,
+        value?.length < 1 ? translate("Please select Professional type") : null,
       ngoId: (value) =>
-        value?.length < 1 ? "Please select Professional type" : null,
+        value?.length < 1 ? translate("Please select Professional type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          :translate( "Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null :translate("Please Enter a valid email"),
 
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
           <ul>
-            Password must contain 8 to 15 characters with
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
           </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password ?translate ("Passwords did not match") : null,
     },
   });
 

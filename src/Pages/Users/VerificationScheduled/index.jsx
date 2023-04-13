@@ -118,7 +118,7 @@ const VerificationScheduled = () => {
             time: obj.scheduleTime,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            date: new moment(obj.createdAt).format("YYYY-MMM-DD"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
           };
