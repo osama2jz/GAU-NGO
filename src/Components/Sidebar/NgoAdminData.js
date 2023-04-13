@@ -13,6 +13,7 @@ import {
   CurrencyDollar,
   FileBarcode,
   Language,
+  ClipboardTypography,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 
@@ -130,7 +131,7 @@ export const ngoAdminSideBarData = [
   },
   {
     label: "User Forms",
-    icon: FileBarcode,
+    icon: ClipboardTypography,
     links: [{ label: "Update Forms", link: routeNames.ngoAdmin.userForms }],
   },
   {

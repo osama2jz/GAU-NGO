@@ -78,7 +78,12 @@ export const AddDictionary = () => {
   const handleAddWord = useMutation(
     (values) => {
       let url = editData ? "edit" : "add";
-      // if (editData) values.translationId = editData.translationId;
+      values.actualText =
+        values.actualText.slice(0, 1).toUpperCase() +
+        values.actualText.slice(1);
+      values.translatedText =
+        values.translatedText.slice(0, 1).toUpperCase() +
+        values.translatedText.slice(1);
       return axios.post(`${backendUrl + "/api/translation/" + url}`, values, {
         headers: {
           "x-access-token": user.token,

@@ -4,9 +4,12 @@ import { Users } from "tabler-icons-react";
 import { Progress } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const Cards = ({ data, setUrl, url, setPage }) => {
   const { classes } = useStyles();
+  const { translate } = useContext(UserContext);
   const matches = useMediaQuery("(min-width: 600px)");
   const navigate = useNavigate();
   const handleClick = () => {
@@ -37,7 +40,7 @@ const Cards = ({ data, setUrl, url, setPage }) => {
       >
         <Flex align={"center"} justify="space-between" mt="none">
           <Text weight={600} size="lg" mt="none" color="dimmed">
-            {data.title}
+            {translate(data.title)}
           </Text>
           <img
             src={new URL(`../../assets/${data.icon}.png`, import.meta.url).href}

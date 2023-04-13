@@ -156,7 +156,7 @@ export const ViewDictionary = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={8} md={6}>
             <InputField
               placeholder="Search word"
               leftIcon="search"
@@ -165,7 +165,7 @@ export const ViewDictionary = () => {
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={4} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
@@ -175,7 +175,7 @@ export const ViewDictionary = () => {
             />
           </Grid.Col>
 
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={6} lg={3} ml="auto">
             <Button
               label={"Add Dictionary"}
               bg={true}
