@@ -43,7 +43,7 @@ const SelectMenu = ({
   const { classes, cx } = useStyles({ borderWhite });
   const [translatedData, setTranslatedData] = useState(data || []);
   useEffect(() => {
-    if (data[0].email || data[0]?.image) setTranslatedData(data);
+    if (data[0]?.email || data[0]?.image) setTranslatedData(data);
     else {
       let transaletd = data.map((obj) => {
         return { value: obj.value, label: translate(obj.label) };
