@@ -26,7 +26,7 @@ export const ViewProjects = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const { user } = useContext(UserContext);
+  const { user ,translate} = useContext(UserContext);
 
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -293,7 +293,7 @@ export const ViewProjects = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={"View Project"}
+        title={translate("View Project")}
       >
         <ViewProjectModal id={viewModalData} reportData={projectData} />
       </ViewModal>

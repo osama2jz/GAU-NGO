@@ -31,7 +31,7 @@ export const AddUser = () => {
   const { classes } = useStyles();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [files, setFiles] = useState([]);
   const [fileUploading, setFileUploading] = useState(false);
   const [error, setError] = useState();
@@ -73,14 +73,14 @@ export const AddUser = () => {
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
 
       password: (value) =>
         editData ||
@@ -88,29 +88,31 @@ export const AddUser = () => {
           value
         ) ? null : (
           <ul>
-            <li>Password must contain 8 to 15 characters with</li>
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
           </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password ? translate("Passwords did not match") : null,
     },
   });
 
   const handleAddUser = useMutation(
     (values) => {
       if (values?.profileImage === null) {
-        setError("Please upload a profile image");
+        setError(translate("Please upload a profile image"));
         showNotification({
-          title: "Upload Failed",
-          message: "Please upload a profile image",
+          title: (translate("Upload Failed")),
+          message: (translate("Please upload a profile image")),
           color: "red.0",
         });
       } else {

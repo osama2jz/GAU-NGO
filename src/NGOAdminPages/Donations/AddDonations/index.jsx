@@ -19,7 +19,7 @@ export const AddDonations = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -29,10 +29,10 @@ export const AddDonations = () => {
     },
 
     validate: {
-      amount: (value) => (value > 0 ? null : "Please enter amount"),
-      addedBy: (value) => (value?.length < 1 ? "Please select user" : null),
+      amount: (value) => (value > 0 ? null : translate("Please enter amount")),
+      userId: (value) => (value?.length < 1 ? translate("Please select user") : null),
       description: (value) =>
-        value?.length < 2 ? "Please enter description" : null,
+        value?.length < 2 ? translate("Please enter description") : null,
     },
   });
 

@@ -26,7 +26,7 @@ const Step1 = ({
   projectId,
 }) => {
   const queryClient = useQueryClient();
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken,translate } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [cases, setCases] = useState([]);
   const [projects, setProjetcs] = useState([]);

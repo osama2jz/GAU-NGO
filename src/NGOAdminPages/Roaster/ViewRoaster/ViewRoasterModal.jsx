@@ -1,16 +1,20 @@
 import { Modal } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import MySchedule from "../../../Components/ProfessionCard/Schedule";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const ViewRoasterModal = ({ opened, setOpened, id, setSlot }) => {
   const matches = useMediaQuery("(min-width: 600px)");
+  const { translate } = useContext(UserContext);
+
 
   return (
     <Modal
       opened={opened}
       onClose={() => setOpened(false)}
       centered
-      title="View Roaster"
+      title={translate("View Roaster")}
       size={matches? "50%":"100%"}
       // padding="0px"
       styles={{

@@ -18,7 +18,7 @@ import { useStyles } from "./styles";
 export const AddDictionary = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const { state } = useLocation();
   const { editData } = state ?? "";
   const [langauges, setLanguages] = useState([]);
@@ -41,13 +41,13 @@ export const AddDictionary = () => {
 
     validate: {
       languageId: (value) =>
-        value?.length < 1 ? "Please select your desired language" : null,
+        value?.length < 1 ? translate("Please select your desired language") : null,
       actualText: (value) =>
         /^[A-Za-z_]+$/.test(value)
           ? null
-          : "Please enter word you want to translate",
+          : translate("Please enter word you want to translate"),
       translatedText: (value) =>
-        value?.length < 1 ? "Please enter meaning of the word" : null,
+        value?.length < 1 ? translate("Please enter meaning of the word") : null,
     },
   });
 
