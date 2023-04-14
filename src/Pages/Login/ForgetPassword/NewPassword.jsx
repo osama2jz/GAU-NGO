@@ -51,7 +51,7 @@ const NewPassword = () => {
 
   const handleReset = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/changePassword"}`, values);
+      return axios.post(`${backendUrl + "/api/user/userPasswordReset"}`, values);
     },
     {
       onSuccess: (response) => {
