@@ -216,7 +216,7 @@ export const UserVerification = () => {
       if (sigCanvas.current.isEmpty()) {
         showNotification({
           title: "Error",
-          message: "Please sign the consent form",
+          message: "Please sign the consent form.",
           color: "red.0",
         });
       } else {
