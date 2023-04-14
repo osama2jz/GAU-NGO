@@ -50,8 +50,8 @@ import { AllUser } from "./Pages/Users/AllUsers";
 import { UserVerification } from "./Pages/Users/UserVerification";
 import VerificationScheduled from "./Pages/Users/VerificationScheduled";
 import ViewUser from "./Pages/Users/ViewUser";
-import { ScheduleUser } from "./Pages/UserVerification/Schedule";
-import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
+// import { ScheduleUser } from "./Pages/UserVerification/Schedule";
+// import { VerifyUser } from "./Pages/UserVerification/VerifyUser";
 import AllProjects from "./Pages/Reports/Projects";
 import ProjectCases from "./Pages/Reports/ProjectCases";
 import routeNames from "./Routes/routeNames";
@@ -117,22 +117,22 @@ function App() {
             path={routeNames.socialWorker.viewUser}
             element={<ViewUser />}
           />
-          <Route
+          {/* <Route
             path={routeNames.socialWorker.scheduleUser}
             element={<ScheduleUser />}
-          />
+          /> */}
           <Route
             path={routeNames.socialWorker.verificationScheduled}
             element={<VerificationScheduled />}
           />
-          <Route
+          {/* <Route
             path={routeNames.socialWorker.verifyUser}
             element={<VerifyUser />}
           />
           <Route
             path={routeNames.socialWorker.verifiedUsers}
             element={<VerifyUser />}
-          />
+          /> */}
           <Route
             path={routeNames.socialWorker.settings}
             element={<Settings />}
