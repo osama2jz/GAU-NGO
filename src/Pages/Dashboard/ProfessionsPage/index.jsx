@@ -214,15 +214,6 @@ const ProfessionPage = (props) => {
 
   const a = [
     {
-      title: "TOTAL PROFESSIONALS",
-      value: "0" ,
-      progress: 78,
-      color: "#748FFC",
-      progressTitle: "Response Rate",
-      icon: "userD",
-      // url: `/all`,
-    },
-    {
       title: "SOCIAL WORKERS",
       value: socialWorker?.length==="0"?"0":socialWorker?.length,
       progress: 78,

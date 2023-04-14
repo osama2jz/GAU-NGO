@@ -48,7 +48,7 @@ const OTP = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           navigate(routeNames.general.resetPassword, {
-            state: { otp: values.OTP },
+            state: { otp: form.values.OTP },
           });
           showNotification({
             title: "OTP Verified",
