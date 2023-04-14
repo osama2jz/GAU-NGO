@@ -35,7 +35,7 @@ function ProjectUsers() {
   const [search, setSearch] = useState("");
 
   const { state } = useLocation();
-  const { id } = state ?? "";
+  const { id,data } = state ?? "";
 
   let headerData = [
     {
@@ -136,7 +136,7 @@ function ProjectUsers() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -151,6 +151,9 @@ function ProjectUsers() {
           style={{ marginRight: "auto" }}
         />
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>
+        {data}
+      </Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

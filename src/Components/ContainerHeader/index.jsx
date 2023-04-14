@@ -20,7 +20,7 @@ const ContainerHeader = ({ label, ...props }) => {
   }, [label, translate]);
 
   return (
-    <Text size={isMobile ? 30 : 40} weight={700} align="center" {...props}>
+    <Text size={isMobile ? 30 : 40} weight={700} align="center" {...props} mt={"lg"}>
       {translation}
     </Text>
   );

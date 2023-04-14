@@ -16,6 +16,7 @@ import DeleteModal from "../../../Components/DeleteModal";
 import DownloadPdf from "../downloadPdf";
 import { showNotification } from "@mantine/notifications";
 import moment from "moment";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 function ProjectCases() {
   const { classes } = useStyles();
@@ -37,7 +38,7 @@ function ProjectCases() {
   const [close, setClose] = useState(false);
 
   const { state } = useLocation();
-  const { id } = state ?? "";
+  const { id,data } = state ?? "";
 
   let headerData = [
     {
@@ -197,7 +198,7 @@ function ProjectCases() {
 
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+     <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -207,10 +208,14 @@ function ProjectCases() {
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Project Cases
-        </Text>
+        <ContainerHeader
+          label={"Project Cases"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>
+        {data}
+      </Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

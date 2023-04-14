@@ -51,9 +51,9 @@ function CaseAppointments() {
   const isMobile = useMediaQuery("(max-width: 820px)");
 
   const { state } = useLocation();
-  const { id } = state ?? "";
+  const { id,data } = state ?? "";
 
-  console.log(id);
+  
 
   useEffect(() => {
     if (id) {
@@ -183,7 +183,6 @@ function CaseAppointments() {
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
       if (filter == "") {
-        console.log("helloo");
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) ||
           item.case.toLowerCase().includes(search.toLowerCase())
@@ -217,7 +216,7 @@ function CaseAppointments() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+     <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -227,10 +226,14 @@ function CaseAppointments() {
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Case Appointments
-        </Text>
+        <ContainerHeader
+          label={"Case Appointments"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>
+        {data}
+      </Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

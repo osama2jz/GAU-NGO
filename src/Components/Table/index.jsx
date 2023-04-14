@@ -332,9 +332,9 @@ const Table = ({
                     <td key={index}>
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {/* {row.image && ( */}
-                          <Avatar src={row.image} width="30px" radius={"xl"}>
-                            {row[head?.id][0] +row[head?.id][1]}
-                          </Avatar>
+                        <Avatar src={row.image} width="30px" radius={"xl"}>
+                          {row[head?.id][0] + row[head?.id][1]}
+                        </Avatar>
                         {/* )} */}
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>
@@ -361,13 +361,14 @@ const Table = ({
                               ? navigate(
                                   routeNames.socialWorker.projectAppointments,
                                   {
-                                    state: { id: row.id },
+                                    state: { id: row.id,
+                                    data:row.projectName },
                                   }
                                 )
                               : navigate(
                                   routeNames.socialWorker.caseAppointments,
                                   {
-                                    state: { id: row.case },
+                                    state: { id: row.case ,data:row.caseName},
                                   }
                                 );
                           }}
@@ -389,7 +390,7 @@ const Table = ({
                         <Anchor
                           onClick={() => {
                             navigate(routeNames.socialWorker.projectUsers, {
-                              state: { id: row.id },
+                              state: { id: row.id,data:row.projectName },
                             });
                           }}
                         >
@@ -410,7 +411,8 @@ const Table = ({
                         <Anchor
                           onClick={() => {
                             navigate(routeNames.socialWorker.projectCases, {
-                              state: { id: row.id },
+                              state: { id: row.id ,
+                              data:row.projectName},
                             });
                           }}
                         >
@@ -434,13 +436,13 @@ const Table = ({
                               ? navigate(
                                   routeNames.socialWorker.projectReport,
                                   {
-                                    state: { id: row.id },
+                                    state: { id: row.id, data: row.projectName },
                                   }
                                 )
                               : navigate(
                                   routeNames.socialWorker.referalReport,
                                   {
-                                    state: { id: row.case },
+                                    state: { id: row.case ,data:row.caseName},
                                   }
                                 );
                           }}

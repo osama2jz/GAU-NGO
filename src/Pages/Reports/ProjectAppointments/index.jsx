@@ -24,6 +24,8 @@ import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
 import moment from "moment";
+import Pagination from "../../../Components/Pagination";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 function ProjectAppointments() {
   const { classes } = useStyles();
@@ -41,7 +43,7 @@ function ProjectAppointments() {
   const isMobile = useMediaQuery("(max-width: 820px)");
 
   const { state } = useLocation();
-  const { id } = state ?? "";
+  const { id, data } = state ?? "";
   let headerData = [
     {
       id: "sr",
@@ -187,7 +189,7 @@ function ProjectAppointments() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -197,10 +199,15 @@ function ProjectAppointments() {
           <ArrowNarrowLeft />
           <Text>Back</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Project Appointments
-        </Text>
+        <ContainerHeader
+          label={"Project Appointments"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>
+        {data}
+      </Text>
+
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>

@@ -25,6 +25,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
 import moment from "moment";
+import Pagination from "../../../Components/Pagination";
 
 function ProjectReports() {
   const { classes } = useStyles();
@@ -42,7 +43,9 @@ function ProjectReports() {
   const [filter, setFilter] = useState("");
 
   const { state } = useLocation();
-  const { id } = state ?? "";
+  const { id ,data} = state ?? "";
+
+  console.log(data);
 
   let headerData = [
     {
@@ -180,7 +183,7 @@ function ProjectReports() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center" >
         <Anchor
           fz={12}
           fw="bolder"
@@ -194,7 +197,9 @@ function ProjectReports() {
           label={"Project Reports"}
           style={{ marginRight: "auto" }}
         />
+      
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>{data}</Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
