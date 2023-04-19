@@ -27,6 +27,7 @@ import ViewUserModal from "../../../NGOAdminPages/Professionals/ViewProfessional
 import Card from "../Card";
 import userlogo from "../../../assets/teacher.png";
 import { useStyles } from "./styles";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 const ProfessionPage = (props) => {
   const { classes } = useStyles();
@@ -52,7 +53,7 @@ const ProfessionPage = (props) => {
   const { data, status } = useQuery(
     ["fetchProfessionUser", activePage],
     () => {
-      setLoading(true)
+      setLoading(true);
       return axios.get(
         `${
           backendUrl + `/api/user/listUsers/all/${activePage}/10`
@@ -91,14 +92,13 @@ const ProfessionPage = (props) => {
         });
         setRowData(data);
         setTotalPages(response.data.totalPages);
-        setLoading(false)
+        setLoading(false);
       },
     }
   );
 
- 
-   //API call for fetching all Professions Count
-   const { data1, status1 } = useQuery(
+  //API call for fetching all Professions Count
+  const { data1, status1 } = useQuery(
     ["fetchProfessionUserCount"],
     () => {
       return axios.get(
@@ -120,7 +120,7 @@ const ProfessionPage = (props) => {
             id: obj._id,
             sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
-           
+
             userType:
               obj.userType === "socialWorker"
                 ? "Social Worker"
@@ -142,16 +142,12 @@ const ProfessionPage = (props) => {
     }
   );
 
-  const socialWorker = allUsers && allUsers?.filter(
-    (e) => e.userType === "Social Worker"
-  )
-  
-  const lawyer = allUsers && allUsers?.filter(
-    (e) => e.userType === "Lawyer"
-  )
-  const psychologist = allUsers && allUsers?.filter(
-    (e) => e.userType === "Psychologist"
-  )
+  const socialWorker =
+    allUsers && allUsers?.filter((e) => e.userType === "Social Worker");
+
+  const lawyer = allUsers && allUsers?.filter((e) => e.userType === "Lawyer");
+  const psychologist =
+    allUsers && allUsers?.filter((e) => e.userType === "Psychologist");
 
   let headerData = [
     {
@@ -204,9 +200,9 @@ const ProfessionPage = (props) => {
     },
     {
       id: "actions",
-      view: <Eye  />,
-      edit: <Edit  />,
-      delete: <Trash  />,
+      view: <Eye />,
+      edit: <Edit />,
+      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -215,7 +211,7 @@ const ProfessionPage = (props) => {
   const a = [
     {
       title: "SOCIAL WORKERS",
-      value: socialWorker?.length==="0"?"0":socialWorker?.length,
+      value: socialWorker?.length === "0" ? "0" : socialWorker?.length,
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -224,7 +220,7 @@ const ProfessionPage = (props) => {
     },
     {
       title: "PSYCHOLOGISTS",
-      value: psychologist?.length==="0"?"0":psychologist?.length,
+      value: psychologist?.length === "0" ? "0" : psychologist?.length,
       progress: 78,
       color: "#A9E34B",
       progressTitle: "Response Rate",
@@ -233,7 +229,7 @@ const ProfessionPage = (props) => {
     },
     {
       title: "LAWYERS",
-      value: lawyer?.length==="0"?"0":lawyer?.length,
+      value: lawyer?.length === "0" ? "0" : lawyer?.length,
       progress: 78,
       color: "#087F5B",
       progressTitle: "Response Rate",
@@ -285,7 +281,7 @@ const ProfessionPage = (props) => {
 
   return (
     <Container className={classes.main} size="lg">
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -293,11 +289,12 @@ const ProfessionPage = (props) => {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          Professionals
-        </Text>
+        <ContainerHeader
+          label={"Professionals"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
       <Grid>
         {a.map((item, index) => (
@@ -320,7 +317,6 @@ const ProfessionPage = (props) => {
             headCells={headerData}
             rowData={rowData}
             setViewModalState={setOpenViewModal}
-           
             setDeleteModalState={setOpenDeleteModal}
             onStatusChange={handleChangeStatus.mutate}
             setStatusChangeId={setStatusChangeId}
@@ -355,7 +351,6 @@ const ProfessionPage = (props) => {
       >
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
-    
     </Container>
   );
 };

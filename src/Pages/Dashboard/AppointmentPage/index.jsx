@@ -1,14 +1,19 @@
 import {
-  Anchor, Avatar, Badge, Container,
-  Flex, Grid, Group, SimpleGrid, Text
+  Anchor,
+  Avatar,
+  Badge,
+  Container,
+  Flex,
+  Grid,
+  Group,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
 import axios from "axios";
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router";
-import {
-  ArrowNarrowLeft, Eye
-} from "tabler-icons-react";
+import { ArrowNarrowLeft, Eye } from "tabler-icons-react";
 import userlogo from "../../../assets/teacher.png";
 import Button from "../../../Components/Button";
 import Loader from "../../../Components/Loader";
@@ -19,6 +24,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Card from "../Card";
 import { useStyles } from "./styles";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -73,8 +79,6 @@ const UserPage = (props) => {
           return appointment;
         });
         setAllApp(data);
-       
-
       },
     }
   );
@@ -85,7 +89,7 @@ const UserPage = (props) => {
   const completed = allApp && allApp?.filter((e) => e.status === "CLOSED");
   //API call for fetching All  Appointments
   const { data, status } = useQuery(
-   [ "fetchAppointments"],
+    ["fetchAppointments"],
     () => {
       setLoading(true);
       return axios.get(
@@ -124,7 +128,6 @@ const UserPage = (props) => {
         setRowData(data);
         setLoading(false);
         setTotalPages(Math.ceil(data?.length / 10));
-
       },
       enabled: url === `/all` ? true : false,
     }
@@ -132,10 +135,10 @@ const UserPage = (props) => {
 
   //API call for fetching All Scheduled Appointments
   const { data1, status1 } = useQuery(
-    ["fetchAppointments1",url],
+    ["fetchAppointments1", url],
     () => {
       setLoading(true);
-      setPage(1)
+      setPage(1);
       return axios.get(
         `${backendUrl + `/api/appointment/listUserAppointments` + url}`,
         {
@@ -172,7 +175,6 @@ const UserPage = (props) => {
         setRowData(data);
         setLoading(false);
         setTotalPages(Math.ceil(data?.length / 10));
-
       },
       enabled: url === `/scheduled` ? true : false,
     }
@@ -219,7 +221,6 @@ const UserPage = (props) => {
         setRowData(data);
         setLoading(false);
         setTotalPages(Math.ceil(data?.length / 10));
-
       },
       enabled: url === `/closed` ? true : false,
     }
@@ -288,7 +289,7 @@ const UserPage = (props) => {
     },
     {
       id: "actions",
-      view: <Eye  />,
+      view: <Eye />,
       numeric: false,
       label: "Actions",
     },
@@ -335,7 +336,7 @@ const UserPage = (props) => {
 
   return (
     <Container className={classes.main} size="lg">
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -343,11 +344,12 @@ const UserPage = (props) => {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          Appointment
-        </Text>
+        <ContainerHeader
+          label={"Appointments"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
       <Grid>
         {a.map((item, index) => (
@@ -383,7 +385,7 @@ const UserPage = (props) => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Appointment Details"
+        title={translate("Appointment Details")}
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
           <Avatar
@@ -398,17 +400,17 @@ const UserPage = (props) => {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Appointee</Text>
+              <Text className={classes.textheading}>{translate("Appointee")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Case Name</Text>
+              <Text className={classes.textheading}>{translate("Case Name")}</Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>Appointment Date</Text>
+              <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Appointment Time</Text>
+              <Text className={classes.textheading}>{translate("Appointment Time")}</Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
-              <Text className={classes.textheading}>Status</Text>
+              <Text className={classes.textheading}>{translate("Status")}</Text>
               <Text className={classes.textContent}>
                 <Badge
                   variant="outline"
@@ -416,25 +418,25 @@ const UserPage = (props) => {
                     reportData?.status === "SCHEDULED" ? "blue.0" : "red.0"
                   }
                 >
-                  {reportData?.status}
+                  {translate(reportData?.status)}
                 </Badge>
               </Text>
             </SimpleGrid>
           </Container>
         </Flex>
         <Group position="right" mt="lg">
-        {
-            reportData?.status === "SCHEDULED" && (
-          <Button
-            label={" Cancel Appointment"}
-            onClick={() => {
-              // setId(reportData?.appointId);
-              // queryClient.invalidateQueries("CancelAppointments",id);
-              CancelAppointments(reportData?.appointId);
-            }}
+          {reportData?.status === "SCHEDULED" && (
+            <Button
+              label={" Cancel Appointment"}
+              onClick={() => {
+                // setId(reportData?.appointId);
+                // queryClient.invalidateQueries("CancelAppointments",id);
+                CancelAppointments(reportData?.appointId);
+              }}
 
-            // type="Cancel Appo"
-          />)}
+              // type="Cancel Appo"
+            />
+          )}
         </Group>
       </ViewModal>
     </Container>

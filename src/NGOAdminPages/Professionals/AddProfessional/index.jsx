@@ -299,7 +299,7 @@ export const AddProfessional = () => {
           </Container>
           {form.values.profileImage ? (
             <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
@@ -313,7 +313,7 @@ export const AddProfessional = () => {
               >
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} color="green" />
-                  Upload
+                  {translate("Upload")}
                 </Text>
               </Dropzone>
             </Input.Wrapper>

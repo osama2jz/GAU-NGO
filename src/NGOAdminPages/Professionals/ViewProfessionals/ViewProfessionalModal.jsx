@@ -53,7 +53,7 @@ function ViewUserModal({ id, reportData }) {
           </Badge>
           <Text className={classes.textheading}>{translate("ID Document")}</Text>
           <Anchor target={"_blank"} href={reportData?.idDetails}>
-            View File
+            {translate("View File")}
           </Anchor>
         </SimpleGrid>
       </Container>

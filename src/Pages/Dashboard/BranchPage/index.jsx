@@ -8,23 +8,19 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
 import { useContext, useMemo, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { QueryClient, useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
 import DeleteModal from "../../../Components/DeleteModal";
-import EditModal from "../../../Components/EditModal/editModal";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 import ViewUserModal from "../../../NGOAdminPages/Branches/viewBranches/ViewBranchModal";
-import routeNames from "../../../Routes/routeNames";
 import Card from "../Card";
 import { useStyles } from "./styles";
 
@@ -227,7 +223,7 @@ const BranchPage = (props) => {
 
   return (
     <Container className={classes.main} size="lg">
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -235,11 +231,9 @@ const BranchPage = (props) => {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          Branches
-        </Text>
+        <ContainerHeader label={"Branches"} style={{ marginRight: "auto" }} />
       </Flex>
       <Grid>
         {a.map((item, index) => (

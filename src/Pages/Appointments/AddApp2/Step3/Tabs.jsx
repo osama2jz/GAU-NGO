@@ -85,13 +85,13 @@ const DoubleTabs = ({
         color={"blue.0"}
       >
         <Tabs.List position="center">
-          <Tabs.Tab value="public">Upload Public Report</Tabs.Tab>
-          <Tabs.Tab value="private">Upload Private Report</Tabs.Tab>
+          <Tabs.Tab value="public">{translate("Upload Public Report")}</Tabs.Tab>
+          <Tabs.Tab value="private">{translate("Upload Private Report")}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="public" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Upload Public Report
+            {translate("Upload Public Report")}
           </Text>
           <Grid mt={30} justify="space-between">
             <Grid.Col md={6} xs={5}>
@@ -120,8 +120,8 @@ const DoubleTabs = ({
               </ul>
 
               <FileInput
-                label="Upload Document"
-                placeholder="Upload Document"
+                label={translate("Upload Document")}
+                placeholder={translate("Upload Document")}
                 accept="file/pdf"
                 styles={(theme) => ({
                   root: {
@@ -145,7 +145,7 @@ const DoubleTabs = ({
 
         <Tabs.Panel value="private" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Upload Private Report
+            {translate("Upload Private Report")}
           </Text>
           <Grid mt={30} justify="space-between">
             <Grid.Col md={6} xs={5}>
@@ -153,8 +153,8 @@ const DoubleTabs = ({
             </Grid.Col>
             <Grid.Col md={6}>
               <TextArea
-                label="Add Comments"
-                placeholder={"Enter Comments"}
+                label={translate("Add Comments")}
+                placeholder={translate("Enter Comments")}
                 rows={5}
                 value={privatereportFiles?.reportComments}
                 onChange={(e) =>
@@ -174,8 +174,8 @@ const DoubleTabs = ({
               </ul>
 
               <FileInput
-                label="Upload Document"
-                placeholder="Upload Document"
+                label={translate("Upload Document")}
+                placeholder={translate("Upload Document")}
                 accept="file/pdf"
                 styles={(theme) => ({
                   root: {

@@ -323,9 +323,9 @@ const Table = ({
                             : "green.9"
                         }
                         variant="filled"
-                        w={"100px"}
+                        w={"120px"}
                       >
-                        {row[head?.id]}
+                        {translate(row[head?.id])}
                       </Badge>
                     </td>
                   ) : head.id === "name" ? (
@@ -361,19 +361,21 @@ const Table = ({
                               ? navigate(
                                   routeNames.socialWorker.projectAppointments,
                                   {
-                                    state: { id: row.id,
-                                    data:row.projectName },
+                                    state: {
+                                      id: row.id,
+                                      data: row.projectName,
+                                    },
                                   }
                                 )
                               : navigate(
                                   routeNames.socialWorker.caseAppointments,
                                   {
-                                    state: { id: row.case ,data:row.caseName},
+                                    state: { id: row.case, data: row.caseName },
                                   }
                                 );
                           }}
                         >
-                          View All
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -390,11 +392,11 @@ const Table = ({
                         <Anchor
                           onClick={() => {
                             navigate(routeNames.socialWorker.projectUsers, {
-                              state: { id: row.id,data:row.projectName },
+                              state: { id: row.id, data: row.projectName },
                             });
                           }}
                         >
-                          View All
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -411,12 +413,11 @@ const Table = ({
                         <Anchor
                           onClick={() => {
                             navigate(routeNames.socialWorker.projectCases, {
-                              state: { id: row.id ,
-                              data:row.projectName},
+                              state: { id: row.id, data: row.projectName },
                             });
                           }}
                         >
-                          View All
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -436,18 +437,21 @@ const Table = ({
                               ? navigate(
                                   routeNames.socialWorker.projectReport,
                                   {
-                                    state: { id: row.id, data: row.projectName },
+                                    state: {
+                                      id: row.id,
+                                      data: row.projectName,
+                                    },
                                   }
                                 )
                               : navigate(
                                   routeNames.socialWorker.referalReport,
                                   {
-                                    state: { id: row.case ,data:row.caseName},
+                                    state: { id: row.case, data: row.caseName },
                                   }
                                 );
                           }}
                         >
-                          View All
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -455,22 +459,21 @@ const Table = ({
                     <td key={index}>
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
-                          View file
+                          {translate("View All")}
                         </Anchor>
                       ) : (
-                        <Text>No File</Text>
+                        <Text>{translate("No File")}</Text>
                       )}
                     </td>
                   ) : head.id === "reply" ? (
                     <td key={index}>
                       {row?.reply ? (
                         <Badge color={"green"} variant="filled">
-                          {" "}
-                          Replied
+                          {translate("Replied")}
                         </Badge>
                       ) : user.role === "User" ? (
                         <Badge color={"red"} variant="filled">
-                          Pending
+                          {translate("Pending")}
                         </Badge>
                       ) : (
                         <Anchor
@@ -480,7 +483,7 @@ const Table = ({
                             props.setReplyModalId(row?.id);
                           }}
                         >
-                          Reply Now{" "}
+                          {translate("Reply Now")}
                         </Anchor>
                       )}
                     </td>

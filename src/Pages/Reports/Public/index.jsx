@@ -332,7 +332,7 @@ function PublicReport() {
               )}
 
               <Text className={classes.textheading}>{translate("Report Type")}</Text>
-              <Text className={classes.textContent}>{reportData?.type}</Text>
+              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
             </SimpleGrid>
           </Container>
         </Flex>

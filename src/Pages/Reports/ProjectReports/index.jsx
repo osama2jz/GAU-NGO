@@ -32,7 +32,7 @@ function ProjectReports() {
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
@@ -191,7 +191,7 @@ function ProjectReports() {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
         <ContainerHeader
           label={"Project Reports"}

@@ -193,7 +193,7 @@ function ViewAppointments() {
               onClick={() => navigate(-1)}
             >
               <ArrowNarrowLeft />
-              <Text>Back</Text>
+              <Text>{translate("Back")}</Text>
             </Anchor>
           </Flex>
           <Grid align="center" justify={"space-between"}>

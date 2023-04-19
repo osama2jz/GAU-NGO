@@ -2,7 +2,7 @@ import { Anchor, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
@@ -14,6 +14,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
 
 const NewPassword = () => {
   const { classes } = useStyles();
@@ -21,6 +22,12 @@ const NewPassword = () => {
   const { state } = useLocation();
   const { translate } = useContext(UserContext);
 
+  useEffect(() => {
+    if (state && state.otp) {
+    } else {
+      navigate(-1);
+    }
+  }, [state]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -72,6 +79,8 @@ const NewPassword = () => {
       },
     }
   );
+  if (!state?.otp) return <Loader />;
+
   return (
     <form
       className={classes.form}
@@ -98,7 +107,7 @@ const NewPassword = () => {
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Return To Login
+          {translate("Return To Login")}
         </Anchor>
       </Flex>
     </form>

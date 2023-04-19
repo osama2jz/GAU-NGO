@@ -44,11 +44,13 @@ export const UserProvider = ({ children }) => {
 
   function translate(value) {
     // if (value?.split(" ").length === 1) {
-      if (lang[value]) {
-        return lang[value];
-      } else {
-        return value;
+    const lowerCaseValue = value?.toLowerCase();
+    for (const key in lang) {
+      if (key.toLowerCase() === lowerCaseValue) {
+        return lang[key];
       }
+    }
+    return value;
     // } else {
     //   let other = "";
     //   value?.split(" ").forEach((i) => {

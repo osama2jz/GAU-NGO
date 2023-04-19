@@ -183,7 +183,7 @@ function CaseReport() {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
         <ContainerHeader
           label={"Cases Reports"}
@@ -258,23 +258,23 @@ function CaseReport() {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textheading}>{translate("Case")} # </Text>
               <Text className={classes.textContent}>{reportData?.case}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Report File</Text>
+              <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
+                  {reportData?.type} {translate("Report")}
                 </Anchor>
               ) : (
-                <Text className={classes.textContent}>No Report</Text>
+                <Text className={classes.textContent}>{translate("No Report")}</Text>
               )}
 
-              <Text className={classes.textheading}>Report Type</Text>
-              <Text className={classes.textContent}>{reportData?.type}</Text>
+              <Text className={classes.textheading}>{translate("Report Type")}</Text>
+              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
             </SimpleGrid>
           </Container>
         </Flex>

@@ -178,7 +178,7 @@ function EditAppointments() {
               onClick={() => navigate(-1)}
             >
               <ArrowNarrowLeft />
-              <Text>Back</Text>
+              <Text>{translate("Back")}</Text>
             </Anchor>
           </Flex>
           <Grid align="center" justify={"space-between"}>
@@ -295,7 +295,7 @@ function EditAppointments() {
             fz={"20px"}
             color="rgb(0,0,0,0.5)"
           >
-            Post Appointment Documents
+            {translate("Post Appointment Documents")}
           </Text>
           <SimpleGrid
             breakpoints={[

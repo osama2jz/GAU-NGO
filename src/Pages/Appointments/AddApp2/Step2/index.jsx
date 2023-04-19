@@ -198,20 +198,20 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
+                <Text className={classes.textheading}>{translate("Case")} # </Text>
                 <Text className={classes.textContent}>{reportData?.case}</Text>
-                <Text className={classes.textheading}>Added By</Text>
+                <Text className={classes.textheading}>{translate("Added By")}</Text>
                 <Text className={classes.textContent}>
                   {reportData?.addedBy}
                 </Text>
-                <Text className={classes.textheading}>Date</Text>
+                <Text className={classes.textheading}>{translate("Date")}</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
+                <Text className={classes.textheading}>{translate("Report File")}</Text>
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.reportType} Report
+                  {reportData?.reportType} {translate("Report")}
                 </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textheading}>{translate("Report Type")}</Text>
                 <Text className={classes.textContent}>
                   {reportData?.reportType}
                 </Text>
@@ -219,7 +219,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Container>
           </Grid.Col>
         </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
+        <Text className={classes.textheading}>{translate("Report Comments")}</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

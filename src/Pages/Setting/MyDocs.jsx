@@ -63,7 +63,7 @@ const MyDocs = () => {
             message: "Document Deleted Successfully",
             color: "green.0",
           });
-          setOpenDeleteModal(false)
+          setOpenDeleteModal(false);
           queryClient.invalidateQueries("fetchUserSingle");
         } else {
           showNotification({
@@ -184,8 +184,9 @@ const MyDocs = () => {
       size={"xl"}
     >
       <Text align="center" mb="md" color={"gray"}>
-        Add your frequently used documents here. These documents are public and
-        can be viewed by all the professional users.
+        {translate(
+          "Add your frequently used documents here. These documents are public and can be viewed by all the professional users."
+        )}
       </Text>
       <ol>
         {oldDocs.map((obj) => {
@@ -247,7 +248,7 @@ const MyDocs = () => {
                     color: "black !important",
                   },
                 })}
-                icon={<FileUpload size={20} color="green"/>}
+                icon={<FileUpload size={20} color="green" />}
                 onChange={(e) => handleFileInput(e, index)}
               />
             </Grid.Col>

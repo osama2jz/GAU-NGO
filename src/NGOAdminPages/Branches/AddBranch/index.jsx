@@ -244,7 +244,7 @@ export const AddBranch = () => {
           </Container>
           {form.values.branchPicture ? (
             <Anchor onClick={() => form.setFieldValue("branchPicture", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
@@ -261,7 +261,7 @@ export const AddBranch = () => {
                 ) : ( */}
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} />
-                  Upload
+                  {tranlsate("Upload")}
                 </Text>
                 {/* )} */}
               </Dropzone>

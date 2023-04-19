@@ -11,7 +11,7 @@ import Loader from "../../../../Components/Loader";
 
 export const Step4 = ({ sigCanvas }) => {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   // const sigCanvas = useRef({});
 
   //API call for fetching agreement form
@@ -34,7 +34,7 @@ export const Step4 = ({ sigCanvas }) => {
     <Container size="xl" p={"lg"} className={classes.consent}>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
-        User Signature
+        {translate("User Signature")}
       </Text>
       <Container className={classes.sign}>
         <SignatureCanvas
@@ -42,7 +42,7 @@ export const Step4 = ({ sigCanvas }) => {
           penColor="green"
           canvasProps={{ width: 900, height: 200, className: "sigCanvas" }}
         />
-        <Anchor onClick={() => sigCanvas.current.clear()}>Reset</Anchor>
+        <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor>
       </Container>
     </Container>
   );

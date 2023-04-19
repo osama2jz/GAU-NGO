@@ -359,7 +359,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate(" Economic Situation")}
+           {translate("Economic Situation")}
           </Text>
           <SimpleGrid
             breakpoints={[
@@ -412,7 +412,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate(" Demand")}
+           {translate("Demand")}
           </Text>
           <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
         </Container>
@@ -445,7 +445,7 @@ function ViewUser() {
               })}
             </ol>
           ) : (
-            <Text align="center">No Document</Text>
+            <Text align="center">{translate("No Document")}</Text>
           )}
         </Container>
       </Container>

@@ -12,7 +12,7 @@ import { useStyles } from "../styles";
 export const Step3 = ({ sigCanvas }) => {
   const { classes } = useStyles();
   // const sigCanvas = useRef({});
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   //API call for fetching conset form
   const { data, status } = useQuery("fetchConsent", () => {
@@ -35,7 +35,7 @@ export const Step3 = ({ sigCanvas }) => {
     <Container size="xl" p={"lg"} className={classes.consent}>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
-        User Signature
+        {translate("User Signature")}
       </Text>
       <Container className={classes.sign}>
         <SignatureCanvas
@@ -43,7 +43,7 @@ export const Step3 = ({ sigCanvas }) => {
           penColor="green"
           canvasProps={{ width:900,height: 200, className: "sigCanvas" }}
         />
-        <Anchor onClick={() => sigCanvas.current.clear()}>Reset</Anchor>
+        <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor>
       </Container>
     </Container>
   );
