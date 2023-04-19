@@ -295,9 +295,9 @@ const Signup = () => {
         loading={handleSignup.status === "loading" || fileUploading}
       />
       <Text align="center" mt={"sm"}>
-        Already have an Account?{" "}
+        {translate("Already have an Account")}?{" "}
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Login Here
+          {translate("Login Here")}
         </Anchor>
       </Text>
     </form>

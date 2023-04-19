@@ -148,7 +148,9 @@ export const AddProfessional = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? translate("Information Updated") : translate("Professional Added"),
+            title: isUpdate
+              ? translate("Information Updated")
+              : translate("Professional Added"),
             message: isUpdate
               ? translate("Professional Information Updated Successfully! ")
               : translate("Professional added Successfully!"),
@@ -299,7 +301,7 @@ export const AddProfessional = () => {
           </Container>
           {form.values.profileImage ? (
             <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
@@ -313,7 +315,7 @@ export const AddProfessional = () => {
               >
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} color="green" />
-                  Upload
+                  {translate("Upload")}
                 </Text>
               </Dropzone>
             </Input.Wrapper>
@@ -339,11 +341,11 @@ export const AddProfessional = () => {
             <Grid.Col sm={6} hidden={form.values.userType === "user"}>
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
-                  label="Upload National Id"
+                  label={translate("Upload National Id")}
                   placeholder={
                     form.values?.IDDetails !== ""
-                      ? "Uploaded"
-                      : "Upload Document"
+                      ? translate("Uploaded")
+                      : translate("Upload Document")
                   }
                   required={true}
                   accept="file/pdf"

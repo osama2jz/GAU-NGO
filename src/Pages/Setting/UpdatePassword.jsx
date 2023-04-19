@@ -15,7 +15,7 @@ import { useStyles } from "./styles";
 export const UpdatePassword = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {

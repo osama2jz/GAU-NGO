@@ -226,7 +226,7 @@ export const AddUser = () => {
           </Container>
           {form.values.profileImage ? (
             <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={error} size={"md"}>
@@ -241,7 +241,7 @@ export const AddUser = () => {
               >
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} color="green" />
-                  Upload
+                  {translate("Upload")}
                 </Text>
               </Dropzone>
             </Input.Wrapper>

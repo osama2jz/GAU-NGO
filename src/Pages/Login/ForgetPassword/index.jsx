@@ -79,7 +79,7 @@ const ForgetPassword = () => {
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Return To Login
+          {translate("Return To Login")}
         </Anchor>
       </Flex>
     </form>

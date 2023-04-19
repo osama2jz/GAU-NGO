@@ -101,7 +101,7 @@ const Login = () => {
       <Flex justify="space-between" mt="md">
         <Checkbox label="Remember me" />
         <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
-          Forgot Password?
+          {translate("Forgot Password")}?
         </Anchor>
       </Flex>
       <Divider
@@ -130,9 +130,9 @@ const Login = () => {
       // }}
       />
       <Text align="center" mt={"sm"}>
-        Don't have an Account?{" "}
+        {translate("Don't have an Account")}?{" "}
         <Anchor onClick={() => navigate(routeNames.general.signup)}>
-          Register Here
+          {translate("Register Here")}
         </Anchor>
       </Text>
     </form>

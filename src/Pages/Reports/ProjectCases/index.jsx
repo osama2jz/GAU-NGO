@@ -21,6 +21,7 @@ import ContainerHeader from "../../../Components/ContainerHeader";
 function ProjectCases() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const {translate}=useContext(UserContext)
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [caseNo, setCaseNo] = useState("");
@@ -206,7 +207,7 @@ function ProjectCases() {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
         <ContainerHeader
           label={"Project Cases"}

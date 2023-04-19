@@ -180,7 +180,7 @@ export const ViewRoasters = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={6} lg={4} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -205,7 +205,7 @@ export const ViewRoasters = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={3} lg={1} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
@@ -214,7 +214,7 @@ export const ViewRoasters = () => {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={9} lg={4} md={12} style={{ textAlign: "end" }}>
             <Button
               label={"Add Roaster"}
               bg={true}

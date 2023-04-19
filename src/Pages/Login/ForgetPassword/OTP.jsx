@@ -48,7 +48,7 @@ const OTP = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           navigate(routeNames.general.resetPassword, {
-            state: { otp: values.OTP },
+            state: { otp: form.values.OTP },
           });
           showNotification({
             title: "OTP Verified",
@@ -83,7 +83,7 @@ const OTP = () => {
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Return To Login
+          {translate("Return To Login")}
         </Anchor>
       </Flex>
     </form>
