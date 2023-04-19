@@ -7,6 +7,8 @@ import TextEditor from "../../../../Components/TextEditor";
 import { s3Config } from "../../../../constants/constants";
 import { useStyles } from "../styles";
 import Button from "../../../../Components/Button";
+import { useContext } from "react";
+import { UserContext } from "../../../../contexts/UserContext";
 
 const DoubleTabs = ({
   selectedUser,
@@ -23,6 +25,7 @@ const DoubleTabs = ({
   // const [files, setFiles] = useState([]);
   // const [files2, setFiles2] = useState([]);
   const { classes } = useStyles();
+  const {translate}=useContext(UserContext)
 
   // console.log("editorr",editorr.getHTML())
 

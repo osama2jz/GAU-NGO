@@ -26,7 +26,7 @@ import Loader from "../../../../Components/Loader";
 const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
