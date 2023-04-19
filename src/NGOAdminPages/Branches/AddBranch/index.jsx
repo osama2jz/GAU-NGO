@@ -261,7 +261,7 @@ export const AddBranch = () => {
                 ) : ( */}
                 <Text align="center" className={classes.upload}>
                   <Upload size={16} />
-                  {tranlsate("Upload")}
+                  {translate("Upload")}
                 </Text>
                 {/* )} */}
               </Dropzone>
