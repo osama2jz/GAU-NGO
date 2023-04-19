@@ -17,6 +17,7 @@ import React, {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import Webcam from "react-webcam";
 import userImage from "../../../../assets/teacher.png";
@@ -25,12 +26,12 @@ import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
 import SelectMenu from "../../../../Components/SelectMenu";
 import ViewModal from "../../../../Components/ViewModal/viewUser";
-import { backendUrl } from "../../../../constants/constants";
+import { backendUrl, s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import InputMask from "react-input-mask";
-
+import { showNotification } from "@mantine/notifications";
 
 const Step1 = ({
   setSelectedUser,
@@ -48,9 +49,15 @@ const Step1 = ({
   appData,
   projectId,
   setProjectId,
+  verifyimg,
+  setVerifyImg,
+  setVerifyStatus,
+  setFileLoader,
+  fileLoader
+
 }) => {
   const { state } = useLocation();
-  // const {id}=state??""
+
   const { classes } = useStyles();
   const { user: usertoken } = useContext(UserContext);
   const [user, setUser] = useState();
@@ -60,11 +67,13 @@ const Step1 = ({
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
+  const [verifyCamera, setVerifyCamera] = useState(false);
   const [goToWhite, setGoToWhite] = useState(false);
 
   const [disabledIdBtn, setDisabledIdBtn] = useState(false);
   const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
+  const verifyRef = useRef(null);
 
   const videoConstraints = {
     width: 420,
@@ -77,6 +86,97 @@ const Step1 = ({
 
     setImg(imageSrc);
   }, [webcamRef]);
+
+  const Verifycapture = useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    // Decode the Base64 string into binary data
+    // Convert the Base64 string to a Blob object
+    const blob = dataURItoBlob(imageSrc);
+    // Create a new URL for the Blob object
+    const imageUrl = URL.createObjectURL(blob);
+    console.log(imageUrl);
+
+    handleFileInput(blob, "public");
+
+    setVerifyImg(imageUrl);
+  }, [verifyRef]);
+
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(",")[1]);
+    console.log(byteString);
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    const extension = mimeString.split("/")[1];
+    console.log(mimeString);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const intArray = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      intArray[i] = byteString.charCodeAt(i);
+    }
+    const fileName = "image." + extension;
+    const blob = new Blob([arrayBuffer], { type: mimeString });
+
+    blob.name = fileName;
+    console.log(blob);
+    return blob;
+  }
+
+  const handleFileInput = (file, type) => {
+    setFileLoader(true);
+    //s3 configs
+    // const fileName = file.name;
+    // const sanitizedFileName = fileName.replace(/\s+/g, "");
+    // setFileError("");
+    // setFileUploading(true);
+    const aws = new AWS.S3();
+    AWS.config.region = s3Config.region;
+    // console.log(aws);
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: s3Config.IdentityPoolId,
+    });
+
+    AWS.config.credentials.get(function (err) {
+      if (err) alert(err);
+      // console.log(AWS.config.credentials);
+    });
+    var bucket = new AWS.S3({
+      params: {
+        Bucket: s3Config.bucketName,
+      },
+    });
+    console.log(file);
+    var objKey = type + "/" + Date.now() + "/" + file.name;
+    var params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file,
+      ACL: "public-read",
+    };
+    return new Promise((resolve, reject) => {
+      bucket.upload(params, function (err, data) {
+        if (err) {
+          results.innerHTML = "ERROR: " + err;
+          reject(err);
+        } else {
+          bucket.listObjects(function (err, data) {
+            if (err) {
+              showNotification({
+                title: "Upload Failed",
+                message: "Something went Wrong",
+                color: "red.0",
+              });
+              reject(err);
+            } else {
+              let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
+
+              setVerifyImg(link);
+
+              setFileLoader(false);
+            }
+          });
+        }
+      });
+    });
+  };
 
   const handleOpenCamera = () => {
     setDisabledIdBtn(true);
@@ -99,6 +199,58 @@ const Step1 = ({
   useEffect(() => {
     faceio = new faceIO("fioa89bd");
   }, [faceio]);
+
+  //Verfity Face ID
+
+  // const handleVerifyFaceId = () => {
+  //  console.log("hello")
+  // }
+
+  const handleVerifyFaceId = useMutation(
+    () => {
+      let obj = {
+        sourceImage: verifyimg,
+        targetImage: appData.image,
+      };
+
+      console.log(obj);
+      const formData = new FormData();
+      formData.append("sourceImage", verifyimg);
+      formData.append("targetImage", appData.image);
+      for (let entry of formData.entries()) {
+        console.log(entry[0] + ": " + entry[1]);
+      }
+      return axios.post(
+        `https://face-match.usquaresolutions.com/index.php`,
+        formData,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if(response.data.matched==="True"){
+          setVerifyStatus(true)
+          showNotification({
+            title: "Verification Success",
+            message: "Face Matched",
+            color: "green.0",
+          })
+        }else{
+          setVerifyStatus(false)
+          showNotification({
+            title: "Verification Failed",
+            message: "Face Not Matched",
+            color: "red.0",
+          })
+
+        }
+      },
+    }
+  );
 
   //all users
   const { data: users, status } = useQuery(
@@ -258,20 +410,68 @@ const Step1 = ({
       </Text>
 
       <Group>
-        <Button
-          label={"Verify Face ID"}
-          bg={true}
-          leftIcon="faceid"
-          iconWidth="24px"
-          styles={{
-            width: "220px",
-            fontSize: "22px",
-            height: "46px",
-            margin: "auto",
-          }}
-          onClick={handleVerifyID}
-          disabled={disabledIdBtn}
-        />
+        {verifyCamera ? (
+          <Container>
+            {verifyimg === null ? (
+              <>
+                <Webcam
+                  audio={false}
+                  mirrored={true}
+                  height={250}
+                  width={250}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  videoConstraints={videoConstraints}
+                />
+                <Group>
+                  <Button
+                    onClick={() => setVerifyCamera(false)}
+                    label={"Cancel"}
+                  />
+                  <Button
+                    onClick={Verifycapture}
+                    bg={true}
+                    label={"Capture Photo"}
+                  />
+                </Group>
+              </>
+            ) : (
+              <Flex direction={"column"} gap="sm">
+                <img src={verifyimg} alt="screenshot" />
+                <Flex justify={"space-around"}>
+                  <Button
+                    onClick={() => setVerifyImg(null)}
+                    label="Retake"
+                    bg={true}
+                    loading={fileLoader}
+                  />
+                  <Button
+                    onClick={() => handleVerifyFaceId.mutate()}
+                    label="Verify"
+                    loading={fileLoader}
+                    bg={true}
+                  />
+                </Flex>
+              </Flex>
+            )}
+          </Container>
+        ) : (
+          <Button
+            label={"Verify FaceID"}
+            onClick={() => setVerifyCamera(true)}
+            // disabled={(Object.keys(faceID).length === 0)!==true}
+            leftIcon="faceid"
+            iconWidth="24px"
+            styles={{
+              width: "230px",
+              fontSize: "22px",
+              height: "46px",
+              margin: "auto",
+            }}
+            bg={true}
+            disabled={disabledCameraBtn}
+          />
+        )}
 
         <Divider
           label="OR"

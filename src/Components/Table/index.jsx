@@ -160,6 +160,7 @@ const Table = ({
                                 navigate(`/userVerification`, {
                                   state: {
                                     id: row.id,
+                                    image:row.image
                                   },
                                 });
                               } else {
@@ -566,7 +567,13 @@ const Table = ({
                         onClick={() => {
                           user.role === "Psychologist"
                             ? navigate(
-                                `/start-appointment-p/${row.userid}/${row.appointId}`
+                                `/start-appointment-p`, {
+                                  state: {
+                                    id: row.userid,
+                                    appId: row.appointId,
+                                    appData: row,
+                                  },
+                                }
                               )
                             : navigate(`/start-appointment`, {
                                 state: {
