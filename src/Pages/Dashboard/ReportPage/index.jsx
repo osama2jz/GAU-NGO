@@ -1,30 +1,27 @@
 import {
   Anchor,
-  Avatar,
   Container,
   Flex,
   Grid,
   SimpleGrid,
-  Text,
+  Text
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { ArrowNarrowLeft, Eye, Trash } from "tabler-icons-react";
-import userlogo from "../../../assets/teacher.png";
+import { ArrowNarrowLeft, Eye } from "tabler-icons-react";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Card from "../Card";
 import { useStyles } from "./styles";
-import Pagination from "../../../Components/Pagination";
-import ReactHtmlParser from "react-html-parser";
-import TextArea from "../../../Components/TextArea";
-import ContainerHeader from "../../../Components/ContainerHeader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -33,7 +30,7 @@ const UserPage = (props) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [url, setUrl] = useState(`/public`);

@@ -33,7 +33,7 @@ const UserPage = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [url, setUrl] = useState(`/all`);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState();

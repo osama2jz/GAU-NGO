@@ -33,7 +33,7 @@ const UserPage = (props) => {
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [url, setUrl] = useState(`/all`);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -82,8 +82,6 @@ const UserPage = (props) => {
       },
     }
   );
-
-  console.log("allApp", allApp);
 
   const scheduled = allApp && allApp?.filter((e) => e.status === "SCHEDULED");
   const completed = allApp && allApp?.filter((e) => e.status === "CLOSED");
