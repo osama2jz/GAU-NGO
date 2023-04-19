@@ -104,13 +104,13 @@ const DoubleTabs = ({
         color={"blue.0"}
       >
         <Tabs.List position="center">
-          <Tabs.Tab value="public">Upload Public Report</Tabs.Tab>
-          <Tabs.Tab value="private">Upload Private Report</Tabs.Tab>
+          <Tabs.Tab value="public">{translate("Upload Public Report")}</Tabs.Tab>
+          <Tabs.Tab value="private">{translate("Upload Private Report")}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="public" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Public Report
+            {translate("Public Report")}
           </Text>
           <InputField
             label={"Title"}
@@ -130,7 +130,7 @@ const DoubleTabs = ({
 
         <Tabs.Panel value="private" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Private Report
+            {translate("Private Report")}
           </Text>
 
           <InputField
