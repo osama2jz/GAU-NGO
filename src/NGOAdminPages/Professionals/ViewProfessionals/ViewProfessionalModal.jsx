@@ -49,7 +49,7 @@ function ViewUserModal({ id, reportData }) {
             w={"100px"}
             // ml="20px"
           >
-            {reportData?.accStatus}
+            {translate(reportData?.accStatus)}
           </Badge>
           <Text className={classes.textheading}>{translate("ID Document")}</Text>
           <Anchor target={"_blank"} href={reportData?.idDetails}>
