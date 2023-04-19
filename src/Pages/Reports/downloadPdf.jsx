@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import download from "../../assets/download.svg";
@@ -6,9 +6,11 @@ import { Flex, Image, Menu, Text } from "@mantine/core";
 import { useStyles } from "./Private/styles";
 import moment from "moment";
 import { showNotification } from "@mantine/notifications";
+import { UserContext } from "../../contexts/UserContext";
 
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
+  const { translate } = useContext(UserContext);
 
   // console.log("data", data);
   const today = moment();
@@ -96,19 +98,25 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
           gap={4}
           align="center"
           justify={"space-around"}
-          style={{ border: "1px solid rgb(0, 0, 0, 0.1)" }}
+          style={{ border: "1px solid rgb(0, 0, 0, 0.1)", width:'150px' }}
         >
           <Image src={download} width={18} height={18} />
-          <Text>Export PDF</Text>
+          <Text>{translate("Export PDF")}</Text>
         </Flex>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>
-          All
+          {translate("All")}
         </Menu.Item>
-        <Menu.Item onClick={() => filter("daily")}>Daily</Menu.Item>
-        <Menu.Item onClick={() => filter("weekly")}>Weekly</Menu.Item>
-        <Menu.Item onClick={() => filter("monthly")}>Monthly</Menu.Item>
+        <Menu.Item onClick={() => filter("daily")}>
+          {translate("Daily")}
+        </Menu.Item>
+        <Menu.Item onClick={() => filter("weekly")}>
+          {translate("Weekly")}
+        </Menu.Item>
+        <Menu.Item onClick={() => filter("monthly")}>
+          {translate("Monthly")}
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

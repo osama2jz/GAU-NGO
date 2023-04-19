@@ -31,7 +31,7 @@ const MyDocs = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
