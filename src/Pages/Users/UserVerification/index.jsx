@@ -23,7 +23,7 @@ import { useStyles } from "./styles";
 
 export const UserVerification = () => {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const sigCanvas = useRef({});
   const sigCanvas2 = useRef({});
   const theme = useMantineTheme();
@@ -382,8 +382,8 @@ export const UserVerification = () => {
             }}
           >
             <Stepper.Step
-              label="1. Get Started"
-              description="Personal Identification"
+              label={`1. ${translate("Get Started")}`}
+              description={translate("Personal Identification")}
             >
               <Step1 user={userid} setUser={setUserId} />
             </Stepper.Step>
@@ -396,8 +396,8 @@ export const UserVerification = () => {
                   alt="icon"
                 />
               }
-              label="2. Social History Form"
-              description="User's Personal History"
+              label={`2. ${translate("Social History Form")}`}
+              description={translate("User's Personal History")}
             >
               <Step2
                 setActive={setActive}
@@ -424,8 +424,8 @@ export const UserVerification = () => {
                   alt="icon"
                 />
               }
-              label="3. Consent Form"
-              description="Consent Form"
+              label={`3. ${translate("Consent Form")}`}
+              description={translate("Consent Form")}
             >
               <Step3 sigCanvas={sigCanvas} />
             </Stepper.Step>
@@ -438,8 +438,8 @@ export const UserVerification = () => {
                   alt="icon"
                 />
               }
-              label="4. Agreement"
-              description="User Agreement"
+              label={`4. ${translate("Agreement")}`}
+              description={translate("User Agreement")}
             >
               <Step4 sigCanvas={sigCanvas2} />
             </Stepper.Step>
