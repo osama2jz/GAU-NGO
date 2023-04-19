@@ -165,7 +165,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label={`2. ${translate(Schedule)}`}
+            label={`2. ${translate("Schedule")}`}
           >
             <Step2
               caseId={selectedCase}
