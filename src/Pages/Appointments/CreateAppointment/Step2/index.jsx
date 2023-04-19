@@ -19,7 +19,7 @@ const Step2 = ({
   slot,
   setOpened,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [typeFilter, setTypeFilter] = useState("socialWorker");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
@@ -73,7 +73,7 @@ const Step2 = ({
     <>
       <Container size="lg" px={"0px"}>
         <Text fz={32} fw="bolder" align="center" mb={"md"}>
-          Select Appointment Slot
+          {translate("Select Appointment Slot")}
         </Text>
         <Grid align={"center"} py="md">
           <Grid.Col md={6} lg={3}>
@@ -143,7 +143,7 @@ const Step2 = ({
               ))
             ) : (
               <Text fw={"bold"} align="center" m={"auto"} color="dimmed">
-                No Professional Available
+                {translate("No Professional Available")}
               </Text>
             )}
           </Grid>

@@ -9,7 +9,7 @@ import { useQuery } from "react-query";
 
 function ViewUserModal({ id }) {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [userdata, setUserData] = useState();
 
     useEffect(()=>{
@@ -65,16 +65,16 @@ function ViewUserModal({ id }) {
       </Text>
       <Container w={"100%"} ml="md">
         <SimpleGrid cols={2} spacing="xs">
-          <Text className={classes.textheading}>Email</Text>
+          <Text className={classes.textheading}>{translate("Email")}</Text>
           <Text className={classes.textContent}>{userdata?.email}</Text>
-          <Text className={classes.textheading}>Appointment Date</Text>
+          <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
           <Text className={classes.textContent}>12 Jan 2020</Text>
-          <Text className={classes.textheading}>Appointment Time</Text>
+          <Text className={classes.textheading}>{("Appointment Time")}</Text>
           <Text className={classes.textContent}>11:30 PM</Text>
-          <Text className={classes.textheading}>Status</Text>
+          <Text className={classes.textheading}>{translate("Status")}</Text>
           <Text className={classes.textContent}>
             <Badge color="red" ml="auto">
-              Processing
+              {translate("Processing")}
             </Badge>
           </Text>
         </SimpleGrid>

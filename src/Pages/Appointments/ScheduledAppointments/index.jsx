@@ -316,17 +316,17 @@ function ScheduledAppointments() {
             <SimpleGrid cols={2} spacing="xs" mt={"md"}>
               <Text className={classes.textheading}>{translate("Name")}</Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>{("Added By")}</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>{("Case Name")}</Text>
+              <Text className={classes.textheading}>{translate("Case Name")}</Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>{("Appointment Date")}</Text>
+              <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{("Appointment Time")}</Text>
+              <Text className={classes.textheading}>{translate("Appointment Time")}</Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
-              <Text className={classes.textheading}>{("Status")}</Text>
+              <Text className={classes.textheading}>{translate("Status")}</Text>
               <Text className={classes.textContent}>
                 <Badge
                   variant="filled"
@@ -334,7 +334,7 @@ function ScheduledAppointments() {
                     reportData?.status === "SCHEDULED" ? "green.0" : "red.0"
                   }
                 >
-                  {reportData?.status}
+                  {translate(reportData?.status)}
                 </Badge>
               </Text>
               {reportData?.refer === "Refered" && (

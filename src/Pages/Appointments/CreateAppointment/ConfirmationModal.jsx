@@ -19,11 +19,11 @@ const LeaveModal = ({ opened, setOpened, onSubmit }) => {
     root: {},
   }));
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { translate } = useContext(UserContext);
 
   return (
     <Modal
-      title={"Schedule"}
+      title={translate("Schedule")}
       opened={opened}
       onClose={() => setOpened(false)}
       centered
@@ -31,7 +31,7 @@ const LeaveModal = ({ opened, setOpened, onSubmit }) => {
       classNames={{ title: classes.title, body: classes.root }}
     >
       <Container>
-        <Text>Are you sure you want to schedule this appointment?</Text>
+        <Text>{translate("Are you sure you want to schedule this appointment?")}</Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
           <Button
