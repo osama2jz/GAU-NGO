@@ -132,7 +132,7 @@ export const Step1 = ({ user, setUser }) => {
         )}
       </Container>
 
-      <Container size="xl" w={"100%"} className={classes.faceid}>
+      {/* <Container size="xl" w={"100%"} className={classes.faceid}>
         <Button
           label={"Verify Face ID"}
           leftIcon="faceid"
@@ -141,7 +141,7 @@ export const Step1 = ({ user, setUser }) => {
           onClick={handleVerifyID}
           bg={true}
         />
-      </Container>
+      </Container> */}
     </Container>
   );
 };

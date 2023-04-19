@@ -53,6 +53,7 @@ const AddAppointment = () => {
 
   //Camera Image
   const [img, setImg] = useState(null);
+  const [verifyimg, setVerifyImg] = useState(null);
   //Face Io
   const [faceID, setFaceId] = useState({});
 
@@ -65,6 +66,8 @@ const AddAppointment = () => {
   const [projectId, setProjectId] = useState("");
 
   const [attachedDocs, setAttachedDocs] = useState([]);
+
+  const [verifyStatus, setVerifyStatus] = useState(false);
 
   const editorr = useEditor({
     extensions: [
@@ -282,7 +285,7 @@ const AddAppointment = () => {
       const value = {
         caseId: selectedCase,
         otherDocuments: otherDocument,
-        attachedDocument: attachedDocs
+        attachedDocument: attachedDocs,
       };
       return axios.post(`${backendUrl + "/api/case/otherDocuments"}`, value, {
         headers: {
@@ -291,13 +294,7 @@ const AddAppointment = () => {
       });
     },
     {
-      onSuccess: (response) => {
-        // showNotification({
-        //   color: "green.0",
-        //   message: "Documents uploaded Successfully",
-        //   title: "Success",
-        // });
-      },
+      onSuccess: (response) => {},
     }
   );
 
@@ -313,7 +310,7 @@ const AddAppointment = () => {
 
           return;
         }
-        if (img === null && (Object.keys(faceID).length === 0) === true) {
+        if (img === null && verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -330,7 +327,7 @@ const AddAppointment = () => {
             otherUserName !== "" &&
             otherUserMobile !== "" &&
             otherUserId !== "" &&
-            !(img === null && (Object.keys(faceID).length === 0) === true)
+            !(img === null && verifyStatus)
           ) {
           } else {
             showNotification({
@@ -342,7 +339,7 @@ const AddAppointment = () => {
           }
         }
       } else {
-        if (img === null && (Object.keys(faceID).length === 0) === true) {
+        if (img === null && verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -359,7 +356,7 @@ const AddAppointment = () => {
             otherUserName !== "" &&
             otherUserMobile !== "" &&
             otherUserId !== "" &&
-            !(img === null && (Object.keys(faceID).length === 0) === true)
+            !(img === null && verifyStatus)
           ) {
           } else {
             showNotification({
@@ -396,7 +393,6 @@ const AddAppointment = () => {
 
   async function handleGeneratePDF(value, type) {
     return new Promise((resolve, reject) => {
-
       const doc = new jsPDF();
       const text = value.getHTML();
 
@@ -418,7 +414,6 @@ const AddAppointment = () => {
   }
 
   const handleFileInput = (file, type) => {
-
     setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
@@ -546,6 +541,11 @@ const AddAppointment = () => {
               appData={appData}
               setProjectId={setProjectId}
               projectId={projectId}
+              setVerifyImg={setVerifyImg}
+              verifyimg={verifyimg}
+              setVerifyStatus={setVerifyStatus}
+              fileLoader={fileLoader}
+              setFileLoader={setFileLoader}
             />
           </Stepper.Step>
           {user.role === "Psychologist" && (
