@@ -110,7 +110,7 @@ const Login = () => {
         color={"rgb(0,0,0,0.5)"}
         my="md"
       />
-      <GoogleLogin
+      {/* <GoogleLogin
       // onSuccess={async (credentialResponse) => {
       //   axios
       //     .post(backendUrl + "/auth/signin-with-google", {
@@ -128,7 +128,7 @@ const Login = () => {
       // onError={(res) => {
       //   toast.error("Something went wrong! Please Try Again.");
       // }}
-      />
+      /> */}
       <Text align="center" mt={"sm"}>
         {translate("Don't have an Account")}?{" "}
         <Anchor onClick={() => navigate(routeNames.general.signup)}>
