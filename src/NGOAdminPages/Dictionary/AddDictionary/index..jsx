@@ -1,24 +1,22 @@
-import { Avatar, Container, Group, Text, useMantineTheme } from "@mantine/core";
+import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
-import TextArea from "../../../Components/TextArea";
+import routeNames from "../../../Routes/routeNames";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 
 export const AddDictionary = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const { state } = useLocation();
   const { editData } = state ?? "";
   const [langauges, setLanguages] = useState([]);
@@ -41,13 +39,17 @@ export const AddDictionary = () => {
 
     validate: {
       languageId: (value) =>
-        value?.length < 1 ? translate("Please select your desired language") : null,
+        value?.length < 1
+          ? translate("Please select your desired language")
+          : null,
       actualText: (value) =>
         value?.length > 0
           ? null
           : translate("Please enter word you want to translate"),
       translatedText: (value) =>
-        value?.length < 1 ? translate("Please enter meaning of the word") : null,
+        value?.length < 1
+          ? translate("Please enter meaning of the word")
+          : null,
     },
   });
 
@@ -78,9 +80,9 @@ export const AddDictionary = () => {
   const handleAddWord = useMutation(
     (values) => {
       let url = editData ? "edit" : "add";
-      values.actualText =
-        values.actualText.slice(0, 1).toUpperCase() +
-        values.actualText.slice(1);
+      values.actualText = (
+        values.actualText.slice(0, 1).toUpperCase() + values.actualText.slice(1)
+      ).trim();
       values.translatedText =
         values.translatedText.slice(0, 1).toUpperCase() +
         values.translatedText.slice(1);

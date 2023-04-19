@@ -261,7 +261,7 @@ function ViewAppointments() {
                           : "red.0"
                       }
                     >
-                      {editData?.status}
+                      {translate(editData?.status)}
                     </Badge>
                   </Text>
                   {editData?.otherPersonName && (

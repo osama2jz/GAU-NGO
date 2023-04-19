@@ -229,7 +229,7 @@ function PublicReport() {
       <ContainerHeader label={"Public"} />
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6} md={4} lg={5}>
+          <Grid.Col sm={6} md={4} lg={4}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -269,7 +269,7 @@ function PublicReport() {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={3} lg={2}>
+          <Grid.Col sm={3} lg={3}>
             <DownloadPdf
               headCells={headerData}
               data={filterData}

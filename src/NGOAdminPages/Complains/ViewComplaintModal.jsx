@@ -16,7 +16,6 @@ const ViewComplaintModal = ({ id, reportData }) => {
           <Text className={classes.textContent}>{reportData?.amount}</Text>
           <Text className={classes.textheading}>{translate("Complaint Date")}</Text>
           <Text className={classes.textContent}>{reportData?.date}</Text>
-
           <Text className={classes.textheading}>{translate("NGO Name")}</Text>
           <Text className={classes.textContent}>{reportData?.ngo}</Text>
           <Text className={classes.textheading}>{translate("Description")}</Text>
@@ -25,7 +24,7 @@ const ViewComplaintModal = ({ id, reportData }) => {
               ? reportData?.description
               : translate("No Description")}
           </Text>
-          <Text className={classes.textheading}>Reply</Text>
+          <Text className={classes.textheading}>{translate("Reply")}</Text>
           <Text className={classes.textContent}>
             {reportData?.reply || translate("Not Replied")}{" "}
           </Text>

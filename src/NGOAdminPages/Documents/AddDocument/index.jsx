@@ -203,8 +203,8 @@ export const AddDocument = () => {
           />
           <Input.Wrapper error={filerror} size={"md"}>
             <FileInput
-              label="Upload Document"
-              placeholder={"Upload Document"}
+              label={translate("Upload Document")}
+              placeholder={translate("Upload Document")}
               required={true}
               size="md"
               accept="file/pdf"
