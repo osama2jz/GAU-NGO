@@ -16,7 +16,7 @@ import Button from "../../Button";
 const MySchedule = ({ Userid, setSlot, slot }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [opened, setOpened] = useState(false);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
