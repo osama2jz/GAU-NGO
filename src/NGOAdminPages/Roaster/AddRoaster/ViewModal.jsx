@@ -44,7 +44,7 @@ const LeaveModal = ({
     root: {},
   }));
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { translate } = useContext(UserContext);
 
   return (
     <Modal
@@ -74,7 +74,7 @@ const LeaveModal = ({
             <Flex>
               {<CalendarEvent />}
               <Text fz={"md"} fw={"bold"}>
-                Start Date
+                {translate("Start Date")}
               </Text>
             </Flex>
 
@@ -82,7 +82,7 @@ const LeaveModal = ({
             <Flex>
               {<CalendarEvent />}
               <Text fz={"md"} fw={"bold"}>
-                End Date
+                {translate("End Date")}
               </Text>
             </Flex>
 
@@ -91,7 +91,7 @@ const LeaveModal = ({
         </Container>
         <Container>
           <Text align="center" fz={"xl"} fw={"bold"}>
-            Selected Professionals
+            {translate("Selected Professionals")}
           </Text>
 
           {selectedProfessional.filter((item) => item.role === "Social Worker")

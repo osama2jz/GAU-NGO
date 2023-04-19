@@ -89,7 +89,7 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
         />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
-        {moment(date).format("DD MMMM")} Schedule
+        {moment(date).format("DD MMMM")} {translate("{Schedule}")}
       </Text>
       {getSchedule.status === "loading" ? (
         <Loader minHeight="100px" />
@@ -119,12 +119,12 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
           </Container>
         ) : (
           <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-            All slots booked
+            {translate("All slots booked")}
           </Text>
         )
       ) : (
         <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-          No Duties Assigned
+          {translate("No Duties Assigned")}
         </Text>
       )}
       <LeaveModal
