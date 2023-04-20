@@ -8,14 +8,13 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { FileUpload } from "tabler-icons-react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
-import DoubleTabs from "./Tabs";
-import { FileUpload } from "tabler-icons-react";
 import { s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-import jsPDF from "jspdf";
+import DoubleTabs from "./Tabs";
 
 const Step3 = ({
   selectedUser,
@@ -34,7 +33,7 @@ const Step3 = ({
   publicRef,
   setAttachedDocs,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const addInputField = () => {
     if (
@@ -104,7 +103,7 @@ const Step3 = ({
       <Flex justify={"space-between"}>
         <SimpleGrid cols={2}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text>{caseNo}</Text>
         </SimpleGrid>
@@ -125,23 +124,29 @@ const Step3 = ({
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        User's Documents
+        {translate("User's Documents")}
       </Text>
-      <Checkbox.Group
-        label="Select Documents from user's profile."
-        description="These are uploaded by user into his profile."
-        onChange={(v)=>setAttachedDocs(v)}
-      >
-        <Group mt="xs">
-          {selectedUser?.data?.documents.map((doc, key) => (
-            <Checkbox value={doc._id} label={doc?.documentTitle} key={key}/>
-          ))}
-        </Group>
-      </Checkbox.Group>
+      {selectedUser?.data?.documents.length > 0 ? (
+        <Checkbox.Group
+          label={translate("Select Documents from user's profile.")}
+          description={translate(
+            "These are uploaded by user into his profile."
+          )}
+          onChange={(v) => setAttachedDocs(v)}
+        >
+          <Group mt="xs">
+            {selectedUser?.data?.documents.map((doc, key) => (
+              <Checkbox value={doc._id} label={doc?.documentTitle} key={key} />
+            ))}
+          </Group>
+        </Checkbox.Group>
+      ) : (
+        <Text>{translate("This User does not have any documents")}.</Text>
+      )}
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        Other Documents
+        {translate("Other Documents")}
       </Text>
 
       {otherDocument?.map((i, index) => (
@@ -179,7 +184,7 @@ const Step3 = ({
                 color: "black !important",
               },
             })}
-            icon={<FileUpload size={20} color="green"/>}
+            icon={<FileUpload size={20} color="green" />}
             onChange={(e) => handleFileInput(e, index)}
           />
         </SimpleGrid>

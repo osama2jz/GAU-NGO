@@ -85,8 +85,6 @@ export const AllUser = () => {
     {
       id: "actions",
       view: <Eye />,
-      edit: <Edit />,
-      delete: <Trash />,
       numeric: false,
       label: "Actions",
     },
@@ -102,6 +100,17 @@ export const AllUser = () => {
         label: "Verify",
       });
       arr = headerData;
+    }
+    if (user.role === "Social Worker" || user.role === "Admin") {
+      (headerData[headerData.length - 1] = {
+        id: "actions",
+        view: <Eye />,
+        edit: <Edit />,
+        delete: <Trash />,
+        numeric: false,
+        label: "Actions",
+      }),
+        (arr = headerData);
     }
     return arr;
   }, [user]);
@@ -133,7 +142,7 @@ export const AllUser = () => {
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,
             image: obj?.profileImage,
-            consentform:obj?.userConsentForm
+            consentform: obj?.userConsentForm,
           };
           return user;
         });
@@ -266,8 +275,8 @@ export const AllUser = () => {
               }}
             />
           </Grid.Col>
-            {(user.role === "Social Worker" || user.role === "Admin") && (
-          <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
+          {(user.role === "Social Worker" || user.role === "Admin") && (
+            <Grid.Col sm={6} lg={3} md={4} style={{ textAlign: "end" }}>
               <Button
                 label={"Add User"}
                 bg={true}
@@ -275,8 +284,8 @@ export const AllUser = () => {
                 styles={{ float: "right" }}
                 onClick={() => navigate(routeNames.socialWorker.addUser)}
               />
-          </Grid.Col>
-            )}
+            </Grid.Col>
+          )}
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
               headCells={headerData}
@@ -324,7 +333,6 @@ export const AllUser = () => {
         opened={openViewModal}
         setOpened={setOpenViewModal}
         title="User Details"
-       
       >
         <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>

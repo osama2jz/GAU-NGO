@@ -10,7 +10,6 @@ import { useStyles } from "./styles";
 
 import axios from "axios";
 import { useQuery } from "react-query";
-import defaultUser from "../../../assets/teacher.png";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";

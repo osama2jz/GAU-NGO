@@ -19,7 +19,7 @@ import SelectMenu from "../../../Components/SelectMenu";
 const VerificationSchedule = ({}) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, translate } = useContext(UserContext);
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [opened, setOpened] = useState(false);
@@ -129,11 +129,13 @@ const VerificationSchedule = ({}) => {
   return (
     <Container size="lg" py={"xl"}>
       <Text fz={32} fw="bolder" align="center">
-        Book An Appointment
+        {translate("Book An Appointment")}
       </Text>
       <Text fz={15} align="center" mb={"md"}>
-        Your profile is not verified yet, please schedule a meeting for your
-        account verification.
+        {translate(
+          "Your profile is not verified yet, please schedule a meeting for your account verification"
+        )}
+        .
       </Text>
       <Button
         label={"Log Out"}

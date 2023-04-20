@@ -53,13 +53,12 @@ const Step1 = ({
   setVerifyImg,
   setVerifyStatus,
   setFileLoader,
-  fileLoader
-
+  fileLoader,
 }) => {
   const { state } = useLocation();
 
   const { classes } = useStyles();
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -116,7 +115,6 @@ const Step1 = ({
     const blob = new Blob([arrayBuffer], { type: mimeString });
 
     blob.name = fileName;
-    console.log(blob);
     return blob;
   }
 
@@ -181,6 +179,7 @@ const Step1 = ({
   const handleOpenCamera = () => {
     setDisabledIdBtn(true);
     setShowCamera(true);
+    setVerifyCamera(false);
   };
 
   const handleCloseCamera = () => {
@@ -232,21 +231,20 @@ const Step1 = ({
     },
     {
       onSuccess: (response) => {
-        if(response.data.matched==="True"){
-          setVerifyStatus(true)
+        if (response.data.matched === "True") {
+          setVerifyStatus(true);
           showNotification({
             title: "Verification Success",
             message: "Face Matched",
             color: "green.0",
-          })
-        }else{
-          setVerifyStatus(false)
+          });
+        } else {
+          setVerifyStatus(false);
           showNotification({
             title: "Verification Failed",
             message: "Face Not Matched",
             color: "red.0",
-          })
-
+          });
         }
       },
     }
@@ -406,13 +404,13 @@ const Step1 = ({
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
-        Verify User
+        {translate("Verify User")}
       </Text>
 
       <Group>
         {verifyCamera ? (
           <Container>
-            {verifyimg===null ? (
+            {verifyimg === null ? (
               <>
                 <Webcam
                   audio={false}
@@ -443,12 +441,12 @@ const Step1 = ({
                     onClick={() => setVerifyImg(null)}
                     label="Retake"
                     bg={true}
-                    loading={fileLoader}
+                    disabled={fileLoader}
                   />
                   <Button
                     onClick={() => handleVerifyFaceId.mutate()}
                     label="Verify"
-                    loading={fileLoader}
+                    loading={fileLoader || handleVerifyFaceId.isLoading}
                     bg={true}
                   />
                 </Flex>
@@ -458,7 +456,10 @@ const Step1 = ({
         ) : (
           <Button
             label={"Verify FaceID"}
-            onClick={() => setVerifyCamera(true)}
+            onClick={() => {
+              setVerifyCamera(true);
+              setShowCamera(false);
+            }}
             // disabled={(Object.keys(faceID).length === 0)!==true}
             leftIcon="faceid"
             iconWidth="24px"

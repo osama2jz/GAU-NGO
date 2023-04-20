@@ -545,7 +545,7 @@ const Table = ({
                         disabled={row.status === "unverified" ? false : true}
                         bg={row.status === "unverified" && true}
                         compact={true}
-                        w="70px"
+                        w="auto"
                       />
                     </td>
                   ) : head.id === "close" ? (

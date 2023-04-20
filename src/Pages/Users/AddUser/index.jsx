@@ -31,7 +31,7 @@ export const AddUser = () => {
   const { classes } = useStyles();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [files, setFiles] = useState([]);
   const [fileUploading, setFileUploading] = useState(false);
   const [error, setError] = useState();
@@ -80,7 +80,9 @@ export const AddUser = () => {
           : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
 
       password: (value) =>
         editData ||
@@ -102,30 +104,23 @@ export const AddUser = () => {
           ? null
           : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? translate("Passwords did not match") : null,
+        value !== values?.password
+          ? translate("Passwords did not match")
+          : null,
     },
   });
 
   const handleAddUser = useMutation(
     (values) => {
-      if (values?.profileImage === null) {
-        setError(translate("Please upload a profile image"));
-        showNotification({
-          title: (translate("Upload Failed")),
-          message: (translate("Please upload a profile image")),
-          color: "red.0",
-        });
-      } else {
-        if (editData?.id) {
-          values = { ...values, userId: editData?.id };
-        }
-        let link = editData ? "/api/user/edit" : "/api/user/create";
-        return axios.post(`${backendUrl + link}`, values, {
-          headers: {
-            "x-access-token": user.token,
-          },
-        });
+      if (editData?.id) {
+        values = { ...values, userId: editData?.id };
       }
+      let link = editData ? "/api/user/edit" : "/api/user/create";
+      return axios.post(`${backendUrl + link}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {

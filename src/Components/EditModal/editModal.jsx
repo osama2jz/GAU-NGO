@@ -1,4 +1,6 @@
 import { createStyles, Modal as ModalMantine } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const EditModal = ({ opened, setOpened, children, title, size="md" }) => {
   const useStyles = createStyles((theme) => ({
@@ -10,10 +12,11 @@ const EditModal = ({ opened, setOpened, children, title, size="md" }) => {
       textAlign:"center"
     }
   }));
+  const {translate}=useContext(UserContext)
   const {classes}=useStyles()
   return (
     <ModalMantine
-      title={title}
+      title={translate(title)}
       opened={opened}
       onClose={() => setOpened(false)}
       centered

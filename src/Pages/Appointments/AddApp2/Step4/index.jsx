@@ -12,7 +12,7 @@ import moment from "moment";
 import Datepicker from "../../../../Components/Datepicker";
 
 const Step4 = ({ caseId, slot, setSlot }) => {
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [referCase, setNewReferCase] = useState();
   const [referedTo, setReferedTo] = useState("");
   const [search, setSearch] = useState("");
@@ -67,7 +67,7 @@ const Step4 = ({ caseId, slot, setSlot }) => {
     <>
       <Container size="lg">
         <Text fz={32} fw="bolder" align="center" mb={"md"}>
-          Refer to Experts
+          {translate("Refer to Experts")}
         </Text>
         <Grid align={"center"} py="md">
           <Grid.Col md={6} lg={3}>
@@ -139,7 +139,7 @@ const Step4 = ({ caseId, slot, setSlot }) => {
               ))
             ) : (
               <Text fw={"bold"} align="center" m={"auto"} color="dimmed">
-                No Professional Available
+                {translate("No Professional Available")}
               </Text>
             )}
           </Grid>

@@ -34,7 +34,7 @@ const Step3 = ({
   publicRef,
   setAttachedDocs,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const addInputField = () => {
     if (
@@ -104,7 +104,7 @@ const Step3 = ({
       <Flex justify={"space-between"}>
         <SimpleGrid cols={2}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text>{caseNo}</Text>
         </SimpleGrid>
@@ -125,11 +125,11 @@ const Step3 = ({
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        User's Documents
+        {translate("User's Documents")}
       </Text>
       <Checkbox.Group
-        label="Select Documents from user's profile."
-        description="These are uploaded by user into his profile."
+        label={translate("Select Documents from user's profile.")}
+        description={translate("These are uploaded by user into his profile.")}
         onChange={(v)=>setAttachedDocs(v)}
       >
         <Group mt="xs">
@@ -141,7 +141,7 @@ const Step3 = ({
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        Other Documents
+        {translate("Other Documents")}
       </Text>
 
       {otherDocument?.map((i, index) => (
@@ -163,8 +163,8 @@ const Step3 = ({
           />
 
           <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
+            label={translate("Upload Document")}
+            placeholder={translate("Upload Document")}
             accept="file/pdf"
             styles={(theme) => ({
               root: {

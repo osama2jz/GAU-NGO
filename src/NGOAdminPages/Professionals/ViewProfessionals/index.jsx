@@ -34,7 +34,7 @@ export const ViewProfessionals = () => {
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
-  const { user ,translate} = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
@@ -185,7 +185,7 @@ export const ViewProfessionals = () => {
         );
       }
     });
-    setPage(1)
+    setPage(1);
     setTotalPages(Math.ceil(filteredData?.length / 10));
     const a = filteredData.map((item, ind) => {
       return {
@@ -194,7 +194,7 @@ export const ViewProfessionals = () => {
       };
     });
     return a;
-  },[rowData, search, filter]);
+  }, [rowData, search, filter]);
 
   const Paginated = useMemo(() => {
     if (activePage === 1) {
@@ -204,7 +204,6 @@ export const ViewProfessionals = () => {
       return FilteredData.slice(a, a + 10);
     }
   }, [activePage, FilteredData]);
-
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -290,7 +289,7 @@ export const ViewProfessionals = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={translate("Professional Details")}
+        title={"Professional Details"}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewProfessionalModal id={viewModalData} reportData={reportData} />

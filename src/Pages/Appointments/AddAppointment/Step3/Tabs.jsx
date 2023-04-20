@@ -1,14 +1,9 @@
 import { Tabs, Text } from "@mantine/core";
-import jsPDF from "jspdf";
-import React from "react";
-import ReactHtmlParser from "react-html-parser";
+import React, { useContext } from "react";
 import InputField from "../../../../Components/InputField";
 import TextEditor from "../../../../Components/TextEditor";
-import { s3Config } from "../../../../constants/constants";
-import { useStyles } from "../styles";
-import Button from "../../../../Components/Button";
-import { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContext";
+import { useStyles } from "../styles";
 
 const DoubleTabs = ({
   selectedUser,

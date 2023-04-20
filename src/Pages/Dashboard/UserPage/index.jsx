@@ -2,7 +2,7 @@ import { Anchor, Container, Flex, Grid, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
@@ -263,12 +263,6 @@ const UserPage = (props) => {
       label: "User Status",
     },
     {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -277,12 +271,35 @@ const UserPage = (props) => {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
+
+  const newData = useMemo(() => {
+    let arr = headerData;
+    if (user.role === "Social Worker") {
+      headerData.splice(5, 0, {
+        id: "userVerify",
+        numeric: false,
+        disablePadding: true,
+        label: "Verify",
+      });
+      arr = headerData;
+    }
+    if (user.role === "Social Worker" || user.role === "Admin") {
+      (headerData[headerData.length - 1] = {
+        id: "actions",
+        view: <Eye />,
+        edit: <Edit />,
+        delete: <Trash />,
+        numeric: false,
+        label: "Actions",
+      }),
+        (arr = headerData);
+    }
+    return arr;
+  }, [user]);
 
   const a = [
     {
@@ -347,7 +364,7 @@ const UserPage = (props) => {
       ) : (
         <Container mt="md" size={1095} className={classes.main}>
           <Table
-            headCells={headerData}
+            headCells={newData}
             rowData={rowData}
             setViewModalState={setOpenViewModal}
             setEditModalState={setOpenEditModal}

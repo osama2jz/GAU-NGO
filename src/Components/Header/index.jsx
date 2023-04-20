@@ -79,7 +79,7 @@ const Index = ({}) => {
                   : "blue.0"
               }
             >
-              {user.role}
+              {translate(user.role)}
             </Text>
             <Text fw={"bolder"} fz={matches2 && "xl"}>
               {translate("Dashboard")}

@@ -139,12 +139,12 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"md"}>
-        Meeting In Progress
+        {translate("Meeting In Progress")}
       </Text>
       <Flex justify={"space-between"}>
         <Flex align={"center"}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text ml={10}>{caseNo}</Text>
         </Flex>
@@ -153,7 +153,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         <UserInfo userData={selectedUser} />
       </Container> */}
       <Text align="center" fw={"bold"} mt="xl">
-        Previous Reports
+        {translate("Previous Reports")}
       </Text>
       {loading ? (
         <Loader />
@@ -225,7 +225,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
 
                 <Text className={classes.textheading}>{translate("Report Type")}</Text>
                 <Text className={classes.textContent}>
-                  {reportData?.reportType}
+                  {translate(reportData?.reportType)}
                 </Text>
               </SimpleGrid>
             </Container>

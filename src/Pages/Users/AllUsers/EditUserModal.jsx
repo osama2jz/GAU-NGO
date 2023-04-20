@@ -118,7 +118,7 @@ function ViewUserModal({ id ,setOpenEditModal}) {
         <InputField
           label="Phone Number"
           required={true}
-          placeholder="phoneNumber"
+          placeholder="Phone Number"
           form={form}
           validateName="phoneNumber"
         />

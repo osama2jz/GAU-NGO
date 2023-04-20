@@ -38,7 +38,7 @@ const AddAppointment = () => {
   const navigate = useNavigate();
   const publicRef = useRef();
   // const { id, appId } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
@@ -310,7 +310,7 @@ const AddAppointment = () => {
 
           return;
         }
-        if (img === null && verifyStatus) {
+        if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -339,7 +339,7 @@ const AddAppointment = () => {
           }
         }
       } else {
-        if (img === null && verifyStatus) {
+        if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -523,7 +523,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="1. Select User"
+            label={`1. ${translate("Select User")}`}
           >
             <Step1
               setSelectedUser={setSelectedUser}
@@ -548,26 +548,6 @@ const AddAppointment = () => {
               setFileLoader={setFileLoader}
             />
           </Stepper.Step>
-          {user.role === "Psychologist" && (
-            <Stepper.Step
-              icon={
-                <img
-                  src={step1}
-                  className={classes.stepIcon}
-                  width="72px"
-                  alt="icon"
-                />
-              }
-              label="Form"
-            >
-              {age >= 18 ? (
-                // "h":
-                <AgeFormAbove setActive={setActive} active={active} />
-              ) : (
-                <AgeForm setActive={setActive} active={active} />
-              )}
-            </Stepper.Step>
-          )}
           <Stepper.Step
             icon={
               <img
@@ -577,7 +557,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="2. In Meeting"
+            label={`2. ${translate("In Meeting")}`}
           >
             <Step2
               selectedUser={selectedUser}
@@ -595,7 +575,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="3. Upload Reporting"
+            label={`3. ${translate("Upload Reports")}`}
           >
             <Step3
               selectedUser={selectedUser}
@@ -624,7 +604,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="4. Finish"
+            label={`4. {translate("Finish")}`}
           >
             <Step5 />
           </Stepper.Step>
@@ -637,7 +617,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="5. Refer"
+            label={`5. ${translate("Refer")}`}
           >
             <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
           </Stepper.Step>
