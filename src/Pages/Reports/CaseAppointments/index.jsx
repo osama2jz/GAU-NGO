@@ -38,7 +38,7 @@ function CaseAppointments() {
   const [rowData, setRowData] = useState([]);
   const [caseNo, setCaseNo] = useState("");
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
@@ -85,6 +85,7 @@ function CaseAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",

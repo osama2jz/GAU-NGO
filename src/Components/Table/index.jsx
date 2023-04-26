@@ -146,7 +146,7 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {console.log("headCells", headCells)}
+         
           {rowDatas?.map((row, index) => {
             return (
               <tr key={row.id}>

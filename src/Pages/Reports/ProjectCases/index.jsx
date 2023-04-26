@@ -21,12 +21,11 @@ import ContainerHeader from "../../../Components/ContainerHeader";
 function ProjectCases() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {translate}=useContext(UserContext)
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [caseNo, setCaseNo] = useState("");
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user ,translate} = useContext(UserContext);
   const [reportData, setReportData] = useState([]);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [activePage, setPage] = useState(1);
@@ -143,8 +142,8 @@ function ProjectCases() {
         console.log(response);
         if (response?.data?.status) {
           showNotification({
-            title: "Case Closed",
-            message: "Case Closed Successfully",
+            title: translate("Case Closed"),
+            message: translate("Case Closed Successfully"),
             color: "green",
           });
           queryClient.invalidateQueries(["userCaseProjectReports", caseNo]);

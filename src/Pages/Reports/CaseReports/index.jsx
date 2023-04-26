@@ -29,7 +29,7 @@ function CaseReport() {
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
@@ -78,6 +78,7 @@ function CaseReport() {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate: true,
     },
     {
       id: "date",
