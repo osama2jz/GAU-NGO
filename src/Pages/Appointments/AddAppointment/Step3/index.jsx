@@ -158,7 +158,7 @@ const Step3 = ({
         >
           <InputField
             label={"Document Name"}
-            placeholder="Enter document name"
+            placeholder="Enter Document Title"
             onChange={(e) => {
               // update value at current index in other document array
               otherDocument[index].documentName = e.target.value;
@@ -168,8 +168,8 @@ const Step3 = ({
           />
 
           <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
+            label={translate("Upload Document")}
+            placeholder={translate("Upload Document")}
             accept="file/pdf"
             styles={(theme) => ({
               root: {

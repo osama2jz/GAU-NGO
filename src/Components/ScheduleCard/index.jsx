@@ -3,8 +3,11 @@ import clock from "../../assets/clock-solid.svg";
 import meeting from "../../assets/handshake-solid.svg";
 import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 const Cards = ({ data ,setSlot,slot}) => {
   const { classes } = useStyles();
+  const {translate}=useContext(UserContext)
   return (
     <Card
       withBorder
@@ -34,7 +37,7 @@ const Cards = ({ data ,setSlot,slot}) => {
           {data?.startTime} {"-"} {data?.endTime}
         </Text>
       </Flex>
-        <Badge variant="filled" color={data?.booked ? "red.0" : 'green.0'}>{data?.booked ? "Booked" : "Not Booked"}</Badge>
+        <Badge variant="filled" color={data?.booked ? "red.0" : 'green.0'}>{data?.booked ? translate("Booked") : translate("Not Booked")}</Badge>
     </Card>
   );
 };

@@ -377,8 +377,8 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: "Please add public and private report for this appointment.",
-          title: "Report Missing",
+          message:translate("Please add public and private report for this appointment."),
+          title: translate("Report Missing"),
         });
         return;
       }
@@ -479,8 +479,8 @@ const AddAppointment = () => {
   async function handleReports() {
     try {
       showNotification({
-        title: "In Progress",
-        message: "Please wait while we generate reports for you.",
+        title: translate("In Progress"),
+        message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
       await handleGeneratePDF(editorr, "public");
@@ -500,7 +500,7 @@ const AddAppointment = () => {
   }, [privatereportFiles, reportPublicFiles]);
   return (
     <Container className={classes.addAppointment} size="xl" p={"0px"}>
-      <ContainerHeader label={" Start an Appointment"} />
+      <ContainerHeader label={"Start an Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="md"
@@ -604,7 +604,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label={`4. {translate("Finish")}`}
+            label={`4. ${translate("Finish")}`}
           >
             <Step5 />
           </Stepper.Step>
