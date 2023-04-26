@@ -22,7 +22,7 @@ function ViewUserModal({ id, reportData }) {
           color={reportData?.accStatus === "inactive" ? "red.0" : "green.0"}
           w={"100px"}
         >
-          {reportData?.accStatus}
+          {translate(reportData?.accStatus)}
         </Badge>
         <Text className={classes.textheading}>
           {translate("Description")}

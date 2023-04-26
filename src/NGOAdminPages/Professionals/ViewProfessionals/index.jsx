@@ -62,6 +62,7 @@ export const ViewProfessionals = () => {
       numeric: false,
       disablePadding: true,
       label: "User Type",
+      translate: true,
     },
     {
       id: "email",
@@ -156,8 +157,8 @@ export const ViewProfessionals = () => {
       onSuccess: (response) => {
         navigate(routeNames.ngoAdmin.viewProfessionals);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -228,9 +229,9 @@ export const ViewProfessionals = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "" },
-                { label: "Social Worker", value: "social Worker" },
-                { label: "Psychlogist", value: "psychologist" },
-                { label: "Lawyer", value: "lawyer" },
+                { label: translate("Social Worker"), value: "social Worker" },
+                { label: translate("Psychologist"), value: "psychologist" },
+                { label: translate("Lawyer"), value: "lawyer" },
               ]}
             />
           </Grid.Col>
@@ -289,7 +290,7 @@ export const ViewProfessionals = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={"Professional Details"}
+        title={translate("Professional Details")}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewProfessionalModal id={viewModalData} reportData={reportData} />

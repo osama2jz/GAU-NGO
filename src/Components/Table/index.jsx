@@ -18,7 +18,7 @@ import { showNotification } from "@mantine/notifications";
 
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowDown, ArrowUp } from "tabler-icons-react";
+import { ArrowDown, ArrowUp, CompassOff } from "tabler-icons-react";
 import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
@@ -146,6 +146,7 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
+          {console.log("headCells", headCells)}
           {rowDatas?.map((row, index) => {
             return (
               <tr key={row.id}>
@@ -160,7 +161,7 @@ const Table = ({
                                 navigate(`/userVerification`, {
                                   state: {
                                     id: row.id,
-                                    image:row.image
+                                    image: row.image,
                                   },
                                 });
                               } else {
@@ -566,15 +567,13 @@ const Table = ({
                         label="Start"
                         onClick={() => {
                           user.role === "Psychologist"
-                            ? navigate(
-                                `/start-appointment-p`, {
-                                  state: {
-                                    id: row.userid,
-                                    appId: row.appointId,
-                                    appData: row,
-                                  },
-                                }
-                              )
+                            ? navigate(`/start-appointment-p`, {
+                                state: {
+                                  id: row.userid,
+                                  appId: row.appointId,
+                                  appData: row,
+                                },
+                              })
                             : navigate(`/start-appointment`, {
                                 state: {
                                   id: row.userid,
@@ -592,6 +591,22 @@ const Table = ({
                         primary={true}
                         compact={true}
                       />
+                    </td>
+                  ) : head.translate ? (
+                    <td key={index}>
+                      <Tooltip label={row[head?.id]}>
+                        <Text
+                          lineClamp={1}
+                          color={head.id === "docs" && "red.9"}
+                          fw={head.id === "docs" && 1000}
+                        >
+                          {translate(
+                            row[head?.id]?.length > 100
+                              ? row[head?.id]?.substring(0, 10) + "..."
+                              : row[head?.id]
+                          )}
+                        </Text>
+                      </Tooltip>
                     </td>
                   ) : (
                     <td key={index}>

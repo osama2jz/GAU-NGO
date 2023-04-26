@@ -178,6 +178,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Refered",
+      translate: true,
     },
     {
       id: "status",

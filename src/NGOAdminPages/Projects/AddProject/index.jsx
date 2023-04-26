@@ -71,8 +71,8 @@ const AddProject = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Project",
-            message: "Project added Successfully!",
+            title: translate("Project"),
+            message: translate("Project added Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewProject);

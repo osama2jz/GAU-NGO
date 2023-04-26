@@ -339,7 +339,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate(" Socio-Family Situation")}
+           {translate("Socio-Family Situation")}
           </Text>
           <Text>
             {data?.userConsentForm?.socioFamilySituation?.socioFamily}

@@ -96,8 +96,8 @@ const AddAppointment = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Appointment Created",
-            message: "Appointment Created Successfully",
+            title: translate("Appointment Created"),
+            message: translate("Appointment Created Successfully"),
             color: "green.0",
           });
           user.role !== "User"

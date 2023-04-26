@@ -147,6 +147,7 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Refered",
+      translate: true,
     },
     {
       id: "status",

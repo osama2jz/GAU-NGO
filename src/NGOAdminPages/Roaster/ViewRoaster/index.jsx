@@ -56,6 +56,7 @@ export const ViewRoasters = () => {
       numeric: false,
       disablePadding: true,
       label: "User Type",
+      translate: true,
     },
     {
       id: "ngo",
@@ -200,7 +201,7 @@ export const ViewRoasters = () => {
               data={[
                 { label: "All", value: "" },
                 { label: "Lawyer", value: "lawyer" },
-                { label: "Psychlogist", value: "psychologist" },
+                { label: "Psychologist", value: "psychologist" },
                 { label: "Social Worker", value: "social Worker" },
               ]}
             />

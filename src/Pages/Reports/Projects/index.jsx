@@ -12,6 +12,7 @@ import Table from "../../../Components/Table";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
+import Pagination from "../../../Components/Pagination";
 
 function Projects() {
   const { classes } = useStyles();

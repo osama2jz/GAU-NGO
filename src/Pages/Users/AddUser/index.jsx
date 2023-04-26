@@ -126,10 +126,10 @@ export const AddUser = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: editData ? "Information Updated" : "User Added",
+            title: editData ? translate("Information Updated") : translate("User Added"),
             message: editData
-              ? "User Information Updated Successfully! "
-              : "New User added Successfully!",
+              ? translate("User Information Updated Successfully!")
+              : translate("New User added Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.socialWorker.allUsers);

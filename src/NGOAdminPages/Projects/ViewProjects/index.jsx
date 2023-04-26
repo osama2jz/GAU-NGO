@@ -128,8 +128,8 @@ export const ViewProjects = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Sucess",
-          message: "Status changed successfully",
+          title: translate("Status Updated"),
+          message:translate("Status changed successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);

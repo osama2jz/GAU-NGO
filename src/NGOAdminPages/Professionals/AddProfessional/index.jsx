@@ -152,7 +152,7 @@ export const AddProfessional = () => {
               ? translate("Information Updated")
               : translate("Professional Added"),
             message: isUpdate
-              ? translate("Professional Information Updated Successfully! ")
+              ? translate("Professional Information Updated Successfully!")
               : translate("Professional added Successfully!"),
             color: "green.0",
           });

@@ -64,8 +64,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   };
   const downloadPDF = (filteredData, title) => {
     const doc = new jsPDF({ orientation: "l" });
+    console.log("T",title)
 
-    doc.text(title, 13, 10);
+    doc.text(translate(title), 13, 10);
 
     doc.autoTable({
       theme: "grid",
@@ -87,7 +88,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         }),
     });
 
-    doc.save(`${title}.pdf`);
+    doc.save(`${translate(title)}.pdf`);
     // setdata([])
   };
 

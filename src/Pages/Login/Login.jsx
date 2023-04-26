@@ -65,7 +65,7 @@ const Login = () => {
         } else if (!response.data.status) {
           showNotification({
             title: "Error",
-            message: response.data.message,
+            message: response?.data?.message,
             color: "red.0",
           });
         } else {
@@ -99,7 +99,7 @@ const Login = () => {
         loading={handleLogin.status === "loading"}
       />
       <Flex justify="space-between" mt="md">
-        <Checkbox label="Remember me" />
+        <Checkbox label={translate("Remember me")} />
         <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
           {translate("Forgot Password")}?
         </Anchor>

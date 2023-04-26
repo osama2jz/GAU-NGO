@@ -92,8 +92,8 @@ export const AddRoaster = () => {
             });
           } else {
             showNotification({
-              title: "Users Scheuled",
-              message: "Schedule has been created Successfully!",
+              title: translate("Users Scheuled"),
+              message: translate("Schedule has been created Successfully!"),
               color: "green.0",
             });
             navigate(routeNames.ngoAdmin.viewRoasters);

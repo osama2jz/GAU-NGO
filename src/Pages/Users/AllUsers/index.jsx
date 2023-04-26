@@ -30,7 +30,7 @@ export const AllUser = () => {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -291,7 +291,7 @@ export const AllUser = () => {
               headCells={headerData}
               data={filteredItems}
               title="Download reports"
-              label={"Users"}
+              label={("Users")}
             />
           </Grid.Col>
         </Grid>

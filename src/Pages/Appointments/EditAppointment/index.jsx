@@ -246,7 +246,7 @@ function EditAppointments() {
                           : "red.0"
                       }
                     >
-                      {editData?.status}
+                      {translate(editData?.status)}
                     </Badge>
                   </Text>
                   {editData?.otherPersonName && (
@@ -319,7 +319,7 @@ function EditAppointments() {
                 />
 
                 <FileInput
-                  placeholder={i?.documentURL ? "Uploaded" : "Upload"}
+                  placeholder={i?.documentURL ? translate("Uploaded") : translate("Upload")}
                   mb="md"
                   ml={"0px"}
                   accept="file/pdf"

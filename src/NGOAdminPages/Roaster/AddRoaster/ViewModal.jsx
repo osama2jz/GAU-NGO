@@ -48,7 +48,7 @@ const LeaveModal = ({
 
   return (
     <Modal
-      title={"Add Roaster"}
+      title={translate("Add Roaster")}
       opened={opened}
       onClose={() => setOpened(false)}
       centered
@@ -96,8 +96,8 @@ const LeaveModal = ({
 
           {selectedProfessional.filter((item) => item.role === "Social Worker")
             .length > 0 && (
-            <Text fw={"bold"} fz={"md"} mb={"md"}>
-              Social Workers
+            <Text fw={"bold"} fz={"md"} mb={"md"} mt={"sm"}>
+             {translate("Social Worker")}
             </Text>
           )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -122,7 +122,7 @@ const LeaveModal = ({
             selectedProfessional?.filter((item) => item.role === "Psychologist")
               .length > 0 && (
               <Text fw={"bold"} fz={"md"} mt={"md"}>
-                Psycologist
+               { translate("Psychologist")}
               </Text>
             )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -146,8 +146,8 @@ const LeaveModal = ({
           {selectedProfessional &&
             selectedProfessional.filter((item) => item.role === "Lawyer")
               .length > 0 && (
-              <Text fw={"bold"} fz={"md"}>
-                Lawyer
+              <Text fw={"bold"} fz={"md"}  mt={"md"}>
+               {translate("Lawyer")}
               </Text>
             )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -187,9 +187,9 @@ const LeaveModal = ({
           </SimpleGrid> */}
         </Container>
         <Group position="right" mt={"xl"}>
-          <Button label={"Review"} w="100px" onClick={() => setOpened(false)} />
+          <Button label={translate("Review")} w="100px" onClick={() => setOpened(false)} />
           <Button
-            label={"Finish"}
+            label={translate("Finish")}
             primary={true}
             w="100px"
             onClick={() => onSubmit()}

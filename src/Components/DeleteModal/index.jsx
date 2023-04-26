@@ -45,9 +45,9 @@ const DeleteModal = ({
         </Text>
         <Text align="center">{translate(message)}</Text>
         <Group pt={"sm"} ml={"auto"}>
-          <Button label="Cancel" onClick={onCancel}/>
+          <Button label={translate("Cancel")} onClick={onCancel}/>
           <Button
-            label={close ?"Done":"Delete"}
+            label={close ?translate("Done"):translate("Delete")}
             loading={loading}
             onClick={onDelete}
             primary={true}
