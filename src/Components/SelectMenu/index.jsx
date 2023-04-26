@@ -1,4 +1,6 @@
 import { createStyles, Select } from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme, { borderWhite }) => ({
   input: {
@@ -37,12 +39,23 @@ const SelectMenu = ({
   validateName,
   itemComponent,
 }) => {
+  const { translate } = useContext(UserContext);
   const { classes, cx } = useStyles({ borderWhite });
+  const [translatedData, setTranslatedData] = useState(data || []);
+  useEffect(() => {
+    if (data[0]?.email || data[0]?.image) setTranslatedData(data);
+    else {
+      let transaletd = data.map((obj) => {
+        return { value: obj.value, label: translate(obj.label) };
+      });
+      setTranslatedData(transaletd);
+    }
+  }, [data]);
   return (
     <Select
       searchable={searchable}
       withAsterisk={required ? true : false}
-      label={label}
+      label={translate(label)}
       pb={pb}
       defaultValue={value}
       itemComponent={itemComponent}
@@ -53,7 +66,7 @@ const SelectMenu = ({
       disabled={disabled}
       value={value}
       onChange={onChange || ((v) => setData(v))}
-      data={data}
+      data={translatedData}
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (
@@ -67,7 +80,7 @@ const SelectMenu = ({
         visibilityToggle: classes.icon,
         label: classes.label,
       }}
-      placeholder={placeholder}
+      placeholder={translate(placeholder)}
     />
   );
 };

@@ -18,6 +18,7 @@ import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 function AllAppointments() {
   const { classes } = useStyles();
@@ -60,27 +61,34 @@ function AllAppointments() {
               caseNo: obj?.caseNo,
               name: obj?.appointmentUser,
               caseId: obj?.caseId,
-              email: "N/A",
+              appointmentWith: obj?.appointmentWith,
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
-              date: obj?.addedDate,
+              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-              appointmentWith:obj?.appointmentWith,
+              
               role:
-              obj?.role === "socialWorker"
-                ? "Social Worker"
-                : obj.role === "psychologist"
-                ? "Psychologist"
-                :   obj?.role === "ngoadmin" ? "NGOAdmin" :  obj?.role === "user" ?"User":"Lawyer",
+                obj?.role === "socialWorker"
+                  ? "Social Worker"
+                  : obj.role === "psychologist"
+                  ? "Psychologist"
+                  : obj?.role === "ngoadmin"
+                  ? "NGOAdmin"
+                  : obj?.role === "user"
+                  ? "User"
+                  : "Lawyer",
               appointId: obj?.appointmentId,
               doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports,
-              image: obj?.appointmentUserImage
-                ? obj?.appointmentUserImage
-                : defaultUser,
-                refer: obj?.refered === true ? "Refered" : "New",
+              image: obj?.appointmentUserImage,
+              refer: obj?.refered === true ? "Refered" : "New",
+              otherPersonName: obj?.otherUserName,
+              otherPersonImage: obj?.otherUserImage,
+              otherPersonMobile: obj?.otherUserMobile,
+              otherPersonId: obj?.otherUserId,
+              attachedDocuments: obj?.attachedDocuments
             };
             return appointment;
             // }
@@ -105,16 +113,22 @@ function AllAppointments() {
       label: "Name",
     },
     {
+      id: "appointmentWith",
+      numeric: false,
+      disablePadding: true,
+      label: "Professional",
+    },
+    {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Added By",
+      label: "Appointer",
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Role",
+      label: "Appointer Role",
     },
     {
       id: "date",
@@ -133,6 +147,7 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Refered",
+      translate: true,
     },
     {
       id: "status",
@@ -228,7 +243,7 @@ function AllAppointments() {
               }}
             />
           </Grid.Col>
-          
+
           <Grid.Col sm={4} lg={4} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Add Appointment"}
@@ -242,10 +257,10 @@ function AllAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="Download reports"
+              title="All Appointments"
+              label={"All Appointments"}
             />
           </Grid.Col>
-       
         </Grid>
         <Table
           headCells={headerData}

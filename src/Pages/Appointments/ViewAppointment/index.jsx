@@ -24,12 +24,10 @@ import { UserContext } from "../../../contexts/UserContext";
 function ViewAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {user}=useContext(UserContext)
-
-  console.log(user)
-
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [docData, setDocData] = useState([]);
+  const [docData2, setDocData2] = useState([]);
 
   let { state } = useLocation();
 
@@ -60,24 +58,27 @@ function ViewAppointments() {
       });
       setRowData(data);
 
-      let data1 = editData?.doc?.map(
-        (obj, ind) => {
-          // if (obj?.documentURL !== "") {
-          let appointment = {
-            id: obj?.reportId,
-            sr: ind + 1,
-            caseNo: editData?.caseNo,
-            name: editData?.name,
-            docName: obj?.documentName,
-            file: obj?.documentURL ? obj?.documentURL : "",
-            date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
-          };
-          return appointment;
-        }
-        // }
-      );
-      let newData = data1.filter((obj) => obj != undefined);
-      setDocData(newData);
+      let data1 = editData?.doc?.map((obj, ind) => {
+        return {
+          id: obj?.reportId,
+          sr: ind + 1,
+          caseNo: editData?.caseNo,
+          name: editData?.name,
+          docName: obj?.documentName,
+          file: obj?.documentURL ? obj?.documentURL : "",
+          date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
+        };
+      });
+      setDocData(data1);
+      let data2 = editData?.attachedDocuments?.map((obj, ind) => {
+        return {
+          id: obj?._id,
+          sr: ind + 1,
+          docName: obj?.attachedDocument.documentTitle,
+          file: obj?.attachedDocument.documentURL,
+        };
+      });
+      setDocData2(data2);
     }
   }, [editData]);
 
@@ -159,6 +160,26 @@ function ViewAppointments() {
       label: "Date",
     },
   ];
+  let headerData2 = [
+    {
+      id: "sr",
+      numeric: true,
+      disablePadding: true,
+      label: "Sr #",
+    },
+    {
+      id: "docName",
+      numeric: false,
+      disablePadding: true,
+      label: "Document Name",
+    },
+    {
+      id: "file",
+      numeric: false,
+      disablePadding: true,
+      label: "Document File",
+    },
+  ];
   return (
     <Container className={classes.addUser} size="xl" p={"0px"} bg={""}>
       <ContainerHeader label={"Appointment Detail"} />
@@ -172,72 +193,119 @@ function ViewAppointments() {
               onClick={() => navigate(-1)}
             >
               <ArrowNarrowLeft />
-              <Text>Back</Text>
+              <Text>{translate("Back")}</Text>
             </Anchor>
           </Flex>
           <Grid align="center" justify={"space-between"}>
-          <Grid.Col md={4}>
-            <Avatar
-              radius="xl"
-              size={150}
-              src={editData?.image || userlogo}
-              className={classes.avatar}
-            />
-          </Grid.Col>
-          <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-            <Container w={"100%"} ml="md">
-              <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>User Name</Text>
-                <Text className={classes.textContent}>
-                  {editData?.name}
-                </Text>
-                <Text className={classes.textheading}>Appointment With</Text>
-                <Text className={classes.textContent}>
-                  {editData?.appointmentWith}
-                </Text>
-                <Text className={classes.textheading}>Added By</Text>
-                <Text className={classes.textContent}>
-                  {editData?.addedBy}
-                </Text>
-                {user.role!=="User" && (
-                  <>
-                   <Text className={classes.textheading}>Case #</Text>
-                <Text className={classes.textContent}>
-                  {editData?.caseNo}
-                </Text>
-                <Text className={classes.textheading}>Case Name</Text>
-                <Text className={classes.textContent}>
-                  {editData?.caseName}
-                </Text>
-                  </>
-                 
-                )}
-                
-                <Text className={classes.textheading}>Appointment Date</Text>
-                <Text className={classes.textContent}>{editData?.date}</Text>
-                <Text className={classes.textheading}>Appointment Time</Text>
-                <Text className={classes.textContent}>{editData?.time}</Text>
-                <Text className={classes.textheading}>Status</Text>
-                <Text className={classes.textContent}>
-                  <Badge
-                    variant="filled"
-                    color={
-                      editData?.status === "SCHEDULED" ||  editData?.status === "INPROGRESS"? "green.0" : "red.0"
-                    }
-                  >
-                    {editData?.status}
-                  </Badge>
-                </Text>
-              </SimpleGrid>
-            </Container>
-          </Grid.Col>
-        </Grid>
-        
+            <Grid.Col md={4} className={classes.avatar}>
+              <Avatar
+                radius="xl"
+                size={150}
+                src={editData?.image || userlogo}
+              />
+            </Grid.Col>
+            <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+              <Container w={"100%"} ml="md" p="0px">
+                <SimpleGrid cols={2} spacing="xs">
+                  <Text className={classes.textheading}>
+                    {translate("User Name")}
+                  </Text>
+                  <Text className={classes.textContent}>{editData?.name}</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Appointment With")}
+                  </Text>
+                  <Text className={classes.textContent}>
+                    {editData?.appointmentWith}
+                  </Text>
+                  <Text className={classes.textheading}>
+                    {translate("Added By")}
+                  </Text>
+                  <Text className={classes.textContent}>
+                    {editData?.addedBy}
+                  </Text>
+                  {user.role !== "User" && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Case #")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.caseNo}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Case Name")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.caseName}
+                      </Text>
+                    </>
+                  )}
+
+                  <Text className={classes.textheading}>
+                    {translate("Appointment Date")}
+                  </Text>
+                  <Text className={classes.textContent}>{editData?.date}</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Appointment Time")}
+                  </Text>
+                  <Text className={classes.textContent}>{editData?.time}</Text>
+                  <Text className={classes.textheading}>
+                    {translate("Status")}
+                  </Text>
+                  <Text className={classes.textContent}>
+                    <Badge
+                      variant="filled"
+                      color={
+                        editData?.status === "SCHEDULED" ||
+                        editData?.status === "INPROGRESS"
+                          ? "green.0"
+                          : "red.0"
+                      }
+                    >
+                      {translate(editData?.status)}
+                    </Badge>
+                  </Text>
+                  {editData?.otherPersonName && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Name")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonName}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person ID")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonId}
+                      </Text>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Contact")}
+                      </Text>
+                      <Text className={classes.textContent}>
+                        {editData?.otherPersonMobile}
+                      </Text>
+                    </>
+                  )}
+                  {editData?.otherPersonImage && (
+                    <>
+                      <Text className={classes.textheading}>
+                        {translate("Attended Person Image")}
+                      </Text>
+                      <Anchor href={editData?.otherPersonImage} target="_blank">
+                        {translate("View Image")}
+                      </Anchor>
+                    </>
+                  )}
+                </SimpleGrid>
+              </Container>
+            </Grid.Col>
+          </Grid>
+
           <Divider color="#C8C8C8" mt="md" mb="md" />
 
           <Tabs
             variant="pills"
-            defaultValue={"profile"}
+            defaultValue={"1"}
             color={"blue.0"}
             classNames={{
               root: classes.tab,
@@ -246,19 +314,19 @@ function ViewAppointments() {
             }}
           >
             <Tabs.List grow>
-              <Tabs.Tab value="profile">Reports</Tabs.Tab>
-              <Tabs.Tab value="password">Documents</Tabs.Tab>
+              <Tabs.Tab value="1">{translate("Reports")}</Tabs.Tab>
+              <Tabs.Tab value="2">{translate("Uploaded Documents")}</Tabs.Tab>
+              <Tabs.Tab value="3">{translate("User Documents")}</Tabs.Tab>
             </Tabs.List>
-            <Tabs.Panel value="profile" pt="xs">
+            <Tabs.Panel value="1" pt="xs">
               <Table headCells={headerData} rowData={rowData} />
             </Tabs.Panel>
 
-            <Tabs.Panel value="password" pt="xs">
-              {editData?.doc.length < 0 ? (
-                <Text>No Documents Found</Text>
-              ) : (
-                <Table headCells={headerData1} rowData={docData} />
-              )}
+            <Tabs.Panel value="2" pt="xs">
+              <Table headCells={headerData1} rowData={docData} />
+            </Tabs.Panel>
+            <Tabs.Panel value="3" pt="xs">
+              <Table headCells={headerData2} rowData={docData2} />
             </Tabs.Panel>
           </Tabs>
         </Container>

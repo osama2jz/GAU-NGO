@@ -6,9 +6,10 @@ import {
   Text,
   UnstyledButton,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "tabler-icons-react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme) => ({
   mainLink: {
@@ -61,12 +62,15 @@ export function LinksGroup({
   const navigate = useNavigate();
   const location = useLocation();
   const hasLinks = Array.isArray(links);
-  const [opened, setOpened] = useState(initiallyOpened || false);
+  const { translate } = useContext(UserContext);
   const { classes, theme } = useStyles();
+  const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? ChevronRight : ChevronLeft;
+
   useEffect(() => {
     globalOpen !== label && setOpened(false);
   }, [globalOpen, label]);
+
   const items = (hasLinks ? links : []).map((link, index) => (
     <Text
       component={Link}
@@ -91,7 +95,7 @@ export function LinksGroup({
           : ""
       }
     >
-      {ind + "." + (index + 1) + " " + link.label}
+      {ind + "." + (index + 1) + " " + translate(link.label)}
     </Text>
   ));
 
@@ -123,7 +127,11 @@ export function LinksGroup({
             : ""
         }
       >
-        <Group position="apart" spacing={0} onClick={() => link && navigate(link)}>
+        <Group
+          position="apart"
+          spacing={0}
+          onClick={() => link && navigate(link)}
+        >
           <Text
             color={
               location?.pathname === link && label === globalOpen
@@ -134,7 +142,7 @@ export function LinksGroup({
             fw={"500"}
           >
             <Icon size={18} />
-            <Box ml="md">{ind ? ind + ". " + label : label}</Box>
+            <Box ml="md">{ind ? ind + ". " + translate(label) : translate(label)}</Box>
           </Text>
           {hasLinks && (
             <ChevronIcon

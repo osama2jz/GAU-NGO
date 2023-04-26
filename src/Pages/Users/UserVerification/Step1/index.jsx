@@ -58,7 +58,7 @@ export const Step1 = ({ user, setUser }) => {
             let user = {
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
-              email: obj?.email || "",
+              email: obj?.email,
               image: obj?.profileImage,
             };
             return user;
@@ -103,7 +103,6 @@ export const Step1 = ({ user, setUser }) => {
       </Group>
     </div>
   );
-
   if (goToWhite) {
     return <Container h={"100vh"}></Container>;
   }
@@ -133,7 +132,7 @@ export const Step1 = ({ user, setUser }) => {
         )}
       </Container>
 
-      <Container size="xl" w={"100%"} className={classes.faceid}>
+      {/* <Container size="xl" w={"100%"} className={classes.faceid}>
         <Button
           label={"Verify Face ID"}
           leftIcon="faceid"
@@ -142,7 +141,7 @@ export const Step1 = ({ user, setUser }) => {
           onClick={handleVerifyID}
           bg={true}
         />
-      </Container>
+      </Container> */}
     </Container>
   );
 };

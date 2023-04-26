@@ -21,7 +21,7 @@ export const useStyles = createStyles((theme) => ({
     border: `2px solid ${theme.colors.gray}`,
     padding: "5px",
     borderRadius: "5px",
-    width: "130px",
+    width: "150px",
     marginLeft: "auto",
     ':hover':{
       cursor:'pointer',

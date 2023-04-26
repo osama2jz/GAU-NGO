@@ -34,7 +34,7 @@ export const ViewProfessionals = () => {
   const [viewModalData, setViewModalData] = useState();
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
@@ -62,6 +62,7 @@ export const ViewProfessionals = () => {
       numeric: false,
       disablePadding: true,
       label: "User Type",
+      translate: true,
     },
     {
       id: "email",
@@ -132,7 +133,7 @@ export const ViewProfessionals = () => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj.phoneNumber,
-            image: obj.profileImage ? obj.profileImage : userlogo,
+            image: obj?.profileImage,
             idDetails: obj.IDDetails ? obj.IDDetails : "",
           };
           return user;
@@ -156,8 +157,8 @@ export const ViewProfessionals = () => {
       onSuccess: (response) => {
         navigate(routeNames.ngoAdmin.viewProfessionals);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -185,7 +186,7 @@ export const ViewProfessionals = () => {
         );
       }
     });
-    setPage(1)
+    setPage(1);
     setTotalPages(Math.ceil(filteredData?.length / 10));
     const a = filteredData.map((item, ind) => {
       return {
@@ -194,7 +195,7 @@ export const ViewProfessionals = () => {
       };
     });
     return a;
-  },[rowData, search, filter]);
+  }, [rowData, search, filter]);
 
   const Paginated = useMemo(() => {
     if (activePage === 1) {
@@ -204,7 +205,6 @@ export const ViewProfessionals = () => {
       return FilteredData.slice(a, a + 10);
     }
   }, [activePage, FilteredData]);
-
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -229,9 +229,9 @@ export const ViewProfessionals = () => {
               setData={setFilter}
               data={[
                 { label: "All", value: "" },
-                { label: "Social Worker", value: "social Worker" },
-                { label: "Psychlogist", value: "psychologist" },
-                { label: "Lawyer", value: "lawyer" },
+                { label: translate("Social Worker"), value: "social Worker" },
+                { label: translate("Psychologist"), value: "psychologist" },
+                { label: translate("Lawyer"), value: "lawyer" },
               ]}
             />
           </Grid.Col>
@@ -290,7 +290,7 @@ export const ViewProfessionals = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Professional Details"
+        title={translate("Professional Details")}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewProfessionalModal id={viewModalData} reportData={reportData} />

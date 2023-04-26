@@ -19,7 +19,7 @@ import { UserContext } from "../../contexts/UserContext";
 const Login = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser,translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -29,8 +29,8 @@ const Login = () => {
 
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
-      password: (value) => (value?.length < 1 ? "Enter password" : null),
+        /^\S+@\S+$/.test(value) ? null : translate("Enter a valid email"),
+      password: (value) => (value?.length < 1 ? translate("Enter password") : null),
     },
   });
 
@@ -65,7 +65,7 @@ const Login = () => {
         } else if (!response.data.status) {
           showNotification({
             title: "Error",
-            message: response.data.message,
+            message: response?.data?.message,
             color: "red.0",
           });
         } else {
@@ -99,9 +99,9 @@ const Login = () => {
         loading={handleLogin.status === "loading"}
       />
       <Flex justify="space-between" mt="md">
-        <Checkbox label="Remember me" />
+        <Checkbox label={translate("Remember me")} />
         <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
-          Forgot Password?
+          {translate("Forgot Password")}?
         </Anchor>
       </Flex>
       <Divider
@@ -110,7 +110,7 @@ const Login = () => {
         color={"rgb(0,0,0,0.5)"}
         my="md"
       />
-      <GoogleLogin
+      {/* <GoogleLogin
       // onSuccess={async (credentialResponse) => {
       //   axios
       //     .post(backendUrl + "/auth/signin-with-google", {
@@ -128,11 +128,11 @@ const Login = () => {
       // onError={(res) => {
       //   toast.error("Something went wrong! Please Try Again.");
       // }}
-      />
+      /> */}
       <Text align="center" mt={"sm"}>
-        Don't have an Account?{" "}
+        {translate("Don't have an Account")}?{" "}
         <Anchor onClick={() => navigate(routeNames.general.signup)}>
-          Register Here
+          {translate("Register Here")}
         </Anchor>
       </Text>
     </form>

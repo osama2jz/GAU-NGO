@@ -16,7 +16,7 @@ import Button from "../../Button";
 const MySchedule = ({ Userid, setSlot, slot }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [opened, setOpened] = useState(false);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
@@ -89,7 +89,7 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
         />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
-        {moment(date).format("DD MMMM")} Schedule
+        {moment(date).format("DD MMMM")} {translate("{Schedule}")}
       </Text>
       {getSchedule.status === "loading" ? (
         <Loader minHeight="100px" />
@@ -119,12 +119,12 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
           </Container>
         ) : (
           <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-            All slots booked
+            {translate("All slots booked")}
           </Text>
         )
       ) : (
         <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-          No Duties Assigned
+          {translate("No Duties Assigned")}
         </Text>
       )}
       <LeaveModal

@@ -10,7 +10,7 @@ import {
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import Button from "../../Components/Button";
 import ContainerHeader from "../../Components/ContainerHeader";
@@ -24,6 +24,7 @@ import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { FileUpload, Loader, Upload } from "tabler-icons-react";
+import { UserContext } from "../../contexts/UserContext";
 
 const Signup = () => {
   const { classes } = useStyles();
@@ -31,6 +32,7 @@ const Signup = () => {
   const [ngos, setNgos] = useState([]);
   const [fileError, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
+  const {translate}=useContext(UserContext);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -49,39 +51,41 @@ const Signup = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? "Please select Professional type" : null,
+        value?.length < 1 ? translate("Please select Professional type") : null,
       ngoId: (value) =>
-        value?.length < 1 ? "Please select Professional type" : null,
+        value?.length < 1 ? translate("Please select Professional type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          :translate( "Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
 
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
           <ul>
-            Password must contain 8 to 15 characters with
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
-          </ul>
+          {translate(" Password must contain 8 to 15 characters with")}
+          <li>{translate("At least one captial alphabet.")}</li>
+          <li>{translate("at least one small alphabet.")}</li>
+          <li>
+            {translate("at least one digit and one special character.")}
+          </li>
+          <li>{translate("at least one special character.")}</li>
+        </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password ? translate("Passwords did not match") : null,
     },
   });
 
@@ -275,7 +279,7 @@ const Signup = () => {
                   }
                   accept="file/pdf"
                   mb={"sm"}
-                  icon={<FileUpload size={20} />}
+                  icon={<FileUpload size={20} color="green"/>}
                   onChange={(e) => handleFileInput(e)}
                 />
               </Input.Wrapper>
@@ -291,9 +295,9 @@ const Signup = () => {
         loading={handleSignup.status === "loading" || fileUploading}
       />
       <Text align="center" mt={"sm"}>
-        Already have an Account?{" "}
+        {translate("Already have an Account")}?{" "}
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Login Here
+          {translate("Login Here")}
         </Anchor>
       </Text>
     </form>

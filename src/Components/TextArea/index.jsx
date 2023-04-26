@@ -1,4 +1,6 @@
 import { createStyles, Textarea as TextareaMantine } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme, { borderWhite }) => ({
   input: {
@@ -31,10 +33,11 @@ const TextArea = ({
   value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
+  const {translate}=useContext(UserContext)
   return (
     <TextareaMantine
       withAsterisk={required ? true : false}
-      label={label}
+      label={translate(label)}
       pb={pb}
       minRows={rows}
       size={size}
@@ -44,7 +47,7 @@ const TextArea = ({
         input: classes.input,
         label: classes.label,
       }}
-      placeholder={placeholder}
+      placeholder={translate(placeholder)}
       
       rows={rows}
     />

@@ -1,19 +1,20 @@
 import {
+  Checkbox,
   Container,
   Divider,
   FileInput,
   Flex,
+  Group,
   SimpleGrid,
   Text,
 } from "@mantine/core";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { FileUpload } from "tabler-icons-react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
-import DoubleTabs from "./Tabs";
-import { FileUpload } from "tabler-icons-react";
 import { s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
-import jsPDF from "jspdf";
+import DoubleTabs from "./Tabs";
 
 const Step3 = ({
   selectedUser,
@@ -30,8 +31,9 @@ const Step3 = ({
   editorr2,
   editorr,
   publicRef,
+  setAttachedDocs,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const addInputField = () => {
     if (
@@ -96,13 +98,12 @@ const Step3 = ({
       }
     });
   };
-
   return (
     <Container size="lg">
       <Flex justify={"space-between"}>
         <SimpleGrid cols={2}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text>{caseNo}</Text>
         </SimpleGrid>
@@ -123,7 +124,29 @@ const Step3 = ({
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        Other Documents
+        {translate("User's Documents")}
+      </Text>
+      {selectedUser?.data?.documents.length > 0 ? (
+        <Checkbox.Group
+          label={translate("Select Documents from user's profile.")}
+          description={translate(
+            "These are uploaded by user into his profile."
+          )}
+          onChange={(v) => setAttachedDocs(v)}
+        >
+          <Group mt="xs">
+            {selectedUser?.data?.documents.map((doc, key) => (
+              <Checkbox value={doc._id} label={doc?.documentTitle} key={key} />
+            ))}
+          </Group>
+        </Checkbox.Group>
+      ) : (
+        <Text>{translate("This User does not have any documents")}.</Text>
+      )}
+      <Divider color="#C8C8C8" mt="md" mb="md" />
+
+      <Text align="center" fw={"bolder"}>
+        {translate("Other Documents")}
       </Text>
 
       {otherDocument?.map((i, index) => (
@@ -135,7 +158,7 @@ const Step3 = ({
         >
           <InputField
             label={"Document Name"}
-            placeholder="Enter document name"
+            placeholder="Enter Document Title"
             onChange={(e) => {
               // update value at current index in other document array
               otherDocument[index].documentName = e.target.value;
@@ -145,20 +168,23 @@ const Step3 = ({
           />
 
           <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
+            label={translate("Upload Document")}
+            placeholder={translate("Upload Document")}
             accept="file/pdf"
             styles={(theme) => ({
               root: {
                 margin: "auto",
               },
               input: {
-                border: "1px solid rgb(0, 0, 0, 0.1)",
+                border: "1px solid rgb(0, 0, 0, 0.5)",
                 borderRadius: "5px",
                 // width: "250px",
               },
+              placeholder: {
+                color: "black !important",
+              },
             })}
-            icon={<FileUpload size={20} />}
+            icon={<FileUpload size={20} color="green" />}
             onChange={(e) => handleFileInput(e, index)}
           />
         </SimpleGrid>

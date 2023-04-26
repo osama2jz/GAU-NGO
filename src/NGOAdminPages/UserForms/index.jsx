@@ -24,7 +24,7 @@ import { useStyles } from "./styles";
 const userForms = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState("consent");
 
   const editorr = useEditor({
@@ -77,8 +77,8 @@ const userForms = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "Document Updated Successfully!",
+            title: translate("Document Created"),
+            message: translate("Document Updated Successfully!"),
             color: "green.0",
           });
         } else {
@@ -146,8 +146,8 @@ const userForms = () => {
         }}
       >
         <Tabs.List grow>
-          <Tabs.Tab value="consent">Consent Form</Tabs.Tab>
-          <Tabs.Tab value="agreement">Agreement Form</Tabs.Tab>
+          <Tabs.Tab value="consent">{translate("Consent Form")}</Tabs.Tab>
+          <Tabs.Tab value="agreement">{translate("Agreement Form")}</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="consent" pt="xs">
           {consentLoading==="loading" ? <Loader minHeight="20vh"/> : <TextEditor editor={editorr} />}

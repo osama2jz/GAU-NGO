@@ -21,7 +21,7 @@ function ViewUser() {
   const { classes } = useStyles();
   const { state } = useLocation();
   const { userData } = state ?? "";
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
 
@@ -176,7 +176,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Personal Information
+            {translate("Personal Information")}
           </Text>
           <Flex gap={"xl"} justify="space-between">
             <Avatar
@@ -197,26 +197,26 @@ function ViewUser() {
               ]}
               // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
             >
-              <Text className={classes.textheading}>First Name</Text>
+              <Text className={classes.textheading}>{translate("First Name")}</Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.firstName}
               </Text>
-              <Text className={classes.textheading}>Last Name</Text>
+              <Text className={classes.textheading}>{translate("Last Name")}</Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.lastName}
               </Text>
-              <Text className={classes.textheading}>Email</Text>
+              <Text className={classes.textheading}>{translate("Email")}</Text>
               <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
-              <Text className={classes.textheading}>Phone Number</Text>
+              <Text className={classes.textheading}>{translate("Phone Number")}</Text>
               <Text>{data?.phoneNumber}</Text>
-              <Text className={classes.textheading}>Date of Birth</Text>
+              <Text className={classes.textheading}>{translate("Date of Birth")}</Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
                   0,
                   10
                 )}
               </Text>
-              <Text className={classes.textheading}> Identity</Text>
+              <Text className={classes.textheading}> {translate("Identity")}</Text>
               <Anchor
                 href={data?.userConsentForm?.personalInformation?.documentURL}
                 target={"_blank"}
@@ -224,18 +224,18 @@ function ViewUser() {
                 <Text>
                   {data?.userConsentForm?.personalInformation?.documentType ===
                   "residentialId"
-                    ? "Residential Id"
+                    ? translate("Residential Id")
                     : data?.userConsentForm?.personalInformation
                         ?.documentType === "passport"
-                    ? "Passport"
-                    : "National ID"}
+                    ? translate("Passport")
+                    :translate( "National ID")}
                 </Text>
               </Anchor>
-              <Text className={classes.textheading}>Country</Text>
+              <Text className={classes.textheading}>{translate("Country")}</Text>
               <Text>{data?.userConsentForm?.personalInformation?.country}</Text>
-              <Text className={classes.textheading}>City</Text>
+              <Text className={classes.textheading}>{translate("City")}</Text>
               <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
-              <Text className={classes.textheading}>Address</Text>
+              <Text className={classes.textheading}>{translate("Address")}</Text>
               <Text>{data?.userConsentForm?.personalInformation?.address}</Text>
             </SimpleGrid>
           </Flex>
@@ -255,7 +255,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Studies and Training
+            {translate("Studies and Training")}
           </Text>
           <Table
             headCells={headerData3}
@@ -277,7 +277,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Work Experience
+            {translate("Work Experience")}
           </Text>
           <Table headCells={headerData2} rowData={workData} />
         </Container>
@@ -295,7 +295,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Discrimination And Voilence
+            {translate("Discrimination And Voilence")}
           </Text>
           <Text>
             {
@@ -318,7 +318,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Professional References
+            {translate("Professional References")}
           </Text>
           <Table
             headCells={headerData}
@@ -339,7 +339,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Socio-Family Situation
+           {translate("Socio-Family Situation")}
           </Text>
           <Text>
             {data?.userConsentForm?.socioFamilySituation?.socioFamily}
@@ -359,7 +359,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Economic Situation
+           {translate("Economic Situation")}
           </Text>
           <SimpleGrid
             breakpoints={[
@@ -368,15 +368,15 @@ function ViewUser() {
               { minWidth: "xs", cols: 2 },
             ]}
           >
-            <Text fw="bold">Revenue</Text>
+            <Text fw="bold">{translate("Revenue")}</Text>
             <Text>{data?.userConsentForm?.economicSituation?.revenue}</Text>
-            <Text fw="bold">Expenses</Text>
+            <Text fw="bold">{translate("Expenses")}</Text>
             <Text>{data?.userConsentForm?.economicSituation?.expenses}</Text>
-            <Text fw="bold">Aids or Bonuses</Text>
+            <Text fw="bold">{translate("Aids or Bonuses")}</Text>
             <Text>{data?.userConsentForm?.economicSituation?.aidsBonuses}</Text>
-            <Text fw="bold">Debit</Text>
+            <Text fw="bold">{translate("Debit")}</Text>
             <Text>{data?.userConsentForm?.economicSituation?.debt}</Text>
-            <Text fw="bold">Housing</Text>
+            <Text fw="bold">{translate("Housing")}</Text>
             <Text>{data?.userConsentForm?.economicSituation?.housing}</Text>
           </SimpleGrid>
         </Container>
@@ -394,7 +394,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Health Aspects
+            {translate("Health Aspects")}
           </Text>
           <Text>{data?.userConsentForm?.healthAspects?.healthAspects}</Text>
         </Container>
@@ -412,7 +412,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Demand
+           {translate("Demand")}
           </Text>
           <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
         </Container>
@@ -430,7 +430,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-            Documents
+            {translate("Documents")}
           </Text>
           {docs.length ? (
             <ol>
@@ -445,7 +445,7 @@ function ViewUser() {
               })}
             </ol>
           ) : (
-            <Text align="center">No Document</Text>
+            <Text align="center">{translate("No Document")}</Text>
           )}
         </Container>
       </Container>

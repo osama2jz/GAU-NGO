@@ -28,7 +28,7 @@ import { useStyles } from "./styles";
 export const AddDocument = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [documents, setDocuments] = useState([]);
   const [filerror, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
@@ -47,7 +47,7 @@ export const AddDocument = () => {
 
     validate: {
       documentTitle: (value) =>
-        value?.length < 1 ? "Please enter document title" : null,
+        value?.length < 1 ? translate("Please enter document title") : null,
     },
   });
 
@@ -77,8 +77,8 @@ export const AddDocument = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "New Document Created Successfully!",
+            title: translate("Document Created"),
+            message:translate("New Document Created Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDocuments);
@@ -110,8 +110,8 @@ export const AddDocument = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "Document Updated Successfully!",
+            title: translate("Document Created"),
+            message: translate("Document Updated Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDocuments);
@@ -203,8 +203,8 @@ export const AddDocument = () => {
           />
           <Input.Wrapper error={filerror} size={"md"}>
             <FileInput
-              label="Upload Document"
-              placeholder={"Upload Document"}
+              label={translate("Upload Document")}
+              placeholder={translate("Upload Document")}
               required={true}
               size="md"
               accept="file/pdf"

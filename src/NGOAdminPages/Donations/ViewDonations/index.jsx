@@ -32,7 +32,7 @@ export const ViewDonations = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
 
@@ -65,7 +65,7 @@ export const ViewDonations = () => {
       id: "description",
       numeric: false,
       disablePadding: true,
-      label: "Donation Description",
+      label: "Description",
     },
     {
       id: "ngo",
@@ -105,6 +105,7 @@ export const ViewDonations = () => {
             sr: ind + 1,
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.amount,
+            image: obj?.userId?.profileImage,
             date: moment(obj?.createdAt).format("DD-MM-YYYY"),
             ngo: obj?.ngoId?.ngoName,
             description: obj?.description,
@@ -123,13 +124,11 @@ export const ViewDonations = () => {
   //   item.name.toLowerCase().includes(search.toLowerCase())
   // );
 
-
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter((item) => {
-    
-        return item.name.toLowerCase().includes(search.toLowerCase());
+      return item.name.toLowerCase().includes(search.toLowerCase());
     });
-    setPage(1)
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {
@@ -138,9 +137,7 @@ export const ViewDonations = () => {
       };
     });
     return a;
-    
   }, [rowData, search, filter]);
-
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
@@ -176,15 +173,16 @@ export const ViewDonations = () => {
           </Grid.Col>
 
           <Grid.Col sm={3} ml="auto">
-            {user.role === "User" ||  user.role === "Admin" &&  (
-              <Button
-                label={"Add Donation"}
-                bg={true}
-                leftIcon={"plus"}
-                styles={{ float: "right" }}
-                onClick={() => navigate(routeNames.user.addDonation)}
-              />
-            )}
+            {user.role === "User" ||
+              (user.role === "Admin" && (
+                <Button
+                  label={"Add Donation"}
+                  bg={true}
+                  leftIcon={"plus"}
+                  styles={{ float: "right" }}
+                  onClick={() => navigate(routeNames.user.addDonation)}
+                />
+              ))}
           </Grid.Col>
         </Grid>
         {status == "loading" ? (
@@ -211,7 +209,7 @@ export const ViewDonations = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Donation Details"
+        title={translate("Donation Details")}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />

@@ -19,23 +19,20 @@ export const AddDonations = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      userId: "",
+      userId: user.role === "User" ? user.id : "",
       amount: "",
       description: "",
-      addedBy: user.role === "User" ? user.id : "",
     },
 
     validate: {
-      // amount: (value) =>
-      //   /^[a-zA-Z ]{2,40}$/.test(value) ? null : "Please enter amount",
-      addedBy: (value) =>
-        value?.length < 1 ? "Please enter description" : null,
+      amount: (value) => (value > 0 ? null : "Please enter amount"),
+      userId: (value) => (value?.length < 1 ? "Please select user" : null),
       description: (value) =>
-        value?.length < 2 ? "Please enter description" : null,
+        value?.length < 2 ? translate("Please enter description") : null,
     },
   });
 
@@ -68,13 +65,9 @@ export const AddDonations = () => {
     }
   );
 
-  const handleAddComplaint = useMutation(
+  const handleAddDonation = useMutation(
     (values) => {
-      let data = {
-        ...values,
-        userId: user.id,
-      };
-      return axios.post(`${backendUrl + "/api/donation/donate"}`, data, {
+      return axios.post(`${backendUrl + "/api/donation/donate"}`, values, {
         headers: {
           "x-access-token": user.token,
         },
@@ -119,7 +112,7 @@ export const AddDonations = () => {
       <ContainerHeader label={"Make Donation"} />
       <form
         className={classes.form}
-        onSubmit={form.onSubmit((values) => handleAddComplaint.mutate(values))}
+        onSubmit={form.onSubmit((values) => handleAddDonation.mutate(values))}
       >
         <Container className={classes.innerContainer} size="xl">
           {user.role !== "User" && (
@@ -128,16 +121,18 @@ export const AddDonations = () => {
               itemComponent={SelectItem}
               placeholder="Enter User name or Id"
               clearable={true}
-              validateName="addedBy"
-              value={user}
+              required
+              form={form}
+              validateName="userId"
               label="Search User"
               data={userData}
             />
           )}
           <InputField
             label="Amount"
-            placeholder="Amount"
+            placeholder="Amount (€)"
             form={form}
+            required
             type={"number"}
             validateName="amount"
           />
@@ -146,6 +141,7 @@ export const AddDonations = () => {
             label="Description"
             placeholder="Description"
             form={form}
+            required
             validateName="description"
           />
           <Group position="right" mt="sm">

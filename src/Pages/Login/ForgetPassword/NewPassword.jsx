@@ -2,9 +2,9 @@ import { Anchor, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import InputField from "../../../Components/InputField";
@@ -12,52 +12,79 @@ import PassInput from "../../../Components/PassInput";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
+import Loader from "../../../Components/Loader";
 
 const NewPassword = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { translate } = useContext(UserContext);
+
+  useEffect(() => {
+    if (state && state.otp) {
+    } else {
+      navigate(-1);
+    }
+  }, [state]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      email: "",
+      password: "",
+      password_confirmation: "",
+      otp: state?.otp,
     },
 
     validate: {
-      email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
+      password: (value) =>
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+          value
+        ) ? null : (
+          <ul>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
+          </ul>
+        ),
+      password_confirmation: (value, values) =>
+        value !== values?.password ? translate("Passwords did not match") : null,
     },
   });
 
-  const handleLogin = useMutation(
+  const handleReset = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/signin"}`, values);
+      return axios.post(`${backendUrl + "/api/user/userPasswordReset"}`, values);
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          window.location.href = routeNames.general.dashboard;
+          navigate(routeNames.general.login);
+          showNotification({
+            title: "Password Changed",
+            message: response.data.message,
+            color: "green.0",
+          });
         } else {
           showNotification({
-            title:
-              response.data.message === "Verification Pending"
-                ? response.data.message
-                : "Invalid Credentials",
-            message:
-              response.data.message === "Verification Pending"
-                ? "Your Account verification is pending."
-                : "Please Enter correct email and password to login.",
+            title: "Error",
+            message: response.data.message,
             color: "red.0",
           });
         }
-        // navigate(routeNames.socialWorker.allUsers);
       },
     }
   );
+  if (!state?.otp) return <Loader />;
+
   return (
     <form
       className={classes.form}
-      onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}
+      onSubmit={form.onSubmit((values) => handleReset.mutate(values))}
     >
       <ContainerHeader label={"Reset Password"} />
       <PassInput
@@ -68,7 +95,7 @@ const NewPassword = () => {
       <PassInput
         placeholder={"Confirm Password"}
         form={form}
-        validateName="password"
+        validateName="password_confirmation"
       />
       <Button
         label={"Reset"}
@@ -76,11 +103,11 @@ const NewPassword = () => {
         type="submit"
         w={"100%"}
         size="lg"
-        loading={handleLogin.status === "loading"}
+        loading={handleReset.isLoading}
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Return To Login
+          {translate("Return To Login")}
         </Anchor>
       </Flex>
     </form>

@@ -3,6 +3,7 @@ const routeNames = {
     auth: "/auth",
     login: "/auth/login",
     signup: "/auth/signup",
+    proSignup: "/auth/signup-professional",
     forgetPassword: "/auth/forget-password",
     otp: "/auth/verify-otp",
     resetPassword: "/auth/reset-password",
@@ -20,7 +21,6 @@ const routeNames = {
     verificationScheduled: "/verfication-Scheduled",
     userVerification: "/userVerification",
     missingDocuments: "/missing-document-appointments",
-    // userVerification2: "/userVerification/:id",
     userEditDetails: "/user-Edit",
     settings: "/settings",
     addAppoinment: "/add-appointment",
@@ -37,11 +37,13 @@ const routeNames = {
     mySchedule: "/my-schedule",
     privateReport: "/private-report",
     publicReport: "/public-report",
+    projectReport: "/project-report",
     referalReport: "/referal-report",
     projectCases: "/project-cases",
+    projectUsers: "/project-users",
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
-
+    caseAppointments: "/case-appointments",
   },
   pysch: {
     dashboard: "/",
@@ -66,11 +68,13 @@ const routeNames = {
     mySchedule: "/my-schedule",
     privateReport: "/private-report",
     publicReport: "/public-report",
+    projectReport: "/project-report",
+    projectUsers: "/project-users",
     referalReport: "/referal-report",
     projectCases: "/project-cases",
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
-
+    caseAppointments: "/case-appointments",
   },
   lawyer: {
     dashboard: "/",
@@ -95,12 +99,14 @@ const routeNames = {
     reportPageDashboard: "/report-page-dashboard",
     mySchedule: "/my-schedule",
     privateReport: "/private-report",
+    projectReport: "/project-report",
+    projectUsers: "/project-users",
     publicReport: "/public-report",
     referalReport: "/referal-report",
     projectCases: "/project-cases",
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
-
+    caseAppointments: "/case-appointments",
   },
   ngoAdmin: {
     dashboard: "/",
@@ -140,6 +146,8 @@ const routeNames = {
     mySchedule: "/my-schedule",
     privateReport: "/private-report",
     publicReport: "/public-report",
+    projectUsers: "/project-users",
+    projectReport: "/project-report",
     referalReport: "/referal-report",
     complaints: "/complaints-public",
     addDocument: "/add-document",
@@ -148,8 +156,11 @@ const routeNames = {
     viewDonations: "/view-donations",
     allProjects: "/all-projects",
     projectCases: "/project-cases",
+    caseAppointments: "/case-appointments",
     projectAppointments: "/project-appointments",
     userForms: "/user-forms",
+    addDictionary: "/add-dictionary",
+    ViewDictionary: "/view-dictionary",
   },
   user: {
     dashboard: "/",
@@ -166,8 +177,8 @@ const routeNames = {
     complaints: "/complaints-public",
     allProjects: "/all-projects",
     projectCases: "/project-cases",
+    caseAppointments: "/case-appointments",
     projectAppointments: "/project-appointments",
-
   },
 };
 

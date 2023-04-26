@@ -32,7 +32,7 @@ import ViewModal from "../../Roaster/AddRoaster/ViewModal";
 export const AddProfessional = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [fileUploading, setFileUploading] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -81,18 +81,20 @@ export const AddProfessional = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? "Please select Professional type" : null,
+        value?.length < 1 ? translate("Please select Professional type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
 
       password: (value) =>
         isUpdate ||
@@ -100,19 +102,23 @@ export const AddProfessional = () => {
           value
         ) ? null : (
           <ul>
-            Password must contain 8 to 15 characters with
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
           </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password
+          ? translate("Passwords did not match")
+          : null,
     },
   });
 
@@ -120,10 +126,10 @@ export const AddProfessional = () => {
     (values) => {
       if (values.profileImage === null || fileData === "") {
         if (values.profileImage === null) {
-          setUploadError("Please upload the Profile Photo");
+          setUploadError(translate("Please upload the Profile Photo"));
         }
         if (fileData === "" && values?.userType !== "user") {
-          setFileError("Please upload the file");
+          setFileError(translate("Please upload the file"));
         }
       } else {
         if (editData?.id) {
@@ -142,10 +148,12 @@ export const AddProfessional = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? "Information Updated" : "Professional Added",
+            title: isUpdate
+              ? translate("Information Updated")
+              : translate("Professional Added"),
             message: isUpdate
-              ? "Professional Information Updated Successfully! "
-              : "Professional added Successfully!",
+              ? translate("Professional Information Updated Successfully!")
+              : translate("Professional added Successfully!"),
             color: "green.0",
           });
           form.values?.userType === "user"
@@ -273,7 +281,6 @@ export const AddProfessional = () => {
       <form
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleAddUser.mutate(values))}
-       
       >
         <Group className={classes.dp}>
           <Container pos={"relative"}>
@@ -294,7 +301,7 @@ export const AddProfessional = () => {
           </Container>
           {form.values.profileImage ? (
             <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={uploadError} size={"md"}>
@@ -307,8 +314,8 @@ export const AddProfessional = () => {
                 }}
               >
                 <Text align="center" className={classes.upload}>
-                  <Upload size={16} />
-                  Upload
+                  <Upload size={16} color="green" />
+                  {translate("Upload")}
                 </Text>
               </Dropzone>
             </Input.Wrapper>
@@ -334,11 +341,11 @@ export const AddProfessional = () => {
             <Grid.Col sm={6} hidden={form.values.userType === "user"}>
               <Input.Wrapper error={filerror} size={"md"}>
                 <FileInput
-                  label="Upload National Id"
+                  label={translate("Upload National Id")}
                   placeholder={
                     form.values?.IDDetails !== ""
-                      ? "Uploaded"
-                      : "Upload Document"
+                      ? translate("Uploaded")
+                      : translate("Upload Document")
                   }
                   required={true}
                   accept="file/pdf"
@@ -347,11 +354,14 @@ export const AddProfessional = () => {
                       margin: "auto",
                     },
                     input: {
-                      border: "1px solid rgb(0, 0, 0, 0.1)",
+                      border: "1px solid rgb(0, 0, 0, 0.5)",
                       borderRadius: "5px",
                     },
+                    placeholder: {
+                      color: "black !important",
+                    },
                   })}
-                  icon={<FileUpload size={20} />}
+                  icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e, "file")}
                 />
               </Input.Wrapper>
@@ -437,7 +447,6 @@ export const AddProfessional = () => {
           </Group>
         </Container>
       </form>
-     
     </Container>
   );
 };

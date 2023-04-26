@@ -1,29 +1,27 @@
 import {
   Anchor,
-  Avatar,
   Container,
   Flex,
   Grid,
   SimpleGrid,
-  Text,
+  Text
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 import { useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { ArrowNarrowLeft, Eye, Trash } from "tabler-icons-react";
-import userlogo from "../../../assets/teacher.png";
+import { ArrowNarrowLeft, Eye } from "tabler-icons-react";
+import ContainerHeader from "../../../Components/ContainerHeader";
 import Loader from "../../../Components/Loader";
+import Pagination from "../../../Components/Pagination";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import Card from "../Card";
 import { useStyles } from "./styles";
-import Pagination from "../../../Components/Pagination";
-import ReactHtmlParser from "react-html-parser";
-import TextArea from "../../../Components/TextArea";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -32,7 +30,7 @@ const UserPage = (props) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [url, setUrl] = useState(`/public`);
@@ -291,7 +289,7 @@ const UserPage = (props) => {
 
   return (
     <Container className={classes.main} size="lg">
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center" >
         <Anchor
           fz={12}
           fw="bolder"
@@ -299,11 +297,13 @@ const UserPage = (props) => {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          Report
-        </Text>
+        <ContainerHeader
+          label={"Reports"}
+          style={{ marginRight: "auto" }}
+        />
+      
       </Flex>
       <Grid>
         {a.map((item, index) => (
@@ -345,17 +345,17 @@ const UserPage = (props) => {
         <Flex direction="column" align="center" justify={"space-between"}>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>User Name: </Text>
+              <Text className={classes.textheading}>{translate("User Name")}: </Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textheading}>{translate("Case")} # </Text>
               <Text className={classes.textContent}>{reportData?.caseNo}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Report File</Text>
+              <Text className={classes.textheading}>{translate("Report File")}</Text>
               <Anchor href={reportData?.file} target="_blank">
-                {reportData?.type} Report
+                {reportData?.type} {translate("Report")}
               </Anchor>
             </SimpleGrid>
           </Container>
@@ -363,7 +363,7 @@ const UserPage = (props) => {
 
         <Container w={"100%"} ml="sm" bgr={"initial"} pr={"xl"}>
           <Text className={classes.textheading} mt="md">
-            Report Comments
+            {translate("Report Comments")}
           </Text>
 
           <Text align="justify">

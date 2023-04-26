@@ -9,7 +9,7 @@ import { UpdateProfile } from "./UpdateProfile";
 
 export const Setting = () => {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   return (
     <Container className={classes.main} size="xl" p={"0px"}>
       <ContainerHeader label={"Settings"} />
@@ -25,11 +25,11 @@ export const Setting = () => {
           }}
         >
           <Tabs.List grow>
-            <Tabs.Tab value="profile">Profile Information</Tabs.Tab>
+            <Tabs.Tab value="profile">{translate("Profile Information")}</Tabs.Tab>
             {user.role === "User" && (
-              <Tabs.Tab value="docs">My Documents</Tabs.Tab>
+              <Tabs.Tab value="docs">{translate("My Documents")}</Tabs.Tab>
             )}
-            <Tabs.Tab value="password">Password Settings</Tabs.Tab>
+            <Tabs.Tab value="password">{translate("Password Settings")}</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="profile" pt="xs">
             <UpdateProfile />

@@ -24,7 +24,7 @@ import LeaveModal from "./LeaveModal";
 const MySchedule = () => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
   const [opened, setOpened] = useState(false);
@@ -87,13 +87,13 @@ const MySchedule = () => {
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
       <ContainerHeader label={"My Schedule"} />
-      <Text align="center">Select date from the calender to view Schedule</Text>
+      <Text align="center">{translate("Select date from the calender to view Schedule")}</Text>
       <Container className={classes.innerContainer} size="xl" p={"0px"}>
         <Group position="center" pt="10px">
           <ColorSwatch color="green " />
-          <Text>Duty Assigned.</Text>
+          <Text>{translate("Duty Assigned.")}</Text>
           <ColorSwatch color="white" />
-          <Text>No Duty.</Text>
+          <Text>{translate("No Duty.")}</Text>
         </Group>
         <Container className={classes.cal} mb="lg" mt="md">
           <CalendarDate
@@ -104,7 +104,7 @@ const MySchedule = () => {
         </Container>
         {/* <Flex direction={"column"} justify={"center"} align="center" gap={"xl"}> */}
         <Text size={18} weight={700} color={"gray"} align="center">
-          {moment(date).format("DD MMMM")} Schedule
+          {moment(date).format("DD MMMM")} {translate("Schedule")}
         </Text>
         {/* </Flex> */}
         {getSchedule.status === "loading" ? (
@@ -131,7 +131,7 @@ const MySchedule = () => {
           </Container>
         ) : (
           <Text align="center" fw={"bold"} mt="xl" color="rgb(0,0,0,0.5)">
-            No Duties Assigned
+            {translate("No Duties Assigned")}
           </Text>
         )}
       </Container>

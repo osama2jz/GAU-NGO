@@ -3,6 +3,8 @@ import {
   createStyles,
   useMantineTheme,
 } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme, { bg, primary, disabled }) => ({
   rootPrimary: {
@@ -52,6 +54,7 @@ const Button = ({
 }) => {
   const { classes, cx } = useStyles({ bg, primary, disabled });
   const theme = useMantineTheme();
+  const { translate } = useContext(UserContext);
   return (
     <ButtonMantine
       sx={styles}
@@ -79,7 +82,7 @@ const Button = ({
       onClick={onClick}
       {...props}
     >
-      {label}
+      {translate(label)}
     </ButtonMantine>
   );
 };

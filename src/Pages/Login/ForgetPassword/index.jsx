@@ -11,9 +11,12 @@ import InputField from "../../../Components/InputField";
 import { backendUrl } from "../../../constants/constants";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "../styles";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const ForgetPassword = () => {
   const { classes } = useStyles();
+  const {translate } = useContext(UserContext);
   const navigate = useNavigate();
   const form = useForm({
     validateInputOnChange: true,
@@ -23,29 +26,31 @@ const ForgetPassword = () => {
 
     validate: {
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Enter a valid email",
+        /^\S+@\S+$/.test(value) ? null : translate("Enter a valid email"),
     },
   });
 
   const handleLogin = useMutation(
     (values) => {
-      return axios.post(`${backendUrl + "/api/user/signin"}`, values);
+      return axios.post(
+        `${backendUrl + "/api/user/sendUserPasswordResetEmail"}`,
+        values
+      );
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
-          window.location.href = routeNames.general.dashboard;
+          // localStorage.setItem("userData", JSON.stringify(response.data));
+          navigate(routeNames.general.otp, { state: { allowed: true } });
+          showNotification({
+            title: "Email Verified",
+            message: response.data.message,
+            color: "green.0",
+          });
         } else {
           showNotification({
-            title:
-              response.data.message === "Verification Pending"
-                ? response.data.message
-                : "Invalid Credentials",
-            message:
-              response.data.message === "Verification Pending"
-                ? "Your Account verification is pending."
-                : "Please Enter correct email and password to login.",
+            title: "Invalid Email",
+            message: response.data.message,
             color: "red.0",
           });
         }
@@ -74,7 +79,7 @@ const ForgetPassword = () => {
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
-          Return To Login
+          {translate("Return To Login")}
         </Anchor>
       </Flex>
     </form>

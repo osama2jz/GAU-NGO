@@ -1,4 +1,6 @@
 import { createStyles, PasswordInput } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme) => ({
   input: {
@@ -18,12 +20,13 @@ const PassInput = ({
   validateName,
 }) => {
   const { classes, cx } = useStyles();
+  const {translate}=useContext(UserContext)
   return (
     <PasswordInput
       pb={pb}
       size="md"
       withAsterisk={required ? true : false}
-      label={label}
+      label={translate(label)}
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (
@@ -33,7 +36,7 @@ const PassInput = ({
         )
       }
       classNames={{ input: classes.input }}
-      placeholder={placeholder}
+      placeholder={translate(placeholder)}
     />
   );
 };

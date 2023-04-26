@@ -26,7 +26,7 @@ const Step1 = ({
   projectId,
 }) => {
   const queryClient = useQueryClient();
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken,translate } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [cases, setCases] = useState([]);
   const [projects, setProjetcs] = useState([]);
@@ -62,6 +62,7 @@ const Step1 = ({
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
               email: obj?.email || "",
+              image: obj?.profileImage
             };
             return user;
           }
@@ -122,7 +123,6 @@ const Step1 = ({
   const { data: casesData, status: casesfetching } = useQuery(
     ["casesFetched", user, projectId],
     () => {
-      console.log("p", projectId);
       return axios.get(
         backendUrl + `/api/case/listUserCases/${user}/${projectId}`,
         {
@@ -150,7 +150,7 @@ const Step1 = ({
   const SelectItem = ({ image, label, email, ...others }) => (
     <div {...others}>
       <Group noWrap>
-        <Avatar src={image || userImage} />
+        <Avatar src={image}>{label.split(" ")[1][0]}</Avatar>
 
         <div>
           <Text size="sm">{label}</Text>
@@ -206,7 +206,6 @@ const Step1 = ({
                     : "Enter Project Name"
                 }
                 label="Search Project"
-                creatable={true}
                 setData={setProjectId}
                 value={projectId}
                 // disabled={newCase.length > 0}
@@ -220,7 +219,6 @@ const Step1 = ({
                   cases.length < 1 ? "No cases found" : "Enter case name or id"
                 }
                 label="Search User Case"
-                creatable={true}
                 setData={setSelectedCase}
                 disabled={newCase.length > 0 || cases.length < 1}
                 data={cases}

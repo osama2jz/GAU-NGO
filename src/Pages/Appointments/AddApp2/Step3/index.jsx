@@ -1,55 +1,60 @@
-import React, { useContext, useState } from "react";
 import {
-  SimpleGrid,
+  Checkbox,
   Container,
-  Flex,
-  Text,
-  useMantineTheme,
   Divider,
   FileInput,
+  Flex,
+  Group,
+  SimpleGrid,
+  Text,
 } from "@mantine/core";
-import { useStyles } from "../styles";
-import DoubleTabs from "./Tabs";
-import InputField from "../../../../Components/InputField";
+import React, { useContext, useState } from "react";
 import Button from "../../../../Components/Button";
-
-import { Dropzone } from "@mantine/dropzone";
-import { UserContext } from "../../../../contexts/UserContext";
+import InputField from "../../../../Components/InputField";
+import DoubleTabs from "./Tabs";
 import { FileUpload } from "tabler-icons-react";
 import { s3Config } from "../../../../constants/constants";
+import { UserContext } from "../../../../contexts/UserContext";
+import jsPDF from "jspdf";
+
 const Step3 = ({
   selectedUser,
   caseNo,
   reportFiles,
+  setFileLoader,
   setReportFiles,
   setPrivateReportFiles,
   privatereportFiles,
   otherDocument,
   setOtherDocument,
+  setPrivateReportCheck,
+  privateReportCheck,
+  editorr2,
+  editorr,
+  publicRef,
+  setAttachedDocs,
 }) => {
-  const { user } = useContext(UserContext);
-  // console.log("User", user)
-  const [numInputs, setNumInputs] = useState([1]);
-  // const [otherDocument, setOtherDocument] = useState([{
-  //   documentName: "",
-  //   documentURL: "",
-  //   createdBy: user.id
-  // }]);
+  const { user, translate } = useContext(UserContext);
 
-  function addInputField(id) {
-    setNumInputs([...numInputs, id]);
-
-    const obj = {
-      documentName: "",
-      documentURL: "",
-      createdBy: user.id,
-    };
-    setOtherDocument([...otherDocument, obj]);
-  }
+  const addInputField = () => {
+    if (
+      otherDocument.length === 0 ||
+      otherDocument[otherDocument.length - 1].documentName !== ""
+    ) {
+      const obj = {
+        documentName: "",
+        documentURL: "",
+        createdBy: user.id,
+      };
+      setOtherDocument([...otherDocument, obj]);
+    }
+  };
 
   const handleFileInput = (file, index) => {
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
+    const fileName = file.name;
+    const sanitizedFileName = fileName.replace(/\s+/g, "");
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
     // console.log(aws);
@@ -66,7 +71,7 @@ const Step3 = ({
         Bucket: s3Config.bucketName,
       },
     });
-    var objKey = file.name;
+    var objKey = sanitizedFileName;
     var params = {
       Key: objKey,
       ContentType: file.type,
@@ -88,28 +93,21 @@ const Step3 = ({
             let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
             otherDocument[index].documentURL = link;
             setOtherDocument([...otherDocument]);
+            setFileLoader(false);
           }
         });
       }
-      // setFileLoader(false);
     });
   };
-
   return (
     <Container size="lg">
       <Flex justify={"space-between"}>
         <SimpleGrid cols={2}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text>{caseNo}</Text>
         </SimpleGrid>
-        <Flex align={"center"}>
-          <Text fz={18} fw={"bold"}>
-            Date:
-          </Text>
-          <Text ml={10}>XXXX</Text>
-        </Flex>
       </Flex>
       <DoubleTabs
         selectedUser={selectedUser}
@@ -117,14 +115,36 @@ const Step3 = ({
         privatereportFiles={privatereportFiles}
         reportFiles={reportFiles}
         setPrivateReportFiles={setPrivateReportFiles}
+        setPrivateReportCheck={setPrivateReportCheck}
+        privateReportCheck={privateReportCheck}
+        setFileLoader={setFileLoader}
+        editorr2={editorr2}
+        editorr={editorr}
+        publicRef={publicRef}
       />
       <Divider color="#C8C8C8" mt="md" mb="md" />
 
       <Text align="center" fw={"bolder"}>
-        Other Documents
+        {translate("User's Documents")}
+      </Text>
+      <Checkbox.Group
+        label={translate("Select Documents from user's profile.")}
+        description={translate("These are uploaded by user into his profile.")}
+        onChange={(v)=>setAttachedDocs(v)}
+      >
+        <Group mt="xs">
+          {selectedUser?.data?.documents.map((doc, key) => (
+            <Checkbox value={doc._id} label={doc?.documentTitle} key={key}/>
+          ))}
+        </Group>
+      </Checkbox.Group>
+      <Divider color="#C8C8C8" mt="md" mb="md" />
+
+      <Text align="center" fw={"bolder"}>
+        {translate("Other Documents")}
       </Text>
 
-      {numInputs?.map((i, index) => (
+      {otherDocument?.map((i, index) => (
         <SimpleGrid
           breakpoints={[
             { minWidth: "md", cols: 2 },
@@ -133,7 +153,7 @@ const Step3 = ({
         >
           <InputField
             label={"Document Name"}
-            placeholder="enter document name"
+            placeholder="Enter document name"
             onChange={(e) => {
               // update value at current index in other document array
               otherDocument[index].documentName = e.target.value;
@@ -143,27 +163,30 @@ const Step3 = ({
           />
 
           <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
+            label={translate("Upload Document")}
+            placeholder={translate("Upload Document")}
             accept="file/pdf"
             styles={(theme) => ({
               root: {
                 margin: "auto",
               },
               input: {
-                border: "1px solid rgb(0, 0, 0, 0.1)",
+                border: "1px solid rgb(0, 0, 0, 0.5)",
                 borderRadius: "5px",
                 // width: "250px",
               },
+              placeholder: {
+                color: "black !important",
+              },
             })}
-            icon={<FileUpload size={20} />}
+            icon={<FileUpload size={20} color="green"/>}
             onChange={(e) => handleFileInput(e, index)}
           />
         </SimpleGrid>
       ))}
       <Button
-        label={"Other Documents"}
-        onClick={() => addInputField(2)}
+        label={"Add Document"}
+        onClick={() => addInputField()}
         bg={true}
       />
     </Container>

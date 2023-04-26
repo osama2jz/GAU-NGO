@@ -1,4 +1,6 @@
 import { createStyles, MultiSelect as Select } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme, { borderWhite }) => ({
   input: {
@@ -37,12 +39,13 @@ const MultiSelect = ({
   validateName,
   itemComponent,
 }) => {
+  const {translate}=useContext(UserContext)
   const { classes, cx } = useStyles({ borderWhite });
   return (
     <Select
       searchable={searchable}
       withAsterisk={required ? true : false}
-      label={label}
+      label={translate(label)}
       pb={pb}
       defaultValue={value}
       itemComponent={itemComponent}
@@ -66,7 +69,7 @@ const MultiSelect = ({
         visibilityToggle: classes.icon,
         label: classes.label,
       }}
-      placeholder={placeholder}
+      placeholder={translate(placeholder)}
     />
   );
 };

@@ -26,7 +26,7 @@ export const ViewProjects = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const { user } = useContext(UserContext);
+  const { user ,translate} = useContext(UserContext);
 
   const queryClient = useQueryClient();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -104,6 +104,8 @@ export const ViewProjects = () => {
             createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
             description: obj?.description,
             accStatus: obj?.status,
+            endDate: obj?.endDate,
+            startDate: obj?.startDate,
             status:
               obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
           };
@@ -126,8 +128,8 @@ export const ViewProjects = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Sucess",
-          message: "Status changed successfully",
+          title: translate("Status Updated"),
+          message:translate("Status changed successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -291,7 +293,7 @@ export const ViewProjects = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title={"View Project"}
+        title={translate("View Project")}
       >
         <ViewProjectModal id={viewModalData} reportData={projectData} />
       </ViewModal>

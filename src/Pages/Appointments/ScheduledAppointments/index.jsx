@@ -29,12 +29,13 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -65,12 +66,14 @@ function ScheduledAppointments() {
             sr: ind + 1,
             userid: obj.appointmentUserId,
             caseName: obj?.caseName,
+            appointmentWith: obj?.appointmentWith,
             caseNo: obj?.caseNo,
             name: obj.appointmentUser,
             email: "N/A",
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: obj?.addedDate,
+            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,
             role: obj?.refered
@@ -83,12 +86,12 @@ function ScheduledAppointments() {
               ? "Social Worker"
               : obj.role === "psychologist"
               ? "Psychologist"
-              : "Lawyer",
+              : obj.role === "lawyer"
+              ? "Lawyer"
+              : "Admin",
 
             appointId: obj?.appointmentId,
-            image: obj?.appointmentUserImage
-              ? obj?.appointmentUserImage
-              : userlogo,
+            image: obj?.appointmentUserImage,
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
@@ -141,16 +144,22 @@ function ScheduledAppointments() {
       label: "Name",
     },
     {
+      id: "appointmentWith",
+      numeric: false,
+      disablePadding: true,
+      label: "Professional",
+    },
+    {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Added By",
+      label: "Appointer",
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Role",
+      label: "Appointer Role",
     },
     {
       id: "date",
@@ -169,6 +178,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Refered",
+      translate: true,
     },
     {
       id: "status",
@@ -259,6 +269,7 @@ function ScheduledAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
+              title={"Scheduled Appointments"}
               label={"Scheduled Appointments"}
             />
           </Grid.Col>
@@ -293,7 +304,7 @@ function ScheduledAppointments() {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Appointment Details"
+        title={translate("Appointment Details")}
       >
         <Flex direction={"column"} align="center" justify={"space-between"}>
           <Avatar
@@ -302,21 +313,21 @@ function ScheduledAppointments() {
             src={reportData?.image}
             className={classes.avatar}
           />
-          <Container w={"100%"} ml="md">
-            <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Name</Text>
+          <Container w={"100%"} ml="md" >
+            <SimpleGrid cols={2} spacing="xs" mt={"md"}>
+              <Text className={classes.textheading}>{translate("Name")}</Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Case Name</Text>
+              <Text className={classes.textheading}>{translate("Case Name")}</Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>Appointment Date</Text>
+              <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Appointment Time</Text>
+              <Text className={classes.textheading}>{translate("Appointment Time")}</Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
-              <Text className={classes.textheading}>Status</Text>
+              <Text className={classes.textheading}>{translate("Status")}</Text>
               <Text className={classes.textContent}>
                 <Badge
                   variant="filled"
@@ -324,13 +335,17 @@ function ScheduledAppointments() {
                     reportData?.status === "SCHEDULED" ? "green.0" : "red.0"
                   }
                 >
-                  {reportData?.status}
+                  {translate(reportData?.status)}
                 </Badge>
               </Text>
-              <Text className={classes.textheading}>Refferal Comment</Text>
-              <Text className={classes.textContent}>
-                {reportData?.referedComment}
-              </Text>
+              {reportData?.refer === "Refered" && (
+                <Text className={classes.textheading}>{("Refferal Comment")}</Text>
+              )}
+              {reportData?.refer === "Refered" && (
+                <Text className={classes.textContent}>
+                  {reportData?.referedComment}
+                </Text>
+              )}
             </SimpleGrid>
           </Container>
         </Flex>

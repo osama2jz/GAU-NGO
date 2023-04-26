@@ -31,33 +31,30 @@ export const AddUser = () => {
   const { classes } = useStyles();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [files, setFiles] = useState([]);
   const [fileUploading, setFileUploading] = useState(false);
   const [error, setError] = useState();
 
-  const {state}=useLocation()
-  const {editData}=state??""
+  const { state } = useLocation();
+  const { editData } = state ?? "";
 
-
-  useEffect(()=>{
-   if(editData){
-    form.setFieldValue(
-      "firstName",
-      editData?.name.substring(0, editData?.name.indexOf(" "))
-    );
-    form.setFieldValue(
-      "lastName",
-      editData?.name.substring(editData?.name.indexOf(" "))
-    );
-    form.setFieldValue("email",editData?.email)
-    form.setFieldValue("phoneNumber",editData?.phone)
-    form.setFieldValue("userType",editData?.userType)
-    form.setFieldValue("profileImage",editData?.image)
-
-   }
-  },[editData])
-
+  useEffect(() => {
+    if (editData) {
+      form.setFieldValue(
+        "firstName",
+        editData?.name.substring(0, editData?.name.indexOf(" "))
+      );
+      form.setFieldValue(
+        "lastName",
+        editData?.name.substring(editData?.name.indexOf(" "))
+      );
+      form.setFieldValue("email", editData?.email);
+      form.setFieldValue("phoneNumber", editData?.phone);
+      form.setFieldValue("userType", editData?.userType);
+      form.setFieldValue("profileImage", editData?.image);
+    }
+  }, [editData]);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -76,69 +73,67 @@ export const AddUser = () => {
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Please Enter a valid email",
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
 
       password: (value) =>
-      editData ||
+        editData ||
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
           <ul>
-            <li>Password must contain 8 to 15 characters with</li>
-            <li>at least one captial alphabet.</li>
-            <li>at least one small alphabet.</li>
-            <li>at least one digit and one special character.</li>
-            <li>at least one special character.</li>
+            {translate(" Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("at least one small alphabet.")}</li>
+            <li>
+              {translate("at least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
           </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password
+          ? translate("Passwords did not match")
+          : null,
     },
   });
 
   const handleAddUser = useMutation(
     (values) => {
-      if (values?.profileImage === null) {
-        setError("Please upload a profile image");
-        showNotification({
-          title: "Upload Failed",
-          message: "Please upload a profile image",
-          color: "red.0",
-        });
-      } else {
-        if (editData?.id) {
-          values = { ...values, userId: editData?.id };
-        }
-        let link=editData? "/api/user/edit":"/api/user/create"
-        return axios.post(`${backendUrl + link}`, values, {
-          headers: {
-            "x-access-token": user.token,
-          },
-        });
+      if (editData?.id) {
+        values = { ...values, userId: editData?.id };
       }
+      let link = editData ? "/api/user/edit" : "/api/user/create";
+      return axios.post(`${backendUrl + link}`, values, {
+        headers: {
+          "x-access-token": user.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: editData ? "Information Updated":"User Added",
+            title: editData ? translate("Information Updated") : translate("User Added"),
             message: editData
-            ? "User Information Updated Successfully! ":"New User added Successfully!",
+              ? translate("User Information Updated Successfully!")
+              : translate("New User added Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.socialWorker.allUsers);
-          form.reset()
+          form.reset();
         } else {
           showNotification({
             title: "Failed",
@@ -201,7 +196,7 @@ export const AddUser = () => {
   };
   return (
     <Container className={classes.addUser} size="xl" p={"0px"}>
-      <ContainerHeader label={editData?"Edit User":"Add User"} />
+      <ContainerHeader label={editData ? "Edit User" : "Add User"} />
 
       <form
         className={classes.form}
@@ -226,7 +221,7 @@ export const AddUser = () => {
           </Container>
           {form.values.profileImage ? (
             <Anchor onClick={() => form.setFieldValue("profileImage", null)}>
-              Remove
+              {translate("Remove")}
             </Anchor>
           ) : (
             <Input.Wrapper error={error} size={"md"}>
@@ -239,14 +234,10 @@ export const AddUser = () => {
                   handleImageInput(v[0]);
                 }}
               >
-                {/* {fileUploading ? (
-                  <Loader minHeight="5vh" />
-                ) : ( */}
                 <Text align="center" className={classes.upload}>
-                  <Upload size={16} />
-                  Upload
+                  <Upload size={16} color="green" />
+                  {translate("Upload")}
                 </Text>
-                {/* )} */}
               </Dropzone>
             </Input.Wrapper>
           )}
@@ -280,8 +271,7 @@ export const AddUser = () => {
                 placeholder="xyz@gmail.com"
                 form={form}
                 validateName="email"
-                disabled={editData?true:false}
-
+                disabled={editData ? true : false}
               />
             </Grid.Col>
             <Grid.Col sm={6}>
@@ -298,37 +288,35 @@ export const AddUser = () => {
           </Grid>
           {!editData && (
             <>
-            <PassInput
-            label="Password"
-            required={true}
-            placeholder="*******"
-            form={form}
-            validateName="password"
-          />
-          <PassInput
-            label="Confirm Password"
-            required={true}
-            placeholder="*******"
-            form={form}
-            validateName="confirmPassword"
-        />
-           {/* <Text pb={"sm"} size="sm">
+              <PassInput
+                label="Password"
+                required={true}
+                placeholder="*******"
+                form={form}
+                validateName="password"
+              />
+              <PassInput
+                label="Confirm Password"
+                required={true}
+                placeholder="*******"
+                form={form}
+                validateName="confirmPassword"
+              />
+              {/* <Text pb={"sm"} size="sm">
             By pressing “Submit” I declare that i’ve read and agree to the{" "}
             <b>GAU</b> <Anchor color={"green"}>Terms and Conditions.</Anchor>
           </Text> */}
-          </>
-          ) }
+            </>
+          )}
 
-          
-         
           <Group position="right" mt="sm">
             <Button
               label="Cancel"
               onClick={() => navigate(routeNames.socialWorker.allUsers)}
             />
             <Button
-              label={editData ? "Update":"Add User"}
-              leftIcon={editData ?"":"plus"}
+              label={editData ? "Update" : "Add User"}
+              leftIcon={editData ? "" : "plus"}
               primary={true}
               type="submit"
               loading={handleAddUser.isLoading || fileUploading}

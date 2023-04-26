@@ -55,6 +55,7 @@ export const ViewDocuments = () => {
       numeric: false,
       disablePadding: true,
       label: "Expiry Date",
+      translate:true
     },
     {
       id: "file",
@@ -117,10 +118,10 @@ export const ViewDocuments = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
+            title: deleteID ? translate("Document Deleted"):translate("Document Created"),
             message: deleteID
-              ? "Document Deleted Successfully"
-              : "Document Updated Successfully!",
+              ? translate("Document Deleted Successfully")
+              : translate("Document Updated Successfully!"),
             color: "green.0",
           });
           // navigate(routeNames.ngoAdmin.viewDocuments);

@@ -10,7 +10,6 @@ import { useStyles } from "./styles";
 
 import axios from "axios";
 import { useQuery } from "react-query";
-import defaultUser from "../../../assets/teacher.png";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Loader from "../../../Components/Loader";
 import Pagination from "../../../Components/Pagination";
@@ -76,9 +75,7 @@ const MissingDocuments = () => {
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports,
-              image: obj?.appointmentUserImage
-                ? obj?.appointmentUserImage
-                : defaultUser,
+              image: obj?.appointmentUserImage,
             };
             return appointment;
           });
@@ -154,25 +151,27 @@ const MissingDocuments = () => {
 
   // const filteredItems = rowData.filter((item) =>
   //   {
-      
+
   //     item?.name?.toLowerCase().includes(search.toLowerCase()) ||
   //     item?.caseNo?.toLowerCase().includes(search.toLowerCase())
   //   }
-     
+
   // );
 
-  const filteredItems=useMemo(() => {
-    let filtered=rowData.filter((item) =>{
-      return item?.name?.toLowerCase().includes(search.toLowerCase()) || item?.caseNo?.toLowerCase().includes(search.toLowerCase())
-    })
-    let a=filtered.map((obj, ind) => {
-      return{
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      return (
+        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+    let a = filtered.map((obj, ind) => {
+      return {
         ...obj,
         sr: ind + 1,
-      }
-     
-    })
-    return a
+      };
+    });
+    return a;
   }, [rowData, search]);
 
   const paginated = useMemo(() => {

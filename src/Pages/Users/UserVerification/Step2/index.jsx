@@ -49,7 +49,7 @@ export const Step2 = ({
   const [openModal, setOpenModal] = useState(false);
   const [openTrainingModal, setopenTrainingModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openDeleteModal1, setOpenDeleteModal1] = useState(false);
   const [openDeleteModal2, setOpenDeleteModal2] = useState(false);
@@ -310,7 +310,7 @@ export const Step2 = ({
           submitAll(form.values);
         })}
       >
-        <Text className={classes.subHeading}>Personal Information</Text>
+        <Text className={classes.subHeading}>{translate("Personal Information")}</Text>
         <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
@@ -396,7 +396,7 @@ export const Step2 = ({
         </SimpleGrid>
         <Group align={"flex-end"}>
           <Radio.Group
-            label="Select Identity"
+            label={translate("Select Identity")}
             spacing="xl"
             offset="xl"
             withAsterisk
@@ -407,34 +407,37 @@ export const Step2 = ({
             })}
             {...form?.getInputProps("documentType")}
           >
-            <Radio color="green.0" value="passport" label="Passport" checked />
-            <Radio color="green.0" value="nationalId" label="National ID" />
+            <Radio color="green.0" value="passport" label={translate("Passport")} checked />
+            <Radio color="green.0" value="nationalId" label={translate("National ID")} />
             <Radio
               color="green.0"
               value="residentialId"
-              label="Residential ID"
+              label={translate("Residential ID")}
             />
           </Radio.Group>
 
           <FileInput
-            label="Upload Document"
-            placeholder="Upload Document"
+            label={translate("Upload Document")}
+            placeholder={translate("Upload Document")}
             accept="file/pdf"
             styles={(theme) => ({
               input: {
-                border: "1px solid rgb(0, 0, 0, 0.1)",
+                border: "1px solid rgb(0, 0, 0, 0.5)",
                 borderRadius: "5px",
                 // width: "250px",
               },
+              placeholder: {
+                color: "black !important",
+              },
             })}
-            icon={<FileUpload size={20} />}
+            icon={<FileUpload size={20} color="green"/>}
             onChange={(e) => handleFileInput(e)}
           />
         </Group>
 
         {/** Studies and training */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Studies and Training*</Text>
+          <Text className={classes.subHeading}>{translate("Studies and Training")}*</Text>
           <Group position="right">
             <Button
               label={"Add New"}
@@ -462,7 +465,7 @@ export const Step2 = ({
         {/* Descrimation and voilence */}
         <Card mt="sm">
           <Text className={classes.subHeading}>
-            Discrimination And Voilence
+            {translate("Discrimination And Voilence")}
           </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <Radio.Group
@@ -488,7 +491,7 @@ export const Step2 = ({
 
         {/* Work Experience */}
         <Card>
-          <Text className={classes.subHeading}>Work Experience*</Text>
+          <Text className={classes.subHeading}>{translate("Work Experience")}*</Text>
           <Group position="right">
             <Button
               label={"Add New"}
@@ -515,7 +518,7 @@ export const Step2 = ({
 
         {/* Socio Family */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Socio-Family Situation</Text>
+          <Text className={classes.subHeading}>{translate("Socio-Family Situation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             label="Marital Status - Family Composition - Social Network"
@@ -526,7 +529,7 @@ export const Step2 = ({
 
         {/* Economic Situation */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Economic Situation</Text>
+          <Text className={classes.subHeading}>{translate("Economic Situation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -580,7 +583,7 @@ export const Step2 = ({
 
         {/* Health Aspects */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Health Aspects</Text>
+          <Text className={classes.subHeading}>{translate("Health Aspects")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             label="Disability - Dependencies - Mental Health"
@@ -591,7 +594,7 @@ export const Step2 = ({
         </Card>
 
         {/* Professional References */}
-        <Text className={classes.subHeading}>Professional References*</Text>
+        <Text className={classes.subHeading}>{translate("Professional References")}*</Text>
         <Group position="right">
           <Button
             label={"Add New"}
@@ -617,7 +620,7 @@ export const Step2 = ({
 
         {/* Demand*/}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Demand</Text>
+          <Text className={classes.subHeading}>{translate("Demand")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             form={form}

@@ -38,7 +38,7 @@ const AddAppointment = () => {
   const navigate = useNavigate();
   const publicRef = useRef();
   // const { id, appId } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
@@ -53,6 +53,7 @@ const AddAppointment = () => {
 
   //Camera Image
   const [img, setImg] = useState(null);
+  const [verifyimg, setVerifyImg] = useState(null);
   //Face Io
   const [faceID, setFaceId] = useState({});
 
@@ -64,7 +65,9 @@ const AddAppointment = () => {
   const [userCase, setUserCase] = useState();
   const [projectId, setProjectId] = useState("");
 
-  const [privateLink, setPrivateLink] = useState("");
+  const [attachedDocs, setAttachedDocs] = useState([]);
+
+  const [verifyStatus, setVerifyStatus] = useState(false);
 
   const editorr = useEditor({
     extensions: [
@@ -108,7 +111,6 @@ const AddAppointment = () => {
     reportType: "private",
     createdBy: user.id,
   });
-  
 
   const [otherDocument, setOtherDocument] = useState([]);
 
@@ -149,7 +151,6 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        // console.log("response", response);
         if (response.data.status) {
           setSelectedCase(response?.data?.data?.caseId);
           setCaseNo(response?.data?.data?.caseNo);
@@ -233,7 +234,6 @@ const AddAppointment = () => {
     },
     {
       onSuccess: (response) => {
-        console.log("response", response);
         if (response.data.status) {
           setSelectedCase(response?.data?.data?.caseId);
           setCaseNo(response?.data?.data?.caseNo);
@@ -253,8 +253,6 @@ const AddAppointment = () => {
   //create report
   const handleCreateReport = useMutation(
     async () => {
-      console.log("Create Appointmnet", reportPublicFiles, privatereportFiles);
-
       reportPublicFiles.reportComments = editorr?.getHTML();
       privatereportFiles.reportComments = editorr2?.getHTML();
 
@@ -287,6 +285,7 @@ const AddAppointment = () => {
       const value = {
         caseId: selectedCase,
         otherDocuments: otherDocument,
+        attachedDocument: attachedDocs,
       };
       return axios.post(`${backendUrl + "/api/case/otherDocuments"}`, value, {
         headers: {
@@ -295,13 +294,7 @@ const AddAppointment = () => {
       });
     },
     {
-      onSuccess: (response) => {
-        // showNotification({
-        //   color: "green.0",
-        //   message: "Documents uploaded Successfully",
-        //   title: "Success",
-        // });
-      },
+      onSuccess: (response) => {},
     }
   );
 
@@ -317,7 +310,7 @@ const AddAppointment = () => {
 
           return;
         }
-        if (img === null && (Object.keys(faceID).length === 0) === true) {
+        if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -334,7 +327,7 @@ const AddAppointment = () => {
             otherUserName !== "" &&
             otherUserMobile !== "" &&
             otherUserId !== "" &&
-            !(img === null && (Object.keys(faceID).length === 0) === true)
+            !(img === null && verifyStatus)
           ) {
           } else {
             showNotification({
@@ -346,7 +339,7 @@ const AddAppointment = () => {
           }
         }
       } else {
-        if (img === null && (Object.keys(faceID).length === 0) === true) {
+        if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
             message: "Please Verify Face ID or Attach Photo.",
@@ -363,7 +356,7 @@ const AddAppointment = () => {
             otherUserName !== "" &&
             otherUserMobile !== "" &&
             otherUserId !== "" &&
-            !(img === null && (Object.keys(faceID).length === 0) === true)
+            !(img === null && verifyStatus)
           ) {
           } else {
             showNotification({
@@ -384,8 +377,8 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: "Please add public and private report for this appointment.",
-          title: "Report Missing",
+          message:translate("Please add public and private report for this appointment."),
+          title: translate("Report Missing"),
         });
         return;
       }
@@ -400,8 +393,6 @@ const AddAppointment = () => {
 
   async function handleGeneratePDF(value, type) {
     return new Promise((resolve, reject) => {
-      console.log(`Create PDF ${type}`);
-
       const doc = new jsPDF();
       const text = value.getHTML();
 
@@ -423,8 +414,6 @@ const AddAppointment = () => {
   }
 
   const handleFileInput = (file, type) => {
-    console.log("type", type);
-
     setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
@@ -471,7 +460,6 @@ const AddAppointment = () => {
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
               if (type === "public") {
-                console.log("public report");
                 setReportFiles({ ...reportPublicFiles, reportFile: link });
               }
               if (type === "private") {
@@ -480,21 +468,21 @@ const AddAppointment = () => {
                   reportFile: link,
                 });
               }
-              // ? setReportFiles({ ...reportPublicFiles, reportFile: link })
-
-              console.log("link", link);
               resolve();
               setFileLoader(false);
-
             }
           });
         }
       });
     });
   };
-
   async function handleReports() {
     try {
+      showNotification({
+        title: translate("In Progress"),
+        message: translate("Please wait while we generate reports for you."),
+        color: "green.0",
+      });
       await handleGeneratePDF(editorr, "public");
       await handleGeneratePDF(editorr2, "private");
     } catch (error) {
@@ -512,7 +500,7 @@ const AddAppointment = () => {
   }, [privatereportFiles, reportPublicFiles]);
   return (
     <Container className={classes.addAppointment} size="xl" p={"0px"}>
-      <ContainerHeader label={" Start an Appointment"} />
+      <ContainerHeader label={"Start an Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="md"
@@ -535,7 +523,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="1. Select User"
+            label={`1. ${translate("Select User")}`}
           >
             <Step1
               setSelectedUser={setSelectedUser}
@@ -553,28 +541,13 @@ const AddAppointment = () => {
               appData={appData}
               setProjectId={setProjectId}
               projectId={projectId}
+              setVerifyImg={setVerifyImg}
+              verifyimg={verifyimg}
+              setVerifyStatus={setVerifyStatus}
+              fileLoader={fileLoader}
+              setFileLoader={setFileLoader}
             />
           </Stepper.Step>
-          {user.role === "Psychologist" && (
-            <Stepper.Step
-              icon={
-                <img
-                  src={step1}
-                  className={classes.stepIcon}
-                  width="72px"
-                  alt="icon"
-                />
-              }
-              label="Form"
-            >
-              {age >= 18 ? (
-                // "h":
-                <AgeFormAbove setActive={setActive} active={active} />
-              ) : (
-                <AgeForm setActive={setActive} active={active} />
-              )}
-            </Stepper.Step>
-          )}
           <Stepper.Step
             icon={
               <img
@@ -584,7 +557,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="2. In Meeting"
+            label={`2. ${translate("In Meeting")}`}
           >
             <Step2
               selectedUser={selectedUser}
@@ -602,7 +575,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="3. Upload Reporting"
+            label={`3. ${translate("Upload Reports")}`}
           >
             <Step3
               selectedUser={selectedUser}
@@ -619,6 +592,7 @@ const AddAppointment = () => {
               editorr={editorr}
               editorr2={editorr2}
               publicRef={publicRef}
+              setAttachedDocs={setAttachedDocs}
             />
           </Stepper.Step>
           <Stepper.Step
@@ -630,7 +604,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="4. Finish"
+            label={`4. ${translate("Finish")}`}
           >
             <Step5 />
           </Stepper.Step>
@@ -643,7 +617,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="5. Refer"
+            label={`5. ${translate("Refer")}`}
           >
             <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
           </Stepper.Step>
@@ -665,7 +639,9 @@ const AddAppointment = () => {
             <Button
               onClick={handleNextSubmit}
               loading={
-                handleCreateCase.isLoading || handleCreateReport.isLoading || fileLoader
+                handleCreateCase.isLoading ||
+                handleCreateReport.isLoading ||
+                fileLoader
                 // fileLoader
               }
               label={

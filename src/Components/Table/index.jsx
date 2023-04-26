@@ -18,7 +18,7 @@ import { showNotification } from "@mantine/notifications";
 
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowDown, ArrowUp } from "tabler-icons-react";
+import { ArrowDown, ArrowUp, CompassOff } from "tabler-icons-react";
 import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
@@ -41,11 +41,10 @@ const Table = ({
   setEditBranch,
   setEditProfessional,
   setOpenEditModal,
-
   ...props
 }) => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const theme = useMantineTheme();
   const [rowDatas, setRowDatas] = useState(rowData);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
@@ -127,7 +126,7 @@ const Table = ({
                     spacing={3}
                     align={"center"}
                   >
-                    <Text align="center">{head?.label}</Text>
+                    <Text align="center">{translate(head?.label)}</Text>
                     {head.id !== "actions" &&
                       head.id !== "image" &&
                       (!sorted.reversed === true &&
@@ -147,6 +146,7 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
+         
           {rowDatas?.map((row, index) => {
             return (
               <tr key={row.id}>
@@ -161,6 +161,7 @@ const Table = ({
                                 navigate(`/userVerification`, {
                                   state: {
                                     id: row.id,
+                                    image: row.image,
                                   },
                                 });
                               } else {
@@ -271,8 +272,14 @@ const Table = ({
                               if (setEditDoc) {
                                 setEditDoc(row);
                               }
-                              setEditModalState(true);
-                              setEditModalState(true);
+                              if (props.setEditDictionary) {
+                                navigate(routeNames.ngoAdmin.addDictionary, {
+                                  state: {
+                                    editData: row,
+                                  },
+                                });
+                              }
+                              setEditModalState && setEditModalState(true);
                             }}
                             disabled={
                               row.accStatus === "inactive" ||
@@ -318,21 +325,19 @@ const Table = ({
                             : "green.9"
                         }
                         variant="filled"
-                        w={"100px"}
+                        w={"120px"}
                       >
-                        {row[head?.id]}
+                        {translate(row[head?.id])}
                       </Badge>
                     </td>
                   ) : head.id === "name" ? (
                     <td key={index}>
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
-                        {row.image && (
-                          <Avatar
-                            src={row.image || userImage}
-                            width="30px"
-                            radius={"xl"}
-                          />
-                        )}
+                        {/* {row.image && ( */}
+                        <Avatar src={row.image} width="30px" radius={"xl"}>
+                          {row[head?.id][0] + row[head?.id][1]}
+                        </Avatar>
+                        {/* )} */}
                         <Tooltip label={row[head?.id]}>
                           <Text lineClamp={1}>
                             {row[head?.id]?.length > 100
@@ -354,15 +359,67 @@ const Table = ({
                         </Tooltip>
                         <Anchor
                           onClick={() => {
-                            navigate(
-                              routeNames.socialWorker.projectAppointments,
-                              {
-                                state: { id: row.case },
-                              }
-                            );
+                            row.projectName
+                              ? navigate(
+                                  routeNames.socialWorker.projectAppointments,
+                                  {
+                                    state: {
+                                      id: row.id,
+                                      data: row.projectName,
+                                    },
+                                  }
+                                )
+                              : navigate(
+                                  routeNames.socialWorker.caseAppointments,
+                                  {
+                                    state: { id: row.case, data: row.caseName },
+                                  }
+                                );
                           }}
                         >
-                          View All
+                          {translate("View All")}
+                        </Anchor>
+                      </Flex>
+                    </td>
+                  ) : head.id === "totalUsers" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                        <Anchor
+                          onClick={() => {
+                            navigate(routeNames.socialWorker.projectUsers, {
+                              state: { id: row.id, data: row.projectName },
+                            });
+                          }}
+                        >
+                          {translate("View All")}
+                        </Anchor>
+                      </Flex>
+                    </td>
+                  ) : head.id === "totalCases" ? (
+                    <td key={index} align="center">
+                      <Flex gap={"lg"} p="0px" m="0px">
+                        <Tooltip label={row[head?.id]}>
+                          <Text lineClamp={1}>
+                            {row[head?.id]?.length > 100
+                              ? row[head?.id].substring(0, 10) + "..."
+                              : row[head?.id]}
+                          </Text>
+                        </Tooltip>
+                        <Anchor
+                          onClick={() => {
+                            navigate(routeNames.socialWorker.projectCases, {
+                              state: { id: row.id, data: row.projectName },
+                            });
+                          }}
+                        >
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -378,12 +435,25 @@ const Table = ({
                         </Tooltip>
                         <Anchor
                           onClick={() => {
-                            navigate(routeNames.socialWorker.referalReport, {
-                              state: { id: row.case },
-                            });
+                            row.projectName
+                              ? navigate(
+                                  routeNames.socialWorker.projectReport,
+                                  {
+                                    state: {
+                                      id: row.id,
+                                      data: row.projectName,
+                                    },
+                                  }
+                                )
+                              : navigate(
+                                  routeNames.socialWorker.referalReport,
+                                  {
+                                    state: { id: row.case, data: row.caseName },
+                                  }
+                                );
                           }}
                         >
-                          View All
+                          {translate("View All")}
                         </Anchor>
                       </Flex>
                     </td>
@@ -391,22 +461,21 @@ const Table = ({
                     <td key={index}>
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
-                          View file
+                          {translate("View All")}
                         </Anchor>
                       ) : (
-                        <Text>No File</Text>
+                        <Text>{translate("No File")}</Text>
                       )}
                     </td>
                   ) : head.id === "reply" ? (
                     <td key={index}>
                       {row?.reply ? (
                         <Badge color={"green"} variant="filled">
-                          {" "}
-                          Replied
+                          {translate("Replied")}
                         </Badge>
                       ) : user.role === "User" ? (
                         <Badge color={"red"} variant="filled">
-                          Pending
+                          {translate("Pending")}
                         </Badge>
                       ) : (
                         <Anchor
@@ -416,7 +485,7 @@ const Table = ({
                             props.setReplyModalId(row?.id);
                           }}
                         >
-                          Reply Now{" "}
+                          {translate("Reply Now")}
                         </Anchor>
                       )}
                     </td>
@@ -477,7 +546,7 @@ const Table = ({
                         disabled={row.status === "unverified" ? false : true}
                         bg={row.status === "unverified" && true}
                         compact={true}
-                        w="70px"
+                        w="auto"
                       />
                     </td>
                   ) : head.id === "close" ? (
@@ -489,7 +558,7 @@ const Table = ({
                           setDeleteData(row.case);
                         }}
                         compact={true}
-                        disabled={row.status==="finished"}
+                        disabled={row.status === "closed"}
                       />
                     </td>
                   ) : head.id === "start" ? (
@@ -498,9 +567,13 @@ const Table = ({
                         label="Start"
                         onClick={() => {
                           user.role === "Psychologist"
-                            ? navigate(
-                                `/start-appointment-p/${row.userid}/${row.appointId}`
-                              )
+                            ? navigate(`/start-appointment-p`, {
+                                state: {
+                                  id: row.userid,
+                                  appId: row.appointId,
+                                  appData: row,
+                                },
+                              })
                             : navigate(`/start-appointment`, {
                                 state: {
                                   id: row.userid,
@@ -519,6 +592,22 @@ const Table = ({
                         compact={true}
                       />
                     </td>
+                  ) : head.translate ? (
+                    <td key={index}>
+                      <Tooltip label={row[head?.id]}>
+                        <Text
+                          lineClamp={1}
+                          color={head.id === "docs" && "red.9"}
+                          fw={head.id === "docs" && 1000}
+                        >
+                          {translate(
+                            row[head?.id]?.length > 100
+                              ? row[head?.id]?.substring(0, 10) + "..."
+                              : row[head?.id]
+                          )}
+                        </Text>
+                      </Tooltip>
+                    </td>
                   ) : (
                     <td key={index}>
                       <Tooltip label={row[head?.id]}>
@@ -529,7 +618,7 @@ const Table = ({
                         >
                           {row[head?.id]?.length > 100
                             ? row[head?.id]?.substring(0, 10) + "..."
-                            : row[head?.id]?.toLocaleString()}
+                            : row[head?.id]}
                         </Text>
                       </Tooltip>
                     </td>
@@ -554,8 +643,7 @@ const Table = ({
             mt={8}
             color="rgb(0,0,0,0.5)"
           >
-            {" "}
-            No Data Found
+            {translate("No Data Found")}
           </Text>
         </Container>
       )}

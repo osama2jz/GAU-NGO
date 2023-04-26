@@ -35,7 +35,7 @@ export const ViewBranches = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const [BranchData, setBranchData] = useState([]);
 
@@ -143,8 +143,8 @@ export const ViewBranches = () => {
       onSuccess: (response) => {
         navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
-          title: "Status Updated",
-          message: "Branch Status changed Successfully!",
+          title: translate( "Status Updated"),
+          message: translate("Branch Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -277,7 +277,7 @@ export const ViewBranches = () => {
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={handleDeleted}
         loading={handleChangeStatus.isLoading}
-        label="Are you Sure?"
+        label={translate("Are you Sure?")}
         message="Do you really want to delete these records? This process cannot be undone."
       />
       <ViewModal

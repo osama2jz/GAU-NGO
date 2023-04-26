@@ -1,12 +1,9 @@
 import { Tabs, Text } from "@mantine/core";
-import jsPDF from "jspdf";
-import React from "react";
-import ReactHtmlParser from "react-html-parser";
+import React, { useContext } from "react";
 import InputField from "../../../../Components/InputField";
 import TextEditor from "../../../../Components/TextEditor";
-import { s3Config } from "../../../../constants/constants";
+import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
-import Button from "../../../../Components/Button";
 
 const DoubleTabs = ({
   selectedUser,
@@ -23,6 +20,7 @@ const DoubleTabs = ({
   // const [files, setFiles] = useState([]);
   // const [files2, setFiles2] = useState([]);
   const { classes } = useStyles();
+  const {translate}=useContext(UserContext)
 
   // console.log("editorr",editorr.getHTML())
 
@@ -101,13 +99,13 @@ const DoubleTabs = ({
         color={"blue.0"}
       >
         <Tabs.List position="center">
-          <Tabs.Tab value="public">Upload Public Report</Tabs.Tab>
-          <Tabs.Tab value="private">Upload Private Report</Tabs.Tab>
+          <Tabs.Tab value="public">{translate("Upload Public Report")}</Tabs.Tab>
+          <Tabs.Tab value="private">{translate("Upload Private Report")}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="public" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Public Report
+            {translate("Public Report")}
           </Text>
           <InputField
             label={"Title"}
@@ -127,7 +125,7 @@ const DoubleTabs = ({
 
         <Tabs.Panel value="private" pt="xs">
           <Text fz={20} fw="bolder" align="center" mb={"md"}>
-            Private Report
+            {translate("Private Report")}
           </Text>
 
           <InputField

@@ -26,7 +26,7 @@ import { useStyles } from "./styles";
 export const UpdateProfile = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [profileImage, setProfileImage] = useState(user?.profileImage);
   const [files, setFiles] = useState([]);
 

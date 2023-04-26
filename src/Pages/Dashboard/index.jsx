@@ -1,23 +1,22 @@
-import { Container, Flex, Text } from "@mantine/core";
-import { useStyles } from "./styles";
-import { Grid } from "@mantine/core";
+import { Container, Grid, Text } from "@mantine/core";
+import axios from "axios";
+import { useContext, useMemo, useState } from "react";
+import { useQuery } from "react-query";
+import ContainerHeader from "../../Components/ContainerHeader";
+import { backendUrl } from "../../constants/constants";
+import { UserContext } from "../../contexts/UserContext";
+import routeNames from "../../Routes/routeNames";
 import Card from "./Card";
 import Chart from "./Chart";
-import routeNames from "../../Routes/routeNames";
-import { useQuery } from "react-query";
-import { backendUrl } from "../../constants/constants";
-import { useContext, useMemo, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import axios from "axios";
-import { Users } from "tabler-icons-react";
+import { useStyles } from "./styles";
 
 const Dashboard = () => {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [chartData, setChartData] = useState([]);
   const [cardData, setCardData] = useState([
     {
-      title: "TOTAL USERS",
+      title: "Total Users",
       value: null,
       progress: 78,
       color: "red.0",
@@ -26,7 +25,7 @@ const Dashboard = () => {
       link: routeNames.socialWorker.userPageDashboard,
     },
     {
-      title: "TOTAL APPOINTMENTS",
+      title: "Total Appointments",
       value: null,
       progress: 78,
       color: "green.0",
@@ -35,7 +34,7 @@ const Dashboard = () => {
       link: routeNames.socialWorker.appointmentPageDashboard,
     },
     {
-      title: "TOTAL REPORTS",
+      title: "Total Reports",
       value: null,
       progress: 78,
       color: "blue.0",
@@ -46,7 +45,7 @@ const Dashboard = () => {
   ]);
   const [cardData1, setCardData1] = useState([
     {
-      title: "TOTAL BRANCHES",
+      title: "Total Branches",
       value: null,
       progress: 78,
       color: "red.0",
@@ -55,7 +54,7 @@ const Dashboard = () => {
       link: routeNames.ngoAdmin.branchPageDashboard,
     },
     {
-      title: "TOTAL PROFESSIONALS",
+      title: "Total Professionals",
       value: null,
       progress: 78,
       color: "green.0",
@@ -64,7 +63,7 @@ const Dashboard = () => {
       link: routeNames.ngoAdmin.professionPageDashboard,
     },
     {
-      title: "TOTAL CASES",
+      title: "Total Cases",
       value: null,
       progress: 78,
       color: "blue.0",
@@ -76,7 +75,7 @@ const Dashboard = () => {
 
  const [cardData3, setCardData3] = useState([
   {
-    title: "TOTAL APPOINTMENTS",
+    title: "Total Appointments",
     value: null,
     progress: 78,
     color: "red.0",
@@ -85,7 +84,7 @@ const Dashboard = () => {
     // link: routeNames.ngoAdmin.branchPageDashboard,
   },
   {
-    title: "TOTAL DONATIONS",
+    title: "Total Donations",
     value: null,
     progress: 78,
     color: "green.0",
@@ -94,7 +93,7 @@ const Dashboard = () => {
     // link: routeNames.ngoAdmin.branchPageDashboard,
   },
   {
-    title: "TOTAL COMPLAINTS",
+    title: "Total Complaints",
     value: null,
     progress: 50,
     color: "blue.0",
@@ -177,9 +176,7 @@ const Dashboard = () => {
   );
   return (
     <Container className={classes.main} size="lg">
-      <Text fz={26} fw="bolder" mb="sm" align="center">
-        Dashboard
-      </Text>
+      <ContainerHeader label={"Dashboard"} />
 
       <Grid align={"center"} justify="center">
         {allCard.map((item, index) => (
@@ -190,7 +187,7 @@ const Dashboard = () => {
       </Grid>
 
       <Text fz={24} fw="bolder" mt="sm" mb="sm">
-        Monthly Appointments{" "}
+        {translate("Monthly Appointments")}
       </Text>
       <Chart data={chartData} />
     </Container>

@@ -2,14 +2,13 @@ import { Container, Grid, Text } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
-import Button from "../../../../Components/Button";
+import { useMutation } from "react-query";
 import Datepicker from "../../../../Components/Datepicker";
 import InputField from "../../../../Components/InputField";
 import Loader from "../../../../Components/Loader";
 import Cards from "../../../../Components/ProfessionCard";
 import SelectMenu from "../../../../Components/SelectMenu";
-import { backendUrl } from "../../../../constants/constants";
+import { backendUrl, slots } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 const Step2 = ({
   caseId,
@@ -18,55 +17,26 @@ const Step2 = ({
   setSlot,
   onSubmit,
   slot,
-  setOpened
+  setOpened,
 }) => {
-  const { user } = useContext(UserContext);
-  const [cardData, setCardData] = useState([]);
+  const { user, translate } = useContext(UserContext);
   const [typeFilter, setTypeFilter] = useState("socialWorker");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [professionalCardData, setProfessionalCardData] = useState([]);
   const [search, setSearch] = useState("");
-
-  
-
-  const { data: users, status } = useQuery(
-    "referSchedule",
-    () => {
-      return axios.get(backendUrl + `/api/schedule/listNGOUsersSchedule`, {
-        headers: {
-          "x-access-token": user?.token,
-        },
-      });
-    },
-    {
-      onSuccess: (response) => {
-        let data = response?.data?.data?.map((obj, ind) => {
-          let card = {
-            userId: obj?.userId,
-            name: obj?.fullName,
-            role: obj?.role,
-            branches: obj?.branches.map((e) => ({
-              label: e.branchName,
-              value: e.branchId,
-            })),
-            schedule: obj?.schedule,
-          };
-          return card;
-        });
-        setCardData(data);
-      },
-    }
-  );
+  const [selectedSlot, setSelectedSlot] = useState("all");
 
   useEffect(() => {
     getSchedule.mutate();
-  }, [date, typeFilter]);
+  }, [date, typeFilter, selectedSlot]);
 
   const getSchedule = useMutation(
     () => {
+      let payload = { date: date, type: typeFilter };
+      if (selectedSlot !== "all") payload["slot"] = selectedSlot;
       return axios.post(
         `${backendUrl + "/api/schedule/listNGOUsersSchedule_2"}`,
-        { date: date, type: typeFilter },
+        payload,
         {
           headers: {
             "x-access-token": user.token,
@@ -86,7 +56,7 @@ const Step2 = ({
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
-            image:obj?.profileImage
+            image: obj?.profileImage,
           };
           return card;
         });
@@ -98,18 +68,15 @@ const Step2 = ({
   const filtered = professionalCardData?.filter((obj) =>
     obj?.name.toLowerCase().includes(search.toLowerCase())
   );
-  if (status === "loading") {
-    return <Loader />;
-  }
 
   return (
     <>
       <Container size="lg" px={"0px"}>
         <Text fz={32} fw="bolder" align="center" mb={"md"}>
-          Select Appointment Slot
+          {translate("Select Appointment Slot")}
         </Text>
         <Grid align={"center"} py="md">
-          <Grid.Col md={12} lg={6}>
+          <Grid.Col md={6} lg={3}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -117,6 +84,20 @@ const Step2 = ({
               pb="0"
               value={search}
               onChange={(v) => setSearch(v.target.value)}
+            />
+          </Grid.Col>
+          <Grid.Col md={6} lg={3}>
+            <SelectMenu
+              placeholder="Select by Type"
+              setData={setTypeFilter}
+              label={"Filter Professionals"}
+              value={typeFilter}
+              data={[
+                // { label: "All", value: "all" },
+                { label: "Lawyer", value: "lawyer" },
+                { label: "Psychologist", value: "psychologist" },
+                { label: "Social Worker", value: "socialWorker" },
+              ]}
             />
           </Grid.Col>
           <Grid.Col md={6} lg={3}>
@@ -132,16 +113,11 @@ const Step2 = ({
           </Grid.Col>
           <Grid.Col md={6} lg={3}>
             <SelectMenu
-              placeholder="Select by Type"
-              setData={setTypeFilter}
-              label={"Filter Professionals"}
-              value={typeFilter}
-              data={[
-                // { label: "All", value: "all" },
-                { label: "Lawyer", value: "lawyer" },
-                { label: "Psychologist", value: "psychologist" },
-                { label: "Social Worker", value: "socialWorker" },
-              ]}
+              label={"Select Slot"}
+              placeholder="Select Slot"
+              data={slots}
+              value={selectedSlot}
+              onChange={setSelectedSlot}
             />
           </Grid.Col>
         </Grid>
@@ -167,7 +143,7 @@ const Step2 = ({
               ))
             ) : (
               <Text fw={"bold"} align="center" m={"auto"} color="dimmed">
-                No Professional Available
+                {translate("No Professional Available")}
               </Text>
             )}
           </Grid>

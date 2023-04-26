@@ -2,7 +2,7 @@ import { Container, Grid, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import moment from "moment";
+import moment from "moment/moment";
 import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router";
@@ -20,14 +20,17 @@ import { useStyles } from "./styles";
 const AddProject = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const { state } = useLocation();
   let editData = state?.editData;
 
   useEffect(() => {
-    console.log(editData);
-    if (editData) form.setValues(editData);
-    else form.reset();
+    if (editData) {
+      form.setFieldValue("projectName", editData.projectName);
+      form.setFieldValue("description", editData.description);
+      form.setFieldValue("startDate", new Date(editData.startDate));
+      form.setFieldValue("endDate", new Date(editData.endDate));
+    } else form.reset();
   }, [editData]);
 
   const form = useForm({
@@ -43,9 +46,9 @@ const AddProject = () => {
       projectName: (value) =>
         /^[a-zA-Z0-9 ]{2,50}$/.test(value)
           ? null
-          : "Please enter a valid project name.",
+          :translate("Please enter a valid project name."),
       description: (value) =>
-        value?.length < 2 ? "Please enter description" : null,
+        value?.length < 2 ? translate("Please enter description") : null,
     },
   });
 
@@ -68,8 +71,8 @@ const AddProject = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Project",
-            message: "Project added Successfully!",
+            title: translate("Project"),
+            message: translate("Project added Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewProject);
@@ -107,6 +110,7 @@ const AddProject = () => {
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 form={form}
+                // value={form.values.startDate}
                 validateName="startDate"
               />
             </Grid.Col>

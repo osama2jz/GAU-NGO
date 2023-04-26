@@ -26,11 +26,13 @@ import Loader from "../../../../Components/Loader";
 const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [search,setSearch]=useState("")
+  const [filter,setFilter]=useState("")
+ 
   let headerData = [
     {
       id: "sr",
@@ -88,7 +90,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       setLoading(true);
       return axios.get(
         backendUrl +
-          `/api/case/listCaseUserReports/${selectedUser.data.data._id}`,
+          `/api/case/listReportsCaseNo/${caseNo}`,
         {
           headers: {
             "x-access-token": usertoken?.token,
@@ -122,33 +124,36 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         setReport(data);
         setLoading(false);
       },
+      enabled: !!caseNo,
     }
+    
   );
+
+  const filtered=reports.filter((report)=>(
+    (report.name.toLowerCase().includes(search.toLowerCase()) ||
+    report.addedBy.toLowerCase().includes(search.toLowerCase())) &&
+    report?.role.toLowerCase().includes(filter.toLowerCase())
+  ))
+
 
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"md"}>
-        Meeting In Progress
+        {translate("Meeting In Progress")}
       </Text>
       <Flex justify={"space-between"}>
         <Flex align={"center"}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")}#
           </Text>
           <Text ml={10}>{caseNo}</Text>
         </Flex>
-        <Flex align={"center"}>
-          <Text fz={18} fw={"bold"}>
-            Date:
-          </Text>
-          <Text ml={10}>XXXX</Text>
-        </Flex>
       </Flex>
-      <Container size={"sm"} p="0px">
+      {/* <Container size="36rem">
         <UserInfo userData={selectedUser} />
-      </Container>
+      </Container> */}
       <Text align="center" fw={"bold"} mt="xl">
-        User Reports
+        {translate("Previous Reports")}
       </Text>
       {loading ? (
         <Loader />
@@ -156,22 +161,29 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         <Container p={"xs"} className={classes.innerContainer}>
           <Grid align={"center"} py="md">
             <Grid.Col sm={6}>
-              <InputField placeholder="Search" leftIcon="search" pb="0" />
+              <InputField placeholder="Search By Professional Name" leftIcon="search" pb="0"
+              onChange={(e)=>{setSearch(e.target.value)}}
+              value={search}
+             />
             </Grid.Col>
             <Grid.Col sm={6}>
               <SelectMenu
                 placeholder="Added By"
                 data={[
-                  { label: "Lawyer", value: "lawyer" },
-                  { label: "Psychologist", value: "psychologistng" },
+                  { label: "All", value: "" },
                   { label: "Social Worker", value: "socailworker" },
+                  { label: "Psychologist", value: "psychologistng" },
+                  { label: "Lawyer", value: "lawyer" },
+                 
                 ]}
+                setData={setFilter}
+                value={filter}
               />
             </Grid.Col>
           </Grid>
           <Table
             headCells={headerData}
-            rowData={reports}
+            rowData={filtered}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
           />
@@ -198,28 +210,28 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
+                <Text className={classes.textheading}>{translate("Case")} # </Text>
                 <Text className={classes.textContent}>{reportData?.case}</Text>
-                <Text className={classes.textheading}>Added By</Text>
+                <Text className={classes.textheading}>{translate("Added By")}</Text>
                 <Text className={classes.textContent}>
                   {reportData?.addedBy}
                 </Text>
-                <Text className={classes.textheading}>Date</Text>
+                <Text className={classes.textheading}>{translate("Date")}</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
+                <Text className={classes.textheading}>{translate("Report File")}</Text>
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.reportType} Report
+                  {reportData?.reportType} {translate("Report")}
                 </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textheading}>{translate("Report Type")}</Text>
                 <Text className={classes.textContent}>
-                  {reportData?.reportType}
+                  {translate(reportData?.reportType)}
                 </Text>
               </SimpleGrid>
             </Container>
           </Grid.Col>
         </Grid>
-        <Text className={classes.textheading}>Report Comments</Text>
+        <Text className={classes.textheading}>{translate("Report Comments")}</Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

@@ -2,7 +2,7 @@ import { Anchor, Container, Flex, Grid, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
@@ -19,7 +19,7 @@ import ViewUserModal from "../../Users/AllUsers/ViewUserModal";
 import userlogo from "../../../assets/teacher.png";
 import Card from "../Card";
 import { useStyles } from "./styles";
-
+import ContainerHeader from "../../../Components/ContainerHeader";
 
 const UserPage = (props) => {
   const { classes } = useStyles();
@@ -33,18 +33,17 @@ const UserPage = (props) => {
   const [deleteID, setDeleteID] = useState("");
   const [viewModalData, setViewModalData] = useState();
   const [url, setUrl] = useState(`/all`);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
-  const [loading,setLoading]=useState(false)
-  const [allUsers,setAllUsers]=useState()
+  const [loading, setLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState();
   const [reportData, setReportData] = useState([]);
-
 
   //API call for fetching all users Count
   const { data4, status4 } = useQuery(
     ["fetchAllUser", activePage, url],
     () => {
-      setLoading(true)
+      setLoading(true);
       return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/0/0`}`, {
         headers: {
           "x-access-token": user.token,
@@ -63,155 +62,152 @@ const UserPage = (props) => {
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-
           };
           return user;
         });
         setAllUsers(data);
-       
       },
     }
   );
 
-  const verified = allUsers && allUsers?.filter(
-    (e) => e.status === "verified"
-  )
-  const unverified = allUsers && allUsers?.filter(
-    (e) => e.status === "unverified"
-  )
+  const verified = allUsers && allUsers?.filter((e) => e.status === "verified");
+  const unverified =
+    allUsers && allUsers?.filter((e) => e.status === "unverified");
 
- 
- var unverifiedCount=unverified?.length
- var verifiedCount=verified?.length
-  
+  var unverifiedCount = unverified?.length;
+  var verifiedCount = verified?.length;
 
-  //API call for fetching all users 
+  //API call for fetching all users
   const { data, status } = useQuery(
     ["fetchUser", activePage, url],
     () => {
-      setLoading(true)
-      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      setLoading(true);
+      return axios.get(
+        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10` + url}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
-
-
+            image: obj?.profileImage,
           };
           return user;
         });
         setRowData(data);
         setTotalPages(response.data.totalPages);
-        setLoading(false)
+        setLoading(false);
       },
-      enabled:
-        url === `/all` ? true : false,
+      enabled: url === `/all` ? true : false,
     }
   );
 
-   //API call for fetching all Verified users
-   const { data1, status1 } = useQuery(
+  //API call for fetching all Verified users
+  const { data1, status1 } = useQuery(
     ["fetchverifiedUser", activePage, url],
     () => {
-      setLoading(true)
-      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      setLoading(true);
+      return axios.get(
+        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10` + url}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
-
+            image: obj?.profileImage,
           };
           return user;
         });
         setRowData(data);
         setTotalPages(response.data.totalPages);
-        setLoading(false)
+        setLoading(false);
       },
-      enabled:
-        url === `/verified` ? true : false,
+      enabled: url === `/verified` ? true : false,
     }
   );
 
-   //API call for fetching all Unverified users
-   const { data2, status2 } = useQuery(
-    ["fetchUnverifiedUser",activePage, url],
+  //API call for fetching all Unverified users
+  const { data2, status2 } = useQuery(
+    ["fetchUnverifiedUser", activePage, url],
     () => {
-      setLoading(true)
-      return axios.get(`${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10`+url}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      setLoading(true);
+      return axios.get(
+        `${backendUrl + `/api/ngo/listNGOUsers/user/${activePage}/10` + url}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
         let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
-            sr: (activePage === 1 ? 0 : (activePage -1) * 10) + (ind + 1),
+            sr: (activePage === 1 ? 0 : (activePage - 1) * 10) + (ind + 1),
             name: obj.firstName + " " + obj.lastName,
             email: obj.email,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
             date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
             phone: obj?.phoneNumber,
-            image:obj?.profileImage ? obj?.profileImage : userlogo,
-
+            image: obj?.profileImage,
           };
           return user;
         });
         setRowData(data);
         setTotalPages(response.data.totalPages);
-        setLoading(false)
+        setLoading(false);
       },
-      enabled:
-        url === `/unverified` ? true : false,
+      enabled: url === `/unverified` ? true : false,
     }
   );
 
   //API call for deleting user
-  const handleDeleted = () => {{handleChangeStatus.mutate({
-      userId: deleteID,
-      userStatus: "deleted",
-    });
-    
-    setOpenDeleteModal(false);
-    showNotification({
-      title: "Deleted",
-      message: "User Deleted Successfully!",
-      color: "green.0",
-    });
-    queryClient.invalidateQueries("fetchUser");
-   
-  }}
+  const handleDeleted = () => {
+    {
+      handleChangeStatus.mutate({
+        userId: deleteID,
+        userStatus: "deleted",
+      });
+
+      setOpenDeleteModal(false);
+      showNotification({
+        title: "Deleted",
+        message: "User Deleted Successfully!",
+        color: "green.0",
+      });
+      queryClient.invalidateQueries("fetchUser");
+    }
+  };
 
   //API call for changing user status
   const handleChangeStatus = useMutation(
@@ -267,12 +263,6 @@ const UserPage = (props) => {
       label: "User Status",
     },
     {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
-    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -281,17 +271,44 @@ const UserPage = (props) => {
     {
       id: "actions",
       view: <Eye color="#4069bf" />,
-      edit: <Edit color="#4069bf" />,
-      delete: <Trash color="red" />,
       numeric: false,
       label: "Actions",
     },
   ];
 
+  const newData = useMemo(() => {
+    let arr = headerData;
+    if (user.role === "Social Worker") {
+      headerData.splice(5, 0, {
+        id: "userVerify",
+        numeric: false,
+        disablePadding: true,
+        label: "Verify",
+      });
+      arr = headerData;
+    }
+    if (user.role === "Social Worker" || user.role === "Admin") {
+      (headerData[headerData.length - 1] = {
+        id: "actions",
+        view: <Eye />,
+        edit: <Edit />,
+        delete: <Trash />,
+        numeric: false,
+        label: "Actions",
+      }),
+        (arr = headerData);
+    }
+    return arr;
+  }, [user]);
+
   const a = [
     {
       title: "ALL USERS",
-      value: verifiedCount ? verifiedCount+unverifiedCount :  <Loader minHeight="5vh" />,
+      value: verifiedCount ? (
+        verifiedCount + unverifiedCount
+      ) : (
+        <Loader minHeight="5vh" />
+      ),
       progress: 78,
       color: "#748FFC",
       progressTitle: "Response Rate",
@@ -300,7 +317,7 @@ const UserPage = (props) => {
     },
     {
       title: "VERIFIED",
-      value: verifiedCount ? verifiedCount :<Loader minHeight="5vh" />,
+      value: verifiedCount ? verifiedCount : <Loader minHeight="5vh" />,
       progress: 78,
       color: "green.0",
       progressTitle: "Response Rate",
@@ -309,7 +326,7 @@ const UserPage = (props) => {
     },
     {
       title: "UNVERIFIED",
-      value: unverifiedCount ? unverifiedCount: <Loader minHeight="5vh" />,
+      value: unverifiedCount ? unverifiedCount : <Loader minHeight="5vh" />,
       progress: 78,
       color: "red.0",
       progressTitle: "Response Rate",
@@ -320,7 +337,7 @@ const UserPage = (props) => {
 
   return (
     <Container className={classes.main} size="xl">
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -328,44 +345,47 @@ const UserPage = (props) => {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text fz={28} fw="bolder" mb="sm" mr="auto">
-          User
-        </Text>
+        <ContainerHeader
+          label={"Users"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
       <Grid>
         {a.map((item, index) => (
           <Grid.Col md={"auto"}>
-            <Card data={item} setUrl={setUrl} url={url} setPage={setPage}/>
+            <Card data={item} setUrl={setUrl} url={url} setPage={setPage} />
           </Grid.Col>
         ))}
       </Grid>
       {loading ? (
         <Loader minHeight="40vh" />
-      ) :(<Container mt="md" size={1095} className={classes.main}>
-      <Table
-        headCells={headerData}
-        rowData={rowData}
-        setViewModalState={setOpenViewModal}
-        setEditModalState={setOpenEditModal}
-        setDeleteModalState={setOpenDeleteModal}
-        onStatusChange={handleChangeStatus.mutate}
-        setStatusChangeId={setStatusChangeId}
-        setDeleteData={setDeleteID}
-        setViewModalData={setViewModalData}
-        setReportData={setReportData}
-      />
-      {totalPages > 1 && (
-        <Pagination
-          activePage={activePage}
-          setPage={setPage}
-          total={totalPages}
-          radius="xl"
-        />
+      ) : (
+        <Container mt="md" size={1095} className={classes.main}>
+          <Table
+            headCells={newData}
+            rowData={rowData}
+            setViewModalState={setOpenViewModal}
+            setEditModalState={setOpenEditModal}
+            setDeleteModalState={setOpenDeleteModal}
+            onStatusChange={handleChangeStatus.mutate}
+            setStatusChangeId={setStatusChangeId}
+            setDeleteData={setDeleteID}
+            setViewModalData={setViewModalData}
+            setReportData={setReportData}
+          />
+          {totalPages > 1 && (
+            <Pagination
+              activePage={activePage}
+              setPage={setPage}
+              total={totalPages}
+              radius="xl"
+            />
+          )}
+        </Container>
       )}
-    </Container>)}
-      
+
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}
@@ -379,7 +399,7 @@ const UserPage = (props) => {
         setOpened={setOpenViewModal}
         title="User Details"
       >
-        <ViewUserModal id={viewModalData} reportData={reportData}/>
+        <ViewUserModal id={viewModalData} reportData={reportData} />
       </ViewModal>
       <EditModal
         opened={openEditModal}

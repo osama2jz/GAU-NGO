@@ -7,6 +7,8 @@ import {
 } from "@mantine/core";
 import Button from "../Button";
 import cross from "../../assets/cross.svg";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -27,6 +29,7 @@ const DeleteModal = ({
   message,
   close
 }) => {
+  const {translate}=useContext(UserContext)
   const { classes, cx } = useStyles();
   return (
     <ModalMantine
@@ -38,13 +41,13 @@ const DeleteModal = ({
       <Container className={classes.root}>
         <img src={cross} alt="icon" width={"40px"}/>
         <Text fw={"bold"}>
-          {label}
+          {translate(label)}
         </Text>
-        <Text align="center">{message}</Text>
+        <Text align="center">{translate(message)}</Text>
         <Group pt={"sm"} ml={"auto"}>
-          <Button label="Cancel" onClick={onCancel}/>
+          <Button label={translate("Cancel")} onClick={onCancel}/>
           <Button
-            label={close ?"Done":"Delete"}
+            label={close ?translate("Done"):translate("Delete")}
             loading={loading}
             onClick={onDelete}
             primary={true}

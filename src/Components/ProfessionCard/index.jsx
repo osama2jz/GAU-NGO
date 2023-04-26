@@ -28,7 +28,7 @@ const Cards = ({
   setOpened,
 }) => {
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const navigate = useNavigate();
   const [referModal, setReferModal] = useState(false);
 
@@ -77,18 +77,25 @@ const Cards = ({
           variant="outline"
           className={classes.badge}
         >
-          {cardData?.scheduleStatus ? "Available" : "Not Available"}
+          {cardData?.scheduleStatus
+            ? translate("Available")
+            : translate("Not Available")}
         </Badge>
-        <Avatar src={cardData?.image || defaultLogo} size={90} radius="50%" className={classes.img}/>
+        <Avatar
+          src={cardData?.image || defaultLogo}
+          size={90}
+          radius="50%"
+          className={classes.img}
+        />
         <Text size="lg" fw={680} mb={0} pb={0}>
           {cardData.name}
         </Text>
         <Text size="md" mt={0} fw={600} color="red.0">
           {cardData?.role === "socialWorker"
-            ? "Social Worker"
+            ? translate("Social Worker")
             : cardData?.role === "lawyer"
-            ? "Lawyer"
-            : "Psychologist"}
+            ? translate("Lawyer")
+            : translate("Psychologist")}
         </Text>
         <Flex align={"center"} gap={6} mt="xs" mb={"md"}>
           <CalendarEvent size={"20px"} />

@@ -1,4 +1,6 @@
 import { createStyles, TextInput } from "@mantine/core";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 const useStyles = createStyles((theme, { borderWhite, disabled }) => ({
   input: {
@@ -38,10 +40,11 @@ const InputField = ({
   mb
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
+  const {translate}=useContext(UserContext)
   return (
     <TextInput
       withAsterisk={required ? true : false}
-      label={label}
+      label={translate(label)}
       pb={pb}
       type={type}
       size={size}
@@ -69,7 +72,7 @@ const InputField = ({
         visibilityToggle: classes.icon,
         label: classes.label,
       }}
-      placeholder={placeholder}
+      placeholder={translate(placeholder)}
     />
   );
 };

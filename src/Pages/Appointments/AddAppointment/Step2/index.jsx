@@ -26,7 +26,7 @@ import Loader from "../../../../Components/Loader";
 const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const { classes } = useStyles();
   const [openViewModal, setOpenViewModal] = useState(false);
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -139,12 +139,12 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"md"}>
-        Meeting In Progress
+        {translate("Meeting In Progress")}
       </Text>
       <Flex justify={"space-between"}>
         <Flex align={"center"}>
           <Text fz={18} fw={"bold"}>
-            Case#
+            {translate("Case")} #
           </Text>
           <Text ml={10}>{caseNo}</Text>
         </Flex>
@@ -153,7 +153,7 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         <UserInfo userData={selectedUser} />
       </Container> */}
       <Text align="center" fw={"bold"} mt="xl">
-        Previous Reports
+        {translate("Previous Reports")}
       </Text>
       {loading ? (
         <Loader />
@@ -210,20 +210,20 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>Case # </Text>
+                <Text className={classes.textheading}>{translate("Case")} # </Text>
                 <Text className={classes.textContent}>{reportData?.case}</Text>
-                <Text className={classes.textheading}>Added By</Text>
+                <Text className={classes.textheading}>{translate("Added By")}</Text>
                 <Text className={classes.textContent}>
                   {reportData?.addedBy}
                 </Text>
-                <Text className={classes.textheading}>Date</Text>
+                <Text className={classes.textheading}>{translate("Date")}</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>Report File</Text>
+                <Text className={classes.textheading}>{translate("Report File")}</Text>
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.reportType} Report
+                  {reportData?.reportType} {translate("Report")}
                 </Anchor>
 
-                <Text className={classes.textheading}>Report Type</Text>
+                <Text className={classes.textheading}>{translate("Report Type")}</Text>
                 <Text className={classes.textContent}>
                   {reportData?.reportType}
                 </Text>

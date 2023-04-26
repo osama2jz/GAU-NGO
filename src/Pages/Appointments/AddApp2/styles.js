@@ -26,6 +26,10 @@ export const useStyles = createStyles((theme) => ({
     height: "5px",
   },
   stepIcon: {
+    width:"50px",
+    display:'flex',
+    marginTop:'6px',
+    // overflow:'hidden',
     "&[data-progress='true']": {
       border:`3px solid ${theme.colors.red}` 
     },

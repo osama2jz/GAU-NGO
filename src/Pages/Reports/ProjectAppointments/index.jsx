@@ -1,68 +1,49 @@
 import {
+  Anchor,
+  Avatar,
   Container,
   Flex,
   Grid,
-  Image,
-  Menu,
   SimpleGrid,
   Text,
-  Avatar,
-  Anchor,
 } from "@mantine/core";
-import { useContext, useEffect, useState } from "react";
+import { useMediaQuery } from "@mantine/hooks";
+import axios from "axios";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowNarrowLeft, Edit, Eye, Trash } from "tabler-icons-react";
-import download from "../../../assets/download.svg";
+import { ArrowNarrowLeft, Edit, Eye } from "tabler-icons-react";
+import userlogo from "../../../assets/teacher.png";
+import Button from "../../../Components/Button";
 import InputField from "../../../Components/InputField";
-import SelectMenu from "../../../Components/SelectMenu";
+import Loader from "../../../Components/Loader";
 import Table from "../../../Components/Table";
 import ViewModal from "../../../Components/ViewModal/viewUser";
-import userlogo from "../../../assets/teacher.png";
-import { useStyles } from "./styles";
-import ContainerHeader from "../../../Components/ContainerHeader";
-import Button from "../../../Components/Button";
-import { useQuery, useQueryClient } from "react-query";
-import axios from "axios";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import Loader from "../../../Components/Loader";
 import DownloadPdf from "../downloadPdf";
-import ReactHtmlParser from "react-html-parser";
-import { useMemo } from "react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useStyles } from "./styles";
+import moment from "moment";
+import Pagination from "../../../Components/Pagination";
+import ContainerHeader from "../../../Components/ContainerHeader";
 
-function ReferalReport() {
+function ProjectAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [caseNo, setCaseNo] = useState("");
-  const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [editid, setEditId] = useState();
 
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("");
   const isMobile = useMediaQuery("(max-width: 820px)");
-  
-
 
   const { state } = useLocation();
-  const { id } = state ?? "";
-
-  console.log(id);
-
-  useEffect(() => {
-    if (id) {
-      setCaseNo(id);
-    }
-  }, [id]);
-
+  const { id, data } = state ?? "";
   let headerData = [
     {
       id: "sr",
@@ -123,11 +104,11 @@ function ReferalReport() {
   ];
 
   const { data: users, status } = useQuery(
-    ["userCaseProjects",id],
+    ["userCaseProjects", id],
     () => {
       setLoading(true);
       return axios.get(
-        backendUrl + `/api/appointment/listUserAppointmentsCaseNo/${id}`,
+        backendUrl + `/api/project/listProjectAppointments/${id}`,
         {
           headers: {
             "x-access-token": user?.token,
@@ -137,7 +118,6 @@ function ReferalReport() {
     },
     {
       onSuccess: (response) => {
-        console.log(response);
         let data = response.data.data.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
@@ -150,18 +130,21 @@ function ReferalReport() {
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: obj?.addedDate,
+            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-
             role:
               obj?.role === "socialWorker"
                 ? "Social Worker"
                 : obj.role === "psychologist"
                 ? "Psychologist"
-                :   obj?.role === "ngoadmin" ? "NGOAdmin" :  obj?.role === "user" ?"User":"Lawyer",
+                : obj?.role === "ngoadmin"
+                ? "NGOAdmin"
+                : obj?.role === "user"
+                ? "User"
+                : "Lawyer",
             appointId: obj?.appointmentId,
             doc: obj?.documents,
-            docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
+            docs: obj?.documents?.filter((obj) => obj.documentURL.length < 1)
               .length,
             reportData: obj?.reports,
             image: obj?.appointmentUserImage
@@ -180,19 +163,10 @@ function ReferalReport() {
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      if (filter == "") {
-        console.log("helloo");
-        return (
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.case.toLowerCase().includes(search.toLowerCase())
-        );
-      } else {
-        return (
-          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-            item?.caseNo?.toLowerCase().includes(search.toLowerCase())) &&
-          item?.role?.toLowerCase().includes(filter.toLowerCase())
-        );
-      }
+      return (
+        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
+      );
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -204,7 +178,7 @@ function ReferalReport() {
     });
 
     return a;
-  }, [search, filter, rowData]);
+  }, [search, rowData]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -215,7 +189,7 @@ function ReferalReport() {
   });
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-      <Flex justify="center" align="center" mb="md">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -223,12 +197,17 @@ function ReferalReport() {
           onClick={() => navigate(-1)}
         >
           <ArrowNarrowLeft />
-          <Text>Back</Text>
+          <Text>{translate("Back")}</Text>
         </Anchor>
-        <Text size={isMobile ? 30 : 40} weight={700} mb="sm" mr="auto">
-          Case Appointments
-        </Text>
+        <ContainerHeader
+          label={"Project Appointments"}
+          style={{ marginRight: "auto" }}
+        />
       </Flex>
+      <Text align="center" fw={"normal"} fz={"lg"}>
+        {data}
+      </Text>
+
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
           <Grid.Col sm={6}>
@@ -253,7 +232,8 @@ function ReferalReport() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
-              // title="Download reports"
+              title="Project Appointments"
+              label={"Project Appointments"}
             />
           </Grid.Col>
         </Grid>
@@ -263,10 +243,8 @@ function ReferalReport() {
           <Table
             headCells={headerData}
             rowData={paginated}
-            // setViewModalState={setOpenViewModal}
-            // setReportData={setReportData}
             setViewModalState={setOpenViewModal}
-            setEditIDApp={setEditId}
+            setEditIDApp={true}
           />
         )}
         {totalPages > 1 && (
@@ -296,23 +274,23 @@ function ReferalReport() {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>Case # </Text>
+              <Text className={classes.textheading}>{translate("Case")} # </Text>
               <Text className={classes.textContent}>{reportData?.case}</Text>
-              <Text className={classes.textheading}>Added By</Text>
+              <Text className={classes.textheading}>{translate("Added By")}</Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>Date</Text>
+              <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>Report File</Text>
+              <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
+                  {translate(reportData?.type)} {translate("Report")}
                 </Anchor>
               ) : (
-                <Text className={classes.textContent}>No Report</Text>
+                <Text className={classes.textContent}>{translate("No Report")}</Text>
               )}
 
-              <Text className={classes.textheading}>Report Type</Text>
-              <Text className={classes.textContent}>{reportData?.type}</Text>
+              <Text className={classes.textheading}>{translate("Report Type")}</Text>
+              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
             </SimpleGrid>
           </Container>
         </Flex>
@@ -321,4 +299,4 @@ function ReferalReport() {
   );
 }
 
-export default ReferalReport;
+export default ProjectAppointments;

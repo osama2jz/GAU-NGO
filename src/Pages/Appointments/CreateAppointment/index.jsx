@@ -25,7 +25,7 @@ const AddAppointment = () => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
@@ -42,7 +42,7 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User information",
+            message: translate("Please Select User information"),
             title: "Incomplete Info",
           });
           return;
@@ -56,8 +56,6 @@ const AddAppointment = () => {
   //create appointment
   const handleCreateAppointment = useMutation(
     () => {
-      // { slotid, referedToId }
-      console.log("hello")
       let object = {};
       if (user.role !== "User") {
         if (selectedCase.length > 0 && newCase.length < 1) {
@@ -98,8 +96,8 @@ const AddAppointment = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Appointment Created",
-            message: "Appointment Created Successfully",
+            title: translate("Appointment Created"),
+            message: translate("Appointment Created Successfully"),
             color: "green.0",
           });
           user.role !== "User"
@@ -118,7 +116,7 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="xl" px={"0px"}>
-      <ContainerHeader label={" Add Appointment"} />
+      <ContainerHeader label={"Add Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="sm"
@@ -143,7 +141,9 @@ const AddAppointment = () => {
               />
             }
             label={
-              user.role === "User" ? "1.Personal Information" : "1. Select User"
+              user.role === "User"
+                ? `1. ${translate("Personal Information")}`
+                : `1. ${translate("Select User")}`
             }
           >
             <Step1
@@ -165,7 +165,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label="2. Schedule"
+            label={`2. ${translate("Schedule")}`}
           >
             <Step2
               caseId={selectedCase}
