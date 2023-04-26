@@ -167,7 +167,7 @@ function ProjectUsers() {
           </Grid.Col>
           <Grid.Col sm={6} md={3}>
             <Button
-              label={"Clear Filter"}
+              label={translate("Clear Filter")}
               onClick={() => {
                 setSearch("");
               }}

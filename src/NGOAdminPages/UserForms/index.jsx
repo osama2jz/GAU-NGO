@@ -77,8 +77,8 @@ const userForms = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "Document Updated Successfully!",
+            title: translate("Document Created"),
+            message: translate("Document Updated Successfully!"),
             color: "green.0",
           });
         } else {

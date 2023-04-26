@@ -10,7 +10,7 @@ const ViewComplaintModal = ({ id, reportData }) => {
     <Flex direction={"column"} align="center" justify={"space-between"}>
       <Container w={"100%"} ml="md">
         <SimpleGrid cols={2}>
-          <Text className={classes.textheading}>{translate("User Name ")}</Text>
+          <Text className={classes.textheading}>{translate("User Name")}</Text>
           <Text className={classes.textContent}>{reportData?.name}</Text>
           <Text className={classes.textheading}>{translate("Complaint Subject")} </Text>
           <Text className={classes.textContent}>{reportData?.amount}</Text>

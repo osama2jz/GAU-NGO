@@ -32,7 +32,7 @@ export const ViewDonations = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
 
@@ -209,7 +209,7 @@ export const ViewDonations = () => {
       <ViewModal
         opened={openViewModal}
         setOpened={setOpenViewModal}
-        title="Donation Details"
+        title={translate("Donation Details")}
       >
         {/* <ViewUser id={viewModalData}/> */}
         <ViewUserModal id={viewModalData} reportData={reportData} />

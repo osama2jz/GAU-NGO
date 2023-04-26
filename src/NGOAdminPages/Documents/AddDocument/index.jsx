@@ -77,8 +77,8 @@ export const AddDocument = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "New Document Created Successfully!",
+            title: translate("Document Created"),
+            message:translate("New Document Created Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDocuments);
@@ -110,8 +110,8 @@ export const AddDocument = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "Document Updated Successfully!",
+            title: translate("Document Created"),
+            message: translate("Document Updated Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDocuments);

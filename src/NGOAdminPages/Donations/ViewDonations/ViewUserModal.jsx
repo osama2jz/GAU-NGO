@@ -42,7 +42,7 @@ function ViewUserModal({ id, reportData }) {
             )}
 
             <Text className={classes.textheading}>
-              {translate("Amount Donated ")}
+              {translate("Amount Donated")}
             </Text>
             <Text className={classes.textContent}>{reportData?.amount}</Text>
             <Text className={classes.textheading}>

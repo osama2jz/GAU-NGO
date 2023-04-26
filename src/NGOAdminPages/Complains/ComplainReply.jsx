@@ -10,7 +10,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 const ReplyModal = ({ setOpenReplyModal, replyModalId, openReplyModal }) => {
   const [reply, setReply] = useState("");
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const queryClient = useQueryClient();
   const handleReply = useMutation(
     async () => {
@@ -27,8 +27,8 @@ const ReplyModal = ({ setOpenReplyModal, replyModalId, openReplyModal }) => {
     {
       onSuccess: (res) => {
         showNotification({
-          title: "Success",
-          message: "Reply posted successfully.",
+          title: translate("Success"),
+          message: translate("Reply posted successfully"),
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchAllComplains");
@@ -46,12 +46,12 @@ const ReplyModal = ({ setOpenReplyModal, replyModalId, openReplyModal }) => {
   return (
     <Modal
       opened={openReplyModal}
-      title="Reply Here"
+      title={translate("Reply Here")}
       centered
       onClose={() => setOpenReplyModal(false)}
     >
       <TextArea
-        placeholder={"Write a response..."}
+        placeholder={translate("Write a response...")}
         rows={5}
         onChange={(v) => setReply(v.target.value.trim())}
       />
