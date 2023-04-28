@@ -1,4 +1,5 @@
 export const backendUrl = "https://gau.usquaresolutions.com";
+
 export const s3Config = {
   region: "us-east-1",
   IdentityPoolId: "us-east-1:e263637a-572f-406f-884d-82e5ceadf641",
