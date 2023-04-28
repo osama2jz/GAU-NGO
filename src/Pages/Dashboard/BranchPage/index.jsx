@@ -151,10 +151,10 @@ const BranchPage = (props) => {
       onSuccess: (response) => {
         // navigate(routeNames.ngoAdmin.branchPageDashboard);
         showNotification({
-          title: "Status Updated",
+          title: translate("Status Updated"),
           message: deleteID
-            ? "Branch Deleted Successfully!"
-            : "Branch Status changed Successfully!",
+            ? translate("Branch Deleted Successfully!")
+            : translate("Branch Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);

@@ -470,7 +470,7 @@ export const Step2 = ({
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <Radio.Group
             name="favoriteFramework"
-            label="Select Identity"
+            label={translate("Select Identity")}
             // description="This is anonymous"
             spacing="xl"
             offset="xl"
@@ -478,7 +478,7 @@ export const Step2 = ({
             {...form?.getInputProps("typeId")}
           >
             {descrimation?.map((item) => (
-              <Radio color="green.0" value={item._id} label={item.lookupName} />
+              <Radio color="green.0" value={item._id} label={translate(item.lookupName)} />
             ))}
           </Radio.Group>
           <Divider color="white" mt="sm" mb="sm" />

@@ -165,8 +165,8 @@ export const AllUser = () => {
       onSuccess: (response) => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: deleteID ? translate("User Deleted"):translate("Status Updated"),
+          message: deleteID ? "User Deleted Successfully!":"User Status changed Successfully!",
           color: "green.0",
         });
         setOpenDeleteModal(false);

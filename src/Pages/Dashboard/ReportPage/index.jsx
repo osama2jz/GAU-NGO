@@ -71,6 +71,7 @@ const UserPage = (props) => {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",

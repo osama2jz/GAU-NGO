@@ -167,6 +167,7 @@ const ProfessionPage = (props) => {
       numeric: false,
       disablePadding: true,
       label: "User Type",
+      translate:true
     },
     {
       id: "email",
@@ -252,17 +253,17 @@ const ProfessionPage = (props) => {
         if (response.data.status) {
           navigate(routeNames.ngoAdmin.professionPageDashboard);
           showNotification({
-            title: "Status Updated",
+            title: translate("Status Updated"),
             message: deleteID
-              ? "User deleted successfully!"
-              : "Status updated successfully!",
+              ? translate("Professional deleted successfully!")
+              : translate("Status changed successfully!"),
             color: "green.0",
           });
           queryClient.invalidateQueries("fetchProfessionUser");
         } else {
           showNotification({
             title: "Error",
-            message: deleteID ? "User not deleted!" : "Status not updated!",
+            message: deleteID ? "Professional not deleted!" : "Status not updated!",
             color: "red.0",
           });
         }

@@ -201,8 +201,8 @@ const UserPage = (props) => {
 
       setOpenDeleteModal(false);
       showNotification({
-        title: "Deleted",
-        message: "User Deleted Successfully!",
+        title: translated("Deleted"),
+        message: translated("User Deleted Successfully!"),
         color: "green.0",
       });
       queryClient.invalidateQueries("fetchUser");
@@ -222,8 +222,8 @@ const UserPage = (props) => {
       onSuccess: (response) => {
         // navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");
