@@ -92,7 +92,7 @@ export const AllUser = () => {
 
   const newData = useMemo(() => {
     let arr = headerData;
-    if (user.role === "Social Worker") {
+    if (user.role === "Social Worker" || user.role === "Admin") {
       headerData.splice(5, 0, {
         id: "userVerify",
         numeric: false,
@@ -166,7 +166,7 @@ export const AllUser = () => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
           title: deleteID ? translate("User Deleted"):translate("Status Updated"),
-          message: deleteID ? "User Deleted Successfully!":"User Status changed Successfully!",
+          message: deleteID ? translate("User Deleted Successfully!"):translate("User Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);

@@ -463,7 +463,7 @@ const Step1 = ({
             leftIcon="faceid"
             iconWidth="24px"
             styles={{
-              width: "230px",
+              width: "250px",
               fontSize: "22px",
               height: "46px",
               margin: "auto",

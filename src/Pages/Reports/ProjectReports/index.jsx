@@ -77,6 +77,7 @@ function ProjectReports() {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",
@@ -89,6 +90,7 @@ function ProjectReports() {
       numeric: false,
       disablePadding: true,
       label: "Report Type",
+      translate:true
     },
     {
       id: "file",

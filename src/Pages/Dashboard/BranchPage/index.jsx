@@ -194,7 +194,7 @@ const BranchPage = (props) => {
 
   const a = [
     {
-      title: "TOTAL BRANCHES",
+      title: "TOTAL  BRANCHES",
       value: active ? active?.length + inactive?.length : 0,
       progress: 78,
       color: "#748FFC",

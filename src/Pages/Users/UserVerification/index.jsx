@@ -36,6 +36,8 @@ export const UserVerification = () => {
   const [consentSignature, setConsentSignature] = useState("");
   const [userid, setUserId] = useState(null);
   const [userdata, setUserData] = useState("");
+  const [img, setImg] = useState(null);
+  const [fileLoader, setFileLoader] = useState(false);
 
   let { state } = useLocation();
 
@@ -385,7 +387,14 @@ export const UserVerification = () => {
               label={`1. ${translate("Get Started")}`}
               description={translate("Personal Identification")}
             >
-              <Step1 user={userid} setUser={setUserId} />
+              <Step1
+                user={userid}
+                setUser={setUserId}
+                img={img}
+                setImg={setImg}
+                fileLoader={fileLoader}
+                setFileLoader={setFileLoader}
+              />
             </Stepper.Step>
             <Stepper.Step
               icon={

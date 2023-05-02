@@ -46,15 +46,15 @@ export const UpdateProfile = () => {
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter first name between 2 to 15 characters.",
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          : "Please enter last name between 2 to 15 characters",
+          : translate("Please enter last name between 2 to 15 characters"),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number"),
     },
   });
 

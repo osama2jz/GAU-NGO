@@ -42,13 +42,13 @@ const NewPassword = () => {
           value
         ) ? null : (
           <ul>
-            {translate(" Password must contain 8 to 15 characters with")}
+            {translate("Password must contain 8 to 15 characters with")}
             <li>{translate("At least one captial alphabet.")}</li>
-            <li>{translate("at least one small alphabet.")}</li>
+            <li>{translate("At least one small alphabet.")}</li>
             <li>
-              {translate("at least one digit and one special character.")}
+              {translate("At least one digit and one special character.")}
             </li>
-            <li>{translate("at least one special character.")}</li>
+            <li>{translate("At least one special character.")}</li>
           </ul>
         ),
       password_confirmation: (value, values) =>
@@ -65,14 +65,14 @@ const NewPassword = () => {
         if (response.data.status) {
           navigate(routeNames.general.login);
           showNotification({
-            title: "Password Changed",
-            message: response.data.message,
+            title: translate("Password Changed"),
+            message: translate(response.data.message),
             color: "green.0",
           });
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

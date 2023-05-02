@@ -71,7 +71,7 @@ function ProjectCases() {
       id: "totalReports",
       numeric: false,
       disablePadding: true,
-      label: " Reports",
+      label: "Reports",
     },
     {
       id: "date",

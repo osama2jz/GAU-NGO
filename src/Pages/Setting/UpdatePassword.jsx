@@ -25,15 +25,23 @@ export const UpdatePassword = () => {
     },
 
     validate: {
-      oldPassword: (value) => (value ? null : "Please enter old password."),
+      oldPassword: (value) => (value ? null : translate("Please enter old password.")),
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         )
           ? null
-          : "Password must contain 8 to 15 characters with at least one captial, one small, one digit and one special character.",
+          :  <ul>
+          {translate("Password must contain 8 to 15 characters with")}
+          <li>{translate("At least one captial alphabet.")}</li>
+          <li>{translate("At least one small alphabet.")}</li>
+          <li>
+            {translate("At least one digit and one special character.")}
+          </li>
+          <li>{translate("At least one special character.")}</li>
+        </ul>,
       confirmPassword: (value, values) =>
-        value !== values?.password ? "Passwords did not match" : null,
+        value !== values?.password ? translate("Passwords did not match"): null,
     },
   });
 

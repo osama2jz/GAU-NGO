@@ -68,6 +68,7 @@ function ProjectAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",

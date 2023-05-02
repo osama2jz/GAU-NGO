@@ -66,15 +66,15 @@ function EditAppointments() {
         if (response.status === 200) {
           showNotification({
             color: "green.0",
-            message: "Appoinment Updated Successfully",
-            title: "Success",
+            message: translate("Appoinment Updated Successfully"),
+            title: translate("Success"),
           });
           navigate(-1);
         } else {
           showNotification({
             color: "red.0",
-            message: "Something went wrong",
-            title: "Error",
+            message: translate("Something went wrong"),
+            title: translate("Error"),
           });
         }
       },
@@ -150,8 +150,8 @@ function EditAppointments() {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {

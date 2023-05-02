@@ -246,7 +246,7 @@ const UserPage = (props) => {
 
   const a = [
     {
-      title: "PUBLIC ",
+      title: "PUBLIC",
       value:
         publicount === 0 ? (
           0
@@ -262,7 +262,7 @@ const UserPage = (props) => {
       url: `/public`,
     },
     {
-      title: "PRIVATE ",
+      title: "PRIVATE",
       value:
         privatecount === 0 ? (
           0
@@ -278,7 +278,7 @@ const UserPage = (props) => {
       url: `/private`,
     },
     {
-      title: "REFERAL ",
+      title: "REFERAL",
       value: 0,
       progress: 78,
       color: "#087F5B",

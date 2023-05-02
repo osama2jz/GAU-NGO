@@ -152,18 +152,18 @@ export const AddBranch = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? translate("Branch Detail Updated") : "Branch Added",
+            title: isUpdate ? translate("Branch Detail Updated") : translate("Branch Added"),
             message: isUpdate
-              ? "Branch Information Updated SuccessFully!"
-              : "New Branch added Successfully!",
+              ? translate("Branch Information Updated SuccessFully!")
+              : translate("New Branch added Successfully!"),
             color: "green.0",
           });
           form.reset();
           navigate(routeNames.ngoAdmin.viewBranches);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }

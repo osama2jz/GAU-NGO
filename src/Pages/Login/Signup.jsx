@@ -53,11 +53,11 @@ const Signup = () => {
       userType: (value) =>
         value?.length < 1 ? translate("Please select Professional type") : null,
       ngoId: (value) =>
-        value?.length < 1 ? translate("Please select Professional type") : null,
+        value?.length < 1 ? translate("Please select NGO") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          :translate( "Please enter first name between 2 to 15 characters."),
+          :translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
@@ -71,19 +71,19 @@ const Signup = () => {
           value
         ) ? null : (
           <ul>
-          {translate(" Password must contain 8 to 15 characters with")}
+          {translate("Password must contain 8 to 15 characters with")}
           <li>{translate("At least one captial alphabet.")}</li>
-          <li>{translate("at least one small alphabet.")}</li>
+          <li>{translate("At least one small alphabet.")}</li>
           <li>
-            {translate("at least one digit and one special character.")}
+            {translate("At least one digit and one special character.")}
           </li>
-          <li>{translate("at least one special character.")}</li>
+          <li>{translate("At least one special character.")}</li>
         </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : translate("Please enter valid phone number "),
+          : translate("Please enter valid phone number"),
       confirmPassword: (value, values) =>
         value !== values?.password ? translate("Passwords did not match") : null,
     },
@@ -142,8 +142,8 @@ const Signup = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -184,8 +184,8 @@ const Signup = () => {
         <Grid.Col sm={12}>
           <SelectMenu
             data={ngos}
-            placeholder={"Select NGO"}
-            label="Select NGO"
+            placeholder={translate("Select NGO")}
+            label={translate("Select NGO")}
             form={form}
             validateName="ngoId"
           />
