@@ -16,7 +16,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import SelectMenu from "../../../Components/SelectMenu";
 
-const VerificationSchedule = ({}) => {
+const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const { user, setUser, translate } = useContext(UserContext);
@@ -26,6 +26,8 @@ const VerificationSchedule = ({}) => {
   const [slotId, setSlotId] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
+  console.log("here", userId?.data?.data?._id);
+  console.log(socialWorkerVerification)
 
   useEffect(() => {
     getSchedule.mutate();
@@ -72,7 +74,7 @@ const VerificationSchedule = ({}) => {
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
         {
-          appointmentUser: user?.id,
+          appointmentUser: socialWorkerVerification ? userId?.data?.data?._id : user?.id,
           appointmentWith: referedToId,
           scheduleId: slotId,
           appointmentType: "verification",

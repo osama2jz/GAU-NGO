@@ -40,18 +40,20 @@ const Login = () => {
     },
     {
       onSuccess: (response) => {
+        console.log(response);
         if (
-          response.data.verificationStatus === "unverified" &&
-          !response.data.appointmentBooked
+          response?.data?.verificationStatus === "unverified" &&
+          !response?.data?.appointmentBooked
         ) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
+          localStorage.setItem("userData", JSON.stringify(response?.data));
           navigate(routeNames.general.verificationSchedule);
-        } else if (
-          response.data.verificationStatus === "unverified" &&
-          response.data.appointmentBooked
+        } 
+        else if (
+          response?.data?.verificationStatus === "unverified" &&
+          response?.data?.appointmentBooked
         ) {
-          let appointmentTime = response.data.appointmentTime;
-          let appointmentDate = moment(response.data.appointmentDate).format(
+          let appointmentTime = response?.data?.appointmentTime;
+          let appointmentDate = moment(response?.data?.appointmentDate).format(
             "DD MMM YYYY"
           );
           navigate(routeNames.general.verificationPending, {
@@ -68,7 +70,15 @@ const Login = () => {
             message: translate(response?.data?.message),
             color: "red.0",
           });
-        } else {
+        } 
+      //  else if (response.data.status === "false") {
+      //   showNotification({
+      //     title: translate("Error"),
+      //     message: "Error",
+      //     color: "red.0",
+      //   });
+      // } 
+        else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
           return;

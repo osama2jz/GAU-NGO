@@ -38,7 +38,7 @@ export const socialSideBarData = [
     links: [
       {
         label: "Verfication Appointment",
-        link: routeNames.general.verificationSchedule,
+        link: routeNames.socialWorker.verificationScheduledUser,
       },
       {
         label: "Appointment Schedule",

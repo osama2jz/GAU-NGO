@@ -8,7 +8,8 @@ import Button from "../../../Components/Button";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Step1 from "./Step1";
 
-import Step2 from "./Step2";
+// import Step2 from "./Step2";
+import Step2 from "../../Login/VerificationSchedule/index"
 import { useStyles } from "./styles";
 
 import { Container, Group, Stepper, useMantineTheme } from "@mantine/core";
@@ -39,7 +40,7 @@ const AddAppointment = () => {
   const handleNextSubmit = () => {
     if (active == 0) {
       if (user.role !== "User") {
-        if (!selectedUser || selectedCase.length < 1) {
+        if (!selectedUser) {
           showNotification({
             color: "red.0",
             message: translate("Please Select User information"),
@@ -116,7 +117,7 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="xl" px={"0px"}>
-      <ContainerHeader label={"Add Appointment"} />
+      <ContainerHeader label={"Add Verification Appointment"} />
       <Container className={classes.innerContainer} size="xl">
         <Stepper
           breakpoint="sm"
@@ -171,6 +172,8 @@ const AddAppointment = () => {
               slot={slot}
               onSubmit={handleCreateAppointment}
               setOpened={setOpened}
+              socialWorkerVerification={true}
+              userId={selectedUser}
             />
           </Stepper.Step>
         </Stepper>

@@ -91,6 +91,7 @@ function CaseReport() {
       numeric: false,
       disablePadding: true,
       label: "Report Type",
+      translate:true
     },
     {
       id: "file",

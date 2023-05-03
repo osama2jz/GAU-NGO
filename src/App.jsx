@@ -61,6 +61,7 @@ import CaseAppointments from "./Pages/Reports/CaseAppointments";
 import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
 import { AddDictionary } from "./NGOAdminPages/Dictionary/AddDictionary/index.";
 import { ViewDictionary } from "./NGOAdminPages/Dictionary/ViewDictionary";
+import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointment/index"
 
 function App() {
   return (
@@ -306,6 +307,10 @@ function App() {
           <Route
             path={routeNames.ngoAdmin.ViewDictionary}
             element={<ViewDictionary />}
+          />
+           <Route
+            path={routeNames.socialWorker.verificationScheduledUser}
+            element={<UserVerificationAppointment/>}
           />
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
         </Route>

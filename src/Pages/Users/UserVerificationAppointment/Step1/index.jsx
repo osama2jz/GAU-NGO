@@ -26,12 +26,11 @@ const Step1 = ({
   projectId,
 }) => {
   const queryClient = useQueryClient();
-  const { user: usertoken,translate } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [user, setUser] = useState("");
   const [cases, setCases] = useState([]);
   const [projects, setProjetcs] = useState([]);
   const [userData, setUserData] = useState([]);
- 
 
   useEffect(() => {
     queryClient.invalidateQueries("userFetched");
@@ -44,11 +43,40 @@ const Step1 = ({
     }
   }, [usertoken]);
 
-  //all users
-  const { data: users, status } = useQuery(
-    "fetchVerified",
+  // //all users
+  // const { data: users, status } = useQuery(
+  //   "fetchVerified",
+  //   () => {
+  //     return axios.get(backendUrl + "/api/ngo/listNGOUsers/user/0/0/verified", {
+  //       headers: {
+  //         "x-access-token": usertoken?.token,
+  //       },
+  //     });
+  //   },
+  //   {
+  //     onSuccess: (response) => {
+  //       let data = response.data.data.map((obj, ind) => {
+  //         if (obj.userStatus === "active") {
+  //           let user = {
+  //             value: obj._id.toString(),
+  //             label: obj?.firstName + " " + obj?.lastName,
+  //             email: obj?.email || "",
+  //             image: obj?.profileImage,
+  //           };
+  //           return user;
+  //         }
+  //       });
+  //       let newData = data.filter((item) => item !== undefined);
+  //       setUserData(newData);
+  //     },
+  //   }
+  // );
+
+   //all users
+   const { data: usersa, status2 } = useQuery(
+    "fetchUsers",
     () => {
-      return axios.get(backendUrl + "/api/ngo/listNGOUsers/user/0/0/verified", {
+      return axios.get(backendUrl + "/api/user/verificationScheduledUsers/none", {
         headers: {
           "x-access-token": usertoken?.token,
         },
@@ -56,46 +84,20 @@ const Step1 = ({
     },
     {
       onSuccess: (response) => {
+        console.log("response",response)
         let data = response.data.data.map((obj, ind) => {
           if (obj.userStatus === "active") {
             let user = {
               value: obj._id.toString(),
               label: obj?.firstName + " " + obj?.lastName,
               email: obj?.email || "",
-              image: obj?.profileImage
+              image: obj?.profileImage,
             };
             return user;
           }
         });
         let newData = data.filter((item) => item !== undefined);
         setUserData(newData);
-      },
-    }
-  );
-
-  //all projects
-  const { status: projectsLoading } = useQuery(
-    "fetchProjects",
-    () => {
-      return axios.get(backendUrl + "/api/project/listProjects", {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
-    },
-    {
-      onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
-          if (obj.status === "active") {
-            let user = {
-              value: obj._id.toString(),
-              label: obj?.projectName,
-            };
-            return user;
-          }
-        });
-        let newData = data.filter((item) => item !== undefined);
-        setProjetcs(newData);
       },
     }
   );
@@ -171,92 +173,31 @@ const Step1 = ({
       <Text fz={20} fw="bolder" align="center">
         {usertoken.role === "User" ? "Personal Information" : "Select User"}
       </Text>
-
-
-      {usertoken.role !== "User" ? (
-        <SimpleGrid
-          breakpoints={[
-            { minWidth: "md", cols: 1 },
-            {
-              minWidth: "lg",
-              cols: selectedUser || selectedUser === "loading" ? 2 : 1,
-            },
-            { minWidth: "xs", cols: 1 },
-          ]}
-        >
-          <SimpleGrid align={"flex-end"}>
-            {usertoken.role !== "User" && (
-              <SelectMenu
-                searchable={true}
-                itemComponent={SelectItem}
-                placeholder="Enter User name or Id"
-                clearable={true}
-                setData={setUser}
-                value={user}
-                label="Search User"
-                data={userData}
-              />
-            )}
-            {/* {projectsLoading !== "loading" && ( */}
-              <SelectMenu
-                searchable={true}
-                placeholder={
-                  projects.length < 1
-                    ? "No Projects Found"
-                    : "Enter Project Name"
-                }
-                label="Search Project"
-                setData={setProjectId}
-                value={projectId}
-                // disabled={newCase.length > 0}
-                data={projects}
-              />
-            {/* )} */}
-            {casesfetching !== "loading" ? (
-              <SelectMenu
-                searchable={true}
-                placeholder={
-                  cases.length < 1 ? "No cases found" : "Enter case name or id"
-                }
-                label="Search User Case"
-                setData={setSelectedCase}
-                disabled={newCase.length > 0 || cases.length < 1}
-                data={cases}
-              />
-            ) : (
-              <Loader minHeight="40px" />
-            )}
-            <Divider
-              label="OR"
-              labelPosition="center"
-              color={"black.0"}
-              m="0px"
-              p={"0px"}
-            />
-            <InputField
-              label={"Create New Case"}
-              placeholder="Enter case name"
-              value={newCase}
-              pb="0px"
-              onChange={(v) => {
-                setNewCase(v.target.value);
-                setSelectedCase(v.target.value);
-              }}
-            />
-          </SimpleGrid>
-          {userFetching === "loading" ? (
-            <Loader minHeight="40px" />
-          ) : selectedUser ? (
-            <UserInfo userData={selectedUser} loading={userFetching} />
-          ) : (
-            ""
-          )}
-        </SimpleGrid>
-      ) : (
-        <Container size="36rem">
-          <UserInfo userData={selectedUser} loading={userFetching} />
+      <Container>
+        <Container w="36rem">
+          <SelectMenu
+            searchable={true}
+            itemComponent={SelectItem}
+            placeholder="Enter User name or Id"
+            clearable={true}
+            setData={setUser}
+            value={user}
+            label="Search User"
+            data={userData}
+          />
         </Container>
-      )}
+        {userFetching === "loading" ? (
+          <Container mt={"xl"}>
+            <Loader minHeight="40px" />
+          </Container>
+        ) : selectedUser ? (
+          <Container mt={"md"} w={"36rem"} >
+            <UserInfo userData={selectedUser} loading={userFetching} />
+          </Container>
+        ) : (
+          ""
+        )}
+      </Container>
     </Container>
   );
 };
