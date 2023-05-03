@@ -1,11 +1,12 @@
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
 import moment from "moment";
 import Datepicker from "../../../../Components/Datepicker";
+import { UserContext } from "../../../../contexts/UserContext";
 function NewWorkModal({
   setOpenModal,
   workExperience,
@@ -13,6 +14,7 @@ function NewWorkModal({
   editData,
   setEditData,
 }) {
+  const {translate} = useContext(UserContext);
   const { classes } = useStyles();
   useEffect(() => {
     if (editData) {
@@ -30,14 +32,14 @@ function NewWorkModal({
       startDate: "",
     },
     validate: {
-      position: (value) => (value.length < 1 ? "Please enter name" : null),
-      contract: (value) => (value?.length < 1 ? "Please enter contract" : null),
+      position: (value) => (value.length < 1 ? translate("Please enter name") : null),
+      contract: (value) => (value?.length < 1 ? translate("Please enter contract") : null),
       enterprise: (value) =>
-        value?.length < 1 ? "Please enter enterprise" : null,
-      duration: (value) => (value?.length < 1 ? "Please enter duration" : null),
-      endDate: (value) => (value?.length < 1 ? "Please enter endDate" : null),
+        value?.length < 1 ? translate("Please enter enterprise") : null,
+      duration: (value) => (value?.length < 1 ? translate("Please enter duration") : null),
+      endDate: (value) => (value?.length < 1 ? translate("Please enter endDate") : null),
       startDate: (value) =>
-        value?.length < 1 ? "Please enter startDate" : null,
+        value?.length < 1 ? translate("Please enter startDate") : null,
     },
   });
   const AddWorkExperience = (values) => {

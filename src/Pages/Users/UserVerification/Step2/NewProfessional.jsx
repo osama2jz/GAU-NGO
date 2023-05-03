@@ -1,10 +1,11 @@
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import InputMask from "react-input-mask";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
+import { UserContext } from "../../../../contexts/UserContext";
 function NewProfessionalModal({
   refrences,
   setRefrences,
@@ -13,6 +14,7 @@ function NewProfessionalModal({
   setEditData,
 }) {
   const { classes } = useStyles();
+  const {translate} = useContext(UserContext);
 
   useEffect(() => {
     if (editData) {
@@ -30,13 +32,13 @@ function NewProfessionalModal({
       relation: "",
     },
     validate: {
-      fullName: (value) => (value.length < 1 ? "Please enter name" : null),
-      center: (value) => (value?.length < 1 ? "Please enter center" : null),
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      fullName: (value) => (value.length < 1 ? translate("Please enter name") : null),
+      center: (value) => (value?.length < 1 ? translate("Please enter center") : null),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : translate("Invalid email")),
       phone: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : "Please enter valid phone number ",
+          : translate("Please enter valid phone number"),
     },
   });
 

@@ -209,16 +209,16 @@ export const UserVerification = () => {
         setActive(active + 1);
       } else {
         showNotification({
-          title: "Error",
-          message: "Please select a user",
+          title: translate("Error"),
+          message: translate("Please select a user"),
           color: "red.0",
         });
       }
     } else if (active == 2) {
       if (sigCanvas.current.isEmpty()) {
         showNotification({
-          title: "Error",
-          message: "Please sign the consent form.",
+          title: translate("Error"),
+          message: translate("Please sign the consent form."),
           color: "red.0",
         });
       } else {
@@ -228,8 +228,8 @@ export const UserVerification = () => {
     } else if (active == 3) {
       if (sigCanvas2.current.isEmpty()) {
         showNotification({
-          title: "Error",
-          message: "Please sign the agreement form",
+          title: translate("Error"),
+          message: translate("Please sign the agreement form"),
           color: "red.0",
         });
       } else {
@@ -293,10 +293,10 @@ export const UserVerification = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: editId ? "User Update" : "User Verified",
+          title: editId ? translate("User Update") : translate("User Verified"),
           message: editId
-            ? "User Information Update Succesfully!"
-            : "User Verify Successfully!",
+            ? translate("User Information Update Succesfully!")
+            : translate("User Verify Successfully!"),
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -305,8 +305,8 @@ export const UserVerification = () => {
     {
       onError: () => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something Went Wrong!"),
           color: "red.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -350,19 +350,19 @@ export const UserVerification = () => {
     },
     validate: {
       dateOfBirth: (value) =>
-        value.length < 1 ? "Please enter your date of Birth" : null,
-      passport: (value) => (value?.length < 1 ? "Please enter passport" : null),
+        value.length < 1 ? translate("Please enter your date of Birth") : null,
+      passport: (value) => (value?.length < 1 ? translate("Please enter passport") : null),
       nationality: (value) =>
-        value?.length < 1 ? "Please enter nationality" : null,
-      country: (value) => (value?.length < 1 ? "Please enter Country" : null),
-      address: (value) => (value?.length < 1 ? "Please enter Adress" : null),
-      city: (value) => (value?.length < 1 ? "Please enter City" : null),
-      revenue: (value) => (value?.length < 1 ? "Please enter revenue" : null),
-      expenses: (value) => (value?.length < 1 ? "Please enter expenses" : null),
+        value?.length < 1 ? translate("Please enter nationality") : null,
+      country: (value) => (value?.length < 1 ? translate("Please enter Country") : null),
+      address: (value) => (value?.length < 1 ? translate("Please enter Adress") : null),
+      city: (value) => (value?.length < 1 ? translate("Please enter City") : null),
+      revenue: (value) => (value?.length < 1 ? translate("Please enter revenue") : null),
+      expenses: (value) => (value?.length < 1 ? translate("Please enter expenses") : null),
       aidsBonuses: (value) =>
-        value?.length < 1 ? "Please enter Aids or Bonuses" : null,
-      debt: (value) => (value?.length < 1 ? "Please enter debt" : null),
-      housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
+        value?.length < 1 ? translate("Please enter Aids or Bonuses") : null,
+      debt: (value) => (value?.length < 1 ? translate("Please enter debt"): null),
+      housing: (value) => (value?.length < 1 ? translate("Please enter housing") : null),
     },
   });
   return (

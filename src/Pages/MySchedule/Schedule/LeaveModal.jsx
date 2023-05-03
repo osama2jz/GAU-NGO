@@ -19,7 +19,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
     root: {},
   }));
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const handleLeave = useMutation(
     () => {
@@ -42,8 +42,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Leave",
-            message: `The date ${date} is marked as leave.`,
+            title: translate("Leave"),
+            message:(translate("The date"),{date},translate("is marked as leave.")),
             color: "green.0",
           });
           setOpened(false);
@@ -60,7 +60,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
   );
   return (
     <Modal
-      title={"Mark as Leave"}
+      title={translate("Mark as Leave")}
       opened={opened}
       onClose={() => setOpened(false)}
       centered
@@ -69,8 +69,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
     >
       <Container>
         <Text>
-          Are you sure you want to mark {date} as leave? It will <b>cancel</b>{" "}
-          all of your appointments for this day.
+          {translate("Are you sure you want to mark")} ${date} {translate("as leave?")} {translate("It will cancel all of your appointments for this day.")}
         </Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
