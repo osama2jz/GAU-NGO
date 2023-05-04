@@ -50,6 +50,7 @@ const Button = ({
   disabled,
   size = "sm",
   variant = "filled",
+  
   ...props
 }) => {
   const { classes, cx } = useStyles({ bg, primary, disabled });

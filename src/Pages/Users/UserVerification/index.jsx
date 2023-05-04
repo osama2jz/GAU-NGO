@@ -38,6 +38,7 @@ export const UserVerification = () => {
   const [userdata, setUserData] = useState("");
   const [img, setImg] = useState(null);
   const [fileLoader, setFileLoader] = useState(false);
+  console.log("img",img)
 
   let { state } = useLocation();
 
@@ -47,14 +48,14 @@ export const UserVerification = () => {
   useEffect(() => {
     if (id) {
       setUserId(id);
-      console.log(id);
+ 
     }
   }, [id]);
 
   const _ = useQuery(
     "fetchUsertoEditData",
     () => {
-      console.log("hello");
+  
       return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
         headers: {
           "x-access-token": user.token,
@@ -164,7 +165,7 @@ export const UserVerification = () => {
         let workData =
           response?.data?.data?.userConsentForm?.workExperience.map(
             (item, index) => {
-              console.log("item", item);
+             
               return {
                 id: item._id,
                 contract: item.contract,
@@ -176,7 +177,7 @@ export const UserVerification = () => {
               };
             }
           );
-        console.log("item", workData);
+       
         setWorkExperience(workData);
 
         // setWorkExperience(
@@ -282,6 +283,7 @@ export const UserVerification = () => {
           workExperience: workExperience,
           consentSignatures: consentSignature,
           agreementSignatures: url,
+          userImage:img
         },
       };
       return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
@@ -466,6 +468,7 @@ export const UserVerification = () => {
                 onClick={handleNextSubmit}
                 label={active === 4 ? "Submit" : "Save & Next"}
                 bg={true}
+                loading={fileLoader}
               />
             )}
           </Group>

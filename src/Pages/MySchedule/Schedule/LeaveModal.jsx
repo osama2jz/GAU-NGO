@@ -7,7 +7,7 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
+const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -58,6 +58,45 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
       },
     }
   );
+
+  console.log("schedule",scheduledId)
+
+  
+  const handleSingleSlotLeave = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/schedule/slotCancel"}`,
+        {
+          scheduleId: scheduledId,
+        },
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if (response.data.status) {
+          showNotification({
+            title: translate("Leave"),
+            message:(translate("The date"),{date},translate("is marked as leave.")),
+            color: "green.0",
+          });
+          setOpened(false);
+          setRefetch(true);
+        } else {
+          showNotification({
+            title: translate("Error"),
+            message: translate(response.data.message),
+            color: "red.0",
+          });
+          setOpened(false);
+        }
+      },
+    }
+  );
   return (
     <Modal
       title={translate("Mark as Leave")}
@@ -78,7 +117,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch }) => {
             primary={true}
             w="100px"
             loading={handleLeave.isLoading}
-            onClick={() => handleLeave.mutate()}
+            onClick={() => scheduledId ? handleSingleSlotLeave.mutate() :handleLeave.mutate()}
           />
         </Group>
       </Container>

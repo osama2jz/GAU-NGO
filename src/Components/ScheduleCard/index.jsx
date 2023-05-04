@@ -5,9 +5,11 @@ import user from "../../assets/users-solid.svg";
 import { useStyles } from "./styles";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-const Cards = ({ data ,setSlot,slot}) => {
+import Button from "../Button";
+const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId}) => {
   const { classes } = useStyles();
-  const {translate}=useContext(UserContext)
+  const { translate } = useContext(UserContext);
+  console.log(data);
   return (
     <Card
       withBorder
@@ -16,12 +18,18 @@ const Cards = ({ data ,setSlot,slot}) => {
       w={370}
       // h={160}
       shadow="xl"
-      onClick={()=>setSlot && setSlot(data?.scheduleId)}
-      style={{ cursor: "pointer"  ,
-      // border: slot === data?.scheduleId ? "3px solid green" : ""
+      onClick={() => setSlot && setSlot(data?.scheduleId)}
+      style={{
+        cursor: "pointer",
+        // border: slot === data?.scheduleId ? "3px solid green" : ""
       }}
     >
       {/* <Stack> */}
+      <div style={{width: data?.booked ? "92px" :"110px",marginBottom:"2px"}} className={classes.badge}>
+        <Badge  variant="filled" color={data?.booked ? "red.0" : "green.0"}>
+          {data?.booked ? translate("Booked") : translate("Not Booked")}
+        </Badge>
+      </div>
       <Text size={22} weight={700}>
         {data?.title}
       </Text>
@@ -37,7 +45,15 @@ const Cards = ({ data ,setSlot,slot}) => {
           {data?.startTime} {"-"} {data?.endTime}
         </Text>
       </Flex>
-        <Badge variant="filled" color={data?.booked ? "red.0" : 'green.0'}>{data?.booked ? translate("Booked") : translate("Not Booked")}</Badge>
+      <Flex align={"center"}>
+        {data?.booked ? (
+          ""
+        ) : (
+          <Button label={"Mark Leave"} className={classes.badge} onClick={()=>{setScheduleId(data?.scheduledId);setOpened(true)}} />
+        )}
+      </Flex>
+      {/* <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch}/> */}
+
     </Card>
   );
 };

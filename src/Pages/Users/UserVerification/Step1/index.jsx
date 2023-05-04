@@ -21,6 +21,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useMediaQuery } from "@mantine/hooks";
 import Loader from "../../../../Components/Loader";
 import Webcam from "react-webcam";
+import { showNotification } from "@mantine/notifications";
 
 export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   fileLoader }) => {
@@ -34,6 +35,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   const { state } = useLocation();
   const { id } = state ?? "";
   const { editId } = state ?? "";
+  console.log("user", user)
 
   const webcamRef = useRef(null);
 
@@ -76,7 +78,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   }
 
   const handleFileInput = (file, type) => {
-    // setFileLoader(true);
+    setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
     // const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -125,7 +127,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
               console.log("link",link);
               setImg(link);
 
-              // setFileLoader(false);
+              setFileLoader(false);
             }
           });
         }
@@ -137,7 +139,13 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   let faceio = new faceIO("fioa89bd");
 
   const handleOpenCamera = () => {
-    setShowCamera(true);
+    user===null? 
+    showNotification({
+      title: "Select User",
+      message: "Please first Select User",
+      color: "red.0",
+    })
+    :setShowCamera(true);
   };
 
   const handleCloseCamera = () => {
