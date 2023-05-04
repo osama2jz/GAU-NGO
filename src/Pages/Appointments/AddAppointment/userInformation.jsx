@@ -55,7 +55,7 @@ export const UserInfo = ({ userData, loading }) => {
           return (
             <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"20px"}>
               <Text fz={16} fw={"bold"}>
-                {obj.key}
+              {translate(obj.key)}
               </Text>
               <Text opacity={"40%"} fz={16} fw={"bold"} ml="20px">
                 {obj.value}
