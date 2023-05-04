@@ -195,7 +195,7 @@ const MissingDocuments = () => {
         <Grid align={"center"} py="md">
           <Grid.Col xs={5} lg={6}>
             <InputField
-              placeholder="Search user name"
+              placeholder="Search Name"
               leftIcon="search"
               pb="0"
               value={search}

@@ -242,7 +242,7 @@ function ScheduledAppointments() {
         <Grid align={"center"} py="md">
           <Grid.Col sm={8} lg={5} md={6}>
             <InputField
-              placeholder="Search"
+              placeholder="Search Name"
               leftIcon="search"
               value={search}
               pb="0"

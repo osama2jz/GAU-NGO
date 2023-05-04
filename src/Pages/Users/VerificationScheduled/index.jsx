@@ -188,7 +188,7 @@ const VerificationScheduled = () => {
         <Grid align={"center"} py="md">
           <Grid.Col sm={5}>
             <InputField
-              placeholder="Search"
+              placeholder="Search Name"
               leftIcon="search"
               pb="0"
               value={search}

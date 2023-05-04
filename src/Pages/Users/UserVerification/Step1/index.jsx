@@ -255,6 +255,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
           />
         )}
       </Container>
+      {!editId ?
       <Container size="xl" w={"100%"} className={classes.faceid}>
         {showCamera ? (
           <Container>
@@ -297,7 +298,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
             bg={true}
           />
         )}
-      </Container>
+      </Container>:""}
     </Container>
   );
 };
