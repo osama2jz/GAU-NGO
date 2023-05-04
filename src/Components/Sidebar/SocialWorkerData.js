@@ -37,7 +37,7 @@ export const socialSideBarData = [
     icon: CalendarEvent,
     links: [
       {
-        label: "Verfication Appointment",
+        label: "Verification Appointment",
         link: routeNames.socialWorker.verificationScheduledUser,
       },
       {
