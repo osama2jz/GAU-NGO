@@ -251,7 +251,7 @@ const AddAppointment = () => {
         } else {
           showNotification({
             color: "red.0",
-            message: response.data.message,
+            message: translate(response.data.message),
             title: "Error",
           });
         }
@@ -280,8 +280,8 @@ const AddAppointment = () => {
       onSuccess: (response) => {
         showNotification({
           color: "green.0",
-          message: "Reports submitted Successfully",
-          title: "Success",
+          message: translate("Reports submitted Successfully"),
+          title: translate("Success"),
         });
         handleUploadDocuments.mutate();
       },
@@ -319,8 +319,8 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User or Create Case.",
-            title: "User Case",
+            message: translate("Please Select User or Create Case."),
+            title: translate("User Case"),
           });
 
           return;
@@ -328,8 +328,8 @@ const AddAppointment = () => {
         if (img === null && verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -347,8 +347,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -357,8 +357,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -412,8 +412,8 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User or Create Case.",
-            title: "User Case",
+            message: translate("Please Add Other User Information."),
+            title: translate("User Information"),
           });
 
           return;
@@ -421,8 +421,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -440,8 +440,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -450,8 +450,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -469,8 +469,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -485,8 +485,8 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: "Please add public and private report for this appointment.",
-          title: "Report Missing",
+          message: translate("Please add public and private report for this appointment."),
+          title: translate("Report Missing"),
         });
         return;
       }
@@ -587,8 +587,8 @@ const AddAppointment = () => {
   async function handleReports() {
     try {
       showNotification({
-        title: "In Progress",
-        message: "Please wait while we generate reports for you.",
+        title: translate("In Progress"),
+        message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
       await handleGeneratePDF(editorr, "public");
@@ -833,27 +833,27 @@ const AddAppointment = () => {
     },
     validate: {
       over18Number: (value) =>
-        value.length < 1 ? "Please enter your Number" : null,
-      over18Age: (value) => (value.length < 1 ? "Please enter your Age" : null),
-      over18Sex: (value) => (value.length < 1 ? "Please enter sex" : null),
+        value.length < 1 ? translate("Please enter your Number") : null,
+      over18Age: (value) => (value.length < 1 ? translate("Please enter your Age") : null),
+      over18Sex: (value) => (value.length < 1 ? translate("Please enter sex") : null),
       over18MaritalStatus: (value) =>
-        value.length < 1 ? "Please enter Marital Status" : null,
+        value.length < 1 ? translate("Please enter Marital Status") : null,
       over18Profession: (value) =>
-        value.length < 1 ? "Please enter Profession" : null,
+        value.length < 1 ? translate("Please enter Profession") : null,
       over18Studies: (value) =>
-        value.length < 1 ? "Please enter Studies" : null,
+        value.length < 1 ? translate("Please enter Studies") : null,
       over18Address: (value) =>
-        value.length < 1 ? "Please enter Address" : null,
+        value.length < 1 ? translate("Please enter Address") : null,
       over18Origin: (value) =>
-        value.length < 1 ? "Please enter Country" : null,
+        value.length < 1 ? translate("Please enter Country") : null,
       over18Telephone: (value) =>
-        value.length < 1 ? "Please enter Telephone" : null,
+        value.length < 1 ? translate("Please enter Telephone") : null,
       over18Couple: (value) =>
-        value.length < 1 ? "Please enter Couple" : null,
+        value.length < 1 ? translate("Please enter Couple") : null,
       over18Children: (value) =>
-        value.length < 1 ? "Please enter Children" : null,
+        value.length < 1 ? translate("Please enter Children") : null,
       over18Informant: (value) =>
-        value.length < 1 ? "Please enter Informant" : null,
+        value.length < 1 ? translate("Please enter Informant") : null,
     },
   });
 

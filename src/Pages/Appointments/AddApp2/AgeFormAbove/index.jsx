@@ -7,17 +7,18 @@ import {
   Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import TextArea from "../../../../Components/TextArea";
 import { useStyles } from "../styles";
 import InputMask from "react-input-mask";
 import Datepicker from "../../../../Components/Datepicker";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
   const { classes } = useStyles();
-
+ const {translate}=useContext(UserContext)
 
   
   return (
@@ -33,7 +34,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
       >
         <Card shadow="sm" padding="lg" radius="md" withBorder>
 
-        <Text className={classes.subHeading}>Parentage Information</Text>
+        <Text className={classes.subHeading}>{translate("Parentage Information")}</Text>
         <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
@@ -140,7 +141,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Consultation Reason */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Reason for Consultation</Text>
+          <Text className={classes.subHeading}>{translate("Reason for Consultation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             placeholder="Reason for Consultation"
@@ -151,7 +152,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* History of Current Problem */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>History of Current Problem</Text>
+          <Text className={classes.subHeading}>{translate("History of Current Problem")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -203,7 +204,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Psychological History */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Psychological History</Text>
+          <Text className={classes.subHeading}>{translate("Psychological History")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -241,7 +242,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Studies and Occupation */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Studies and Occupation</Text>
+          <Text className={classes.subHeading}>{translate("Studies and Occupation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -305,12 +306,12 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/** Family Relation */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Family Relations</Text>
+          <Text className={classes.subHeading}>{translate("Family Relations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
 
           {/** Mother Relation */}
           <Card mt="sm">
-            <Text className={classes.subHeading}>Mother Details</Text>
+            <Text className={classes.subHeading}>{translate("Mother’s Details")}</Text>
             <Divider color="#C8C8C8" mt="md" mb="md" />
             <SimpleGrid
               breakpoints={[
@@ -345,7 +346,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
           {/** Father Relation */}
           <Card mt="sm">
-            <Text className={classes.subHeading}>Father Details</Text>
+            <Text className={classes.subHeading}>{translate("Father Details")}</Text>
             <Divider color="#C8C8C8" mt="md" mb="md" />
             <SimpleGrid
               breakpoints={[
@@ -390,7 +391,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
           {/** Couple Relation */}
           <Card mt="sm">
-            <Text className={classes.subHeading}>Couple Details</Text>
+            <Text className={classes.subHeading}>{translate("Couple Details")}</Text>
             <Divider color="#C8C8C8" mt="md" mb="md" />
             <SimpleGrid
               breakpoints={[
@@ -425,7 +426,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
           {/** Children Relation */}
           <Card mt="sm">
-            <Text className={classes.subHeading}>Children Details</Text>
+            <Text className={classes.subHeading}>{translate("Children Details")}</Text>
             <Divider color="#C8C8C8" mt="md" mb="md" />
             <SimpleGrid
               breakpoints={[
@@ -453,7 +454,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
           {/** Relation Relation */}
           <Card mt="sm">
-            <Text className={classes.subHeading}>Relation</Text>
+            <Text className={classes.subHeading}>{translate("Relation")}</Text>
             <Divider color="#C8C8C8" mt="md" mb="md" />
             <SimpleGrid
               breakpoints={[
@@ -512,7 +513,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Social Relations */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Social Relations</Text>
+          <Text className={classes.subHeading}>{translate("Social Relations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -566,7 +567,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Interests and motivations */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Interests and Motivations</Text>
+          <Text className={classes.subHeading}>{translate("Interests and Motivations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -644,7 +645,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Sexuality */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Sexuality and couple</Text>
+          <Text className={classes.subHeading}>{translate("Sexuality and couple")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -722,7 +723,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Obsessive Problems */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Obsessive Problems</Text>
+          <Text className={classes.subHeading}>{translate("Obsessive Problems")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -777,7 +778,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
         {/* Organic and psychosomatic pathology */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
           <Text className={classes.subHeading}>
-            Organic and psychosomatic pathology
+            {translate("Organic and psychosomatic pathology")}
           </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
@@ -827,7 +828,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
 
         {/* Remarks */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Remarks</Text>
+          <Text className={classes.subHeading}>{translate("Remarks")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[

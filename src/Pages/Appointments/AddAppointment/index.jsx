@@ -304,8 +304,8 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User or Create Case.",
-            title: "User Case",
+            message: translate("Please Select User or Create Case."),
+            title: translate("User Case"),
           });
 
           return;
@@ -313,8 +313,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -332,8 +332,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -342,8 +342,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -361,8 +361,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
