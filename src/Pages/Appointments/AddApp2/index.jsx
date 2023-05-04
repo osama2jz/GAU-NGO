@@ -913,7 +913,7 @@ const AddAppointment = () => {
 
   return (
     <Container className={classes.addAppointment} size="xl" p={"0px"}>
-      <ContainerHeader label={" Start an Appointment"} />
+      <ContainerHeader label={"Start an Appointment"} />
       {FirstTimeForm ? (
         <Container className={classes.innerContainer} size="xl">
           <Stepper

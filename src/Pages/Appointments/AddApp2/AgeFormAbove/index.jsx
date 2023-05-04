@@ -24,7 +24,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
-        Psychology Form Over 18
+        {translate("Psychology Form Over 18")}
       </Text>
       <form
         className={classes.form}
