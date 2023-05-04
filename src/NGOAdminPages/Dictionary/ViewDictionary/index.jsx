@@ -21,7 +21,7 @@ export const ViewDictionary = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [deleteID, setDeleteID] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [filter, setFilter] = useState("all");
@@ -133,8 +133,8 @@ export const ViewDictionary = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Deleted",
-          message: "Dictionary word deleted successfully!",
+          title: translate("Deleted"),
+          message: translate("Dictionary word deleted successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -142,8 +142,8 @@ export const ViewDictionary = () => {
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something Went Wrong!"),
           color: "red.0",
         });
       },
