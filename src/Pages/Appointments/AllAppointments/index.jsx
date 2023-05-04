@@ -129,6 +129,7 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Appointer Role",
+      translate: true,
     },
     {
       id: "date",

@@ -25,7 +25,7 @@ const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
@@ -96,7 +96,7 @@ const VerificationScheduled = () => {
 
   //API call for fetching all users
   const { data, status } = useQuery(
-    ["fetchUser"],
+    ["fetchUserforVerification"],
     () => {
       return axios.get(
         `${backendUrl + `/api/ngo/listNGOappointmentUsers/user/0/0`}`,
@@ -142,11 +142,11 @@ const VerificationScheduled = () => {
       onSuccess: (response) => {
         // navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
-        queryClient.invalidateQueries("fetchUser");
+        queryClient.invalidateQueries("fetchUserforVerification");
       },
     }
   );

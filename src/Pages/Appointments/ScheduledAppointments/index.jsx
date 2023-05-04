@@ -148,6 +148,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Professional",
+      
     },
     {
       id: "addedBy",
@@ -160,6 +161,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Appointer Role",
+      translate: true,
     },
     {
       id: "date",

@@ -2,10 +2,14 @@ import { Card, Container, Flex, Group, Text } from "@mantine/core";
 import userImage from "../../../assets/teacher.png";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 export const UserInfo = ({ userData, loading }) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const [data, setData] = useState([]);
+  const {user, translate} =useContext(UserContext)
+
 
   useEffect(() => {
     setData([
