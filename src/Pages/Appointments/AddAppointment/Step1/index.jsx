@@ -59,7 +59,7 @@ const Step1 = ({
   const { state } = useLocation();
 
   const { classes } = useStyles();
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken,translate } = useContext(UserContext);
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -235,15 +235,15 @@ const Step1 = ({
         if(response.data.matched==="True"){
           setVerifyStatus(true)
           showNotification({
-            title: "Verification Success",
-            message: "Face Matched",
+            title: translate("Verification Success"),
+            message: translate("Face Matched"),
             color: "green.0",
           })
         }else{
           setVerifyStatus(false)
           showNotification({
-            title: "Verification Failed",
-            message: "Face Not Matched",
+            title: translate("Verification Failed"),
+            message: translate("Face Not Matched"),
             color: "red.0",
           })
 
