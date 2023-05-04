@@ -61,6 +61,7 @@ const Login = () => {
               data: {
                 appointmentTime: appointmentTime,
                 appointmentDate: appointmentDate,
+                otherInfo:response?.data
               },
             },
           });

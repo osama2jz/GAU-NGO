@@ -88,10 +88,11 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
     },
     {
       onSuccess: (response) => {
+        
         if (response.data.status) {
           showNotification({
-            title: "Appointment Created",
-            message: "Appointment Created Successfully",
+            title: translate("Appointment Created"),
+            message: translate("Appointment Created Successfully"),
             color: "green.0",
           });
           let appointmentTime =
@@ -102,13 +103,17 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
             .split(" ")
             .slice(0, 4)
             .join(" ");
-          navigate(routeNames.general.verificationPending, {
-            state: {
-              data: {
-                appointmentTime: appointmentTime,
-                appointmentDate: appointmentDate,
+            socialWorkerVerification ? navigate(routeNames.socialWorker.verificationScheduled): navigate(routeNames.general.verificationPending, {
+              state: {
+                data: {
+                  appointmentTime: appointmentTime,
+                  appointmentDate: appointmentDate,
+                  otherInfo:response.data
+                },
               },
-            },
+          
+
+
           });
           setOpened(false);
         } else {
