@@ -406,7 +406,7 @@ const Step1 = ({
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
-        Verify User
+       {translate("Verify User")}
       </Text>
 
       <Group>

@@ -14,6 +14,7 @@ function NewWorkModal({
   editData,
   setEditData,
 }) {
+  console.log("work", workExperience)
   const {translate} = useContext(UserContext);
   const { classes } = useStyles();
   useEffect(() => {
@@ -46,17 +47,22 @@ function NewWorkModal({
     if (editData) {
       const index = workExperience.findIndex((item) => item.id === editData.id);
       values.id = workExperience.length + 1;
-      values.endDate = new Date(values.endDate);
-      values.startDate = new Date(values.startDate);
+      // values.endDate = new Date(values.endDate);
+      // values.startDate = new Date(values.startDate);
+      values.endDate = moment(values.endDate).format("DD-MM-YYYY");
+      values.startDate = moment(values.startDate).format("DD-MM-YYYY");
       workExperience[index] = values;
       setWorkExperience([...workExperience]);
+     
       setOpenModal(false);
       form.reset();
       setEditData("");
+      console.log("hello")
+
     } else {
       values.id = workExperience.length + 1;
-      values.endDate = moment(values.endDate).format("DD/MM/YYYY");
-      values.startDate = moment(values.startDate).format("DD/MM/YYYY");
+      values.endDate = moment(values.endDate).format("DD-MM-YYYY");
+      values.startDate = moment(values.startDate).format("DD-MM-YYYY");
       setWorkExperience([...workExperience, values]);
       form.reset();
       setOpenModal(false);
