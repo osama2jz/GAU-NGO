@@ -10,7 +10,7 @@ import axios from "axios";
 import moment from "moment/moment";
 import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ContainerHeader from "../../../Components/ContainerHeader";
 import Table from "../../../Components/Table";
 import { backendUrl } from "../../../constants/constants";
@@ -19,6 +19,8 @@ import { useStyles } from "./styles";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Button from "../../../Components/Button";
+import Loader from "../../../Components/Loader";
+import { ArrowNarrowLeft } from "tabler-icons-react";
 
 function ViewUser() {
   const { classes } = useStyles();
@@ -27,6 +29,8 @@ function ViewUser() {
   const { user, translate } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
+  const[loader,setLoader] = useState(false);
+  const navigate=useNavigate();
 
   const [workData, setWorkData] = useState([]);
 
@@ -44,9 +48,10 @@ function ViewUser() {
     });
   };
 
-  const _ = useQuery(
+  const{ data1, status } = useQuery(
     "fetchUsertoViewData",
     () => {
+      setLoader(true);
       return axios.get(
         `${backendUrl + `/api/user/listSingleUser/${userData}`}`,
         {
@@ -77,10 +82,12 @@ function ViewUser() {
           );
         setDocs(response.data.documents);
         setWorkData(workData);
+        setLoader(false);
       },
       enabled: !!userData,
     }
   );
+  
 
   // console.log(data);
   let headerData = [
@@ -181,309 +188,338 @@ function ViewUser() {
   ];
 
   return (
-    <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"} >
-      <Button label={"Download pdf"} onClick={() => downloadPDF()} />
+    <>
+      {/* <Button label={"Download pdf"} onClick={() => downloadPDF()} /> */}
+      
+      <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"}>
+        <Flex justify="center" align="center">
+        <Anchor
+          fz={12}
+          fw="bolder"
+          className={classes.back}
+          onClick={() => navigate(-1)}
+        >
+          <ArrowNarrowLeft />
+          <Text>{translate("Back")}</Text>
+        </Anchor>
+        <ContainerHeader label={"User Detail"} style={{ marginRight: "auto" }}/>
+        </Flex>
+      
+        {
+           loader ? (
+            <Loader />
+          ) : 
+          <Container className={classes.innerContainer} size="xl">
+          <Container className={classes.inputContainer} size="xl">
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Personal Information")}
+            </Text>
+            <Flex gap={"xl"} justify="space-between">
+              <Avatar
+                size={180}
+                radius="xl"
+                // m={"0px"}
+                // p={"0px"}
+                src={
+                  data?.image ||
+                  "https://www.w3schools.com/howto/img_avatar.png"
+                }
+              />
+              <SimpleGrid
+                w={"75%"}
+                breakpoints={[
+                  { minWidth: "md", cols: 4 },
+                  { minWidth: "lg", cols: 4 },
+                  { minWidth: "xs", cols: 2 },
+                ]}
+                // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
+              >
+                <Text className={classes.textheading}>
+                  {translate("First Name")}
+                </Text>
+                <Text>
+                  {data?.userConsentForm?.personalInformation?.firstName}
+                </Text>
+                <Text className={classes.textheading}>
+                  {translate("Last Name")}
+                </Text>
+                <Text>
+                  {data?.userConsentForm?.personalInformation?.lastName}
+                </Text>
+                <Text className={classes.textheading}>
+                  {translate("Email")}
+                </Text>
+                <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Phone Number")}
+                </Text>
+                <Text>{data?.phoneNumber}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Date of Birth")}
+                </Text>
+                <Text>
+                  {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
+                    0,
+                    10
+                  )}
+                </Text>
+                <Text className={classes.textheading}>
+                  {" "}
+                  {translate("Identity")}
+                </Text>
+                <Anchor
+                  href={data?.userConsentForm?.personalInformation?.documentURL}
+                  target={"_blank"}
+                >
+                  <Text>
+                    {data?.userConsentForm?.personalInformation
+                      ?.documentType === "residentialId"
+                      ? translate("Residential Id")
+                      : data?.userConsentForm?.personalInformation
+                          ?.documentType === "passport"
+                      ? translate("Passport")
+                      : translate("National ID")}
+                  </Text>
+                </Anchor>
+                <Text className={classes.textheading}>
+                  {translate("Country")}
+                </Text>
+                <Text>
+                  {data?.userConsentForm?.personalInformation?.country}
+                </Text>
+                <Text className={classes.textheading}>{translate("City")}</Text>
+                <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Address")}
+                </Text>
+                <Text>
+                  {data?.userConsentForm?.personalInformation?.address}
+                </Text>
+              </SimpleGrid>
+            </Flex>
+          </Container>
 
-      <ContainerHeader label={"User Detail"} />
-      <Container className={classes.innerContainer} size="xl">
-        <Container className={classes.inputContainer} size="xl">
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
           >
-            {translate("Personal Information")}
-          </Text>
-          <Flex gap={"xl"} justify="space-between">
-            <Avatar
-              size={180}
-              radius="xl"
-              // m={"0px"}
-              // p={"0px"}
-              src={
-                data?.image || "https://www.w3schools.com/howto/img_avatar.png"
-              }
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Studies and Training")}
+            </Text>
+            <Table
+              headCells={headerData3}
+              rowData={data?.userConsentForm?.studiesTraining}
             />
+          </Container>
+
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
+          >
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Work Experience")}
+            </Text>
+            <Table headCells={headerData2} rowData={workData} />
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
+          >
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Discrimination And Voilence")}
+            </Text>
+            <Text>
+              {
+                data?.userConsentForm?.discriminationVoilence
+                  ?.discriminationVoilenceValue
+              }
+            </Text>
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
+          >
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Professional References")}
+            </Text>
+            <Table
+              headCells={headerData}
+              rowData={data?.userConsentForm?.professionalReferences}
+            />
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
+          >
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Socio-Family Situation")}
+            </Text>
+            <Text>
+              {data?.userConsentForm?.socioFamilySituation?.socioFamily}
+            </Text>
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
+          >
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Economic Situation")}
+            </Text>
             <SimpleGrid
-              w={"75%"}
               breakpoints={[
-                { minWidth: "md", cols: 4 },
-                { minWidth: "lg", cols: 4 },
+                { minWidth: "md", cols: 3 },
+                { minWidth: "lg", cols: 6 },
                 { minWidth: "xs", cols: 2 },
               ]}
-              // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
             >
-              <Text className={classes.textheading}>
-                {translate("First Name")}
-              </Text>
+              <Text fw="bold">{translate("Revenue")}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.revenue}</Text>
+              <Text fw="bold">{translate("Expenses")}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.expenses}</Text>
+              <Text fw="bold">{translate("Aids or Bonuses")}</Text>
               <Text>
-                {data?.userConsentForm?.personalInformation?.firstName}
+                {data?.userConsentForm?.economicSituation?.aidsBonuses}
               </Text>
-              <Text className={classes.textheading}>
-                {translate("Last Name")}
-              </Text>
-              <Text>
-                {data?.userConsentForm?.personalInformation?.lastName}
-              </Text>
-              <Text className={classes.textheading}>{translate("Email")}</Text>
-              <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
-              <Text className={classes.textheading}>
-                {translate("Phone Number")}
-              </Text>
-              <Text>{data?.phoneNumber}</Text>
-              <Text className={classes.textheading}>
-                {translate("Date of Birth")}
-              </Text>
-              <Text>
-                {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
-                  0,
-                  10
-                )}
-              </Text>
-              <Text className={classes.textheading}>
-                {" "}
-                {translate("Identity")}
-              </Text>
-              <Anchor
-                href={data?.userConsentForm?.personalInformation?.documentURL}
-                target={"_blank"}
-              >
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.documentType ===
-                  "residentialId"
-                    ? translate("Residential Id")
-                    : data?.userConsentForm?.personalInformation
-                        ?.documentType === "passport"
-                    ? translate("Passport")
-                    : translate("National ID")}
-                </Text>
-              </Anchor>
-              <Text className={classes.textheading}>
-                {translate("Country")}
-              </Text>
-              <Text>{data?.userConsentForm?.personalInformation?.country}</Text>
-              <Text className={classes.textheading}>{translate("City")}</Text>
-              <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
-              <Text className={classes.textheading}>
-                {translate("Address")}
-              </Text>
-              <Text>{data?.userConsentForm?.personalInformation?.address}</Text>
+              <Text fw="bold">{translate("Debit")}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.debt}</Text>
+              <Text fw="bold">{translate("Housing")}</Text>
+              <Text>{data?.userConsentForm?.economicSituation?.housing}</Text>
             </SimpleGrid>
-          </Flex>
-        </Container>
-
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
           >
-            {translate("Studies and Training")}
-          </Text>
-          <Table
-            headCells={headerData3}
-            rowData={data?.userConsentForm?.studiesTraining}
-          />
-        </Container>
-
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Health Aspects")}
+            </Text>
+            <Text>{data?.userConsentForm?.healthAspects?.healthAspects}</Text>
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
           >
-            {translate("Work Experience")}
-          </Text>
-          <Table headCells={headerData2} rowData={workData} />
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Demand")}
+            </Text>
+            <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
+          </Container>
+          <Container
+            className={classes.inputContainer}
+            size={"xl"}
+            mt="xl"
+            p={"md"}
           >
-            {translate("Discrimination And Voilence")}
-          </Text>
-          <Text>
-            {
-              data?.userConsentForm?.discriminationVoilence
-                ?.discriminationVoilenceValue
-            }
-          </Text>
+            <Text
+              align="center"
+              fz={"lg"}
+              fw="bold"
+              mb="xl"
+              bg={"#E9ECEF"}
+              p={2.5}
+            >
+              {translate("Documents")}
+            </Text>
+            {docs.length ? (
+              <ol>
+                {docs.map((obj) => {
+                  return (
+                    <li>
+                      <Anchor href={obj.documentURL} target="_blank" pl="md">
+                        {obj.documentTitle}
+                      </Anchor>
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : (
+              <Text align="center">{translate("No Document")}</Text>
+            )}
+          </Container>
         </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Professional References")}
-          </Text>
-          <Table
-            headCells={headerData}
-            rowData={data?.userConsentForm?.professionalReferences}
-          />
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Socio-Family Situation")}
-          </Text>
-          <Text>
-            {data?.userConsentForm?.socioFamilySituation?.socioFamily}
-          </Text>
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Economic Situation")}
-          </Text>
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 3 },
-              { minWidth: "lg", cols: 6 },
-              { minWidth: "xs", cols: 2 },
-            ]}
-          >
-            <Text fw="bold">{translate("Revenue")}</Text>
-            <Text>{data?.userConsentForm?.economicSituation?.revenue}</Text>
-            <Text fw="bold">{translate("Expenses")}</Text>
-            <Text>{data?.userConsentForm?.economicSituation?.expenses}</Text>
-            <Text fw="bold">{translate("Aids or Bonuses")}</Text>
-            <Text>{data?.userConsentForm?.economicSituation?.aidsBonuses}</Text>
-            <Text fw="bold">{translate("Debit")}</Text>
-            <Text>{data?.userConsentForm?.economicSituation?.debt}</Text>
-            <Text fw="bold">{translate("Housing")}</Text>
-            <Text>{data?.userConsentForm?.economicSituation?.housing}</Text>
-          </SimpleGrid>
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Health Aspects")}
-          </Text>
-          <Text>{data?.userConsentForm?.healthAspects?.healthAspects}</Text>
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Demand")}
-          </Text>
-          <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
-        </Container>
-        <Container
-          className={classes.inputContainer}
-          size={"xl"}
-          mt="xl"
-          p={"md"}
-        >
-          <Text
-            align="center"
-            fz={"lg"}
-            fw="bold"
-            mb="xl"
-            bg={"#E9ECEF"}
-            p={2.5}
-          >
-            {translate("Documents")}
-          </Text>
-          {docs.length ? (
-            <ol>
-              {docs.map((obj) => {
-                return (
-                  <li>
-                    <Anchor href={obj.documentURL} target="_blank" pl="md">
-                      {obj.documentTitle}
-                    </Anchor>
-                  </li>
-                );
-              })}
-            </ol>
-          ) : (
-            <Text align="center">{translate("No Document")}</Text>
-          )}
-        </Container>
+        }
+        
       </Container>
-    </Container>
+    </>
   );
 }
 
