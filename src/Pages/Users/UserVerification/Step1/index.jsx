@@ -35,7 +35,8 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   const { state } = useLocation();
   const { id } = state ?? "";
   const { editId } = state ?? "";
-  console.log("user", user)
+ 
+  
 
   const webcamRef = useRef(null);
 
@@ -52,7 +53,8 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
+
+    
 
     handleFileInput(blob, "public");
     setImg(imageUrl);
@@ -60,10 +62,12 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
 
   function dataURItoBlob(dataURI) {
     const byteString = atob(dataURI.split(",")[1]);
-    console.log(byteString);
+    
+    
     const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     const extension = mimeString.split("/")[1];
-    console.log(mimeString);
+  
+    
     const arrayBuffer = new ArrayBuffer(byteString.length);
     const intArray = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
@@ -73,34 +77,33 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
     const blob = new Blob([arrayBuffer], { type: mimeString });
 
     blob.name = fileName;
-    console.log(blob);
+
+    
     return blob;
   }
 
   const handleFileInput = (file, type) => {
     setFileLoader(true);
-    //s3 configs
-    // const fileName = file.name;
-    // const sanitizedFileName = fileName.replace(/\s+/g, "");
-    // setFileError("");
-    // setFileUploading(true);
+  
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
-    // console.log(aws);
+  
+    
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
       IdentityPoolId: s3Config.IdentityPoolId,
     });
 
     AWS.config.credentials.get(function (err) {
       if (err) alert(err);
-      // console.log(AWS.config.credentials);
+
+      
     });
     var bucket = new AWS.S3({
       params: {
         Bucket: s3Config.bucketName,
       },
     });
-    console.log(file);
+   
     var objKey = type + "/" + Date.now() + "/" + file.name;
     var params = {
       Key: objKey,
@@ -124,7 +127,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
               reject(err);
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-              console.log("link",link);
+              
               setImg(link);
 
               setFileLoader(false);

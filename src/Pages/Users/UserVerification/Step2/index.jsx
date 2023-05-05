@@ -235,14 +235,13 @@ export const Step2 = ({
     //s3 configs
     const aws = new AWS.S3();
     AWS.config.region = s3Config.region;
-    // console.log(aws);
+
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
       IdentityPoolId: s3Config.IdentityPoolId,
     });
 
     AWS.config.credentials.get(function (err) {
       if (err) alert(err);
-      console.log(AWS.config.credentials);
     });
     var bucket = new AWS.S3({
       params: {
@@ -310,7 +309,9 @@ export const Step2 = ({
           submitAll(form.values);
         })}
       >
-        <Text className={classes.subHeading}>{translate("Personal Information")}</Text>
+        <Text className={classes.subHeading}>
+          {translate("Personal Information")}
+        </Text>
         <Divider color="#C8C8C8" mt="md" mb="md" />
         <SimpleGrid
           breakpoints={[
@@ -407,8 +408,17 @@ export const Step2 = ({
             })}
             {...form?.getInputProps("documentType")}
           >
-            <Radio color="green.0" value="passport" label={translate("Passport")} checked />
-            <Radio color="green.0" value="nationalId" label={translate("National ID")} />
+            <Radio
+              color="green.0"
+              value="passport"
+              label={translate("Passport")}
+              checked
+            />
+            <Radio
+              color="green.0"
+              value="nationalId"
+              label={translate("National ID")}
+            />
             <Radio
               color="green.0"
               value="residentialId"
@@ -430,14 +440,16 @@ export const Step2 = ({
                 color: "black !important",
               },
             })}
-            icon={<FileUpload size={20} color="green"/>}
+            icon={<FileUpload size={20} color="green" />}
             onChange={(e) => handleFileInput(e)}
           />
         </Group>
 
         {/** Studies and training */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>{translate("Studies and Training")}*</Text>
+          <Text className={classes.subHeading}>
+            {translate("Studies and Training")}*
+          </Text>
           <Group position="right">
             <Button
               label={"Add New"}
@@ -478,7 +490,11 @@ export const Step2 = ({
             {...form?.getInputProps("typeId")}
           >
             {descrimation?.map((item) => (
-              <Radio color="green.0" value={item._id} label={translate(item.lookupName)} />
+              <Radio
+                color="green.0"
+                value={item._id}
+                label={translate(item.lookupName)}
+              />
             ))}
           </Radio.Group>
           <Divider color="white" mt="sm" mb="sm" />
@@ -491,7 +507,9 @@ export const Step2 = ({
 
         {/* Work Experience */}
         <Card>
-          <Text className={classes.subHeading}>{translate("Work Experience")}*</Text>
+          <Text className={classes.subHeading}>
+            {translate("Work Experience")}*
+          </Text>
           <Group position="right">
             <Button
               label={"Add New"}
@@ -518,7 +536,9 @@ export const Step2 = ({
 
         {/* Socio Family */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>{translate("Socio-Family Situation")}</Text>
+          <Text className={classes.subHeading}>
+            {translate("Socio-Family Situation")}
+          </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             label="Marital Status - Family Composition - Social Network"
@@ -529,7 +549,9 @@ export const Step2 = ({
 
         {/* Economic Situation */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>{translate("Economic Situation")}</Text>
+          <Text className={classes.subHeading}>
+            {translate("Economic Situation")}
+          </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -583,7 +605,9 @@ export const Step2 = ({
 
         {/* Health Aspects */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>{translate("Health Aspects")}</Text>
+          <Text className={classes.subHeading}>
+            {translate("Health Aspects")}
+          </Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             label="Disability - Dependencies - Mental Health"
@@ -594,7 +618,9 @@ export const Step2 = ({
         </Card>
 
         {/* Professional References */}
-        <Text className={classes.subHeading}>{translate("Professional References")}*</Text>
+        <Text className={classes.subHeading}>
+          {translate("Professional References")}*
+        </Text>
         <Group position="right">
           <Button
             label={"Add New"}

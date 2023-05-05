@@ -38,7 +38,7 @@ export const UserVerification = () => {
   const [userdata, setUserData] = useState("");
   const [img, setImg] = useState(null);
   const [fileLoader, setFileLoader] = useState(false);
-  console.log("img",img)
+  
 
   let { state } = useLocation();
 
@@ -207,6 +207,14 @@ export const UserVerification = () => {
   const handleNextSubmit = async () => {
     if (active == 0) {
       if (userid) {
+        if(img===null){
+          showNotification({
+            title: translate("Error"),
+            message: translate("Please Attach FaceId"),
+            color: "red.0",
+          });
+          return
+        }
         setActive(active + 1);
       } else {
         showNotification({

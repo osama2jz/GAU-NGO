@@ -16,6 +16,7 @@ import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 const MissingDocuments = () => {
   const { classes } = useStyles();
@@ -62,7 +63,7 @@ const MissingDocuments = () => {
               email: "N/A",
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
-              date: obj?.addedDate,
+              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
               addedBy: obj?.addedBy,
               role:
                 obj?.role === "socialWorker"

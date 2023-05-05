@@ -16,16 +16,33 @@ import Table from "../../../Components/Table";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import Button from "../../../Components/Button";
 
 function ViewUser() {
   const { classes } = useStyles();
   const { state } = useLocation();
   const { userData } = state ?? "";
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
 
   const [workData, setWorkData] = useState([]);
+
+  const downloadPDF = () => {
+    const capture = document.getElementById("pdf");
+    // setLoader(true);
+    html2canvas(capture).then((canvas) => {
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF("p", "mm", "a4");
+      const componentWidth = doc.internal.pageSize.getWidth();
+      const componentHeight = doc.internal.pageSize.getHeight();
+      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
+      // setLoader(false);
+      doc.save("receipt.pdf");
+    });
+  };
 
   const _ = useQuery(
     "fetchUsertoViewData",
@@ -164,7 +181,9 @@ function ViewUser() {
   ];
 
   return (
-    <Container className={classes.addUser} size="xl" p={"0px"}>
+    <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"} >
+      <Button label={"Download pdf"} onClick={() => downloadPDF()} />
+
       <ContainerHeader label={"User Detail"} />
       <Container className={classes.innerContainer} size="xl">
         <Container className={classes.inputContainer} size="xl">
@@ -197,26 +216,37 @@ function ViewUser() {
               ]}
               // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
             >
-              <Text className={classes.textheading}>{translate("First Name")}</Text>
+              <Text className={classes.textheading}>
+                {translate("First Name")}
+              </Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.firstName}
               </Text>
-              <Text className={classes.textheading}>{translate("Last Name")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Last Name")}
+              </Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.lastName}
               </Text>
               <Text className={classes.textheading}>{translate("Email")}</Text>
               <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
-              <Text className={classes.textheading}>{translate("Phone Number")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Phone Number")}
+              </Text>
               <Text>{data?.phoneNumber}</Text>
-              <Text className={classes.textheading}>{translate("Date of Birth")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Date of Birth")}
+              </Text>
               <Text>
                 {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
                   0,
                   10
                 )}
               </Text>
-              <Text className={classes.textheading}> {translate("Identity")}</Text>
+              <Text className={classes.textheading}>
+                {" "}
+                {translate("Identity")}
+              </Text>
               <Anchor
                 href={data?.userConsentForm?.personalInformation?.documentURL}
                 target={"_blank"}
@@ -228,14 +258,18 @@ function ViewUser() {
                     : data?.userConsentForm?.personalInformation
                         ?.documentType === "passport"
                     ? translate("Passport")
-                    :translate( "National ID")}
+                    : translate("National ID")}
                 </Text>
               </Anchor>
-              <Text className={classes.textheading}>{translate("Country")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Country")}
+              </Text>
               <Text>{data?.userConsentForm?.personalInformation?.country}</Text>
               <Text className={classes.textheading}>{translate("City")}</Text>
               <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
-              <Text className={classes.textheading}>{translate("Address")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Address")}
+              </Text>
               <Text>{data?.userConsentForm?.personalInformation?.address}</Text>
             </SimpleGrid>
           </Flex>
@@ -339,7 +373,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate("Socio-Family Situation")}
+            {translate("Socio-Family Situation")}
           </Text>
           <Text>
             {data?.userConsentForm?.socioFamilySituation?.socioFamily}
@@ -359,7 +393,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate("Economic Situation")}
+            {translate("Economic Situation")}
           </Text>
           <SimpleGrid
             breakpoints={[
@@ -412,7 +446,7 @@ function ViewUser() {
             bg={"#E9ECEF"}
             p={2.5}
           >
-           {translate("Demand")}
+            {translate("Demand")}
           </Text>
           <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
         </Container>
@@ -449,7 +483,6 @@ function ViewUser() {
           )}
         </Container>
       </Container>
-     
     </Container>
   );
 }
