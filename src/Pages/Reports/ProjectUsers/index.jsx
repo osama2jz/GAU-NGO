@@ -1,8 +1,4 @@
-import {
-  Anchor, Container,
-  Flex,
-  Grid, Text
-} from "@mantine/core";
+import { Anchor, Container, Flex, Grid, Text } from "@mantine/core";
 import axios from "axios";
 import { useContext, useMemo, useState } from "react";
 import { useQuery } from "react-query";
@@ -19,6 +15,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
 import moment from "moment";
+import SelectMenu from "../../../Components/SelectMenu";
 
 function ProjectUsers() {
   const { classes } = useStyles();
@@ -28,14 +25,17 @@ function ProjectUsers() {
   const { user, translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
+  const [filter1,setFilter1] = useState("")
+  const [filter2,setFilter2] = useState("")
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState("");
+  console.log("filter1",filter1)
 
   const { state } = useLocation();
-  const { id,data } = state ?? "";
+  const { id, data } = state ?? "";
 
   let headerData = [
     {
@@ -61,6 +61,24 @@ function ProjectUsers() {
       numeric: false,
       disablePadding: true,
       label: "Date",
+    },
+    {
+      id:"phone",
+      numeric: false,
+      disablePadding: true,
+      label: "Phone",
+
+    },
+    {
+      id: "country",
+      numeric: false,
+      disablePadding: true,
+      label: "Country",
+    },{
+      id:'city',
+      numeric: false,
+      disablePadding: true,
+      label: "City",
     },
     {
       id: "appointment",
@@ -97,7 +115,10 @@ function ProjectUsers() {
             cases: obj?.totalCases,
             appointment: obj?.totalAppointments,
             image: obj?.profileImage,
-            date:moment(obj?.createdDate).format("YYYY-MMM-DD")
+            date: moment(obj?.createdDate).format("YYYY-MMM-DD"),
+            country:"Pakistan",
+            city:"Lahore",
+            phone:"03001234567"
           };
           return report;
         });
@@ -110,10 +131,42 @@ function ProjectUsers() {
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      return (
-        item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item?.caseNo?.toLowerCase().includes(search.toLowerCase())
-      );
+      if(filter1==="" && filter2===""){
+        return (
+          item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.cases?.toString().includes(search) || 
+          item?.appointment?.toString().includes(search) 
+        );
+      }
+      else if(filter1!=="" && filter2==="" ){
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.cases?.toString().includes(search) || 
+          item?.appointment?.toString().includes(search)) &&
+          item?.country === filter1
+        );
+      }
+      else if(filter1==="" && filter2!=="" ){
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.cases?.toString().includes(search) || 
+          item?.appointment?.toString().includes(search)) &&
+          item?.city === filter2
+        );
+      }else{
+        return (
+          (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+          item?.cases?.toString().includes(search) || 
+          item?.appointment?.toString().includes(search)) &&
+          item?.country === filter1 &&
+          item?.city === filter2
+        );
+      }
+      
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -125,7 +178,7 @@ function ProjectUsers() {
     });
 
     return a;
-  }, [search, rowData]);
+  }, [search, rowData,filter1,filter2]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -156,20 +209,48 @@ function ProjectUsers() {
       </Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={12} lg={4} md={6}>
             <InputField
-              placeholder="Enter Case No"
+              placeholder="Search"
               leftIcon="search"
               pb="0"
               onChange={(e) => setSearch(e.target.value)}
               value={search}
             />
           </Grid.Col>
-          <Grid.Col sm={6} md={3}>
+          <Grid.Col sm={6} lg={2} md={3}>
+            <SelectMenu
+              placeholder="Filter by Country"
+              pb="0px"
+              value={filter1}
+              setData={setFilter1}
+              data={[
+                { label: "All", value: "" },
+                { label: "Spain", value: "Spain" },
+                { label: "Pakistan", value: "Pakistan" },
+              ]}
+            />
+           </Grid.Col>
+           <Grid.Col sm={6} lg={2} md={3}>
+            <SelectMenu
+              placeholder="Filter by City"
+              pb="0px"
+              value={filter2}
+              setData={setFilter2}
+              data={[
+                { label: "All", value: "" },
+                { label: "Paris", value: "Paris" },
+                { label: "Lahore", value: "Lahore" },
+              ]}
+            />
+           </Grid.Col>
+          <Grid.Col sm={6} lg={1} md={8} style={{ textAlign: "end" }}>
             <Button
               label={translate("Clear Filter")}
               onClick={() => {
                 setSearch("");
+                setFilter1("");
+                setFilter2("");
               }}
             />
           </Grid.Col>
@@ -177,7 +258,7 @@ function ProjectUsers() {
             <DownloadPdf
               headCells={headerData}
               setdata={setRowData}
-              data={rowData}
+              data={paginated}
               title="Project Users"
               label={"Project Users"}
             />

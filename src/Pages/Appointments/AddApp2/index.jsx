@@ -710,7 +710,7 @@ const AddAppointment = () => {
       under18Number: (value) =>
         value.length < 1 ? translate("Please enter your Number") : null,
       under18Age: (value) =>
-        value.length < 1 ? translate("Please enter your Age" ): null,
+        value.length < 1 ? translate("Please enter your Age"): null,
 
       under18Sex: (value) => (value.length < 1 ? translate("Please enter sex") : null),
       under18SchoolCourse: (value) =>

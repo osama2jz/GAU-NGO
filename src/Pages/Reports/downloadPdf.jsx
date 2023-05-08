@@ -64,9 +64,10 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   };
   const downloadPDF = (filteredData, title) => {
     const doc = new jsPDF({ orientation: "l" });
-    console.log("T",title)
+    console.log("T", title);
 
     doc.text(translate(title), 13, 10);
+    // doc.addImage("https://media.istockphoto.com/id/535695503/photo/pakistan-monument-islamabad.jpg?s=612x612&w=0&k=20&c=bNqjdf8L-5igcRB89DdMgx0kNOmyeo1J_zzXmoxxl8w=", "JPEG", 0, 0, 50, 50);
 
     doc.autoTable({
       theme: "grid",
@@ -99,7 +100,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
           gap={4}
           align="center"
           justify={"space-around"}
-          style={{ border: "1px solid rgb(0, 0, 0, 0.1)", width:'150px' }}
+          style={{ border: "1px solid rgb(0, 0, 0, 0.1)", width: "150px" }}
         >
           <Image src={download} width={18} height={18} />
           <Text>{translate("Export PDF")}</Text>
