@@ -95,6 +95,7 @@ function ScheduledAppointments() {
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
+            // userImage:
           };
           return appointment;
         });

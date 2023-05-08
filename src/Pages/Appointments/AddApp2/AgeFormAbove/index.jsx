@@ -67,9 +67,9 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
             validateName="over18Sex"
           />
           <InputField
-            label=" Marital status"
+            label="Marital status"
             required={true}
-            placeholder=" Marital status"
+            placeholder="Marital status"
             form={form}
             validateName="over18MaritalStatus"
           />
@@ -323,7 +323,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               <InputField
                 label="Name"
                 required={true}
-                placeholder="Number "
+                placeholder="Name"
                 form={form}
                 validateName="over18MotherName"
               />
@@ -358,7 +358,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               <InputField
                 label="Name"
                 required={true}
-                placeholder="Number "
+                placeholder="Name"
                 form={form}
                 validateName="over18FatherName"
               />
@@ -403,7 +403,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               <InputField
                 label="Name"
                 required={true}
-                placeholder="Name "
+                placeholder="Name"
                 form={form}
                 validateName="over18CoupleName"
               />
@@ -438,7 +438,7 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               <InputField
                 label="Name"
                 required={true}
-                placeholder="Name "
+                placeholder="Name"
                 form={form}
                 validateName="over18ChildrenName"
               />
@@ -466,28 +466,28 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               <InputField
                 label="Mother"
                 required={true}
-                placeholder="Mother "
+                placeholder="Mother"
                 form={form}
                 validateName="over18MotherRelation"
               />{" "}
               <InputField
                 label="Father"
                 required={true}
-                placeholder="Father "
+                placeholder="Father"
                 form={form}
                 validateName="over18FatherRelation"
               />{" "}
               <InputField
                 label="Brothers"
                 required={true}
-                placeholder="Brothers "
+                placeholder="Brothers"
                 form={form}
                 validateName="over18BrotherRelation"
               />
               <InputField
                 label="Partner"
                 required={true}
-                placeholder="Partner "
+                placeholder="Partner"
                 form={form}
                 validateName="over18PartnerRelation"
               />
@@ -547,17 +547,17 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               rows={"2"}
             />
             <TextArea
-              label=" Does anyone currently disturb you?"
+              label="Does anyone currently disturb you?"
               required={true}
-              placeholder=" Does anyone currently disturb you?"
+              placeholder="Does anyone currently disturb you?"
               form={form}
               validateName="over18CurrentDisturbance"
               rows={"2"}
             />
             <TextArea
-              label="Does anyone help you  or would help you?  "
+              label="Does anyone help you or would help you?"
               required={true}
-              placeholder="Does anyone help you  or would help you?  "
+              placeholder="Does anyone help you or would help you?"
               form={form}
               validateName="over18AnyOneHelp"
               rows={"2"}
@@ -655,9 +655,9 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
             ]}
           >
             <TextArea
-              label=" Current relationships is Satisfactory or not"
+              label="Current relationships is Satisfactory or not"
               required={true}
-              placeholder=" Current relationships is Satisfactory or not	"
+              placeholder="Current relationships is Satisfactory or not"
               form={form}
               rows={"2"}
               validateName="over18CurrentRelationship"
@@ -671,9 +671,9 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               validateName="over18SpecificProblems"
             />
             <TextArea
-              label=" Menstrual or genital problems"
+              label="Menstrual or genital problems"
               required={true}
-              placeholder=" Menstrual or genital problems"
+              placeholder="Menstrual or genital problems"
               form={form}
               rows={"2"}
               validateName="over18GenitalProblems"
@@ -733,41 +733,41 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
             ]}
           >
             <TextArea
-              label="Do you have ideas that you are not able to get out of  head?"
+              label="Do you have ideas that you are not able to get out of head?"
               required={true}
-              placeholder="Do you have ideas that  you are not able to get out of your head?"
+              placeholder="Do you have ideas that you are not able to get out of head?"
               form={form}
               validateName="over18NotAbleToGetHead"
               rows={"2"}
             />
             <TextArea
-              label="Are you presented with absurd or unpleasant ideas? "
+              label="Are you presented with absurd or unpleasant ideas?"
               required={true}
-              placeholder="Are you presented with absurd or unpleasant ideas? "
+              placeholder="Are you presented with absurd or unpleasant ideas?"
               form={form}
               validateName="over18AbsurdUnpleasant"
               rows={"2"}
             />
             <TextArea
-              label="Are there things you are forced to do, or  you feel nervous?"
+              label="Are there things you are forced to do, or you feel nervous?"
               required={true}
-              placeholder="Are there  things  you are forced to do, or else  you feel nervous?"
+              placeholder="Are there things you are forced to do, or you feel nervous?"
               form={form}
               validateName="over18FeelNervous"
               rows={"2"}
             />
             <TextArea
-              label="Are there thoughts you try  to  avoid at all costs?"
+              label="Are there thoughts you try to avoid at all costs?"
               required={true}
-              placeholder="Are there thoughts you try  to  avoid at all costs?"
+              placeholder="Are there thoughts you try to avoid at all costs?"
               form={form}
               rows={"2"}
               validateName="over18AvoidThoughts"
             />
             <TextArea
-              label="Do you repeat  a task or idea  numerous times to make sure it's okay? "
+              label="Do you repeat a task or idea numerous times to make sure it's okay?"
               required={true}
-              placeholder="Do you repeat  a task or idea  numerous times to make sure it's okay? "
+              placeholder="Do you repeat a task or idea numerous times to make sure it's okay?"
               form={form}
               rows={"2"}
               validateName="over18TaskRepeat"
@@ -796,23 +796,23 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
               validateName="over18MajorIllness"
             />
             <TextArea
-              label="Diseases you currently suffer from "
+              label="Diseases you currently suffer from"
               required={true}
-              placeholder="Diseases you currently suffer from "
+              placeholder="Diseases you currently suffer from"
               form={form}
               validateName="over18Diseases"
             />
             <TextArea
-              label="Illnesses in other   family members"
+              label="Illnesses in other family members"
               required={true}
-              placeholder="Illnesses in other   family members"
+              placeholder="Illnesses in other family members"
               form={form}
               validateName="over18Illness"
             />
             <TextArea
-              label="Do you currently feel  any physical  discomfort?"
+              label="Do you currently feel any physical discomfort?"
               required={true}
-              placeholder="Do you currently feel  any physical  discomfort?"
+              placeholder="Do you currently feel any physical discomfort?"
               form={form}
               validateName="over18PhysicalDiscomfort"
             />
@@ -838,9 +838,9 @@ export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
             ]}
           >
             <TextArea
-              label="Physical description "
+              label="Physical description"
               required={true}
-              placeholder="Physical description "
+              placeholder="Physical description"
               form={form}
               validateName="over18PhysicalDescription"
             />

@@ -575,7 +575,7 @@ const AddAppointment = () => {
                 alt="icon"
               />
             }
-            label={`3. ${translate("Upload Reporting")}`}
+            label={`3. ${translate("Upload Reports")}`}
           >
             <Step3
               selectedUser={selectedUser}

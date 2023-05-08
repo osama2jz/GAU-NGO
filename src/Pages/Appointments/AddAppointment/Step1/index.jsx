@@ -74,6 +74,7 @@ const Step1 = ({
   const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
+  console.log(appData)
 
   const videoConstraints = {
     width: 420,

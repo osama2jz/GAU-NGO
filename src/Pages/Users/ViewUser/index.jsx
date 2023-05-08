@@ -3,12 +3,13 @@ import {
   Avatar,
   Container,
   Flex,
+  Group,
   SimpleGrid,
   Text,
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment/moment";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import ContainerHeader from "../../../Components/ContainerHeader";
@@ -21,6 +22,7 @@ import jsPDF from "jspdf";
 import Button from "../../../Components/Button";
 import Loader from "../../../Components/Loader";
 import { ArrowNarrowLeft } from "tabler-icons-react";
+import {useReactToPrint} from "react-to-print";
 
 function ViewUser() {
   const { classes } = useStyles();
@@ -30,9 +32,15 @@ function ViewUser() {
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
   const[loader,setLoader] = useState(false);
+  const [removeAnchor, setRemoveAnchor] = useState(false);
   const navigate=useNavigate();
+  const componentRef = useRef();
 
   const [workData, setWorkData] = useState([]);
+
+  const printPageArea=useReactToPrint({
+    content:()=>componentRef.current,
+  })
 
   const downloadPDF = () => {
     const capture = document.getElementById("pdf");
@@ -47,6 +55,7 @@ function ViewUser() {
       doc.save("receipt.pdf");
     });
   };
+
 
   const{ data1, status } = useQuery(
     "fetchUsertoViewData",
@@ -190,8 +199,12 @@ function ViewUser() {
   return (
     <>
       {/* <Button label={"Download pdf"} onClick={() => downloadPDF()} /> */}
+      <Group position="right" mt={"md"}>
+
+      <Button label={"Generate Pdf"}  bg={true}  onClick={() => printPageArea()} />
+      </Group>
       
-      <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"}>
+      <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"} ref={componentRef}>
         <Flex justify="center" align="center">
         <Anchor
           fz={12}
@@ -209,7 +222,7 @@ function ViewUser() {
            loader ? (
             <Loader />
           ) : 
-          <Container className={classes.innerContainer} size="xl">
+          <Container className={classes.innerContainer} size="xl" >
           <Container className={classes.inputContainer} size="xl">
             <Text
               align="center"
@@ -228,7 +241,7 @@ function ViewUser() {
                 // m={"0px"}
                 // p={"0px"}
                 src={
-                  data?.image ||
+                  data?.profileImage ||
                   "https://www.w3schools.com/howto/img_avatar.png"
                 }
               />
