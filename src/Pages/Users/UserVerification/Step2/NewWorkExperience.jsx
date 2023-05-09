@@ -41,6 +41,10 @@ function NewWorkModal({
       endDate: (value) => (value?.length < 1 ? translate("Please enter endDate") : null),
       startDate: (value) =>
         value?.length < 1 ? translate("Please enter startDate") : null,
+        year: (value) =>
+        value?.length < 4 || value?.length > 4
+          ? translate("Please enter year")
+          : null,
     },
   });
   const AddWorkExperience = (values) => {
@@ -94,6 +98,13 @@ function NewWorkModal({
           placeholder="enterprise"
           form={form}
           validateName="enterprise"
+        />
+        <InputField
+          label="Year"
+          required={true}
+          placeholder="Year"
+          form={form}
+          validateName="year"
         />
         <InputField
           label="Duration"

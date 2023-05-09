@@ -1,16 +1,46 @@
-import { Flex, Text } from "@mantine/core";
+import { Flex, Group, Text } from "@mantine/core";
 import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Button from "../../../Components/Button";
 import routeNames from "../../../Routes/routeNames";
 import pending from "../../../assets/pending.gif";
 import { UserContext } from "../../../contexts/UserContext";
+import DeleteModal from "../../../Components/DeleteModal";
+import { useMutation } from "react-query";
+import { useState } from "react";
 
 const VerificationPending = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   console.log(state);
   const { setUser, translate } = useContext(UserContext);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  //API call for Cancel Appointments
+  const CancelAppointments = useMutation(
+    (id) => {
+      return axios.get(
+        `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        showNotification({
+          title: "Appointment Cancelled",
+          message: "Appointment Cancelled Successfully",
+          color: "green.0",
+        });
+        navigate(routeNames.socialWorker.allAppointments);
+        setOpenDeleteModal(false);
+        setOpenViewModal(false);
+      },
+    }
+  );
   return (
     <Flex direction={"column"} align="center" w={"70%"} m="auto" gap={"md"}>
       <img src={pending} width="60%" />
@@ -28,6 +58,7 @@ const VerificationPending = () => {
         <br />
         <b>{translate("Appointment Time")}:</b> {state?.data.appointmentTime}
       </Text>
+      <Group>
       <Button
         label={"Log Out"}
         onClick={() => {
@@ -36,7 +67,36 @@ const VerificationPending = () => {
           setUser();
         }}
       />
+       <Button
+        label={"Cancel"}
+        onClick={() => {
+          setOpenDeleteModal(true);
+        }}
+      />
+      </Group>
+     
+       {/* <Button
+        label={"Reschedule"}
+        onClick={() => {
+          localStorage.clear();
+          navigate(routeNames.general.login);
+          setUser();
+        }}
+      /> */}
+      <DeleteModal
+        opened={openDeleteModal}
+        setOpened={setOpenDeleteModal}
+        onCancel={() => setOpenDeleteModal(false)}
+        onDelete={() => {
+          // CancelAppointments.mutate(reportData?.appointId);
+          alert("Hello Delete")
+        }}
+        loading={CancelAppointments.isLoading}
+        label="Are you Sure?"
+        message="Do you really want to cancel this appointment?"
+      />
     </Flex>
+    
   );
 };
 export default VerificationPending;

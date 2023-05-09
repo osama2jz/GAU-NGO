@@ -5,6 +5,7 @@ import {
   Flex,
   Group,
   SimpleGrid,
+  Tabs,
   Text,
 } from "@mantine/core";
 import axios from "axios";
@@ -22,7 +23,10 @@ import jsPDF from "jspdf";
 import Button from "../../../Components/Button";
 import Loader from "../../../Components/Loader";
 import { ArrowNarrowLeft } from "tabler-icons-react";
-import {useReactToPrint} from "react-to-print";
+import { useReactToPrint } from "react-to-print";
+import ViewUserPersonalInformation from "./UserInformation";
+import ConsentForm from "./ConsentForm";
+import AgreementForm from "./AgreementForm";
 
 function ViewUser() {
   const { classes } = useStyles();
@@ -31,16 +35,40 @@ function ViewUser() {
   const { user, translate } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
-  const[loader,setLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [removeAnchor, setRemoveAnchor] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const componentRef = useRef();
+  const agreementSignatures = useRef();
+  const consentSignatures = useRef();
+  const [activeTab, setActiveTab] = useState(1);
 
   const [workData, setWorkData] = useState([]);
 
-  const printPageArea=useReactToPrint({
-    content:()=>componentRef.current,
-  })
+  const DownloadPdf=()=>{
+    if(activeTab===1){
+      printPageArea()
+    }
+    if(activeTab===2){
+      consentPrint()
+    }
+    if(activeTab===3){
+      agreementPrint()
+    }
+    
+  }
+  const printPageArea = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const consentPrint = useReactToPrint({
+    content: () => consentSignatures.current,
+  });
+
+  const agreementPrint = useReactToPrint({
+    content: () => agreementSignatures.current,
+  });
+
 
   const downloadPDF = () => {
     const capture = document.getElementById("pdf");
@@ -56,8 +84,7 @@ function ViewUser() {
     });
   };
 
-
-  const{ data1, status } = useQuery(
+  const { data1, status } = useQuery(
     "fetchUsertoViewData",
     () => {
       setLoader(true);
@@ -96,7 +123,6 @@ function ViewUser() {
       enabled: !!userData,
     }
   );
-  
 
   // console.log(data);
   let headerData = [
@@ -198,14 +224,7 @@ function ViewUser() {
 
   return (
     <>
-      {/* <Button label={"Download pdf"} onClick={() => downloadPDF()} /> */}
-      <Group position="right" mt={"md"}>
-
-      <Button label={"Generate Pdf"}  bg={true}  onClick={() => printPageArea()} />
-      </Group>
-      
-      <Container className={classes.addUser} id={"pdf"} size="xl" p={"0px"} ref={componentRef}>
-        <Flex justify="center" align="center">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -215,323 +234,46 @@ function ViewUser() {
           <ArrowNarrowLeft />
           <Text>{translate("Back")}</Text>
         </Anchor>
-        <ContainerHeader label={"User Detail"} style={{ marginRight: "auto" }}/>
-        </Flex>
-      
-        {
-           loader ? (
-            <Loader />
-          ) : 
-          <Container className={classes.innerContainer} size="xl" >
-          <Container className={classes.inputContainer} size="xl">
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Personal Information")}
-            </Text>
-            <Flex gap={"xl"} justify="space-between">
-              <Avatar
-                size={180}
-                radius="xl"
-                // m={"0px"}
-                // p={"0px"}
-                src={
-                  data?.profileImage ||
-                  "https://www.w3schools.com/howto/img_avatar.png"
-                }
-              />
-              <SimpleGrid
-                w={"75%"}
-                breakpoints={[
-                  { minWidth: "md", cols: 4 },
-                  { minWidth: "lg", cols: 4 },
-                  { minWidth: "xs", cols: 2 },
-                ]}
-                // breakpoints={[{ maxWidth: "md", cols: 2, spacing: "xl" }]}
-              >
-                <Text className={classes.textheading}>
-                  {translate("First Name")}
-                </Text>
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.firstName}
-                </Text>
-                <Text className={classes.textheading}>
-                  {translate("Last Name")}
-                </Text>
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.lastName}
-                </Text>
-                <Text className={classes.textheading}>
-                  {translate("Email")}
-                </Text>
-                <Text style={{ wordBreak: "break-all" }}>{data?.email}</Text>
-                <Text className={classes.textheading}>
-                  {translate("Phone Number")}
-                </Text>
-                <Text>{data?.phoneNumber}</Text>
-                <Text className={classes.textheading}>
-                  {translate("Date of Birth")}
-                </Text>
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.dateOfBirth?.substring(
-                    0,
-                    10
-                  )}
-                </Text>
-                <Text className={classes.textheading}>
-                  {" "}
-                  {translate("Identity")}
-                </Text>
-                <Anchor
-                  href={data?.userConsentForm?.personalInformation?.documentURL}
-                  target={"_blank"}
-                >
-                  <Text>
-                    {data?.userConsentForm?.personalInformation
-                      ?.documentType === "residentialId"
-                      ? translate("Residential Id")
-                      : data?.userConsentForm?.personalInformation
-                          ?.documentType === "passport"
-                      ? translate("Passport")
-                      : translate("National ID")}
-                  </Text>
-                </Anchor>
-                <Text className={classes.textheading}>
-                  {translate("Country")}
-                </Text>
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.country}
-                </Text>
-                <Text className={classes.textheading}>{translate("City")}</Text>
-                <Text>{data?.userConsentForm?.personalInformation?.city}</Text>
-                <Text className={classes.textheading}>
-                  {translate("Address")}
-                </Text>
-                <Text>
-                  {data?.userConsentForm?.personalInformation?.address}
-                </Text>
-              </SimpleGrid>
-            </Flex>
-          </Container>
+        <ContainerHeader
+          label={"User Detail"}
+          style={{ marginRight: "auto" }}
+        />
+      </Flex>
+      <Group position="right" mt={"md"}>
+        <Button
+          label={"Generate Pdf"}
+          bg={true}
+          onClick={() => DownloadPdf()}
+        />
+      </Group>
 
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Studies and Training")}
-            </Text>
-            <Table
-              headCells={headerData3}
-              rowData={data?.userConsentForm?.studiesTraining}
-            />
-          </Container>
+      <Tabs
+        mt={"xl"}
+        variant="pills"
+        defaultValue={"1"}
+        color={"blue.0"}
+        classNames={{
+          root: classes.tab,
+          tabsList: classes.tabList,
+          tab: classes.tabs,
+        }}
+      >
+        <Tabs.List grow>
+          <Tabs.Tab value="1" onClick={()=>setActiveTab(1)}>{translate("Personal Information")}</Tabs.Tab>
+          <Tabs.Tab value="2" onClick={()=>setActiveTab(2)}>{translate("Consent Form")}</Tabs.Tab>
+          <Tabs.Tab value="3" onClick={()=>setActiveTab(3)}>{translate("Agreement Form")}</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="1" pt="xs">
+          <ViewUserPersonalInformation componentRef={componentRef} />
+        </Tabs.Panel>
 
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Work Experience")}
-            </Text>
-            <Table headCells={headerData2} rowData={workData} />
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Discrimination And Voilence")}
-            </Text>
-            <Text>
-              {
-                data?.userConsentForm?.discriminationVoilence
-                  ?.discriminationVoilenceValue
-              }
-            </Text>
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Professional References")}
-            </Text>
-            <Table
-              headCells={headerData}
-              rowData={data?.userConsentForm?.professionalReferences}
-            />
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Socio-Family Situation")}
-            </Text>
-            <Text>
-              {data?.userConsentForm?.socioFamilySituation?.socioFamily}
-            </Text>
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Economic Situation")}
-            </Text>
-            <SimpleGrid
-              breakpoints={[
-                { minWidth: "md", cols: 3 },
-                { minWidth: "lg", cols: 6 },
-                { minWidth: "xs", cols: 2 },
-              ]}
-            >
-              <Text fw="bold">{translate("Revenue")}</Text>
-              <Text>{data?.userConsentForm?.economicSituation?.revenue}</Text>
-              <Text fw="bold">{translate("Expenses")}</Text>
-              <Text>{data?.userConsentForm?.economicSituation?.expenses}</Text>
-              <Text fw="bold">{translate("Aids or Bonuses")}</Text>
-              <Text>
-                {data?.userConsentForm?.economicSituation?.aidsBonuses}
-              </Text>
-              <Text fw="bold">{translate("Debit")}</Text>
-              <Text>{data?.userConsentForm?.economicSituation?.debt}</Text>
-              <Text fw="bold">{translate("Housing")}</Text>
-              <Text>{data?.userConsentForm?.economicSituation?.housing}</Text>
-            </SimpleGrid>
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Health Aspects")}
-            </Text>
-            <Text>{data?.userConsentForm?.healthAspects?.healthAspects}</Text>
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Demand")}
-            </Text>
-            <Text>{data?.userConsentForm?.personalInformation?.demand}</Text>
-          </Container>
-          <Container
-            className={classes.inputContainer}
-            size={"xl"}
-            mt="xl"
-            p={"md"}
-          >
-            <Text
-              align="center"
-              fz={"lg"}
-              fw="bold"
-              mb="xl"
-              bg={"#E9ECEF"}
-              p={2.5}
-            >
-              {translate("Documents")}
-            </Text>
-            {docs.length ? (
-              <ol>
-                {docs.map((obj) => {
-                  return (
-                    <li>
-                      <Anchor href={obj.documentURL} target="_blank" pl="md">
-                        {obj.documentTitle}
-                      </Anchor>
-                    </li>
-                  );
-                })}
-              </ol>
-            ) : (
-              <Text align="center">{translate("No Document")}</Text>
-            )}
-          </Container>
-        </Container>
-        }
-        
-      </Container>
+        <Tabs.Panel value="2" pt="xs" >
+          <ConsentForm Data={data} consentSignatures={consentSignatures} />
+        </Tabs.Panel>
+        <Tabs.Panel value="3" pt="xs">
+          <AgreementForm Data={data} agreementSignatures={agreementSignatures}/>
+        </Tabs.Panel>
+      </Tabs>
     </>
   );
 }

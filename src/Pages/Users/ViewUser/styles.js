@@ -43,4 +43,14 @@ export const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+  sign:{
+    border:'1px solid rgb(0,0,0,0.3)',
+    borderRadius:'10px',
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    backgroundColor:'rgb(0,0,0,0.05)',
+    padding:'30px',
+    
+  },
 }));

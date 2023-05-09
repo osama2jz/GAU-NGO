@@ -1,4 +1,4 @@
-export const backendUrl = "https://gau.usquaresolutions.com";
+export const backendUrl = "http://107.21.141.155:3300";
 
 export const s3Config = {
   region: "us-east-1",
