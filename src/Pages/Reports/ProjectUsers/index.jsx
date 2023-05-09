@@ -116,9 +116,9 @@ function ProjectUsers() {
             appointment: obj?.totalAppointments,
             image: obj?.profileImage,
             date: moment(obj?.createdDate).format("YYYY-MMM-DD"),
-            country:"Pakistan",
-            city:"Lahore",
-            phone:"03001234567"
+            country:obj?.country,
+            city:obj?.city,
+            phone:obj?.phoneNumber
           };
           return report;
         });
@@ -145,7 +145,7 @@ function ProjectUsers() {
           item?.email?.toLowerCase().includes(search.toLowerCase()) ||
           item?.cases?.toString().includes(search) || 
           item?.appointment?.toString().includes(search)) &&
-          item?.country === filter1
+          item?.country.toLowerCase() === filter1.toLowerCase()
         );
       }
       else if(filter1==="" && filter2!=="" ){
@@ -154,7 +154,7 @@ function ProjectUsers() {
           item?.email?.toLowerCase().includes(search.toLowerCase()) ||
           item?.cases?.toString().includes(search) || 
           item?.appointment?.toString().includes(search)) &&
-          item?.city === filter2
+          item?.city.toLowerCase() === filter2.toLowerCase()
         );
       }else{
         return (
@@ -162,8 +162,8 @@ function ProjectUsers() {
           item?.email?.toLowerCase().includes(search.toLowerCase()) ||
           item?.cases?.toString().includes(search) || 
           item?.appointment?.toString().includes(search)) &&
-          item?.country === filter1 &&
-          item?.city === filter2
+          item?.country.toLowerCase() === filter1.toLowerCase() &&
+          item?.city.toLowerCase() === filter2.toLowerCase()
         );
       }
       
@@ -241,6 +241,7 @@ function ProjectUsers() {
                 { label: "All", value: "" },
                 { label: "Paris", value: "Paris" },
                 { label: "Lahore", value: "Lahore" },
+                { label: "Madrid", value: "Madrid" },
               ]}
             />
            </Grid.Col>

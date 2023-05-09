@@ -40,7 +40,7 @@ function CaseReport() {
 
   const { state } = useLocation();
   const { id,data } = state ?? "";
-  console.log(data);
+  
 
   let headerData = [
     {

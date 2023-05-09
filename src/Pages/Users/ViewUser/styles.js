@@ -11,8 +11,9 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.white,
     padding: "20px",
     borderRadius: "20px",
-    width: "100%",
+    width: "95%",
     marginTop: "20px",
+
   },
   dp: {
     display: "flex",
@@ -20,7 +21,7 @@ export const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  socio:{
+  socio: {
     border: "1px solid #E9ECEF",
     height: "55%",
     width: "100%",
@@ -36,21 +37,26 @@ export const useStyles = createStyles((theme) => ({
     fontSize: "15px",
     fontWeight: 500,
     color: "#373A40",
-    marginLeft:'20px'
+    marginLeft: '20px'
   },
   back: {
     marginRight: "auto",
     display: "flex",
     alignItems: "center",
   },
-  sign:{
-    border:'1px solid rgb(0,0,0,0.3)',
-    borderRadius:'10px',
-    display:'flex',
-    flexDirection:'column',
-    alignItems:'center',
-    backgroundColor:'rgb(0,0,0,0.05)',
-    padding:'30px',
-    
+  sign: {
+    border: '1px solid rgb(0,0,0,0.3)',
+    borderRadius: '10px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'rgb(0,0,0,0.05)',
+    padding: '30px',
+
   },
+  tabs: {
+    backgroundColor: "white",
+    fontSize: "15px",
+  },
+
 }));

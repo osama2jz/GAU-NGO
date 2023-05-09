@@ -88,7 +88,8 @@ function AllAppointments() {
               otherPersonImage: obj?.otherUserImage,
               otherPersonMobile: obj?.otherUserMobile,
               otherPersonId: obj?.otherUserId,
-              attachedDocuments: obj?.attachedDocuments
+              attachedDocuments: obj?.attachedDocuments,
+              appointmentWithImage:obj?.appointmentWithImage,
             };
             return appointment;
             // }

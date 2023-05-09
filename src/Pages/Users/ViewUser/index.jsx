@@ -27,6 +27,7 @@ import { useReactToPrint } from "react-to-print";
 import ViewUserPersonalInformation from "./UserInformation";
 import ConsentForm from "./ConsentForm";
 import AgreementForm from "./AgreementForm";
+import PrimaryDocuments from "./PrimaryDocuments";
 
 function ViewUser() {
   const { classes } = useStyles();
@@ -45,18 +46,17 @@ function ViewUser() {
 
   const [workData, setWorkData] = useState([]);
 
-  const DownloadPdf=()=>{
-    if(activeTab===1){
-      printPageArea()
+  const DownloadPdf = () => {
+    if (activeTab === 1) {
+      printPageArea();
     }
-    if(activeTab===2){
-      consentPrint()
+    if (activeTab === 2) {
+      consentPrint();
     }
-    if(activeTab===3){
-      agreementPrint()
+    if (activeTab === 3) {
+      agreementPrint();
     }
-    
-  }
+  };
   const printPageArea = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -68,7 +68,6 @@ function ViewUser() {
   const agreementPrint = useReactToPrint({
     content: () => agreementSignatures.current,
   });
-
 
   const downloadPDF = () => {
     const capture = document.getElementById("pdf");
@@ -252,26 +251,43 @@ function ViewUser() {
         variant="pills"
         defaultValue={"1"}
         color={"blue.0"}
+        
         classNames={{
           root: classes.tab,
           tabsList: classes.tabList,
           tab: classes.tabs,
+          
         }}
       >
         <Tabs.List grow>
-          <Tabs.Tab value="1" onClick={()=>setActiveTab(1)}>{translate("Personal Information")}</Tabs.Tab>
-          <Tabs.Tab value="2" onClick={()=>setActiveTab(2)}>{translate("Consent Form")}</Tabs.Tab>
-          <Tabs.Tab value="3" onClick={()=>setActiveTab(3)}>{translate("Agreement Form")}</Tabs.Tab>
+          <Tabs.Tab value="1" onClick={() => setActiveTab(1)}>
+            {translate("Personal Information")}
+          </Tabs.Tab>
+          <Tabs.Tab value="2" onClick={() => setActiveTab(2)}>
+            {translate("Consent Form")}
+          </Tabs.Tab>
+          <Tabs.Tab value="3" onClick={() => setActiveTab(3)}>
+            {translate("Agreement Form")}
+          </Tabs.Tab>
+          <Tabs.Tab value="4" onClick={() => setActiveTab(3)}>
+            {translate("Primary Document")}
+          </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="1" pt="xs">
           <ViewUserPersonalInformation componentRef={componentRef} />
         </Tabs.Panel>
 
-        <Tabs.Panel value="2" pt="xs" >
+        <Tabs.Panel value="2" pt="xs">
           <ConsentForm Data={data} consentSignatures={consentSignatures} />
         </Tabs.Panel>
         <Tabs.Panel value="3" pt="xs">
-          <AgreementForm Data={data} agreementSignatures={agreementSignatures}/>
+          <AgreementForm
+            Data={data}
+            agreementSignatures={agreementSignatures}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="4" pt="xs">
+          <PrimaryDocuments userDocs={docs} Data={data}/>
         </Tabs.Panel>
       </Tabs>
     </>
