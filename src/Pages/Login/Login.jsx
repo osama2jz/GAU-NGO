@@ -48,6 +48,11 @@ const Login = () => {
           localStorage.setItem("userData", JSON.stringify(response?.data));
           navigate(routeNames.general.verificationSchedule);
         } 
+        else if(response?.data?.verificationStatus === "unverified" &&
+        response?.data?.appointmentBooked && response?.data?.appointmentStatus === "cancelled"){
+          localStorage.setItem("userData", JSON.stringify(response?.data));
+          navigate(routeNames.general.verificationSchedule);
+        }
         else if (
           response?.data?.verificationStatus === "unverified" &&
           response?.data?.appointmentBooked

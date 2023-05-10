@@ -12,7 +12,7 @@ import SignatureCanvas from "react-signature-canvas";
 function AgreementForm({Data,agreementSignatures}) {
     const { classes } = useStyles();
     const {user,translate}=useContext(UserContext)
-    console.log(Data?.userConsentForm?.agreementSignatures)
+   
    
     const { data, status } = useQuery("fetchAgreement", () => {
         return axios.get(

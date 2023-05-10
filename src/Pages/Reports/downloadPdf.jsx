@@ -2,7 +2,18 @@ import React, { useContext, useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import download from "../../assets/download.svg";
-import { Flex, Group, Image, Menu, Modal, Text,Container } from "@mantine/core";
+// import Logo from "../../assets/logo.svg";
+// import LogoBase64 from "../../assets/logo.svg"
+import Logo from "../../assets/Gau.png";
+import {
+  Flex,
+  Group,
+  Image,
+  Menu,
+  Modal,
+  Text,
+  Container,
+} from "@mantine/core";
 import { useStyles } from "./Private/styles";
 import moment from "moment";
 import { showNotification } from "@mantine/notifications";
@@ -14,14 +25,14 @@ import Button from "../../Components/Button";
 // import Datepicker from "../../Components/Datepicker";
 import { DatePicker } from "@mantine/dates";
 
-
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
-  const { translate } = useContext(UserContext);
-  const [show,setShow]=useState(false)
+  const { translate,user } = useContext(UserContext);
+  const [show, setShow] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  console.log("data", user);
   // console.log(startDate,endDate)
 
   // console.log("data", data);
@@ -43,18 +54,28 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     (person) => person?.date?.substr(5, 3) === today.format("MMM")
   );
 
-  const CustomDate=()=>{
-    const New=data?.filter((person) => {
-      console.log("person",new Date (person.date),"Start Date",startDate,"<=" ," >=","endDate",endDate,":",new Date(person.date) <= startDate &&
-      new Date(person.date) >= endDate)
+  const CustomDate = () => {
+    const New = data?.filter((person) => {
+      console.log(
+        "person",
+        new Date(person.date),
+        "Start Date",
+        startDate,
+        "<=",
+        " >=",
+        "endDate",
+        endDate,
+        ":",
+        new Date(person.date) <= startDate && new Date(person.date) >= endDate
+      );
       return (
         new Date(person.date) >= new Date(startDate) &&
         new Date(person.date) <= new Date(endDate)
       );
-    })
-    console.log("New",New)
-    return New
-  }
+    });
+    console.log("New", New);
+    return New;
+  };
 
   // console.log("CustomDate",CustomDate)
 
@@ -89,28 +110,60 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
           })
         : downloadPDF(filteredMonthly, `Monthly ${label}`);
     }
-    if(name==="custom"){
-      const cus=CustomDate()
+    if (name === "custom") {
+      const cus = CustomDate();
       cus.length === 0
         ? showNotification({
             title: "No Data",
             message: `No ${label} for the selected dates`,
             color: "green.0",
           })
-          
-        :
-        // setShow(false) 
-        downloadPDF(cus, `Custom ${label}`);
-        setShow(false)
-        
+        : // setShow(false)
+          downloadPDF(cus, `Custom ${label}`);
+      setShow(false);
     }
   };
   const downloadPDF = (filteredData, title) => {
     const doc = new jsPDF({ orientation: "l" });
     console.log("T", title);
+    const logoUrl = "../../assets/download.svg"; // Replace with the URL of your company logo
+    const companyName = "GAU";
+    const ngoName = "Helping Hands of You";
+    const ngoBranch = "Branch: All About Helping1";
+    const currentDate = new Date().toLocaleDateString();
 
-    doc.text(translate(title), 13, 10);
-    // doc.addImage("https://media.istockphoto.com/id/535695503/photo/pakistan-monument-islamabad.jpg?s=612x612&w=0&k=20&c=bNqjdf8L-5igcRB89DdMgx0kNOmyeo1J_zzXmoxxl8w=", "JPEG", 0, 0, 50, 50);
+    const marginTop = 5; // Adjust the top margin as needed
+
+    // doc.addImage(Logo, "PNG", logoX, logoY, logoWidth, logoHeight);
+    // doc.setFontSize(12);
+    // doc.text(companyName, companyNameX, companyNameY);
+    // doc.setFontSize(12);
+    // doc.text(currentDate, 70, marginTop + 20);
+
+    const logoX = 10; // X position of the logo
+    const logoY = 10; // Y position of the logo
+    const logoWidth = 40; // Width of the logo
+    const logoHeight = 40; // Height of the logo
+    const companyNameX = logoX + logoWidth; // X position of the company name
+    const companyNameY = logoY + 18; // Y position of the company name
+    const ngoNameX = doc.internal.pageSize.getWidth() / 2; // X position of the NGO name (centered)
+    const ngoNameY = logoY + 12; // Y position of the NGO name
+    const ngoBranchX = doc.internal.pageSize.getWidth() / 2; // X position of the NGO branch (centered)
+    const ngoBranchY = ngoNameY + 10; // Y position of the NGO branch
+
+    const dateX = ngoNameX; // X position of the date (centered)
+    const dateY = ngoBranchY + 10; // Y position of the date
+
+    doc.addImage(Logo, "PNG", logoX, logoY, logoWidth, logoHeight);
+    doc.setFontSize(22);
+    doc.setFillColor("red");
+    doc.text(companyName, companyNameX, companyNameY, { align: "left" });
+    doc.setFontSize(22);
+    doc.text(ngoName, ngoNameX, ngoNameY, { align: "center" });
+    doc.setFontSize(16);
+    doc.text(currentDate, ngoBranchX, ngoBranchY, { align: "center" });
+    // doc.text(currentDate, dateX, dateY, { align: "center" });
+    doc.text(translate(title),dateX, marginTop + 50,{ align: "center" });
 
     doc.autoTable({
       theme: "grid",
@@ -118,6 +171,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
       halign: "left",
       rowPageBreak: "avoid",
       tableWidth: "auto",
+      startY: marginTop + 55,
 
       columns: headCells.slice(0, -1).map((col) => {
         return {
@@ -138,55 +192,64 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   return (
     <Container>
-    <Menu shadow="md" width={"target"} className={classes.export}>
-      <Menu.Target>
-        <Flex
-          gap={4}
-          align="center"
-          justify={"space-around"}
-          style={{ border: "1px solid rgb(0, 0, 0, 0.1)", width: "150px" }}
-        >
-          <Image src={download} width={18} height={18} />
-          <Text>{translate("Export PDF")}</Text>
-        </Flex>
-      </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>
-          {translate("All")}
-        </Menu.Item>
-        <Menu.Item onClick={() => filter("daily")}>
-          {translate("Daily")}
-        </Menu.Item>
-        <Menu.Item onClick={() => filter("weekly")}>
-          {translate("Weekly")}
-        </Menu.Item>
-        <Menu.Item onClick={() => filter("monthly")}>
-          {translate("Monthly")}
-        </Menu.Item>
-        <Menu.Item onClick={() => setShow(true)}>
-          {translate("Custom")}
-        </Menu.Item>
-      </Menu.Dropdown>
-    
-      {/* {show && <DatePicker type="range" allowSingleDateInRange/>} */}
-      
-    </Menu>
-    <ViewModal opened={show}
-        setOpened={setShow}
-        title="Select Custom Date">
-          <>
-          <Flex gap={"md"}>
-          <DatePicker label={"Start Date"} value={startDate} onChange={setStartDate}/>
-          <DatePicker label={"End Date"} value={endDate} onChange={setEndDate}/>
+      <Menu shadow="md" width={"target"} className={classes.export}>
+        <Menu.Target>
+          <Flex
+            gap={4}
+            align="center"
+            justify={"space-around"}
+            style={{ border: "1px solid rgb(0, 0, 0, 0.1)", width: "150px" }}
+          >
+            <Image src={download} width={18} height={18} />
+
+            <Text>{translate("Export PDF")}</Text>
           </Flex>
-         
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>
+            {translate("All")}
+          </Menu.Item>
+          <Menu.Item onClick={() => filter("daily")}>
+            {translate("Daily")}
+          </Menu.Item>
+          <Menu.Item onClick={() => filter("weekly")}>
+            {translate("Weekly")}
+          </Menu.Item>
+          <Menu.Item onClick={() => filter("monthly")}>
+            {translate("Monthly")}
+          </Menu.Item>
+          <Menu.Item onClick={() => setShow(true)}>
+            {translate("Custom")}
+          </Menu.Item>
+        </Menu.Dropdown>
+
+        {/* {show && <DatePicker type="range" allowSingleDateInRange/>} */}
+      </Menu>
+      <ViewModal opened={show} setOpened={setShow} title="Select Custom Date">
+        <>
+          <Flex gap={"md"}>
+            <DatePicker
+              label={"Start Date"}
+              value={startDate}
+              onChange={setStartDate}
+            />
+            <DatePicker
+              label={"End Date"}
+              value={endDate}
+              onChange={setEndDate}
+            />
+          </Flex>
+
           <Group position="right" mt={"xl"}>
-          <Button onClick={()=>setShow(false)} label={"Cancel"}/>
-          <Button onClick={()=>filter("custom")} label={"Export"} bg={true}/>
+            <Button onClick={() => setShow(false)} label={"Cancel"} />
+            <Button
+              onClick={() => filter("custom")}
+              label={"Export"}
+              bg={true}
+            />
           </Group>
-          </>
-     
-    </ViewModal>
+        </>
+      </ViewModal>
     </Container>
   );
 }

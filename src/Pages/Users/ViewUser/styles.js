@@ -11,7 +11,7 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: theme.colors.white,
     padding: "20px",
     borderRadius: "20px",
-    width: "95%",
+    width: "99%",
     marginTop: "20px",
 
   },

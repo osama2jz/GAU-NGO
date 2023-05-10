@@ -25,14 +25,14 @@ function ProjectUsers() {
   const { user, translate } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [reportData, setReportData] = useState([]);
-  const [filter1,setFilter1] = useState("")
-  const [filter2,setFilter2] = useState("")
+  const [filter1, setFilter1] = useState("");
+  const [filter2, setFilter2] = useState("");
 
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   const [search, setSearch] = useState("");
-  console.log("filter1",filter1)
+  console.log("filter1", filter1);
 
   const { state } = useLocation();
   const { id, data } = state ?? "";
@@ -63,22 +63,35 @@ function ProjectUsers() {
       label: "Date",
     },
     {
-      id:"phone",
+      id: "phone",
       numeric: false,
       disablePadding: true,
       label: "Phone",
-
     },
+
     {
       id: "country",
       numeric: false,
       disablePadding: true,
       label: "Country",
-    },{
-      id:'city',
+    },
+    {
+      id: "city",
       numeric: false,
       disablePadding: true,
       label: "City",
+    },
+    {
+      id: "address",
+      numeric: false,
+      disablePadding: true,
+      label: "Address",
+    },
+    {
+      id: "documentURL",
+      numeric: false,
+      disablePadding: true,
+      label: "Identity",
     },
     {
       id: "appointment",
@@ -116,10 +129,17 @@ function ProjectUsers() {
             appointment: obj?.totalAppointments,
             image: obj?.profileImage,
             date: moment(obj?.createdDate).format("YYYY-MMM-DD"),
-            country:obj?.country,
-            city:obj?.city,
-            phone:obj?.phoneNumber,
-            
+            country: obj?.country,
+            city: obj?.city,
+            phone: obj?.phoneNumber,
+            documentURL: obj?.documentURL,
+            address: obj?.address,
+            documentType:"Identity"
+              // obj?.documentType === "nationalId"
+              //   ? "National ID"
+              //   : obj?.documentType === "residentialId"
+              //   ? "Residential id"
+              //   : "Passport",
           };
           return report;
         });
@@ -132,42 +152,39 @@ function ProjectUsers() {
 
   const filterData = useMemo(() => {
     const filtered = rowData?.filter((item) => {
-      if(filter1==="" && filter2===""){
+      if (filter1 === "" && filter2 === "") {
         return (
           item?.name?.toLowerCase().includes(search.toLowerCase()) ||
           item?.email?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.cases?.toString().includes(search) || 
-          item?.appointment?.toString().includes(search) 
+          item?.cases?.toString().includes(search) ||
+          item?.appointment?.toString().includes(search)
         );
-      }
-      else if(filter1!=="" && filter2==="" ){
+      } else if (filter1 !== "" && filter2 === "") {
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.cases?.toString().includes(search) || 
-          item?.appointment?.toString().includes(search)) &&
+            item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.cases?.toString().includes(search) ||
+            item?.appointment?.toString().includes(search)) &&
           item?.country.toLowerCase() === filter1.toLowerCase()
         );
-      }
-      else if(filter1==="" && filter2!=="" ){
+      } else if (filter1 === "" && filter2 !== "") {
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.cases?.toString().includes(search) || 
-          item?.appointment?.toString().includes(search)) &&
+            item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.cases?.toString().includes(search) ||
+            item?.appointment?.toString().includes(search)) &&
           item?.city.toLowerCase() === filter2.toLowerCase()
         );
-      }else{
+      } else {
         return (
           (item?.name?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.email?.toLowerCase().includes(search.toLowerCase()) ||
-          item?.cases?.toString().includes(search) || 
-          item?.appointment?.toString().includes(search)) &&
+            item?.email?.toLowerCase().includes(search.toLowerCase()) ||
+            item?.cases?.toString().includes(search) ||
+            item?.appointment?.toString().includes(search)) &&
           item?.country.toLowerCase() === filter1.toLowerCase() &&
           item?.city.toLowerCase() === filter2.toLowerCase()
         );
       }
-      
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
@@ -179,7 +196,7 @@ function ProjectUsers() {
     });
 
     return a;
-  }, [search, rowData,filter1,filter2]);
+  }, [search, rowData, filter1, filter2]);
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
@@ -231,8 +248,8 @@ function ProjectUsers() {
                 { label: "Pakistan", value: "Pakistan" },
               ]}
             />
-           </Grid.Col>
-           <Grid.Col sm={6} lg={2} md={3}>
+          </Grid.Col>
+          <Grid.Col sm={6} lg={2} md={3}>
             <SelectMenu
               placeholder="Filter by City"
               pb="0px"
@@ -245,7 +262,7 @@ function ProjectUsers() {
                 { label: "Madrid", value: "Madrid" },
               ]}
             />
-           </Grid.Col>
+          </Grid.Col>
           <Grid.Col sm={6} lg={1} md={8} style={{ textAlign: "end" }}>
             <Button
               label={translate("Clear Filter")}

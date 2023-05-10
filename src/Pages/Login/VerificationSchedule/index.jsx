@@ -27,7 +27,7 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
   console.log("here", userId?.data?.data?._id);
-  console.log(socialWorkerVerification)
+  console.log(socialWorkerVerification);
 
   useEffect(() => {
     getSchedule.mutate();
@@ -74,7 +74,9 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
         {
-          appointmentUser: socialWorkerVerification ? userId?.data?.data?._id : user?.id,
+          appointmentUser: socialWorkerVerification
+            ? userId?.data?.data?._id
+            : user?.id,
           appointmentWith: referedToId,
           scheduleId: slotId,
           appointmentType: "verification",
@@ -88,7 +90,6 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
     },
     {
       onSuccess: (response) => {
-        
         if (response.data.status) {
           showNotification({
             title: translate("Appointment Created"),
@@ -103,23 +104,22 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
             .split(" ")
             .slice(0, 4)
             .join(" ");
-            socialWorkerVerification ? navigate(routeNames.socialWorker.verificationScheduled): navigate(routeNames.general.verificationPending, {
-              state: {
-                data: {
-                  appointmentTime: appointmentTime,
-                  appointmentDate: appointmentDate,
-                  otherInfo:response.data
+          socialWorkerVerification
+            ? navigate(routeNames.socialWorker.verificationScheduled)
+            : navigate(routeNames.general.verificationPending, {
+                state: {
+                  data: {
+                    appointmentTime: appointmentTime,
+                    appointmentDate: appointmentDate,
+                    otherInfo: response.data,
+                  },
                 },
-              },
-          
-
-
-          });
+              });
           setOpened(false);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

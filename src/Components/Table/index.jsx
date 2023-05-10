@@ -146,7 +146,6 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-         
           {rowDatas?.map((row, index) => {
             return (
               <tr key={row.id}>
@@ -462,6 +461,16 @@ const Table = ({
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
                           {translate("View All")}
+                        </Anchor>
+                      ) : (
+                        <Text>{translate("No File")}</Text>
+                      )}
+                    </td>
+                  ) : head.id === "documentURL" ? (
+                    <td key={index}>
+                      {row?.documentURL !== "" ? (
+                        <Anchor href={row?.documentURL} target={"_blank"}>
+                          {translate(row?.documentType)}
                         </Anchor>
                       ) : (
                         <Text>{translate("No File")}</Text>
