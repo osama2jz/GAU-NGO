@@ -53,7 +53,8 @@ const Step1 = ({
   setVerifyImg,
   setVerifyStatus,
   setFileLoader,
-  fileLoader
+  fileLoader,
+  User
 
 }) => {
   const { state } = useLocation();
@@ -64,6 +65,7 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
   const [projects, setProjetcs] = useState([]);
+  const [identityImage, setIdentityImage] = useState();
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
@@ -74,7 +76,7 @@ const Step1 = ({
   const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
-  console.log(appData)
+ 
 
   const videoConstraints = {
     width: 420,
@@ -82,6 +84,7 @@ const Step1 = ({
     facingMode: "user",
   };
 
+ 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
 
@@ -207,17 +210,38 @@ const Step1 = ({
   //  console.log("hello")
   // }
 
+  //selected user
+  const { data: selectedUser, status: userFetching } = useQuery(
+    ["userFetched", user],
+    () => {
+      return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
+    },
+    {
+      cacheTime: 0,
+      onSuccess: (response) => {
+        setSelectedUser(response);
+        setIdentityImage(response?.data?.data?.userConsentForm?.userImage);
+      },
+      enabled: !!user,
+    }
+  );
+
   const handleVerifyFaceId = useMutation(
     () => {
       let obj = {
         sourceImage: verifyimg,
-        targetImage: appData.image,
+        targetImage: selectedUser?.data?.data?.userConsentForm?.userImage,
       };
-
       console.log(obj);
+
+      // console.log(obj);
       const formData = new FormData();
       formData.append("sourceImage", verifyimg);
-      formData.append("targetImage", appData.image);
+      formData.append("targetImage", selectedUser?.data?.data?.userConsentForm?.userImage);
       for (let entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);
       }
@@ -308,24 +332,9 @@ const Step1 = ({
     }
   );
 
-  //selected user
-  const { data: selectedUser, status: userFetching } = useQuery(
-    ["userFetched", user],
-    () => {
-      return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
-    },
-    {
-      cacheTime: 0,
-      onSuccess: (response) => {
-        setSelectedUser(response);
-      },
-      enabled: !!user,
-    }
-  );
+  
+
+  // console.log(selectedUser?.data?.data?.userConsentForm?.userImage);
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(

@@ -33,7 +33,7 @@ const NewPassword = () => {
     initialValues: {
       password: "",
       password_confirmation: "",
-      otp: state?.otp,
+      OTP: state?.otp,
     },
 
     validate: {

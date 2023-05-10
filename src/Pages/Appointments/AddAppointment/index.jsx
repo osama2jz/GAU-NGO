@@ -51,6 +51,8 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
+  
+
   //Camera Image
   const [img, setImg] = useState(null);
   const [verifyimg, setVerifyImg] = useState(null);
@@ -68,6 +70,7 @@ const AddAppointment = () => {
   const [attachedDocs, setAttachedDocs] = useState([]);
 
   const [verifyStatus, setVerifyStatus] = useState(false);
+  console.log("app",appData)
 
   const editorr = useEditor({
     extensions: [
@@ -278,6 +281,10 @@ const AddAppointment = () => {
       },
     }
   );
+
+  //Fetch Single User
+   //selected user
+
 
   //Upload Document
   const handleUploadDocuments = useMutation(
@@ -527,6 +534,7 @@ const AddAppointment = () => {
           >
             <Step1
               setSelectedUser={setSelectedUser}
+            
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}

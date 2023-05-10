@@ -210,7 +210,7 @@ export const UserVerification = () => {
         if(img===null){
           showNotification({
             title: translate("Error"),
-            message: translate("Please Attach FaceId"),
+            message: translate("Please Attach Face Id"),
             color: "red.0",
           });
           return
@@ -219,7 +219,7 @@ export const UserVerification = () => {
       } else {
         showNotification({
           title: translate("Error"),
-          message: translate("Please select a user"),
+          message: translate("Please Select User Information"),
           color: "red.0",
         });
       }
@@ -248,7 +248,7 @@ export const UserVerification = () => {
     }
   };
 
-  const handleVerifyUser = useMutation(
+const handleVerifyUser = useMutation(
     (url) => {
       let a = moment(moment()).diff(form.values.dateOfBirth, "years");
 
@@ -476,7 +476,7 @@ export const UserVerification = () => {
                 onClick={handleNextSubmit}
                 label={active === 4 ? "Submit" : "Save & Next"}
                 bg={true}
-                loading={fileLoader}
+                loading={fileLoader || handleVerifyUser.isLoading}
               />
             )}
           </Group>

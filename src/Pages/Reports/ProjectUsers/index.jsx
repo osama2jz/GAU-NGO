@@ -118,7 +118,8 @@ function ProjectUsers() {
             date: moment(obj?.createdDate).format("YYYY-MMM-DD"),
             country:obj?.country,
             city:obj?.city,
-            phone:obj?.phoneNumber
+            phone:obj?.phoneNumber,
+            
           };
           return report;
         });

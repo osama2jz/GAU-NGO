@@ -31,6 +31,7 @@ function NewWorkModal({
       duration: "",
       endDate: "",
       startDate: "",
+      noOfYears:"",
     },
     validate: {
       position: (value) => (value.length < 1 ? translate("Please enter name") : null),
@@ -41,8 +42,8 @@ function NewWorkModal({
       endDate: (value) => (value?.length < 1 ? translate("Please enter endDate") : null),
       startDate: (value) =>
         value?.length < 1 ? translate("Please enter startDate") : null,
-        year: (value) =>
-        value?.length < 4 || value?.length > 4
+        noOfYears: (value) =>
+        value?.length < 1 || value?.length > 2
           ? translate("Please enter year")
           : null,
     },
@@ -100,11 +101,11 @@ function NewWorkModal({
           validateName="enterprise"
         />
         <InputField
-          label="Year"
+          label="Years"
           required={true}
-          placeholder="Year"
+          placeholder="Years"
           form={form}
-          validateName="year"
+          validateName="noOfYears"
         />
         <InputField
           label="Duration"

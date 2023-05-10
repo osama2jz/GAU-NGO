@@ -8,12 +8,16 @@ import { UserContext } from "../../../contexts/UserContext";
 import DeleteModal from "../../../Components/DeleteModal";
 import { useMutation } from "react-query";
 import { useState } from "react";
+import axios from "axios";
+import { backendUrl } from "../../../constants/constants";
+import { showNotification } from "@mantine/notifications";
 
 const VerificationPending = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+
   console.log(state);
-  const { setUser, translate } = useContext(UserContext);
+  const { setUser, translate,user } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   //API call for Cancel Appointments
@@ -35,9 +39,9 @@ const VerificationPending = () => {
           message: "Appointment Cancelled Successfully",
           color: "green.0",
         });
-        navigate(routeNames.socialWorker.allAppointments);
+        // navigate(routeNames.socialWorker.allAppointments);
+        navigate(routeNames.general.verificationSchedule)
         setOpenDeleteModal(false);
-        setOpenViewModal(false);
       },
     }
   );
@@ -88,8 +92,8 @@ const VerificationPending = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={() => {
-          // CancelAppointments.mutate(reportData?.appointId);
-          alert("Hello Delete")
+          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);
+          
         }}
         loading={CancelAppointments.isLoading}
         label="Are you Sure?"

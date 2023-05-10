@@ -124,6 +124,12 @@ export const Step2 = ({
       label: "Duration",
     },
     {
+      id: "noOfYears",
+      numeric: false,
+      disablePadding: true,
+      label: "Years",
+    },
+    {
       id: "startDate",
       numeric: false,
       disablePadding: true,
@@ -279,20 +285,20 @@ export const Step2 = ({
   const submitAll = (values) => {
     if (refrences.length === 0) {
       showNotification({
-        title: "Add Refrences",
-        message: "Please add Professional references",
+        title: translate("Add Professional References"),
+        message: translate("Please add Professional references"),
         color: "red.0",
       });
     } else if (trainingStudies.length === 0) {
       showNotification({
-        title: "Add Training Studies",
-        message: "Please add Training Studies",
+        title: translate("Add Studies and Training"),
+        message: translate("Please add Training Studies"),
         color: "red.0",
       });
     } else if (workExperience.length === 0) {
       showNotification({
-        title: "Add Work Experience",
-        message: "Please add Work Experience",
+        title: translate("Add Work Experience"),
+        message: translate("Please add Work Experience"),
         color: "red.0",
       });
     } else {
