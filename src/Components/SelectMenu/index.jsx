@@ -38,6 +38,7 @@ const SelectMenu = ({
   size = "md",
   validateName,
   itemComponent,
+  ml,
 }) => {
   const { translate } = useContext(UserContext);
   const { classes, cx } = useStyles({ borderWhite });
@@ -65,6 +66,7 @@ const SelectMenu = ({
       clearable={clearable}
       disabled={disabled}
       value={value}
+      ml={ml}
       onChange={onChange || ((v) => setData(v))}
       data={translatedData}
       {...form?.getInputProps(validateName)}

@@ -116,7 +116,7 @@ export const ViewDocuments = () => {
     },
     {
       onSuccess: (response) => {
-        if (response.data.status) {
+        if (response?.data?.status) {
           showNotification({
             title: deleteID ? translate("Document Deleted"):translate("Document Created"),
             message: deleteID

@@ -104,7 +104,7 @@ export const ViewBranches = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let branch = {
             id: obj._id,
             sr: ind + 1,
@@ -169,19 +169,19 @@ export const ViewBranches = () => {
   };
 
   const filteredItem = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       if (filter === "") {
-        return item.name.toLowerCase().includes(search.toLowerCase());
+        return item?.name.toLowerCase().includes(search.toLowerCase());
       } else
         return (
-          item.name.toLowerCase().includes(search.toLowerCase()) &&
-          item.accStatus === filter
+          item?.name?.toLowerCase().includes(search.toLowerCase()) &&
+          item?.accStatus === filter
         );
     });
     
     setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -193,10 +193,10 @@ export const ViewBranches = () => {
 
   const Paginated = useMemo(() => {
     if (activePage === 1) {
-      return filteredItem.slice(0, 10);
+      return filteredItem?.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
-      return filteredItem.slice(a, a + 10);
+      return filteredItem?.slice(a, a + 10);
     }
   }, [activePage, filteredItem]);
 

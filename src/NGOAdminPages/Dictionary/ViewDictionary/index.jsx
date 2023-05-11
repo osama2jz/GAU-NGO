@@ -92,15 +92,15 @@ export const ViewDictionary = () => {
   );
 
   const filteredItems = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       return (
-        item.actualWord.toLowerCase().includes(search.toLowerCase()) ||
-        item.translated.toLowerCase().includes(search.toLowerCase())
+        item?.actualWord?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.translated?.toLowerCase().includes(search.toLowerCase())
       );
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -111,9 +111,9 @@ export const ViewDictionary = () => {
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
-      return filteredItems.slice(0, 10);
+      return filteredItems?.slice(0, 10);
     } else {
-      return filteredItems.slice((activePage - 1) * 10, activePage * 10);
+      return filteredItems?.slice((activePage - 1) * 10, activePage * 10);
     }
   }, [activePage, filteredItems]);
 

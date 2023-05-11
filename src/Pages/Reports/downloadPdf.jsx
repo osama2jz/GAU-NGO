@@ -32,9 +32,6 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  console.log("data", user);
-  // console.log(startDate,endDate)
-
   // console.log("data", data);
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
