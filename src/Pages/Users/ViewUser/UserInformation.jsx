@@ -79,13 +79,14 @@ function ViewUserPersonalInformation({ componentRef }) {
           response?.data?.data?.userConsentForm?.workExperience.map(
             (item, index) => {
               return {
-                id: item._id,
-                contract: item.contract,
-                position: item.position,
-                startDate: moment(item.startDate).format("YYYY-MM-DD"),
-                endDate: moment(item.endDate).format("YYYY-MM-DD"),
-                enterprise: item.enterprise,
-                duration: item.duration,
+                id: item?._id,
+                contract: item?.contract,
+                position: item?.position,
+                startDate: moment(item?.startDate).format("YYYY-MM-DD"),
+                endDate: moment(item?.endDate).format("YYYY-MM-DD"),
+                enterprise: item?.enterprise,
+                duration: item?.duration,
+                noOfYears: item?.noOfYears,
               };
             }
           );
@@ -148,6 +149,12 @@ function ViewUserPersonalInformation({ componentRef }) {
       numeric: false,
       disablePadding: true,
       label: "Enterprise",
+    },
+    {
+      id:"noOfYears",
+      numeric: false,
+      disablePadding: true,
+      label: "Years",
     },
     {
       id: "duration",

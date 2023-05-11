@@ -207,7 +207,7 @@ export const UserVerification = () => {
   const handleNextSubmit = async () => {
     if (active == 0) {
       if (userid) {
-        if(img===null){
+        if(img===null && !editId){
           showNotification({
             title: translate("Error"),
             message: translate("Please Attach Face Id"),

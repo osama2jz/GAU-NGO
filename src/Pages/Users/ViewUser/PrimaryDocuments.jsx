@@ -180,15 +180,7 @@ const MyDocs = ({ userDocs, Data }) => {
   };
 
   const handleVerifyDocument = useMutation(
-    (id,title,url,status) => {
-      let obj = {
-        documentId: id,
-        documentTitle:title,
-        documentURL:url,
-        status:status
-      };
-
-     
+    (obj) => {
       return axios.post(
         `${backendUrl + `/api/lookup/updateAdminDocuments`}`,obj,
         {
@@ -251,7 +243,7 @@ const MyDocs = ({ userDocs, Data }) => {
           label={"Verify"}
           primary={true}
           disabled={element.status === "verified"}
-          onClick={() => handleVerifyDocument.mutate({documentId:element._id,documentTitle:element.documentTitle,documentURL:element.documentURL,status:"verified"})}
+          onClick={() => handleVerifyDocument.mutate({documentId:element._id,status:"verified"})}
         />
       </td>
       <td>
