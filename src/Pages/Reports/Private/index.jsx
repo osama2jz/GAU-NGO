@@ -221,8 +221,8 @@ function PrivateReport() {
     const filtered = pdfData?.filter((item) => {
       if (filter == "") {
         return (
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.caseNo.toLowerCase().includes(search.toLowerCase())
+          item?.name.toLowerCase().includes(search.toLowerCase()) ||
+          item?.caseNo.toLowerCase().includes(search.toLowerCase())
         );
       } else {
         return (

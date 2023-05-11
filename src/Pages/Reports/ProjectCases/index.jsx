@@ -164,13 +164,13 @@ function ProjectCases() {
     const filtered = pdfData?.filter((item) => {
       if (filter == "") {
         return (
-          item.caseName.toLowerCase().includes(search.toLowerCase()) ||
-          item.case.toLowerCase().includes(search.toLowerCase())
+          item?.caseName.toLowerCase().includes(search.toLowerCase()) ||
+          item?.case.toLowerCase().includes(search.toLowerCase())
         );
       } else {
         return (
-          item.caseName.toLowerCase().includes(search.toLowerCase()) ||
-          item.case.toLowerCase().includes(search.toLowerCase())
+          item?.caseName.toLowerCase().includes(search.toLowerCase()) ||
+          item?.case.toLowerCase().includes(search.toLowerCase())
           //     &&
           //   item?.role?.toLowerCase().includes(filter.toLowerCase())
         );

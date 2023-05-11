@@ -109,19 +109,19 @@ function Projects() {
   );
 
   const filteredItems = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       if (filter2 === "") {
-        return item.projectName.toLowerCase().includes(search.toLowerCase());
+        return item?.projectName.toLowerCase().includes(search.toLowerCase());
       } else {
         return (
-          item.projectName.toLowerCase().includes(search.toLowerCase()) &&
-          item.status === filter2
+          item?.projectName.toLowerCase().includes(search.toLowerCase()) &&
+          item?.status === filter2
         );
       }
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -132,10 +132,10 @@ function Projects() {
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
-      return filteredItems.slice(0, 10);
+      return filteredItems?.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
-      return filteredItems.slice(a, a + 10);
+      return filteredItems?.slice(a, a + 10);
     }
   }, [activePage, filteredItems]);
   return (
