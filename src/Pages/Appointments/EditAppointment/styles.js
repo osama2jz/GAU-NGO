@@ -36,4 +36,13 @@ export const useStyles = createStyles((theme) => ({
     fontWeight: 500,
     color: "#373A40",
   },
+  vertical:{
+    width: "1px",
+    height: "100%",
+    backgroundColor: "red",
+    margin: "0px 10px",
+  }
+ 
+
+  
 }));

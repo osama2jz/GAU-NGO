@@ -50,8 +50,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
           setRefetch(true);
         } else {
           showNotification({
-            title: "Leave",
-            message: response.data.message,
+            title:  translate("Leave"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

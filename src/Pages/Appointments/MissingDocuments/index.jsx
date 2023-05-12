@@ -72,12 +72,19 @@ const MissingDocuments = () => {
                   ? "Psychologist"
                   : "Lawyer",
               appointId: obj?.appointmentId,
-              doc: obj?.documents,
+              // doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
-              primaryDoc: obj?.primaryDocuments
+              primaryDoc: obj?.primaryDocuments,
+             
+              doc: obj?.documents.map((doc) => ({
+                ...doc,
+                status: doc.documentURL===""?true:false, // Add the desired status value
+              })),
+              
+              
             };
             return appointment;
           });

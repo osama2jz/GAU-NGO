@@ -6,10 +6,10 @@ import { useStyles } from "./styles";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import Button from "../Button";
-const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId}) => {
+const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId,setSingle}) => {
   const { classes } = useStyles();
   const { translate } = useContext(UserContext);
-  console.log(data);
+  // console.log("data",data);
   return (
     <Card
       withBorder
@@ -49,7 +49,7 @@ const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId}) => {
         {data?.booked ? (
           ""
         ) : (
-          <Button label={"Mark Leave"} className={classes.badge} onClick={()=>{setScheduleId(data?.scheduledId);setOpened(true)}} />
+          <Button label={"Mark Leave"} className={classes.badge} onClick={()=>{setScheduleId(data?.scheduleId);setSingle(true);setOpened(true)}} />
         )}
       </Flex>
       {/* <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch}/> */}

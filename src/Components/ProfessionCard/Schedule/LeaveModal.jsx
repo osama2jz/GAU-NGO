@@ -7,7 +7,7 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) => {
+const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,scheduledId,single }) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -19,7 +19,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) =
     root: {},
   }));
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
 
   const handleLeave = useMutation(
     () => {
@@ -42,25 +42,63 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) =
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Leave",
-            message: `The date ${date} is marked as leave.`,
+            title: translate("Leave"),
+            message:(translate("The date"),{date},translate("is marked as leave.")),
             color: "green.0",
           });
           setOpened(false);
           setRefetch((v) => !v);
         } else {
           showNotification({
-            title: "Leave",
-            message: response.data.message,
+            title:  translate("Leave"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }
       },
     }
   );
+
+  console.log("schedule Idddd",scheduledId)
+  const handleSingleSlotLeave = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/schedule/slotCancel"}`,
+        {
+          scheduleId: scheduledId,
+        },
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if (response.data.status) {
+          showNotification({
+            title: translate("Leave"),
+            message:(translate("The date"),{date},translate("is marked as leave.")),
+            color: "green.0",
+          });
+          setOpened(false);
+          setRefetch((v) => !v);
+
+        } else {
+          showNotification({
+            title: translate("Error"),
+            message: translate(response.data.message),
+            color: "red.0",
+          });
+          setOpened(false);
+        }
+      },
+    }
+  );
   return (
     <Modal
-      title={"Mark as Leave"}
+      title={translate("Mark as Leave")}
       opened={opened}
       onClose={() => setOpened(false)}
       centered
@@ -68,9 +106,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) =
       classNames={{ title: classes.title, body: classes.root }}
     >
       <Container>
-        <Text>
-          Are you sure you want to mark {date} as leave? It will <b>cancel</b>{" "}
-          all of this user's appointments for this day.
+      <Text>
+          {translate("Are you sure you want to mark")} ${date} {translate("as leave?")} {translate("It will cancel all of your appointments for this day.")}
         </Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
@@ -79,7 +116,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch }) =
             primary={true}
             w="100px"
             loading={handleLeave.isLoading}
-            onClick={() => handleLeave.mutate()}
+            onClick={() => single ? handleSingleSlotLeave.mutate() :handleLeave.mutate()}
+           
           />
         </Group>
       </Container>

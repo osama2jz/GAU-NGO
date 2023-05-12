@@ -25,12 +25,12 @@ import InputField from "../../../Components/InputField";
 import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
-import Select from "../../../Components/SelectMenu"
+import Select from "../../../Components/SelectMenu";
 
 function EditAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const [primaryDoc,setPrimaryDoc] = useState([])
+  const [primaryDoc, setPrimaryDoc] = useState([]);
 
   const { user, translate } = useContext(UserContext);
   const [otherDocument, setOtherDocument] = useState([
@@ -41,25 +41,23 @@ function EditAppointments() {
     },
   ]);
 
- console.log(otherDocument)
-
   const [fileLoader, setFileLoader] = useState(false);
   let { state } = useLocation();
 
   const { editData } = state ?? "";
   // console.log(editData);
+  console.log(otherDocument[0].status);
 
   useEffect(() => {
-    let data=editData?.primaryDoc?.map((item)=>{
+    let data = editData?.primaryDoc?.map((item) => {
       let docu = {
-        value:item?.documentURL,
-        label:item?.documentTitle
-      }
-      return docu
-
-    })
-    setPrimaryDoc(data)
-  },[editData])
+        value: item?.documentURL,
+        label: item?.documentTitle,
+      };
+      return docu;
+    });
+    setPrimaryDoc(data);
+  }, [editData]);
 
   // console.log(primaryDoc)
 
@@ -316,18 +314,23 @@ function EditAppointments() {
           >
             {translate("Post Appointment Documents")}
           </Text>
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: "md", cols: 4 },
-              { maxWidth: "xs", cols: 2 },
-            ]}
-          >
-            {otherDocument?.map((i, index) => (
-              <>
+
+          {otherDocument &&
+            otherDocument?.map((i, index) => (
+              <Flex
+                mih={50}
+                // bg={"red"}
+                mt={"md"}
+                gap={"xl"}
+                justify="flex-start"
+                align="center"
+                direction="row"
+                // wrap="wrap-reverse"
+              >
+                <Text>Document</Text>
                 <InputField
-                  label={"Document Name"}
                   placeholder="Enter document name"
-                  disabled={i?.documentURL}
+                  // disabled={i?.documentName}
                   value={i?.documentName}
                   onChange={(e) => {
                     // update value at current index in other document array
@@ -338,19 +341,21 @@ function EditAppointments() {
                 />
 
                 <FileInput
-                  placeholder={i?.documentURL ? translate("Uploaded") : translate("Upload")}
-                  mb="md"
-                  ml={"0px"}
+                  placeholder={
+                    i?.documentURL ? translate("Uploaded") : translate("Upload")
+                  }
+                  // mb="md"
+                  // ml={"0px"}
                   accept="file/pdf"
                   color="black"
                   styles={(theme) => ({
                     root: {
-                      margin: "auto",
+                      // margin: "auto",
                     },
                     input: {
                       border: "1px solid rgb(0, 0, 0, 0.5)",
                       borderRadius: "5px",
-                      // width: "250px",
+                      width: "150px",
                     },
                     placeholder: {
                       color: "black !important",
@@ -359,27 +364,51 @@ function EditAppointments() {
                   icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e, index)}
                 />
+
+                {/* {i.status(
+                  <>
+                    <Divider orientation="vertical" label={"Or"} />
+
+                    <Select
+                      placeholder="Select"
+                      size="md"
+                      data={primaryDoc}
+                      onChange={(e) =>
+                        // update value at current index in other document array
+                        {
+                          otherDocument[index].documentURL = e;
+                          // update array (pass by value) for re-render
+                          setOtherDocument([...otherDocument]);
+                        }
+                      }
+
+                      // onChange={(e) => {set}
+                      // setData={setPrimaryDoc}
+                      // data={[
+                      //   { label: "verified", value: "verified" },
+                      //   { label: "Pending", value: "pending" },
+                      // ]}
+                    />
+                  </>
+                )} */}
+                <Divider orientation="vertical" label={"Or"} />
+
                 <Select
-            placeholder="Branch"
-            size="xs"
-            data={primaryDoc}
-            onChange={(e) => 
-            // update value at current index in other document array
-            {otherDocument[index].documentURL = e;
-            // update array (pass by value) for re-render
-            setOtherDocument([...otherDocument])}}
-            
-            // onChange={(e) => {set}
-            // setData={setPrimaryDoc}
-            // data={[
-            //   { label: "verified", value: "verified" },
-            //   { label: "Pending", value: "pending" },
-            // ]}
-           
-          />
-              </>
+                  placeholder="Select"
+                  size="md"
+                  data={primaryDoc}
+                  onChange={(e) =>
+                    // update value at current index in other document array
+                    {
+                      otherDocument[index].documentURL = e;
+                      // update array (pass by value) for re-render
+                      setOtherDocument([...otherDocument]);
+                    }
+                  }
+                />
+              </Flex>
             ))}
-          </SimpleGrid>
+
           <Button
             label={"Add Document"}
             onClick={() => addInputField()}

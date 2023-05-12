@@ -492,6 +492,8 @@ const AddAppointment = () => {
       }
 
       await handleReports();
+    }if (active == 4) {
+      setActive(active + 1)
     } else {
       active < 4
         ? setActive(active + 1)
