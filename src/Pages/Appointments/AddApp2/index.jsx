@@ -485,17 +485,17 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: translate("Please add public and private report for this appointment."),
+          message: translate(
+            "Please add public and private report for this appointment."
+          ),
           title: translate("Report Missing"),
         });
         return;
       }
 
       await handleReports();
-    }if (active == 4) {
-      setActive(active + 1)
     } else {
-      active < 4
+      active < 5
         ? setActive(active + 1)
         : navigate(routeNames.socialWorker.allAppointments);
     }
@@ -712,9 +712,10 @@ const AddAppointment = () => {
       under18Number: (value) =>
         value.length < 1 ? translate("Please enter your Number") : null,
       under18Age: (value) =>
-        value.length < 1 ? translate("Please enter your Age"): null,
+        value.length < 1 ? translate("Please enter your Age") : null,
 
-      under18Sex: (value) => (value.length < 1 ? translate("Please enter sex") : null),
+      under18Sex: (value) =>
+        value.length < 1 ? translate("Please enter sex") : null,
       under18SchoolCourse: (value) =>
         value.length < 1 ? translate("Please enter School course") : null,
       under18LiveWith: (value) =>
@@ -836,8 +837,10 @@ const AddAppointment = () => {
     validate: {
       over18Number: (value) =>
         value.length < 1 ? translate("Please enter your Number") : null,
-      over18Age: (value) => (value.length < 1 ? translate("Please enter your Age") : null),
-      over18Sex: (value) => (value.length < 1 ? translate("Please enter sex") : null),
+      over18Age: (value) =>
+        value.length < 1 ? translate("Please enter your Age") : null,
+      over18Sex: (value) =>
+        value.length < 1 ? translate("Please enter sex") : null,
       over18MaritalStatus: (value) =>
         value.length < 1 ? translate("Please enter Marital Status") : null,
       over18Profession: (value) =>
@@ -1248,7 +1251,7 @@ const AddAppointment = () => {
                 // fileLoader
               }
               label={
-                active === 3 ? "Refer" : active === 4 ? "Finish" : "Save & Next"
+                active === 4 ? "Refer" : active === 5 ? "Finish" : "Save & Next"
               }
               bg={true}
             />

@@ -120,8 +120,8 @@ function ScheduledAppointments() {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Appointment Cancelled",
-          message: "Appointment Cancelled Successfully",
+          title: translate("Appointment Cancelled"),
+          message: translate("Appointment Cancelled Successfully"),
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allAppointments);

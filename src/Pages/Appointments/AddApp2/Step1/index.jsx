@@ -406,6 +406,32 @@ const Step1 = ({
       <Text fz={20} fw="bolder" align="center">
         {translate("Verify User")}
       </Text>
+      {appData?.refer === "Refered" && (
+        <>
+        <Container>
+          <Text align="center" fw={"bold"} fz={"lg"}>
+            {translate("Referred Comment")}
+          </Text>
+          <Text
+            style={{
+              border: "1px solid #E8E8E8",
+              borderRadius: "5px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              boxShadow: "5px 5px 5px #E8E8E8"
+            }}
+            p={"md"}
+            // w={"40rem"}
+            align="center"
+          >
+            {appData?.referedComment}
+          </Text>
+          
+        </Container>
+        <Divider />
+        </>
+        
+      )}
 
       <Group>
         {verifyCamera ? (
