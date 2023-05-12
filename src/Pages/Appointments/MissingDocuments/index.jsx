@@ -77,6 +77,7 @@ const MissingDocuments = () => {
                 .length,
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
+              primaryDoc: obj?.primaryDocuments
             };
             return appointment;
           });

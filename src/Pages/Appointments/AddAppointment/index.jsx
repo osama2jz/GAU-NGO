@@ -51,6 +51,7 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
+  console.log("appData", appData);
   
 
   //Camera Image
@@ -70,7 +71,7 @@ const AddAppointment = () => {
   const [attachedDocs, setAttachedDocs] = useState([]);
 
   const [verifyStatus, setVerifyStatus] = useState(false);
-  console.log("app",appData)
+  // console.log("app",appData)
 
   const editorr = useEditor({
     extensions: [
@@ -274,8 +275,8 @@ const AddAppointment = () => {
       onSuccess: (response) => {
         showNotification({
           color: "green.0",
-          message: "Reports submitted Successfully",
-          title: "Success",
+          message: translate("Reports submitted Successfully"),
+          title: translate("Success"),
         });
         handleUploadDocuments.mutate();
       },

@@ -26,8 +26,7 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   const [slotId, setSlotId] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
-  console.log("here", userId?.data?.data?._id);
-  console.log(socialWorkerVerification);
+  
 
   useEffect(() => {
     getSchedule.mutate();

@@ -25,10 +25,12 @@ import InputField from "../../../Components/InputField";
 import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
+import Select from "../../../Components/SelectMenu"
 
 function EditAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const [primaryDoc,setPrimaryDoc] = useState([])
 
   const { user, translate } = useContext(UserContext);
   const [otherDocument, setOtherDocument] = useState([
@@ -39,10 +41,27 @@ function EditAppointments() {
     },
   ]);
 
+ console.log(otherDocument)
+
   const [fileLoader, setFileLoader] = useState(false);
   let { state } = useLocation();
 
   const { editData } = state ?? "";
+  // console.log(editData);
+
+  useEffect(() => {
+    let data=editData?.primaryDoc?.map((item)=>{
+      let docu = {
+        value:item?.documentURL,
+        label:item?.documentTitle
+      }
+      return docu
+
+    })
+    setPrimaryDoc(data)
+  },[editData])
+
+  // console.log(primaryDoc)
 
   useEffect(() => {
     setOtherDocument(editData?.doc);
@@ -340,6 +359,24 @@ function EditAppointments() {
                   icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e, index)}
                 />
+                <Select
+            placeholder="Branch"
+            size="xs"
+            data={primaryDoc}
+            onChange={(e) => 
+            // update value at current index in other document array
+            {otherDocument[index].documentURL = e;
+            // update array (pass by value) for re-render
+            setOtherDocument([...otherDocument])}}
+            
+            // onChange={(e) => {set}
+            // setData={setPrimaryDoc}
+            // data={[
+            //   { label: "verified", value: "verified" },
+            //   { label: "Pending", value: "pending" },
+            // ]}
+           
+          />
               </>
             ))}
           </SimpleGrid>

@@ -22,7 +22,7 @@ const ReferModal = ({
   onSubmit,
   caseId,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const matches = useMediaQuery("(min-width: 640px)");
   const [comment, setComment] = useState("");
   const handleReferToExpert = useMutation(
@@ -43,8 +43,8 @@ const ReferModal = ({
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Refered To Expert",
-            message: "Refered Successfully!",
+            title: translate("Refered To Expert"),
+            message: translate("Refered Successfully!"),
             color: "green.0",
           });
           setOpened(false);
@@ -65,7 +65,7 @@ const ReferModal = ({
       opened={opened}
       onClose={() => setOpened(false)}
       centered
-      title="Refer User"
+      title={translate("Refer User")}
       size={matches?"50%":"100%"}
       styles={{
         title: {
@@ -82,7 +82,7 @@ const ReferModal = ({
         {!buttonChange && (
           <TextArea
             label={"Add comment"}
-            placeholder="Write comment about user"
+            placeholder="Add comment"
             onChange={(e) => setComment(e.target.value)}
           />
         )}
