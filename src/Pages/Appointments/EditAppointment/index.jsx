@@ -182,6 +182,7 @@ function EditAppointments() {
     });
   };
 
+  // console.log(otherDocument);
   return (
     <Container className={classes.addUser} size="xl" p={"0px"} bg={""}>
       <ContainerHeader label={"Edit Appointment"} />
@@ -391,9 +392,9 @@ function EditAppointments() {
                     />
                   </>
                 )} */}
-                <Divider orientation="vertical" label={"Or"} />
+                {i?.status && <Divider orientation="vertical" label={"Or"} />}
 
-                <Select
+                {i?.status && <Select
                   placeholder="Select"
                   size="md"
                   data={primaryDoc}
@@ -405,7 +406,7 @@ function EditAppointments() {
                       setOtherDocument([...otherDocument]);
                     }
                   }
-                />
+                />}
               </Flex>
             ))}
 

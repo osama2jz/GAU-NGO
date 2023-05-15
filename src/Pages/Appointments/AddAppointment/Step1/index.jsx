@@ -76,7 +76,6 @@ const Step1 = ({
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
 
-  console.log("user", appData);
 
   const videoConstraints = {
     width: 420,
@@ -97,7 +96,7 @@ const Step1 = ({
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
+   
 
     handleFileInput(blob, "public");
 
@@ -106,10 +105,10 @@ const Step1 = ({
 
   function dataURItoBlob(dataURI) {
     const byteString = atob(dataURI.split(",")[1]);
-    console.log(byteString);
+    
     const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     const extension = mimeString.split("/")[1];
-    console.log(mimeString);
+   
     const arrayBuffer = new ArrayBuffer(byteString.length);
     const intArray = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
@@ -146,7 +145,7 @@ const Step1 = ({
         Bucket: s3Config.bucketName,
       },
     });
-    console.log(file);
+    
     var objKey = type + "/" + Date.now() + "/" + file.name;
     var params = {
       Key: objKey,
@@ -235,7 +234,7 @@ const Step1 = ({
         sourceImage: verifyimg,
         targetImage: selectedUser?.data?.data?.userConsentForm?.userImage,
       };
-      console.log(obj);
+     
 
       // console.log(obj);
       const formData = new FormData();
@@ -325,7 +324,7 @@ const Step1 = ({
     }
   );
 
-  // console.log(selectedUser?.data?.data?.userConsentForm?.userImage);
+  
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(

@@ -38,6 +38,7 @@ export const UserProvider = ({ children }) => {
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
+    ngoName:userData?.ngoId?.ngoName,
     documents: [],
   });
   const value = { user, setUser, lang, translate };

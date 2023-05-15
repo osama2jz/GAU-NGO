@@ -27,6 +27,7 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   fileLoader }) => {
   const { classes } = useStyles();
   // const { id, editId } = useParams();
+  const {user:User,translate}=useContext(UserContext)
   const [userData, setUserData] = useState([]);
   const [showCamera, setShowCamera] = useState(false);
   const matches = useMediaQuery("(min-width: 600px)");
@@ -144,8 +145,8 @@ export const Step1 = ({ user, setUser, img, setImg,setFileLoader,
   const handleOpenCamera = () => {
     user===null? 
     showNotification({
-      title: "Select User",
-      message: "Please first Select User",
+      title: translate("Select User"),
+      message: translate("Please first Select User"),
       color: "red.0",
     })
     :setShowCamera(true);

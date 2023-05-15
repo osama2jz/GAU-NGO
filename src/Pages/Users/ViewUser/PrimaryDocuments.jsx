@@ -194,16 +194,16 @@ const MyDocs = ({ userDocs, Data }) => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Deleted"),
-            message: translate("Document Deleted Successfully"),
+            title: translate("Update Document"),
+            message: translate("Document Updated Successfully!"),
             color: "green.0",
           });
           setOpenDeleteModal(false);
           queryClient.invalidateQueries("fetchUserSingle");
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Delete",
+            title: translate("Failed"),
+            message: translate("Verification Failed"),
             color: "red.0",
           });
         }
@@ -378,7 +378,7 @@ const MyDocs = ({ userDocs, Data }) => {
       </Group>
       <Divider mt={"xl"} />
       <Text align="center" size={"xl"} mt={"sm"} mb={"sm"}>
-       {translate("All Docuements")}
+       {translate("All Documents")}
       </Text>
       <Table striped highlightOnHover withBorder>
         <thead>{ths}</thead>

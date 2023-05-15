@@ -27,7 +27,7 @@ import { DatePicker } from "@mantine/dates";
 
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
-  const { translate,user } = useContext(UserContext);
+  const { translate, user } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -125,7 +125,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     console.log("T", title);
     const logoUrl = "../../assets/download.svg"; // Replace with the URL of your company logo
     const companyName = "GAU";
-    const ngoName = "Helping Hands of You";
+    const ngoName = user?.ngoId?.ngoName;
     const ngoBranch = "Branch: All About Helping1";
     const currentDate = new Date().toLocaleDateString();
 
@@ -160,7 +160,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     doc.setFontSize(16);
     doc.text(currentDate, ngoBranchX, ngoBranchY, { align: "center" });
     // doc.text(currentDate, dateX, dateY, { align: "center" });
-    doc.text(translate(title),dateX, marginTop + 50,{ align: "center" });
+    doc.text(translate(title), dateX, marginTop + 50, { align: "center" });
 
     doc.autoTable({
       theme: "grid",
