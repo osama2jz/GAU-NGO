@@ -83,8 +83,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     if (name === "daily") {
       filteredDaily.length === 0
         ? showNotification({
-            title: "No Data",
-            message: `No ${label} for today`,
+            title: translate("No Data"),
+            message: translate(`No Data Found`),
             color: "green.0",
           })
         : downloadPDF(filteredDaily, `Daily ${label}`);
@@ -92,8 +92,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     if (name === "weekly") {
       filteredWeekly.length === 0
         ? showNotification({
-            title: "No Data",
-            message: `No ${label} for the week`,
+            title: translate("No Data"),
+            message: translate(`No Data Found`),
             color: "green.0",
           })
         : downloadPDF(filteredWeekly, `Weekly ${label}`);
@@ -101,8 +101,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     if (name === "monthly") {
       filteredMonthly.length === 0
         ? showNotification({
-            title: "No Data",
-            message: `No ${label} for the Month`,
+            title: translate("No Data"),
+            message: translate(`No Data Found`),
             color: "green.0",
           })
         : downloadPDF(filteredMonthly, `Monthly ${label}`);
@@ -111,8 +111,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
       const cus = CustomDate();
       cus.length === 0
         ? showNotification({
-            title: "No Data",
-            message: `No ${label} for the selected dates`,
+            title: translate("No Data"),
+            message: translate(`No Data Found`),
             color: "green.0",
           })
         : // setShow(false)
@@ -226,12 +226,12 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         <>
           <Flex gap={"md"}>
             <DatePicker
-              label={"Start Date"}
+              label={translate("Start Date")}
               value={startDate}
               onChange={setStartDate}
             />
             <DatePicker
-              label={"End Date"}
+              label={translate("End Date")}
               value={endDate}
               onChange={setEndDate}
             />

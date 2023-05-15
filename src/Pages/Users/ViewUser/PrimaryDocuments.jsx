@@ -214,11 +214,11 @@ const MyDocs = ({ userDocs, Data }) => {
   const ths = (
     <tr>
       <th>Sr #</th>
-      <th>Document Title</th>
-      <th>Docuement</th>
-      <th>Status</th>
-      <th>Verify</th>
-      <th>Action</th>
+      <th>{translate("Document Title")}</th>
+      <th>{translate("Docuement")}</th>
+      <th>{translate("Status")}</th>
+      <th>{translate("Verify")}</th>
+      <th>{translate("Action")}</th>
     </tr>
   );
 
@@ -230,7 +230,7 @@ const MyDocs = ({ userDocs, Data }) => {
       <td>{element.documentTitle}</td>
       <td>
         <Anchor href={element?.documentURL} target={"_blank"}>
-          Document
+         {translate("Document")}
         </Anchor>
       </td>
       <td>
@@ -314,10 +314,10 @@ const MyDocs = ({ userDocs, Data }) => {
             </Grid.Col>
             <Grid.Col md="3" sm="6">
               <FileInput
-                placeholder={"Select File"}
+                placeholder={translate("Select File")}
                 size="md"
                 key={index}
-                label="Select File"
+                label={translate("Select File")}
                 required
                 ml={"0px"}
                 accept="file/pdf"
@@ -378,7 +378,7 @@ const MyDocs = ({ userDocs, Data }) => {
       </Group>
       <Divider mt={"xl"} />
       <Text align="center" size={"xl"} mt={"sm"} mb={"sm"}>
-        All Docuements
+       {translate("All Docuements")}
       </Text>
       <Table striped highlightOnHover withBorder>
         <thead>{ths}</thead>

@@ -1066,7 +1066,8 @@ const AddAppointment = () => {
                   alt="icon"
                 />
               }
-              label="5. Refer"
+              label={`5. ${translate("Refer")}`}
+
             >
               <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
             </Stepper.Step>

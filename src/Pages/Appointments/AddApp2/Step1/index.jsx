@@ -220,7 +220,7 @@ const Step1 = ({
         console.log(entry[0] + ": " + entry[1]);
       }
       return axios.post(
-        `https://face-match.usquaresolutions.com/index.php`,
+        `https://face.gauapp.es/index.php`,
         formData,
         {
           headers: {

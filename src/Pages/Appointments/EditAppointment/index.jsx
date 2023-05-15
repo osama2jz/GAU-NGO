@@ -46,7 +46,7 @@ function EditAppointments() {
 
   const { editData } = state ?? "";
   // console.log(editData);
-  console.log(otherDocument[0].status);
+  // console.log(otherDocument[0].status);
 
   useEffect(() => {
     let data = editData?.primaryDoc?.map((item) => {
