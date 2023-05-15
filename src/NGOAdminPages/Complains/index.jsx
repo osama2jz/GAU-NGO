@@ -120,22 +120,22 @@ export const ViewComplains = () => {
   );
 
   const filteredItem = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       if (filter === "") {
-        return item.name.toLowerCase().includes(search.toLowerCase());
+        return item?.name?.toLowerCase().includes(search.toLowerCase());
       } else if (filter === "responded") {
         return (
-          item.name.toLowerCase().includes(search.toLowerCase()) && item.reply
+          item?.name?.toLowerCase().includes(search.toLowerCase()) && item.reply
         );
       } else {
         return (
-          item.name.toLowerCase().includes(search.toLowerCase()) && !item.reply
+          item?.name?.toLowerCase().includes(search.toLowerCase()) && !item.reply
         );
       }
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -146,10 +146,10 @@ export const ViewComplains = () => {
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
-      return filteredItem.slice(0, 10);
+      return filteredItem?.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
-      return filteredItem.slice(a, a + 10);
+      return filteredItem?.slice(a, a + 10);
     }
   }, [filteredItem, activePage]);
   return (

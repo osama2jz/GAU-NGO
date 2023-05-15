@@ -220,7 +220,7 @@ const Step1 = ({
         console.log(entry[0] + ": " + entry[1]);
       }
       return axios.post(
-        `https://face-match.usquaresolutions.com/index.php`,
+        `https://face.gauapp.es/index.php`,
         formData,
         {
           headers: {
@@ -234,15 +234,15 @@ const Step1 = ({
         if (response.data.matched === "True") {
           setVerifyStatus(true);
           showNotification({
-            title: "Verification Success",
-            message: "Face Matched",
+            title: translate("Verification Success"),
+            message: translate("Face Matched"),
             color: "green.0",
           });
         } else {
           setVerifyStatus(false);
           showNotification({
-            title: "Verification Failed",
-            message: "Face Not Matched",
+            title: translate("Verification Failed"),
+            message: translate("Face Not Matched"),
             color: "red.0",
           });
         }
@@ -406,6 +406,32 @@ const Step1 = ({
       <Text fz={20} fw="bolder" align="center">
         {translate("Verify User")}
       </Text>
+      {appData?.refer === "Refered" && (
+        <>
+        <Container>
+          <Text align="center" fw={"bold"} fz={"lg"}>
+            {translate("Referred Comment")}
+          </Text>
+          <Text
+            style={{
+              border: "1px solid #E8E8E8",
+              borderRadius: "5px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              boxShadow: "5px 5px 5px #E8E8E8"
+            }}
+            p={"md"}
+            // w={"40rem"}
+            align="center"
+          >
+            {appData?.referedComment}
+          </Text>
+          
+        </Container>
+        <Divider />
+        </>
+        
+      )}
 
       <Group>
         {verifyCamera ? (

@@ -92,7 +92,7 @@ export const AllUser = () => {
 
   const newData = useMemo(() => {
     let arr = headerData;
-    if (user.role === "Social Worker") {
+    if (user.role === "Social Worker" || user.role === "Admin") {
       headerData.splice(5, 0, {
         id: "userVerify",
         numeric: false,
@@ -137,7 +137,7 @@ export const AllUser = () => {
             age: obj?.userConsentForm?.personalInformation?.age,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,
-            date: new moment(obj?.createdAt).format("DD-MMM-YYYY"),
+            date: new moment(obj?.createdAt).format("YYYY-MMM-DD"),
             phone: obj?.phoneNumber,
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,
@@ -165,8 +165,8 @@ export const AllUser = () => {
       onSuccess: (response) => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: deleteID ? translate("User Deleted"):translate("Status Updated"),
+          message: deleteID ? translate("User Deleted Successfully!"):translate("User Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);

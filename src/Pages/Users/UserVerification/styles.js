@@ -35,7 +35,8 @@ export const useStyles = createStyles((theme) => ({
     fontWeight: "bold",
   },
   faceid: {
-    height: "200px",
+    // height: "200px",
+    marginTop: "20px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

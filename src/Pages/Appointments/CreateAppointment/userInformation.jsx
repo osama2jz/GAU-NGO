@@ -59,7 +59,7 @@ export const UserInfo = ({ userData, loading }) => {
                 {translate(obj.key)}
               </Text>
               <Text opacity={"40%"} fz={matches?16:12} fw={"bold"} ml="20px">
-                {translate(obj.value)}
+                {obj.value}
               </Text>
             </Flex>
           );

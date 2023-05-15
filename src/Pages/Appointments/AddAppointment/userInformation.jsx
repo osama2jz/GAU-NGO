@@ -2,10 +2,14 @@ import { Card, Container, Flex, Group, Text } from "@mantine/core";
 import userImage from "../../../assets/teacher.png";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mantine/hooks";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 export const UserInfo = ({ userData, loading }) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const [data, setData] = useState([]);
+  const {user, translate} =useContext(UserContext)
+
 
   useEffect(() => {
     setData([
@@ -55,7 +59,7 @@ export const UserInfo = ({ userData, loading }) => {
           return (
             <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"20px"}>
               <Text fz={16} fw={"bold"}>
-                {obj.key}
+              {translate(obj.key)}
               </Text>
               <Text opacity={"40%"} fz={16} fw={"bold"} ml="20px">
                 {obj.value}

@@ -32,6 +32,7 @@ function ViewAppointments() {
   let { state } = useLocation();
 
   const { editData } = state ?? "";
+  console.log("edit", editData);
 
   useEffect(() => {
     if (editData) {
@@ -317,6 +318,7 @@ function ViewAppointments() {
               <Tabs.Tab value="1">{translate("Reports")}</Tabs.Tab>
               <Tabs.Tab value="2">{translate("Uploaded Documents")}</Tabs.Tab>
               <Tabs.Tab value="3">{translate("User Documents")}</Tabs.Tab>
+              <Tabs.Tab value="4">{translate("Appointment With")}</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel value="1" pt="xs">
               <Table headCells={headerData} rowData={rowData} />
@@ -327,6 +329,67 @@ function ViewAppointments() {
             </Tabs.Panel>
             <Tabs.Panel value="3" pt="xs">
               <Table headCells={headerData2} rowData={docData2} />
+            </Tabs.Panel>
+            <Tabs.Panel value="4" pt="xs">
+              <Divider color="#C8C8C8" mt="md" mb="md" />
+              <Container ml="md" p="10px">
+                <Grid align="center" justify={"space-between"}>
+                  <Grid.Col md={4} className={classes.avatar}>
+                    <Avatar
+                      radius="xl"
+                      size={150}
+                      src={editData?.appointmentWithImage || userlogo}
+                    />
+                  </Grid.Col>
+                  <Grid.Col md={8} style={{ backgroundColor: "white" }}>
+                    <Container w={"100%"} ml="md" p="10px" >
+                      <SimpleGrid cols={2} spacing="xs">
+                        <Text className={classes.textheading}>
+                          {translate("Name")}
+                        </Text>
+                        <Text className={classes.textContent}>
+                          {editData?.appointmentWith}
+                        </Text>
+                        <Text className={classes.textheading}>
+                          {translate("Role")}
+                        </Text>
+                        <Text className={classes.textContent}>
+                          {editData?.role}
+                        </Text>
+
+                        <Text className={classes.textheading}>
+                          {translate("Appointment Date")}
+                        </Text>
+                        <Text className={classes.textContent}>
+                          {editData?.date}
+                        </Text>
+                        <Text className={classes.textheading}>
+                          {translate("Appointment Time")}
+                        </Text>
+                        <Text className={classes.textContent}>
+                          {editData?.time}
+                        </Text>
+                        <Text className={classes.textheading}>
+                          {translate("Status")}
+                        </Text>
+                        <Text className={classes.textContent}>
+                          <Badge
+                            variant="filled"
+                            color={
+                              editData?.status === "SCHEDULED" ||
+                              editData?.status === "INPROGRESS"
+                                ? "green.0"
+                                : "red.0"
+                            }
+                          >
+                            {translate(editData?.status)}
+                          </Badge>
+                        </Text>
+                      </SimpleGrid>
+                    </Container>
+                  </Grid.Col>
+                </Grid>
+              </Container>
             </Tabs.Panel>
           </Tabs>
         </Container>

@@ -99,14 +99,14 @@ export const ViewDonations = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data.data.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let branch = {
             id: obj._id,
             sr: ind + 1,
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.amount,
             image: obj?.userId?.profileImage,
-            date: moment(obj?.createdAt).format("DD-MM-YYYY"),
+            date: moment(obj?.createdDate).format("DD-MMM-YYYY"),
             ngo: obj?.ngoId?.ngoName,
             description: obj?.description,
           };
@@ -125,12 +125,12 @@ export const ViewDonations = () => {
   // );
 
   const filteredItems = useMemo(() => {
-    let filtered = rowData.filter((item) => {
-      return item.name.toLowerCase().includes(search.toLowerCase());
+    let filtered = rowData?.filter((item) => {
+      return item?.name?.toLowerCase().includes(search.toLowerCase());
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -141,9 +141,9 @@ export const ViewDonations = () => {
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
-      return filteredItems.slice(0, 10);
+      return filteredItems?.slice(0, 10);
     } else {
-      return filteredItems.slice((activePage - 1) * 10, activePage * 10);
+      return filteredItems?.slice((activePage - 1) * 10, activePage * 10);
     }
   }, [activePage, filteredItems]);
 

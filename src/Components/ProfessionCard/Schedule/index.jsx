@@ -13,7 +13,7 @@ import moment from "moment";
 import LeaveModal from "./LeaveModal";
 import Button from "../../Button";
 
-const MySchedule = ({ Userid, setSlot, slot }) => {
+const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId,single,setSingle }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user, translate } = useContext(UserContext);
@@ -21,6 +21,7 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
   const [refetch, setRefetch] = useState(false);
+  // const[single,setSingle]=useState(false)
 
 
   useEffect(() => {
@@ -89,7 +90,7 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
         />
       </Container>
       <Text size={18} weight={700} color={"gray"} align="center">
-        {moment(date).format("DD MMMM")} {translate("{Schedule}")}
+        {moment(date).format("DD MMMM")} {translate("Schedule")}
       </Text>
       {getSchedule.status === "loading" ? (
         <Loader minHeight="100px" />
@@ -111,7 +112,8 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
                 (item, index) =>
                   !item.booked && (
                     <Flex justify={"center"}>
-                      <ScheduleCard data={item} setSlot={setSlot} slot={slot} />
+                      <ScheduleCard data={item} setSlot={setSlot} slot={slot} setScheduleId={setScheduleId}
+                       scheduledId={scheduledId} setOpened={setOpened} setSingle={setSingle}/>
                     </Flex>
                   )
               )}
@@ -134,6 +136,9 @@ const MySchedule = ({ Userid, setSlot, slot }) => {
         userId={Userid}
         setRefetch={setRefetch}
         branchId={scheduleData[0]?.branchId}
+        scheduledId={scheduledId}
+        single={single}
+        setSingle={setSingle}
       />
     </Container>
   );

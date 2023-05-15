@@ -88,7 +88,8 @@ function AllAppointments() {
               otherPersonImage: obj?.otherUserImage,
               otherPersonMobile: obj?.otherUserMobile,
               otherPersonId: obj?.otherUserId,
-              attachedDocuments: obj?.attachedDocuments
+              attachedDocuments: obj?.attachedDocuments,
+              appointmentWithImage:obj?.appointmentWithImage,
             };
             return appointment;
             // }
@@ -129,6 +130,7 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Appointer Role",
+      translate: true,
     },
     {
       id: "date",
@@ -213,7 +215,7 @@ function AllAppointments() {
         <Grid align={"center"} py="md">
           <Grid.Col sm={6} lg={5} md={4}>
             <InputField
-              placeholder="Search"
+              placeholder="Search Name"
               leftIcon="search"
               pb="0"
               value={search}

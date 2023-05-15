@@ -59,16 +59,16 @@ const MyDocs = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "Document Deleted Successfully",
+            title: translate("Document Created"),
+            message: translate("Document Deleted Successfully"),
             color: "green.0",
           });
           setOpenDeleteModal(false);
           queryClient.invalidateQueries("fetchUserSingle");
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Delete",
+            title: translate("Failed"),
+            message: translate("Failed to Delete"),
             color: "red.0",
           });
         }
@@ -99,8 +99,8 @@ const MyDocs = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Document Created",
-            message: "New Document Added Successfully!",
+            title: translate("Document Created"),
+            message: translate("New Document Created Successfully!"),
             color: "green.0",
           });
           setOldDocs((v) => [...v, ...docs]);
@@ -297,7 +297,7 @@ const MyDocs = () => {
         loading={handleDeleteDocument.isLoading}
         onDelete={handleDeleteDocument.mutate}
         label="Are you Sure?"
-        message="Do you really want to delete this document? This process cannot be undone."
+        message="Do you really want to delete these records? This process cannot be undone."
       />
     </Container>
   );

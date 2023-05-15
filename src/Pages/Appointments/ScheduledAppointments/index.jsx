@@ -95,6 +95,7 @@ function ScheduledAppointments() {
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
+            // userImage:
           };
           return appointment;
         });
@@ -119,8 +120,8 @@ function ScheduledAppointments() {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Appointment Cancelled",
-          message: "Appointment Cancelled Successfully",
+          title: translate("Appointment Cancelled"),
+          message: translate("Appointment Cancelled Successfully"),
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allAppointments);
@@ -148,6 +149,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Professional",
+      
     },
     {
       id: "addedBy",
@@ -160,6 +162,7 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Appointer Role",
+      translate: true,
     },
     {
       id: "date",
@@ -240,7 +243,7 @@ function ScheduledAppointments() {
         <Grid align={"center"} py="md">
           <Grid.Col sm={8} lg={5} md={6}>
             <InputField
-              placeholder="Search"
+              placeholder="Search Name"
               leftIcon="search"
               value={search}
               pb="0"

@@ -19,7 +19,7 @@ import { UserContext } from "../../contexts/UserContext";
 const Login = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { setUser,translate } = useContext(UserContext);
+  const { setUser, translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -30,7 +30,8 @@ const Login = () => {
     validate: {
       email: (value) =>
         /^\S+@\S+$/.test(value) ? null : translate("Enter a valid email"),
-      password: (value) => (value?.length < 1 ? translate("Enter password") : null),
+      password: (value) =>
+        value?.length < 1 ? translate("Enter password") : null,
     },
   });
 
@@ -41,17 +42,24 @@ const Login = () => {
     {
       onSuccess: (response) => {
         if (
-          response.data.verificationStatus === "unverified" &&
-          !response.data.appointmentBooked
+          response?.data?.verificationStatus === "unverified" &&
+          !response?.data?.appointmentBooked
         ) {
-          localStorage.setItem("userData", JSON.stringify(response.data));
+          localStorage.setItem("userData", JSON.stringify(response?.data));
           navigate(routeNames.general.verificationSchedule);
         } else if (
-          response.data.verificationStatus === "unverified" &&
-          response.data.appointmentBooked
+          response?.data?.verificationStatus === "unverified" &&
+          response?.data?.appointmentBooked &&
+          response?.data?.appointmentStatus === "cancelled"
         ) {
-          let appointmentTime = response.data.appointmentTime;
-          let appointmentDate = moment(response.data.appointmentDate).format(
+          localStorage.setItem("userData", JSON.stringify(response?.data));
+          navigate(routeNames.general.verificationSchedule);
+        } else if (
+          response?.data?.verificationStatus === "unverified" &&
+          response?.data?.appointmentBooked
+        ) {
+          let appointmentTime = response?.data?.appointmentTime;
+          let appointmentDate = moment(response?.data?.appointmentDate).format(
             "DD MMM YYYY"
           );
           navigate(routeNames.general.verificationPending, {
@@ -59,16 +67,25 @@ const Login = () => {
               data: {
                 appointmentTime: appointmentTime,
                 appointmentDate: appointmentDate,
+                otherInfo: response?.data,
               },
             },
           });
         } else if (!response.data.status) {
           showNotification({
-            title: "Error",
-            message: response?.data?.message,
+            title: translate("Error"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
-        } else {
+        }
+        //  else if (response.data.status === "false") {
+        //   showNotification({
+        //     title: translate("Error"),
+        //     message: "Error",
+        //     color: "red.0",
+        //   });
+        // }
+        else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
           return;
@@ -101,7 +118,7 @@ const Login = () => {
       <Flex justify="space-between" mt="md">
         <Checkbox label={translate("Remember me")} />
         <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
-          {translate("Forgot Password")}?
+          {translate("Forgot Password")}
         </Anchor>
       </Flex>
       <Divider

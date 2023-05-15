@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import { useStyles } from "../styles";
+import { UserContext } from "../../../../contexts/UserContext";
+import { useContext } from "react";
 function NewStudiesTrainingModal({
   trainingStudies,
   setTrainingStudies,
@@ -12,7 +14,7 @@ function NewStudiesTrainingModal({
   setEditData,
 }) {
   const { classes } = useStyles();
-  console.log("editData", editData)
+  const {translate} = useContext(UserContext);
 
   useEffect(() => {
     if (editData) {
@@ -29,15 +31,15 @@ function NewStudiesTrainingModal({
     },
     validate: {
       educationLevel: (value) =>
-        value.length < 1 ? "Please enter name" : null,
+        value.length < 1 ? translate("Please enter name") : null,
       specialization: (value) =>
-        value.length < 1 ? "Please enter name" : null,
+        value.length < 1 ? translate("Please enter name") : null,
       complementaryTraining: (value) =>
-        value?.length < 1 ? "Please enter center" : null,
+        value?.length < 1 ? translate("Please enter center") : null,
 
       completionYear: (value) =>
         value?.length < 4 || value?.length > 4
-          ? "Please enter completion year correctly"
+          ? translate("Please enter completion year correctly")
           : null,
     },
   });
@@ -66,7 +68,7 @@ function NewStudiesTrainingModal({
         <InputField
           label="Education Level"
           required={true}
-          placeholder="Education Level "
+          placeholder="Education Level"
           form={form}
           validateName="educationLevel"
         />
@@ -80,7 +82,7 @@ function NewStudiesTrainingModal({
         <InputField
           label="Complementary Training"
           required={true}
-          placeholder="complementaryTraining"
+          placeholder="Complementary Training"
           form={form}
           validateName="complementaryTraining"
         />

@@ -19,6 +19,7 @@ const routeNames = {
     verifyUser: "/verify-user",
     verifiedUsers: "/verified-users",
     verificationScheduled: "/verfication-Scheduled",
+    verificationScheduledUser: "/user-verfication-Scheduled",
     userVerification: "/userVerification",
     missingDocuments: "/missing-document-appointments",
     userEditDetails: "/user-Edit",

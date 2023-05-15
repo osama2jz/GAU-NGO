@@ -16,7 +16,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import SelectMenu from "../../../Components/SelectMenu";
 
-const VerificationSchedule = ({}) => {
+const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const { user, setUser, translate } = useContext(UserContext);
@@ -26,6 +26,7 @@ const VerificationSchedule = ({}) => {
   const [slotId, setSlotId] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
+  
 
   useEffect(() => {
     getSchedule.mutate();
@@ -72,7 +73,9 @@ const VerificationSchedule = ({}) => {
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
         {
-          appointmentUser: user?.id,
+          appointmentUser: socialWorkerVerification
+            ? userId?.data?.data?._id
+            : user?.id,
           appointmentWith: referedToId,
           scheduleId: slotId,
           appointmentType: "verification",
@@ -88,8 +91,8 @@ const VerificationSchedule = ({}) => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Appointment Created",
-            message: "Appointment Created Successfully",
+            title: translate("Appointment Created"),
+            message: translate("Appointment Created Successfully"),
             color: "green.0",
           });
           let appointmentTime =
@@ -100,19 +103,22 @@ const VerificationSchedule = ({}) => {
             .split(" ")
             .slice(0, 4)
             .join(" ");
-          navigate(routeNames.general.verificationPending, {
-            state: {
-              data: {
-                appointmentTime: appointmentTime,
-                appointmentDate: appointmentDate,
-              },
-            },
-          });
+          socialWorkerVerification
+            ? navigate(routeNames.socialWorker.verificationScheduled)
+            : navigate(routeNames.general.verificationPending, {
+                state: {
+                  data: {
+                    appointmentTime: appointmentTime,
+                    appointmentDate: appointmentDate,
+                    otherInfo: response.data,
+                  },
+                },
+              });
           setOpened(false);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

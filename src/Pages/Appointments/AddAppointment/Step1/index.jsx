@@ -53,17 +53,18 @@ const Step1 = ({
   setVerifyImg,
   setVerifyStatus,
   setFileLoader,
-  fileLoader
-
+  fileLoader,
+  User,
 }) => {
   const { state } = useLocation();
 
   const { classes } = useStyles();
-  const { user: usertoken } = useContext(UserContext);
+  const { user: usertoken, translate } = useContext(UserContext);
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
   const [projects, setProjetcs] = useState([]);
+  const [identityImage, setIdentityImage] = useState();
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
@@ -74,6 +75,7 @@ const Step1 = ({
   const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
+
 
   const videoConstraints = {
     width: 420,
@@ -94,7 +96,7 @@ const Step1 = ({
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
+   
 
     handleFileInput(blob, "public");
 
@@ -103,10 +105,10 @@ const Step1 = ({
 
   function dataURItoBlob(dataURI) {
     const byteString = atob(dataURI.split(",")[1]);
-    console.log(byteString);
+    
     const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     const extension = mimeString.split("/")[1];
-    console.log(mimeString);
+   
     const arrayBuffer = new ArrayBuffer(byteString.length);
     const intArray = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
@@ -143,7 +145,7 @@ const Step1 = ({
         Bucket: s3Config.bucketName,
       },
     });
-    console.log(file);
+    
     var objKey = type + "/" + Date.now() + "/" + file.name;
     var params = {
       Key: objKey,
@@ -206,47 +208,62 @@ const Step1 = ({
   //  console.log("hello")
   // }
 
+  //selected user
+  const { data: selectedUser, status: userFetching } = useQuery(
+    ["userFetched", user],
+    () => {
+      return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
+    },
+    {
+      cacheTime: 0,
+      onSuccess: (response) => {
+        setSelectedUser(response);
+        setIdentityImage(response?.data?.data?.userConsentForm?.userImage);
+      },
+      enabled: !!user,
+    }
+  );
+
   const handleVerifyFaceId = useMutation(
     () => {
       let obj = {
         sourceImage: verifyimg,
-        targetImage: appData.image,
+        targetImage: selectedUser?.data?.data?.userConsentForm?.userImage,
       };
+     
 
-      console.log(obj);
+      // console.log(obj);
       const formData = new FormData();
       formData.append("sourceImage", verifyimg);
-      formData.append("targetImage", appData.image);
+      formData.append(
+        "targetImage",
+        selectedUser?.data?.data?.userConsentForm?.userImage
+      );
       for (let entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);
       }
-      return axios.post(
-        `https://face-match.usquaresolutions.com/index.php`,
-        formData,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.post(`https://face.gauapp.es/index.php`, formData);
     },
     {
       onSuccess: (response) => {
-        if(response.data.matched==="True"){
-          setVerifyStatus(true)
+        if (response.data.matched === "True") {
+          setVerifyStatus(true);
           showNotification({
-            title: "Verification Success",
-            message: "Face Matched",
+            title: translate("Verification Success"),
+            message: translate("Face Matched"),
             color: "green.0",
-          })
-        }else{
-          setVerifyStatus(false)
+          });
+        } else {
+          setVerifyStatus(false);
           showNotification({
-            title: "Verification Failed",
-            message: "Face Not Matched",
+            title: translate("Verification Failed"),
+            message: translate("Face Not Matched"),
             color: "red.0",
-          })
-
+          });
         }
       },
     }
@@ -307,24 +324,7 @@ const Step1 = ({
     }
   );
 
-  //selected user
-  const { data: selectedUser, status: userFetching } = useQuery(
-    ["userFetched", user],
-    () => {
-      return axios.get(backendUrl + `/api/user/listSingleUser/${user}`, {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
-    },
-    {
-      cacheTime: 0,
-      onSuccess: (response) => {
-        setSelectedUser(response);
-      },
-      enabled: !!user,
-    }
-  );
+  
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
@@ -406,8 +406,32 @@ const Step1 = ({
   return (
     <Flex gap={"md"} direction="column" px={"0px"}>
       <Text fz={20} fw="bolder" align="center">
-        Verify User
+        {translate("Verify User")}
       </Text>
+      {appData?.refer === "Refered" && (
+        <>
+          <Container>
+            <Text align="center" fw={"bold"} fz={"lg"}>
+              {translate("Referred Comment")}
+            </Text>
+            <Text
+              style={{
+                border: "1px solid #E8E8E8",
+                borderRadius: "5px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                boxShadow: "5px 5px 5px #E8E8E8",
+              }}
+              p={"md"}
+              // w={"40rem"}
+              align="center"
+            >
+              {appData?.referedComment}
+            </Text>
+          </Container>
+          <Divider />
+        </>
+      )}
 
       <Group>
         {verifyCamera ? (
@@ -463,7 +487,7 @@ const Step1 = ({
             leftIcon="faceid"
             iconWidth="24px"
             styles={{
-              width: "230px",
+              width: "250px",
               fontSize: "22px",
               height: "46px",
               margin: "auto",

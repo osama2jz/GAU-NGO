@@ -114,7 +114,7 @@ export const ViewProfessionals = () => {
     },
     {
       onSuccess: (response) => {
-        let data = response.data?.data?.map((obj, ind) => {
+        let data = response?.data?.data?.map((obj, ind) => {
           let user = {
             id: obj._id,
             sr: ind + 1,
@@ -139,7 +139,7 @@ export const ViewProfessionals = () => {
           return user;
         });
         setRowData(data);
-        setTotalPages(response.data.totalPages);
+        setTotalPages(response?.data?.totalPages);
       },
     }
   );
@@ -176,7 +176,7 @@ export const ViewProfessionals = () => {
   };
 
   const FilteredData = useMemo(() => {
-    let filteredData = rowData.filter((obj) => {
+    let filteredData = rowData?.filter((obj) => {
       if (filter === "") {
         return obj?.name.toLowerCase().includes(search.toLowerCase());
       } else {
@@ -188,7 +188,7 @@ export const ViewProfessionals = () => {
     });
     setPage(1);
     setTotalPages(Math.ceil(filteredData?.length / 10));
-    const a = filteredData.map((item, ind) => {
+    const a = filteredData?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,

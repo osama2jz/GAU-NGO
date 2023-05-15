@@ -14,9 +14,12 @@ import TextArea from "../../../../Components/TextArea";
 import { useStyles } from "../styles";
 import InputMask from "react-input-mask";
 import Datepicker from "../../../../Components/Datepicker";
+import { useContext } from "react";
+import { UserContext } from "../../../../contexts/UserContext";
 
 export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
   const { classes } = useStyles();
+  const {translate}=useContext(UserContext)
 
   // console.log(form.values)
   // const submitAll = (values) => {
@@ -26,7 +29,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
   return (
     <Container size="lg">
       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
-        Psychology Form Under 18
+        {translate("Psychology Form Under 18")}
       </Text>
       <form
         className={classes.form}
@@ -35,7 +38,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
         })}
       >
         <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Parentage Information</Text>
+          <Text className={classes.subHeading}>{translate("Parentage Information")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -100,7 +103,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/** Parental Details */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Parental Details</Text>
+          <Text className={classes.subHeading}>{translate("Parental Details")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -144,7 +147,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Mother's Details */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Mother's Details</Text>
+          <Text className={classes.subHeading}>{translate("Mother’s Details")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -188,7 +191,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Siblings Details */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Siblings Details</Text>
+          <Text className={classes.subHeading}>{translate("Siblings Details")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -232,7 +235,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Consultation Reason */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Reason for Consultation</Text>
+          <Text className={classes.subHeading}>{translate("Reason for Consultation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <TextArea
             placeholder="Reason for Consultation"
@@ -243,7 +246,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* History of Current Problem */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>History of Current Problem</Text>
+          <Text className={classes.subHeading}>{translate("History of Current Problem")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -281,7 +284,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             <TextArea
               label="Objective In Terms Of The Problem"
               required={true}
-              placeholder="Objectives"
+              placeholder="Objective"
               form={form}
               validateName="under18Objective"
             />
@@ -290,7 +293,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Psychological History */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Psychological History</Text>
+          <Text className={classes.subHeading}>{translate("Psychological History")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -332,7 +335,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Studies and Occupation */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Studies and Occupation</Text>
+          <Text className={classes.subHeading}>{translate("Studies and Occupation")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -402,7 +405,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Family Relations */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Family Relations</Text>
+          <Text className={classes.subHeading}>{translate("Family Relations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -473,7 +476,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             <TextArea
               label="Important Events"
               required={true}
-              placeholder="eg. Trips, Deaths"
+              placeholder="eg. Trips, Death"
               form={form}
               validateName="under18ImportantEvents"
             />
@@ -489,7 +492,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Social Relations */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>
-          <Text className={classes.subHeading}>Social Relations</Text>
+          <Text className={classes.subHeading}>{translate("Social Relations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -524,7 +527,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Interests and motivations */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Interests and Motivations</Text>
+          <Text className={classes.subHeading}>{translate("Interests and Motivations")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -536,56 +539,56 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             <TextArea
               label="What it takes up most of the time?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write here..."
               form={form}
               validateName="under18TakesMostTime"
             />
             <TextArea
               label="How he/she likes to have fun?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write here..."
               form={form}
               validateName="under18HowFun"
             />
             <TextArea
               label="Where is he/she most comfortable?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write here..."
               form={form}
               validateName="under18ComfortableSituations"
             />
             <TextArea
               label="Which person is the most important in his/her life?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18ImportantPerson"
             />
             <TextArea
               label="What is his/her most important concerns?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18ImportantConcerns"
             />
             <TextArea
               label="What things he/she wishes to change in his/her life?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18ChangeThings"
             />
             <TextArea
               label="What does he/she expect from others?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18ExpectFromOthers"
             />
             <TextArea
               label="What is his/her greatest illusions?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18GreatestIllusion"
             />
@@ -594,7 +597,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Sexuality */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Sexuality</Text>
+          <Text className={classes.subHeading}>{translate("Sexuality")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -636,7 +639,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Obsessive Problems */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Obsessive Problems</Text>
+          <Text className={classes.subHeading}>{translate("Obsessive Problems")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -648,21 +651,21 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             <TextArea
               label="Do you have ideas that you are not able to get out of your head?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18NotAbleToGetHead"
             />
             <TextArea
               label="Do you report a task or idea numerous times to make sure it's okay?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18TaskRepeat"
             />
             <TextArea
               label="Are you presented with absurd ideas or unpleasent ideas?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18AbsurdUnpleasant"
             />
@@ -670,14 +673,14 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             <TextArea
               label="Are there thoughts you try to avoid at all costs?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18AvoidThoughts"
             />
             <TextArea
               label="Are there things you are forces to do,or else you feel nervous?"
               required={true}
-              placeholder="Write here ..."
+              placeholder="Write Here..."
               form={form}
               validateName="under18FeelNervous"
             />
@@ -686,7 +689,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
 
         {/* Remarks */}
         <Card mt="sm">
-          <Text className={classes.subHeading}>Remarks</Text>
+          <Text className={classes.subHeading}>{translate("Remarks")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
             breakpoints={[
@@ -696,9 +699,9 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
             ]}
           >
             <TextArea
-              label="Physical description "
+              label="Physical description"
               required={true}
-              placeholder="Physical description "
+              placeholder="Physical description"
               form={form}
               validateName="under18PhysicalDescription"
             />

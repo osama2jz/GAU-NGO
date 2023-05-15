@@ -51,6 +51,9 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
+  console.log("appData", appData);
+  
+
   //Camera Image
   const [img, setImg] = useState(null);
   const [verifyimg, setVerifyImg] = useState(null);
@@ -68,6 +71,7 @@ const AddAppointment = () => {
   const [attachedDocs, setAttachedDocs] = useState([]);
 
   const [verifyStatus, setVerifyStatus] = useState(false);
+  // console.log("app",appData)
 
   const editorr = useEditor({
     extensions: [
@@ -271,13 +275,17 @@ const AddAppointment = () => {
       onSuccess: (response) => {
         showNotification({
           color: "green.0",
-          message: "Reports submitted Successfully",
-          title: "Success",
+          message: translate("Reports submitted Successfully"),
+          title: translate("Success"),
         });
         handleUploadDocuments.mutate();
       },
     }
   );
+
+  //Fetch Single User
+   //selected user
+
 
   //Upload Document
   const handleUploadDocuments = useMutation(
@@ -304,8 +312,8 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: "Please Select User or Create Case.",
-            title: "User Case",
+            message: translate("Please Select User or Create Case."),
+            title: translate("User Case"),
           });
 
           return;
@@ -313,8 +321,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -332,8 +340,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -342,8 +350,8 @@ const AddAppointment = () => {
         if (img === null && !verifyStatus) {
           showNotification({
             color: "red.0",
-            message: "Please Verify Face ID or Attach Photo.",
-            title: "Face Recognition",
+            message: translate("Please Verify Face ID or Attach Photo."),
+            title: translate("Face Recognition"),
           });
           return;
         }
@@ -361,8 +369,8 @@ const AddAppointment = () => {
           } else {
             showNotification({
               color: "red.0",
-              message: "Please Add Other User Information.",
-              title: "User Information",
+              message: translate("Please Add Other User Information."),
+              title: translate("User Information"),
             });
             return;
           }
@@ -527,6 +535,7 @@ const AddAppointment = () => {
           >
             <Step1
               setSelectedUser={setSelectedUser}
+            
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}

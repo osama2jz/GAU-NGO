@@ -169,7 +169,7 @@ const Step1 = ({
   return (
     <Container p={"0px"} size="xl">
       <Text fz={20} fw="bolder" align="center">
-        {usertoken.role === "User" ? "Personal Information" : "Select User"}
+        {usertoken.role === "User" ? translate("Personal Information") : translate("Select User")}
       </Text>
 
 

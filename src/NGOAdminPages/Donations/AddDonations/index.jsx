@@ -29,8 +29,8 @@ export const AddDonations = () => {
     },
 
     validate: {
-      amount: (value) => (value > 0 ? null : "Please enter amount"),
-      userId: (value) => (value?.length < 1 ? "Please select user" : null),
+      amount: (value) => (value > 0 ? null : translate("Please enter amount")),
+      userId: (value) => (value?.length < 1 ? translate("Please select user") : null),
       description: (value) =>
         value?.length < 2 ? translate("Please enter description") : null,
     },
@@ -77,15 +77,15 @@ export const AddDonations = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Amount Donated ",
-            message: "Amount Donated Successfully!",
+            title: translate("Amount Donated"),
+            message:translate("Amount Donated Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDonations);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }

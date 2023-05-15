@@ -1,4 +1,4 @@
-export const backendUrl = "https://gau.usquaresolutions.com";
+export const backendUrl = "https://backend-gau.herokuapp.com";
 
 export const s3Config = {
   region: "us-east-1",
@@ -32,3 +32,4 @@ export const slots = [
   { value: "22:00-23:00", label: "22:00-23:00" },
   { value: "23:00-24:00", label: "23:00-24:00" },
 ];
+

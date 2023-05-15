@@ -97,8 +97,8 @@ export const AddDictionary = () => {
         if (response.data.status) {
           let word = editData ? "Updated" : "Added";
           showNotification({
-            title: `Dictionary ${word}`,
-            message: `Dictionary ${word} Successfully!`,
+            title:translate(`Dictionary ${word}`),
+            message: translate(`Dictionary ${word} Successfully!`),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.ViewDictionary);

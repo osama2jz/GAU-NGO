@@ -16,6 +16,7 @@ import Pagination from "../../../Components/Pagination";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../../Reports/downloadPdf";
+import moment from "moment";
 
 const MissingDocuments = () => {
   const { classes } = useStyles();
@@ -62,7 +63,7 @@ const MissingDocuments = () => {
               email: "N/A",
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
-              date: obj?.addedDate,
+              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
               addedBy: obj?.addedBy,
               role:
                 obj?.role === "socialWorker"
@@ -71,11 +72,19 @@ const MissingDocuments = () => {
                   ? "Psychologist"
                   : "Lawyer",
               appointId: obj?.appointmentId,
-              doc: obj?.documents,
+              // doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
+              primaryDoc: obj?.primaryDocuments,
+             
+              doc: obj?.documents.map((doc) => ({
+                ...doc,
+                status: doc.documentURL===""?true:false, // Add the desired status value
+              })),
+              
+              
             };
             return appointment;
           });
@@ -195,7 +204,7 @@ const MissingDocuments = () => {
         <Grid align={"center"} py="md">
           <Grid.Col xs={5} lg={6}>
             <InputField
-              placeholder="Search user name"
+              placeholder="Search Name"
               leftIcon="search"
               pb="0"
               value={search}

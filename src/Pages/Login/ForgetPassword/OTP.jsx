@@ -51,14 +51,14 @@ const OTP = () => {
             state: { otp: form.values.OTP },
           });
           showNotification({
-            title: "OTP Verified",
-            message: response.data.message,
+            title:translate("OTP Verified"),
+            message: translate(response.data.message),
             color: "green.0",
           });
         } else {
           showNotification({
-            title: "Invalid OTP",
-            message: response.data.message,
+            title: translate("Invalid OTP"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

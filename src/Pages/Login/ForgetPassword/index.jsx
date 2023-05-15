@@ -43,14 +43,14 @@ const ForgetPassword = () => {
           // localStorage.setItem("userData", JSON.stringify(response.data));
           navigate(routeNames.general.otp, { state: { allowed: true } });
           showNotification({
-            title: "Email Verified",
-            message: response.data.message,
+            title: translate("Email Verified"),
+            message: translate(response.data.message),
             color: "green.0",
           });
         } else {
           showNotification({
-            title: "Invalid Email",
-            message: response.data.message,
+            title: translate("Invalid Email"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

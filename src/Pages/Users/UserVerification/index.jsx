@@ -36,6 +36,9 @@ export const UserVerification = () => {
   const [consentSignature, setConsentSignature] = useState("");
   const [userid, setUserId] = useState(null);
   const [userdata, setUserData] = useState("");
+  const [img, setImg] = useState(null);
+  const [fileLoader, setFileLoader] = useState(false);
+  
 
   let { state } = useLocation();
 
@@ -45,14 +48,14 @@ export const UserVerification = () => {
   useEffect(() => {
     if (id) {
       setUserId(id);
-      console.log(id);
+ 
     }
   }, [id]);
 
   const _ = useQuery(
     "fetchUsertoEditData",
     () => {
-      console.log("hello");
+  
       return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
         headers: {
           "x-access-token": user.token,
@@ -162,7 +165,7 @@ export const UserVerification = () => {
         let workData =
           response?.data?.data?.userConsentForm?.workExperience.map(
             (item, index) => {
-              console.log("item", item);
+             
               return {
                 id: item._id,
                 contract: item.contract,
@@ -174,7 +177,7 @@ export const UserVerification = () => {
               };
             }
           );
-        console.log("item", workData);
+       
         setWorkExperience(workData);
 
         // setWorkExperience(
@@ -204,19 +207,27 @@ export const UserVerification = () => {
   const handleNextSubmit = async () => {
     if (active == 0) {
       if (userid) {
+        if(img===null && !editId){
+          showNotification({
+            title: translate("Error"),
+            message: translate("Please Attach Face Id"),
+            color: "red.0",
+          });
+          return
+        }
         setActive(active + 1);
       } else {
         showNotification({
-          title: "Error",
-          message: "Please select a user",
+          title: translate("Error"),
+          message: translate("Please Select User Information"),
           color: "red.0",
         });
       }
     } else if (active == 2) {
       if (sigCanvas.current.isEmpty()) {
         showNotification({
-          title: "Error",
-          message: "Please sign the consent form.",
+          title: translate("Error"),
+          message: translate("Please sign the consent form."),
           color: "red.0",
         });
       } else {
@@ -226,8 +237,8 @@ export const UserVerification = () => {
     } else if (active == 3) {
       if (sigCanvas2.current.isEmpty()) {
         showNotification({
-          title: "Error",
-          message: "Please sign the agreement form",
+          title: translate("Error"),
+          message: translate("Please sign the agreement form"),
           color: "red.0",
         });
       } else {
@@ -237,7 +248,7 @@ export const UserVerification = () => {
     }
   };
 
-  const handleVerifyUser = useMutation(
+const handleVerifyUser = useMutation(
     (url) => {
       let a = moment(moment()).diff(form.values.dateOfBirth, "years");
 
@@ -280,6 +291,7 @@ export const UserVerification = () => {
           workExperience: workExperience,
           consentSignatures: consentSignature,
           agreementSignatures: url,
+          userImage:img
         },
       };
       return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
@@ -291,10 +303,10 @@ export const UserVerification = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: editId ? "User Update" : "User Verified",
+          title: editId ? translate("User Update") : translate("User Verified"),
           message: editId
-            ? "User Information Update Succesfully!"
-            : "User Verify Successfully!",
+            ? translate("User Information Update Succesfully!")
+            : translate("User Verify Successfully!"),
           color: "green.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -303,8 +315,8 @@ export const UserVerification = () => {
     {
       onError: () => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something Went Wrong!"),
           color: "red.0",
         });
         navigate(routeNames.socialWorker.allUsers);
@@ -348,19 +360,19 @@ export const UserVerification = () => {
     },
     validate: {
       dateOfBirth: (value) =>
-        value.length < 1 ? "Please enter your date of Birth" : null,
-      passport: (value) => (value?.length < 1 ? "Please enter passport" : null),
+        value.length < 1 ? translate("Please enter your date of Birth") : null,
+      passport: (value) => (value?.length < 1 ? translate("Please enter passport") : null),
       nationality: (value) =>
-        value?.length < 1 ? "Please enter nationality" : null,
-      country: (value) => (value?.length < 1 ? "Please enter Country" : null),
-      address: (value) => (value?.length < 1 ? "Please enter Adress" : null),
-      city: (value) => (value?.length < 1 ? "Please enter City" : null),
-      revenue: (value) => (value?.length < 1 ? "Please enter revenue" : null),
-      expenses: (value) => (value?.length < 1 ? "Please enter expenses" : null),
+        value?.length < 1 ? translate("Please enter nationality") : null,
+      country: (value) => (value?.length < 1 ? translate("Please enter Country") : null),
+      address: (value) => (value?.length < 1 ? translate("Please enter Adress") : null),
+      city: (value) => (value?.length < 1 ? translate("Please enter City") : null),
+      revenue: (value) => (value?.length < 1 ? translate("Please enter revenue") : null),
+      expenses: (value) => (value?.length < 1 ? translate("Please enter expenses") : null),
       aidsBonuses: (value) =>
-        value?.length < 1 ? "Please enter Aids or Bonuses" : null,
-      debt: (value) => (value?.length < 1 ? "Please enter debt" : null),
-      housing: (value) => (value?.length < 1 ? "Please enter housing" : null),
+        value?.length < 1 ? translate("Please enter Aids or Bonuses") : null,
+      debt: (value) => (value?.length < 1 ? translate("Please enter debt"): null),
+      housing: (value) => (value?.length < 1 ? translate("Please enter housing") : null),
     },
   });
   return (
@@ -385,7 +397,14 @@ export const UserVerification = () => {
               label={`1. ${translate("Get Started")}`}
               description={translate("Personal Identification")}
             >
-              <Step1 user={userid} setUser={setUserId} />
+              <Step1
+                user={userid}
+                setUser={setUserId}
+                img={img}
+                setImg={setImg}
+                fileLoader={fileLoader}
+                setFileLoader={setFileLoader}
+              />
             </Stepper.Step>
             <Stepper.Step
               icon={
@@ -457,6 +476,7 @@ export const UserVerification = () => {
                 onClick={handleNextSubmit}
                 label={active === 4 ? "Submit" : "Save & Next"}
                 bg={true}
+                loading={fileLoader || handleVerifyUser.isLoading}
               />
             )}
           </Group>

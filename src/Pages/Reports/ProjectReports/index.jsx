@@ -77,6 +77,7 @@ function ProjectReports() {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",
@@ -89,6 +90,7 @@ function ProjectReports() {
       numeric: false,
       disablePadding: true,
       label: "Report Type",
+      translate:true
     },
     {
       id: "file",
@@ -151,8 +153,8 @@ function ProjectReports() {
     const filtered = rowData?.filter((item) => {
       if (filter == "") {
         return (
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.case.toLowerCase().includes(search.toLowerCase())
+          item?.name.toLowerCase().includes(search.toLowerCase()) ||
+          item?.case.toLowerCase().includes(search.toLowerCase())
         );
       } else {
         return (
@@ -164,7 +166,7 @@ function ProjectReports() {
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    let a = filtered.map((obj, ind) => {
+    let a = filtered?.map((obj, ind) => {
       return {
         ...obj,
         sr: ind + 1,
@@ -176,9 +178,9 @@ function ProjectReports() {
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
-      return filterData.slice(0, 10);
+      return filterData?.slice(0, 10);
     } else {
-      return filterData.slice((activePage - 1) * 10, activePage * 10);
+      return filterData?.slice((activePage - 1) * 10, activePage * 10);
     }
   });
   return (

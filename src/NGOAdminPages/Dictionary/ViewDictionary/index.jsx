@@ -21,7 +21,7 @@ export const ViewDictionary = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user,translate } = useContext(UserContext);
   const [deleteID, setDeleteID] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [filter, setFilter] = useState("all");
@@ -92,15 +92,15 @@ export const ViewDictionary = () => {
   );
 
   const filteredItems = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       return (
-        item.actualWord.toLowerCase().includes(search.toLowerCase()) ||
-        item.translated.toLowerCase().includes(search.toLowerCase())
+        item?.actualWord?.toLowerCase().includes(search.toLowerCase()) ||
+        item?.translated?.toLowerCase().includes(search.toLowerCase())
       );
     });
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -111,9 +111,9 @@ export const ViewDictionary = () => {
 
   const paginated = useMemo(() => {
     if (activePage == 1) {
-      return filteredItems.slice(0, 10);
+      return filteredItems?.slice(0, 10);
     } else {
-      return filteredItems.slice((activePage - 1) * 10, activePage * 10);
+      return filteredItems?.slice((activePage - 1) * 10, activePage * 10);
     }
   }, [activePage, filteredItems]);
 
@@ -133,8 +133,8 @@ export const ViewDictionary = () => {
     {
       onSuccess: (response) => {
         showNotification({
-          title: "Deleted",
-          message: "Dictionary word deleted successfully!",
+          title: translate("Deleted"),
+          message: translate("Dictionary word deleted successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
@@ -142,8 +142,8 @@ export const ViewDictionary = () => {
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something Went Wrong!"),
           color: "red.0",
         });
       },
@@ -160,6 +160,7 @@ export const ViewDictionary = () => {
             <InputField
               placeholder="Search word"
               leftIcon="search"
+              value={search}
               pb="0"
               onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
