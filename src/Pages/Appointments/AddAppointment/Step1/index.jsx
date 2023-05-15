@@ -234,18 +234,12 @@ const Step1 = ({
         sourceImage: verifyimg,
         targetImage: selectedUser?.data?.data?.userConsentForm?.userImage,
       };
-     
-
-      // console.log(obj);
       const formData = new FormData();
       formData.append("sourceImage", verifyimg);
       formData.append(
         "targetImage",
         selectedUser?.data?.data?.userConsentForm?.userImage
       );
-      for (let entry of formData.entries()) {
-        console.log(entry[0] + ": " + entry[1]);
-      }
       return axios.post(`https://face.gauapp.es/index.php`, formData);
     },
     {
