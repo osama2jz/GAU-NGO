@@ -7,7 +7,7 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,scheduledId,single }) => {
+const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,scheduledId,single,setSingle}) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -20,6 +20,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
   }));
   const { classes } = useStyles();
   const { user,translate } = useContext(UserContext);
+  console.log("single",single)
 
   const handleLeave = useMutation(
     () => {
@@ -59,7 +60,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
     }
   );
 
-  console.log("schedule Idddd",scheduledId)
+  // console.log("schedule Idddd",scheduledId)
   const handleSingleSlotLeave = useMutation(
     () => {
       return axios.post(
@@ -84,6 +85,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
           });
           setOpened(false);
           setRefetch((v) => !v);
+          setSingle(false)
 
         } else {
           showNotification({

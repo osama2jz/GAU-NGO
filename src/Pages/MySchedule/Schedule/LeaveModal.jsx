@@ -7,7 +7,16 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}) => {
+const LeaveModal = ({
+  opened,
+  setOpened,
+  date,
+  branchId,
+  setRefetch,
+  scheduledId,
+  single,
+  setSingle
+}) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -19,7 +28,9 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
     root: {},
   }));
   const { classes } = useStyles();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
+
+  console.log("single", single);
 
   const handleLeave = useMutation(
     () => {
@@ -43,14 +54,17 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
         if (response.data.status) {
           showNotification({
             title: translate("Leave"),
-            message:(translate("The date"),{date},translate("is marked as leave.")),
+            message:
+              (translate("The date"),
+              { date },
+              translate("is marked as leave.")),
             color: "green.0",
           });
           setOpened(false);
           setRefetch(true);
         } else {
           showNotification({
-            title:  translate("Leave"),
+            title: translate("Leave"),
             message: translate(response.data.message),
             color: "red.0",
           });
@@ -59,9 +73,6 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
     }
   );
 
-  console.log("schedule",scheduledId)
-
-  
   const handleSingleSlotLeave = useMutation(
     () => {
       return axios.post(
@@ -81,11 +92,15 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
         if (response.data.status) {
           showNotification({
             title: translate("Leave"),
-            message:(translate("The date"),{date},translate("is marked as leave.")),
+            message:
+              (translate("The date"),
+              { date },
+              translate("is marked as leave.")),
             color: "green.0",
           });
           setOpened(false);
           setRefetch(true);
+          setSingle(false)
         } else {
           showNotification({
             title: translate("Error"),
@@ -108,7 +123,9 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
     >
       <Container>
         <Text>
-          {translate("Are you sure you want to mark")} ${date} {translate("as leave?")} {translate("It will cancel all of your appointments for this day.")}
+          {translate("Are you sure you want to mark")} ${date}{" "}
+          {translate("as leave?")}{" "}
+          {translate("It will cancel all of your appointments for this day.")}
         </Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
@@ -117,7 +134,9 @@ const LeaveModal = ({ opened, setOpened, date, branchId, setRefetch,scheduledId}
             primary={true}
             w="100px"
             loading={handleLeave.isLoading}
-            onClick={() => scheduledId ? handleSingleSlotLeave.mutate() :handleLeave.mutate()}
+            onClick={() =>
+              single ? handleSingleSlotLeave.mutate() : handleLeave.mutate()
+            }
           />
         </Group>
       </Container>

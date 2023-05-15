@@ -5,13 +5,13 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import LeaveModal from "../../../Pages/MySchedule/Schedule/LeaveModal";
 
-const ViewRoasterModal = ({ opened, setOpened, id, setSlot ,reportData}) => {
+const ViewRoasterModal = ({ opened, setOpened, id, setSlot, reportData }) => {
   const matches = useMediaQuery("(min-width: 600px)");
   const { translate } = useContext(UserContext);
-  const [openSingle,setOpenSingle] = useState(false);
-  const [scheduledId,setScheduleId] = useState();
+  const [openSingle, setOpenSingle] = useState(false);
+  const [scheduledId, setScheduleId] = useState();
+  const[single,setSingle]=useState(false)
 
-  
 
   return (
     <Modal
@@ -39,6 +39,8 @@ const ViewRoasterModal = ({ opened, setOpened, id, setSlot ,reportData}) => {
         reportData={reportData}
         setScheduleId={setScheduleId}
         scheduledId={scheduledId}
+        single={single}
+        setSingle={setSingle}
       />
       {/* <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch} scheduledId={scheduledId}/> */}
     </Modal>

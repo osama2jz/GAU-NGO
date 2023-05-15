@@ -118,7 +118,7 @@ const Login = () => {
       <Flex justify="space-between" mt="md">
         <Checkbox label={translate("Remember me")} />
         <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
-          {translate("Forgot Password")}?
+          {translate("Forgot Password")}
         </Anchor>
       </Flex>
       <Divider

@@ -30,6 +30,9 @@ const MySchedule = () => {
   const [opened, setOpened] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const [scheduledId,setScheduleId] = useState();
+  const[single,setSingle]=useState(false)
+
+
 
   useEffect(() => {
     getSchedule.mutate(date);
@@ -78,7 +81,7 @@ const MySchedule = () => {
             endTime: obj.timeEnd,
             booked: obj?.booked,
             branchId: obj?.branchId,
-            scheduledId: obj?.scheduleId,
+            scheduleId: obj?.scheduleId,
           };
           return user;
         });
@@ -126,7 +129,7 @@ const MySchedule = () => {
             >
               {scheduleData.map((item, index) => (
                 <Flex justify={"center"}>
-                  <ScheduleCard data={item} setOpened={setOpened} setScheduleId={setScheduleId}/>
+                  <ScheduleCard data={item} setOpened={setOpened} setScheduleId={setScheduleId} setSingle={setSingle} single={single}/>
                 </Flex>
               ))}
             </SimpleGrid>
@@ -137,7 +140,7 @@ const MySchedule = () => {
           </Text>
         )}
       </Container>
-      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch} scheduledId={scheduledId}/>
+      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch} scheduledId={scheduledId} single={single} setSingle={setSingle}/>
     </Container>
   );
 };

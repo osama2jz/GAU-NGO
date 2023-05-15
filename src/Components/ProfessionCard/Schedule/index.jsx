@@ -13,7 +13,7 @@ import moment from "moment";
 import LeaveModal from "./LeaveModal";
 import Button from "../../Button";
 
-const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId }) => {
+const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId,single,setSingle }) => {
   const { classes } = useStyles();
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user, translate } = useContext(UserContext);
@@ -21,7 +21,7 @@ const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId }) => {
   const [scheduleData, setScheduleData] = useState([]);
   const [scheduleDates, setScheduleDates] = useState([]);
   const [refetch, setRefetch] = useState(false);
-  const[single,setSingle]=useState(false)
+  // const[single,setSingle]=useState(false)
 
 
   useEffect(() => {
@@ -138,6 +138,7 @@ const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId }) => {
         branchId={scheduleData[0]?.branchId}
         scheduledId={scheduledId}
         single={single}
+        setSingle={setSingle}
       />
     </Container>
   );

@@ -95,6 +95,8 @@ const VerificationPending = () => {
           CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);
           
         }}
+        cancel={"No"}
+        deletee={"Yes"}
         loading={CancelAppointments.isLoading}
         label="Are you Sure?"
         message="Do you really want to cancel this appointment?"

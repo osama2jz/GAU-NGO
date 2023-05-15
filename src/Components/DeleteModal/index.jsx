@@ -27,7 +27,9 @@ const DeleteModal = ({
   label,
   loading,
   message,
-  close
+  close,
+  cancel="Cancel",
+  deletee="Delete"
 }) => {
   const {translate}=useContext(UserContext)
   const { classes, cx } = useStyles();
@@ -45,9 +47,9 @@ const DeleteModal = ({
         </Text>
         <Text align="center">{translate(message)}</Text>
         <Group pt={"sm"} ml={"auto"}>
-          <Button label={translate("Cancel")} onClick={onCancel}/>
+          <Button label={translate(cancel)} onClick={onCancel}/>
           <Button
-            label={close ?translate("Done"):translate("Delete")}
+            label={close ?translate("Done"):translate(deletee)}
             loading={loading}
             onClick={onDelete}
             primary={true}

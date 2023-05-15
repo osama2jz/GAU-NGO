@@ -247,15 +247,7 @@ const Step1 = ({
       for (let entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);
       }
-      return axios.post(
-        `https://face.gauapp.es/index.php`,
-        formData,
-        {
-          headers: {
-            "x-access-token": user.token,
-          },
-        }
-      );
+      return axios.post(`https://face.gauapp.es/index.php`, formData);
     },
     {
       onSuccess: (response) => {
@@ -419,29 +411,27 @@ const Step1 = ({
       </Text>
       {appData?.refer === "Refered" && (
         <>
-        <Container>
-          <Text align="center" fw={"bold"} fz={"lg"}>
-            {translate("Referred Comment")}
-          </Text>
-          <Text
-            style={{
-              border: "1px solid #E8E8E8",
-              borderRadius: "5px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              boxShadow: "5px 5px 5px #E8E8E8"
-            }}
-            p={"md"}
-            // w={"40rem"}
-            align="center"
-          >
-            {appData?.referedComment}
-          </Text>
-          
-        </Container>
-        <Divider />
+          <Container>
+            <Text align="center" fw={"bold"} fz={"lg"}>
+              {translate("Referred Comment")}
+            </Text>
+            <Text
+              style={{
+                border: "1px solid #E8E8E8",
+                borderRadius: "5px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                boxShadow: "5px 5px 5px #E8E8E8",
+              }}
+              p={"md"}
+              // w={"40rem"}
+              align="center"
+            >
+              {appData?.referedComment}
+            </Text>
+          </Container>
+          <Divider />
         </>
-        
       )}
 
       <Group>
