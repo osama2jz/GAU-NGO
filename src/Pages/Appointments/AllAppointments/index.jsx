@@ -259,8 +259,8 @@ function AllAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="All Appointments"
-              label={"All Appointments"}
+              title="Appointments"
+              label={"Appointments"}
             />
           </Grid.Col>
         </Grid>

@@ -56,37 +56,37 @@ export const AllUser = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "email",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: translate("Email"),
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
+      label: translate("Registration Date"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: translate("User Status"),
     },
     {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
@@ -290,7 +290,7 @@ export const AllUser = () => {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="Download reports"
+              title="Users"
               label={("Users")}
             />
           </Grid.Col>

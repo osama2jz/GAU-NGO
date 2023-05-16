@@ -52,44 +52,44 @@ function ProjectCases() {
       id: "caseName",
       numeric: false,
       disablePadding: true,
-      label: "Case Name",
+      label: translate("Case Name"),
     },
     {
       id: "case",
       numeric: false,
       disablePadding: true,
-      label: "Case #",
+      label: translate("Case #"),
     },
 
     {
       id: "totalAppointments",
       numeric: false,
       disablePadding: true,
-      label: "Appointments",
+      label: translate("Appointments"),
     },
     {
       id: "totalReports",
       numeric: false,
       disablePadding: true,
-      label: "Reports",
+      label: translate("Reports"),
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Created Date",
+      label: translate("Created Date"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
 
     {
       id: "close",
       numeric: false,
-      label: "Close Case",
+      label: translate("Close Case"),
     },
   ];
 
@@ -232,7 +232,7 @@ function ProjectCases() {
             <DownloadPdf
               headCells={headerData}
               data={filterData}
-              title="Download reports"
+              title={"Project Cases"}
               label={"Project Cases"}
             />
           </Grid.Col>
