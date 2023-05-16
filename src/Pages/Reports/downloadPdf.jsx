@@ -4,14 +4,7 @@ import React, { useContext, useState } from "react";
 import download from "../../assets/download.svg";
 // import Logo from "../../assets/logo.svg";
 // import LogoBase64 from "../../assets/logo.svg"
-import {
-  Container,
-  Flex,
-  Group,
-  Image,
-  Menu,
-  Text
-} from "@mantine/core";
+import { Container, Flex, Group, Image, Menu, Text } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { showNotification } from "@mantine/notifications";
 import "dayjs/locale/en";
@@ -27,8 +20,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
   const { translate, user } = useContext(UserContext);
   const [show, setShow] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   // console.log("data", data);
   const today = moment();
@@ -54,24 +47,11 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const CustomDate = () => {
     const New = data?.filter((person) => {
-      console.log(
-        "person",
-        person.date,
-        "Start Date",
-        startDate,
-        "<=",
-        " >=",
-        "endDate",
-        endDate,
-        ":",
-        new Date(person.date) <= startDate && new Date(person.date) >= endDate
-      );
       return (
         new Date(person.date) >= new Date(startDate) &&
         new Date(person.date) <= new Date(endDate)
       );
     });
-    console.log("New", New);
     return New;
   };
 
@@ -117,7 +97,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             color: "red.0",
           })
         : // setShow(false)
-          downloadPDF(cus, `Custom ${label}`);
+          downloadPDF(cus, `${label}`);
       setShow(false);
     }
   };
@@ -230,12 +210,15 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
               locale={locale}
               label={translate("Start Date")}
               value={startDate}
+              placeholder={translate("Start Date")}
               onChange={setStartDate}
             />
             <DatePicker
               locale={locale}
+              placeholder={translate("End Date")}
               label={translate("End Date")}
               value={endDate}
+              minDate={startDate}
               onChange={setEndDate}
             />
           </Flex>
@@ -245,6 +228,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             <Button
               onClick={() => filter("custom")}
               label={"Export"}
+              disabled={!startDate || !endDate}
               bg={true}
             />
           </Group>
