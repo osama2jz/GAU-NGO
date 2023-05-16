@@ -62,6 +62,7 @@ const MissingDocuments = () => {
               caseId: obj?.caseId,
               email: "N/A",
               status: obj?.appointmentStatus?.toUpperCase(),
+              appointmentWith: obj?.appointmentWith,
               time: obj?.scheduledTime,
               date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
               addedBy: obj?.addedBy,
@@ -78,13 +79,12 @@ const MissingDocuments = () => {
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
               primaryDoc: obj?.primaryDocuments,
-             
+
+              attachedDocuments: obj?.attachedDocuments,
               doc: obj?.documents.map((doc) => ({
                 ...doc,
-                status: doc.documentURL===""?true:false, // Add the desired status value
+                status: doc.documentURL === "" ? true : false, // Add the desired status value
               })),
-              
-              
             };
             return appointment;
           });

@@ -32,7 +32,6 @@ function ViewAppointments() {
   let { state } = useLocation();
 
   const { editData } = state ?? "";
-  console.log("edit", editData);
 
   useEffect(() => {
     if (editData) {
@@ -342,7 +341,7 @@ function ViewAppointments() {
                     />
                   </Grid.Col>
                   <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-                    <Container w={"100%"} ml="md" p="10px" >
+                    <Container w={"100%"} ml="md" p="10px">
                       <SimpleGrid cols={2} spacing="xs">
                         <Text className={classes.textheading}>
                           {translate("Name")}
