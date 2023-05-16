@@ -56,7 +56,7 @@ const VerificationPending = () => {
         <br />
         <b>{translate("Branch")}:</b> {state?.data?.otherInfo?.branchName}
         <br />
-        <b>{translate("Appointment With")}</b> {state?.data?.otherInfo?.professionalName}
+        <b>{translate("Appointment With")}:</b> {state?.data?.otherInfo?.professionalName}
         <br />
         <b>{translate("Appointment Date")}:</b> {state?.data.appointmentDate}
         <br />

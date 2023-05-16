@@ -348,7 +348,7 @@ const MyDocs = ({ userDocs, Data }) => {
                 }}
               >
                 <Button
-                  label={"Add"}
+                  label={"Add More"}
                   leftIcon="plus"
                   onClick={() => addInputField()}
                   loading={fileLoader}

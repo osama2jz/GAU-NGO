@@ -30,7 +30,6 @@ const LeaveModal = ({
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
 
-  console.log("single", single);
 
   const handleLeave = useMutation(
     () => {
