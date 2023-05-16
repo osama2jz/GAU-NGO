@@ -30,7 +30,7 @@ import { UserContext } from "../../contexts/UserContext";
 const ProfessionalSignup = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {translate} = useContext(UserContext);
+  const { translate } = useContext(UserContext);
   const [ngos, setNgos] = useState([]);
   const [fileError, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
@@ -62,17 +62,19 @@ const ProfessionalSignup = () => {
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          :translate( "Please enter last name between 2 to 15 characters"),
+          : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null :translate("Please Enter a valid email"),
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
 
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
           <ul>
-            {translate(" Password must contain 8 to 15 characters with")}
+            {translate("Password must contain 8 to 15 characters with")}
             <li>{translate("At least one captial alphabet.")}</li>
             <li>{translate("at least one small alphabet.")}</li>
             <li>
@@ -86,7 +88,9 @@ const ProfessionalSignup = () => {
           ? null
           : translate("Please enter valid phone number "),
       confirmPassword: (value, values) =>
-        value !== values?.password ?translate ("Passwords did not match") : null,
+        value !== values?.password
+          ? translate("Passwords did not match")
+          : null,
     },
   });
 
@@ -143,8 +147,8 @@ const ProfessionalSignup = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: tranlsate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -164,10 +168,15 @@ const ProfessionalSignup = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
+          showNotification({
+            title: translate("Success"),
+            message: translate("You have signed up successfully"),
+            color: "green.0",
+          });
           navigate(routeNames.general.login);
         } else {
           showNotification({
-            title: "Error",
+            title: translate("Error"),
             message: response.data.message,
             color: "red.0",
           });
@@ -267,24 +276,19 @@ const ProfessionalSignup = () => {
           />
         </Grid.Col>
         <Grid.Col sm={"12"}>
-          {form.values.userType.length > 0 &&
-            form.values.userType !== "user" && (
-              <Input.Wrapper error={fileError} size="md">
-                <FileInput
-                  required
-                  label="Upload National ID"
-                  placeholder={
-                    form.values?.IDDetails !== ""
-                      ? "Uploaded"
-                      : "Upload Document"
-                  }
-                  accept="file/pdf"
-                  mb={"sm"}
-                  icon={<FileUpload size={20} color="green"/>}
-                  onChange={(e) => handleFileInput(e)}
-                />
-              </Input.Wrapper>
-            )}
+          <Input.Wrapper error={fileError} size="md">
+            <FileInput
+              required
+              label={translate("Upload National ID")}
+              placeholder={
+                form.values?.IDDetails !== null ? translate("Uploaded") : translate("Upload Document")
+              }
+              accept="file/pdf"
+              mb={"sm"}
+              icon={<FileUpload size={20} color="green" />}
+              onChange={(e) => handleFileInput(e)}
+            />
+          </Input.Wrapper>
         </Grid.Col>
       </Grid>
       <Button

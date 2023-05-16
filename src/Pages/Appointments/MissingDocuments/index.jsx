@@ -89,7 +89,7 @@ const MissingDocuments = () => {
             return appointment;
           });
         setRowData(data);
-        setTotalPages(Math.ceil(newNotNull?.length / 10));
+        setTotalPages(Math.ceil(data?.length / 10));
       },
     }
   );
