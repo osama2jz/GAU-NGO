@@ -1,4 +1,4 @@
-import { Anchor, Checkbox, Container, Text } from "@mantine/core";
+import { Anchor, Checkbox, Container, Group, Text } from "@mantine/core";
 import axios from "axios";
 import { useContext, useRef } from "react";
 import { useQuery } from "react-query";
@@ -8,10 +8,18 @@ import SignatureCanvas from "react-signature-canvas";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
 import Loader from "../../../../Components/Loader";
+import Button from "../../../../Components/Button";
+import { useReactToPrint } from "react-to-print";
 
 export const Step4 = ({ sigCanvas }) => {
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
+
+  const agreementSignatures = useRef();
+
+  const printAgreement = useReactToPrint({
+    content: () => agreementSignatures.current,
+  });
   // const sigCanvas = useRef({});
 
   //API call for fetching agreement form
@@ -31,7 +39,16 @@ export const Step4 = ({ sigCanvas }) => {
     return <Loader />;
   }
   return (
-    <Container size="xl" p={"lg"} className={classes.consent}>
+    <>
+     <Group position="right" mt={"md"}>
+          <Button
+            label={"Generate Pdf"}
+            bg={true}
+            onClick={()=>printAgreement()}
+            // onClick={() => DownloadPdf()}
+          />
+        </Group>
+    <Container size="xl" p={"lg"} className={classes.consent} ref={agreementSignatures}>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
         {translate("User Signature")}
@@ -45,5 +62,6 @@ export const Step4 = ({ sigCanvas }) => {
         <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor>
       </Container>
     </Container>
+    </>
   );
 };

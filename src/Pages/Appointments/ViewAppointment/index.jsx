@@ -33,6 +33,8 @@ function ViewAppointments() {
 
   const { editData } = state ?? "";
 
+  // console.log("editData", editData);
+
   useEffect(() => {
     if (editData) {
       let data = editData?.reportData?.map((obj, ind) => {

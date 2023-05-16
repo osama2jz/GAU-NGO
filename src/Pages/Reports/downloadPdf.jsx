@@ -16,6 +16,18 @@ import Logo from "../../assets/Gau.png";
 import { UserContext } from "../../contexts/UserContext";
 import { useStyles } from "./Private/styles";
 
+const getTranslatedData = (person) => {
+  const { translate } = useContext(UserContext);
+  return {
+    ...person,
+    role: translate(person.role),
+    refer: translate(person.refer),
+    accStatus: translate(person?.accStatus),
+    status: translate(person.status),
+    type: translate(person?.type),
+  };
+};
+
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
   const { translate, user } = useContext(UserContext);
@@ -27,23 +39,11 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const AllData = data?.map((person) => ({
-    ...person,
-    role: translate(person?.role),
-    refer: translate(person?.refer),
-    status: translate(person?.status),
-    accStatus: translate(person?.accStatus),
-  }));
+  const AllData = data?.map((person) => ({ ...getTranslatedData(person) }));
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
-    .map((person) => ({
-      ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
-      status: translate(person.status),
-      accStatus: translate(person?.accStatus),
-    }));
+    .map((person) => ({ ...getTranslatedData(person) }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";
   let locale = currentLanguage === "spanish" ? "es" : "en";
@@ -55,22 +55,12 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         new Date(person.date) <= new Date(today)
       );
     })
-    .map((person) => ({
-      ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
-      status: translate(person.status),
-      accStatus: translate(person?.accStatus),
-    }));
+    .map((person) => ({ ...getTranslatedData(person) }));
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
     .map((person) => ({
-      ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
-      accStatus: translate(person?.accStatus),
-      status: translate(person.status),
+      ...getTranslatedData(person),
     }));
   const CustomDate = () => {
     const New = data
@@ -85,13 +75,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             moment(endDate).format("DD-MM-YYYY")
         );
       })
-      .map((person) => ({
-        ...person,
-        role: translate(person.role),
-        refer: translate(person.refer),
-        status: translate(person.status),
-        accStatus: translate(person?.accStatus),
-      }));
+      .map((person) => ({ ...getTranslatedData(person) }));
     return New;
   };
 
