@@ -328,7 +328,7 @@ function EditAppointments() {
                 direction="row"
                 // wrap="wrap-reverse"
               >
-                <Text>Document</Text>
+                <Text>{translate("Document")}</Text>
                 <InputField
                   placeholder="Enter document name"
                   // disabled={i?.documentName}

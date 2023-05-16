@@ -51,6 +51,7 @@ const Step4 = ({ caseId, slot, setSlot }) => {
             timeStartSlot: obj?.timeStartSlot,
             timeEndSlot: obj?.timeEndSlot,
             scheduleStatus: obj?.scheduleStatus,
+            image: obj?.profileImage,
           };
           return card;
         });
