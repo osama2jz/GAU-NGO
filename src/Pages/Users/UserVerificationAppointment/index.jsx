@@ -44,7 +44,7 @@ const AddAppointment = () => {
           showNotification({
             color: "red.0",
             message: translate("Please Select User information"),
-            title: "Incomplete Info",
+            title: translate("Incomplete Info"),
           });
           return;
         }

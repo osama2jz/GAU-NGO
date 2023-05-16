@@ -86,7 +86,7 @@ const ProfessionalSignup = () => {
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
-          : translate("Please enter valid phone number "),
+          : translate("Please enter valid phone number"),
       confirmPassword: (value, values) =>
         value !== values?.password
           ? translate("Passwords did not match")

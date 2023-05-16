@@ -82,7 +82,6 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-
     setImg(imageSrc);
   }, [webcamRef]);
 
@@ -93,10 +92,7 @@ const Step1 = ({
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
-
     handleFileInput(blob, "public");
-
     setVerifyImg(imageUrl);
   }, [verifyRef]);
 
@@ -216,9 +212,6 @@ const Step1 = ({
       const formData = new FormData();
       formData.append("sourceImage", verifyimg);
       formData.append("targetImage", appData.image);
-      for (let entry of formData.entries()) {
-        console.log(entry[0] + ": " + entry[1]);
-      }
       return axios.post(
         `https://face.gauapp.es/index.php`,
         formData,
