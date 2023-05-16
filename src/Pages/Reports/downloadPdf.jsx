@@ -152,7 +152,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
       columns: headCells.slice(0, -1).map((col) => {
         return {
           dataKey: col.id,
-          header: col.label,
+          header: translate(col.label),
         };
       }),
       body:

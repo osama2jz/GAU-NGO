@@ -142,64 +142,64 @@ function ScheduledAppointments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "appointmentWith",
       numeric: false,
       disablePadding: true,
-      label: "Professional",
+      label: translate("Professional"),
       
     },
     {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Appointer",
+      label: translate("Appointer"),
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Appointer Role",
+      label: translate("Appointer Role"),
       translate: true,
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: translate("Date"),
     },
     {
       id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: translate("Time"),
     },
     {
       id: "refer",
       numeric: false,
       disablePadding: true,
-      label: "Refered",
+      label: ("Refered"),
       translate: true,
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
     {
       id: "start",
       numeric: false,
       disablePadding: true,
-      label: "Start",
+      label: translate("Start"),
     },
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
@@ -272,8 +272,8 @@ function ScheduledAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title={"Scheduled Appointments"}
-              label={"Scheduled Appointments"}
+              title={"Appointment Schedule"}
+              label={"Appointment Schedule"}
             />
           </Grid.Col>
         </Grid>
