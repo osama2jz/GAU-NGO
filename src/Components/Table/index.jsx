@@ -3,6 +3,7 @@ import {
   Anchor,
   Avatar,
   Badge,
+  Checkbox,
   Container,
   Flex,
   Group,
@@ -15,7 +16,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-
+import Logo from "../../assets/Gau.png";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowDown, ArrowUp, CompassOff } from "tabler-icons-react";
@@ -23,6 +24,7 @@ import userImage from "../../assets/teacher.png";
 import { UserContext } from "../../contexts/UserContext";
 import routeNames from "../../Routes/routeNames";
 import Button from "../Button";
+import jsPDF from "jspdf";
 
 const Table = ({
   headCells,
@@ -47,6 +49,7 @@ const Table = ({
   const { user, translate } = useContext(UserContext);
   const theme = useMantineTheme();
   const [rowDatas, setRowDatas] = useState(rowData);
+  const [selectedData, setSelectedData] = useState([]);
   const [sorted, setSorted] = useState({ sorted: "", reversed: false });
 
   useEffect(() => {
@@ -81,8 +84,71 @@ const Table = ({
     });
     setRowDatas(rowDataCopy);
   };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF({ orientation: "l" });
+    const companyName = "GAU";
+    const ngoName = user?.ngoId?.ngoName;
+    const currentDate = new Date().toLocaleDateString();
+    const marginTop = 5; // Adjust the top margin as needed
+
+    const logoX = 10; // X position of the logo
+    const logoY = 10; // Y position of the logo
+    const logoWidth = 40; // Width of the logo
+    const logoHeight = 40; // Height of the logo
+    const companyNameX = logoX + logoWidth; // X position of the company name
+    const companyNameY = logoY + 18; // Y position of the company name
+    const ngoNameX = doc.internal.pageSize.getWidth() / 2; // X position of the NGO name (centered)
+    const ngoNameY = logoY + 12; // Y position of the NGO name
+    const ngoBranchX = doc.internal.pageSize.getWidth() / 2; // X position of the NGO branch (centered)
+    const ngoBranchY = ngoNameY + 10; // Y position of the NGO branch
+
+    const dateX = ngoNameX; // X position of the date (centered)
+    const dateY = ngoBranchY + 10; // Y position of the date
+
+    doc.addImage(Logo, "PNG", logoX, logoY, logoWidth, logoHeight);
+    doc.setFontSize(22);
+    doc.setFillColor("red");
+    doc.text(companyName, companyNameX, companyNameY, { align: "left" });
+    doc.setFontSize(22);
+    doc.text(ngoName, ngoNameX, ngoNameY, { align: "center" });
+    doc.setFontSize(16);
+    doc.text(currentDate, ngoBranchX, ngoBranchY, { align: "center" });
+    // doc.text(currentDate, dateX, dateY, { align: "center" });
+    doc.text(translate("Custom Export"), dateX, marginTop + 50, { align: "center" });
+
+    doc.autoTable({
+      theme: "grid",
+      cellWidth: "auto",
+      halign: "left",
+      rowPageBreak: "avoid",
+      tableWidth: "auto",
+      startY: marginTop + 55,
+
+      columns: headCells.slice(0, -1).map((col) => {
+        return {
+          dataKey: col.id,
+          header: translate(col.label),
+        };
+      }),
+      body:
+        selectedData &&
+        selectedData.map((dataPoint) => {
+          return dataPoint;
+        }),
+    });
+
+    doc.save(`${translate("Custom Export")}.pdf`);
+    setStartDate(null);
+    setEndDate(null);
+    // setdata([])
+  };
+
   return (
     <Paper component={ScrollArea}>
+      {selectedData.length>0 && (
+        <Button label={"Export Selected"} onClick={downloadPDF} />
+      )}
       <TableMantine striped withBorder>
         <thead
           style={{
@@ -616,6 +682,25 @@ const Table = ({
                           )}
                         </Text>
                       </Tooltip>
+                    </td>
+                  ) : head.id === "sr" ? (
+                    <td key={index}>
+                      <Flex gap="md">
+                        <Checkbox
+                          onChange={(e) => {
+                            if(!e.currentTarget.checked){
+                              setSelectedData((data)=>{
+                                return data.filter((dataEntry=> row.id !== dataEntry.id ))
+                              })
+                            }
+                            else{
+                              setSelectedData((e) => [...e, row])
+                            }
+                          }
+                          }
+                        />
+                        <Text>{row[head?.id]}</Text>
+                      </Flex>
                     </td>
                   ) : (
                     <td key={index}>
