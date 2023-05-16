@@ -42,7 +42,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     );
   });
   const filteredMonthly = data?.filter(
-    (person) => person?.date?.substr(5, 3) === today.format("MMM")
+    (person) => person?.date?.substr(5, 2) === today.format("MM")
   );
 
   const CustomDate = () => {
