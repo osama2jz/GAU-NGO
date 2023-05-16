@@ -71,8 +71,8 @@ const MyDocs = ({ userDocs, Data }) => {
           queryClient.invalidateQueries("fetchUserSingle");
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Delete",
+            title: translate("Failed"),
+            message: translate("Failed to Delete"),
             color: "red.0",
           });
         }
@@ -86,7 +86,7 @@ const MyDocs = ({ userDocs, Data }) => {
   const handleAddDocument = useMutation(
     () => {
       if (!docs[docs.length - 1].documentURL) {
-        setFileError("Please upload the file");
+        setFileError(translate("Please upload the file"));
         return;
       }
       return axios.post(
@@ -116,8 +116,8 @@ const MyDocs = ({ userDocs, Data }) => {
           ]);
         } else {
           showNotification({
-            title: "Failed",
-            message: response.data.message,
+            title: translate("Failed"),
+            message:translate(response.data.message),
             color: "red.0",
           });
         }
@@ -157,8 +157,8 @@ const MyDocs = ({ userDocs, Data }) => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {

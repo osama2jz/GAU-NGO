@@ -127,8 +127,8 @@ export const ViewDocuments = () => {
           // navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
-            title: "Failed",
-            message: deleteID ? "Failed to Delete" : "Failed to Update",
+            title: translate("Failed"),
+            message: deleteID ? translate("Failed to Delete") : translate("Failed to Update"),
             color: "red.0",
           });
         }

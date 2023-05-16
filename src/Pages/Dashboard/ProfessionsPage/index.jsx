@@ -263,7 +263,7 @@ const ProfessionPage = (props) => {
         } else {
           showNotification({
             title: "Error",
-            message: deleteID ? "Professional not deleted!" : "Status not updated!",
+            message: deleteID ? translate("Failed to Delete") : translate("Failed to Update"),
             color: "red.0",
           });
         }

@@ -166,8 +166,8 @@ const Signup = () => {
           navigate(routeNames.general.login);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

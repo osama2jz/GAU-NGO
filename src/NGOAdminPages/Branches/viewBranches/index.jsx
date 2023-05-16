@@ -152,8 +152,8 @@ export const ViewBranches = () => {
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something went Wrong"),
           color: "red.0",
         });
       },

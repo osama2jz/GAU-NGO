@@ -147,7 +147,7 @@ const ProfessionalSignup = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: tranlsate("Upload Failed"),
+              title: translate("Upload Failed"),
               message: translate("Something went Wrong"),
               color: "red.0",
             });
@@ -177,7 +177,7 @@ const ProfessionalSignup = () => {
         } else {
           showNotification({
             title: translate("Error"),
-            message: response.data.message,
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

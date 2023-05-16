@@ -72,7 +72,7 @@ function ScheduledAppointments() {
             email: "N/A",
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.addedDate).format("YYYY-MM-DD"),
 
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,

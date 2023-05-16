@@ -162,8 +162,8 @@ const BranchPage = (props) => {
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something Went Wrong"),
           color: "red.0",
         });
       },

@@ -128,7 +128,7 @@ function ProjectUsers() {
             cases: obj?.totalCases,
             appointment: obj?.totalAppointments,
             image: obj?.profileImage,
-            date: moment(obj?.createdDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.createdDate).format("YYYY-MM-DD"),
             country: obj?.country,
             city: obj?.city,
             phone: obj?.phoneNumber,

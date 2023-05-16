@@ -47,9 +47,12 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const CustomDate = () => {
     const New = data?.filter((person) => {
+        // moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
+        
+        console.log(moment(person.date).format("DD-MM-YYYY"))
       return (
-        new Date(person.date) >= new Date(startDate) &&
-        new Date(person.date) <= new Date(endDate)
+        moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
+        moment(person.date).format("DD-MM-YYYY") <= moment(endDate).format("DD-MM-YYYY")
       );
     });
     return New;
@@ -165,6 +168,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     });
 
     doc.save(`${translate(title)}.pdf`);
+    setStartDate(null)
+    setEndDate(null)
     // setdata([])
   };
 

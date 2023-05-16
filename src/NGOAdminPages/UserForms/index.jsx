@@ -83,8 +83,8 @@ const userForms = () => {
           });
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Update Document!",
+            title: translate("Failed"),
+            message: translate("Failed to Update Document"),
             color: "red.0",
           });
         }
