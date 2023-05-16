@@ -2,11 +2,17 @@ import { Container, Text } from "@mantine/core";
 import { Calendar } from "@mantine/dates";
 import moment from "moment/moment";
 import { useState } from "react";
+import "dayjs/locale/es";
+import "dayjs/locale/en";
 
 const CalendarDate = ({ setDate, getSchedule, scheduleDates, size = "md" }) => {
   const [calenderValue, setCalendarValue] = useState(new Date());
+  let currentLanguage = localStorage.getItem("lang") || "spanish";
+  let locale = currentLanguage === "spanish" ? "es" : "en";
+  
   return (
     <Calendar
+      locale={locale}
       value={calenderValue}
       onChange={(v) => {
         setCalendarValue(v);

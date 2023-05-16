@@ -137,7 +137,7 @@ export const AllUser = () => {
             age: obj?.userConsentForm?.personalInformation?.age,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,
-            date: new moment(obj?.createdAt).format("YYYY-MMM-DD"),
+            date: new moment(obj?.createdAt).format("YYYY-MM-DD"),
             phone: obj?.phoneNumber,
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,

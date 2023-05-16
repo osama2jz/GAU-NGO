@@ -29,10 +29,8 @@ const MySchedule = () => {
   const [scheduleDates, setScheduleDates] = useState([]);
   const [opened, setOpened] = useState(false);
   const [refetch, setRefetch] = useState(false);
-  const [scheduledId,setScheduleId] = useState();
-  const[single,setSingle]=useState(false)
-
-
+  const [scheduledId, setScheduleId] = useState();
+  const [single, setSingle] = useState(false);
 
   useEffect(() => {
     getSchedule.mutate(date);
@@ -92,7 +90,9 @@ const MySchedule = () => {
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
       <ContainerHeader label={"My Schedule"} />
-      <Text align="center">{translate("Select date from the calender to view Schedule")}</Text>
+      <Text align="center">
+        {translate("Select date from the calender to view Schedule")}
+      </Text>
       <Container className={classes.innerContainer} size="xl" p={"0px"}>
         <Group position="center" pt="10px">
           <ColorSwatch color="green " />
@@ -109,7 +109,8 @@ const MySchedule = () => {
         </Container>
         {/* <Flex direction={"column"} justify={"center"} align="center" gap={"xl"}> */}
         <Text size={18} weight={700} color={"gray"} align="center">
-          {moment(date).format("DD MMMM")} {translate("Schedule")}
+          {moment(date).format("DD")} {translate(moment(date).format("MMMM"))}{" "}
+          {translate("Schedule")}
         </Text>
         {/* </Flex> */}
         {getSchedule.status === "loading" ? (
@@ -117,7 +118,7 @@ const MySchedule = () => {
         ) : scheduleData.length > 0 ? (
           <Container mt="md">
             <Group position="right" mb="md">
-              <Button label={"Mark as Leave"} onClick={()=>setOpened(true)}/>
+              <Button label={"Mark as Leave"} onClick={() => setOpened(true)} />
             </Group>
             <SimpleGrid
               breakpoints={[
@@ -129,7 +130,13 @@ const MySchedule = () => {
             >
               {scheduleData.map((item, index) => (
                 <Flex justify={"center"}>
-                  <ScheduleCard data={item} setOpened={setOpened} setScheduleId={setScheduleId} setSingle={setSingle} single={single}/>
+                  <ScheduleCard
+                    data={item}
+                    setOpened={setOpened}
+                    setScheduleId={setScheduleId}
+                    setSingle={setSingle}
+                    single={single}
+                  />
                 </Flex>
               ))}
             </SimpleGrid>
@@ -140,7 +147,16 @@ const MySchedule = () => {
           </Text>
         )}
       </Container>
-      <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch} scheduledId={scheduledId} single={single} setSingle={setSingle}/>
+      <LeaveModal
+        opened={opened}
+        setOpened={setOpened}
+        date={date}
+        branchId={scheduleData[0]?.branchId}
+        setRefetch={setRefetch}
+        scheduledId={scheduledId}
+        single={single}
+        setSingle={setSingle}
+      />
     </Container>
   );
 };

@@ -25,7 +25,7 @@ const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
@@ -118,7 +118,13 @@ const VerificationScheduled = () => {
             time: obj.scheduleTime,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.scheduleDate).format("YYYY-MMM-DD"),
+            date: new moment(obj.scheduleDate).format("YYYY-MM-DD"),
+            // date:
+            //   new moment(obj.scheduleDate).format("YYYY") +
+            //   "-" +
+            //   translate(new moment(obj.scheduleDate).format("MM")) +
+            //   "-" +
+            //   new moment(obj.scheduleDate).format("DD"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
           };
@@ -218,7 +224,6 @@ const VerificationScheduled = () => {
             />
           </Grid.Col>
 
-          
           <Grid.Col sm={3} ml="auto">
             {user.role === "Social Worker" && (
               <Button

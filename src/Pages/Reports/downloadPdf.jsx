@@ -37,7 +37,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const oneWeekAgo = moment().subtract(7, "days");
 
   const filteredDaily = data?.filter(
-    (person) => person.date === today.format("YYYY-MMM-DD")
+    (person) => person.date === today.format("YYYY-MM-DD")
   );
 
   const filteredWeekly = data?.filter((person) => {
@@ -55,7 +55,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     const New = data?.filter((person) => {
       console.log(
         "person",
-        new Date(person.date),
+        person.date,
         "Start Date",
         startDate,
         "<=",
@@ -85,7 +85,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         ? showNotification({
             title: translate("No Data"),
             message: translate(`No Data Found`),
-            color: "green.0",
+            color: "red.0",
           })
         : downloadPDF(filteredDaily, `Daily ${label}`);
     }
@@ -94,7 +94,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         ? showNotification({
             title: translate("No Data"),
             message: translate(`No Data Found`),
-            color: "green.0",
+            color: "red.0",
           })
         : downloadPDF(filteredWeekly, `Weekly ${label}`);
     }
@@ -103,7 +103,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         ? showNotification({
             title: translate("No Data"),
             message: translate(`No Data Found`),
-            color: "green.0",
+            color: "red.0",
           })
         : downloadPDF(filteredMonthly, `Monthly ${label}`);
     }
@@ -113,7 +113,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         ? showNotification({
             title: translate("No Data"),
             message: translate(`No Data Found`),
-            color: "green.0",
+            color: "red.0",
           })
         : // setShow(false)
           downloadPDF(cus, `Custom ${label}`);
