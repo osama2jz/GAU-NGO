@@ -82,7 +82,10 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setImg(imageSrc);
+    const Blob = dataURItoBlob(imageSrc);
+    const imageUrl = URL.createObjectURL(Blob);
+    handleFileInput(Blob, "Image");
+    setImg(imageUrl);
   }, [webcamRef]);
 
   const Verifycapture = useCallback(() => {
@@ -161,8 +164,7 @@ const Step1 = ({
               reject(err);
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-
-              setVerifyImg(link);
+              type === "Image" ? setImg(link) :setVerifyImg(link);
 
               setFileLoader(false);
             }

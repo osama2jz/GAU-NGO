@@ -27,43 +27,86 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const filteredDaily = data?.filter(
-    (person) => person.date === today.format("YYYY-MM-DD")
-  );
+  const AllData = data?.map((person) => ({
+    ...person,
+    role: translate(person?.role),
+    refer: translate(person?.refer),
+    status: translate(person?.status),
+    accStatus: translate(person?.accStatus),
+  }));
+
+  const filteredDaily = data
+    ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
+    .map((person) => ({
+      ...person,
+      role: translate(person.role),
+      refer: translate(person.refer),
+      status: translate(person.status),
+      accStatus: translate(person?.accStatus),
+    }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";
   let locale = currentLanguage === "spanish" ? "es" : "en";
 
-  const filteredWeekly = data?.filter((person) => {
-    // console.log("person",new Date(person.date),"oneWeekAgo",new Date(oneWeekAgo),"today",new Date(today))
-    return (
-      new Date(person.date) >= new Date(oneWeekAgo) &&
-      new Date(person.date) <= new Date(today)
-    );
-  });
-  const filteredMonthly = data?.filter(
-    (person) => person?.date?.substr(5, 2) === today.format("MM")
-  );
-
-  const CustomDate = () => {
-    const New = data?.filter((person) => {
-        // moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
-        
-        console.log(moment(person.date).format("DD-MM-YYYY"))
+  const filteredWeekly = data
+    ?.filter((person) => {
       return (
-        moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
-        moment(person.date).format("DD-MM-YYYY") <= moment(endDate).format("DD-MM-YYYY")
+        new Date(person.date) >= new Date(oneWeekAgo) &&
+        new Date(person.date) <= new Date(today)
       );
-    });
+    })
+    .map((person) => ({
+      ...person,
+      role: translate(person.role),
+      refer: translate(person.refer),
+      status: translate(person.status),
+      accStatus: translate(person?.accStatus),
+    }));
+
+  const filteredMonthly = data
+    ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
+    .map((person) => ({
+      ...person,
+      role: translate(person.role),
+      refer: translate(person.refer),
+      accStatus: translate(person?.accStatus),
+      status: translate(person.status),
+    }));
+  const CustomDate = () => {
+    const New = data
+      ?.filter((person) => {
+        // moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
+
+        console.log(moment(person.date).format("DD-MM-YYYY"));
+        return (
+          moment(person.date).format("DD-MM-YYYY") >=
+            moment(startDate).format("DD-MM-YYYY") &&
+          moment(person.date).format("DD-MM-YYYY") <=
+            moment(endDate).format("DD-MM-YYYY")
+        );
+      })
+      .map((person) => ({
+        ...person,
+        role: translate(person.role),
+        refer: translate(person.refer),
+        status: translate(person.status),
+        accStatus: translate(person?.accStatus),
+      }));
     return New;
   };
 
   // console.log("CustomDate",CustomDate)
 
   const filter = (name) => {
-    // if(name === "all") {
-    //   downloadPDF(filteredDaily, "Daily Reports")
-    // }
+    if (name === "all") {
+      AllData.length === 0
+        ? showNotification({
+            title: translate("No Data"),
+            message: translate(`No Data Found`),
+            color: "red.0",
+          })
+        : downloadPDF(AllData, `All ${label}`);
+    }
     if (name === "daily") {
       filteredDaily.length === 0
         ? showNotification({
@@ -115,7 +158,6 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
     const marginTop = 5; // Adjust the top margin as needed
 
-
     const logoX = 10; // X position of the logo
     const logoY = 10; // Y position of the logo
     const logoWidth = 40; // Width of the logo
@@ -163,8 +205,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     });
 
     doc.save(`${translate(title)}.pdf`);
-    setStartDate(null)
-    setEndDate(null)
+    setStartDate(null);
+    setEndDate(null);
     // setdata([])
   };
 
@@ -184,7 +226,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
           </Flex>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item onClick={() => downloadPDF(data, `All ${label}`)}>
+          <Menu.Item onClick={() => filter("all")}>
             {translate("All")}
           </Menu.Item>
           <Menu.Item onClick={() => filter("daily")}>
