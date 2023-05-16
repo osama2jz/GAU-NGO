@@ -16,7 +16,6 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function Chart({ data = [] }) {
   const { classes } = useStyles();
-  const [data1, setData1] = useState();
   const today = moment().format("MMMM YYYY");
   const {translate}=useContext(UserContext)
 

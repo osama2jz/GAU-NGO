@@ -397,7 +397,7 @@ function EditAppointments() {
                 {i?.status && (
                   <Select
                     placeholder={
-                      primaryDoc.length > 0 ? "Select" : "No Documents"
+                      primaryDoc.length > 0 ? "Select" : "No Document"
                     }
                     size="md"
                     data={primaryDoc}
