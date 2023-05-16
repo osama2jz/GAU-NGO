@@ -101,7 +101,7 @@ export const ViewProjects = () => {
             id: obj._id,
             sr: ind + 1,
             projectName: obj?.projectName,
-            createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
+            createdDate: new moment(obj?.createdDate).format("YYYY-MM-DD"),
             description: obj?.description,
             accStatus: obj?.status,
             endDate: obj?.endDate,

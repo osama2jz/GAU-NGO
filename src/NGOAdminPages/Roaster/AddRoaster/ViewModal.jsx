@@ -112,7 +112,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>
@@ -137,7 +137,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>
@@ -162,7 +162,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>

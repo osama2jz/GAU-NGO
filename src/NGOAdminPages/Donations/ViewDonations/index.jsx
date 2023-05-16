@@ -106,7 +106,7 @@ export const ViewDonations = () => {
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.amount,
             image: obj?.userId?.profileImage,
-            date: moment(obj?.createdDate).format("DD-MMM-YYYY"),
+            date: moment(obj?.createdDate).format("DD-MM-YYYY"),
             ngo: obj?.ngoId?.ngoName,
             description: obj?.description,
           };

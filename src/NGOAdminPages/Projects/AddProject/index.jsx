@@ -78,8 +78,8 @@ const AddProject = () => {
           navigate(routeNames.ngoAdmin.viewProject);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title:translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }

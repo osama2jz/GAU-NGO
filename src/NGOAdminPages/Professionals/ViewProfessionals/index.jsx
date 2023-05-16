@@ -131,7 +131,7 @@ export const ViewProfessionals = () => {
             email: obj.email,
             // status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            date: new moment(obj.createdAt).format("DD-MM-YYYY"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
             idDetails: obj.IDDetails ? obj.IDDetails : "",

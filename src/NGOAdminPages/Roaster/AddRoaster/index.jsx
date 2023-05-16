@@ -46,9 +46,9 @@ export const AddRoaster = () => {
       // users: (value) =>
       //   value?.length < 1 ? "Please Select at least one user." : null,
       dateStart: (value) =>
-        value?.length < 1 ? translate("Please Select start date.") : null,
+        value?.length < 1 ? translate("Please Select start date") : null,
       dateEnd: (value) =>
-        value?.length < 1 ? translate("Please Select end date.") : null,
+        value?.length < 1 ? translate("Please Select end date") : null,
     },
   });
 
@@ -86,8 +86,8 @@ export const AddRoaster = () => {
           if (response?.data?.message[0]?.scheduleMessage) {
             // navigate(routeNames.ngoAdmin.viewRoasters);
             showNotification({
-              title: "Failed",
-              message: response?.data?.message[0]?.scheduleMessage,
+              title: translate("Failed"),
+              message: translate(response?.data?.message[0]?.scheduleMessage),
               color: "red.0",
             });
           } else {
@@ -100,8 +100,8 @@ export const AddRoaster = () => {
           }
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }
@@ -178,7 +178,7 @@ export const AddRoaster = () => {
         <div>
           <Text size="sm">{label}</Text>
           <Text size="xs" opacity={0.65}>
-            {role}
+            {translate(role)}
           </Text>
         </div>
       </Group>
@@ -195,8 +195,8 @@ export const AddRoaster = () => {
         onSubmit={form.onSubmit((values) => {
           if (select.length === 0) {
             showNotification({
-              title: "Failed",
-              message: translate("Please select at least one user."),
+              title: translate("Failed"),
+              message: translate("Please Select Users"),
               color: "red.0",
             });
           } else {

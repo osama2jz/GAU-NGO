@@ -132,8 +132,8 @@ export const ViewRoasters = () => {
       onSuccess: (response) => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");

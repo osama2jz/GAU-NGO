@@ -75,15 +75,15 @@ export const UpdateProfile = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Profile Updated",
-            message: "Profile updated Successfully!",
+            title: translate("Profile Updated"),
+            message: translate("Profile updated Successfully"),
             color: "green.0",
           });
           navigate(routeNames.socialWorker.dashboard);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }

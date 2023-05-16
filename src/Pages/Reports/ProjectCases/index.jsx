@@ -116,7 +116,7 @@ function ProjectCases() {
             status: obj?.status,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            date: new moment(obj?.createdDate).format("YYYY-MMM-DD"),
+            date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
           };
           return report;
         });
@@ -150,8 +150,8 @@ function ProjectCases() {
           setOpenDeleteModal(false);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message:translate(response.data.message),
             color: "red",
           });
         }

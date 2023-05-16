@@ -64,7 +64,7 @@ const MissingDocuments = () => {
               status: obj?.appointmentStatus?.toUpperCase(),
               appointmentWith: obj?.appointmentWith,
               time: obj?.scheduledTime,
-              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+              date: moment(obj?.addedDate).format("YYYY-MM-DD"),
               addedBy: obj?.addedBy,
               role:
                 obj?.role === "socialWorker"

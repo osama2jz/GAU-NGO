@@ -353,7 +353,7 @@ function ViewAppointments() {
                           {translate("Role")}
                         </Text>
                         <Text className={classes.textContent}>
-                          {editData?.role}
+                          {translate(editData?.role)}
                         </Text>
 
                         <Text className={classes.textheading}>

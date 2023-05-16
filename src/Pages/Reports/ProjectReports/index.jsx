@@ -128,7 +128,7 @@ function ProjectReports() {
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
-            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.addedDate).format("YYYY-MM-DD"),
             file: obj?.reportFile,
             comments: obj?.comments,
             image: obj?.profileImage,

@@ -162,8 +162,8 @@ const AddAppointment = () => {
           setActive(active + 1);
         } else {
           showNotification({
-            title: "Error",
-            message: response?.data?.message,
+            title: translate("Error"),
+            message: translate(response?.data?.message),
             color: theme.colors.red[9],
             timeout: 5000,
           });
@@ -246,8 +246,8 @@ const AddAppointment = () => {
         } else {
           showNotification({
             color: "red.0",
-            message: response.data.message,
-            title: "Error",
+            message: translate(response.data.message),
+            title: translate("Error"),
           });
         }
       },
@@ -460,8 +460,8 @@ const AddAppointment = () => {
           bucket.listObjects(function (err, data) {
             if (err) {
               showNotification({
-                title: "Upload Failed",
-                message: "Something went Wrong",
+                title: translate("Upload Failed"),
+                message: translate("Something went Wrong"),
                 color: "red.0",
               });
               reject(err);
