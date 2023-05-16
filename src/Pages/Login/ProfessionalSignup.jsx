@@ -54,7 +54,7 @@ const ProfessionalSignup = () => {
       userType: (value) =>
         value?.length < 1 ? translate("Please select Professional type") : null,
       ngoId: (value) =>
-        value?.length < 1 ? translate("Please select Professional type") : null,
+        value?.length < 1 ? translate("Please select NGO") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null

@@ -215,7 +215,7 @@ const MyDocs = ({ userDocs, Data }) => {
     <tr>
       <th>Sr #</th>
       <th>{translate("Document Title")}</th>
-      <th>{translate("Docuement")}</th>
+      <th>{translate("Document")}</th>
       <th>{translate("Status")}</th>
       <th>{translate("Verify")}</th>
       <th>{translate("Action")}</th>
