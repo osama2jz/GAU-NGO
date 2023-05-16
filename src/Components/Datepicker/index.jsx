@@ -3,6 +3,8 @@ import { DatePicker } from "@mantine/dates";
 import moment from "moment";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import "dayjs/locale/es";
+import "dayjs/locale/en";
 const useStyles = createStyles((theme, { borderWhite }) => ({
   root: {
     backgroundColor: "transparent",
@@ -34,12 +36,13 @@ const Datepicker = ({
   value,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
-  const {translate}=useContext(UserContext)
-  const disabledDays = {
-    daysOfWeek: [0], // Sunday is represented by 0
-  };
+  const { translate } = useContext(UserContext);
+  let currentLanguage = localStorage.getItem("lang") || "spanish";
+  let locale = currentLanguage === "spanish" ? "es" : "en";
+
   return (
     <DatePicker
+      locale={locale}
       size={size}
       icon={icon}
       defaultValue={value}

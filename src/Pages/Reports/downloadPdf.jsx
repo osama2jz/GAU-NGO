@@ -1,29 +1,27 @@
-import React, { useContext, useState } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import React, { useContext, useState } from "react";
 import download from "../../assets/download.svg";
 // import Logo from "../../assets/logo.svg";
 // import LogoBase64 from "../../assets/logo.svg"
-import Logo from "../../assets/Gau.png";
 import {
+  Container,
   Flex,
   Group,
   Image,
   Menu,
-  Modal,
-  Text,
-  Container,
+  Text
 } from "@mantine/core";
-import { useStyles } from "./Private/styles";
-import moment from "moment";
-import { showNotification } from "@mantine/notifications";
-import { UserContext } from "../../contexts/UserContext";
-
-import ViewModal from "../../Components/ViewModal/viewUser";
-
-import Button from "../../Components/Button";
-// import Datepicker from "../../Components/Datepicker";
 import { DatePicker } from "@mantine/dates";
+import { showNotification } from "@mantine/notifications";
+import "dayjs/locale/en";
+import "dayjs/locale/es";
+import moment from "moment";
+import Button from "../../Components/Button";
+import ViewModal from "../../Components/ViewModal/viewUser";
+import Logo from "../../assets/Gau.png";
+import { UserContext } from "../../contexts/UserContext";
+import { useStyles } from "./Private/styles";
 
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
@@ -39,6 +37,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const filteredDaily = data?.filter(
     (person) => person.date === today.format("YYYY-MM-DD")
   );
+
+  let currentLanguage = localStorage.getItem("lang") || "spanish";
+  let locale = currentLanguage === "spanish" ? "es" : "en";
 
   const filteredWeekly = data?.filter((person) => {
     // console.log("person",new Date(person.date),"oneWeekAgo",new Date(oneWeekAgo),"today",new Date(today))
@@ -226,11 +227,13 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         <>
           <Flex gap={"md"}>
             <DatePicker
+              locale={locale}
               label={translate("Start Date")}
               value={startDate}
               onChange={setStartDate}
             />
             <DatePicker
+              locale={locale}
               label={translate("End Date")}
               value={endDate}
               onChange={setEndDate}
