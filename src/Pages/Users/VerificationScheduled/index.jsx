@@ -47,50 +47,50 @@ const VerificationScheduled = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "email",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: translate("Email"),
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: translate("Date"),
     },
     {
       id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: translate("Time"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: translate("User Status"),
     },
     {
       id: "userVerify",
       numeric: false,
       disablePadding: true,
-      label: "Verify",
+      label: translate("Verify"),
     },
     {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
 
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
@@ -240,6 +240,7 @@ const VerificationScheduled = () => {
               headCells={headerData}
               data={filteredItems}
               label={"Scheduled Users"}
+              title={"Scheduled Users"}
             />
           </Grid.Col>
         </Grid>

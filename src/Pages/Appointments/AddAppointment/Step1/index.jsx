@@ -76,6 +76,7 @@ const Step1 = ({
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
 
+  console.log("Image",img)
 
   const videoConstraints = {
     width: 420,
@@ -85,8 +86,12 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
+    const Blob = dataURItoBlob(imageSrc);
+    const imageUrl = URL.createObjectURL(Blob);
+    handleFileInput(Blob, "Image");
+    setImg(imageUrl);
 
-    setImg(imageSrc);
+    // setImg(imageSrc);
   }, [webcamRef]);
 
   const Verifycapture = useCallback(() => {
@@ -96,7 +101,6 @@ const Step1 = ({
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-   
 
     handleFileInput(blob, "public");
 
@@ -105,10 +109,10 @@ const Step1 = ({
 
   function dataURItoBlob(dataURI) {
     const byteString = atob(dataURI.split(",")[1]);
-    
+
     const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     const extension = mimeString.split("/")[1];
-   
+
     const arrayBuffer = new ArrayBuffer(byteString.length);
     const intArray = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
@@ -123,6 +127,7 @@ const Step1 = ({
   }
 
   const handleFileInput = (file, type) => {
+    console.log("type",type)
     setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
@@ -145,7 +150,7 @@ const Step1 = ({
         Bucket: s3Config.bucketName,
       },
     });
-    
+
     var objKey = type + "/" + Date.now() + "/" + file.name;
     var params = {
       Key: objKey,
@@ -169,8 +174,7 @@ const Step1 = ({
               reject(err);
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-
-              setVerifyImg(link);
+              type === "Image" ? setImg(link) :setVerifyImg(link);
 
               setFileLoader(false);
             }
@@ -317,8 +321,6 @@ const Step1 = ({
       },
     }
   );
-
-  
 
   //user cases
   const { data: casesData, status: casesfetching } = useQuery(
@@ -538,7 +540,8 @@ const Step1 = ({
             ) : (
               <Flex direction={"column"} gap="sm">
                 <img src={img} alt="screenshot" />
-                <Button onClick={() => setImg(null)} label="Retake" bg={true} />
+                   
+                <Button onClick={() => setImg(null)} label="Retake" bg={true} loading={fileLoader} />
               </Flex>
             )}
           </Container>

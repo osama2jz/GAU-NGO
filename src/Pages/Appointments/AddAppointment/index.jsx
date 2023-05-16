@@ -51,9 +51,6 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
-  console.log("appData", appData);
-  
-
   //Camera Image
   const [img, setImg] = useState(null);
   const [verifyimg, setVerifyImg] = useState(null);
@@ -284,8 +281,7 @@ const AddAppointment = () => {
   );
 
   //Fetch Single User
-   //selected user
-
+  //selected user
 
   //Upload Document
   const handleUploadDocuments = useMutation(
@@ -385,7 +381,9 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message:translate("Please add public and private report for this appointment."),
+          message: translate(
+            "Please add public and private report for this appointment."
+          ),
           title: translate("Report Missing"),
         });
         return;
@@ -535,7 +533,6 @@ const AddAppointment = () => {
           >
             <Step1
               setSelectedUser={setSelectedUser}
-            
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}

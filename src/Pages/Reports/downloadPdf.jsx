@@ -115,11 +115,6 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
     const marginTop = 5; // Adjust the top margin as needed
 
-    // doc.addImage(Logo, "PNG", logoX, logoY, logoWidth, logoHeight);
-    // doc.setFontSize(12);
-    // doc.text(companyName, companyNameX, companyNameY);
-    // doc.setFontSize(12);
-    // doc.text(currentDate, 70, marginTop + 20);
 
     const logoX = 10; // X position of the logo
     const logoY = 10; // Y position of the logo

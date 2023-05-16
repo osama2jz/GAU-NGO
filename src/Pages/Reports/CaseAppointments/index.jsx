@@ -72,7 +72,7 @@ function CaseAppointments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label:translate("Name"),
     },
     {
       id: "addedBy",
@@ -259,7 +259,8 @@ function CaseAppointments() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
-              // title="Download reports"
+              title={"Case Appointments"}
+              label={"Case Appointments"}
             />
           </Grid.Col>
         </Grid>
