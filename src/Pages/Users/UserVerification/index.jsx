@@ -28,7 +28,7 @@ export const UserVerification = () => {
   const sigCanvas2 = useRef({});
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(2);
   const [alldata, setAlldata] = useState();
   const [workExperience, setWorkExperience] = useState([]);
   const [trainingStudies, setTrainingStudies] = useState([]);
@@ -223,7 +223,9 @@ export const UserVerification = () => {
           color: "red.0",
         });
       }
-    } else if (active == 2) {
+    } 
+    
+    else if (active == 2) {
       if (sigCanvas.current.isEmpty()) {
         showNotification({
           title: translate("Error"),
