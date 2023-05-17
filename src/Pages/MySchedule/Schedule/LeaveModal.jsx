@@ -15,7 +15,7 @@ const LeaveModal = ({
   setRefetch,
   scheduledId,
   single,
-  setSingle
+  setSingle,
 }) => {
   const useStyles = createStyles((theme) => ({
     title: {
@@ -29,7 +29,6 @@ const LeaveModal = ({
   }));
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
-
 
   const handleLeave = useMutation(
     () => {
@@ -90,16 +89,13 @@ const LeaveModal = ({
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Leave"),
-            message:
-              (translate("The date"),
-              { date },
-              translate("is marked as leave.")),
+            title: translate("Success"),
+            message: translate("Leave is marked successfully"),
             color: "green.0",
           });
           setOpened(false);
           setRefetch(true);
-          setSingle(false)
+          setSingle(false);
         } else {
           showNotification({
             title: translate("Error"),

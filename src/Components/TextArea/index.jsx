@@ -31,6 +31,7 @@ const TextArea = ({
   rows="3",
   validateName,
   value,
+  ...props
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   const {translate}=useContext(UserContext)
@@ -50,6 +51,7 @@ const TextArea = ({
       placeholder={translate(placeholder)}
       
       rows={rows}
+      {...props}
     />
   );
 };

@@ -20,7 +20,7 @@ import { useStyles } from "./styles";
 const AddProject = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const { state } = useLocation();
   let editData = state?.editData;
 
@@ -44,9 +44,9 @@ const AddProject = () => {
 
     validate: {
       projectName: (value) =>
-        /^[a-zA-Z0-9 ]{2,50}$/.test(value)
+        /^[a-zA-Z0-9-_* ]{2,50}$/.test(value)
           ? null
-          :translate("Please enter a valid project name."),
+          : translate("Please enter a valid project name."),
       description: (value) =>
         value?.length < 2 ? translate("Please enter description") : null,
     },
@@ -78,7 +78,7 @@ const AddProject = () => {
           navigate(routeNames.ngoAdmin.viewProject);
         } else {
           showNotification({
-            title:translate("Failed"),
+            title: translate("Failed"),
             message: translate(response?.data?.message),
             color: "red.0",
           });
@@ -110,6 +110,7 @@ const AddProject = () => {
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 form={form}
+                maxDate={new Date(form.values.endDate)}
                 // value={form.values.startDate}
                 validateName="startDate"
               />
@@ -135,6 +136,7 @@ const AddProject = () => {
             label="Description"
             placeholder="Enter Project Description"
             form={form}
+            mt="md"
             validateName="description"
             required={"true"}
           />

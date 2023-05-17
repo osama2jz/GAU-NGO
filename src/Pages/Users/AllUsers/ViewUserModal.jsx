@@ -14,13 +14,22 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext, useEffect, useState } from "react";
 import userlogo from "../../../assets/teacher.png";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useMediaQuery } from "@mantine/hooks";
+import Button from "../../../Components/Button";
+import DeleteModal from "../../../Components/DeleteModal";
 
-function ViewUserModal({ id, reportData }) {
+function ViewUserModal({
+  setOpenViewModal,
+  id,
+  reportData,
+  cancelButton = false,
+}) {
+  // console.log(reportData)
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
   const [userdata, setUserData] = useState();
+  const [openCancelModal, setOpenCancelModal] = useState(false);
   const matches = useMediaQuery("(min-width: 640px)");
   const { data, status } = useQuery(
     "fetchUserbyId",
@@ -34,6 +43,31 @@ function ViewUserModal({ id, reportData }) {
     {
       onSuccess: (response) => {
         setUserData(response.data.data);
+      },
+    }
+  );
+
+  //API call for Cancel Appointments
+  const CancelAppointment = useMutation(
+    (id) => {
+      return axios.get(
+        `${backendUrl + `/api/appointment/cancelAppointment/${id}`}`,
+        {
+          headers: {
+            "x-access-token": user.token,
+          },
+        }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        showNotification({
+          title: translate("Appointment Cancelled"),
+          message: translate("Appointment Cancelled Successfully"),
+          color: "green.0",
+        });
+        setOpenViewModal(false);
+        setOpenCancelModal(false);
       },
     }
   );
@@ -77,7 +111,29 @@ function ViewUserModal({ id, reportData }) {
             {translate(reportData?.status)}
           </Badge>
         </SimpleGrid>
+        {cancelButton && (
+          <Button
+            label={"Cancel Appointment"}
+            styles={{ float: "right", marginTop: "10px" }}
+            onClick={() => {
+              setOpenCancelModal(true);
+            }}
+          />
+        )}
       </Container>
+      <DeleteModal
+        opened={openCancelModal}
+        setOpened={setOpenCancelModal}
+        onCancel={() => setOpenCancelModal(false)}
+        onDelete={() => {
+          CancelAppointment.mutate(reportData.appointmentId);
+        }}
+        cancel={"No"}
+        deletee={"Yes"}
+        loading={CancelAppointment.isLoading}
+        label="Are you Sure?"
+        message="Do you really want to cancel this appointment?"
+      />
     </Flex>
   );
 }
