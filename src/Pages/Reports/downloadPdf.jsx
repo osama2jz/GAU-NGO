@@ -96,12 +96,11 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const CustomDate = () => {
     const New = data
       ?.filter((person) => {
-        console.log(moment(person.date).format("DD-MM-YYYY"));
         return (
-          moment(person.date).format("DD-MM-YYYY") >=
-            moment(startDate).format("DD-MM-YYYY") &&
-          moment(person.date).format("DD-MM-YYYY") <=
-            moment(endDate).format("DD-MM-YYYY")
+          moment(person.date).format("YYYY-MM-DD") >=
+            moment(startDate).format("YYYY-MM-DD") &&
+          moment(person.date).format("YYYY-MM-DD") <=
+            moment(endDate).format("YYYY-MM-DD")
         );
       })
       .map((person) => ({
@@ -167,6 +166,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
           downloadPDF(cus, `${label}`);
       setShow(false);
     }
+    setEndDate(null);
+    setStartDate(null);
   };
   const downloadPDF = (filteredData, title) => {
     const doc = new jsPDF({ orientation: "l" });
@@ -289,7 +290,10 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
               label={translate("Start Date")}
               value={startDate}
               placeholder={translate("Start Date")}
-              onChange={setStartDate}
+              onChange={(e) => {
+                setStartDate(e);
+                setEndDate(null);
+              }}
             />
             <DatePicker
               locale={locale}
@@ -297,6 +301,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
               label={translate("End Date")}
               value={endDate}
               minDate={startDate}
+              maxDate={new Date(moment(startDate).add(2, "year"))}
               onChange={setEndDate}
             />
           </Flex>
