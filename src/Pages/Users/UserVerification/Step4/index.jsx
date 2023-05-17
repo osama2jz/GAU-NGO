@@ -1,4 +1,4 @@
-import { Anchor, Checkbox, Container, Group, Text } from "@mantine/core";
+import { Anchor, Checkbox, Container, Flex, Group, Text } from "@mantine/core";
 import axios from "axios";
 import { useContext, useRef } from "react";
 import { useQuery } from "react-query";
@@ -10,10 +10,14 @@ import { useStyles } from "../styles";
 import Loader from "../../../../Components/Loader";
 import Button from "../../../../Components/Button";
 import { useReactToPrint } from "react-to-print";
+import Logo from "../../../../logo.svg";
+import moment from "moment";
 
 export const Step4 = ({ sigCanvas }) => {
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
+  var currentTime = moment();
+
 
   const agreementSignatures = useRef();
 
@@ -49,6 +53,39 @@ export const Step4 = ({ sigCanvas }) => {
           />
         </Group>
     <Container size="xl" p={"lg"} className={classes.consent} ref={agreementSignatures}>
+    <Group position="center" mt={"md"}>
+          {/* <Flex align={"center"}> */}
+          <img src={Logo} width={"100px"} />
+          <Text fw={"bold"} fz={"30px"}>
+            GAU
+          </Text>
+          {/* </Flex> */}
+        </Group>
+        {/* <Flex align={"center"}>
+          <img src={Logo} width={"70px"} />
+          <Text fw={"bold"} fz={"lg"}>
+            GAU
+          </Text>
+        </Flex> */}
+        <Flex justify={"space-between"}>
+          <Flex align={"center"}>
+            <Text align="center" fw={"bold"}>
+              {translate("Date")} {":"}
+            </Text>
+            <Text align="center" fw={"bold"}>
+              {" "}
+              {moment(new Date()).format("DD-MM-YYYY")}
+            </Text>
+          </Flex>
+          <Flex align={"center"}>
+            <Text align="center" fw={"bold"}>
+              {translate("Time")} {": "}
+            </Text>
+            <Text align="center" fw={"bold"}>
+              {moment(currentTime).format("hh:mm")}
+            </Text>
+          </Flex>
+        </Flex>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
         {translate("User Signature")}
