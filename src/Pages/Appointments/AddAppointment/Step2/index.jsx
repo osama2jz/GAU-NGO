@@ -57,6 +57,8 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       numeric: false,
       disablePadding: true,
       label: "Report Type",
+      translate: true,
+
     },
     {
       id: "addedBy",
@@ -69,6 +71,8 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate: true,
+
     },
     {
       id: "date",

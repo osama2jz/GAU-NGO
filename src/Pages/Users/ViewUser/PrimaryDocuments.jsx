@@ -30,7 +30,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import DeleteModal from "../../../Components/DeleteModal";
 
-const MyDocs = ({ userDocs, Data }) => {
+const MyDocs = ({ userDocs, Data, loader }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -39,16 +39,18 @@ const MyDocs = ({ userDocs, Data }) => {
   const [deleteID, setDeleteID] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
-  
+  const [verifyId, setVerifyId] = useState("");
+  console.log("loader", loader);
+
   const [docs, setDocs] = useState([
     {
       documentTitle: "",
       documentURL: null,
-      status:"verified"
+      status: "verified",
     },
   ]);
 
-  console.log("DOCS",oldDocs);
+  console.log("DOCS", oldDocs);
 
   const handleDeleteDocument = useMutation(
     (deleteId) => {
@@ -112,7 +114,7 @@ const MyDocs = ({ userDocs, Data }) => {
             {
               documentTitle: "",
               documentURL: null,
-              status:"verified"
+              status: "verified",
             },
           ]);
         } else {
@@ -128,6 +130,10 @@ const MyDocs = ({ userDocs, Data }) => {
   useEffect(() => {
     setOldDocs(userDocs);
   }, [user, userDocs, handleDeleteDocument.isSuccess]);
+
+  useEffect(() => {
+    setVerifyId(null);
+  }, [oldDocs]);
 
   const handleFileInput = (file, index) => {
     const fileName = file.name;
@@ -205,7 +211,7 @@ const MyDocs = ({ userDocs, Data }) => {
             color: "green.0",
           });
           setOpenDeleteModal(false);
-          queryClient.invalidateQueries("fetchUserSingle");
+          queryClient.invalidateQueries("fetchUsertoViewData");
         } else {
           showNotification({
             title: translate("Failed"),
@@ -228,7 +234,6 @@ const MyDocs = ({ userDocs, Data }) => {
     </tr>
   );
 
- 
   var sr = 1;
   const rows = oldDocs.map((element) => (
     <tr key={element._id}>
@@ -249,12 +254,14 @@ const MyDocs = ({ userDocs, Data }) => {
           label={"Verify"}
           primary={true}
           disabled={element.status === "verified"}
-          onClick={() =>
+          loading={verifyId === element._id}
+          onClick={() => {
+            setVerifyId(element._id);
             handleVerifyDocument.mutate({
               documentId: element._id,
               status: "verified",
-            })
-          }
+            });
+          }}
         />
       </td>
       <td>

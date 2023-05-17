@@ -23,6 +23,7 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import DownloadPdf from "../downloadPdf";
 import { useStyles } from "./styles";
+import Pagination from "../../../Components/Pagination";
 
 function CaseReport() {
   const { classes } = useStyles();
@@ -219,6 +220,8 @@ function CaseReport() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
+              title={"Case Reports"}
+              label={"Case Reports"}
               // title="Download reports"
             />
           </Grid.Col>

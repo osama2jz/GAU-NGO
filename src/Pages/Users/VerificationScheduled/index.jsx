@@ -168,6 +168,7 @@ const VerificationScheduled = () => {
         );
       }
     });
+    setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {
