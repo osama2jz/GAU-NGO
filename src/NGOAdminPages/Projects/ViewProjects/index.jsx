@@ -21,6 +21,7 @@ import { useMutation } from "react-query";
 import { showNotification } from "@mantine/notifications";
 import moment from "moment/moment";
 import Pagination from "../../../Components/Pagination";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 export const ViewProjects = () => {
   const { classes } = useStyles();
@@ -56,7 +57,7 @@ export const ViewProjects = () => {
       label: "Project Name",
     },
     {
-      id: "createdDate",
+      id: "date",
       numeric: false,
       disablePadding: true,
       label: "Created Date",
@@ -101,7 +102,7 @@ export const ViewProjects = () => {
             id: obj._id,
             sr: ind + 1,
             projectName: obj?.projectName,
-            createdDate: new moment(obj?.createdDate).format("YYYY-MM-DD"),
+            date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
             description: obj?.description,
             accStatus: obj?.status,
             endDate: obj?.endDate,
@@ -253,6 +254,14 @@ export const ViewProjects = () => {
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.ngoAdmin.addProject)}
+            />
+          </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+            title={"Projects"}
+            data={filteredItems}
+            headCells={headerData}
+            label={"Projects"}
             />
           </Grid.Col>
         </Grid>

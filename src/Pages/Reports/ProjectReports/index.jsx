@@ -278,14 +278,14 @@ function ProjectReports() {
               <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
+                  {translate(reportData?.type)} {translate("Report")}
                 </Anchor>
               ) : (
                 <Text className={classes.textContent}>{translate("No Report")}</Text>
               )}
 
               <Text className={classes.textheading}>{translate("Report Type")}</Text>
-              <Text className={classes.textContent}>{reportData?.type}</Text>
+              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
             </SimpleGrid>
           </Container>
         </Flex>

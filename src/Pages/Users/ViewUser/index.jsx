@@ -117,7 +117,7 @@ function ViewUser() {
         // setWorkData(workData);
         setLoader(false);
       },
-      enabled: !!userData,
+      // enabled: !!userData,
     }
   );
 
@@ -285,7 +285,7 @@ function ViewUser() {
           />
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
-          <PrimaryDocuments userDocs={docs} Data={data} />
+          <PrimaryDocuments userDocs={docs} Data={data} loader={loader}/>
         </Tabs.Panel>
       </Tabs>
     </>
