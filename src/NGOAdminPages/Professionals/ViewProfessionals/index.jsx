@@ -257,7 +257,7 @@ export const ViewProfessionals = () => {
           <Grid.Col>
             <DownloadPdf
               headCells={headerData}
-              data={Paginated}
+              data={rowData}
               label={"Professionals"}
               title={"Professionals"}
             />

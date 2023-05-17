@@ -16,7 +16,7 @@ import Logo from "../../assets/Gau.png";
 import { UserContext } from "../../contexts/UserContext";
 import { useStyles } from "./Private/styles";
 
-const getTranslatedData = (person,translate) => {
+const getTranslatedData = (person, translate) => {
   // const { translate } = useContext(UserContext);
   return {
     ...person,
@@ -40,11 +40,27 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const AllData = data?.map((person) => ({ ...getTranslatedData(person,translate) }));
+  const AllData = data?.map((person) => ({
+    ...person,
+    role: translate(person?.role),
+    refer: translate(person?.refer),
+    accStatus: translate(person?.accStatus),
+    status: translate(person?.status),
+    type: translate(person?.type),
+    userType: translate(person?.userType),
+  }));
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
-    .map((person) => ({ ...getTranslatedData(person) }));
+    .map((person) => ({
+      ...person,
+      role: translate(person?.role),
+      refer: translate(person?.refer),
+      accStatus: translate(person?.accStatus),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
+    }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";
   let locale = currentLanguage === "spanish" ? "es" : "en";
@@ -56,12 +72,26 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         new Date(person.date) <= new Date(today)
       );
     })
-    .map((person) => ({ ...getTranslatedData(person,translate) }));
+    .map((person) => ({
+      ...person,
+      role: translate(person?.role),
+      refer: translate(person?.refer),
+      accStatus: translate(person?.accStatus),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
+    }));
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
     .map((person) => ({
-      ...getTranslatedData(person,translate),
+      ...person,
+      role: translate(person?.role),
+      refer: translate(person?.refer),
+      accStatus: translate(person?.accStatus),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
     }));
   const CustomDate = () => {
     const New = data
@@ -74,11 +104,15 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             moment(endDate).format("DD-MM-YYYY")
         );
       })
-      .map((person) => (
-        {
-          ...getTranslatedData(person,translate),
-        }
-      ));
+      .map((person) => ({
+        ...person,
+        role: translate(person?.role),
+        refer: translate(person?.refer),
+        accStatus: translate(person?.accStatus),
+        status: translate(person?.status),
+        type: translate(person?.type),
+        userType: translate(person?.userType),
+      }));
     return New;
   };
 
@@ -189,6 +223,21 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         filteredData.map((dataPoint) => {
           return dataPoint;
         }),
+      didDrawPage: function (data) {
+        // Footer
+        const footerX = doc.internal.pageSize.getWidth() - 20;
+        const footerY = doc.internal.pageSize.getHeight() - 10;
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        doc.text(
+          "Page " + doc.internal.getCurrentPageInfo().pageNumber,
+          footerX,
+          footerY,
+          {
+            align: "center",
+          }
+        );
+      },
     });
 
     doc.save(`${translate(title)}.pdf`);
