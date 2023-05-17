@@ -206,7 +206,7 @@ export const AllUser = () => {
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter((item) => {
       if (filter === "" && filter2 === "") {
-        return item.name.toLowerCase().includes(search.toLowerCase());
+        return item.name.toLowerCase().includes(search.toLowerCase()) || item.email.toLowerCase().includes(search.toLowerCase());
       } else if (filter !== "" && filter2 === "")
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -225,6 +225,7 @@ export const AllUser = () => {
         );
       }
     });
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {

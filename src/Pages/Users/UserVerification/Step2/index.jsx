@@ -456,6 +456,9 @@ export const Step2 = ({
           <Text className={classes.subHeading}>
             {translate("Studies and Training")}*
           </Text>
+          {trainingStudies.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
           <Group position="right">
             <Button
               label={"Add New"}
@@ -516,6 +519,9 @@ export const Step2 = ({
           <Text className={classes.subHeading}>
             {translate("Work Experience")}*
           </Text>
+          {workExperience.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
           <Group position="right">
             <Button
               label={"Add New"}
@@ -627,6 +633,9 @@ export const Step2 = ({
         <Text className={classes.subHeading}>
           {translate("Professional References")}*
         </Text>
+        {refrences.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
         <Group position="right">
           <Button
             label={"Add New"}
