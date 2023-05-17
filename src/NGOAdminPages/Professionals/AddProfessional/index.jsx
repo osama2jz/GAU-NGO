@@ -81,7 +81,7 @@ export const AddProfessional = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? translate("Please select Professional type") : null,
+        value?.length < 1 ? translate("Please select user type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
@@ -326,9 +326,9 @@ export const AddProfessional = () => {
             <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <SelectMenu
                 data={[
-                  { label: "Lawyer", value: "lawyer" },
-                  { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
+                  { label: "Psychologist", value: "psychologist" },
+                  { label: "Lawyer", value: "lawyer" },
                 ]}
                 disabled={isUpdate ? true : false}
                 placeholder={isUpdate ? form.values.userType : "Select role"}

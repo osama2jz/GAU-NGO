@@ -255,15 +255,16 @@ export const AddRoaster = () => {
         </Grid>
 
         <MultiSelect
-          label="Select Users"
+          label="Select Professionals"
           // form={form}
           required={true}
           setData={setSelect}
-          placeholder="Select Users"
+          placeholder="Select Professionals"
           itemComponent={SelectItem}
           validateName="users"
           data={professionals}
           searchable={true}
+          mt="sm"
         />
 
         <Group position="right" mt="sm">

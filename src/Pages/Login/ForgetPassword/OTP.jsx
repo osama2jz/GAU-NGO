@@ -18,7 +18,7 @@ import { UserContext } from "../../../contexts/UserContext";
 const OTP = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const {translate } = useContext(UserContext);
+  const { translate } = useContext(UserContext);
 
   const { state } = useLocation();
 
@@ -32,11 +32,12 @@ const OTP = () => {
     validateInputOnChange: true,
     initialValues: {
       OTP: "",
-      type: "password",
+      type: state.type,
     },
 
     validate: {
-      OTP: (value) => (value.length > 0 ? null : translate("Enter a valid OTP")),
+      OTP: (value) =>
+        value.length > 0 ? null : translate("Enter a valid OTP"),
     },
   });
 
@@ -47,11 +48,15 @@ const OTP = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          navigate(routeNames.general.resetPassword, {
-            state: { otp: form.values.OTP },
-          });
+          if (state.type === "password") {
+            navigate(routeNames.general.resetPassword, {
+              state: { otp: form.values.OTP },
+            });
+          } else {
+            navigate(routeNames.general.login);
+          }
           showNotification({
-            title:translate("OTP Verified"),
+            title: translate("OTP Verified"),
             message: translate(response.data.message),
             color: "green.0",
           });

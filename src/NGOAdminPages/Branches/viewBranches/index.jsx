@@ -35,7 +35,7 @@ export const ViewBranches = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [BranchData, setBranchData] = useState([]);
 
@@ -117,8 +117,8 @@ export const ViewBranches = () => {
             branchPointOfContact: obj?.branchPointOfContact,
             branchEmail: obj?.branchEmail,
             branchContact: obj?.branchContact,
-            branchStartTime:obj?.branchStartTime,
-            branchEndTime:obj?.branchEndTime,
+            branchStartTime: obj?.branchStartTime,
+            branchEndTime: obj?.branchEndTime,
           };
           return branch;
         });
@@ -143,12 +143,15 @@ export const ViewBranches = () => {
       onSuccess: (response) => {
         navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
-          title: translate( "Status Updated"),
-          message: translate("Branch Status changed Successfully!"),
+          title: translate("Status Updated"),
+          message: deleteID
+            ? translate("Branch deleted Successfully")
+            : translate("Branch Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
         queryClient.invalidateQueries("fetchBranches");
+        setDeleteID("")
       },
       onError: (res) => {
         showNotification({
@@ -178,8 +181,8 @@ export const ViewBranches = () => {
           item?.accStatus === filter
         );
     });
-    
-    setPage(1)
+
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered?.map((item, ind) => {
       return {

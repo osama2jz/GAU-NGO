@@ -16,7 +16,7 @@ import { UserContext } from "../../../contexts/UserContext";
 
 const ForgetPassword = () => {
   const { classes } = useStyles();
-  const {translate } = useContext(UserContext);
+  const { translate } = useContext(UserContext);
   const navigate = useNavigate();
   const form = useForm({
     validateInputOnChange: true,
@@ -30,7 +30,7 @@ const ForgetPassword = () => {
     },
   });
 
-  const handleLogin = useMutation(
+  const handleEmailVerification = useMutation(
     (values) => {
       return axios.post(
         `${backendUrl + "/api/user/sendUserPasswordResetEmail"}`,
@@ -40,8 +40,9 @@ const ForgetPassword = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          // localStorage.setItem("userData", JSON.stringify(response.data));
-          navigate(routeNames.general.otp, { state: { allowed: true } });
+          navigate(routeNames.general.otp, {
+            state: { allowed: true, type: "password" },
+          });
           showNotification({
             title: translate("Email Verified"),
             message: translate(response.data.message),
@@ -60,7 +61,9 @@ const ForgetPassword = () => {
   return (
     <form
       className={classes.form}
-      onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}
+      onSubmit={form.onSubmit((values) =>
+        handleEmailVerification.mutate(values)
+      )}
     >
       <ContainerHeader label={"Reset Password"} />
       <InputField
@@ -75,7 +78,7 @@ const ForgetPassword = () => {
         type="submit"
         w={"100%"}
         size="lg"
-        loading={handleLogin.status === "loading"}
+        loading={handleEmailVerification.status === "loading"}
       />
       <Flex justify="center" mt="md">
         <Anchor onClick={() => navigate(routeNames.general.login)}>
