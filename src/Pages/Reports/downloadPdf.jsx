@@ -176,7 +176,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     const companyName = "GAU";
     const ngoName = user?.ngoId?.ngoName;
     const ngoBranch = "Branch: All About Helping1";
-    const currentDate = new Date().toLocaleDateString();
+    const currentDate = new Date().toLocaleString();
+    const currentTime = new Date().toLocaleTimeString();
 
     const marginTop = 5; // Adjust the top margin as needed
 
@@ -200,7 +201,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     doc.text(companyName, companyNameX, companyNameY, { align: "left" });
     doc.setFontSize(22);
     doc.text(ngoName, ngoNameX, ngoNameY, { align: "center" });
-    doc.setFontSize(16);
+    doc.setFontSize(12);
     doc.text(currentDate, ngoBranchX, ngoBranchY, { align: "center" });
     // doc.text(currentDate, dateX, dateY, { align: "center" });
     doc.text(translate(title), dateX, marginTop + 50, { align: "center" });

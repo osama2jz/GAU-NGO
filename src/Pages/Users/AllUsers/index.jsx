@@ -65,10 +65,28 @@ export const AllUser = () => {
       label: translate("Email"),
     },
     {
+      id: "city",
+      numeric: false,
+      disablePadding: true,
+      label: translate("City"),
+    },
+    {
+      id: "country",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Country"),
+    },
+    {
       id: "date",
       numeric: false,
       disablePadding: true,
       label: translate("Registration Date"),
+    },
+    {
+      id: "phone",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Phone No"),
     },
     {
       id: "status",
@@ -135,6 +153,8 @@ export const AllUser = () => {
             name: obj?.firstName + " " + obj?.lastName,
             email: obj?.email,
             age: obj?.userConsentForm?.personalInformation?.age,
+            city: obj?.userConsentForm?.personalInformation?.city,
+            country: obj?.userConsentForm?.personalInformation?.country,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,
             date: new moment(obj?.createdAt).format("YYYY-MM-DD"),
