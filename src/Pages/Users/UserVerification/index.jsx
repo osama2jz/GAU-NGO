@@ -330,7 +330,7 @@ const handleVerifyUser = useMutation(
       //Personal Information
       firstName: "",
       lastName: "",
-      dateOfBirth: "",
+      dateOfBirth: null,
       phoneNo: "",
       email: "",
       age: "",
@@ -360,7 +360,7 @@ const handleVerifyUser = useMutation(
     },
     validate: {
       dateOfBirth: (value) =>
-        value.length < 1 ? translate("Please enter your date of Birth") : null,
+        value?.length < 1 ? translate("Please enter your date of Birth") : null,
       passport: (value) => (value?.length < 1 ? translate("Please enter passport") : null),
       nationality: (value) =>
         value?.length < 1 ? translate("Please enter nationality") : null,

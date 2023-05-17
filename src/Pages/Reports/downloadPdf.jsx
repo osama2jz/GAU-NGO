@@ -16,6 +16,19 @@ import Logo from "../../assets/Gau.png";
 import { UserContext } from "../../contexts/UserContext";
 import { useStyles } from "./Private/styles";
 
+const getTranslatedData = (person, translate) => {
+  // const { translate } = useContext(UserContext);
+  return {
+    ...person,
+    role: translate(person?.role),
+    refer: translate(person?.refer),
+    accStatus: translate(person?.accStatus),
+    status: translate(person?.status),
+    type: translate(person?.type),
+    userType: translate(person?.userType),
+  };
+};
+
 function DownloadPdf({ headCells, data, title, setdata, label }) {
   const { classes } = useStyles();
   const { translate, user } = useContext(UserContext);
@@ -31,18 +44,22 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     ...person,
     role: translate(person?.role),
     refer: translate(person?.refer),
-    status: translate(person?.status),
     accStatus: translate(person?.accStatus),
+    status: translate(person?.status),
+    type: translate(person?.type),
+    userType: translate(person?.userType),
   }));
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
     .map((person) => ({
       ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
-      status: translate(person.status),
+      role: translate(person?.role),
+      refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
     }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";
@@ -57,26 +74,28 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     })
     .map((person) => ({
       ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
-      status: translate(person.status),
+      role: translate(person?.role),
+      refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
     }));
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
     .map((person) => ({
       ...person,
-      role: translate(person.role),
-      refer: translate(person.refer),
+      role: translate(person?.role),
+      refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
-      status: translate(person.status),
+      status: translate(person?.status),
+      type: translate(person?.type),
+      userType: translate(person?.userType),
     }));
   const CustomDate = () => {
     const New = data
       ?.filter((person) => {
-        // moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
-
         console.log(moment(person.date).format("DD-MM-YYYY"));
         return (
           moment(person.date).format("DD-MM-YYYY") >=
@@ -87,10 +106,12 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
       })
       .map((person) => ({
         ...person,
-        role: translate(person.role),
-        refer: translate(person.refer),
-        status: translate(person.status),
+        role: translate(person?.role),
+        refer: translate(person?.refer),
         accStatus: translate(person?.accStatus),
+        status: translate(person?.status),
+        type: translate(person?.type),
+        userType: translate(person?.userType),
       }));
     return New;
   };
@@ -202,6 +223,21 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         filteredData.map((dataPoint) => {
           return dataPoint;
         }),
+      didDrawPage: function (data) {
+        // Footer
+        const footerX = doc.internal.pageSize.getWidth() - 20;
+        const footerY = doc.internal.pageSize.getHeight() - 10;
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        doc.text(
+          "Page " + doc.internal.getCurrentPageInfo().pageNumber,
+          footerX,
+          footerY,
+          {
+            align: "center",
+          }
+        );
+      },
     });
 
     doc.save(`${translate(title)}.pdf`);

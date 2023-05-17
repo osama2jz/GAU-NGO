@@ -92,8 +92,7 @@ const VerificationPending = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={() => {
-          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);
-          
+          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);  
         }}
         cancel={"No"}
         deletee={"Yes"}

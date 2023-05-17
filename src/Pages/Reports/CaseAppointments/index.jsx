@@ -147,6 +147,7 @@ function CaseAppointments() {
             name: obj?.appointmentUser,
             caseId: obj?.caseId,
             email: "N/A",
+            appointmentWith: obj?.appointmentWith,
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,

@@ -1,4 +1,4 @@
-import { Anchor, Container, Text } from "@mantine/core";
+import { Anchor, Container, Group, Text } from "@mantine/core";
 import axios from "axios";
 import { useContext, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
@@ -8,11 +8,19 @@ import Loader from "../../../../Components/Loader";
 import { backendUrl } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import { useStyles } from "../styles";
+import Button from "../../../../Components/Button";
+import { useReactToPrint } from "react-to-print";
 
 export const Step3 = ({ sigCanvas }) => {
   const { classes } = useStyles();
   // const sigCanvas = useRef({});
   const { user, translate } = useContext(UserContext);
+  const consentSignatures = useRef();
+
+  const printConsent = useReactToPrint({
+    content: () => consentSignatures.current,
+  });
+
 
   //API call for fetching conset form
   const { data, status } = useQuery("fetchConsent", () => {
@@ -32,7 +40,16 @@ export const Step3 = ({ sigCanvas }) => {
     return <Loader />;
   }
   return (
-    <Container size="xl" p={"lg"} className={classes.consent}>
+    <>
+    <Group position="right" mt={"md"}>
+          <Button
+            label={"Generate Pdf"}
+            bg={true}
+            onClick={()=>printConsent()}
+            // onClick={() => DownloadPdf()}
+          />
+        </Group>
+    <Container size="xl" p={"lg"} className={classes.consent} ref={consentSignatures}>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
         {translate("User Signature")}
@@ -46,5 +63,6 @@ export const Step3 = ({ sigCanvas }) => {
         <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor>
       </Container>
     </Container>
+    </>
   );
 };
