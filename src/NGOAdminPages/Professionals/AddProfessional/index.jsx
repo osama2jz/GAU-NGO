@@ -81,7 +81,7 @@ export const AddProfessional = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? translate("Please select Professional type") : null,
+        value?.length < 1 ? translate("Please select user type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null

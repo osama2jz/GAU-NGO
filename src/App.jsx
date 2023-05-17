@@ -74,6 +74,7 @@ function App() {
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
+          <Route path={routeNames.general.verifyEmail} element={<OTP />} />
           <Route
             path={routeNames.general.proSignup}
             element={<ProfessionalSignup />}

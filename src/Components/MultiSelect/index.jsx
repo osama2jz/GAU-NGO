@@ -38,6 +38,7 @@ const MultiSelect = ({
   size = "md",
   validateName,
   itemComponent,
+  ...props
 }) => {
   const {translate}=useContext(UserContext)
   const { classes, cx } = useStyles({ borderWhite });
@@ -70,6 +71,7 @@ const MultiSelect = ({
         label: classes.label,
       }}
       placeholder={translate(placeholder)}
+      {...props}
     />
   );
 };

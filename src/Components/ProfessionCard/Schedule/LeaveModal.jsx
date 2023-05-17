@@ -109,7 +109,7 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
     >
       <Container>
       <Text>
-          {translate("Are you sure you want to mark")} ${date} {translate("as leave?")} {translate("It will cancel all of your appointments for this day.")}
+          {translate("Are you sure you want to mark")} {date} {translate("as leave?")} {translate("It will cancel all of your appointments.")}
         </Text>
         <Group position="right" mt={"xl"}>
           <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
