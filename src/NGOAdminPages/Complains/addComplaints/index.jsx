@@ -43,7 +43,7 @@ export const AddComplains = () => {
   const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [professionalsData, setProfessionalsData] = useState([]);
   const [professional, setProfessional] = useState();
 
@@ -92,7 +92,7 @@ export const AddComplains = () => {
       subject: (value) =>
         /^[a-zA-Z ]{2,40}$/.test(value)
           ? null
-          : translate("Please enter subject of your complaint."),
+          : translate("Please enter subject of your complaint"),
       description: (value) =>
         value?.length < 2 ? translate("Please enter description") : null,
     },
