@@ -127,6 +127,7 @@ const VerificationScheduled = () => {
             //   new moment(obj.scheduleDate).format("DD"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
+            appointmentId: obj?.appointmentId,
           };
           return user;
         });
@@ -271,7 +272,12 @@ const VerificationScheduled = () => {
         setOpened={setOpenViewModal}
         title="User Schedule Details"
       >
-        <ViewUserModal id={viewModalData} reportData={reportData} />
+        <ViewUserModal
+          id={viewModalData}
+          reportData={reportData}
+          cancelButton={true}
+          setOpenViewModal={setOpenViewModal}
+        />
       </ViewModal>
     </Container>
   );
