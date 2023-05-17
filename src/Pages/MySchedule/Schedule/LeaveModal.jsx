@@ -118,7 +118,7 @@ const LeaveModal = ({
     >
       <Container>
         <Text>
-          {translate("Are you sure you want to mark")} ${date}{" "}
+          {translate("Are you sure you want to mark")} {date}{" "}
           {translate("as leave?")}{" "}
           {translate("It will cancel all of your appointments for this day.")}
         </Text>
