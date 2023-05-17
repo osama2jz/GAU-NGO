@@ -16,15 +16,16 @@ import Logo from "../../assets/Gau.png";
 import { UserContext } from "../../contexts/UserContext";
 import { useStyles } from "./Private/styles";
 
-const getTranslatedData = (person) => {
-  const { translate } = useContext(UserContext);
+const getTranslatedData = (person,translate) => {
+  // const { translate } = useContext(UserContext);
   return {
     ...person,
-    role: translate(person.role),
-    refer: translate(person.refer),
+    role: translate(person?.role),
+    refer: translate(person?.refer),
     accStatus: translate(person?.accStatus),
-    status: translate(person.status),
+    status: translate(person?.status),
     type: translate(person?.type),
+    userType: translate(person?.userType),
   };
 };
 
@@ -39,7 +40,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const AllData = data?.map((person) => ({ ...getTranslatedData(person) }));
+  const AllData = data?.map((person) => ({ ...getTranslatedData(person,translate) }));
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
@@ -55,18 +56,16 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         new Date(person.date) <= new Date(today)
       );
     })
-    .map((person) => ({ ...getTranslatedData(person) }));
+    .map((person) => ({ ...getTranslatedData(person,translate) }));
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
     .map((person) => ({
-      ...getTranslatedData(person),
+      ...getTranslatedData(person,translate),
     }));
   const CustomDate = () => {
     const New = data
       ?.filter((person) => {
-        // moment(person.date).format("DD-MM-YYYY") >= moment(startDate).format("DD-MM-YYYY") &&
-
         console.log(moment(person.date).format("DD-MM-YYYY"));
         return (
           moment(person.date).format("DD-MM-YYYY") >=
@@ -75,7 +74,11 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             moment(endDate).format("DD-MM-YYYY")
         );
       })
-      .map((person) => ({ ...getTranslatedData(person) }));
+      .map((person) => (
+        {
+          ...getTranslatedData(person,translate),
+        }
+      ));
     return New;
   };
 

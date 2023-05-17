@@ -326,9 +326,9 @@ export const AddProfessional = () => {
             <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <SelectMenu
                 data={[
-                  { label: "Lawyer", value: "lawyer" },
-                  { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
+                  { label: "Psychologist", value: "psychologist" },
+                  { label: "Lawyer", value: "lawyer" },
                 ]}
                 disabled={isUpdate ? true : false}
                 placeholder={isUpdate ? form.values.userType : "Select role"}
