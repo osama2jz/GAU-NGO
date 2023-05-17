@@ -114,7 +114,7 @@ function ViewUser() {
             }
           );
         setDocs(response.data.documents);
-        setWorkData(workData);
+        // setWorkData(workData);
         setLoader(false);
       },
       enabled: !!userData,

@@ -39,13 +39,16 @@ const MyDocs = ({ userDocs, Data }) => {
   const [deleteID, setDeleteID] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
-  console.log(Data);
+  
   const [docs, setDocs] = useState([
     {
       documentTitle: "",
       documentURL: null,
+      status:"verified"
     },
   ]);
+
+  console.log("DOCS",oldDocs);
 
   const handleDeleteDocument = useMutation(
     (deleteId) => {
@@ -79,9 +82,6 @@ const MyDocs = ({ userDocs, Data }) => {
       },
     }
   );
-  useEffect(() => {
-    setOldDocs(userDocs);
-  }, [user, userDocs, handleDeleteDocument.isSuccess]);
 
   const handleAddDocument = useMutation(
     () => {
@@ -112,18 +112,23 @@ const MyDocs = ({ userDocs, Data }) => {
             {
               documentTitle: "",
               documentURL: null,
+              status:"verified"
             },
           ]);
         } else {
           showNotification({
             title: translate("Failed"),
-            message:translate(response.data.message),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }
       },
     }
   );
+  useEffect(() => {
+    setOldDocs(userDocs);
+  }, [user, userDocs, handleDeleteDocument.isSuccess]);
+
   const handleFileInput = (file, index) => {
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -182,7 +187,8 @@ const MyDocs = ({ userDocs, Data }) => {
   const handleVerifyDocument = useMutation(
     (obj) => {
       return axios.post(
-        `${backendUrl + `/api/lookup/updateAdminDocuments`}`,obj,
+        `${backendUrl + `/api/lookup/updateAdminDocuments`}`,
+        obj,
         {
           headers: {
             "x-access-token": user.token,
@@ -222,7 +228,7 @@ const MyDocs = ({ userDocs, Data }) => {
     </tr>
   );
 
-  console.log(oldDocs);
+ 
   var sr = 1;
   const rows = oldDocs.map((element) => (
     <tr key={element._id}>
@@ -230,7 +236,7 @@ const MyDocs = ({ userDocs, Data }) => {
       <td>{element.documentTitle}</td>
       <td>
         <Anchor href={element?.documentURL} target={"_blank"}>
-         {translate("Document")}
+          {translate("Document")}
         </Anchor>
       </td>
       <td>
@@ -243,7 +249,12 @@ const MyDocs = ({ userDocs, Data }) => {
           label={"Verify"}
           primary={true}
           disabled={element.status === "verified"}
-          onClick={() => handleVerifyDocument.mutate({documentId:element._id,status:"verified"})}
+          onClick={() =>
+            handleVerifyDocument.mutate({
+              documentId: element._id,
+              status: "verified",
+            })
+          }
         />
       </td>
       <td>
@@ -374,11 +385,19 @@ const MyDocs = ({ userDocs, Data }) => {
           onClick={handleAddDocument.mutate}
           disabled={!docs[docs.length - 1].documentURL}
           loading={handleAddDocument.isLoading || fileLoader}
+          styles={{
+            Loader: {
+              background: "red",
+              borderRadius: "50%",
+              width: "20px",
+              height: "20px",
+            },
+          }}
         />
       </Group>
       <Divider mt={"xl"} />
       <Text align="center" size={"xl"} mt={"sm"} mb={"sm"}>
-       {translate("All Documents")}
+        {translate("All Documents")}
       </Text>
       <Table striped highlightOnHover withBorder>
         <thead>{ths}</thead>

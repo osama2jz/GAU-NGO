@@ -13,7 +13,6 @@ import Logo from "../../../logo.svg";
 function ConsentForm({ Data, consentSignatures }) {
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
-  console.log(Data?.userConsentForm?.consentSignatures);
   const { data, status } = useQuery("fetchConsent", () => {
     return axios.get(
       `${

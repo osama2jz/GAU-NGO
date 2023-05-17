@@ -82,7 +82,8 @@ export const Step4 = ({ sigCanvas }) => {
               {translate("Time")} {": "}
             </Text>
             <Text align="center" fw={"bold"}>
-              {moment(currentTime).format("hh:mm")}
+            {moment(currentTime).format("HH:mm")}
+
             </Text>
           </Flex>
         </Flex>
@@ -96,7 +97,7 @@ export const Step4 = ({ sigCanvas }) => {
           penColor="green"
           canvasProps={{ width: 900, height: 200, className: "sigCanvas" }}
         />
-        <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor>
+        {/* <Anchor onClick={() => sigCanvas.current.clear()}>{translate("Reset")}</Anchor> */}
       </Container>
     </Container>
     </>
