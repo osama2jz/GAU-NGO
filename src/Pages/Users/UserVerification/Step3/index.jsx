@@ -77,16 +77,16 @@ export const Step3 = ({ sigCanvas }) => {
               {translate("Date")} {":"}
             </Text>
             <Text align="center" fw={"bold"}>
-              {" "}
+              
               {moment(new Date()).format("DD-MM-YYYY")}
             </Text>
           </Flex>
           <Flex align={"center"}>
             <Text align="center" fw={"bold"}>
-              {translate("Time")} {": "}
+              {translate("Time ")} {": "}
             </Text>
             <Text align="center" fw={"bold"}>
-              {moment(currentTime).format("hh:mm")}
+             {moment(currentTime).format("HH:mm")}
             </Text>
           </Flex>
         </Flex>
@@ -100,9 +100,9 @@ export const Step3 = ({ sigCanvas }) => {
             penColor="green"
             canvasProps={{ width: 900, height: 200, className: "sigCanvas" }}
           />
-          <Anchor onClick={() => sigCanvas.current.clear()}>
+          {/* <Anchor onClick={() => sigCanvas.current.clear()}>
             {translate("Reset")}
-          </Anchor>
+          </Anchor> */}
         </Container>
       </Container>
     </>
