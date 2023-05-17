@@ -221,7 +221,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     doc.setFontSize(12);
     doc.text(`Date: ${currentDate}`, dateX, dateY, { align: "left" });
     doc.text(`Time: ${currentTime}`, timeX, timeY, { align: "right" });
-    doc.setFontSize(14);
+    doc.setFontSize(16);
     doc.text(translate(title), titleX, titleY, { align: "center" });
 
     doc.autoTable({
@@ -230,7 +230,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
       halign: "left",
       rowPageBreak: "avoid",
       tableWidth: "auto",
-      startY: ngoBranchY + 10,
+      startY: ngoBranchY + 14,
 
       columns: headCells?.slice(0, -1).map((col) => {
         return {

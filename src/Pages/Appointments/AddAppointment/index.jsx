@@ -308,7 +308,7 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: translate("Please Select User or Create Case."),
+            message: translate("Please Select User or Create Case"),
             title: translate("User Case"),
           });
 

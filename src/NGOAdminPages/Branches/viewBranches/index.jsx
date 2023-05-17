@@ -18,9 +18,11 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 import { useStyles } from "./styles";
 import ViewBranchModal from "./ViewBranchModal";
+import moment from "moment";
 
 export const ViewBranches = () => {
   const { classes } = useStyles();
@@ -57,6 +59,12 @@ export const ViewBranches = () => {
       numeric: false,
       disablePadding: true,
       label: "Email",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Created Date",
     },
     {
       id: "branchPointOfContact",
@@ -119,6 +127,7 @@ export const ViewBranches = () => {
             branchContact: obj?.branchContact,
             branchStartTime: obj?.branchStartTime,
             branchEndTime: obj?.branchEndTime,
+            date: moment(obj?.createdAt).format("YYYY-MM-DD"),
           };
           return branch;
         });
@@ -247,6 +256,15 @@ export const ViewBranches = () => {
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
+            />
+          </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+            headCells={headerData}
+            data={filteredItem}
+            title="Branches"
+            label={"Branches"}
+
             />
           </Grid.Col>
         </Grid>
