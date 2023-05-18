@@ -360,6 +360,8 @@ export const Step2 = ({
             placeholder="Date of Birth"
             form={form}
             validateName="dateOfBirth"
+            maxDate={new Date()}
+            
           />
           {/* <InputField
             label="Age"

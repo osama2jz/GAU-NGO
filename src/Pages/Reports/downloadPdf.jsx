@@ -36,10 +36,10 @@ function DownloadPdf({
   setdata,
   label,
   menuItem = {
+    all: "All",
     daily: "Daily",
     weekly: "Weekly",
     monthly: "Monthly",
-    all: "All",
     custom: "Custom",
   },
 }) {
@@ -49,7 +49,7 @@ function DownloadPdf({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // var menuItem="hello"
-  console.log("menuItem", menuItem);
+  
 
   // console.log("data", data);
   const today = moment();
@@ -138,7 +138,7 @@ function DownloadPdf({
   // console.log("CustomDate",CustomDate)
 
   const filter = (name) => {
-    if (name === "all") {
+      if (name === "all") {
       AllData.length === 0
         ? showNotification({
             title: translate("No Data"),
@@ -305,21 +305,31 @@ function DownloadPdf({
         </Menu.Target>
 
         <Menu.Dropdown>
-          <Menu.Item onClick={() => filter("all")}>
-            {translate("All")}
-          </Menu.Item>
-          <Menu.Item onClick={() => filter("daily")}>
-            {translate("Daily")}
-          </Menu.Item>
-          <Menu.Item onClick={() => filter("weekly")}>
-            {translate("Weekly")}
-          </Menu.Item>
-          <Menu.Item onClick={() => filter("monthly")}>
-            {translate("Monthly")}
-          </Menu.Item>
-          <Menu.Item onClick={() => setShow(true)}>
-            {translate("Custom")}
-          </Menu.Item>
+          {menuItem["all"] && (
+            <Menu.Item onClick={() => filter("all")}>
+              {translate("All")}
+            </Menu.Item>
+          )}
+          {menuItem["daily"] && (
+            <Menu.Item onClick={() => filter("daily")}>
+              {translate("Daily")}
+            </Menu.Item>
+          )}
+          {menuItem["weekly"] && (
+            <Menu.Item onClick={() => filter("weekly")}>
+              {translate("Weekly")}
+            </Menu.Item>
+          )}
+          {menuItem["monthly"] && (
+            <Menu.Item onClick={() => filter("monthly")}>
+              {translate("Monthly")}
+            </Menu.Item>
+          )}
+          {menuItem["custom"] && (
+            <Menu.Item onClick={() => setShow(true)}>
+              {translate("Custom")}
+            </Menu.Item>
+          )}
         </Menu.Dropdown>
 
         {/* {show && <DatePicker type="range" allowSingleDateInRange/>} */}

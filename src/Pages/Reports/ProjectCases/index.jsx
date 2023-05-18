@@ -36,6 +36,9 @@ function ProjectCases() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [close, setClose] = useState(false);
+  const [pdfDataa,setPdfDataa]=useState([])
+
+  console.log("pdfDataa",pdfDataa)
 
   const { state } = useLocation();
   const { id, data } = state ?? "";
@@ -120,8 +123,24 @@ function ProjectCases() {
           };
           return report;
         });
-        
+
         setPdfData(data);
+        let data1 = response?.data?.data
+          ?.filter((obj) => obj.status !== "scheduled")
+          ?.map((obj, ind) => {
+            let report = {
+              id: obj.reportId,
+              sr: ind + 1,
+              case: obj?.caseNo,
+              caseName: obj?.caseName,
+              status: obj?.status,
+              totalAppointments: obj?.totalAppointments,
+              totalReports: obj?.totalReports,
+              date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
+            };
+            return report;
+          });
+          setPdfDataa(data1)
       },
       // enabled: !!caseNo,
     }
@@ -231,7 +250,7 @@ function ProjectCases() {
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
               headCells={headerData}
-              data={filterData}
+              data={pdfDataa}
               title={"Project Cases"}
               label={"Project Cases"}
             />
