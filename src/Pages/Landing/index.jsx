@@ -2,6 +2,7 @@ import { Container, Flex, Text, Title } from "@mantine/core";
 import { LandingHeader } from "../../Components/LandingHeader";
 import { useStyles } from "./styles";
 import landingFG from "../../assets/landingFG.svg";
+import { TopBox } from "./TopBox";
 
 const Landing = () => {
   const { classes } = useStyles();
