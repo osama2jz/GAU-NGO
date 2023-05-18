@@ -61,7 +61,8 @@ import CaseAppointments from "./Pages/Reports/CaseAppointments";
 import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
 import { AddDictionary } from "./NGOAdminPages/Dictionary/AddDictionary/index.";
 import { ViewDictionary } from "./NGOAdminPages/Dictionary/ViewDictionary";
-import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointment/index"
+import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointment/index";
+import Landing from "./Pages/Landing";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
       style={{ marginTop: "60px" }}
     >
       <Routes>
+        <Route path={routeNames.general.landing} element={<Landing />} />
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
@@ -309,9 +311,9 @@ function App() {
             path={routeNames.ngoAdmin.ViewDictionary}
             element={<ViewDictionary />}
           />
-           <Route
+          <Route
             path={routeNames.socialWorker.verificationScheduledUser}
-            element={<UserVerificationAppointment/>}
+            element={<UserVerificationAppointment />}
           />
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
         </Route>

@@ -1,5 +1,6 @@
 const routeNames = {
   general: {
+    landing: "/home",
     auth: "/auth",
     login: "/auth/login",
     signup: "/auth/signup",

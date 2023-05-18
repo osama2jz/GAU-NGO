@@ -95,6 +95,7 @@ const MySchedule = () => {
       </Text>
       <Container className={classes.innerContainer} size="xl" p={"0px"}>
         <Group position="center" pt="10px">
+          <Text>{translate("Guidlines for Calender Colors")}: </Text>
           <ColorSwatch color="green " />
           <Text>{translate("Duty Assigned.")}</Text>
           <ColorSwatch color="white" />
