@@ -248,6 +248,8 @@ function ProjectAppointments() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setEditIDApp={true}
+            title="Project Appointments"
+
           />
         )}
         {totalPages > 1 && (

@@ -275,6 +275,7 @@ function PublicReport() {
               headCells={headerData}
               data={filterData}
               label={"Public Reports"}
+              title={"Public Reports"}
 
             />
           </Grid.Col>
@@ -287,6 +288,8 @@ function PublicReport() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title={"Public Reports"}
+
           />
         )}
         {totalPages > 1 && (

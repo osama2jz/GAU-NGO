@@ -111,7 +111,7 @@ const MySchedule = ({ Userid, setSlot, slot,setScheduleId,scheduledId,single,set
               {scheduleData.map(
                 (item, index) =>
                   !item.booked && (
-                    <Flex justify={"center"}>
+                    <Flex justify={"center"} key={index}>
                       <ScheduleCard data={item} setSlot={setSlot} slot={slot} setScheduleId={setScheduleId}
                        scheduledId={scheduledId} setOpened={setOpened} setSingle={setSingle}/>
                     </Flex>

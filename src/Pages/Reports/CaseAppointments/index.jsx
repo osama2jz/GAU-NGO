@@ -275,6 +275,8 @@ function CaseAppointments() {
             // setReportData={setReportData}
             setViewModalState={setOpenViewModal}
             setEditIDApp={setEditId}
+            title={"Case Appointments"}
+
           />
         )}
         {totalPages > 1 && (

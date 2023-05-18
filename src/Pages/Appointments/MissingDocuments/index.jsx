@@ -234,6 +234,7 @@ const MissingDocuments = () => {
               headCells={headerData}
               data={filteredItems}
               label={"Missing Documents"}
+              title={"Missing Documents"}
             />
           </Grid.Col>
         </Grid>
@@ -242,6 +243,7 @@ const MissingDocuments = () => {
           rowData={paginated}
           setViewModalState={true}
           setEditIDApp={true}
+          title={"Missing Documents"}
         />
         {totalPages > 1 && (
           <Pagination

@@ -291,6 +291,8 @@ function ProjectUsers() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title="Project Users"
+
           />
         )}
         {totalPages > 1 && (

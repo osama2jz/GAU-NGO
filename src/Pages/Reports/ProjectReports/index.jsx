@@ -240,6 +240,8 @@ function ProjectReports() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title={"Project Reports" }
+
           />
         )}
         {totalPages > 1 && (

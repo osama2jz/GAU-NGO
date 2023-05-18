@@ -276,6 +276,7 @@ export const ViewProfessionals = () => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
             setEditProfessional={true}
+            title={"Professionals"}
           />
         )}
         {totalPages > 1 && (

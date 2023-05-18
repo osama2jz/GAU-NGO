@@ -281,6 +281,7 @@ export const ViewBranches = () => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setBranchData}
             setEditBranch={true}
+            title={"Branches"}
           />
         )}
         {totalPages > 1 && (

@@ -40,8 +40,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const AllData = data?.map((person) => ({
+  const AllData = data?.map((person,index) => ({
     ...person,
+    sr:index+1,
     role: translate(person?.role),
     refer: translate(person?.refer),
     accStatus: translate(person?.accStatus),
@@ -52,8 +53,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
-    .map((person) => ({
+    .map((person,index) => ({
       ...person,
+      sr: index+1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -68,12 +70,13 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
   const filteredWeekly = data
     ?.filter((person) => {
       return (
-        new Date(person.date) >= new Date(oneWeekAgo) &&
-        new Date(person.date) <= new Date(today)
+        new Date(person?.date) >= new Date(oneWeekAgo) &&
+        new Date(person?.date) <= new Date(today)
       );
     })
-    .map((person) => ({
+    .map((person,index) => ({
       ...person,
+      sr: index+1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -84,8 +87,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
-    .map((person) => ({
+    .map((person,index) => ({
       ...person,
+      sr: index+1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -103,8 +107,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             moment(endDate).format("YYYY-MM-DD")
         );
       })
-      .map((person) => ({
+      .map((person,index) => ({
         ...person,
+        sr: index+1,
         role: translate(person?.role),
         refer: translate(person?.refer),
         accStatus: translate(person?.accStatus),
@@ -219,8 +224,8 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     );
 
     doc.setFontSize(12);
-    doc.text(`Date: ${currentDate}`, dateX, dateY, { align: "left" });
-    doc.text(`Time: ${currentTime}`, timeX, timeY, { align: "right" });
+    doc.text(`${translate("Date")}: ${currentDate}`, dateX, dateY, { align: "left" });
+    doc.text(`${translate("Time")}: ${currentTime}`, timeX, timeY, { align: "right" });
     doc.setFontSize(16);
     doc.text(translate(title), titleX, titleY, { align: "center" });
 
@@ -246,7 +251,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         doc.setFontSize(10);
         doc.setTextColor(150);
         doc.text(
-          "Page " + doc.internal.getCurrentPageInfo().pageNumber,
+          translate("Page")+" "+ doc.internal.getCurrentPageInfo().pageNumber,
           footerX,
           footerY,
           {
