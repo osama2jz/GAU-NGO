@@ -234,6 +234,8 @@ function CaseReport() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title={"Case Reports"}
+
           />
         )}
         {totalPages > 1 && (

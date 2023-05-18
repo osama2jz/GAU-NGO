@@ -257,6 +257,8 @@ const VerificationScheduled = () => {
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setReportData={setReportData}
+            title={"Scheduled Users"}
+
           />
         )}
         {totalPages > 1 && (

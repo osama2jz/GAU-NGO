@@ -247,6 +247,8 @@ function ProjectCases() {
             setReportData={setReportData}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
+            title={"Project Cases"}
+
           />
         )}
         {totalPages > 1 && (

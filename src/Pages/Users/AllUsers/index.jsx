@@ -330,6 +330,7 @@ export const AllUser = () => {
             setReportData={setReportData}
             setEditId={true}
             setOpenEditModal={setOpenEditModal}
+            title="Users"
           />
         )}
         {totalPages > 1 && (

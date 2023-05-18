@@ -283,6 +283,7 @@ function ScheduledAppointments() {
           setViewModalState={setOpenViewModal}
           reportData={reportData}
           setReportData={setReportData}
+          title={"Appointment Schedule"}
         />
         {totalPages > 1 && (
           <Pagination

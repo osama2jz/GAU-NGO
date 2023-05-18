@@ -117,7 +117,10 @@ const LeaveModal = ({
     <Modal
       title={translate("Mark as Leave")}
       opened={opened}
-      onClose={() => setOpened(false)}
+      onClose={() => {
+        setSingle(false);
+        setOpened(false);
+      }}
       centered
       radius="lg"
       classNames={{ title: classes.title, body: classes.root }}
@@ -126,13 +129,13 @@ const LeaveModal = ({
         {single ? (
           <Text>
             {" "}
-            {translate("Are you sure you want to mark this slot as leave")}?
+            {translate("Are you sure you want to mark this slot as leave?")}
           </Text>
         ) : (
           <Text>
             {translate("Are you sure you want to mark")} {date}{" "}
             {translate("as leave?")}{" "}
-            {translate("It will cancel all of your appointments.")}
+            {translate("It will cancel all of your appointments for this day.")}
           </Text>
         )}
         <Group position="right" mt={"xl"}>

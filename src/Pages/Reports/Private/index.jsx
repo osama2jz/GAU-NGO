@@ -300,6 +300,8 @@ function PrivateReport() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            label={"Private Reports"}
+
           />
         )}
         {totalPages > 1 && (

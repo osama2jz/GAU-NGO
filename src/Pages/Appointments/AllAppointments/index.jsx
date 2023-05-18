@@ -269,6 +269,8 @@ function AllAppointments() {
           rowData={paginated}
           setViewModalState={setOpenViewModal}
           setEditIDApp={setEditId}
+          title="Appointments"
+
         />
         {totalPages > 1 && (
           <Pagination

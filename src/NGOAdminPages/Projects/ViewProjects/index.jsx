@@ -279,6 +279,7 @@ export const ViewProjects = () => {
             setEditProject={true}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setProjectData}
+            title={"Projects"}
           />
         )}
         {totalPages > 1 && (
