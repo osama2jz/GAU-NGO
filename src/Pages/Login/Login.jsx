@@ -100,7 +100,7 @@ const Login = () => {
               },
             },
           });
-        } else if (!response.data?.emailVerified) {
+        } else if (response.data?.emailVerified === false) {
           showNotification({
             title: translate("Error"),
             message: translate(response?.data?.message),

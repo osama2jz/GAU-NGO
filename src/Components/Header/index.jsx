@@ -57,7 +57,7 @@ const Index = ({}) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const matches2 = useMediaQuery("(min-width: 1100px)");
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const { user, translate } = useContext(UserContext);
+  const { user, setUser, translate } = useContext(UserContext);
 
   return (
     <Container fluid className={classes.header} p="0px" pb={"5px"}>
@@ -168,6 +168,7 @@ const Index = ({}) => {
               <Menu.Item
                 color="red"
                 onClick={() => {
+                  setUser(null);
                   localStorage.removeItem("userData");
                   navigate(routeNames.general.login);
                 }}
