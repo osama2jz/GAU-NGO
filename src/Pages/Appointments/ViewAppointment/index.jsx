@@ -266,7 +266,7 @@ function ViewAppointments() {
                       {translate(editData?.status)}
                     </Badge>
                   </Text>
-                  {editData?.otherPersonName && (
+                  {editData?.otherPersonName !=="N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Name")}
@@ -288,7 +288,7 @@ function ViewAppointments() {
                       </Text>
                     </>
                   )}
-                  {editData?.otherPersonImage && (
+                  {editData?.otherPersonImage !=="N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Image")}
