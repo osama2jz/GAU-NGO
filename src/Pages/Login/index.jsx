@@ -1,14 +1,27 @@
 import { Container, Group, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import imgg from "../../assets/login.png";
 import logo from "../../logo.svg";
 import { useStyles } from "./styles";
+import { UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
+import routeNames from "../../Routes/routeNames";
 
 const Auth = () => {
   const { classes } = useStyles();
+  const { user } = useContext(UserContext);
   const matches = useMediaQuery("(min-width: 600px)");
+  const navigate = useNavigate();
+
+  const allowed = () => {
+    if (user.role) {
+      navigate(routeNames.socialWorker.dashboard);
+    } else {
+      return true;
+    }
+  };
 
   return (
     <Container
@@ -31,7 +44,7 @@ const Auth = () => {
             GAU
           </Text>
         </Group>
-        <Outlet />
+        {allowed() && <Outlet />}
       </Container>
       {matches && (
         <Container
