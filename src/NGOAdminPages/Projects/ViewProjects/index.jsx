@@ -69,6 +69,18 @@ export const ViewProjects = () => {
       label: "Project Status",
     },
     {
+      id: "startDate",
+      numeric: false,
+      disablePadding: true,
+      label: "Start Date",
+    },
+    {
+      id: "endDate",
+      numeric: false,
+      disablePadding: true,
+      label: "End Date",
+    },
+    {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
@@ -105,8 +117,8 @@ export const ViewProjects = () => {
             date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
             description: obj?.description,
             accStatus: obj?.status,
-            endDate: obj?.endDate,
-            startDate: obj?.startDate,
+            endDate: new moment(obj?.endDate).format("YYYY-MM-DD"),
+            startDate: new moment(obj?.startDate).format("YYYY-MM-DD"),
             status:
               obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
           };

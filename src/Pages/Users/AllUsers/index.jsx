@@ -77,6 +77,13 @@ export const AllUser = () => {
       label: translate("Country"),
     },
     {
+      id: "address",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Address"),
+    },
+    
+    {
       id: "date",
       numeric: false,
       disablePadding: true,
@@ -154,6 +161,7 @@ export const AllUser = () => {
             email: obj?.email,
             age: obj?.userConsentForm?.personalInformation?.age,
             city: obj?.userConsentForm?.personalInformation?.city,
+            address: obj?.userConsentForm?.personalInformation?.address,
             country: obj?.userConsentForm?.personalInformation?.country,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,

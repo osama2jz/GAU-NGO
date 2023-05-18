@@ -20,7 +20,7 @@ import ViewModal from "./ViewModal";
 export const AddRoaster = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user ,translate} = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
   const [opened, setOpened] = useState(false);
@@ -40,7 +40,8 @@ export const AddRoaster = () => {
     },
 
     validate: {
-      branchId: (value) => (value?.length < 1 ? translate("Please Select Branch") : null),
+      branchId: (value) =>
+        value?.length < 1 ? translate("Please Select Branch") : null,
       // scheduleType: (value) =>
       //   value?.length < 1 ? "Please Select Schedule Type" : null,
       // users: (value) =>
@@ -83,12 +84,21 @@ export const AddRoaster = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          if (response?.data?.message[0]?.scheduleMessage) {
+          if (response?.data?.message?.length) {
             // navigate(routeNames.ngoAdmin.viewRoasters);
-            showNotification({
-              title: translate("Failed"),
-              message: translate(response?.data?.message[0]?.scheduleMessage),
-              color: "red.0",
+            response.data.message.map((item) => {
+              showNotification({
+                title: translate("Failed"),
+                message: `${translate("Schedule exist for")}  ${translate(
+                  extractNames(item?.scheduleMessage)
+                )} 
+                ${translate("between dates")} ${moment(
+                  form?.values?.dateStart
+                ).format("DD-MM-YYYY")}
+               & ${moment(form?.values?.dateEnd).format("DD-MM-YYYY")}`,
+                // ${translate("in branch")} (${selectedBranch[0]?.label})
+                color: "red.0",
+              });
             });
           } else {
             showNotification({
@@ -185,6 +195,15 @@ export const AddRoaster = () => {
     </div>
   );
 
+  function extractNames(string) {
+    const pattern = /Schedule exist for ([A-Za-z\s]+) between dates/;
+    const matches = string.match(pattern);
+    if (matches && matches.length > 1) {
+      const name = matches[1].trim();
+      return name;
+    }
+    return null;
+  }
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add Roaster"} />
