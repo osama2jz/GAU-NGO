@@ -65,6 +65,12 @@ export const ViewRoasters = () => {
       label: "NGO Name",
     },
     {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
+    },
+    {
       id: "status",
       numeric: false,
       disablePadding: true,
@@ -107,7 +113,8 @@ export const ViewRoasters = () => {
                 : "",
             status: obj?.schedule ? "Scheduled" : "No Roaster",
             ngo: user?.name,
-            image:obj?.profileImage
+            image:obj?.profileImage,
+            branchName: obj?.branchName
           };
           return objj;
         });
