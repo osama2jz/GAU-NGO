@@ -240,9 +240,9 @@ export const ViewRoasters = () => {
             <DownloadPdf
               headCells={headerData}
               data={rowData}
-              title="Roaster"
-              label={"Roaster"}
-              menuItem={"All"}
+              title="Roasters"
+              label={"Roasters"}
+              menuItem={{all:"All"}}
             />
           </Grid.Col>
         </Grid>
@@ -258,6 +258,8 @@ export const ViewRoasters = () => {
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
+            title="Roasters"
+
           />
         )}
         {totalPages > 1 && (

@@ -203,10 +203,10 @@ export const ViewComplains = () => {
               />
             )}
           </Grid.Col>
-          <Grid.Col>
+          <Grid.Col sm={4} lg={4} md={3} style={{ textAlign: "end" }}>
             <DownloadPdf
               headCells={headerData}
-              row={filteredItem}
+              data={filteredItem}
               title="Complaints"
               label="Complaints"
             />
@@ -222,6 +222,7 @@ export const ViewComplains = () => {
             setOpenReplyModal={setOpenReplyModal}
             setReplyModalId={setReplyModalId}
             setReportData={setReportData}
+            title="Complaints"
           />
         )}
         {totalPages > 1 && (
