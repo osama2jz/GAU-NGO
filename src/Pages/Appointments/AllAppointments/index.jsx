@@ -247,6 +247,7 @@ function AllAppointments() {
                 { label: "Closed", value: "closed" },
                 // { label: "Scheduled", value: "scheduled" },
                 { label: "Cancelled", value: "cancelled" },
+                { label: "InProgress", value: "inprogress" },
               ]}
             />
           </Grid.Col>
