@@ -66,7 +66,7 @@ function AllAppointments() {
               time: obj?.scheduledTime,
               date: moment(obj?.addedDate).format("YYYY-MM-DD"),
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-              
+
               role:
                 obj?.role === "socialWorker"
                   ? "Social Worker"
@@ -89,7 +89,9 @@ function AllAppointments() {
               otherPersonMobile: obj?.otherUserMobile,
               otherPersonId: obj?.otherUserId,
               attachedDocuments: obj?.attachedDocuments,
-              appointmentWithImage:obj?.appointmentWithImage,
+              appointmentWithImage: obj?.appointmentWithImage,
+              branchAddress: obj?.branchAddress,
+              branchName: obj?.branchName,
             };
             return appointment;
             // }
@@ -137,6 +139,18 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Date",
+    },
+    {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
+    },
+    {
+      id: "branchAddress",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Address",
     },
     {
       id: "time",
@@ -270,7 +284,6 @@ function AllAppointments() {
           setViewModalState={setOpenViewModal}
           setEditIDApp={setEditId}
           title="Appointments"
-
         />
         {totalPages > 1 && (
           <Pagination
