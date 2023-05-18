@@ -244,7 +244,7 @@ const Step1 = ({
         "targetImage",
         selectedUser?.data?.data?.userConsentForm?.userImage
       );
-      return axios.post(`http://face.gauapp.es/index.php`, formData);
+      return axios.post(`https://face.gauapp.es/index.php`, formData);
     },
     {
       onSuccess: (response) => {
