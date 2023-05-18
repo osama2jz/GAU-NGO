@@ -41,6 +41,7 @@ function EditAppointments() {
     },
   ]);
 
+  console.log("Other Document", otherDocument);
   const [fileLoader, setFileLoader] = useState(false);
   let { state } = useLocation();
 

@@ -58,6 +58,7 @@ const routeNames = {
     userVerification: "/userVerification",
     missingDocuments: "/missing-document-appointments",
     settings: "/settings",
+    missingDocuments: "/missing-document-appointments",
     addAppoinment: "/add-appointment",
     startAppoinment2: "/start-appointment-p",
     editAppoinment: "/edit-appointment",

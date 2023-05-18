@@ -29,20 +29,35 @@ const getTranslatedData = (person, translate) => {
   };
 };
 
-function DownloadPdf({ headCells, data, title, setdata, label }) {
+function DownloadPdf({
+  headCells,
+  data,
+  title,
+  setdata,
+  label,
+  menuItem = {
+    daily: "Daily",
+    weekly: "Weekly",
+    monthly: "Monthly",
+    all: "All",
+    custom: "Custom",
+  },
+}) {
   const { classes } = useStyles();
   const { translate, user } = useContext(UserContext);
   const [show, setShow] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  // var menuItem="hello"
+  console.log("menuItem", menuItem);
 
   // console.log("data", data);
   const today = moment();
   const oneWeekAgo = moment().subtract(7, "days");
 
-  const AllData = data?.map((person,index) => ({
+  const AllData = data?.map((person, index) => ({
     ...person,
-    sr:index+1,
+    sr: index + 1,
     role: translate(person?.role),
     refer: translate(person?.refer),
     accStatus: translate(person?.accStatus),
@@ -53,9 +68,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const filteredDaily = data
     ?.filter((person) => person.date === today.format("YYYY-MM-DD"))
-    .map((person,index) => ({
+    .map((person, index) => ({
       ...person,
-      sr: index+1,
+      sr: index + 1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -74,9 +89,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         new Date(person?.date) <= new Date(today)
       );
     })
-    .map((person,index) => ({
+    .map((person, index) => ({
       ...person,
-      sr: index+1,
+      sr: index + 1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -87,9 +102,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
 
   const filteredMonthly = data
     ?.filter((person) => person?.date?.substr(5, 2) === today.format("MM"))
-    .map((person,index) => ({
+    .map((person, index) => ({
       ...person,
-      sr: index+1,
+      sr: index + 1,
       role: translate(person?.role),
       refer: translate(person?.refer),
       accStatus: translate(person?.accStatus),
@@ -107,9 +122,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             moment(endDate).format("YYYY-MM-DD")
         );
       })
-      .map((person,index) => ({
+      .map((person, index) => ({
         ...person,
-        sr: index+1,
+        sr: index + 1,
         role: translate(person?.role),
         refer: translate(person?.refer),
         accStatus: translate(person?.accStatus),
@@ -224,8 +239,12 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
     );
 
     doc.setFontSize(12);
-    doc.text(`${translate("Date")}: ${currentDate}`, dateX, dateY, { align: "left" });
-    doc.text(`${translate("Time")}: ${currentTime}`, timeX, timeY, { align: "right" });
+    doc.text(`${translate("Date")}: ${currentDate}`, dateX, dateY, {
+      align: "left",
+    });
+    doc.text(`${translate("Time")}: ${currentTime}`, timeX, timeY, {
+      align: "right",
+    });
     doc.setFontSize(16);
     doc.text(translate(title), titleX, titleY, { align: "center" });
 
@@ -251,7 +270,9 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
         doc.setFontSize(10);
         doc.setTextColor(150);
         doc.text(
-          translate("Page")+" "+ doc.internal.getCurrentPageInfo().pageNumber,
+          translate("Page") +
+            " " +
+            doc.internal.getCurrentPageInfo().pageNumber,
           footerX,
           footerY,
           {
@@ -282,6 +303,7 @@ function DownloadPdf({ headCells, data, title, setdata, label }) {
             <Text>{translate("Export PDF")}</Text>
           </Flex>
         </Menu.Target>
+
         <Menu.Dropdown>
           <Menu.Item onClick={() => filter("all")}>
             {translate("All")}
