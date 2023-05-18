@@ -35,6 +35,35 @@ const Login = () => {
     },
   });
 
+  const handleEmailVerification = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/user/sendUserPasswordResetEmail"}`,
+        { email: form.values.email }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if (response.data.status) {
+          navigate(routeNames.general.otp, {
+            state: { allowed: true, type: "email" },
+          });
+          showNotification({
+            title: translate("Verify Email"),
+            message: translate(response.data.message),
+            color: "green.0",
+          });
+        } else {
+          showNotification({
+            title: translate("Invalid Email"),
+            message: translate(response.data.message),
+            color: "red.0",
+          });
+        }
+      },
+    }
+  );
+
   const handleLogin = useMutation(
     (values) => {
       return axios.post(`${backendUrl + "/api/user/signin"}`, values);
@@ -71,21 +100,20 @@ const Login = () => {
               },
             },
           });
+        } else if (!response.data?.emailVerified) {
+          showNotification({
+            title: translate("Error"),
+            message: translate(response?.data?.message),
+            color: "red.0",
+          });
+          handleEmailVerification.mutate();
         } else if (!response.data.status) {
           showNotification({
             title: translate("Error"),
             message: translate(response?.data?.message),
             color: "red.0",
           });
-        }
-        //  else if (response.data.status === "false") {
-        //   showNotification({
-        //     title: translate("Error"),
-        //     message: "Error",
-        //     color: "red.0",
-        //   });
-        // }
-        else {
+        } else {
           localStorage.setItem("userData", JSON.stringify(response.data));
           window.location.href = routeNames.general.dashboard;
           return;

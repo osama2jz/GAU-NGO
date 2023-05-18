@@ -18,6 +18,6 @@ export const useStyles = createStyles((theme) => ({
     borderRadius:'20px',
     backgroundColor:'white',
     height:'170px',
-    width:'170px'
+    width:'150px'
   },
 }));
