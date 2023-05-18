@@ -25,7 +25,7 @@ function ProjectCases() {
   const [rowData, setRowData] = useState([]);
   const [caseNo, setCaseNo] = useState("");
   const queryClient = useQueryClient();
-  const { user ,translate} = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [reportData, setReportData] = useState([]);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [activePage, setPage] = useState(1);
@@ -38,7 +38,7 @@ function ProjectCases() {
   const [close, setClose] = useState(false);
 
   const { state } = useLocation();
-  const { id,data } = state ?? "";
+  const { id, data } = state ?? "";
 
   let headerData = [
     {
@@ -120,7 +120,7 @@ function ProjectCases() {
           };
           return report;
         });
-
+        
         setPdfData(data);
       },
       // enabled: !!caseNo,
@@ -151,7 +151,7 @@ function ProjectCases() {
         } else {
           showNotification({
             title: translate("Error"),
-            message:translate(response.data.message),
+            message: translate(response.data.message),
             color: "red",
           });
         }
@@ -198,7 +198,7 @@ function ProjectCases() {
 
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-     <Flex justify="center" align="center">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -248,7 +248,6 @@ function ProjectCases() {
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             title={"Project Cases"}
-
           />
         )}
         {totalPages > 1 && (

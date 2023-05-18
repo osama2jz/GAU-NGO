@@ -20,6 +20,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewRoasterModal from "./ViewRoasterModal";
 import userlogo from "../../../assets/teacher.png";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 export const ViewRoasters = () => {
   const { classes } = useStyles();
@@ -34,7 +35,7 @@ export const ViewRoasters = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
 
@@ -113,8 +114,12 @@ export const ViewRoasters = () => {
                 : "",
             status: obj?.schedule ? "Scheduled" : "No Roaster",
             ngo: user?.name,
-            image:obj?.profileImage,
-            branchName: obj?.branchName
+            image: obj?.profileImage,
+            branchName: obj?.branches.length
+              ? obj?.branches.map((e) => {
+                  return e?.branchName + ", ";
+                })
+              : "No Branches",
           };
           return objj;
         });
@@ -163,14 +168,14 @@ export const ViewRoasters = () => {
         item?.name?.toLowerCase().includes(search.toLowerCase()) &&
         item?.userType?.toLowerCase().includes(filter.toLowerCase())
     );
-    setPage(1)
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    let a=filtered.map((item,ind)=>{
-      return{
+    let a = filtered.map((item, ind) => {
+      return {
         ...item,
-        sr:ind+1
-      }
-    })
+        sr: ind + 1,
+      };
+    });
     return a;
   }, [search, filter, rowData]);
 
@@ -229,6 +234,15 @@ export const ViewRoasters = () => {
               leftIcon={"plus"}
               styles={{ float: "right" }}
               onClick={() => navigate(routeNames.ngoAdmin.addRoaster)}
+            />
+          </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+              headCells={headerData}
+              data={rowData}
+              title="Roaster"
+              label={"Roaster"}
+              menuItem={"All"}
             />
           </Grid.Col>
         </Grid>

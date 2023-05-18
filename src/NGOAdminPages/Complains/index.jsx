@@ -19,6 +19,7 @@ import routeNames from "../../Routes/routeNames";
 import ReplyModal from "./ComplainReply";
 import { useStyles } from "./styles";
 import ViewComplaintModal from "./ViewComplaintModal";
+import DownloadPdf from "../../Pages/Reports/downloadPdf";
 
 export const ViewComplains = () => {
   const { classes } = useStyles();
@@ -106,7 +107,7 @@ export const ViewComplains = () => {
             sr: ind + 1,
             name: obj?.userId?.firstName + " " + obj?.userId?.lastName,
             amount: obj?.subject,
-            date: moment(obj?.createdAt).format("DD-MM-YYYY"),
+            date: moment(obj?.createdDate).format("YYYY-MM-DD"),
             ngo: obj?.ngoId?.ngoName,
             reply: obj?.reply,
             description: obj?.description,
@@ -129,7 +130,8 @@ export const ViewComplains = () => {
         );
       } else {
         return (
-          item?.name?.toLowerCase().includes(search.toLowerCase()) && !item.reply
+          item?.name?.toLowerCase().includes(search.toLowerCase()) &&
+          !item.reply
         );
       }
     });
@@ -200,6 +202,14 @@ export const ViewComplains = () => {
                 onClick={() => navigate(routeNames.user.addComplaint)}
               />
             )}
+          </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+              headCells={headerData}
+              row={filteredItem}
+              title="Complaints"
+              label="Complaints"
+            />
           </Grid.Col>
         </Grid>
         {status == "loading" ? (

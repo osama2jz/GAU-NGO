@@ -53,11 +53,10 @@ const LeaveModal = ({
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Leave"),
-            message:
-              (translate("The date"),
-              { date },
-              translate("is marked as leave.")),
+            title: translate("Success"),
+            message: `${translate("The date")} ${date} ${translate(
+              "is marked as leave."
+            )}`,
             color: "green.0",
           });
           setOpened(false);
@@ -92,11 +91,8 @@ const LeaveModal = ({
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Leave"),
-            message:
-              (translate("The date"),
-              { date },
-              translate("is marked as leave.")),
+            title: translate("Success"),
+            message: translate("Leave is marked successfully"),
             color: "green.0",
           });
           setOpened(false);

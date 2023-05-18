@@ -66,6 +66,7 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
+     
       let obj = {
         ngoId: user?.ngoId,
         branchId: values?.branchId,
@@ -84,9 +85,11 @@ export const AddRoaster = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          if (response?.data?.message?.length) {
+          console.log("UROOJ 1");
+          if (response?.data?.message?.[0]?.scheduleMessage) {
+            console.log("UROOJ 2");
             // navigate(routeNames.ngoAdmin.viewRoasters);
-            response.data.message.map((item) => {
+            response?.data?.message?.map((item) => {
               showNotification({
                 title: translate("Failed"),
                 message: `${translate("Schedule exist for")}  ${translate(
@@ -101,6 +104,7 @@ export const AddRoaster = () => {
               });
             });
           } else {
+            console.log("UROOJ 3");
             showNotification({
               title: translate("Users Scheuled"),
               message: translate("Schedule has been created Successfully!"),
@@ -109,6 +113,7 @@ export const AddRoaster = () => {
             navigate(routeNames.ngoAdmin.viewRoasters);
           }
         } else {
+          console.log("UROOJ 4");
           showNotification({
             title: translate("Failed"),
             message: translate(response?.data?.message),

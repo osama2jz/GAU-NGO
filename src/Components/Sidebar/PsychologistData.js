@@ -35,6 +35,10 @@ export const psychSideBarData = [
         label: "View Appointments",
         link: routeNames.pysch.allAppointments,
       },
+      {
+        label: "Missing Documents",
+        link: routeNames.pysch.missingDocuments,
+      },
     ],
   },
   {
