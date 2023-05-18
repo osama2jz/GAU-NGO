@@ -29,12 +29,7 @@ const Landing = () => {
           </Flex>
         </Flex>
         <Flex justify={"center"} w={"60%"} style={{ margin: "auto" }}>
-          <TopBox
-            icon={"clock"}
-            value={"50+"}
-            text={"Cases"}
-            color={"green"}
-          />
+          <TopBox icon={"clock"} value={"50+"} text={"Cases"} color={"green"} />
           <TopBox
             icon={"people"}
             value={"1000+"}
@@ -43,7 +38,9 @@ const Landing = () => {
           />
           <TopBox icon={"globe"} value={"20+"} text={"Countries"} color="red" />
         </Flex>
+
       </Container>
+        <Title align="center">About Us</Title>
     </Container>
   );
 };
