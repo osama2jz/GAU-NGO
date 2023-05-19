@@ -35,7 +35,7 @@ function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -95,6 +95,8 @@ function ScheduledAppointments() {
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
+            branchAddress: obj?.branchAddress,
+            branchName: obj?.branchName,
             // userImage:
           };
           return appointment;
@@ -149,7 +151,6 @@ function ScheduledAppointments() {
       numeric: false,
       disablePadding: true,
       label: translate("Professional"),
-      
     },
     {
       id: "addedBy",
@@ -171,6 +172,18 @@ function ScheduledAppointments() {
       label: translate("Date"),
     },
     {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
+    },
+    {
+      id: "branchAddress",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Address",
+    },
+    {
       id: "time",
       numeric: false,
       disablePadding: true,
@@ -180,7 +193,7 @@ function ScheduledAppointments() {
       id: "refer",
       numeric: false,
       disablePadding: true,
-      label: ("Refered"),
+      label: "Refered",
       translate: true,
     },
     {
@@ -317,19 +330,27 @@ function ScheduledAppointments() {
             src={reportData?.image}
             className={classes.avatar}
           />
-          <Container w={"100%"} ml="md" >
+          <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs" mt={"md"}>
               <Text className={classes.textheading}>{translate("Name")}</Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>{translate("Added By")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Added By")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>{translate("Case Name")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Case Name")}
+              </Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Appointment Date")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{translate("Appointment Time")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Appointment Time")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
               <Text className={classes.textheading}>{translate("Status")}</Text>
               <Text className={classes.textContent}>
@@ -343,7 +364,9 @@ function ScheduledAppointments() {
                 </Badge>
               </Text>
               {reportData?.refer === "Refered" && (
-                <Text className={classes.textheading}>{("Refferal Comment")}</Text>
+                <Text className={classes.textheading}>
+                  {"Refferal Comment"}
+                </Text>
               )}
               {reportData?.refer === "Refered" && (
                 <Text className={classes.textContent}>
