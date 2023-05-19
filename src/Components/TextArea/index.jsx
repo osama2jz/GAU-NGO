@@ -28,13 +28,14 @@ const TextArea = ({
   onChange,
   form,
   size = "md",
-  rows="3",
+  rows = "3",
   validateName,
   value,
+  readOnly = false,
   ...props
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
-  const {translate}=useContext(UserContext)
+  const { translate } = useContext(UserContext);
   return (
     <TextareaMantine
       withAsterisk={required ? true : false}
@@ -42,6 +43,7 @@ const TextArea = ({
       pb={pb}
       minRows={rows}
       size={size}
+      readOnly={readOnly}
       onChange={onChange}
       {...form?.getInputProps(validateName)}
       classNames={{
@@ -49,7 +51,6 @@ const TextArea = ({
         label: classes.label,
       }}
       placeholder={translate(placeholder)}
-      
       rows={rows}
       {...props}
     />

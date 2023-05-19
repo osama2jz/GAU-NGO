@@ -65,17 +65,18 @@ export const AllUser = () => {
       label: translate("Email"),
     },
     {
-      id: "city",
-      numeric: false,
-      disablePadding: true,
-      label: translate("City"),
-    },
-    {
       id: "country",
       numeric: false,
       disablePadding: true,
       label: translate("Country"),
     },
+    {
+      id: "city",
+      numeric: false,
+      disablePadding: true,
+      label: translate("City"),
+    },
+    
     {
       id: "address",
       numeric: false,

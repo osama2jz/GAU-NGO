@@ -37,7 +37,8 @@ const InputField = ({
   mask,
   maxLength,
   component,
-  mb
+  mb,
+  readOnly=false
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
   const {translate}=useContext(UserContext)
@@ -56,6 +57,7 @@ const InputField = ({
       component={component}
       mb={mb}
       mask={mask}
+      readOnly={readOnly}
       {...form?.getInputProps(validateName)}
       icon={
         leftIcon ? (
