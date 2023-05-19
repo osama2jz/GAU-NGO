@@ -41,7 +41,7 @@ export const LandingHeader = ({ opened, toggle }) => {
         <Link className={classes.link}>{translate("Home")}</Link>
         {/* <Link className={classes.link}>{translate("Donation")}</Link> */}
         <Link className={classes.link}>{translate("About Us")}</Link>
-        {!user.role ? (
+        {!user?.role ? (
           <>
             <Button
               label={"Sign up"}
