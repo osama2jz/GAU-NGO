@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Flex, Text } from "@mantine/core";
+import { Burger, Container, Flex, Text } from "@mantine/core";
 import logo from "../../assets/Gau.png";
 import Button from "../Button";
 import { useStyles } from "./styles";
@@ -7,10 +7,12 @@ import { Link, useNavigate } from "react-router-dom";
 import routeNames from "../../Routes/routeNames";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
-export const LandingHeader = () => {
-  const { classes } = useStyles();
+export const LandingHeader = ({ opened, toggle }) => {
+  const isMobile = useMediaQuery("(max-width: 820px)");
   const { user, translate } = useContext(UserContext);
+  const { classes } = useStyles({ opened });
 
   const navigate = useNavigate();
   return (
@@ -24,15 +26,20 @@ export const LandingHeader = () => {
       }}
       p={"md"}
     >
-      <Flex align={"center"}>
+      <Flex
+        align={"center"}
+        className={classes.logo}
+        onClick={() => navigate(routeNames.general.landing)}
+      >
         <img src={logo} width={60} />
         <Text fw={"bold"} fz={20}>
           GAU
         </Text>
       </Flex>
-      <Flex gap={"md"} align={"center"}>
+      {isMobile && <Burger opened={opened} onClick={toggle} />}
+      <Flex gap={"md"} align={"center"} className={classes.navigationBar}>
         <Link className={classes.link}>{translate("Home")}</Link>
-        <Link className={classes.link}>{translate("Donation")}</Link>
+        {/* <Link className={classes.link}>{translate("Donation")}</Link> */}
         <Link className={classes.link}>{translate("About Us")}</Link>
         {!user.role ? (
           <>
