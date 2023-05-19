@@ -63,12 +63,11 @@ export const AddRoaster = () => {
   const selectedBranch = branches?.filter(
     (item) => item.value === form.values.branchId
   );
-
+  console.log(user);
   const handleAddRoaster = useMutation(
     (values) => {
-     
       let obj = {
-        ngoId: user?.ngoId,
+        ngoId: user?.ngoId?._id,
         branchId: values?.branchId,
         dateStart: moment(values?.dateStart).format("YYYY-MM-DD"),
         dateEnd: moment(values?.dateEnd).format("YYYY-MM-DD"),
