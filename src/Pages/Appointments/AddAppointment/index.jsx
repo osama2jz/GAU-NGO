@@ -561,8 +561,8 @@ const AddAppointment = () => {
         message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
-      await HandleGeneratePublicReport(editorr, "public");
-      await HandleGeneratePrivateReport(editorr2, "private");
+      // await HandleGeneratePublicReport(editorr, "public");
+      // await HandleGeneratePrivateReport(editorr2, "private");
       await handleGeneratePDF(editorr, "public");
       await handleGeneratePDF(editorr2, "private");
     } catch (error) {
