@@ -1,4 +1,4 @@
-export const backendUrl = "https://backend-gau.herokuapp.com";
+export const backendUrl = "https://report.gauapp.es";
 
 export const s3Config = {
   region: "us-east-1",
