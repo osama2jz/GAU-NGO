@@ -1,4 +1,4 @@
-export const backendUrl = "https://backend-gau.herokuapp.com";
+export const backendUrl = "https://report.gauapp.es";
 
 //Live Url:https://gau-prod.herokuapp.com
 //Production Url:https://backend-gau.herokuapp.com
