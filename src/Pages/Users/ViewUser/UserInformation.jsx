@@ -269,6 +269,10 @@ function ViewUserPersonalInformation({ componentRef }) {
                   </Text>
                   <Text>{data?.phoneNumber}</Text>
                   <Text className={classes.textheading}>
+                    {translate("Age")}
+                  </Text>
+                  <Text>{data?.userConsentForm?.personalInformation?.age}</Text>
+                  <Text className={classes.textheading}>
                     {translate("Date of Birth")}
                   </Text>
                   <Text>

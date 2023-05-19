@@ -76,7 +76,7 @@ const Step1 = ({
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
 
-  console.log("Image",img)
+  console.log("Image", img);
 
   const videoConstraints = {
     width: 420,
@@ -127,7 +127,7 @@ const Step1 = ({
   }
 
   const handleFileInput = (file, type) => {
-    console.log("type",type)
+    console.log("type", type);
     setFileLoader(true);
     //s3 configs
     // const fileName = file.name;
@@ -174,7 +174,7 @@ const Step1 = ({
               reject(err);
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-              type === "Image" ? setImg(link) :setVerifyImg(link);
+              type === "Image" ? setImg(link) : setVerifyImg(link);
 
               setFileLoader(false);
             }
@@ -234,6 +234,7 @@ const Step1 = ({
 
   const handleVerifyFaceId = useMutation(
     () => {
+      setFileLoader(true);
       let obj = {
         sourceImage: verifyimg,
         targetImage: selectedUser?.data?.data?.userConsentForm?.userImage,
@@ -248,6 +249,7 @@ const Step1 = ({
     },
     {
       onSuccess: (response) => {
+        setFileLoader(false);
         if (response.data.matched === "True") {
           setVerifyStatus(true);
           showNotification({
@@ -540,8 +542,13 @@ const Step1 = ({
             ) : (
               <Flex direction={"column"} gap="sm">
                 <img src={img} alt="screenshot" />
-                   
-                <Button onClick={() => setImg(null)} label="Retake" bg={true} loading={fileLoader} />
+
+                <Button
+                  onClick={() => setImg(null)}
+                  label="Retake"
+                  bg={true}
+                  loading={fileLoader}
+                />
               </Flex>
             )}
           </Container>

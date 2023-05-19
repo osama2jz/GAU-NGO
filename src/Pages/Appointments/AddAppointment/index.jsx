@@ -31,6 +31,7 @@ import Step5 from "./Step5";
 import { useStyles } from "./styles";
 import jsPDF from "jspdf";
 import { useEffect } from "react";
+import moment from "moment";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -419,6 +420,77 @@ const AddAppointment = () => {
     });
   }
 
+  async function handleGeneratePDFReports(value, type) {
+    return new Promise((resolve, reject) => {
+      const obj = {
+        title: "Report",
+        project: "1234",
+        case: "",
+        reportBy: "",
+        reportDate: moment(new Date()).format("YYYY-MM-DD"),
+        htmlData: value.getHTML(),
+      };
+
+      console.log("obj", obj);
+
+      axios
+        .post(`http://report.gauapp.es/api/case/generateReport/`, obj)
+        .then((res) => {
+          console.log("Response", res);
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }
+
+  const HandleGeneratePublicReport = (value, type) => {
+    const obj = {
+      title: " Public Report",
+      project: "1234",
+      case: "",
+      reportBy: "",
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj2", obj);
+
+    axios
+      .post(`http://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const HandleGeneratePrivateReport = (value, type) => {
+    const obj = {
+      title: "Private Report",
+      project: "1234",
+      case: "",
+      reportBy: "",
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj", obj);
+
+    axios
+      .post(`http://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleFileInput = (file, type) => {
     setFileLoader(true);
     //s3 configs
@@ -489,6 +561,8 @@ const AddAppointment = () => {
         message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
+      // await HandleGeneratePublicReport(editorr, "public");
+      // await HandleGeneratePrivateReport(editorr2, "private");
       await handleGeneratePDF(editorr, "public");
       await handleGeneratePDF(editorr2, "private");
     } catch (error) {

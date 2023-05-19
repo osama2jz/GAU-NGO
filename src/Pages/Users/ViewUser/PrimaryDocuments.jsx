@@ -40,7 +40,7 @@ const MyDocs = ({ userDocs, Data, loader }) => {
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
   const [verifyId, setVerifyId] = useState("");
-  console.log("loader", loader);
+ 
 
   const [docs, setDocs] = useState([
     {
@@ -49,8 +49,6 @@ const MyDocs = ({ userDocs, Data, loader }) => {
       status: "verified",
     },
   ]);
-
-  console.log("DOCS", oldDocs);
 
   const handleDeleteDocument = useMutation(
     (deleteId) => {

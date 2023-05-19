@@ -2,6 +2,7 @@ import {
   Box,
   Collapse,
   createStyles,
+  Flex,
   Group,
   Text,
   UnstyledButton,
@@ -72,8 +73,9 @@ export function LinksGroup({
   }, [globalOpen, label]);
 
   const items = (hasLinks ? links : []).map((link, index) => (
-    <Text
+    <Flex
       component={Link}
+      gap="sm"
       className={classes.link}
       to={link.link}
       onClick={() => setSideOpen(false)}
@@ -95,8 +97,25 @@ export function LinksGroup({
           : ""
       }
     >
-      {ind + "." + (index + 1) + " " + translate(link.label)}
-    </Text>
+      <Text
+        color={
+          location?.pathname === link.link && label === globalOpen
+            ? theme.colors.blue
+            : "rgb(0,0,0,0.9)"
+        }
+      >
+        {ind + "." + (index + 1)}
+      </Text>{" "}
+      <Text
+        color={
+          location?.pathname === link.link && label === globalOpen
+            ? theme.colors.blue
+            : "rgb(0,0,0,0.9)"
+        }
+      >
+        {translate(link.label)}
+      </Text>
+    </Flex>
   ));
 
   return (
@@ -142,7 +161,9 @@ export function LinksGroup({
             fw={"500"}
           >
             <Icon size={18} />
-            <Box ml="md">{ind ? ind + ". " + translate(label) : translate(label)}</Box>
+            <Box ml="md">
+              {ind ? ind + ". " + translate(label) : translate(label)}
+            </Box>
           </Text>
           {hasLinks && (
             <ChevronIcon

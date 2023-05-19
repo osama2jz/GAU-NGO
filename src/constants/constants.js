@@ -1,5 +1,8 @@
 export const backendUrl = "https://backend-gau.herokuapp.com";
 
+//Live Url:https://gau-prod.herokuapp.com
+//Production Url:https://backend-gau.herokuapp.com
+
 export const s3Config = {
   region: "us-east-1",
   IdentityPoolId: "us-east-1:e263637a-572f-406f-884d-82e5ceadf641",

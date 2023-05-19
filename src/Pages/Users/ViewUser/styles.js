@@ -58,5 +58,11 @@ export const useStyles = createStyles((theme) => ({
     backgroundColor: "white",
     fontSize: "15px",
   },
+  subHeading: {
+    fontSize: "18px",
+    marginBottom: "3px",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 
 }));

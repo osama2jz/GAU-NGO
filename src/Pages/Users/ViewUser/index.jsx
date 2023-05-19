@@ -28,6 +28,8 @@ import ViewUserPersonalInformation from "./UserInformation";
 import ConsentForm from "./ConsentForm";
 import AgreementForm from "./AgreementForm";
 import PrimaryDocuments from "./PrimaryDocuments";
+import { AgeFormAbove } from "./formAbove18";
+import { AgeForm } from "./formUnder18";
 
 function ViewUser() {
   const { classes } = useStyles();
@@ -37,12 +39,15 @@ function ViewUser() {
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [age, setAge] = useState(4);
+  const [formsData, setFormsData] = useState();
 
   const navigate = useNavigate();
   const componentRef = useRef();
   const agreementSignatures = useRef();
   const consentSignatures = useRef();
   const [activeTab, setActiveTab] = useState(1);
+
 
   const DownloadPdf = () => {
     if (activeTab === 1) {
@@ -114,6 +119,10 @@ function ViewUser() {
             }
           );
         setDocs(response.data.documents);
+        response?.data?.data?.under18Form
+          ? setFormsData(response?.data?.data?.under18Form)
+          : setFormsData(response?.data?.data?.over18Form);
+
         // setWorkData(workData);
         setLoader(false);
       },
@@ -270,6 +279,11 @@ function ViewUser() {
           <Tabs.Tab value="4" onClick={() => setActiveTab(4)}>
             {translate("Primary Document")}
           </Tabs.Tab>
+          {(user.role === "Psychologist" || user.role === "ngoadmin" ) && formsData && (
+            <Tabs.Tab value="5" onClick={() => setActiveTab(5)}>
+              {translate("Forms")}
+            </Tabs.Tab>
+          )}
         </Tabs.List>
         <Tabs.Panel value="1" pt="xs">
           <ViewUserPersonalInformation componentRef={componentRef} />
@@ -285,7 +299,15 @@ function ViewUser() {
           />
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
-          <PrimaryDocuments userDocs={docs} Data={data} loader={loader}/>
+          <PrimaryDocuments userDocs={docs} Data={data} loader={loader} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="5" pt="xs">
+          {data?.userConsentForm?.personalInformation?.age < 18 ? (
+            <AgeForm data={formsData} />
+          ) : (
+            <AgeFormAbove data={formsData} />
+          )}
         </Tabs.Panel>
       </Tabs>
     </>

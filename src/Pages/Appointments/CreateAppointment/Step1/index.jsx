@@ -253,7 +253,7 @@ const Step1 = ({
           )}
         </SimpleGrid>
       ) : (
-        <Container size="36rem">
+        <Container size="39rem">
           <UserInfo userData={selectedUser} loading={userFetching} />
         </Container>
       )}
