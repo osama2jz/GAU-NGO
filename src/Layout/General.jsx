@@ -106,7 +106,7 @@ const Layout = () => {
       </Container>
     </AppShell>
   ) : (
-    <Navigate to={routeNames.general.login} />
+    <Navigate to={routeNames.general.landing} />
   );
 };
 export default Layout;
