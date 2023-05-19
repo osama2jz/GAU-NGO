@@ -75,6 +75,15 @@ export const ngoAdminSideBarData = [
         icon: UserPlus,
         link: routeNames.ngoAdmin.addUser,
       },
+      { label: "Verify User", link: routeNames.socialWorker.userVerification },
+      {
+        label: "Add Verification Appointment",
+        link: routeNames.socialWorker.verificationScheduledUser,
+      },
+      {
+        label: "View Verification Appointment",
+        link: routeNames.socialWorker.verificationScheduled,
+      },
       { label: "View Users", link: routeNames.ngoAdmin.allUsers },
     ],
   },

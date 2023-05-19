@@ -19,14 +19,14 @@ export const socialSideBarData = [
     label: "User",
     icon: Users,
     links: [
-     
+
       {
         label: "Add User",
         icon: UserPlus,
         link: routeNames.socialWorker.addUser,
       },
       { label: "Verify User", link: routeNames.socialWorker.userVerification },
-      
+
       {
         label: "Add Verification Appointment",
         link: routeNames.socialWorker.verificationScheduledUser,
