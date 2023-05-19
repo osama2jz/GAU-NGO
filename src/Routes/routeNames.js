@@ -1,8 +1,10 @@
 const routeNames = {
   general: {
+    landing: "/home",
     auth: "/auth",
     login: "/auth/login",
     signup: "/auth/signup",
+    verifyEmail: "/auth/verify-email",
     proSignup: "/auth/signup-professional",
     forgetPassword: "/auth/forget-password",
     otp: "/auth/verify-otp",
@@ -56,6 +58,7 @@ const routeNames = {
     userVerification: "/userVerification",
     missingDocuments: "/missing-document-appointments",
     settings: "/settings",
+    missingDocuments: "/missing-document-appointments",
     addAppoinment: "/add-appointment",
     startAppoinment2: "/start-appointment-p",
     editAppoinment: "/edit-appointment",
@@ -124,6 +127,7 @@ const routeNames = {
     viewRoasters: "/view-roasters",
     editAppoinment: "/edit-appointment",
     viewAppoinment: "/view-appointment",
+    verificationScheduledUser: "/user-verfication-Scheduled",
     addUser: "/add-user",
     allUsers: "/all-users",
     viewUser: "/view-user",

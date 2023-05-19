@@ -82,8 +82,10 @@ const Step1 = ({
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-
-    setImg(imageSrc);
+    const Blob = dataURItoBlob(imageSrc);
+    const imageUrl = URL.createObjectURL(Blob);
+    handleFileInput(Blob, "Image");
+    setImg(imageUrl);
   }, [webcamRef]);
 
   const Verifycapture = useCallback(() => {
@@ -93,10 +95,7 @@ const Step1 = ({
     const blob = dataURItoBlob(imageSrc);
     // Create a new URL for the Blob object
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
-
     handleFileInput(blob, "public");
-
     setVerifyImg(imageUrl);
   }, [verifyRef]);
 
@@ -158,15 +157,14 @@ const Step1 = ({
           bucket.listObjects(function (err, data) {
             if (err) {
               showNotification({
-                title: "Upload Failed",
-                message: "Something went Wrong",
+                title: translate("Upload Failed"),
+                message: translate("Something went Wrong"),
                 color: "red.0",
               });
               reject(err);
             } else {
               let link = "https://testing-buck-22.s3.amazonaws.com/" + objKey;
-
-              setVerifyImg(link);
+              type === "Image" ? setImg(link) :setVerifyImg(link);
 
               setFileLoader(false);
             }
@@ -216,9 +214,6 @@ const Step1 = ({
       const formData = new FormData();
       formData.append("sourceImage", verifyimg);
       formData.append("targetImage", appData.image);
-      for (let entry of formData.entries()) {
-        console.log(entry[0] + ": " + entry[1]);
-      }
       return axios.post(
         `https://face.gauapp.es/index.php`,
         formData,

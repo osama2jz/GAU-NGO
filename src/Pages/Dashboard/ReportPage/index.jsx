@@ -277,15 +277,15 @@ const UserPage = (props) => {
       icon: "reD",
       url: `/private`,
     },
-    {
-      title: "REFERAL",
-      value: 0,
-      progress: 78,
-      color: "#087F5B",
-      progressTitle: "Response Rate",
-      icon: "reD",
-      url: `/api/case/listUserReports/referal/${user.id}/${activePage}/10`,
-    },
+    // {
+    //   title: "REFERAL",
+    //   value: 0,
+    //   progress: 78,
+    //   color: "#087F5B",
+    //   progressTitle: "Response Rate",
+    //   icon: "reD",
+    //   url: `/api/case/listUserReports/referal/${user.id}/${activePage}/10`,
+    // },
   ];
 
   return (

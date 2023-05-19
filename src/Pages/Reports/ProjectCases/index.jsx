@@ -25,7 +25,7 @@ function ProjectCases() {
   const [rowData, setRowData] = useState([]);
   const [caseNo, setCaseNo] = useState("");
   const queryClient = useQueryClient();
-  const { user ,translate} = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [reportData, setReportData] = useState([]);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [activePage, setPage] = useState(1);
@@ -36,9 +36,12 @@ function ProjectCases() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [close, setClose] = useState(false);
+  const [pdfDataa,setPdfDataa]=useState([])
+
+  console.log("pdfDataa",pdfDataa)
 
   const { state } = useLocation();
-  const { id,data } = state ?? "";
+  const { id, data } = state ?? "";
 
   let headerData = [
     {
@@ -52,44 +55,44 @@ function ProjectCases() {
       id: "caseName",
       numeric: false,
       disablePadding: true,
-      label: "Case Name",
+      label: translate("Case Name"),
     },
     {
       id: "case",
       numeric: false,
       disablePadding: true,
-      label: "Case #",
+      label: translate("Case #"),
     },
 
     {
       id: "totalAppointments",
       numeric: false,
       disablePadding: true,
-      label: "Appointments",
+      label: translate("Appointments"),
     },
     {
       id: "totalReports",
       numeric: false,
       disablePadding: true,
-      label: "Reports",
+      label: translate("Reports"),
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Created Date",
+      label: translate("Created Date"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
 
     {
       id: "close",
       numeric: false,
-      label: "Close Case",
+      label: translate("Close Case"),
     },
   ];
 
@@ -116,12 +119,28 @@ function ProjectCases() {
             status: obj?.status,
             totalAppointments: obj?.totalAppointments,
             totalReports: obj?.totalReports,
-            date: new moment(obj?.createdDate).format("YYYY-MMM-DD"),
+            date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
           };
           return report;
         });
 
         setPdfData(data);
+        let data1 = response?.data?.data
+          ?.filter((obj) => obj.status !== "scheduled")
+          ?.map((obj, ind) => {
+            let report = {
+              id: obj.reportId,
+              sr: ind + 1,
+              case: obj?.caseNo,
+              caseName: obj?.caseName,
+              status: obj?.status,
+              totalAppointments: obj?.totalAppointments,
+              totalReports: obj?.totalReports,
+              date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
+            };
+            return report;
+          });
+          setPdfDataa(data1)
       },
       // enabled: !!caseNo,
     }
@@ -150,8 +169,8 @@ function ProjectCases() {
           setOpenDeleteModal(false);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red",
           });
         }
@@ -198,7 +217,7 @@ function ProjectCases() {
 
   return (
     <Container size={"xl"} className={classes.main} p={"0px"}>
-     <Flex justify="center" align="center">
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -231,8 +250,8 @@ function ProjectCases() {
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
               headCells={headerData}
-              data={filterData}
-              title="Download reports"
+              data={pdfDataa}
+              title={"Project Cases"}
               label={"Project Cases"}
             />
           </Grid.Col>
@@ -247,6 +266,7 @@ function ProjectCases() {
             setReportData={setReportData}
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
+            title={"Project Cases"}
           />
         )}
         {totalPages > 1 && (

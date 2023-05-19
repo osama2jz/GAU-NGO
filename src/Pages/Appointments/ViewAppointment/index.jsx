@@ -32,7 +32,8 @@ function ViewAppointments() {
   let { state } = useLocation();
 
   const { editData } = state ?? "";
-  console.log("edit", editData);
+
+  // console.log("editData", editData);
 
   useEffect(() => {
     if (editData) {
@@ -265,7 +266,7 @@ function ViewAppointments() {
                       {translate(editData?.status)}
                     </Badge>
                   </Text>
-                  {editData?.otherPersonName && (
+                  {editData?.otherPersonName !=="N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Name")}
@@ -287,7 +288,7 @@ function ViewAppointments() {
                       </Text>
                     </>
                   )}
-                  {editData?.otherPersonImage && (
+                  {editData?.otherPersonImage !=="N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Image")}
@@ -342,7 +343,7 @@ function ViewAppointments() {
                     />
                   </Grid.Col>
                   <Grid.Col md={8} style={{ backgroundColor: "white" }}>
-                    <Container w={"100%"} ml="md" p="10px" >
+                    <Container w={"100%"} ml="md" p="10px">
                       <SimpleGrid cols={2} spacing="xs">
                         <Text className={classes.textheading}>
                           {translate("Name")}
@@ -354,7 +355,7 @@ function ViewAppointments() {
                           {translate("Role")}
                         </Text>
                         <Text className={classes.textContent}>
-                          {editData?.role}
+                          {translate(editData?.role)}
                         </Text>
 
                         <Text className={classes.textheading}>

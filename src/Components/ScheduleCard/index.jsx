@@ -6,7 +6,14 @@ import { useStyles } from "./styles";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import Button from "../Button";
-const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId,setSingle}) => {
+const Cards = ({
+  data,
+  setSlot,
+  slot,
+  setOpened,
+  setScheduleId,
+  setSingle,
+}) => {
   const { classes } = useStyles();
   const { translate } = useContext(UserContext);
   // console.log("data",data);
@@ -25,8 +32,11 @@ const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId,setSingle}) => {
       }}
     >
       {/* <Stack> */}
-      <div style={{width: data?.booked ? "92px" :"110px",marginBottom:"2px"}} className={classes.badge}>
-        <Badge  variant="filled" color={data?.booked ? "red.0" : "green.0"}>
+      <div
+        style={{ width: data?.booked ? "92px" : "110px", marginBottom: "2px" }}
+        className={classes.badge}
+      >
+        <Badge variant="filled" color={data?.booked ? "red.0" : "green.0"}>
           {data?.booked ? translate("Booked") : translate("Not Booked")}
         </Badge>
       </div>
@@ -49,11 +59,18 @@ const Cards = ({ data, setSlot, slot ,setOpened,setScheduleId,setSingle}) => {
         {data?.booked ? (
           ""
         ) : (
-          <Button label={"Mark Leave"} className={classes.badge} onClick={()=>{setScheduleId(data?.scheduleId);setSingle(true);setOpened(true)}} />
+          <Button
+            label={"Mark Leave"}
+            className={classes.badge}
+            onClick={() => {
+              setScheduleId(data?.scheduleId);
+              setSingle(true);
+              setOpened(true);
+            }}
+          />
         )}
       </Flex>
       {/* <LeaveModal opened={opened} setOpened={setOpened} date={date} branchId={scheduleData[0]?.branchId} setRefetch={setRefetch}/> */}
-
     </Card>
   );
 };

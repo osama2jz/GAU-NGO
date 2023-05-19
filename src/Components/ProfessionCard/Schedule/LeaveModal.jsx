@@ -7,7 +7,17 @@ import Button from "../../../Components/Button";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 
-const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,scheduledId,single,setSingle}) => {
+const LeaveModal = ({
+  opened,
+  setOpened,
+  date,
+  branchId,
+  userId,
+  setRefetch,
+  scheduledId,
+  single,
+  setSingle,
+}) => {
   const useStyles = createStyles((theme) => ({
     title: {
       margin: "auto",
@@ -19,8 +29,8 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
     root: {},
   }));
   const { classes } = useStyles();
-  const { user,translate } = useContext(UserContext);
-  console.log("single",single)
+  const { user, translate } = useContext(UserContext);
+  console.log("single", single);
 
   const handleLeave = useMutation(
     () => {
@@ -43,15 +53,17 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Leave"),
-            message:(translate("The date"),{date},translate("is marked as leave.")),
+            title: translate("Success"),
+            message: `${translate("The date")} ${date} ${translate(
+              "is marked as leave."
+            )}`,
             color: "green.0",
           });
           setOpened(false);
           setRefetch((v) => !v);
         } else {
           showNotification({
-            title:  translate("Leave"),
+            title: translate("Leave"),
             message: translate(response.data.message),
             color: "red.0",
           });
@@ -79,14 +91,13 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: translate("Leave"),
-            message:(translate("The date"),{date},translate("is marked as leave.")),
+            title: translate("Success"),
+            message: translate("Leave is marked successfully"),
             color: "green.0",
           });
           setOpened(false);
           setRefetch((v) => !v);
-          setSingle(false)
-
+          setSingle(false);
         } else {
           showNotification({
             title: translate("Error"),
@@ -102,24 +113,44 @@ const LeaveModal = ({ opened, setOpened, date, branchId, userId, setRefetch,sche
     <Modal
       title={translate("Mark as Leave")}
       opened={opened}
-      onClose={() => setOpened(false)}
+      onClose={() => {
+        setSingle(false);
+        setOpened(false);
+      }}
       centered
       radius="lg"
       classNames={{ title: classes.title, body: classes.root }}
     >
       <Container>
-      <Text>
-          {translate("Are you sure you want to mark")} ${date} {translate("as leave?")} {translate("It will cancel all of your appointments for this day.")}
-        </Text>
+        {single ? (
+          <Text>
+            {" "}
+            {translate("Are you sure you want to mark this slot as leave?")}
+          </Text>
+        ) : (
+          <Text>
+            {translate("Are you sure you want to mark")} {date}{" "}
+            {translate("as leave?")}{" "}
+            {translate("It will cancel all of your appointments for this day.")}
+          </Text>
+        )}
         <Group position="right" mt={"xl"}>
-          <Button label={"No"} w="100px" onClick={() => setOpened(false)} />
+          <Button
+            label={"No"}
+            w="100px"
+            onClick={() => {
+              setOpened(false);
+              setSingle(false);
+            }}
+          />
           <Button
             label={"Yes"}
             primary={true}
             w="100px"
             loading={handleLeave.isLoading}
-            onClick={() => single ? handleSingleSlotLeave.mutate() :handleLeave.mutate()}
-           
+            onClick={() =>
+              single ? handleSingleSlotLeave.mutate() : handleLeave.mutate()
+            }
           />
         </Group>
       </Container>

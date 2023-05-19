@@ -72,7 +72,7 @@ function CaseAppointments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label:translate("Name"),
     },
     {
       id: "addedBy",
@@ -147,6 +147,7 @@ function CaseAppointments() {
             name: obj?.appointmentUser,
             caseId: obj?.caseId,
             email: "N/A",
+            appointmentWith: obj?.appointmentWith,
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
             date: obj?.addedDate,
@@ -259,7 +260,8 @@ function CaseAppointments() {
               headCells={headerData}
               setdata={setRowData}
               data={rowData}
-              // title="Download reports"
+              title={"Case Appointments"}
+              label={"Case Appointments"}
             />
           </Grid.Col>
         </Grid>
@@ -273,6 +275,8 @@ function CaseAppointments() {
             // setReportData={setReportData}
             setViewModalState={setOpenViewModal}
             setEditIDApp={setEditId}
+            title={"Case Appointments"}
+
           />
         )}
         {totalPages > 1 && (

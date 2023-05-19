@@ -84,8 +84,8 @@ export const AddDocument = () => {
           navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
-            title: "Failed",
-            message: response.data.message,
+            title: translate("Failed"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }
@@ -117,8 +117,8 @@ export const AddDocument = () => {
           navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Update Document!",
+            title: translate("Failed"),
+            message: translate("Failed to Update Document"),
             color: "red.0",
           });
         }
@@ -163,8 +163,8 @@ export const AddDocument = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {

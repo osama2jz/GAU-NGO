@@ -64,9 +64,9 @@ function AllAppointments() {
               appointmentWith: obj?.appointmentWith,
               status: obj?.appointmentStatus?.toUpperCase(),
               time: obj?.scheduledTime,
-              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+              date: moment(obj?.addedDate).format("YYYY-MM-DD"),
               addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
-              
+
               role:
                 obj?.role === "socialWorker"
                   ? "Social Worker"
@@ -89,7 +89,9 @@ function AllAppointments() {
               otherPersonMobile: obj?.otherUserMobile,
               otherPersonId: obj?.otherUserId,
               attachedDocuments: obj?.attachedDocuments,
-              appointmentWithImage:obj?.appointmentWithImage,
+              appointmentWithImage: obj?.appointmentWithImage,
+              branchAddress: obj?.branchAddress,
+              branchName: obj?.branchName,
             };
             return appointment;
             // }
@@ -137,6 +139,18 @@ function AllAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Date",
+    },
+    {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
+    },
+    {
+      id: "branchAddress",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Address",
     },
     {
       id: "time",
@@ -233,6 +247,7 @@ function AllAppointments() {
                 { label: "Closed", value: "closed" },
                 // { label: "Scheduled", value: "scheduled" },
                 { label: "Cancelled", value: "cancelled" },
+                { label: "InProgress", value: "inprogress" },
               ]}
             />
           </Grid.Col>
@@ -259,8 +274,8 @@ function AllAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="All Appointments"
-              label={"All Appointments"}
+              title="Appointments"
+              label={"Appointments"}
             />
           </Grid.Col>
         </Grid>
@@ -269,6 +284,7 @@ function AllAppointments() {
           rowData={paginated}
           setViewModalState={setOpenViewModal}
           setEditIDApp={setEditId}
+          title="Appointments"
         />
         {totalPages > 1 && (
           <Pagination

@@ -21,6 +21,7 @@ import { useMutation } from "react-query";
 import { showNotification } from "@mantine/notifications";
 import moment from "moment/moment";
 import Pagination from "../../../Components/Pagination";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 export const ViewProjects = () => {
   const { classes } = useStyles();
@@ -56,7 +57,7 @@ export const ViewProjects = () => {
       label: "Project Name",
     },
     {
-      id: "createdDate",
+      id: "date",
       numeric: false,
       disablePadding: true,
       label: "Created Date",
@@ -66,6 +67,18 @@ export const ViewProjects = () => {
       numeric: false,
       disablePadding: true,
       label: "Project Status",
+    },
+    {
+      id: "startDate",
+      numeric: false,
+      disablePadding: true,
+      label: "Start Date",
+    },
+    {
+      id: "endDate",
+      numeric: false,
+      disablePadding: true,
+      label: "End Date",
     },
     {
       id: "accStatus",
@@ -101,11 +114,11 @@ export const ViewProjects = () => {
             id: obj._id,
             sr: ind + 1,
             projectName: obj?.projectName,
-            createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
+            date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
             description: obj?.description,
             accStatus: obj?.status,
-            endDate: obj?.endDate,
-            startDate: obj?.startDate,
+            endDate: new moment(obj?.endDate).format("YYYY-MM-DD"),
+            startDate: new moment(obj?.startDate).format("YYYY-MM-DD"),
             status:
               obj?.projectStatus === "inprogress" ? "inprogress" : "completed",
           };
@@ -255,6 +268,14 @@ export const ViewProjects = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addProject)}
             />
           </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+            title={"Projects"}
+            data={filteredItems}
+            headCells={headerData}
+            label={"Projects"}
+            />
+          </Grid.Col>
         </Grid>
         {status == "loading" ? (
           <Loader />
@@ -270,6 +291,7 @@ export const ViewProjects = () => {
             setEditProject={true}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setProjectData}
+            title={"Projects"}
           />
         )}
         {totalPages > 1 && (

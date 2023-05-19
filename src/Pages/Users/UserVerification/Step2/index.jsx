@@ -268,8 +268,8 @@ export const Step2 = ({
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -360,6 +360,8 @@ export const Step2 = ({
             placeholder="Date of Birth"
             form={form}
             validateName="dateOfBirth"
+            maxDate={new Date()}
+            
           />
           {/* <InputField
             label="Age"
@@ -456,6 +458,9 @@ export const Step2 = ({
           <Text className={classes.subHeading}>
             {translate("Studies and Training")}*
           </Text>
+          {trainingStudies.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
           <Group position="right">
             <Button
               label={"Add New"}
@@ -516,6 +521,9 @@ export const Step2 = ({
           <Text className={classes.subHeading}>
             {translate("Work Experience")}*
           </Text>
+          {workExperience.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
           <Group position="right">
             <Button
               label={"Add New"}
@@ -627,6 +635,9 @@ export const Step2 = ({
         <Text className={classes.subHeading}>
           {translate("Professional References")}*
         </Text>
+        {refrences.length < 1 && (
+            <Text color="red" align="center">{translate("Required")}</Text>
+          )}
         <Group position="right">
           <Button
             label={"Add New"}

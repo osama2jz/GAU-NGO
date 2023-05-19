@@ -30,7 +30,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import DeleteModal from "../../../Components/DeleteModal";
 
-const MyDocs = ({ userDocs, Data }) => {
+const MyDocs = ({ userDocs, Data, loader }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -39,13 +39,18 @@ const MyDocs = ({ userDocs, Data }) => {
   const [deleteID, setDeleteID] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
-  console.log(Data);
+  const [verifyId, setVerifyId] = useState("");
+  console.log("loader", loader);
+
   const [docs, setDocs] = useState([
     {
       documentTitle: "",
       documentURL: null,
+      status: "verified",
     },
   ]);
+
+  console.log("DOCS", oldDocs);
 
   const handleDeleteDocument = useMutation(
     (deleteId) => {
@@ -71,22 +76,19 @@ const MyDocs = ({ userDocs, Data }) => {
           queryClient.invalidateQueries("fetchUserSingle");
         } else {
           showNotification({
-            title: "Failed",
-            message: "Failed to Delete",
+            title: translate("Failed"),
+            message: translate("Failed to Delete"),
             color: "red.0",
           });
         }
       },
     }
   );
-  useEffect(() => {
-    setOldDocs(userDocs);
-  }, [user, userDocs, handleDeleteDocument.isSuccess]);
 
   const handleAddDocument = useMutation(
     () => {
       if (!docs[docs.length - 1].documentURL) {
-        setFileError("Please upload the file");
+        setFileError(translate("Please upload the file"));
         return;
       }
       return axios.post(
@@ -112,18 +114,27 @@ const MyDocs = ({ userDocs, Data }) => {
             {
               documentTitle: "",
               documentURL: null,
+              status: "verified",
             },
           ]);
         } else {
           showNotification({
-            title: "Failed",
-            message: response.data.message,
+            title: translate("Failed"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }
       },
     }
   );
+  useEffect(() => {
+    setOldDocs(userDocs);
+  }, [user, userDocs, handleDeleteDocument.isSuccess]);
+
+  useEffect(() => {
+    setVerifyId(null);
+  }, [oldDocs]);
+
   const handleFileInput = (file, index) => {
     const fileName = file.name;
     const sanitizedFileName = fileName.replace(/\s+/g, "");
@@ -157,8 +168,8 @@ const MyDocs = ({ userDocs, Data }) => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -182,7 +193,8 @@ const MyDocs = ({ userDocs, Data }) => {
   const handleVerifyDocument = useMutation(
     (obj) => {
       return axios.post(
-        `${backendUrl + `/api/lookup/updateAdminDocuments`}`,obj,
+        `${backendUrl + `/api/lookup/updateAdminDocuments`}`,
+        obj,
         {
           headers: {
             "x-access-token": user.token,
@@ -199,7 +211,7 @@ const MyDocs = ({ userDocs, Data }) => {
             color: "green.0",
           });
           setOpenDeleteModal(false);
-          queryClient.invalidateQueries("fetchUserSingle");
+          queryClient.invalidateQueries("fetchUsertoViewData");
         } else {
           showNotification({
             title: translate("Failed"),
@@ -215,14 +227,13 @@ const MyDocs = ({ userDocs, Data }) => {
     <tr>
       <th>Sr #</th>
       <th>{translate("Document Title")}</th>
-      <th>{translate("Docuement")}</th>
+      <th>{translate("Document")}</th>
       <th>{translate("Status")}</th>
       <th>{translate("Verify")}</th>
       <th>{translate("Action")}</th>
     </tr>
   );
 
-  console.log(oldDocs);
   var sr = 1;
   const rows = oldDocs.map((element) => (
     <tr key={element._id}>
@@ -230,7 +241,7 @@ const MyDocs = ({ userDocs, Data }) => {
       <td>{element.documentTitle}</td>
       <td>
         <Anchor href={element?.documentURL} target={"_blank"}>
-         {translate("Document")}
+          {translate("Document")}
         </Anchor>
       </td>
       <td>
@@ -243,7 +254,14 @@ const MyDocs = ({ userDocs, Data }) => {
           label={"Verify"}
           primary={true}
           disabled={element.status === "verified"}
-          onClick={() => handleVerifyDocument.mutate({documentId:element._id,status:"verified"})}
+          loading={verifyId === element._id}
+          onClick={() => {
+            setVerifyId(element._id);
+            handleVerifyDocument.mutate({
+              documentId: element._id,
+              status: "verified",
+            });
+          }}
         />
       </td>
       <td>
@@ -348,7 +366,7 @@ const MyDocs = ({ userDocs, Data }) => {
                 }}
               >
                 <Button
-                  label={"Add"}
+                  label={"Add More"}
                   leftIcon="plus"
                   onClick={() => addInputField()}
                   loading={fileLoader}
@@ -374,11 +392,19 @@ const MyDocs = ({ userDocs, Data }) => {
           onClick={handleAddDocument.mutate}
           disabled={!docs[docs.length - 1].documentURL}
           loading={handleAddDocument.isLoading || fileLoader}
+          styles={{
+            Loader: {
+              background: "red",
+              borderRadius: "50%",
+              width: "20px",
+              height: "20px",
+            },
+          }}
         />
       </Group>
       <Divider mt={"xl"} />
       <Text align="center" size={"xl"} mt={"sm"} mb={"sm"}>
-       {translate("All Documents")}
+        {translate("All Documents")}
       </Text>
       <Table striped highlightOnHover withBorder>
         <thead>{ths}</thead>

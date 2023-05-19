@@ -20,6 +20,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewRoasterModal from "./ViewRoasterModal";
 import userlogo from "../../../assets/teacher.png";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 export const ViewRoasters = () => {
   const { classes } = useStyles();
@@ -34,7 +35,7 @@ export const ViewRoasters = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [reportData, setReportData] = useState([]);
 
@@ -63,6 +64,12 @@ export const ViewRoasters = () => {
       numeric: false,
       disablePadding: true,
       label: "NGO Name",
+    },
+    {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
     },
     {
       id: "status",
@@ -107,7 +114,12 @@ export const ViewRoasters = () => {
                 : "",
             status: obj?.schedule ? "Scheduled" : "No Roaster",
             ngo: user?.name,
-            image:obj?.profileImage
+            image: obj?.profileImage,
+            branchName: obj?.branches.length
+              ? obj?.branches.map((e) => {
+                  return e?.branchName + ", ";
+                })
+              : "No Branches",
           };
           return objj;
         });
@@ -132,8 +144,8 @@ export const ViewRoasters = () => {
       onSuccess: (response) => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: "Status Updated",
-          message: "User Status changed Successfully!",
+          title: translate("Status Updated"),
+          message: translate("User Status changed Successfully!"),
           color: "green.0",
         });
         queryClient.invalidateQueries("fetchUser");
@@ -156,14 +168,14 @@ export const ViewRoasters = () => {
         item?.name?.toLowerCase().includes(search.toLowerCase()) &&
         item?.userType?.toLowerCase().includes(filter.toLowerCase())
     );
-    setPage(1)
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    let a=filtered.map((item,ind)=>{
-      return{
+    let a = filtered.map((item, ind) => {
+      return {
         ...item,
-        sr:ind+1
-      }
-    })
+        sr: ind + 1,
+      };
+    });
     return a;
   }, [search, filter, rowData]);
 
@@ -224,6 +236,15 @@ export const ViewRoasters = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addRoaster)}
             />
           </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+              headCells={headerData}
+              data={rowData}
+              title="Roasters"
+              label={"Roasters"}
+              menuItem={{all:"All"}}
+            />
+          </Grid.Col>
         </Grid>
         {status == "loading" ? (
           <Loader />
@@ -237,6 +258,8 @@ export const ViewRoasters = () => {
             setDeleteData={setDeleteID}
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
+            title="Roasters"
+
           />
         )}
         {totalPages > 1 && (

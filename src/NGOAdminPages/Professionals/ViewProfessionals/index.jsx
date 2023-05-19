@@ -23,6 +23,7 @@ import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
 import ViewProfessionalModal from "./ViewProfessionalModal";
 import userlogo from "../../../assets/teacher.png";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 export const ViewProfessionals = () => {
   const { classes } = useStyles();
@@ -131,7 +132,7 @@ export const ViewProfessionals = () => {
             email: obj.email,
             // status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.createdAt).format("DD-MMM-YYYY"),
+            date: new moment(obj.createdAt).format("YYYY-MM-DD"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
             idDetails: obj.IDDetails ? obj.IDDetails : "",
@@ -253,6 +254,14 @@ export const ViewProfessionals = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addProfessional)}
             />
           </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+              headCells={headerData}
+              data={rowData}
+              label={"Professionals"}
+              title={"Professionals"}
+            />
+          </Grid.Col>
         </Grid>
         {status == "loading" ? (
           <Loader />
@@ -267,6 +276,7 @@ export const ViewProfessionals = () => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setReportData}
             setEditProfessional={true}
+            title={"Professionals"}
           />
         )}
         {totalPages > 1 && (

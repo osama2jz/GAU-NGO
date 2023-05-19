@@ -44,7 +44,7 @@ const AddAppointment = () => {
           showNotification({
             color: "red.0",
             message: translate("Please Select User information"),
-            title: "Incomplete Info",
+            title: translate("Incomplete Info"),
           });
           return;
         }
@@ -106,8 +106,8 @@ const AddAppointment = () => {
             : navigate(routeNames.user.allAppointments);
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }

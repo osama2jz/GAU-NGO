@@ -4,9 +4,10 @@ import { backendUrl } from '../../../constants/constants';
 import { useContext } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { useQuery } from 'react-query';
-import { Container, Group, Text } from '@mantine/core';
+import { Container, Flex, Group, Text } from '@mantine/core';
 import { useStyles } from "./styles";
 import ReactHtmlParser from "react-html-parser";
+import Logo from "../../../logo.svg";
 import SignatureCanvas from "react-signature-canvas";
 
 function AgreementForm({Data,agreementSignatures}) {
@@ -28,6 +29,10 @@ function AgreementForm({Data,agreementSignatures}) {
       });
   return (
     <Container size="xl" p={"lg"}  className={classes.innerContainer} ref={agreementSignatures}>
+       <Flex align={"center"}>
+        <img src={Logo} width={"70px"} />
+        <Text fw={"bold"} fz={"lg"}>GAU</Text>
+      </Flex>
       <Text>{ReactHtmlParser(data?.data?.data?.documentText)}</Text>
       <Text align="center" fw={"bold"}>
         {translate("User Signature")}

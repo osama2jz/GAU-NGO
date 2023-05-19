@@ -140,7 +140,7 @@ function PublicReport() {
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-            date: new moment(obj.addedDate).format("YYYY-MMM-DD"),
+            date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
             projectName: obj?.projectName,
           };
@@ -275,6 +275,7 @@ function PublicReport() {
               headCells={headerData}
               data={filterData}
               label={"Public Reports"}
+              title={"Public Reports"}
 
             />
           </Grid.Col>
@@ -287,6 +288,8 @@ function PublicReport() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title={"Public Reports"}
+
           />
         )}
         {totalPages > 1 && (

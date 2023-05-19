@@ -51,9 +51,6 @@ const AddAppointment = () => {
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
 
-  console.log("appData", appData);
-  
-
   //Camera Image
   const [img, setImg] = useState(null);
   const [verifyimg, setVerifyImg] = useState(null);
@@ -162,8 +159,8 @@ const AddAppointment = () => {
           setActive(active + 1);
         } else {
           showNotification({
-            title: "Error",
-            message: response?.data?.message,
+            title: translate("Error"),
+            message: translate(response?.data?.message),
             color: theme.colors.red[9],
             timeout: 5000,
           });
@@ -246,8 +243,8 @@ const AddAppointment = () => {
         } else {
           showNotification({
             color: "red.0",
-            message: response.data.message,
-            title: "Error",
+            message: translate(response.data.message),
+            title: translate("Error"),
           });
         }
       },
@@ -284,8 +281,7 @@ const AddAppointment = () => {
   );
 
   //Fetch Single User
-   //selected user
-
+  //selected user
 
   //Upload Document
   const handleUploadDocuments = useMutation(
@@ -312,7 +308,7 @@ const AddAppointment = () => {
         if (!selectedUser || selectedCase?.length < 1) {
           showNotification({
             color: "red.0",
-            message: translate("Please Select User or Create Case."),
+            message: translate("Please Select User or Create Case"),
             title: translate("User Case"),
           });
 
@@ -385,7 +381,9 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message:translate("Please add public and private report for this appointment."),
+          message: translate(
+            "Please add public and private report for this appointment."
+          ),
           title: translate("Report Missing"),
         });
         return;
@@ -460,8 +458,8 @@ const AddAppointment = () => {
           bucket.listObjects(function (err, data) {
             if (err) {
               showNotification({
-                title: "Upload Failed",
-                message: "Something went Wrong",
+                title: translate("Upload Failed"),
+                message: translate("Something went Wrong"),
                 color: "red.0",
               });
               reject(err);
@@ -535,7 +533,6 @@ const AddAppointment = () => {
           >
             <Step1
               setSelectedUser={setSelectedUser}
-            
               setSelectedCase={setSelectedCase}
               newCase={newCase}
               setNewCase={setNewCase}

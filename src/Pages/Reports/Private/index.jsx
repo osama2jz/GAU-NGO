@@ -140,7 +140,7 @@ function PrivateReport() {
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-            date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
+            date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
           };
           return appointment;
@@ -182,7 +182,7 @@ function PrivateReport() {
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
             file: obj?.reportFile,
-            date: new moment(obj.addedDate).format("YYYY-MMM-DD"),
+            date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
             projectName: obj?.projectName,
           };
@@ -300,6 +300,8 @@ function PrivateReport() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            label={"Private Reports"}
+
           />
         )}
         {totalPages > 1 && (

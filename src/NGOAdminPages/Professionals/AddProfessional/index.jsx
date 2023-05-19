@@ -81,7 +81,7 @@ export const AddProfessional = () => {
 
     validate: {
       userType: (value) =>
-        value?.length < 1 ? translate("Please select Professional type") : null,
+        value?.length < 1 ? translate("Please select user type") : null,
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
@@ -161,8 +161,8 @@ export const AddProfessional = () => {
             : navigate(routeNames.ngoAdmin.viewProfessionals);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }
@@ -207,8 +207,8 @@ export const AddProfessional = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -260,8 +260,8 @@ export const AddProfessional = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
@@ -326,9 +326,9 @@ export const AddProfessional = () => {
             <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <SelectMenu
                 data={[
-                  { label: "Lawyer", value: "lawyer" },
-                  { label: "Psychologist", value: "psychologist" },
                   { label: "Social Worker", value: "socialWorker" },
+                  { label: "Psychologist", value: "psychologist" },
+                  { label: "Lawyer", value: "lawyer" },
                 ]}
                 disabled={isUpdate ? true : false}
                 placeholder={isUpdate ? form.values.userType : "Select role"}

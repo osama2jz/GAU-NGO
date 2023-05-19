@@ -36,8 +36,8 @@ const ReplyModal = ({ setOpenReplyModal, replyModalId, openReplyModal }) => {
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something went wrong.",
+          title: translate("Error"),
+          message: translate("Something went Wrong"),
           color: "red.0",
         });
       },

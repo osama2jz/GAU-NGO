@@ -18,9 +18,11 @@ import ViewModal from "../../../Components/ViewModal/viewUser";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
+import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 import { useStyles } from "./styles";
 import ViewBranchModal from "./ViewBranchModal";
+import moment from "moment";
 
 export const ViewBranches = () => {
   const { classes } = useStyles();
@@ -35,7 +37,7 @@ export const ViewBranches = () => {
   const [rowData, setRowData] = useState([]);
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
 
   const [BranchData, setBranchData] = useState([]);
 
@@ -57,6 +59,12 @@ export const ViewBranches = () => {
       numeric: false,
       disablePadding: true,
       label: "Email",
+    },
+    {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Created Date",
     },
     {
       id: "branchPointOfContact",
@@ -117,8 +125,9 @@ export const ViewBranches = () => {
             branchPointOfContact: obj?.branchPointOfContact,
             branchEmail: obj?.branchEmail,
             branchContact: obj?.branchContact,
-            branchStartTime:obj?.branchStartTime,
-            branchEndTime:obj?.branchEndTime,
+            branchStartTime: obj?.branchStartTime,
+            branchEndTime: obj?.branchEndTime,
+            date: moment(obj?.createdAt).format("YYYY-MM-DD"),
           };
           return branch;
         });
@@ -143,17 +152,20 @@ export const ViewBranches = () => {
       onSuccess: (response) => {
         navigate(routeNames.ngoAdmin.viewBranches);
         showNotification({
-          title: translate( "Status Updated"),
-          message: translate("Branch Status changed Successfully!"),
+          title: translate("Status Updated"),
+          message: deleteID
+            ? translate("Branch deleted Successfully")
+            : translate("Branch Status changed Successfully!"),
           color: "green.0",
         });
         setOpenDeleteModal(false);
         queryClient.invalidateQueries("fetchBranches");
+        setDeleteID("")
       },
       onError: (res) => {
         showNotification({
-          title: "Error",
-          message: "Something Went Wrong!",
+          title: translate("Error"),
+          message: translate("Something went Wrong"),
           color: "red.0",
         });
       },
@@ -178,8 +190,8 @@ export const ViewBranches = () => {
           item?.accStatus === filter
         );
     });
-    
-    setPage(1)
+
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered?.map((item, ind) => {
       return {
@@ -246,6 +258,15 @@ export const ViewBranches = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
             />
           </Grid.Col>
+          <Grid.Col>
+            <DownloadPdf
+            headCells={headerData}
+            data={filteredItem}
+            title="Branches"
+            label={"Branches"}
+
+            />
+          </Grid.Col>
         </Grid>
         {status == "loading" ? (
           <Loader />
@@ -260,6 +281,7 @@ export const ViewBranches = () => {
             setDeleteModalState={setOpenDeleteModal}
             setReportData={setBranchData}
             setEditBranch={true}
+            title={"Branches"}
           />
         )}
         {totalPages > 1 && (

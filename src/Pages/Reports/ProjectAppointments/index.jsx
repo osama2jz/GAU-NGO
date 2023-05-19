@@ -119,6 +119,7 @@ function ProjectAppointments() {
     },
     {
       onSuccess: (response) => {
+        console.log(response?.data?.data);
         let data = response?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
@@ -129,9 +130,10 @@ function ProjectAppointments() {
             name: obj?.appointmentUser,
             caseId: obj?.caseId,
             email: "N/A",
+            appointmentWith: obj?.appointmentWith,
             status: obj?.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.addedDate).format("YYYY-MM-DD"),
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             role:
               obj?.role === "socialWorker"
@@ -246,6 +248,8 @@ function ProjectAppointments() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setEditIDApp={true}
+            title="Project Appointments"
+
           />
         )}
         {totalPages > 1 && (

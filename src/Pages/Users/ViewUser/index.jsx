@@ -37,14 +37,12 @@ function ViewUser() {
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [removeAnchor, setRemoveAnchor] = useState(false);
+
   const navigate = useNavigate();
   const componentRef = useRef();
   const agreementSignatures = useRef();
   const consentSignatures = useRef();
   const [activeTab, setActiveTab] = useState(1);
-
-  const [workData, setWorkData] = useState([]);
 
   const DownloadPdf = () => {
     if (activeTab === 1) {
@@ -116,10 +114,10 @@ function ViewUser() {
             }
           );
         setDocs(response.data.documents);
-        setWorkData(workData);
+        // setWorkData(workData);
         setLoader(false);
       },
-      enabled: !!userData,
+      // enabled: !!userData,
     }
   );
 
@@ -238,25 +236,25 @@ function ViewUser() {
           style={{ marginRight: "auto" }}
         />
       </Flex>
-      <Group position="right" mt={"md"}>
-        <Button
-          label={"Generate Pdf"}
-          bg={true}
-          onClick={() => DownloadPdf()}
-        />
-      </Group>
+      {activeTab !== 4 && (
+        <Group position="right" mt={"md"}>
+          <Button
+            label={"Generate Pdf"}
+            bg={true}
+            onClick={() => DownloadPdf()}
+          />
+        </Group>
+      )}
 
       <Tabs
         mt={"xl"}
         variant="pills"
         defaultValue={"1"}
         color={"blue.0"}
-        
         classNames={{
           root: classes.tab,
           tabsList: classes.tabList,
           tab: classes.tabs,
-          
         }}
       >
         <Tabs.List grow>
@@ -269,7 +267,7 @@ function ViewUser() {
           <Tabs.Tab value="3" onClick={() => setActiveTab(3)}>
             {translate("Agreement Form")}
           </Tabs.Tab>
-          <Tabs.Tab value="4" onClick={() => setActiveTab(3)}>
+          <Tabs.Tab value="4" onClick={() => setActiveTab(4)}>
             {translate("Primary Document")}
           </Tabs.Tab>
         </Tabs.List>
@@ -287,7 +285,7 @@ function ViewUser() {
           />
         </Tabs.Panel>
         <Tabs.Panel value="4" pt="xs">
-          <PrimaryDocuments userDocs={docs} Data={data}/>
+          <PrimaryDocuments userDocs={docs} Data={data} loader={loader}/>
         </Tabs.Panel>
       </Tabs>
     </>

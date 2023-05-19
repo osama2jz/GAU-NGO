@@ -62,8 +62,9 @@ const MissingDocuments = () => {
               caseId: obj?.caseId,
               email: "N/A",
               status: obj?.appointmentStatus?.toUpperCase(),
+              appointmentWith: obj?.appointmentWith,
               time: obj?.scheduledTime,
-              date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+              date: moment(obj?.addedDate).format("YYYY-MM-DD"),
               addedBy: obj?.addedBy,
               role:
                 obj?.role === "socialWorker"
@@ -78,18 +79,17 @@ const MissingDocuments = () => {
               reportData: obj?.reports,
               image: obj?.appointmentUserImage,
               primaryDoc: obj?.primaryDocuments,
-             
+
+              attachedDocuments: obj?.attachedDocuments,
               doc: obj?.documents.map((doc) => ({
                 ...doc,
-                status: doc.documentURL===""?true:false, // Add the desired status value
+                status: doc.documentURL === "" ? true : false, // Add the desired status value
               })),
-              
-              
             };
             return appointment;
           });
         setRowData(data);
-        setTotalPages(Math.ceil(newNotNull?.length / 10));
+        setTotalPages(Math.ceil(data?.length / 10));
       },
     }
   );
@@ -123,6 +123,7 @@ const MissingDocuments = () => {
       numeric: false,
       disablePadding: true,
       label: "Role",
+      translate:true
     },
     {
       id: "date",
@@ -233,6 +234,7 @@ const MissingDocuments = () => {
               headCells={headerData}
               data={filteredItems}
               label={"Missing Documents"}
+              title={"Missing Documents"}
             />
           </Grid.Col>
         </Grid>
@@ -241,6 +243,7 @@ const MissingDocuments = () => {
           rowData={paginated}
           setViewModalState={true}
           setEditIDApp={true}
+          title={"Missing Documents"}
         />
         {totalPages > 1 && (
           <Pagination

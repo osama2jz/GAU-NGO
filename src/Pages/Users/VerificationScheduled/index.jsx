@@ -25,7 +25,7 @@ const VerificationScheduled = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [viewModalData, setViewModalData] = useState();
@@ -47,50 +47,50 @@ const VerificationScheduled = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "email",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: translate("Email"),
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: translate("Date"),
     },
     {
       id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: translate("Time"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: translate("User Status"),
     },
     {
       id: "userVerify",
       numeric: false,
       disablePadding: true,
-      label: "Verify",
+      label: translate("Verify"),
     },
     {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
 
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
@@ -118,9 +118,16 @@ const VerificationScheduled = () => {
             time: obj.scheduleTime,
             status: obj.verificationStatus,
             accStatus: obj.userStatus,
-            date: new moment(obj.scheduleDate).format("YYYY-MMM-DD"),
+            date: new moment(obj.scheduleDate).format("YYYY-MM-DD"),
+            // date:
+            //   new moment(obj.scheduleDate).format("YYYY") +
+            //   "-" +
+            //   translate(new moment(obj.scheduleDate).format("MM")) +
+            //   "-" +
+            //   new moment(obj.scheduleDate).format("DD"),
             phone: obj.phoneNumber,
             image: obj?.profileImage,
+            appointmentId: obj?.appointmentId,
           };
           return user;
         });
@@ -162,6 +169,7 @@ const VerificationScheduled = () => {
         );
       }
     });
+    setPage(1)
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {
@@ -218,7 +226,6 @@ const VerificationScheduled = () => {
             />
           </Grid.Col>
 
-          
           <Grid.Col sm={3} ml="auto">
             {user.role === "Social Worker" && (
               <Button
@@ -235,6 +242,7 @@ const VerificationScheduled = () => {
               headCells={headerData}
               data={filteredItems}
               label={"Scheduled Users"}
+              title={"Scheduled Users"}
             />
           </Grid.Col>
         </Grid>
@@ -249,6 +257,8 @@ const VerificationScheduled = () => {
             setStatusChangeId={setStatusChangeId}
             onStatusChange={handleChangeStatus.mutate}
             setReportData={setReportData}
+            title={"Scheduled Users"}
+
           />
         )}
         {totalPages > 1 && (
@@ -265,7 +275,12 @@ const VerificationScheduled = () => {
         setOpened={setOpenViewModal}
         title="User Schedule Details"
       >
-        <ViewUserModal id={viewModalData} reportData={reportData} />
+        <ViewUserModal
+          id={viewModalData}
+          reportData={reportData}
+          cancelButton={true}
+          setOpenViewModal={setOpenViewModal}
+        />
       </ViewModal>
     </Container>
   );

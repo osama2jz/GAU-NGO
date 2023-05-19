@@ -20,7 +20,7 @@ import ViewModal from "./ViewModal";
 export const AddRoaster = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user ,translate} = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [branches, setBranches] = useState([]);
   const [professionals, setProfessionals] = useState([]);
   const [opened, setOpened] = useState(false);
@@ -40,15 +40,16 @@ export const AddRoaster = () => {
     },
 
     validate: {
-      branchId: (value) => (value?.length < 1 ? translate("Please Select Branch") : null),
+      branchId: (value) =>
+        value?.length < 1 ? translate("Please Select Branch") : null,
       // scheduleType: (value) =>
       //   value?.length < 1 ? "Please Select Schedule Type" : null,
       // users: (value) =>
       //   value?.length < 1 ? "Please Select at least one user." : null,
       dateStart: (value) =>
-        value?.length < 1 ? translate("Please Select start date.") : null,
+        value?.length < 1 ? translate("Please Select start date") : null,
       dateEnd: (value) =>
-        value?.length < 1 ? translate("Please Select end date.") : null,
+        value?.length < 1 ? translate("Please Select end date") : null,
     },
   });
 
@@ -65,6 +66,7 @@ export const AddRoaster = () => {
 
   const handleAddRoaster = useMutation(
     (values) => {
+     
       let obj = {
         ngoId: user?.ngoId,
         branchId: values?.branchId,
@@ -83,14 +85,26 @@ export const AddRoaster = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          if (response?.data?.message[0]?.scheduleMessage) {
+          console.log("UROOJ 1");
+          if (response?.data?.message?.[0]?.scheduleMessage) {
+            console.log("UROOJ 2");
             // navigate(routeNames.ngoAdmin.viewRoasters);
-            showNotification({
-              title: "Failed",
-              message: response?.data?.message[0]?.scheduleMessage,
-              color: "red.0",
+            response?.data?.message?.map((item) => {
+              showNotification({
+                title: translate("Failed"),
+                message: `${translate("Schedule exist for")}  ${translate(
+                  extractNames(item?.scheduleMessage)
+                )} 
+                ${translate("between dates")} ${moment(
+                  form?.values?.dateStart
+                ).format("DD-MM-YYYY")}
+               & ${moment(form?.values?.dateEnd).format("DD-MM-YYYY")}`,
+                // ${translate("in branch")} (${selectedBranch[0]?.label})
+                color: "red.0",
+              });
             });
           } else {
+            console.log("UROOJ 3");
             showNotification({
               title: translate("Users Scheuled"),
               message: translate("Schedule has been created Successfully!"),
@@ -99,9 +113,10 @@ export const AddRoaster = () => {
             navigate(routeNames.ngoAdmin.viewRoasters);
           }
         } else {
+          console.log("UROOJ 4");
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }
@@ -178,13 +193,22 @@ export const AddRoaster = () => {
         <div>
           <Text size="sm">{label}</Text>
           <Text size="xs" opacity={0.65}>
-            {role}
+            {translate(role)}
           </Text>
         </div>
       </Group>
     </div>
   );
 
+  function extractNames(string) {
+    const pattern = /Schedule exist for ([A-Za-z\s]+) between dates/;
+    const matches = string.match(pattern);
+    if (matches && matches.length > 1) {
+      const name = matches[1].trim();
+      return name;
+    }
+    return null;
+  }
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add Roaster"} />
@@ -195,8 +219,8 @@ export const AddRoaster = () => {
         onSubmit={form.onSubmit((values) => {
           if (select.length === 0) {
             showNotification({
-              title: "Failed",
-              message: translate("Please select at least one user."),
+              title: translate("Failed"),
+              message: translate("Please Select Users"),
               color: "red.0",
             });
           } else {
@@ -255,15 +279,16 @@ export const AddRoaster = () => {
         </Grid>
 
         <MultiSelect
-          label="Select Users"
+          label="Select Professionals"
           // form={form}
           required={true}
           setData={setSelect}
-          placeholder="Select Users"
+          placeholder="Select Professionals"
           itemComponent={SelectItem}
           validateName="users"
           data={professionals}
           searchable={true}
+          mt="sm"
         />
 
         <Group position="right" mt="sm">

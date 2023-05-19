@@ -32,7 +32,7 @@ const Signup = () => {
   const [ngos, setNgos] = useState([]);
   const [fileError, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
-  const {translate}=useContext(UserContext);
+  const { translate } = useContext(UserContext);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -57,35 +57,39 @@ const Signup = () => {
       firstName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
-          :translate("Please enter first name between 2 to 15 characters."),
+          : translate("Please enter first name between 2 to 15 characters."),
       lastName: (value) =>
         /^[a-zA-Z ]{2,15}$/.test(value)
           ? null
           : translate("Please enter last name between 2 to 15 characters"),
 
       email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
 
       password: (value) =>
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
           value
         ) ? null : (
           <ul>
-          {translate("Password must contain 8 to 15 characters with")}
-          <li>{translate("At least one captial alphabet.")}</li>
-          <li>{translate("At least one small alphabet.")}</li>
-          <li>
-            {translate("At least one digit and one special character.")}
-          </li>
-          <li>{translate("At least one special character.")}</li>
-        </ul>
+            {translate("Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("At least one small alphabet.")}</li>
+            <li>
+              {translate("At least one digit and one special character.")}
+            </li>
+            <li>{translate("At least one special character.")}</li>
+          </ul>
         ),
       phoneNumber: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
           : translate("Please enter valid phone number"),
       confirmPassword: (value, values) =>
-        value !== values?.password ? translate("Passwords did not match") : null,
+        value !== values?.password
+          ? translate("Passwords did not match")
+          : null,
     },
   });
 
@@ -105,6 +109,35 @@ const Signup = () => {
           return ngo;
         });
         setNgos(data);
+      },
+    }
+  );
+
+  const handleEmailVerification = useMutation(
+    () => {
+      return axios.post(
+        `${backendUrl + "/api/user/sendUserPasswordResetEmail"}`,
+        { email: form.values.email }
+      );
+    },
+    {
+      onSuccess: (response) => {
+        if (response.data.status) {
+          navigate(routeNames.general.otp, {
+            state: { allowed: true, type: "email" },
+          });
+          showNotification({
+            title: translate("Verify Email"),
+            message: translate(response.data.message),
+            color: "green.0",
+          });
+        } else {
+          showNotification({
+            title: translate("Invalid Email"),
+            message: translate(response.data.message),
+            color: "red.0",
+          });
+        }
       },
     }
   );
@@ -163,11 +196,11 @@ const Signup = () => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
-          navigate(routeNames.general.login);
+          handleEmailVerification.mutate();
         } else {
           showNotification({
-            title: "Error",
-            message: response.data.message,
+            title: translate("Error"),
+            message: translate(response.data.message),
             color: "red.0",
           });
         }
@@ -190,21 +223,6 @@ const Signup = () => {
             validateName="ngoId"
           />
         </Grid.Col>
-        {/* <Grid.Col sm={6}>
-          <SelectMenu
-            data={[
-              { label: "User", value: "user" },
-              { label: "Social Worker", value: "socialWorker" },
-              { label: "Psychologist", value: "psychologist" },
-              { label: "Lawyer", value: "lawyer" },
-            ]}
-            placeholder={"Select User Type"}
-            label="Sign up as"
-            form={form}
-            validateName="userType"
-          />
-        </Grid.Col> */}
-
         <Grid.Col sm={6}>
           <InputField
             label="First Name"
@@ -279,7 +297,7 @@ const Signup = () => {
                   }
                   accept="file/pdf"
                   mb={"sm"}
-                  icon={<FileUpload size={20} color="green"/>}
+                  icon={<FileUpload size={20} color="green" />}
                   onChange={(e) => handleFileInput(e)}
                 />
               </Input.Wrapper>

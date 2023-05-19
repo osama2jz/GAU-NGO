@@ -41,6 +41,7 @@ function EditAppointments() {
     },
   ]);
 
+  console.log("Other Document", otherDocument);
   const [fileLoader, setFileLoader] = useState(false);
   let { state } = useLocation();
 
@@ -328,7 +329,7 @@ function EditAppointments() {
                 direction="row"
                 // wrap="wrap-reverse"
               >
-                <Text>Document</Text>
+                <Text>{translate("Document")}</Text>
                 <InputField
                   placeholder="Enter document name"
                   // disabled={i?.documentName}
@@ -394,19 +395,23 @@ function EditAppointments() {
                 )} */}
                 {i?.status && <Divider orientation="vertical" label={"Or"} />}
 
-                {i?.status && <Select
-                  placeholder="Select"
-                  size="md"
-                  data={primaryDoc}
-                  onChange={(e) =>
-                    // update value at current index in other document array
-                    {
-                      otherDocument[index].documentURL = e;
-                      // update array (pass by value) for re-render
-                      setOtherDocument([...otherDocument]);
+                {i?.status && (
+                  <Select
+                    placeholder={
+                      primaryDoc.length > 0 ? "Select" : "No Document"
                     }
-                  }
-                />}
+                    size="md"
+                    data={primaryDoc}
+                    onChange={(e) =>
+                      // update value at current index in other document array
+                      {
+                        otherDocument[index].documentURL = e;
+                        // update array (pass by value) for re-render
+                        setOtherDocument([...otherDocument]);
+                      }
+                    }
+                  />
+                )}
               </Flex>
             ))}
 

@@ -128,7 +128,7 @@ function ProjectReports() {
             name: obj?.caseLinkedUser,
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
-            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.addedDate).format("YYYY-MM-DD"),
             file: obj?.reportFile,
             comments: obj?.comments,
             image: obj?.profileImage,
@@ -240,6 +240,8 @@ function ProjectReports() {
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
+            title={"Project Reports" }
+
           />
         )}
         {totalPages > 1 && (
@@ -278,14 +280,14 @@ function ProjectReports() {
               <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
+                  {translate(reportData?.type)} {translate("Report")}
                 </Anchor>
               ) : (
                 <Text className={classes.textContent}>{translate("No Report")}</Text>
               )}
 
               <Text className={classes.textheading}>{translate("Report Type")}</Text>
-              <Text className={classes.textContent}>{reportData?.type}</Text>
+              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
             </SimpleGrid>
           </Container>
         </Flex>

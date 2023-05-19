@@ -13,7 +13,7 @@ function ViewUserModal({ id, reportData }) {
         <Text className={classes.textheading}>{translate("Project Name")} </Text>
         <Text className={classes.textContent}>{reportData?.projectName}</Text>
         <Text className={classes.textheading}>{translate("Created Date")} </Text>
-        <Text className={classes.textContent}>{reportData?.createdDate}</Text>
+        <Text className={classes.textContent}>{reportData?.date}</Text>
 
         <Text className={classes.textheading}>{translate("Status")}</Text>
 
@@ -24,6 +24,10 @@ function ViewUserModal({ id, reportData }) {
         >
           {translate(reportData?.accStatus)}
         </Badge>
+        <Text className={classes.textheading}>{translate("Start Date")} </Text>
+        <Text className={classes.textContent}>{reportData?.startDate}</Text>
+        <Text className={classes.textheading}>{translate("End Date")} </Text>
+        <Text className={classes.textContent}>{reportData?.endDate}</Text>
         <Text className={classes.textheading}>
           {translate("Description")}
         </Text>

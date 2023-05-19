@@ -2,7 +2,7 @@ import { Container, Grid } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import moment from "moment/moment";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Trash } from "tabler-icons-react";
@@ -16,17 +16,20 @@ import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import Pagination from "../../../Components/Pagination";
 
 export const ViewDocuments = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { classes } = useStyles();
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [search, setSearch] = useState("");
   const [deleteID, setDeleteID] = useState("");
   const [rowData, setRowData] = useState([]);
   const [editDoc, setEditDoc] = useState();
+  const [activePage, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {
     if (editDoc) {
       navigate(routeNames.ngoAdmin.addDocument, {
@@ -51,11 +54,18 @@ export const ViewDocuments = () => {
       label: "Document Title",
     },
     {
+      id: "date",
+      numeric: false,
+      disablePadding: true,
+      label: "Created Date",
+      translate: true,
+    },
+    {
       id: "expiryDate",
       numeric: false,
       disablePadding: true,
       label: "Expiry Date",
-      translate:true
+      translate: true,
     },
     {
       id: "file",
@@ -89,14 +99,15 @@ export const ViewDocuments = () => {
             sr: ind + 1,
             name: obj?.documentTitle,
             expiryDate: obj?.expiryDate
-              ? new moment(obj?.expiryDate).format("DD MMM YYYY")
+              ? new moment(obj?.expiryDate).format("YYYY-MM-DD")
               : "No Expiry Date",
             file: obj?.documentURL,
-            createdDate: new moment(obj?.createdDate).format("DD MMM YYYY"),
+            date: new moment(obj?.createdDate).format("YYYY-MM-DD"),
           };
           return doc;
         });
         setRowData(data);
+        setTotalPages(Math.ceil(data?.length / 10));
       },
     }
   );
@@ -118,7 +129,9 @@ export const ViewDocuments = () => {
       onSuccess: (response) => {
         if (response?.data?.status) {
           showNotification({
-            title: deleteID ? translate("Document Deleted"):translate("Document Created"),
+            title: deleteID
+              ? translate("Document Deleted")
+              : translate("Document Created"),
             message: deleteID
               ? translate("Document Deleted Successfully")
               : translate("Document Updated Successfully!"),
@@ -127,8 +140,10 @@ export const ViewDocuments = () => {
           // navigate(routeNames.ngoAdmin.viewDocuments);
         } else {
           showNotification({
-            title: "Failed",
-            message: deleteID ? "Failed to Delete" : "Failed to Update",
+            title: translate("Failed"),
+            message: deleteID
+              ? translate("Failed to Delete")
+              : translate("Failed to Update"),
             color: "red.0",
           });
         }
@@ -138,9 +153,36 @@ export const ViewDocuments = () => {
     }
   );
 
-  const filteredItems = rowData?.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // const filteredItems = rowData?.filter((item) =>
+  //   item.name.toLowerCase().includes(search.toLowerCase())
+  // );
+
+  const filteredItems = useMemo(() => {
+    let filtered = rowData.filter((item) => {
+      return item.name.toLowerCase().includes(search.toLowerCase());
+    });
+
+    setPage(1);
+    setTotalPages(Math.ceil(filtered?.length / 10));
+    const a = filtered.map((item, ind) => {
+      return {
+        ...item,
+        sr: ind + 1,
+      };
+    });
+    return a;
+    // return filtered;
+  }, [rowData, search]);
+
+  const paginated = useMemo(() => {
+    if (activePage == 1) {
+      return filteredItems.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+
+      return filteredItems.slice(a, a + 10);
+    }
+  }, [activePage, filteredItems]);
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -180,14 +222,24 @@ export const ViewDocuments = () => {
         {status == "loading" ? (
           <Loader />
         ) : (
-          <Table
-            headCells={headerData}
-            rowData={filteredItems}
-            setDeleteData={setDeleteID}
-            setDeleteModalState={setOpenDeleteModal}
-            setEditDoc={setEditDoc}
-            editDoc={editDoc}
-          />
+          <>
+            <Table
+              headCells={headerData}
+              rowData={paginated}
+              setDeleteData={setDeleteID}
+              setDeleteModalState={setOpenDeleteModal}
+              setEditDoc={setEditDoc}
+              editDoc={editDoc}
+            />
+            {totalPages > 1 && (
+              <Pagination
+                activePage={activePage}
+                setPage={setPage}
+                total={totalPages}
+                radius="xl"
+              />
+            )}
+          </>
         )}
       </Container>
       <DeleteModal

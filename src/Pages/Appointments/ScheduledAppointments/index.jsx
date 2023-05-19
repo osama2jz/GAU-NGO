@@ -35,7 +35,7 @@ function ScheduledAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [rowData, setRowData] = useState([]);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -72,7 +72,7 @@ function ScheduledAppointments() {
             email: "N/A",
             status: obj.appointmentStatus?.toUpperCase(),
             time: obj?.scheduledTime,
-            date: moment(obj?.addedDate).format("YYYY-MMM-DD"),
+            date: moment(obj?.addedDate).format("YYYY-MM-DD"),
 
             addedBy: obj?.refered === true ? obj?.referedName : obj?.addedBy,
             // addedBy: obj?.addedBy,
@@ -95,6 +95,8 @@ function ScheduledAppointments() {
             project: obj?.project,
             refer: obj?.refered === true ? "Refered" : "New",
             referedComment: obj?.referedComment,
+            branchAddress: obj?.branchAddress,
+            branchName: obj?.branchName,
             // userImage:
           };
           return appointment;
@@ -142,39 +144,50 @@ function ScheduledAppointments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "appointmentWith",
       numeric: false,
       disablePadding: true,
-      label: "Professional",
-      
+      label: translate("Professional"),
     },
     {
       id: "addedBy",
       numeric: false,
       disablePadding: true,
-      label: "Appointer",
+      label: translate("Appointer"),
     },
     {
       id: "role",
       numeric: false,
       disablePadding: true,
-      label: "Appointer Role",
+      label: translate("Appointer Role"),
       translate: true,
     },
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Date",
+      label: translate("Date"),
+    },
+    {
+      id: "branchName",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Name",
+    },
+    {
+      id: "branchAddress",
+      numeric: false,
+      disablePadding: true,
+      label: "Branch Address",
     },
     {
       id: "time",
       numeric: false,
       disablePadding: true,
-      label: "Time",
+      label: translate("Time"),
     },
     {
       id: "refer",
@@ -187,34 +200,34 @@ function ScheduledAppointments() {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
     {
       id: "start",
       numeric: false,
       disablePadding: true,
-      label: "Start",
+      label: translate("Start"),
     },
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
   const filteredItems = useMemo(() => {
-    let filtered = rowData.filter((item) => {
+    let filtered = rowData?.filter((item) => {
       return (
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.caseName.toLowerCase().includes(search.toLowerCase()) ||
-        item.caseNo.toLowerCase().includes(search.toLowerCase())
+        item?.name?.toLowerCase().includes(search?.toLowerCase()) ||
+        item?.caseName?.toLowerCase().includes(search?.toLowerCase()) ||
+        item?.caseNo?.toLowerCase().includes(search?.toLowerCase())
       );
     });
 
     setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
-    const a = filtered.map((item, ind) => {
+    const a = filtered?.map((item, ind) => {
       return {
         ...item,
         sr: ind + 1,
@@ -226,10 +239,10 @@ function ScheduledAppointments() {
 
   const paginated = useMemo(() => {
     if (activePage === 1) {
-      return filteredItems.slice(0, 10);
+      return filteredItems?.slice(0, 10);
     } else {
       let a = (activePage - 1) * 10;
-      return filteredItems.slice(a, a + 10);
+      return filteredItems?.slice(a, a + 10);
     }
   }, [activePage, filteredItems]);
 
@@ -272,8 +285,8 @@ function ScheduledAppointments() {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title={"Scheduled Appointments"}
-              label={"Scheduled Appointments"}
+              title={"Appointment Schedule"}
+              label={"Appointment Schedule"}
             />
           </Grid.Col>
         </Grid>
@@ -283,6 +296,7 @@ function ScheduledAppointments() {
           setViewModalState={setOpenViewModal}
           reportData={reportData}
           setReportData={setReportData}
+          title={"Appointment Schedule"}
         />
         {totalPages > 1 && (
           <Pagination
@@ -316,19 +330,27 @@ function ScheduledAppointments() {
             src={reportData?.image}
             className={classes.avatar}
           />
-          <Container w={"100%"} ml="md" >
+          <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs" mt={"md"}>
               <Text className={classes.textheading}>{translate("Name")}</Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>{translate("Added By")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Added By")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
-              <Text className={classes.textheading}>{translate("Case Name")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Case Name")}
+              </Text>
               <Text className={classes.textContent}>
                 {reportData?.caseName}
               </Text>
-              <Text className={classes.textheading}>{translate("Appointment Date")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Appointment Date")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{translate("Appointment Time")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Appointment Time")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.time}</Text>
               <Text className={classes.textheading}>{translate("Status")}</Text>
               <Text className={classes.textContent}>
@@ -342,7 +364,9 @@ function ScheduledAppointments() {
                 </Badge>
               </Text>
               {reportData?.refer === "Refered" && (
-                <Text className={classes.textheading}>{("Refferal Comment")}</Text>
+                <Text className={classes.textheading}>
+                  {"Refferal Comment"}
+                </Text>
               )}
               {reportData?.refer === "Refered" && (
                 <Text className={classes.textContent}>

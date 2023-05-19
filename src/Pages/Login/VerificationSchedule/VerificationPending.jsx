@@ -56,7 +56,9 @@ const VerificationPending = () => {
         <br />
         <b>{translate("Branch")}:</b> {state?.data?.otherInfo?.branchName}
         <br />
-        <b>{translate("Appointment With")}</b> {state?.data?.otherInfo?.professionalName}
+        <b>{translate("Branch Address")}:</b> {state?.data?.otherInfo?.branchAddress}
+        <br />
+        <b>{translate("Appointment With")}:</b> {state?.data?.otherInfo?.professionalName}
         <br />
         <b>{translate("Appointment Date")}:</b> {state?.data.appointmentDate}
         <br />
@@ -92,8 +94,7 @@ const VerificationPending = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={() => {
-          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);
-          
+          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);  
         }}
         cancel={"No"}
         deletee={"Yes"}

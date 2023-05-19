@@ -56,37 +56,62 @@ export const AllUser = () => {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: translate("Name"),
     },
     {
       id: "email",
       numeric: false,
       disablePadding: true,
-      label: "Email",
+      label: translate("Email"),
     },
+    {
+      id: "city",
+      numeric: false,
+      disablePadding: true,
+      label: translate("City"),
+    },
+    {
+      id: "country",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Country"),
+    },
+    {
+      id: "address",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Address"),
+    },
+    
     {
       id: "date",
       numeric: false,
       disablePadding: true,
-      label: "Registration Date",
+      label: translate("Registration Date"),
+    },
+    {
+      id: "phone",
+      numeric: false,
+      disablePadding: true,
+      label: translate("Phone No"),
     },
     {
       id: "status",
       numeric: false,
       disablePadding: true,
-      label: "User Status",
+      label: translate("User Status"),
     },
     {
       id: "accStatus",
       numeric: false,
       disablePadding: true,
-      label: "Status",
+      label: translate("Status"),
     },
     {
       id: "actions",
       view: <Eye />,
       numeric: false,
-      label: "Actions",
+      label: translate("Actions"),
     },
   ];
 
@@ -135,9 +160,12 @@ export const AllUser = () => {
             name: obj?.firstName + " " + obj?.lastName,
             email: obj?.email,
             age: obj?.userConsentForm?.personalInformation?.age,
+            city: obj?.userConsentForm?.personalInformation?.city,
+            address: obj?.userConsentForm?.personalInformation?.address,
+            country: obj?.userConsentForm?.personalInformation?.country,
             status: obj?.verificationStatus,
             accStatus: obj?.userStatus,
-            date: new moment(obj?.createdAt).format("YYYY-MMM-DD"),
+            date: new moment(obj?.createdAt).format("YYYY-MM-DD"),
             phone: obj?.phoneNumber,
             consentSign: obj?.userConsentForm?.consentSignatures,
             aggrementSign: obj?.userConsentForm?.agreementSignatures,
@@ -165,7 +193,7 @@ export const AllUser = () => {
       onSuccess: (response) => {
         navigate(routeNames.socialWorker.allUsers);
         showNotification({
-          title: deleteID ? translate("User Deleted"):translate("Status Updated"),
+          title: deleteID ? translate("Deleted"):translate("Status Updated"),
           message: deleteID ? translate("User Deleted Successfully!"):translate("User Status changed Successfully!"),
           color: "green.0",
         });
@@ -186,7 +214,7 @@ export const AllUser = () => {
   const filteredItems = useMemo(() => {
     let filtered = rowData.filter((item) => {
       if (filter === "" && filter2 === "") {
-        return item.name.toLowerCase().includes(search.toLowerCase());
+        return item.name.toLowerCase().includes(search.toLowerCase()) || item.email.toLowerCase().includes(search.toLowerCase());
       } else if (filter !== "" && filter2 === "")
         return (
           item.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -205,6 +233,7 @@ export const AllUser = () => {
         );
       }
     });
+    setPage(1);
     setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered.map((item, ind) => {
       return {
@@ -290,7 +319,7 @@ export const AllUser = () => {
             <DownloadPdf
               headCells={headerData}
               data={filteredItems}
-              title="Download reports"
+              title="Users"
               label={("Users")}
             />
           </Grid.Col>
@@ -309,6 +338,7 @@ export const AllUser = () => {
             setReportData={setReportData}
             setEditId={true}
             setOpenEditModal={setOpenEditModal}
+            title="Users"
           />
         )}
         {totalPages > 1 && (

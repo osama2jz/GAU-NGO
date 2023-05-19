@@ -43,7 +43,7 @@ export const AddComplains = () => {
   const [search, setSearch] = useState("");
   const [activePage, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { user } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [professionalsData, setProfessionalsData] = useState([]);
   const [professional, setProfessional] = useState();
 
@@ -92,9 +92,9 @@ export const AddComplains = () => {
       subject: (value) =>
         /^[a-zA-Z ]{2,40}$/.test(value)
           ? null
-          : "Please enter subject of your complaint.",
+          : translate("Please enter subject of your complaint"),
       description: (value) =>
-        value?.length < 2 ? "Please enter description" : null,
+        value?.length < 2 ? translate("Please enter description") : null,
     },
   });
 
@@ -118,15 +118,15 @@ export const AddComplains = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: "Complaint Added ",
-            message: "Complaint added Successfully!",
+            title: translate("Complaint Added"),
+            message: translate("Complaint added Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.complaints);
         } else {
           showNotification({
-            title: "Failed",
-            message: response?.data?.message,
+            title: translate("Failed"),
+            message: translate(response?.data?.message),
             color: "red.0",
           });
         }

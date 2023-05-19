@@ -78,7 +78,13 @@ const LeaveModal = ({
               </Text>
             </Flex>
 
-            <Text fz={"md"}>{moment(startDate).format("MMMM D, YYYY")}</Text>
+            <Text fz={"md"}>
+              {translate(moment(startDate).format("MMMM"))}{" "}
+              {moment(startDate).format("D")}
+              {", "}
+              {moment(startDate).format("YYYY")}
+            </Text>
+
             <Flex>
               {<CalendarEvent />}
               <Text fz={"md"} fw={"bold"}>
@@ -86,7 +92,12 @@ const LeaveModal = ({
               </Text>
             </Flex>
 
-            <Text fz={"md"}>{moment(endDate).format("MMMM D, YYYY")}</Text>
+            <Text fz={"md"}>
+              {translate(moment(endDate).format("MMMM"))}{" "}
+              {moment(endDate).format("D")}
+              {", "}
+              {moment(endDate).format("YYYY")}
+            </Text>
           </SimpleGrid>
         </Container>
         <Container>
@@ -97,7 +108,7 @@ const LeaveModal = ({
           {selectedProfessional.filter((item) => item.role === "Social Worker")
             .length > 0 && (
             <Text fw={"bold"} fz={"md"} mb={"md"} mt={"sm"}>
-             {translate("Social Worker")}
+              {translate("Social Worker")}
             </Text>
           )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -112,7 +123,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>
@@ -122,7 +133,7 @@ const LeaveModal = ({
             selectedProfessional?.filter((item) => item.role === "Psychologist")
               .length > 0 && (
               <Text fw={"bold"} fz={"md"} mt={"md"}>
-               { translate("Psychologist")}
+                {translate("Psychologist")}
               </Text>
             )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -137,7 +148,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>
@@ -146,8 +157,8 @@ const LeaveModal = ({
           {selectedProfessional &&
             selectedProfessional.filter((item) => item.role === "Lawyer")
               .length > 0 && (
-              <Text fw={"bold"} fz={"md"}  mt={"md"}>
-               {translate("Lawyer")}
+              <Text fw={"bold"} fz={"md"} mt={"md"}>
+                {translate("Lawyer")}
               </Text>
             )}
           <SimpleGrid cols={2} mt={"md"}>
@@ -162,7 +173,7 @@ const LeaveModal = ({
                         <Text fz={"md"} fw={"bold"}>
                           {item?.label}
                         </Text>
-                        <Text fz={"sm"}>{item?.role}</Text>
+                        <Text fz={"sm"}>{translate(item?.role)}</Text>
                       </Stack>
                     </Group>
                   </Paper>
@@ -187,7 +198,11 @@ const LeaveModal = ({
           </SimpleGrid> */}
         </Container>
         <Group position="right" mt={"xl"}>
-          <Button label={translate("Review")} w="100px" onClick={() => setOpened(false)} />
+          <Button
+            label={translate("Review")}
+            w="100px"
+            onClick={() => setOpened(false)}
+          />
           <Button
             label={translate("Finish")}
             primary={true}

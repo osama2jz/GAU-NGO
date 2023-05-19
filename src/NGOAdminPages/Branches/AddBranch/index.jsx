@@ -75,14 +75,23 @@ export const AddBranch = () => {
           ? null
           : translate("Invalid Phone Number e.g +34 234 5673 890"),
       branchEmail: (value) =>
-        /^\S+@\S+$/.test(value) ? null : translate("Please Enter a valid email"),
+        /^\S+@\S+$/.test(value)
+          ? null
+          : translate("Please Enter a valid email"),
       branchPointOfContact: (value) =>
-        /^\w.{3,16}$/.test(value) ? null : translate("Please enter Point of Contact"),
+        /^\w.{3,16}$/.test(value)
+          ? null
+          : translate("Please enter Point of Contact"),
       branchStartTime: (value) =>
-        value?.length < 1 ? translate("Please Select start time.") : null,
+        value?.length < 1 || moment(value).hours() > 20
+          ? translate("Please Select start time before 20:00.")
+          : null,
       branchEndTime: (value, values) =>
-        moment(value).diff(moment(values?.branchStartTime), translate("minutes")) < 1
-          ? translate("End Time cannot be before Start time")
+        moment(value).diff(
+          moment(values?.branchStartTime),
+          translate("minutes")
+        ) < 240
+          ? translate("End Time must be 4 hours ahead of Start time")
           : null,
     },
   });
@@ -152,7 +161,9 @@ export const AddBranch = () => {
       onSuccess: (response) => {
         if (response.data.status) {
           showNotification({
-            title: isUpdate ? translate("Branch Detail Updated") : translate("Branch Added"),
+            title: isUpdate
+              ? translate("Branch Detail Updated")
+              : translate("Branch Added"),
             message: isUpdate
               ? translate("Branch Information Updated SuccessFully!")
               : translate("New Branch added Successfully!"),
@@ -206,8 +217,8 @@ export const AddBranch = () => {
         bucket.listObjects(function (err, data) {
           if (err) {
             showNotification({
-              title: "Upload Failed",
-              message: "Something went Wrong",
+              title: translate("Upload Failed"),
+              message: translate("Something went Wrong"),
               color: "red.0",
             });
           } else {
