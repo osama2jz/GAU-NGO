@@ -31,6 +31,7 @@ function AllAppointments() {
   const [totalPages, setTotalPages] = useState(1);
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
+  console.log("appData", user);
 
   //API call for fetching All Scheduled Appointments
   const { data, status } = useQuery(
@@ -81,7 +82,12 @@ function AllAppointments() {
               doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
-              reportData: obj?.reports,
+              reportData: obj?.reports?.map((obj) => {
+                 return{
+                  ...obj,
+                  reportFile:`http://report.gauapp.es/reports/${obj.reportFile}`
+                 }
+              }),
               image: obj?.appointmentUserImage,
               refer: obj?.refered === true ? "Refered" : "New",
               otherPersonName: obj?.otherUserName,
@@ -101,6 +107,8 @@ function AllAppointments() {
       },
     }
   );
+
+  console.log(rowData, "rowdata")
 
   let headerData = [
     {

@@ -43,6 +43,8 @@ const AddAppointment = () => {
   const { state } = useLocation();
   const { id, appId, appData } = state ?? "";
 
+  console.log("appData", appData);
+
   const [active, setActive] = useState(0);
   const [selectedUser, setSelectedUser] = useState();
   const [selectedCase, setSelectedCase] = useState("");
@@ -449,10 +451,10 @@ const AddAppointment = () => {
 
   const HandleGeneratePublicReport = (value, type) => {
     const obj = {
-      title: " Public Report",
-      project: "1234",
-      case: "",
-      reportBy: "",
+      title: reportPublicFiles?.reportTitle,
+      project: appData?.project,
+      case: appData?.caseNo,
+      reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
     };
@@ -463,7 +465,7 @@ const AddAppointment = () => {
       .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
         console.log("Response", res?.data?.data);
-        setReportFiles({...reportPublicFiles,reportFile:res?.data?.data})
+        setReportFiles({ ...reportPublicFiles, reportFile: res?.data?.data });
       })
       .catch((err) => {
         console.log(err);
@@ -472,10 +474,10 @@ const AddAppointment = () => {
 
   const HandleGeneratePrivateReport = (value, type) => {
     const obj = {
-      title: "Private Report",
-      project: "1234",
-      case: "",
-      reportBy: "",
+      title: privatereportFiles?.reportTitle,
+      project: appData?.project,
+      case: appData?.caseNo,
+      reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
     };
@@ -486,7 +488,10 @@ const AddAppointment = () => {
       .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
         console.log("Response", res);
-        setPrivateReportFiles({...privatereportFiles,reportFile:res?.data?.data})
+        setPrivateReportFiles({
+          ...privatereportFiles,
+          reportFile: res?.data?.data,
+        });
       })
       .catch((err) => {
         console.log(err);
