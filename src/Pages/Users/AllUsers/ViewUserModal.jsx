@@ -18,6 +18,7 @@ import { useMutation, useQuery } from "react-query";
 import { useMediaQuery } from "@mantine/hooks";
 import Button from "../../../Components/Button";
 import DeleteModal from "../../../Components/DeleteModal";
+import { showNotification } from "@mantine/notifications";
 
 function ViewUserModal({
   setOpenViewModal,

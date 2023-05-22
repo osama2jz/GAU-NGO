@@ -462,7 +462,8 @@ const AddAppointment = () => {
     axios
       .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
-        console.log("Response", res);
+        console.log("Response", res?.data?.data);
+        setReportFiles({...reportPublicFiles,reportFile:res?.data?.data})
       })
       .catch((err) => {
         console.log(err);
@@ -485,6 +486,7 @@ const AddAppointment = () => {
       .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
         console.log("Response", res);
+        setPrivateReportFiles({...privatereportFiles,reportFile:res?.data?.data})
       })
       .catch((err) => {
         console.log(err);
@@ -561,10 +563,10 @@ const AddAppointment = () => {
         message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
-      await HandleGeneratePublicReport(editorr, "public");
-      await HandleGeneratePrivateReport(editorr2, "private");
-      await handleGeneratePDF(editorr, "public");
-      await handleGeneratePDF(editorr2, "private");
+      HandleGeneratePublicReport(editorr, "public");
+      HandleGeneratePrivateReport(editorr2, "private");
+      // await handleGeneratePDF(editorr, "public");
+      // await handleGeneratePDF(editorr2, "private");
     } catch (error) {
       console.log(error);
     }
