@@ -35,7 +35,7 @@ import Button from "../../../Components/Button";
 function PrivateReport() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user,translate } = useContext(UserContext);
+  const { user, translate } = useContext(UserContext);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [reportData, setReportData] = useState([]);
@@ -84,7 +84,7 @@ function PrivateReport() {
       numeric: false,
       disablePadding: true,
       label: "Role",
-      translate:true
+      translate: true,
     },
     {
       id: "date",
@@ -139,7 +139,8 @@ function PrivateReport() {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+            // file: obj?.reportFile,
             date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
           };
@@ -181,7 +182,8 @@ function PrivateReport() {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
             projectName: obj?.projectName,
@@ -301,7 +303,6 @@ function PrivateReport() {
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
             label={"Private Reports"}
-
           />
         )}
         {totalPages > 1 && (
@@ -326,28 +327,38 @@ function PrivateReport() {
             className={classes.avatar}
           />
 
-       
-
-          <Container w={"100%"} ml="md" >
+          <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs" mt={"md"}>
-            <Text className={classes.textheading}>{translate("Name")} </Text>
+              <Text className={classes.textheading}>{translate("Name")} </Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>{translate("Case #")} </Text>
+              <Text className={classes.textheading}>
+                {translate("Case #")}{" "}
+              </Text>
               <Text className={classes.textContent}>{reportData?.caseNo}</Text>
-              <Text className={classes.textheading}>{translate("Added By")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Added By")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
               <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{translate("Report File")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Report File")}
+              </Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
                   {translate(reportData?.type)} {translate("Report")}
                 </Anchor>
               ) : (
-                <Text className={classes.textContent}>{translate("No Report")}</Text>
+                <Text className={classes.textContent}>
+                  {translate("No Report")}
+                </Text>
               )}
-              <Text className={classes.textheading}>{translate("Report Type")}</Text>
-              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
+              <Text className={classes.textheading}>
+                {translate("Report Type")}
+              </Text>
+              <Text className={classes.textContent}>
+                {translate(reportData?.type)}
+              </Text>
 
               {/* <Text className={classes.textheading}>Report Type</Text>
               <Text className={classes.textContent}>{reportData?.type}</Text> */}

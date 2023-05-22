@@ -279,7 +279,7 @@ function ViewUser() {
           <Tabs.Tab value="4" onClick={() => setActiveTab(4)}>
             {translate("Primary Document")}
           </Tabs.Tab>
-          {(user.role === "Psychologist" || user.role === "ngoadmin" ) && formsData && (
+          {(user.role === "Psychologist" || user.role === "Admin" ) && formsData && (
             <Tabs.Tab value="5" onClick={() => setActiveTab(5)}>
               {translate("Forms")}
             </Tabs.Tab>

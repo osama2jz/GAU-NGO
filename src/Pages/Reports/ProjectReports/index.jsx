@@ -129,7 +129,8 @@ function ProjectReports() {
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: moment(obj?.addedDate).format("YYYY-MM-DD"),
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
             image: obj?.profileImage,
             type: obj.reportType === "private" ? "Private" : "Public",

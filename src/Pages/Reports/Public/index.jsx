@@ -139,7 +139,8 @@ function PublicReport() {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             comments: obj.comments,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             date: new moment(obj.addedDate).format("YYYY-MM-DD"),
             image: obj?.profileImage,
             projectName: obj?.projectName,

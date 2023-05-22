@@ -216,6 +216,23 @@ function ScheduledAppointments() {
     },
   ];
 
+  const headData=useMemo(()=>{
+    let arr=headerData
+    if(user.role==="Admin"){
+      arr.slice(2,0,{
+        
+          id: "appointmentWith",
+          numeric: false,
+          disablePadding: true,
+          label: "Appointment With",
+          translate: true,
+        
+      })
+      return arr
+    }
+
+  },[user])
+
   const filteredItems = useMemo(() => {
     let filtered = rowData?.filter((item) => {
       return (
@@ -291,7 +308,7 @@ function ScheduledAppointments() {
           </Grid.Col>
         </Grid>
         <Table
-          headCells={headerData}
+          headCells={headData}
           rowData={paginated}
           setViewModalState={setOpenViewModal}
           reportData={reportData}

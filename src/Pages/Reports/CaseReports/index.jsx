@@ -130,7 +130,8 @@ function CaseReport() {
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
             image: obj?.profileImage,
             type: obj.reportType === "private" ? "Private" : "Public",
