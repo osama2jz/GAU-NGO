@@ -460,7 +460,7 @@ const AddAppointment = () => {
     console.log("obj2", obj);
 
     axios
-      .post(`http://report.gauapp.es/api/case/generateReport/`, obj)
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
         console.log("Response", res);
       })
@@ -482,7 +482,7 @@ const AddAppointment = () => {
     console.log("obj", obj);
 
     axios
-      .post(`http://report.gauapp.es/api/case/generateReport/`, obj)
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
       .then((res) => {
         console.log("Response", res);
       })
