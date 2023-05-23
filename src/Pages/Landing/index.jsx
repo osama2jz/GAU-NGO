@@ -17,7 +17,7 @@ import { UserContext } from "../../contexts/UserContext";
 import Button from "../../Components/Button";
 import { Category } from "./Category";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { Mail, Phone } from "tabler-icons-react";
+import { Mail, MapPin, Phone } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 import { useNavigate } from "react-router";
 
@@ -59,7 +59,7 @@ const Landing = () => {
         <Flex
           justify={isMobile ? "space-between" : "center"}
           w={isMobile ? "100%" : "60%"}
-          style={{ margin: "auto", marginTop:'10px' }}
+          style={{ margin: "auto", marginTop: "10px" }}
         >
           <TopBox icon={"clock"} value={"50+"} text={"Cases"} color={"green"} />
           <TopBox
@@ -73,12 +73,21 @@ const Landing = () => {
       </Container>
       <Container fluid className={classes.g2}>
         <Flex direction={"column"} w={isMobile ? "100%" : "50%"}>
-          <Title order={2} align="center">{translate("Popular Help Categories")}</Title>
+          <Title order={2} align="center">
+            {translate("Popular Help Categories")}
+          </Title>
           <Text align="justify">
             {translate(
               "We are dedicated to improving lives and solving problems. Through our innovative programs and partnerships, we empower people and communities to create a better future. Whether it’s health, education, environment, or human rights, we tackle the issues that matter most."
             )}
           </Text>
+          <Button
+            label={"More About us"}
+            w={"200px"}
+            primary={true}
+            onClick={() => navigate(routeNames.general.aboutUs)}
+            styles={{ margin: "auto", marginTop: "20px" }}
+          />
         </Flex>
         <SimpleGrid cols={2}>
           <Category
@@ -138,14 +147,21 @@ const Landing = () => {
             )}
           </Text>
         </Flex>
-        <Divider orientation={isMobile ? "horizontal" : "vertical"} w={isMobile?"70%":''}/>
+        <Divider
+          orientation={isMobile ? "horizontal" : "vertical"}
+          w={isMobile ? "70%" : ""}
+        />
         <Flex direction={"column"} gap="sm">
+          <Title order={3}>{translate("Contact Us")}</Title>
           <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Mail /> gau@gmail.com
           </Text>
           <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Phone />
             +86-432-423443
+          </Text>
+          <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <MapPin /> Times Square, NewYork, USA
           </Text>
         </Flex>
       </Container>

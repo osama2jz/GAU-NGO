@@ -63,6 +63,8 @@ import { AddDictionary } from "./NGOAdminPages/Dictionary/AddDictionary/index.";
 import { ViewDictionary } from "./NGOAdminPages/Dictionary/ViewDictionary";
 import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointment/index";
 import Landing from "./Pages/Landing";
+import { AboutUs } from "./Pages/Landing/AboutUs";
+import { Donation } from "./Pages/Landing/Donation";
 
 function App() {
   return (
@@ -73,6 +75,8 @@ function App() {
     >
       <Routes>
         <Route path={routeNames.general.landing} element={<Landing />} />
+        <Route path={routeNames.general.aboutUs} element={<AboutUs />} />
+        <Route path={routeNames.general.donate} element={<Donation />} />
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />

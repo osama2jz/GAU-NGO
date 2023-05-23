@@ -8,6 +8,7 @@ import routeNames from "../../Routes/routeNames";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { Language } from "tabler-icons-react";
 
 export const LandingHeader = ({ opened, toggle }) => {
   const isMobile = useMediaQuery("(max-width: 820px)");
@@ -38,9 +39,15 @@ export const LandingHeader = ({ opened, toggle }) => {
       </Flex>
       {isMobile && <Burger opened={opened} onClick={toggle} />}
       <Flex gap={"md"} align={"center"} className={classes.navigationBar}>
-        <Link className={classes.link}>{translate("Home")}</Link>
-        {/* <Link className={classes.link}>{translate("Donation")}</Link> */}
-        <Link className={classes.link}>{translate("About Us")}</Link>
+        <Link className={classes.link} to={routeNames.general.landing}>
+          {translate("Home")}
+        </Link>
+        <Link className={classes.link} to={routeNames.general.donate}>
+          {translate("Donations")}
+        </Link>
+        <Link className={classes.link} to={routeNames.general.aboutUs}>
+          {translate("About Us")}
+        </Link>
         {!user?.role ? (
           <>
             <Button
