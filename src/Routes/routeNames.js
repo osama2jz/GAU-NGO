@@ -4,6 +4,8 @@ const routeNames = {
     auth: "/auth",
     login: "/auth/login",
     signup: "/auth/signup",
+    aboutUs: "/about-us",
+    donate: "/donation",
     verifyEmail: "/auth/verify-email",
     proSignup: "/auth/signup-professional",
     forgetPassword: "/auth/forget-password",

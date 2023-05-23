@@ -38,7 +38,7 @@ export const UserProvider = ({ children }) => {
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
-    ngoName:userData?.ngoId?.ngoName,
+    ngoName: userData?.ngoId?.ngoName,
     documents: [],
   });
   const value = { user, setUser, lang, translate };
@@ -98,11 +98,7 @@ export const UserProvider = ({ children }) => {
   const _ = useQuery(
     ["fetchDictionary", id],
     () => {
-      return axios.get(`${backendUrl + `/api/translation/list/${id}`}`, {
-        headers: {
-          "x-access-token": user.token,
-        },
-      });
+      return axios.get(`${backendUrl + `/api/translation/list/${id}`}`);
     },
     {
       onSuccess: (response) => {
