@@ -85,6 +85,15 @@ const MissingDocuments = () => {
                 ...doc,
                 status: doc.documentURL === "" ? true : false, // Add the desired status value
               })),
+              
+              refer: obj?.refered === true ? "Refered" : "New",
+              otherPersonName: obj?.otherUserName,
+              otherPersonImage: obj?.otherUserImage,
+              otherPersonMobile: obj?.otherUserMobile,
+              otherPersonId: obj?.otherUserId,
+              appointmentWithImage: obj?.appointmentWithImage,
+              branchAddress: obj?.branchAddress,
+              branchName: obj?.branchName,
             };
             return appointment;
           });
