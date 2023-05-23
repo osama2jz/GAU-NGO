@@ -1,11 +1,4 @@
-import {
-  Anchor,
-  Container,
-  Flex,
-  Grid,
-  SimpleGrid,
-  Text
-} from "@mantine/core";
+import { Anchor, Container, Flex, Grid, SimpleGrid, Text } from "@mantine/core";
 import axios from "axios";
 import moment from "moment";
 import { useContext, useState } from "react";
@@ -71,7 +64,7 @@ const UserPage = (props) => {
       numeric: false,
       disablePadding: true,
       label: "Role",
-      translate:true
+      translate: true,
     },
     {
       id: "date",
@@ -130,7 +123,8 @@ const UserPage = (props) => {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
             comments: obj?.comments,
           };
@@ -183,7 +177,8 @@ const UserPage = (props) => {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
 
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
@@ -230,7 +225,8 @@ const UserPage = (props) => {
                 : "Lawyer",
             type: obj.reportType === "private" ? "Private" : "Public",
             case: obj?.caseNo,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
 
             date: new moment(obj.addedDate).format("DD-MMM-YYYY"),
@@ -290,7 +286,7 @@ const UserPage = (props) => {
 
   return (
     <Container className={classes.main} size="lg">
-      <Flex justify="center" align="center" >
+      <Flex justify="center" align="center">
         <Anchor
           fz={12}
           fw="bolder"
@@ -300,11 +296,7 @@ const UserPage = (props) => {
           <ArrowNarrowLeft />
           <Text>{translate("Back")}</Text>
         </Anchor>
-        <ContainerHeader
-          label={"Reports"}
-          style={{ marginRight: "auto" }}
-        />
-      
+        <ContainerHeader label={"Reports"} style={{ marginRight: "auto" }} />
       </Flex>
       <Grid>
         {a.map((item, index) => (
@@ -346,15 +338,23 @@ const UserPage = (props) => {
         <Flex direction="column" align="center" justify={"space-between"}>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>{translate("User Name")}: </Text>
+              <Text className={classes.textheading}>
+                {translate("User Name")}:{" "}
+              </Text>
               <Text className={classes.textContent}>{reportData?.name}</Text>
-              <Text className={classes.textheading}>{translate("Case")} # </Text>
+              <Text className={classes.textheading}>
+                {translate("Case")} #{" "}
+              </Text>
               <Text className={classes.textContent}>{reportData?.caseNo}</Text>
-              <Text className={classes.textheading}>{translate("Added By")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Added By")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
               <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{translate("Report File")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Report File")}
+              </Text>
               <Anchor href={reportData?.file} target="_blank">
                 {reportData?.type} {translate("Report")}
               </Anchor>
@@ -367,9 +367,7 @@ const UserPage = (props) => {
             {translate("Report Comments")}
           </Text>
 
-          <Text align="justify">
-            {ReactHtmlParser(reportData?.comments)}
-          </Text>
+          <Text align="justify">{ReactHtmlParser(reportData?.comments)}</Text>
         </Container>
       </ViewModal>
     </Container>

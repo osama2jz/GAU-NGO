@@ -116,6 +116,8 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
+  
+
   const [otherDocument, setOtherDocument] = useState([]);
 
   //create case
@@ -452,6 +454,7 @@ const AddAppointment = () => {
   const HandleGeneratePublicReport = (value, type) => {
     const obj = {
       title: reportPublicFiles?.reportTitle,
+      type:"public",
       project: appData?.project,
       case: appData?.caseNo,
       reportBy: user?.name,
@@ -475,6 +478,7 @@ const AddAppointment = () => {
   const HandleGeneratePrivateReport = (value, type) => {
     const obj = {
       title: privatereportFiles?.reportTitle,
+      type:"private",
       project: appData?.project,
       case: appData?.caseNo,
       reportBy: user?.name,
