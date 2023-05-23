@@ -51,6 +51,7 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [verifyStatus, setVerifyStatus] = useState(false);
+  const [projects, setProjetcs] = useState([]);
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -122,6 +123,8 @@ const AddAppointment = () => {
   });
 
   const [otherDocument, setOtherDocument] = useState([]);
+
+  const Project = projects.filter((item) => item?.value === projectId);
 
   //create case
   const handleCreateCase = useMutation(
@@ -392,7 +395,9 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: translate("Please add public and private report for this appointment."),
+          message: translate(
+            "Please add public and private report for this appointment."
+          ),
           title: translate("Report Missing"),
         });
         return;
@@ -590,9 +595,10 @@ const AddAppointment = () => {
   const HandleGeneratePublicReport = (value, type) => {
     const obj = {
       title: reportPublicFiles?.reportTitle,
-      type:"public",
-      project: appData?.project,
-      case: appData?.caseNo,
+      type: "public",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
       reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
@@ -614,9 +620,10 @@ const AddAppointment = () => {
   const HandleGeneratePrivateReport = (value, type) => {
     const obj = {
       title: privatereportFiles?.reportTitle,
-      type:"private",
-      project: appData?.project,
-      case: appData?.caseNo,
+      type: "private",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
       reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
@@ -1016,6 +1023,8 @@ const AddAppointment = () => {
                 setVerifyStatus={setVerifyStatus}
                 fileLoader={fileLoader}
                 setFileLoader={setFileLoader}
+                projects={projects}
+                setProjects={setProjetcs}
               />
             </Stepper.Step>
             {user.role === "Psychologist" && (
@@ -1118,7 +1127,6 @@ const AddAppointment = () => {
                 />
               }
               label={`5. ${translate("Refer")}`}
-
             >
               <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
             </Stepper.Step>
@@ -1203,6 +1211,8 @@ const AddAppointment = () => {
                 setVerifyStatus={setVerifyStatus}
                 fileLoader={fileLoader}
                 setFileLoader={setFileLoader}
+                projects={projects}
+                setProjects={setProjetcs}
               />
             </Stepper.Step>
 

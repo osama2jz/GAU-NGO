@@ -59,7 +59,6 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       disablePadding: true,
       label: "Report Type",
       translate: true,
-
     },
     {
       id: "addedBy",
@@ -73,7 +72,6 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       disablePadding: true,
       label: "Role",
       translate: true,
-
     },
     {
       id: "date",
@@ -110,7 +108,8 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
             role:
               obj?.role === "lawyer"

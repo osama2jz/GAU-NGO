@@ -53,6 +53,9 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [age, setAge] = useState(19);
   const [fileLoader, setFileLoader] = useState(false);
+  const [projects, setProjetcs] = useState([]);
+
+  console.log(caseNo, "caseNo");
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -116,7 +119,14 @@ const AddAppointment = () => {
     createdBy: user.id,
   });
 
-  
+  // useEffect(() => {
+  //   // if (projectId) {
+  //   //   projects.includes
+  //   // }
+  // }, [projectId]);
+
+  const Project = projects.filter((item) => item?.value === projectId);
+  console.log("Project", Project);
 
   const [otherDocument, setOtherDocument] = useState([]);
 
@@ -454,9 +464,10 @@ const AddAppointment = () => {
   const HandleGeneratePublicReport = (value, type) => {
     const obj = {
       title: reportPublicFiles?.reportTitle,
-      type:"public",
-      project: appData?.project,
-      case: appData?.caseNo,
+      type: "public",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
       reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
@@ -478,9 +489,10 @@ const AddAppointment = () => {
   const HandleGeneratePrivateReport = (value, type) => {
     const obj = {
       title: privatereportFiles?.reportTitle,
-      type:"private",
-      project: appData?.project,
-      case: appData?.caseNo,
+      type: "private",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
       reportBy: user?.name,
       reportDate: moment(new Date()).format("YYYY-MM-DD"),
       htmlData: value.getHTML(),
@@ -637,6 +649,8 @@ const AddAppointment = () => {
               setVerifyStatus={setVerifyStatus}
               fileLoader={fileLoader}
               setFileLoader={setFileLoader}
+              projects={projects}
+              setProjects={setProjetcs}
             />
           </Stepper.Step>
           <Stepper.Step
