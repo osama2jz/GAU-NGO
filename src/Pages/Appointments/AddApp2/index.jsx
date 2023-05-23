@@ -586,6 +586,57 @@ const AddAppointment = () => {
       });
     });
   };
+
+  const HandleGeneratePublicReport = (value, type) => {
+    const obj = {
+      title: reportPublicFiles?.reportTitle,
+      type:"public",
+      project: appData?.project,
+      case: appData?.caseNo,
+      reportBy: user?.name,
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj2", obj);
+
+    axios
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res?.data?.data);
+        setReportFiles({ ...reportPublicFiles, reportFile: res?.data?.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const HandleGeneratePrivateReport = (value, type) => {
+    const obj = {
+      title: privatereportFiles?.reportTitle,
+      type:"private",
+      project: appData?.project,
+      case: appData?.caseNo,
+      reportBy: user?.name,
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj", obj);
+
+    axios
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res);
+        setPrivateReportFiles({
+          ...privatereportFiles,
+          reportFile: res?.data?.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   async function handleReports() {
     try {
       showNotification({
@@ -593,8 +644,8 @@ const AddAppointment = () => {
         message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
-      await handleGeneratePDF(editorr, "public");
-      await handleGeneratePDF(editorr2, "private");
+      HandleGeneratePublicReport(editorr, "public");
+      HandleGeneratePrivateReport(editorr2, "private");
     } catch (error) {
       console.log(error);
     }

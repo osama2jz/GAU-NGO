@@ -180,7 +180,7 @@ const Dashboard = () => {
 
       <Grid align={"center"} justify="center">
         {allCard.map((item, index) => (
-          <Grid.Col md={"auto"}>
+          <Grid.Col md={"auto"} key={index}>
             <Card data={item} />
           </Grid.Col>
         ))}
