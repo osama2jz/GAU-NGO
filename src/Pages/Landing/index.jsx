@@ -1,25 +1,24 @@
 import {
   Container,
-  Divider,
   Flex,
   SimpleGrid,
   Text,
-  Title,
+  Title
 } from "@mantine/core";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
+import Button from "../../Components/Button";
 import { LandingHeader } from "../../Components/LandingHeader";
-import { useStyles } from "./styles";
+import routeNames from "../../Routes/routeNames";
 import landingFG from "../../assets/landingFG.svg";
 import mem from "../../assets/mem.svg";
-import logo from "../../assets/Gau.png";
-import { TopBox } from "./TopBox";
-import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import Button from "../../Components/Button";
 import { Category } from "./Category";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { Mail, MapPin, Phone } from "tabler-icons-react";
-import routeNames from "../../Routes/routeNames";
-import { useNavigate } from "react-router";
+import { LandingFooter } from "./LandingFooter";
+import { Service } from "./Service";
+import { TopBox } from "./TopBox";
+import { useStyles } from "./styles";
 
 const Landing = () => {
   const { classes } = useStyles();
@@ -69,6 +68,31 @@ const Landing = () => {
             color={"blue"}
           />
           <TopBox icon={"globe"} value={"20+"} text={"Countries"} color="red" />
+        </Flex>
+      </Container>
+      <Container fluid className={classes.services}>
+        <Title order={2} align="center" mb="lg">
+          Our Services
+        </Title>
+        <Flex direction={"row"} justify={"space-evenly"}>
+          <Service
+            image={"s1"}
+            tag={"Food & Water"}
+            title="Collect Fund For Water & Food"
+            location={"Barcelona, Spain"}
+          />
+          <Service
+            image={"s2"}
+            tag={"Education"}
+            title="Collect Fund For Education"
+            location={"Barcelona, Spain"}
+          />
+          <Service
+            image={"s3"}
+            tag={"Home & Shelter"}
+            title="Collect Fund For Shelter"
+            location={"Barcelona, Spain"}
+          />
         </Flex>
       </Container>
       <Container fluid className={classes.g2}>
@@ -131,40 +155,9 @@ const Landing = () => {
             onClick={() => navigate(routeNames.general.signup)}
           />
         </Flex>
-        {!isMobile && <img src={mem} width={"600px"} />}
+        {!isMobile && <img src={mem} width={"600px"} alt="image"/>}
       </Container>
-      <Container className={classes.footer} fluid>
-        <Flex
-          direction={isMobile ? "column" : "row"}
-          align={"center"}
-          gap={"md"}
-          w={isMobile ? "100%" : "60%"}
-        >
-          <img src={logo} width={"100px"} />
-          <Text>
-            {translate(
-              "We are dedicated to improving lives and solving problems. Through our innovative programs and partnerships, we empower people and communities to create a better future."
-            )}
-          </Text>
-        </Flex>
-        <Divider
-          orientation={isMobile ? "horizontal" : "vertical"}
-          w={isMobile ? "70%" : ""}
-        />
-        <Flex direction={"column"} gap="sm">
-          <Title order={3}>{translate("Contact Us")}</Title>
-          <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Mail /> gau@gmail.com
-          </Text>
-          <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Phone />
-            +86-432-423443
-          </Text>
-          <Text style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <MapPin /> Times Square, NewYork, USA
-          </Text>
-        </Flex>
-      </Container>
+      <LandingFooter />
     </Container>
   );
 };
