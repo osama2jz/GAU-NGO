@@ -25,6 +25,7 @@ export const AgeFormAbove = ({ data }) => {
   useEffect(() => {
     if (data) {
       form.setValues(data);
+      form.setFieldValue("over18StartDate",new Date(data?.over18StartDate));
     }
   }, [data]);
 
@@ -329,6 +330,7 @@ export const AgeFormAbove = ({ data }) => {
               form={form}
               readOnly={true}
               validateName="over18StartDate"
+              
             />
             <InputField
               label="Duration Of Problem"
