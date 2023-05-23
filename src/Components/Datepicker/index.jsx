@@ -34,6 +34,7 @@ const Datepicker = ({
   minDate,
   disabled,
   value,
+  readOnly=false
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   const { translate } = useContext(UserContext);
@@ -61,6 +62,7 @@ const Datepicker = ({
       {...form?.getInputProps(validateName)}
       inputFormat={labelFormat}
       disabled={disabled}
+      readOnly={readOnly}
     />
   );
 };
