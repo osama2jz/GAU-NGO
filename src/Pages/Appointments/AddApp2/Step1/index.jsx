@@ -296,7 +296,7 @@ const Step1 = ({
           }
         });
         let newData = data.filter((item) => item !== undefined);
-        setProjetcs(newData);
+        setProjects(newData);
       },
     }
   );
