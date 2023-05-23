@@ -12,7 +12,7 @@ export const Service = ({ image, title, location, tag }) => {
   return (
     <Container className={classes.service}>
       <img
-        src={new URL(`../../assets/${image}.svg`, import.meta.url).href}
+        src={new URL(`../../assets/${image}.jpg`, import.meta.url).href}
         width={isMobile ? "60px" : "350px"}
       />
       <Badge size="lg" variant="filled" className={classes.tag}>{tag}</Badge>
