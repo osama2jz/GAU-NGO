@@ -64,6 +64,7 @@ function DownloadPdf({
     status: translate(person?.status),
     type: translate(person?.type),
     userType: translate(person?.userType),
+    
   }));
 
   const filteredDaily = data
@@ -77,6 +78,7 @@ function DownloadPdf({
       status: translate(person?.status),
       type: translate(person?.type),
       userType: translate(person?.userType),
+
     }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";

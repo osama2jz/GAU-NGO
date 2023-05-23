@@ -30,9 +30,9 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
   const [reports, setReport] = useState([]);
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search,setSearch]=useState("")
-  const [filter,setFilter]=useState("")
- 
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
+
   let headerData = [
     {
       id: "sr",
@@ -71,7 +71,6 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       disablePadding: true,
       label: "Role",
       translate: true,
-
     },
     {
       id: "date",
@@ -91,15 +90,11 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
     "userReports",
     () => {
       setLoading(true);
-      return axios.get(
-        backendUrl +
-          `/api/case/listReportsCaseNo/${caseNo}`,
-        {
-          headers: {
-            "x-access-token": usertoken?.token,
-          },
-        }
-      );
+      return axios.get(backendUrl + `/api/case/listReportsCaseNo/${caseNo}`, {
+        headers: {
+          "x-access-token": usertoken?.token,
+        },
+      });
     },
     {
       onSuccess: (response) => {
@@ -112,7 +107,8 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             case: obj?.caseNo,
             addedBy: obj?.addedBy,
             date: obj?.addedDate,
-            file: obj?.reportFile,
+            file: `http://report.gauapp.es/reports/${obj.reportFile}`,
+
             comments: obj?.comments,
             role:
               obj?.role === "lawyer"
@@ -129,15 +125,14 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
       },
       enabled: !!caseNo,
     }
-    
   );
 
-  const filtered=reports.filter((report)=>(
-    (report.name.toLowerCase().includes(search.toLowerCase()) ||
-    report.addedBy.toLowerCase().includes(search.toLowerCase())) &&
-    report?.role.toLowerCase().includes(filter.toLowerCase())
-  ))
-
+  const filtered = reports.filter(
+    (report) =>
+      (report.name.toLowerCase().includes(search.toLowerCase()) ||
+        report.addedBy.toLowerCase().includes(search.toLowerCase())) &&
+      report?.role.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <Container size="lg">
@@ -164,10 +159,15 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
         <Container p={"xs"} className={classes.innerContainer}>
           <Grid align={"center"} py="md">
             <Grid.Col sm={6}>
-              <InputField placeholder="Search By Professional Name" leftIcon="search" pb="0"
-              onChange={(e)=>{setSearch(e.target.value)}}
-              value={search}
-             />
+              <InputField
+                placeholder="Search By Professional Name"
+                leftIcon="search"
+                pb="0"
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                value={search}
+              />
             </Grid.Col>
             <Grid.Col sm={6}>
               <SelectMenu
@@ -177,7 +177,6 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
                   { label: "Social Worker", value: "socailworker" },
                   { label: "Psychologist", value: "psychologistng" },
                   { label: "Lawyer", value: "lawyer" },
-                 
                 ]}
                 setData={setFilter}
                 value={filter}
@@ -213,20 +212,28 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Text>
             <Container w={"100%"} ml="md">
               <SimpleGrid cols={2} spacing="xs">
-                <Text className={classes.textheading}>{translate("Case")} # </Text>
+                <Text className={classes.textheading}>
+                  {translate("Case")} #{" "}
+                </Text>
                 <Text className={classes.textContent}>{reportData?.case}</Text>
-                <Text className={classes.textheading}>{translate("Added By")}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Added By")}
+                </Text>
                 <Text className={classes.textContent}>
                   {reportData?.addedBy}
                 </Text>
                 <Text className={classes.textheading}>{translate("Date")}</Text>
                 <Text className={classes.textContent}>{reportData?.date}</Text>
-                <Text className={classes.textheading}>{translate("Report File")}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Report File")}
+                </Text>
                 <Anchor href={reportData?.file} target="_blank">
                   {reportData?.reportType} {translate("Report")}
                 </Anchor>
 
-                <Text className={classes.textheading}>{translate("Report Type")}</Text>
+                <Text className={classes.textheading}>
+                  {translate("Report Type")}
+                </Text>
                 <Text className={classes.textContent}>
                   {translate(reportData?.reportType)}
                 </Text>
@@ -234,7 +241,9 @@ const Step2 = ({ selectedUser, caseNo, caseId, setCaseId }) => {
             </Container>
           </Grid.Col>
         </Grid>
-        <Text className={classes.textheading}>{translate("Report Comments")}</Text>
+        <Text className={classes.textheading}>
+          {translate("Report Comments")}
+        </Text>
         <Text>{reportData?.comments}</Text>
       </ViewModal>
     </Container>

@@ -171,6 +171,15 @@ function CaseAppointments() {
             image: obj?.appointmentUserImage
               ? obj?.appointmentUserImage
               : userlogo,
+              refer: obj?.refered === true ? "Refered" : "New",
+            otherPersonName: obj?.otherUserName,
+            otherPersonImage: obj?.otherUserImage,
+            otherPersonMobile: obj?.otherUserMobile,
+            otherPersonId: obj?.otherUserId,
+            attachedDocuments: obj?.attachedDocuments,
+            appointmentWithImage: obj?.appointmentWithImage,
+            branchAddress: obj?.branchAddress,
+            branchName: obj?.branchName,
           };
           return appointment;
         });

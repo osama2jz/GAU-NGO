@@ -330,7 +330,7 @@ function PublicReport() {
               <Text className={classes.textheading}>{translate("Report File")}</Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
-                  {reportData?.type} Report
+                  {translate(reportData?.type)} Report
                 </Anchor>
               ) : (
                 <Text className={classes.textContent}>{translate("No Report")}</Text>

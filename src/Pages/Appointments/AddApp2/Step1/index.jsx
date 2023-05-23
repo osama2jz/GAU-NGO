@@ -54,6 +54,8 @@ const Step1 = ({
   setVerifyStatus,
   setFileLoader,
   fileLoader,
+  projects,
+  setProjects,
 }) => {
   const { state } = useLocation();
 
@@ -62,7 +64,6 @@ const Step1 = ({
   const [user, setUser] = useState();
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
-  const [projects, setProjetcs] = useState([]);
 
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
@@ -295,7 +296,7 @@ const Step1 = ({
           }
         });
         let newData = data.filter((item) => item !== undefined);
-        setProjetcs(newData);
+        setProjects(newData);
       },
     }
   );

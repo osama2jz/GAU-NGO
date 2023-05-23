@@ -32,6 +32,7 @@ import { useStyles } from "./styles";
 import jsPDF from "jspdf";
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
+import moment from "moment";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
@@ -51,6 +52,7 @@ const AddAppointment = () => {
   const [slot, setSlot] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [verifyStatus, setVerifyStatus] = useState(false);
+  const [projects, setProjetcs] = useState([]);
 
   //Camera Image
   const [img, setImg] = useState(null);
@@ -122,6 +124,8 @@ const AddAppointment = () => {
   });
 
   const [otherDocument, setOtherDocument] = useState([]);
+
+  const Project = projects.filter((item) => item?.value === projectId);
 
   //create case
   const handleCreateCase = useMutation(
@@ -392,7 +396,9 @@ const AddAppointment = () => {
       if (editorr?.getText() === "" || editorr2?.getText() === "") {
         showNotification({
           color: "red.0",
-          message: translate("Please add public and private report for this appointment."),
+          message: translate(
+            "Please add public and private report for this appointment."
+          ),
           title: translate("Report Missing"),
         });
         return;
@@ -586,6 +592,59 @@ const AddAppointment = () => {
       });
     });
   };
+
+  const HandleGeneratePublicReport = (value, type) => {
+    const obj = {
+      title: reportPublicFiles?.reportTitle,
+      type: "public",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
+      reportBy: user?.name,
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj2", obj);
+
+    axios
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res?.data?.data);
+        setReportFiles({ ...reportPublicFiles, reportFile: res?.data?.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const HandleGeneratePrivateReport = (value, type) => {
+    const obj = {
+      title: privatereportFiles?.reportTitle,
+      type: "private",
+      project:
+        appData?.project === "N/A" ? Project[0]?.label : appData?.project,
+      case: appData?.project === "N/A" ? caseNo : appData?.caseNo,
+      reportBy: user?.name,
+      reportDate: moment(new Date()).format("YYYY-MM-DD"),
+      htmlData: value.getHTML(),
+    };
+
+    console.log("obj", obj);
+
+    axios
+      .post(`https://report.gauapp.es/api/case/generateReport/`, obj)
+      .then((res) => {
+        console.log("Response", res);
+        setPrivateReportFiles({
+          ...privatereportFiles,
+          reportFile: res?.data?.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   async function handleReports() {
     try {
       showNotification({
@@ -593,8 +652,8 @@ const AddAppointment = () => {
         message: translate("Please wait while we generate reports for you."),
         color: "green.0",
       });
-      await handleGeneratePDF(editorr, "public");
-      await handleGeneratePDF(editorr2, "private");
+      HandleGeneratePublicReport(editorr, "public");
+      HandleGeneratePrivateReport(editorr2, "private");
     } catch (error) {
       console.log(error);
     }
@@ -965,6 +1024,8 @@ const AddAppointment = () => {
                 setVerifyStatus={setVerifyStatus}
                 fileLoader={fileLoader}
                 setFileLoader={setFileLoader}
+                projects={projects}
+                setProjects={setProjetcs}
               />
             </Stepper.Step>
             {user.role === "Psychologist" && (
@@ -1067,7 +1128,6 @@ const AddAppointment = () => {
                 />
               }
               label={`5. ${translate("Refer")}`}
-
             >
               <Step4 caseId={selectedCase} slot={slot} setSlot={setSlot} />
             </Stepper.Step>
@@ -1152,6 +1212,8 @@ const AddAppointment = () => {
                 setVerifyStatus={setVerifyStatus}
                 fileLoader={fileLoader}
                 setFileLoader={setFileLoader}
+                projects={projects}
+                setProjects={setProjetcs}
               />
             </Stepper.Step>
 
