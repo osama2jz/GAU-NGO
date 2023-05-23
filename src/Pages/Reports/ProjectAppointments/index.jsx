@@ -68,7 +68,7 @@ function ProjectAppointments() {
       numeric: false,
       disablePadding: true,
       label: "Role",
-      translate:true
+      translate: true,
     },
     {
       id: "date",
@@ -153,6 +153,16 @@ function ProjectAppointments() {
             image: obj?.appointmentUserImage
               ? obj?.appointmentUserImage
               : userlogo,
+
+            refer: obj?.refered === true ? "Refered" : "New",
+            otherPersonName: obj?.otherUserName,
+            otherPersonImage: obj?.otherUserImage,
+            otherPersonMobile: obj?.otherUserMobile,
+            otherPersonId: obj?.otherUserId,
+            attachedDocuments: obj?.attachedDocuments,
+            appointmentWithImage: obj?.appointmentWithImage,
+            branchAddress: obj?.branchAddress,
+            branchName: obj?.branchName,
           };
           return appointment;
         });
@@ -249,7 +259,6 @@ function ProjectAppointments() {
             setViewModalState={setOpenViewModal}
             setEditIDApp={true}
             title="Project Appointments"
-
           />
         )}
         {totalPages > 1 && (
@@ -279,23 +288,35 @@ function ProjectAppointments() {
           </Text>
           <Container w={"100%"} ml="md">
             <SimpleGrid cols={2} spacing="xs">
-              <Text className={classes.textheading}>{translate("Case")} # </Text>
+              <Text className={classes.textheading}>
+                {translate("Case")} #{" "}
+              </Text>
               <Text className={classes.textContent}>{reportData?.case}</Text>
-              <Text className={classes.textheading}>{translate("Added By")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Added By")}
+              </Text>
               <Text className={classes.textContent}>{reportData?.addedBy}</Text>
               <Text className={classes.textheading}>{translate("Date")}</Text>
               <Text className={classes.textContent}>{reportData?.date}</Text>
-              <Text className={classes.textheading}>{translate("Report File")}</Text>
+              <Text className={classes.textheading}>
+                {translate("Report File")}
+              </Text>
               {reportData?.file ? (
                 <Anchor href={reportData?.file} target="_blank">
                   {translate(reportData?.type)} {translate("Report")}
                 </Anchor>
               ) : (
-                <Text className={classes.textContent}>{translate("No Report")}</Text>
+                <Text className={classes.textContent}>
+                  {translate("No Report")}
+                </Text>
               )}
 
-              <Text className={classes.textheading}>{translate("Report Type")}</Text>
-              <Text className={classes.textContent}>{translate(reportData?.type)}</Text>
+              <Text className={classes.textheading}>
+                {translate("Report Type")}
+              </Text>
+              <Text className={classes.textContent}>
+                {translate(reportData?.type)}
+              </Text>
             </SimpleGrid>
           </Container>
         </Flex>

@@ -32,6 +32,7 @@ import { useStyles } from "./styles";
 import jsPDF from "jspdf";
 import { useEffect } from "react";
 import { useForm } from "@mantine/form";
+import moment from "moment";
 
 const AddAppointment = () => {
   const { classes } = useStyles();
