@@ -36,8 +36,8 @@ export default function Chart({ data = [] }) {
       className={classes.chartcard}
     >
       <Text size={18} weight={700} color={"gray"}>
-          {moment(today).format("DD")} {translate(moment(today).format("MMMM"))}{" "}
-          {translate("Schedule")}
+           {translate(moment(today).format("MMMM"))}{" "}
+         
         </Text>
       <ResponsiveContainer width={"100%"} height={250}>
         <LineChart

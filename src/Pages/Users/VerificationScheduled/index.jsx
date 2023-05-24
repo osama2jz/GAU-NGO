@@ -36,6 +36,8 @@ const VerificationScheduled = () => {
   const [statusChangeId, setStatusChangeId] = useState("");
   const [reportData, setReportData] = useState([]);
 
+  console.log("user", user.role==="Admin");
+
   let headerData = [
     {
       id: "sr",
@@ -94,6 +96,22 @@ const VerificationScheduled = () => {
     },
   ];
 
+  const newData=useMemo(()=>{
+    let arr=headerData
+    if(user.role==="Admin"){
+   
+      headerData.splice(2,0,{
+        id: "appointmentWithName",
+        numeric: false,
+        disablePadding: true,
+        label: translate("Appointment With"),
+
+      })
+      arr=headerData
+    }
+    return arr
+  },[user])
+
   //API call for fetching all users
   const { data, status } = useQuery(
     ["fetchUserforVerification"],
@@ -128,6 +146,7 @@ const VerificationScheduled = () => {
             phone: obj.phoneNumber,
             image: obj?.profileImage,
             appointmentId: obj?.appointmentId,
+            appointmentWithName: obj?.appointmentWithName,
           };
           return user;
         });
@@ -239,7 +258,7 @@ const VerificationScheduled = () => {
           </Grid.Col>
           <Grid.Col sm={3} ml="auto">
             <DownloadPdf
-              headCells={headerData}
+              headCells={newData}
               data={filteredItems}
               label={"Scheduled Users"}
               title={"Scheduled Users"}
@@ -250,7 +269,7 @@ const VerificationScheduled = () => {
           <Loader />
         ) : (
           <Table
-            headCells={headerData}
+            headCells={newData}
             rowData={paginated}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
