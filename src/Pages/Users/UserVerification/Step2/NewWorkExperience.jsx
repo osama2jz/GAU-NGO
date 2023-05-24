@@ -14,8 +14,7 @@ function NewWorkModal({
   editData,
   setEditData,
 }) {
-  console.log("work", workExperience)
-  const {translate} = useContext(UserContext);
+  const { translate } = useContext(UserContext);
   const { classes } = useStyles();
   useEffect(() => {
     if (editData) {
@@ -29,20 +28,23 @@ function NewWorkModal({
       contract: "",
       enterprise: "",
       duration: "",
-      endDate: "",
-      startDate: "",
-      noOfYears:"",
+      endDate: null,
+      startDate: null,
+      noOfYears: "",
     },
     validate: {
-      position: (value) => (value.length < 1 ? translate("Please enter name") : null),
-      contract: (value) => (value?.length < 1 ? translate("Please enter contract") : null),
+      position: (value) =>
+        value.length < 1 ? translate("Please enter name") : null,
+      contract: (value) =>
+        value?.length < 1 ? translate("Please enter contract") : null,
       enterprise: (value) =>
         value?.length < 1 ? translate("Please enter enterprise") : null,
-      duration: (value) => (value?.length < 1 ? translate("Please enter duration") : null),
-      endDate: (value) => (value?.length < 1 ? translate("Please enter endDate") : null),
+      duration: (value) =>
+        value?.length < 1 ? translate("Please enter duration") : null,
+      endDate: (value) => (!value ? translate("Please enter End Date") : null),
       startDate: (value) =>
-        value?.length < 1 ? translate("Please enter startDate") : null,
-        noOfYears: (value) =>
+        !value ? translate("Please enter Start Date") : null,
+      noOfYears: (value) =>
         value?.length < 1 || value?.length > 2
           ? translate("Please enter year")
           : null,
@@ -58,12 +60,10 @@ function NewWorkModal({
       values.startDate = moment(values.startDate).format("DD-MM-YYYY");
       workExperience[index] = values;
       setWorkExperience([...workExperience]);
-     
+
       setOpenModal(false);
       form.reset();
       setEditData("");
-      console.log("hello")
-
     } else {
       values.id = workExperience.length + 1;
       values.endDate = moment(values.endDate).format("DD-MM-YYYY");
@@ -73,7 +73,7 @@ function NewWorkModal({
       setOpenModal(false);
     }
   };
-
+  console.log(form.errors);
   return (
     <Container>
       <form
@@ -117,18 +117,21 @@ function NewWorkModal({
         <Datepicker
           placeholder="Start Date"
           label="Start Date"
+          required={true}
           maxDate={new Date()}
           className={classes.input}
-          {...form?.getInputProps("startDate")}
+          form={form}
+          validateName="startDate"
         />
         <Datepicker
           label="End Date"
-          // disabled={form.values.startDate === ""}
           placeholder="End Date"
+          required={true}
           className={classes.input}
           maxDate={new Date()}
+          form={form}
           minDate={new Date(form.values.startDate)}
-          {...form?.getInputProps("endDate")}
+          validateName="endDate"
         />
         <Group position="right" mt="md">
           <Button

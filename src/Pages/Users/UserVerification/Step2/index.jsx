@@ -283,7 +283,13 @@ export const Step2 = ({
   };
 
   const submitAll = (values) => {
-    if (refrences.length === 0) {
+    if (!form.values.documentURL) {
+      showNotification({
+        title: translate("Error"),
+        message: translate("Please Upload Identity Document"),
+        color: "red.0",
+      });
+    } else if (refrences.length === 0) {
       showNotification({
         title: translate("Add Professional References"),
         message: translate("Please add Professional references"),
@@ -361,7 +367,6 @@ export const Step2 = ({
             form={form}
             validateName="dateOfBirth"
             maxDate={new Date()}
-            
           />
           {/* <InputField
             label="Age"
@@ -450,6 +455,8 @@ export const Step2 = ({
             })}
             icon={<FileUpload size={20} color="green" />}
             onChange={(e) => handleFileInput(e)}
+            required={true}
+            // {...form.getInputProps("documentURL")}
           />
         </Group>
 
@@ -459,7 +466,9 @@ export const Step2 = ({
             {translate("Studies and Training")}*
           </Text>
           {trainingStudies.length < 1 && (
-            <Text color="red" align="center">{translate("Required")}</Text>
+            <Text color="red" align="center">
+              {translate("Required")}
+            </Text>
           )}
           <Group position="right">
             <Button
@@ -522,7 +531,9 @@ export const Step2 = ({
             {translate("Work Experience")}*
           </Text>
           {workExperience.length < 1 && (
-            <Text color="red" align="center">{translate("Required")}</Text>
+            <Text color="red" align="center">
+              {translate("Required")}
+            </Text>
           )}
           <Group position="right">
             <Button
@@ -636,8 +647,10 @@ export const Step2 = ({
           {translate("Professional References")}*
         </Text>
         {refrences.length < 1 && (
-            <Text color="red" align="center">{translate("Required")}</Text>
-          )}
+          <Text color="red" align="center">
+            {translate("Required")}
+          </Text>
+        )}
         <Group position="right">
           <Button
             label={"Add New"}
