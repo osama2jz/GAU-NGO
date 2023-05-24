@@ -604,7 +604,7 @@ export const Step2 = ({
             <InputField
               label="Aids or Bonuses"
               required={true}
-              // type={"number"}
+              type={"number"}
               placeholder="€€"
               form={form}
               validateName="aidsBonuses"
@@ -621,7 +621,7 @@ export const Step2 = ({
               label="Housing"
               required={true}
               placeholder="€€"
-              // type={"number"}
+              type={"number"}
               form={form}
               validateName="housing"
             />

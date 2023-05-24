@@ -83,10 +83,10 @@ function AllAppointments() {
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
               reportData: obj?.reports?.map((obj) => {
-                 return{
+                return {
                   ...obj,
-                  reportFile:`http://report.gauapp.es/reports/${obj.reportFile}`
-                 }
+                  reportFile: `http://report.gauapp.es/reports/${obj.reportFile}`,
+                };
               }),
               image: obj?.appointmentUserImage,
               refer: obj?.refered === true ? "Refered" : "New",
@@ -108,7 +108,7 @@ function AllAppointments() {
     }
   );
 
-  console.log(rowData, "rowdata")
+  console.log(rowData, "rowdata");
 
   let headerData = [
     {
@@ -170,7 +170,7 @@ function AllAppointments() {
       id: "refer",
       numeric: false,
       disablePadding: true,
-      label: "Refered",
+      label: "Type",
       translate: true,
     },
     {
