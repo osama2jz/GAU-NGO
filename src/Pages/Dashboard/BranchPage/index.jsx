@@ -126,6 +126,8 @@ const BranchPage = (props) => {
             image: obj?.branchPicture ? obj?.branchPicture : ngoDefault,
             branchPointOfContact: obj?.branchPointOfContact,
             branchEmail: obj?.branchEmail,
+            branchStartTime: obj?.branchStartTime,
+            branchEndTime: obj?.branchEndTime,
             branchContact: obj?.branchContact,
           };
           return branch;

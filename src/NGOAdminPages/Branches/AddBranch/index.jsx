@@ -54,8 +54,8 @@ export const AddBranch = () => {
       branchContact: "",
       branchEmail: "",
       branchPointOfContact: "",
-      branchStartTime: null,
-      branchEndTime: null,
+      branchStartTime: "",
+      branchEndTime: "",
     },
 
     validate: {
@@ -87,6 +87,7 @@ export const AddBranch = () => {
           ? translate("Please Select start time before 20:00.")
           : null,
       branchEndTime: (value, values) =>
+        value?.length < 1 ||
         moment(value).diff(
           moment(values?.branchStartTime),
           translate("minutes")
