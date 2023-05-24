@@ -61,11 +61,13 @@ const AddAppointment = () => {
   let age = parseInt(
     selectedUser?.data?.data?.userConsentForm?.personalInformation?.age
   );
-  let FirstTimeForm =
-    selectedUser?.data?.data?.under18Form ||
-    selectedUser?.data?.data?.over18Form
-      ? false
-      : true;
+  
+
+  let FirstTimeForm = 
+  selectedUser?.data?.data?.under18Form ||
+  selectedUser?.data?.data?.over18Form
+    ? false
+    : true;
   //Face Io
   const [faceID, setFaceId] = useState({});
 
@@ -771,8 +773,15 @@ const AddAppointment = () => {
       under18Number: (value) =>
         value.length < 1 ? translate("Please enter your Number") : null,
       under18Age: (value) =>
-        value.length < 1 ? translate("Please enter your Age") : null,
-
+        !/^\d{1,3}$/.test(value) ? translate("Please enter valid Age") : null,
+      under18ParentalAge: (value) =>
+        !/^\d{1,3}$/.test(value) ? translate("Please enter valid Age") : null,
+      under18SiblingsAge: (value) =>
+        !/^\d{1,3}$/.test(value) ? translate("Please enter valid Age") : null,
+      under18Duration: (value) =>
+        !/^\d{1,3}$/.test(value)
+          ? translate("Please enter valid duration")
+          : null,
       under18Sex: (value) =>
         value.length < 1 ? translate("Please enter sex") : null,
       under18SchoolCourse: (value) =>
@@ -897,7 +906,7 @@ const AddAppointment = () => {
       over18Number: (value) =>
         value.length < 1 ? translate("Please enter your Number") : null,
       over18Age: (value) =>
-        value.length < 1 ? translate("Please enter your Age") : null,
+        !/^\d{1,3}$/.test(value) ? translate("Please enter valid Age") : null,
       over18Sex: (value) =>
         value.length < 1 ? translate("Please enter sex") : null,
       over18MaritalStatus: (value) =>
@@ -918,6 +927,18 @@ const AddAppointment = () => {
         value.length < 1 ? translate("Please enter Children") : null,
       over18Informant: (value) =>
         value.length < 1 ? translate("Please enter Informant") : null,
+      over18MotherAge: (value) =>
+        /^\d{1,3}$/.test(value) ? null : "Please enter valid age",
+      over18FatherAge: (value) =>
+        /^\d{1,3}$/.test(value) ? null : "Please enter valid age",
+
+      over18CoupleAge: (value) =>
+        /^\d{1,3}$/.test(value) ? null : "Please enter valid age",
+      over18ChildrenAge: (value) =>
+        /^\d{1,3}$/.test(value) ? null : "Please enter valid age",
+
+      over18Duration: (value) =>
+        /^\d{1,3}$/.test(value) ? null : "Please enter valid duration",
     },
   });
 

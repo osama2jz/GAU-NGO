@@ -924,10 +924,7 @@ export const AgeForm = ({ data }) => {
             />
           </SimpleGrid>
         </Card>
-        <Group position="center" mt="xl">
-          <Button onClick={() => setActive(active - 1)} label="Back" />
-          <Button label={"Save & Next"} primary={true} type="submit" />
-        </Group>
+       
       </form>
     </Container>
   );
