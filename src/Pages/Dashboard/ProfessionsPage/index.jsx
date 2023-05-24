@@ -181,18 +181,7 @@ const ProfessionPage = (props) => {
       disablePadding: true,
       label: "Registration Date",
     },
-    {
-      id: "status",
-      numeric: false,
-      disablePadding: true,
-      label: "User Status",
-    },
-    {
-      id: "userVerify",
-      numeric: false,
-      disablePadding: true,
-      label: "Verify",
-    },
+    
     {
       id: "accStatus",
       numeric: false,

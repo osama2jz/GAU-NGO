@@ -160,7 +160,7 @@ export const ViewBranches = () => {
         });
         setOpenDeleteModal(false);
         queryClient.invalidateQueries("fetchBranches");
-        setDeleteID("")
+        setDeleteID("");
       },
       onError: (res) => {
         showNotification({
@@ -249,7 +249,7 @@ export const ViewBranches = () => {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={3} md={3} >
             <Button
               label={"Add Branch"}
               bg={true}
@@ -258,16 +258,16 @@ export const ViewBranches = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
             />
           </Grid.Col>
-          <Grid.Col>
+          <Grid.Col style={{marginLeft:"auto"}}>
             <DownloadPdf
-            headCells={headerData}
-            data={filteredItem}
-            title="Branches"
-            label={"Branches"}
-
+              headCells={headerData}
+              data={filteredItem}
+              title="Branches"
+              label={"Branches"}
             />
           </Grid.Col>
         </Grid>
+      
         {status == "loading" ? (
           <Loader />
         ) : (

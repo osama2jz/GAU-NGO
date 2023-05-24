@@ -23,6 +23,7 @@ export const useStyles = createStyles((theme) => ({
     borderRadius: "5px",
     width: "130px",
     marginLeft: "auto",
+    marginRight: "-30px",
     ':hover':{
       cursor:'pointer',
       border:`1px solid ${theme.colors.primary}`

@@ -19,6 +19,8 @@ function NewWorkModal({
   useEffect(() => {
     if (editData) {
       form.setValues(editData);
+      form.setFieldValue("startDate", new Date(editData.startDate));
+      form.setFieldValue("endDate", new Date(editData.endDate));
     }
   }, [editData]);
   const form = useForm({
@@ -113,6 +115,7 @@ function NewWorkModal({
           placeholder="duration"
           form={form}
           validateName="duration"
+          
         />
         <Datepicker
           placeholder="Start Date"
