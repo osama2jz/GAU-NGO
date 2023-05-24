@@ -193,7 +193,7 @@ function ScheduledAppointments() {
       id: "refer",
       numeric: false,
       disablePadding: true,
-      label: "Refered",
+      label: "Type",
       translate: true,
     },
     {
