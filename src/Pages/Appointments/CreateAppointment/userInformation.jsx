@@ -55,10 +55,11 @@ export const UserInfo = ({ userData, loading }) => {
         {data.map((obj) => {
           return (
             <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"10px"}>
-              <Text fz={matches?16:15} fw={"bold"}>
+              <Text fz={matches?16:15} fw={"bold"} >
                 {translate(obj.key)}
               </Text>
-              <Text opacity={"40%"} fz={matches?16:15} fw={"bold"} ml="20px">
+              <Text opacity={"40%"} fz={matches?16:14} fw={"bold"} ml="20px" w={"70%"} align="right" 
+              style={{"wordBreak":"break-all"}}>
                 {obj.value}
               </Text>
             </Flex>

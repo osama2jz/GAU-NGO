@@ -247,7 +247,9 @@ const Step1 = ({
           {userFetching === "loading" ? (
             <Loader minHeight="40px" />
           ) : selectedUser ? (
+            
             <UserInfo userData={selectedUser} loading={userFetching} />
+          
           ) : (
             ""
           )}

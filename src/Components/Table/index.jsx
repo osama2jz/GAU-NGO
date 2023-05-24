@@ -245,7 +245,8 @@ const Table = ({
                             head.id === "refer" ||
                             head.id === "reply" ||
                             head.id === "branchName" ||
-                            head.id === "branchAddress"
+                            head.id === "branchAddress" ||
+                            head.id === "appointmentWithName"
                           ? "auto"
                           : "130px",
                     }}
