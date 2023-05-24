@@ -34,7 +34,7 @@ const Datepicker = ({
   minDate,
   disabled,
   value,
-  readOnly=false
+  readOnly = false,
 }) => {
   const { classes, cx } = useStyles({ borderWhite });
   const { translate } = useContext(UserContext);

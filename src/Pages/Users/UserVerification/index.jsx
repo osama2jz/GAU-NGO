@@ -38,7 +38,6 @@ export const UserVerification = () => {
   const [userdata, setUserData] = useState("");
   const [img, setImg] = useState(null);
   const [fileLoader, setFileLoader] = useState(false);
-  
 
   let { state } = useLocation();
 
@@ -48,14 +47,12 @@ export const UserVerification = () => {
   useEffect(() => {
     if (id) {
       setUserId(id);
- 
     }
   }, [id]);
 
   const _ = useQuery(
     "fetchUsertoEditData",
     () => {
-  
       return axios.get(`${backendUrl + `/api/user/listSingleUser/${editId}`}`, {
         headers: {
           "x-access-token": user.token,
@@ -165,7 +162,6 @@ export const UserVerification = () => {
         let workData =
           response?.data?.data?.userConsentForm?.workExperience.map(
             (item, index) => {
-             
               return {
                 id: item._id,
                 contract: item.contract,
@@ -177,7 +173,7 @@ export const UserVerification = () => {
               };
             }
           );
-       
+
         setWorkExperience(workData);
 
         // setWorkExperience(
@@ -207,13 +203,13 @@ export const UserVerification = () => {
   const handleNextSubmit = async () => {
     if (active == 0) {
       if (userid) {
-        if(img===null && !editId){
+        if (img === null && !editId) {
           showNotification({
             title: translate("Error"),
             message: translate("Please Attach Face Id"),
             color: "red.0",
           });
-          return
+          return;
         }
         setActive(active + 1);
       } else {
@@ -223,9 +219,7 @@ export const UserVerification = () => {
           color: "red.0",
         });
       }
-    } 
-    
-    else if (active == 2) {
+    } else if (active == 2) {
       if (sigCanvas.current.isEmpty()) {
         showNotification({
           title: translate("Error"),
@@ -249,8 +243,7 @@ export const UserVerification = () => {
       }
     }
   };
-
-const handleVerifyUser = useMutation(
+  const handleVerifyUser = useMutation(
     (url) => {
       let a = moment(moment()).diff(form.values.dateOfBirth, "years");
 
@@ -293,7 +286,7 @@ const handleVerifyUser = useMutation(
           workExperience: workExperience,
           consentSignatures: consentSignature,
           agreementSignatures: url,
-          userImage:img
+          userImage: img,
         },
       };
       return axios.post(`${backendUrl + "/api/ngo/verify"}`, values, {
@@ -341,7 +334,7 @@ const handleVerifyUser = useMutation(
       city: "",
       demand: "",
       documentType: "passport",
-      documentURL: "",
+      documentURL: null,
 
       //Economic Situation
       revenue: "",
@@ -357,24 +350,36 @@ const handleVerifyUser = useMutation(
       socioFamily: "",
 
       //Discrimination/Violence
-      typeId: "",
+      typeId: "63efbebc1c787a29844dd61c",
       discriminationVoilenceValue: "",
     },
     validate: {
       dateOfBirth: (value) =>
-        value?.length < 1 ? translate("Please enter your date of Birth") : null,
-      passport: (value) => (value?.length < 1 ? translate("Please enter passport") : null),
+        !value ? translate("Please enter your date of Birth") : null,
+      passport: (value) =>
+        value?.length < 1 ? translate("Please enter passport") : null,
       nationality: (value) =>
         value?.length < 1 ? translate("Please enter nationality") : null,
-      country: (value) => (value?.length < 1 ? translate("Please enter Country") : null),
-      address: (value) => (value?.length < 1 ? translate("Please enter Adress") : null),
-      city: (value) => (value?.length < 1 ? translate("Please enter City") : null),
-      revenue: (value) => (value?.length < 1 ? translate("Please enter revenue") : null),
-      expenses: (value) => (value?.length < 1 ? translate("Please enter expenses") : null),
+      country: (value) =>
+        value?.length < 1 ? translate("Please enter Country") : null,
+      address: (value) =>
+        value?.length < 1 ? translate("Please enter Adress") : null,
+      city: (value) =>
+        value?.length < 1 ? translate("Please enter City") : null,
+      revenue: (value) =>
+        value?.length < 1 ? translate("Please enter revenue") : null,
+      expenses: (value) =>
+        value?.length < 1 ? translate("Please enter expenses") : null,
       aidsBonuses: (value) =>
         value?.length < 1 ? translate("Please enter Aids or Bonuses") : null,
-      debt: (value) => (value?.length < 1 ? translate("Please enter debt"): null),
-      housing: (value) => (value?.length < 1 ? translate("Please enter housing") : null),
+      debt: (value) =>
+        value?.length < 1 ? translate("Please enter debt") : null,
+      housing: (value) =>
+        value?.length < 1 ? translate("Please enter housing") : null,
+      documentURL: (value) =>
+        value?.length < 1 ? translate("Please Upload document") : null,
+      typeId: (value) =>
+        value?.length < 1 ? translate("Please select type") : null,
     },
   });
   return (

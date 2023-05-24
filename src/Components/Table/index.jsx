@@ -246,7 +246,9 @@ const Table = ({
                             head.id === "reply" ||
                             head.id === "branchName" ||
                             head.id === "branchAddress" ||
-                            head.id === "appointmentWithName"
+                            head.id === "appointmentWithName" ||
+                            head.id === "complementaryTraining" ||
+                            head.id === "completionYear"
                           ? "auto"
                           : "130px",
                     }}
