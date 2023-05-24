@@ -54,6 +54,12 @@ const AddAppointment = () => {
   const [verifyStatus, setVerifyStatus] = useState(false);
   const [projects, setProjetcs] = useState([]);
 
+  console.log(selectedUser?.data?.data?.phoneNumber, "selectedUser");
+  console.log(
+    selectedUser?.data?.data?.userConsentForm?.personalInformation?.age,
+    "selectedUser"
+  );
+
   //Camera Image
   const [img, setImg] = useState(null);
   const [verifyimg, setVerifyImg] = useState(null);
@@ -61,13 +67,12 @@ const AddAppointment = () => {
   let age = parseInt(
     selectedUser?.data?.data?.userConsentForm?.personalInformation?.age
   );
-  
 
-  let FirstTimeForm = 
-  selectedUser?.data?.data?.under18Form ||
-  selectedUser?.data?.data?.over18Form
-    ? false
-    : true;
+  let FirstTimeForm =
+    selectedUser?.data?.data?.under18Form ||
+    selectedUser?.data?.data?.over18Form
+      ? false
+      : true;
   //Face Io
   const [faceID, setFaceId] = useState({});
 
@@ -109,6 +114,11 @@ const AddAppointment = () => {
     content: "",
   });
 
+  useEffect(() => {
+    age < 18
+      ? form.setFieldValue("under18Age", age)
+      : form.setFieldValue("over18Age", age);
+  }, [age]);
   const [reportPublicFiles, setReportFiles] = useState({
     reportTitle: "",
     reportComments: "",
@@ -771,7 +781,7 @@ const AddAppointment = () => {
     },
     validate: {
       under18Number: (value) =>
-        value.length < 1 ? translate("Please enter your Number") : null,
+        value?.length < 1 ? translate("Please enter your Number") : null,
       under18Age: (value) =>
         !/^\d{1,3}$/.test(value) ? translate("Please enter valid Age") : null,
       under18ParentalAge: (value) =>
@@ -1068,6 +1078,7 @@ const AddAppointment = () => {
                     active={active}
                     form={form1}
                     submit={addMedicalFormAbove18.mutate}
+                    selectedUser={selectedUser}
                   />
                 ) : (
                   <AgeForm
@@ -1075,6 +1086,7 @@ const AddAppointment = () => {
                     active={active}
                     form={form}
                     submit={addMedicalFormUnder18.mutate}
+                    selectedUser={selectedUser}
                   />
                 )}
               </Stepper.Step>

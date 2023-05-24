@@ -87,6 +87,8 @@ function NewWorkModal({
           placeholder="position"
           form={form}
           validateName="position"
+          required={true}
+
         />
         <InputField
           label="Job Type"
