@@ -305,7 +305,7 @@ export const AddBranch = () => {
               <InputField
                 label="Point Of Contact"
                 required={true}
-                placeholder=" Point Of Contact"
+                placeholder="Point Of Contact"
                 form={form}
                 validateName="branchPointOfContact"
               />
