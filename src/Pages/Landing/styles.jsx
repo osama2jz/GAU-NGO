@@ -10,11 +10,36 @@ export const useStyles = createStyles((theme) => ({
     backgroundSize: "cover",
     backgroundImage: `url(${landingBg})`,
     color: "white",
-    
+
     [`@media (max-width: 820px)`]: {
       backgroundPosition: "right",
       marginBottom: "20px",
     },
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+    fontSize:'12px',
+    whiteSpace:'nowrap'
+  },
+  service: {
+    position:'relative',
+    border: "1px solid rgb(0,0,0,0.2)",
+    padding: "10px",
+    borderRadius: "10px",
+    boxShadow: "5px 5px 15px rgb(0,0,0,0.2)",
+    "&:hover": {
+      cursor: "pointer",
+      boxShadow: "5px 5px 5px #E8E8E8",
+    },
+  },
+  tag: {
+    position: "absolute",
+    right:15,
+    top:15
+  },
+  services: {
+    marginBottom: "70px",
   },
   box: {
     display: "flex",
@@ -91,7 +116,7 @@ export const useStyles = createStyles((theme) => ({
     [`@media (max-width: 820px)`]: {
       flexDirection: "column",
       gap: "20px",
-      paddingTop: "70px",
+      paddingTop: "90px",
     },
   },
 }));
