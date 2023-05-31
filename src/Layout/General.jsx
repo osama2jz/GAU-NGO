@@ -18,6 +18,7 @@ import { socialSideBarData } from "../Components/Sidebar/SocialWorkerData";
 import { UserSidebarData } from "../Components/Sidebar/UserSidebarData";
 import { UserContext } from "../contexts/UserContext";
 import routeNames from "../Routes/routeNames";
+import { SuperAdminSiderbarData } from "../Components/Sidebar/SuperAdminSiderbarData";
 
 const Layout = () => {
   const theme = useMantineTheme();
@@ -37,7 +38,9 @@ const Layout = () => {
       (user?.role == "Psychologist" &&
         Object.values(routeNames.pysch).includes(location.pathname)) ||
       (user?.role == "User" &&
-        Object.values(routeNames.user).includes(location.pathname))
+        Object.values(routeNames.user).includes(location.pathname)) ||
+      (user.role == "Super Admin" &&
+        Object.values(routeNames.superAdmin).includes(location.pathname))
     ) {
       return true;
     } else {
@@ -75,6 +78,8 @@ const Layout = () => {
                 ? ngoAdminSideBarData
                 : user.role === "User"
                 ? UserSidebarData
+                : user.role === "Super Admin"
+                ? SuperAdminSiderbarData
                 : []
             }
             setOpened={setOpened}

@@ -65,6 +65,8 @@ import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointme
 import Landing from "./Pages/Landing";
 import { AboutUs } from "./Pages/Landing/AboutUs";
 import { Donation } from "./Pages/Landing/Donation";
+import AddNgo from "./SuperAdmin/NGO/AddNgo";
+import AllNgo from "./SuperAdmin/NGO/AllNgo";
 
 function App() {
   return (
@@ -320,6 +322,9 @@ function App() {
             element={<UserVerificationAppointment />}
           />
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
+          <Route path={routeNames.superAdmin.addNgo} element={<AddNgo />} />
+          <Route path={routeNames.superAdmin.allNgo} element={<AllNgo />} />
+          <Route path={routeNames.superAdmin.editNgo} element={<AddNgo/>}/>
         </Route>
 
         <Route

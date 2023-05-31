@@ -43,6 +43,7 @@ const Table = ({
   setEditBranch,
   setEditProfessional,
   setOpenEditModal,
+  setEditNgo,
   title = "",
   ...props
 }) => {
@@ -375,6 +376,14 @@ const Table = ({
                                   state: {
                                     editData: row,
                                   },
+                                });
+                                return;
+                              }
+                              if(setEditNgo){
+                                navigate(`/edit-ngo`,{
+                                  state:{
+                                    editData:row
+                                  }
                                 });
                                 return;
                               }

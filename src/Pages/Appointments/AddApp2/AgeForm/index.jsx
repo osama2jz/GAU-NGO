@@ -154,7 +154,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit,selectedUse
         </Card>
 
         {/* Mother's Details */}
-        <Card mt="sm">
+        {/* <Card mt="sm">
           <Text className={classes.subHeading}>{translate("Mother’s Details")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
@@ -195,7 +195,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit,selectedUse
               validateName="diseases"
             />
           </SimpleGrid>
-        </Card>
+        </Card> */}
 
         {/* Siblings Details */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>

@@ -69,10 +69,10 @@ const AddAppointment = () => {
   );
 
   let FirstTimeForm =
-    selectedUser?.data?.data?.under18Form ||
-    selectedUser?.data?.data?.over18Form
-      ? false
-      : true;
+  selectedUser?.data?.data?.under18Form ||
+  selectedUser?.data?.data?.over18Form
+    ? false
+    : true;
   //Face Io
   const [faceID, setFaceId] = useState({});
 
@@ -810,7 +810,9 @@ const AddAppointment = () => {
       over18Age: "",
       over18Sex: "",
       over18MaritalStatus: "",
+
       over18Profession: "",
+
       over18Studies: "",
       over18Address: "",
       over18Origin: "",

@@ -24,6 +24,8 @@ export const AgeForm = ({ data }) => {
   useEffect(() => {
     if (data) {
       form.setValues(data);
+      form.setFieldValue("under18StartDate",new Date(data?.under18StartDate));
+
     }
   }, [data]);
 
@@ -279,7 +281,7 @@ export const AgeForm = ({ data }) => {
         </Card>
 
         {/* Mother's Details */}
-        <Card mt="sm">
+        {/* <Card mt="sm">
           <Text className={classes.subHeading}>
             {translate("Mother’s Details")}
           </Text>
@@ -326,7 +328,7 @@ export const AgeForm = ({ data }) => {
               validateName="diseases"
             />
           </SimpleGrid>
-        </Card>
+        </Card> */}
 
         {/* Siblings Details */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>

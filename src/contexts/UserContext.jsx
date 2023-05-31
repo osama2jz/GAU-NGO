@@ -35,6 +35,8 @@ export const UserProvider = ({ children }) => {
         ? "Admin"
         : userData?.userType === "user"
         ? "User"
+        : userData?.userType === "admin"
+        ? "Super Admin"
         : "",
     profileImage: userData?.profileImage,
     token: userData?.token,
