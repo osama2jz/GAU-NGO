@@ -32,7 +32,8 @@ const MissingDocuments = () => {
     "fetchAllAppointmentsData",
     () => {
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments/all`}`,
+        `${backendUrl + `/api/appointment/listUserAppointments/all/0/0
+        `}`,
         {
           headers: {
             "x-access-token": user.token,

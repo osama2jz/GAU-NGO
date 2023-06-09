@@ -50,7 +50,7 @@ function ScheduledAppointments() {
     "fetchAppointmentsData",
     () => {
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments/scheduled`}`,
+        `${backendUrl + `/api/appointment/listUserAppointments/scheduled/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,

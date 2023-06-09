@@ -46,7 +46,7 @@ const UserPage = (props) => {
     ["fetchAllUser"],
     () => {
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments/all`}`,
+        `${backendUrl + `/api/appointment/listUserAppointments/all/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -91,7 +91,7 @@ const UserPage = (props) => {
     () => {
       setLoading(true);
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments` + url}`,
+        `${backendUrl + `/api/appointment/listUserAppointments` + url+`/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -106,7 +106,8 @@ const UserPage = (props) => {
             id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
-            caseNo: obj?.caseNo,
+            caseNo: obj?.caseNo ? obj?.caseNo :"N/A",
+
             name: obj?.appointmentUser,
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
@@ -138,7 +139,7 @@ const UserPage = (props) => {
       setLoading(true);
       setPage(1);
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments` + url}`,
+        `${backendUrl + `/api/appointment/listUserAppointments` + url+`/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -153,7 +154,7 @@ const UserPage = (props) => {
             id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
-            caseNo: obj?.caseNo,
+            caseNo: obj?.caseNo ? obj?.caseNo :"N/A",
             name: obj?.appointmentUser,
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
@@ -184,7 +185,7 @@ const UserPage = (props) => {
     () => {
       setLoading(true);
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments` + url}`,
+        `${backendUrl + `/api/appointment/listUserAppointments` + url+`/0/0`}`,
         {
           headers: {
             "x-access-token": user.token,
@@ -199,7 +200,8 @@ const UserPage = (props) => {
             id: obj.appointmentId,
             sr: ind + 1,
             caseName: "N/A",
-            caseNo: obj?.caseNo,
+            caseNo: obj?.caseNo ? obj?.caseNo :"N/A",
+
             name: obj?.appointmentUser,
             email: "N/A",
             status: obj?.appointmentStatus?.toUpperCase(),
