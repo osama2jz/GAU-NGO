@@ -89,7 +89,7 @@ export const ViewComplains = () => {
     () => {
       return axios.get(
         `${
-          backendUrl + `/api/complaints/listComplaints`
+          backendUrl + `/api/complaints/listComplaints/0/0`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {

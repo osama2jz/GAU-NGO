@@ -110,7 +110,7 @@ const AddProject = () => {
                 icon={<CalendarEvent size={16} />}
                 labelFormat={"DD/MM/YYYY"}
                 form={form}
-                maxDate={new Date(form.values.endDate)}
+                // maxDate={new Date(form.values.endDate)}
                 // value={form.values.startDate}
                 validateName="startDate"
               />

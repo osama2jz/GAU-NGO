@@ -96,11 +96,11 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchBranches"],
+    ["fetchBranches",activePage],
     () => {
       return axios.get(
         `${
-          backendUrl + `/api/ngo/listAllBranches`
+          backendUrl + `/api/ngo/listAllBranches/${activePage}/10`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -191,8 +191,8 @@ export const ViewBranches = () => {
         );
     });
 
-    setPage(1);
-    setTotalPages(Math.ceil(filtered?.length / 10));
+    // setPage(1);
+    // setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered?.map((item, ind) => {
       return {
         ...item,
@@ -203,14 +203,14 @@ export const ViewBranches = () => {
     // return filtered;
   }, [rowData, search, filter]);
 
-  const Paginated = useMemo(() => {
-    if (activePage === 1) {
-      return filteredItem?.slice(0, 10);
-    } else {
-      let a = (activePage - 1) * 10;
-      return filteredItem?.slice(a, a + 10);
-    }
-  }, [activePage, filteredItem]);
+  // const Paginated = useMemo(() => {
+  //   if (activePage === 1) {
+  //     return filteredItem?.slice(0, 10);
+  //   } else {
+  //     let a = (activePage - 1) * 10;
+  //     return filteredItem?.slice(a, a + 10);
+  //   }
+  // }, [activePage, filteredItem]);
 
   return (
     <Container className={classes.addUser} size="xl">
@@ -273,7 +273,7 @@ export const ViewBranches = () => {
         ) : (
           <Table
             headCells={headerData}
-            rowData={Paginated}
+            rowData={filteredItem}
             setViewModalState={setOpenViewModal}
             setViewModalData={setViewModalData}
             onStatusChange={handleChangeStatus.mutate}
