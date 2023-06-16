@@ -56,13 +56,13 @@ const ProfessionalSignup = () => {
       ngoId: (value) =>
         value?.length < 1 ? translate("Please select NGO") : null,
       firstName: (value) =>
-        /^[a-zA-Z ]{2,15}$/.test(value)
+        /^[a-zA-Z ]{2,50}$/.test(value)
           ? null
-          : translate("Please enter first name between 2 to 15 characters."),
+          : translate("Please enter first name between 2 to 50 characters."),
       lastName: (value) =>
-        /^[a-zA-Z ]{2,15}$/.test(value)
+        /^[a-zA-Z ]{2,50}$/.test(value)
           ? null
-          : translate("Please enter last name between 2 to 15 characters"),
+          : translate("Please enter last name between 2 to 50 characters"),
 
       email: (value) =>
         /^\S+@\S+$/.test(value)

@@ -44,7 +44,7 @@ const AddProject = () => {
 
     validate: {
       projectName: (value) =>
-        /^[a-zA-Z0-9-_* ]{2,50}$/.test(value)
+        /^[a-zA-Z0-9-_* ]{2,80}$/.test(value)
           ? null
           : translate("Please enter a valid project name."),
       description: (value) =>
@@ -101,7 +101,7 @@ const AddProject = () => {
             form={form}
             validateName="projectName"
             required={"true"}
-            maxLength={50}
+            maxLength={90}
           />
           <Grid>
             <Grid.Col sm={6}>
