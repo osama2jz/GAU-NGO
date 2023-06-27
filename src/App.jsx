@@ -62,7 +62,7 @@ import ProjectAppointments from "./Pages/Reports/ProjectAppointments";
 import { AddDictionary } from "./NGOAdminPages/Dictionary/AddDictionary/index.";
 import { ViewDictionary } from "./NGOAdminPages/Dictionary/ViewDictionary";
 import UserVerificationAppointment from "./Pages/Users/UserVerificationAppointment/index";
-import Landing from "./Pages/Landing";
+import Landingv2 from "./Pages/Landingv2";
 import { AboutUs } from "./Pages/Landing/AboutUs";
 import { Donation } from "./Pages/Landing/Donation";
 
@@ -74,9 +74,9 @@ function App() {
       style={{ marginTop: "60px" }}
     >
       <Routes>
-        <Route path={routeNames.general.landing} element={<Landing />} />
-        <Route path={routeNames.general.aboutUs} element={<AboutUs />} />
-        <Route path={routeNames.general.donate} element={<Donation />} />
+        <Route path={routeNames.general.landing} element={<Landingv2 />} />
+        {/* <Route path={routeNames.general.aboutUs} element={<AboutUs />} />
+        <Route path={routeNames.general.donate} element={<Donation />} /> */}
         <Route path={routeNames.general.auth} element={<Auth />}>
           <Route path={routeNames.general.login} element={<Login />} />
           <Route path={routeNames.general.signup} element={<Signup />} />
