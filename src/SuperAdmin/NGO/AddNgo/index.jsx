@@ -29,8 +29,8 @@ import Timepicker from "../../../Components/Timepicker";
 import { useStyles } from "./styles";
 import InputMask from "react-input-mask";
 import moment from "moment";
-
-export const AddBranch = () => {
+import PassInput from "../../../Components/PassInput";
+const index = () => {
   const { classes } = useStyles();
 
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ export const AddBranch = () => {
 
   let { state } = useLocation();
   const { editData } = state ?? "";
+  console.log("editDta", editData);
   const isUpdate = editData ? true : false;
 
   //create a new data with time 00:00:00 and add the editData.branchStartTime to it
@@ -47,52 +48,55 @@ export const AddBranch = () => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
-      branchName: "",
-      branchLocation: "",
-      branchDescription: "",
-      branchPicture: null,
-      branchContact: "",
-      branchEmail: "",
-      branchPointOfContact: "",
-      branchStartTime: "",
-      branchEndTime: "",
+      ngoName: "",
+      ngoLocation: "",
+      ngoDescription: "",
+      ngoPicture: null,
+      ngoContact: "",
+      ngoEmail: "",
+      ngoPointOfContact: "",
+      password: "",
+      confirmPassword: "",
     },
 
     validate: {
-      branchName: (value) =>
-        /^\w.{2,40}$/.test(value)
-          ? null
-          : translate("Please enter valid branch name."),
-      branchLocation: (value) =>
-        value?.length < 2
-          ? translate("Please enter last branch address")
-          : null,
-      branchDescription: (value) =>
-        value?.length < 4 ? translate("Please enter branch Description") : null,
+      ngoName: (value) =>
+        /^\w.{2,40}$/.test(value) ? null : translate("Please enter Ngo name"),
+      ngoLocation: (value) =>
+        value?.length < 2 ? translate("Please enter Ngo address") : null,
+      ngoDescription: (value) =>
+        value?.length < 4 ? translate("Please enter Ngo Description") : null,
 
-      branchContact: (value) =>
+      ngoContact: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
           ? null
           : translate("Please enter Phone Number"),
-      branchEmail: (value) =>
+      ngoEmail: (value) =>
         /^\S+@\S+$/.test(value)
           ? null
           : translate("Please Enter a valid email"),
-      branchPointOfContact: (value) =>
+      ngoPointOfContact: (value) =>
         /^\w.{3,16}$/.test(value)
           ? null
           : translate("Please enter Point of Contact"),
-      branchStartTime: (value) =>
-        value?.length < 1 || moment(value).hours() > 20
-          ? translate("Please Select start time before 20:00.")
-          : null,
-      branchEndTime: (value, values) =>
-        value?.length < 1 ||
-        moment(value).diff(
-          moment(values?.branchStartTime),
-          translate("minutes")
-        ) < 240
-          ? translate("End Time must be 4 hours ahead of Start time")
+      password: (value) =>
+        editData ||
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(
+          value
+        ) ? null : (
+          <ul>
+            {translate("Password must contain 8 to 15 characters with")}
+            <li>{translate("At least one captial alphabet.")}</li>
+            <li>{translate("At least one small alphabet.")}</li>
+            <li>
+              {translate("At least one digit and one special character.")}
+            </li>
+            <li>{translate("at least one special character.")}</li>
+          </ul>
+        ),
+      confirmPassword: (value, values) =>
+        value !== values?.password
+          ? translate("Passwords did not match")
           : null,
     },
   });
@@ -127,8 +131,8 @@ export const AddBranch = () => {
 
   const handleAddBranch = useMutation(
     (values) => {
-      if (values.branchPicture === null) {
-        setUploadError(translate("Please upload the Branch Photo"));
+      if (values?.ngoPicture === null) {
+        setUploadError(translate("Please upload the Ngo Photo"));
       } else {
         if (isUpdate) {
           values = { ...values, branchId: editData?.id };
@@ -231,10 +235,9 @@ export const AddBranch = () => {
       }
     });
   };
-
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={isUpdate ? "Edit Branch" : "Add Branch"} />
+      <ContainerHeader label={isUpdate ? "Edit NGO" : "Add NGO"} />
 
       <form
         className={classes.form}
@@ -280,20 +283,20 @@ export const AddBranch = () => {
           <Grid>
             <Grid.Col sm={form.values.userType === "user" ? 12 : 6}>
               <InputField
-                label="Branch Name"
+                label="NGO Name"
                 required={true}
-                placeholder="Branch Name"
+                placeholder="NGO Name"
                 form={form}
-                validateName="branchName"
+                validateName="ngoName"
               />
             </Grid.Col>
             <Grid.Col sm={6}>
               <InputField
-                label="Branch Email"
+                label="Ngo Email"
                 required={true}
-                placeholder="Branch Email"
+                placeholder="Ngo Email"
                 form={form}
-                validateName="branchEmail"
+                validateName="ngoEmail"
               />
             </Grid.Col>
 
@@ -303,18 +306,18 @@ export const AddBranch = () => {
                 required={true}
                 placeholder="Point Of Contact"
                 form={form}
-                validateName="branchPointOfContact"
+                validateName="ngoPointOfContact"
               />
             </Grid.Col>
             <Grid.Col sm={6}>
               <InputField
-                label="Branch Contact"
+                label="Ngo Contact"
                 required={true}
                 placeholder="+34 -- ---- ---"
                 component={InputMask}
                 mask="+34 99 9999 999"
                 form={form}
-                validateName="branchContact"
+                validateName="ngoContact"
               />
             </Grid.Col>
           </Grid>
@@ -322,47 +325,52 @@ export const AddBranch = () => {
           <Grid>
             <Grid.Col sm={12}>
               <InputField
-                label="Branch Address"
+                label="Ngo Address"
                 required={true}
-                placeholder="Branch Address"
+                placeholder="Ngo Address"
                 form={form}
-                validateName="branchLocation"
+                validateName="ngoLocation"
               />
             </Grid.Col>
           </Grid>
-          <Grid>
-            <Grid.Col sm={6}>
-              <Timepicker
-                label="Start Time"
-                required={true}
-                placeholder="Start Time"
-                form={form}
-                validateName="branchStartTime"
-              />
-            </Grid.Col>
-            <Grid.Col sm={6}>
-              <Timepicker
-                label="End Time"
-                required={true}
-                placeholder="End Time"
-                form={form}
-                validateName="branchEndTime"
-              />
-            </Grid.Col>
-          </Grid>
+
+          {!editData && (
+            <Grid>
+              <Grid.Col sm={6}>
+                <PassInput
+                  label="Password"
+                  required={true}
+                  placeholder="*******"
+                  form={form}
+                  validateName="password"
+                />
+              </Grid.Col>
+
+              <Grid.Col sm={6}>
+                <PassInput
+                  label="Confirm Password"
+                  required={true}
+                  placeholder="*******"
+                  form={form}
+                  validateName="confirmPassword"
+                />
+              </Grid.Col>
+            </Grid>
+          )}
+
           <TextArea
-            placeholder={"Branch Details"}
+            placeholder={"Ngo Details"}
             label="Description"
             rows="2"
             form={form}
             required={true}
-            validateName="branchDescription"
+            validateName="ngoDescription"
           />
           <Group position="right" mt="sm">
             <Button label="Cancel" onClick={() => navigate(-1)} />
 
             <Button
-              label={isUpdate ? "Update" : "Add Branch"}
+              label={isUpdate ? "Update" : "Add Ngo"}
               leftIcon={isUpdate ? "" : "plus"}
               primary={true}
               type="submit"
@@ -374,3 +382,5 @@ export const AddBranch = () => {
     </Container>
   );
 };
+
+export default index;

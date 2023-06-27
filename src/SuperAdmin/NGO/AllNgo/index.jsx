@@ -1,3 +1,4 @@
+import React from 'react'
 import { Container, Grid, useMantineTheme } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -21,10 +22,10 @@ import routeNames from "../../../Routes/routeNames";
 import DownloadPdf from "../../../Pages/Reports/downloadPdf";
 
 import { useStyles } from "./styles";
-import ViewBranchModal from "./ViewBranchModal";
+import ViewNgoModal from "./ViewNgoModal" 
 import moment from "moment";
 
-export const ViewBranches = () => {
+const index = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -96,11 +97,11 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchBranches",activePage],
+    ["fetchBranches"],
     () => {
       return axios.get(
         `${
-          backendUrl + `/api/ngo/listAllBranches/${activePage}/10`
+          backendUrl + `/api/ngo/listAllBranches`
           // `/api/ngo/listAllBranches/${activePage}/10/${filter}/${search}`
         }`,
         {
@@ -191,8 +192,8 @@ export const ViewBranches = () => {
         );
     });
 
-    // setPage(1);
-    // setTotalPages(Math.ceil(filtered?.length / 10));
+    setPage(1);
+    setTotalPages(Math.ceil(filtered?.length / 10));
     const a = filtered?.map((item, ind) => {
       return {
         ...item,
@@ -203,112 +204,113 @@ export const ViewBranches = () => {
     // return filtered;
   }, [rowData, search, filter]);
 
-  // const Paginated = useMemo(() => {
-  //   if (activePage === 1) {
-  //     return filteredItem?.slice(0, 10);
-  //   } else {
-  //     let a = (activePage - 1) * 10;
-  //     return filteredItem?.slice(a, a + 10);
-  //   }
-  // }, [activePage, filteredItem]);
-
+  const Paginated = useMemo(() => {
+    if (activePage === 1) {
+      return filteredItem?.slice(0, 10);
+    } else {
+      let a = (activePage - 1) * 10;
+      return filteredItem?.slice(a, a + 10);
+    }
+  }, [activePage, filteredItem]);
   return (
     <Container className={classes.addUser} size="xl">
-      <ContainerHeader label={"View Branches"} />
+    <ContainerHeader label={"View NGOs"} />
 
-      <Container className={classes.innerContainer} size="xl">
-        <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
-            <InputField
-              placeholder="Search"
-              leftIcon="search"
-              pb="0"
-              value={search}
-              onChange={(v) => setSearch(v.target.value)}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3}>
-            <SelectMenu
-              placeholder="Filter by Status"
-              pb="0px"
-              value={filter}
-              setData={setFilter}
-              data={[
-                { label: "All", value: "" },
-                { label: "Active", value: "active" },
-                { label: "InActive", value: "inactive" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
-            <Button
-              label={"Clear Filters"}
-              onClick={() => {
-                setFilter("");
-                setSearch("");
-              }}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} >
-            <Button
-              label={"Add Branch"}
-              bg={true}
-              leftIcon={"plus"}
-              styles={{ float: "right" }}
-              onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
-            />
-          </Grid.Col>
-          <Grid.Col style={{marginLeft:"auto"}}>
-            <DownloadPdf
-              headCells={headerData}
-              data={filteredItem}
-              title="Branches"
-              label={"Branches"}
-            />
-          </Grid.Col>
-        </Grid>
-      
-        {status == "loading" ? (
-          <Loader />
-        ) : (
-          <Table
+    <Container className={classes.innerContainer} size="xl">
+      <Grid align={"center"} py="md">
+        <Grid.Col sm={5} lg={5} md={6}>
+          <InputField
+            placeholder="Search"
+            leftIcon="search"
+            pb="0"
+            value={search}
+            onChange={(v) => setSearch(v.target.value)}
+          />
+        </Grid.Col>
+        <Grid.Col sm={6} lg={3} md={3}>
+          <SelectMenu
+            placeholder="Filter by Status"
+            pb="0px"
+            value={filter}
+            setData={setFilter}
+            data={[
+              { label: "All", value: "" },
+              { label: "Active", value: "active" },
+              { label: "InActive", value: "inactive" },
+            ]}
+          />
+        </Grid.Col>
+        <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Button
+            label={"Clear Filters"}
+            onClick={() => {
+              setFilter("");
+              setSearch("");
+            }}
+          />
+        </Grid.Col>
+        <Grid.Col sm={6} lg={3} md={3} >
+          <Button
+            label={"Add Branch"}
+            bg={true}
+            leftIcon={"plus"}
+            styles={{ float: "right" }}
+            onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
+          />
+        </Grid.Col>
+        <Grid.Col style={{marginLeft:"auto"}}>
+          <DownloadPdf
             headCells={headerData}
-            rowData={filteredItem}
-            setViewModalState={setOpenViewModal}
-            setViewModalData={setViewModalData}
-            onStatusChange={handleChangeStatus.mutate}
-            setDeleteData={setDeleteID}
-            setDeleteModalState={setOpenDeleteModal}
-            setReportData={setBranchData}
-            setEditBranch={true}
-            title={"Branches"}
+            data={filteredItem}
+            title="Branches"
+            label={"Branches"}
           />
-        )}
-        {totalPages > 1 && (
-          <Pagination
-            activePage={activePage}
-            setPage={setPage}
-            total={totalPages}
-            radius="xl"
-          />
-        )}
-      </Container>
-      <DeleteModal
-        opened={openDeleteModal}
-        setOpened={setOpenDeleteModal}
-        onCancel={() => setOpenDeleteModal(false)}
-        onDelete={handleDeleted}
-        loading={handleChangeStatus.isLoading}
-        label={translate("Are you Sure?")}
-        message="Do you really want to delete these records? This process cannot be undone."
-      />
-      <ViewModal
-        opened={openViewModal}
-        setOpened={setOpenViewModal}
-        title="Branch Details"
-      >
-        <ViewBranchModal id={viewModalData} reportData={BranchData} />
-      </ViewModal>
+        </Grid.Col>
+      </Grid>
+    
+      {status == "loading" ? (
+        <Loader />
+      ) : (
+        <Table
+          headCells={headerData}
+          rowData={Paginated}
+          setViewModalState={setOpenViewModal}
+          setViewModalData={setViewModalData}
+          onStatusChange={handleChangeStatus.mutate}
+          setDeleteData={setDeleteID}
+          setDeleteModalState={setOpenDeleteModal}
+          setReportData={setBranchData}
+          setEditNgo={true}
+          title={"Branches"}
+        />
+      )}
+      {totalPages > 1 && (
+        <Pagination
+          activePage={activePage}
+          setPage={setPage}
+          total={totalPages}
+          radius="xl"
+        />
+      )}
     </Container>
-  );
-};
+    <DeleteModal
+      opened={openDeleteModal}
+      setOpened={setOpenDeleteModal}
+      onCancel={() => setOpenDeleteModal(false)}
+      onDelete={handleDeleted}
+      loading={handleChangeStatus.isLoading}
+      label={translate("Are you Sure?")}
+      message="Do you really want to delete these records? This process cannot be undone."
+    />
+    <ViewModal
+      opened={openViewModal}
+      setOpened={setOpenViewModal}
+      title="NGO Details"
+    >
+      <ViewNgoModal id={viewModalData} reportData={BranchData} />
+    </ViewModal>
+  </Container>
+  )
+}
+
+export default index

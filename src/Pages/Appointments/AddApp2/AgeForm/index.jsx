@@ -7,7 +7,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../../Components/Button";
 import InputField from "../../../../Components/InputField";
 import TextArea from "../../../../Components/TextArea";
@@ -17,9 +17,15 @@ import Datepicker from "../../../../Components/Datepicker";
 import { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContext";
 
-export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
+export const AgeForm = ({ setActive, active, setAlldata, form,submit,selectedUser }) => {
   const { classes } = useStyles();
   const {translate}=useContext(UserContext)
+  console.log("No",selectedUser?.data?.data?.phoneNumber)
+  useEffect(() => {
+    if(selectedUser){
+      form.setFieldValue("over18Number",selectedUser?.number)
+    }
+   },[selectedUser])
 
   // console.log(form.values)
   // const submitAll = (values) => {
@@ -55,6 +61,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
               mask="+34 99 9999 999"
               form={form}
               validateName="under18Number"
+              
             />
             <InputField
               label="Age"
@@ -62,6 +69,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
               placeholder="Age"
               form={form}
               validateName="under18Age"
+              
             />
             <InputField
               label="Sex"
@@ -146,7 +154,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
         </Card>
 
         {/* Mother's Details */}
-        <Card mt="sm">
+        {/* <Card mt="sm">
           <Text className={classes.subHeading}>{translate("Mother’s Details")}</Text>
           <Divider color="#C8C8C8" mt="md" mb="md" />
           <SimpleGrid
@@ -187,7 +195,7 @@ export const AgeForm = ({ setActive, active, setAlldata, form,submit }) => {
               validateName="diseases"
             />
           </SimpleGrid>
-        </Card>
+        </Card> */}
 
         {/* Siblings Details */}
         <Card mt="xl" shadow="sm" padding="lg" radius="md" withBorder>

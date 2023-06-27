@@ -164,12 +164,13 @@ export const UserVerification = () => {
             (item, index) => {
               return {
                 id: item._id,
-                contract: item.contract,
-                position: item.position,
-                startDate: moment(item.startDate).format("YYYY-MM-DD"),
-                endDate: moment(item.endDate).format("YYYY-MM-DD"),
-                enterprise: item.enterprise,
-                duration: item.duration,
+                contract: item?.contract,
+                position: item?.position,
+                startDate: moment(item?.startDate).format("YYYY-MM-DD"),
+                endDate: moment(item?.endDate).format("YYYY-MM-DD"),
+                enterprise: item?.enterprise,
+                duration: item?.duration,
+                noOfYears:item?.noOfYears
               };
             }
           );

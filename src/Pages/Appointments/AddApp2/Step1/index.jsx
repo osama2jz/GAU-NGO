@@ -65,6 +65,7 @@ const Step1 = ({
   const [cases, setCases] = useState([]);
   const [userData, setUserData] = useState([]);
 
+
   // const { id, appId } = useParams();
   const [showCamera, setShowCamera] = useState(false);
   const [verifyCamera, setVerifyCamera] = useState(false);
@@ -271,7 +272,7 @@ const Step1 = ({
   const { status: projectsLoading } = useQuery(
     "fetchProjects",
     () => {
-      return axios.get(backendUrl + "/api/project/listProjects", {
+      return axios.get(backendUrl + "/api/project/listProjects/0/0", {
         headers: {
           "x-access-token": usertoken?.token,
         },

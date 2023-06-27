@@ -13,6 +13,7 @@ import { useStyles } from "./styles";
 const Dashboard = () => {
   const { classes } = useStyles();
   const { user, translate } = useContext(UserContext);
+  console.log(user,"user")
   const [chartData, setChartData] = useState([]);
   const [cardData, setCardData] = useState([
     {
@@ -104,9 +105,44 @@ const Dashboard = () => {
   
  ])
 
+ const [cardData4, setCardData4] = useState([
+  {
+    title: "Total NGOS",
+    value: null,
+    progress: 78,
+    color: "red.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  {
+    title: "Total Users",
+    value: null,
+    progress: 78,
+    color: "green.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  {
+    title: "Total Employees",
+    value: null,
+    progress: 50,
+    color: "blue.0",
+    progressTitle: "Response Rate",
+    icon: "branch",
+    // link: routeNames.ngoAdmin.branchPageDashboard,
+  },
+  
+ ])
+
+
+
+
   const allCard = useMemo(() => {
     if (user.role == "Admin") return [...cardData1, ...cardData];
     if(user.role=="User") return [...cardData3]
+    if(user.role==="Super Admin") return [...cardData4]
     else return cardData;
   }, []);
 
@@ -124,7 +160,7 @@ const Dashboard = () => {
     {
       onSuccess: (response) => {
         if(response.status){
-          if(user.role=="Admin"){
+          if(user.role=="Admin" || user.role==="Super Admin"){
             let branches = cardData1[0];
             let professionals = cardData1[1];
             let cases = cardData1[2];

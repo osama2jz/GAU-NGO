@@ -16,9 +16,13 @@ import InputMask from "react-input-mask";
 import Datepicker from "../../../../Components/Datepicker";
 import { UserContext } from "../../../../contexts/UserContext";
 
-export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit}) => {
+export const AgeFormAbove = ({ setActive, active, setAlldata,form ,submit,selectedUser}) => {
   const { classes } = useStyles();
  const {translate}=useContext(UserContext)
+ 
+ 
+
+
 
   
   return (

@@ -34,6 +34,7 @@ function NewProfessionalModal({
     validate: {
       fullName: (value) => (value.length < 1 ? translate("Please enter name") : null),
       center: (value) => (value?.length < 1 ? translate("Please enter center") : null),
+      relation: (value) => (value?.length < 1 ? translate("Please enter relation") : null),
       email: (value) => (/^\S+@\S+$/.test(value) ? null : translate("Invalid email")),
       phone: (value) =>
         /^(\+34\s?)?(\d{2}|\(\d{2}\))[\s\-]?\d{4}[\s\-]?\d{3}$/.test(value)
@@ -66,6 +67,8 @@ function NewProfessionalModal({
           placeholder="name"
           form={form}
           validateName="fullName"
+          required={true}
+
         />
         <InputField
           label="Email"
@@ -73,6 +76,8 @@ function NewProfessionalModal({
           placeholder="email@gmail.com"
           form={form}
           validateName="email"
+          required={true}
+
         />
         <InputField
           label="Phone"
@@ -81,6 +86,8 @@ function NewProfessionalModal({
           mask="+34 99 9999 999"
           form={form}
           validateName="phone"
+          required={true}
+
         />
         <InputField
           label="Center"
@@ -88,10 +95,12 @@ function NewProfessionalModal({
           placeholder="center"
           form={form}
           validateName="center"
+          required={true}
+
         />
         <InputField
           label="Relation"
-          // required={true}
+          required={true}
           placeholder="relation"
           form={form}
           validateName="relation"

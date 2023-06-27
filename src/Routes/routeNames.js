@@ -169,6 +169,7 @@ const routeNames = {
     addDictionary: "/add-dictionary",
     ViewDictionary: "/view-dictionary",
   },
+
   user: {
     dashboard: "/",
     addAppoinment: "/add-appointment",
@@ -186,6 +187,13 @@ const routeNames = {
     projectCases: "/project-cases",
     caseAppointments: "/case-appointments",
     projectAppointments: "/project-appointments",
+  },
+  superAdmin: {
+    dashboard: "/",
+    addNgo: "/add-ngo",
+    editNgo:"/edit-ngo",
+    allNgo: "/all-ngo",
+    settings: "/settings",
   },
 };
 

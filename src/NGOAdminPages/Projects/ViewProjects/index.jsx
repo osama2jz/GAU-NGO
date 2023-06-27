@@ -101,7 +101,7 @@ export const ViewProjects = () => {
   const { data, status } = useQuery(
     "fetchProjects",
     () => {
-      return axios.get(`${backendUrl + `/api/project/listProjects`}`, {
+      return axios.get(`${backendUrl + `/api/project/listProjects/0/0`}`, {
         headers: {
           "x-access-token": user.token,
         },
