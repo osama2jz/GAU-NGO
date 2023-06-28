@@ -14,22 +14,25 @@ import {
   MapPin,
   Phone,
 } from "tabler-icons-react";
+import { UserContext } from "../../contexts/UserContext";
+import { useContext } from "react";
 
 const Footer = () => {
   const { classes } = useStyles();
+  const { translate } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width: 1020px)");
   return (
     <Box className={classes.footer}>
       <Title align="center" order={isMobile ? 2 : 1}>
-        GET IN TOUCH
+        {translate("GET IN TOUCH")}
       </Title>
       <Text align="center" w={isMobile ? "90%" : "50%"}>
-        There are many variations of passages of Lorem Ipsum available, but the
-        majorityhave suffered alteration in some form, by injected
-        humour,available
+        {translate(
+          "Find all the contact details of GAU NGO, including phone numbers, email addresses, and physical addresses, in the app. Whether you have a question, need assistance, or want to provide feedback, our contact information is just a tap away."
+        )}
       </Text>
       <SimpleGrid
-        w={"80%"}
+        w={"90%"}
         spacing={"100px"}
         breakpoints={[
           { minWidth: "sm", cols: 1 },
@@ -37,14 +40,14 @@ const Footer = () => {
         ]}
       >
         <Stack>
-          <Title>SAY HELLO!</Title>
+          <Title>{translate("SAY HELLO")}!</Title>
           <InputField placeholder={"Name"} borderWhite={true} />
           <InputField placeholder={"Email"} borderWhite={true} />
           <TextArea placeholder={"Message"} borderWhite={true} />
           <Button label={"SUBMIT"} primary={true} />
         </Stack>
         <Stack spacing={"xl"} mx="auto">
-          <Title>Contact Us</Title>
+          <Title>{translate("Contact Us")}</Title>
           <Flex gap={"lg"}>
             <Phone className={classes.icon} size={"50px"} />
             <Text>
@@ -69,7 +72,7 @@ const Footer = () => {
           </Flex>
         </Stack>
       </SimpleGrid>
-      <Title order={2}>VISIT US ON</Title>
+      <Title order={2}>{translate("VISIT US ON")}</Title>
       <Flex gap={"lg"}>
         <BrandFacebook className={classes.socialIcon} />
         <BrandInstagram className={classes.socialIcon} />

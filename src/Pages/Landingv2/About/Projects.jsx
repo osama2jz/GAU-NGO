@@ -56,7 +56,7 @@ const Projects = () => {
           <Text size={"xl"}>{translate("Completed Projects")}</Text>
           <Text size={"xs"} align="center">
             {translate(
-              "Overall, the complete project portfolio of GAU reflects its commitment to making a positive impact on the lives of individuals and communities"
+              "Our portfolio reflects its commitment to making a positive impact on the lives of individuals and communities"
             )}
           </Text>
         </Box>
@@ -90,7 +90,7 @@ const Projects = () => {
           <Text size={"xl"}>{translate("New Projects")}</Text>
           <Text size={"xs"} align="center">
             {translate(
-              "Some Content about Some Content about Some Content aboutSome Content about"
+              "We as a community are excited to announce our new projects that aim to make a positive impact in the community."
             )}
           </Text>
         </Box>

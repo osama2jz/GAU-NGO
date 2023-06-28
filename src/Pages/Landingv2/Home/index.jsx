@@ -16,10 +16,13 @@ import img1 from "../../../assets/home.png";
 import { useMediaQuery } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
 import routeNames from "../../../Routes/routeNames";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const Home = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  const { translate } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const isWeb = useMediaQuery("(min-width: 1200px)");
   return (
@@ -36,15 +39,13 @@ const Home = () => {
             fw={"bolder"}
             lh={isMobile ? "40px" : "60px"}
           >
-            
-            EMPOWERING LIVES, INSPIRING CHANGE
+            {translate("EMPOWERING LIVES, INSPIRING CHANGE")}
           </Text>
           <Text align="justify">
-            Our mission at GAU is to create lasting, positive change in the
-            world. We are dedicated to empowering individuals and communities by
-            providing support and fostering hope. Through our collaborative
-            efforts, we strive to address pressing social, environmental, and
-            economic challenges.
+            {translate(
+              "Our mission at GAU is to create lasting, positive change in the world. We are dedicated to empowering individuals and communities by providing support and fostering hope. Through our collaborative efforts, we strive to address pressing social, environmental, and economic challenges"
+            )}
+            .
           </Text>
           <Group>
             <Button

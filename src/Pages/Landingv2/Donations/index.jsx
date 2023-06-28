@@ -25,7 +25,7 @@ const Donations = () => {
         <InputField placeholder={"Email"} />
         <InputField placeholder={"Contact Number"} />
         <InputField placeholder={"Amount"} />
-        <Button label={"Donate"} primary={true}/>
+        <Button label={"Donate"} primary={true} />
       </form>
       <Stack spacing={"20px"} w={"100%"}>
         <Title order={1} mt="0px">

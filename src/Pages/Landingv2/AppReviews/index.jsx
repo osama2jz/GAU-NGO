@@ -5,15 +5,18 @@ import { Avatar, Box, Flex, Rating, Stack, Text, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Carousel from "react-spring-3d-carousel";
 import { config } from "react-spring";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 const AppReviews = () => {
   const { classes } = useStyles();
+  const { translate } = useContext(UserContext);
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [goToSlide, setGoToSlide] = useState(null);
   const [data, setData] = useState([
     {
       id: 1,
-      name: "Kate Gabiha",
+      name: "Dr. Lisa K., Local Healthcare Provider",
       content: (
         <Avatar
           radius={"50%"}
@@ -23,62 +26,66 @@ const AppReviews = () => {
         />
       ),
       review:
-        "1. I heard about faces2hire from a friend that told me about a free service. I signed up on the site and created my profile which is similar to a resume format. I have to say that I am actually the first person at faces2hire to be hired by its own platform.You never know who will be looking for a candidate to bring into their company. I hope to help others find their new favorite place to work.",
+        "I am incredibly impressed with GAU's Housing First initiative. They prioritize providing immediate, permanent housing solutions for individuals experiencing chronic homelessness. Their dedication to securing stable housing and providing support services is truly commendable.",
     },
     {
       id: 2,
-      name: "John Wick",
+      name: "John D., Community Member",
       content: (
         <Avatar
           radius={"50%"}
           size={isMobile ? "100px" : "150px"}
+          style={{ cursor: "hover" }}
           // size={"150px"}
           src="https://i.pinimg.com/736x/97/31/02/9731022f0be7c965e880505461643850.jpg"
         />
       ),
       review:
-        "2. I heard about faces2hire from a friend that told me about a free service. I signed up on the site and created my profile which is similar to a resume format. I have to say that I am actually the first person at faces2hire to be hired by its own platform.You never know who will be looking for a candidate to bring into their company. I hope to help others find their new favorite place to work.",
+        "The employment and skills training programs offered by GAU are exceptional. They provide individuals with the necessary resources and training to secure employment and achieve financial stability. Their commitment to empowering individuals and breaking the cycle of homelessness is inspiring.",
     },
     {
       id: 3,
-      name: "Bob Builder",
+      name: "Kate, Local Government Official",
       content: (
         <Avatar
           radius={"50%"}
+          style={{ cursor: "hover" }}
           size={isMobile ? "100px" : "150px"}
           // size={"150px"}
           src="https://images.squarespace-cdn.com/content/v1/5cf0d08d5fc69d000172462a/1599805610146-J0G5GMGFBXVWND4Z71UK/Aleem+Business+Headshot+for+LinkedIn+Profile.jpg"
         />
       ),
       review:
-        "3. I heard about faces2hire from a friend that told me about a free service. I signed up on the site and created my profile which is similar to a resume format. I have to say that I am actually the first person at faces2hire to be hired by its own platform.You never know who will be looking for a candidate to bring into their company. I hope to help others find their new favorite place to work.",
+        "Their outreach and support services have made a significant impact in our community. Their comprehensive approach, including healthcare access, mental health support, and substance abuse counseling, ensures that individuals experiencing homelessness receive the necessary care and support to rebuild their lives.",
     },
     {
       id: 4,
-      name: "Mike Allison",
+      name: "Dr. Lisa K., Local Healthcare Provider",
       content: (
         <Avatar
           radius={"50%"}
+          style={{ cursor: "hover" }}
           size={isMobile ? "100px" : "150px"}
           // size={"150px"}
           src="https://media.istockphoto.com/id/1154642632/photo/close-up-portrait-of-brunette-woman.jpg?s=612x612&w=0&k=20&c=d8W_C2D-2rXlnkyl8EirpHGf-GpM62gBjpDoNryy98U="
         />
       ),
       review:
-        "4. I heard about faces2hire from a friend that told me about a free service. I signed up on the site and created my profile which is similar to a resume format. I have to say that I am actually the first person at faces2hire to be hired by its own platform.You never know who will be looking for a candidate to bring into their company. I hope to help others find their new favorite place to work.",
+        "I have witnessed firsthand the positive impact of GAU's advocacy and policy initiatives. They actively work to bring about systemic changes and collaborate with government agencies to address homelessness. Their dedication to driving meaningful policy changes is commendable.",
     },
     {
       id: 5,
-      name: "Viking King",
+      name: "Alex T, Goverment Official",
       content: (
         <Avatar
           radius={"50%"}
+          style={{ cursor: "hover" }}
           size={isMobile ? "100px" : "150px"}
           src="https://wallpapers.com/images/hd/professional-profile-pictures-1276-x-1762-075347emr82ph3hj.jpg"
         />
       ),
       review:
-        "5. I heard about faces2hire from a friend that told me about a free service. I signed up on the site and created my profile which is similar to a resume format. I have to say that I am actually the first person at faces2hire to be hired by its own platform.You never know who will be looking for a candidate to bring into their company. I hope to help others find their new favorite place to work.",
+        "Their outreach and support services have made a significant impact in our community. Their comprehensive approach, including healthcare access, mental health support, and substance abuse counseling, ensures that individuals experiencing homelessness receive the necessary care and support to rebuild their lives.",
     },
   ]);
   const cardss = data.map((element, index) => {
@@ -92,43 +99,19 @@ const AppReviews = () => {
   });
   const [display, setDisplay] = useState(data?.[2]);
   const handleChange = (ind) => {
-    // let newArr = [];
     let a = data[ind];
-    // data[ind] = data[2];
-    // data[2] = a;
-    // newArr = [...data];
     setDisplay(a);
-    // setData(newArr);
   };
 
   return (
     <Flex direction="column" gap={"lg"} m="md">
-      <Title align="center">APP REVIEWS</Title>
+      <Title align="center">{translate("USERS REVIEWS")}</Title>
       <Text align="center" w={isMobile ? "90%" : "50%"} m="auto">
-        There are many variations of passages of Lorem Ipsum available, but the
-        majorityhave suffered alteration in some form, by injected
-        humour,available
+        {translate(
+          "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour,available"
+        )}
       </Text>
-      {/* 
-      <Flex gap={"xl"} justify={"center"} align={"center"} h="150px">
-        {data.map((obj, ind) => (
-          <Avatar
-            src={obj.img}
-            key={obj.id}
-            radius={"50%"}
-            className={classes.avatar}
-            style={{
-              border: ind === 2 ? "3px solid green" : "",
-              transition: "0.3s ease-in-out",
-              cursor: "pointer",
-            }}
-            size={
-              ind === 2 ? "150px" : ind === 0 || ind === 4 ? "50px" : "100px"
-            }
-            onClick={() => handleChange(ind)}
-          />
-        ))}
-      </Flex> */}
+
       <Box h="200px" w={isMobile ? "90%" : "40%"} m="auto">
         <Carousel
           slides={cardss}
@@ -145,7 +128,7 @@ const AppReviews = () => {
         m="auto"
       >
         <Title order={2}>{display.name}</Title>
-        <Rating value={3} readOnly/>
+        <Rating value={5} readOnly />
         <Text> {display.review}</Text>
       </Stack>
     </Flex>

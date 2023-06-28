@@ -49,7 +49,7 @@ const Landing = () => {
     <Box>
       <Header opened={opened} toggle={toggle} onClick={scrollToDiv} />
       <ArrowNarrowUp
-        style={{ display: isVisible ? "flex" : "none" }}
+        style={{ opacity: isVisible ? 1 : 0 }}
         className={classes.goToTop}
         size={"50px"}
         onClick={scrollToTop}

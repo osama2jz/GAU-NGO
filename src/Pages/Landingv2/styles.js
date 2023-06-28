@@ -36,6 +36,7 @@ export const useStyles = createStyles((theme, props) => ({
     aspectRatio: "1/1",
     borderRadius: "50%",
     border: "5px solid white",
+    padding: "2px",
   },
   about: {
     display: "flex",
@@ -180,6 +181,7 @@ export const useStyles = createStyles((theme, props) => ({
     borderRadius: "50%",
     padding: "10px",
     cursor: "pointer",
+    transition: "0.5s ease all",
     ":hover": {
       opacity: 0.9,
     },
