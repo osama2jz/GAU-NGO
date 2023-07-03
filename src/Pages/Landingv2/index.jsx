@@ -7,7 +7,7 @@ import Header from "../../Components/LandingHeaderv2";
 import { useDisclosure } from "@mantine/hooks";
 import Download from "./Download";
 import AppReviews from "./AppReviews";
-import Footer from "../../components/Footer";
+import Footer from "../../Components/Footer";
 import AppScreenshots from "./AppScreenshots";
 import { ArrowNarrowUp } from "tabler-icons-react";
 import { useStyles } from "./styles";
