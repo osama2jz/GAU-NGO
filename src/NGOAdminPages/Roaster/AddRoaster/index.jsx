@@ -63,7 +63,6 @@ export const AddRoaster = () => {
   const selectedBranch = branches?.filter(
     (item) => item.value === form.values.branchId
   );
-  console.log(user);
   const handleAddRoaster = useMutation(
     (values) => {
       let obj = {
@@ -162,7 +161,7 @@ export const AddRoaster = () => {
   const { data, status } = useQuery(
     ["fetchUser"],
     () => {
-      return axios.get(`${backendUrl + `/api/ngo/listAllBranches`}`, {
+      return axios.get(`${backendUrl + `/api/ngo/listAllBranches/0/0`}`, {
         headers: {
           "x-access-token": user.token,
         },
