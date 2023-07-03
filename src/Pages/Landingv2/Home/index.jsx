@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import React from "react";
-import Button from "../../../components/Button";
+import Button from "../../../Components/Button";
 import { useStyles } from "../styles";
 import { Card } from "./Card";
 import img1 from "../../../assets/home.png";
