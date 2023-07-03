@@ -8,8 +8,6 @@ import {
 } from "@mantine/core";
 import React from "react";
 import img from "../../../assets/about1.jpg";
-import Button from "../../../components/Button";
-import img1 from "../../../assets/cat4.svg";
 import { useStyles } from "../styles";
 import Projects from "./Projects";
 import { useMediaQuery } from "@mantine/hooks";
