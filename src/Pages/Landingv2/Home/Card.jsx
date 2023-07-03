@@ -12,10 +12,12 @@ export const Card = ({ icon, label, value }) => {
     <Box className={classes.homeCard}>
       <img
         src={new URL(`../../../assets/${icon}.svg`, import.meta.url).href}
-        width={isMobile ? "30px" : "40px"}
+        width={isMobile ? "20px" : "40px"}
       />
-      <Text fw="bold">{translate(label)}</Text>
-      <Text>{value}</Text>
+      <Text fw="bold" fz={isMobile ? "10px" : "16px"}>
+        {translate(label)}
+      </Text>
+      <Text fz={isMobile ? "xs" : "lg"}>{value}</Text>
     </Box>
   );
 };

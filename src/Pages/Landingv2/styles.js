@@ -33,10 +33,15 @@ export const useStyles = createStyles((theme, props) => ({
     gap: "5px",
     backgroundColor: theme.colors.green,
     width: "150px",
+    height: "150px",
     aspectRatio: "1/1",
     borderRadius: "50%",
     border: "5px solid white",
     padding: "2px",
+    [`@media (max-width: 820px)`]: {
+      width: "100px",
+      height: "100px",
+    },
   },
   about: {
     display: "flex",

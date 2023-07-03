@@ -40,7 +40,7 @@ const Footer = () => {
         ]}
       >
         <Stack>
-          <Title>{translate("SAY HELLO")}!</Title>
+          <Title>{translate("SAY HELLO!")}</Title>
           <InputField placeholder={"Name"} borderWhite={true} />
           <InputField placeholder={"Email"} borderWhite={true} />
           <TextArea placeholder={"Message"} borderWhite={true} />

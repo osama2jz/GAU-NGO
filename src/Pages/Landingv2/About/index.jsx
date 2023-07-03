@@ -20,7 +20,7 @@ const About = () => {
   const isMobile = useMediaQuery("(max-width: 1020px)");
   return (
     <Container className={classes.about} fluid>
-      <Title align="center">About GAU</Title>
+      <Title align="center">{translate("About GAU")}</Title>
       <Text align="center">
         {translate(
           "We are the dedicated team of people who are passionate about making a positive impact on the lives of those in need."

@@ -56,7 +56,7 @@ const Projects = () => {
           <Text size={"xl"}>{translate("Completed Projects")}</Text>
           <Text size={"xs"} align="center">
             {translate(
-              "Our portfolio reflects its commitment to making a positive impact on the lives of individuals and communities"
+              "Our portfolio reflects its commitment to making a positive impact on the lives of individuals and communities."
             )}
           </Text>
         </Box>

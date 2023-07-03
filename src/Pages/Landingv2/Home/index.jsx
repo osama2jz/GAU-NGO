@@ -43,9 +43,8 @@ const Home = () => {
           </Text>
           <Text align="justify">
             {translate(
-              "Our mission at GAU is to create lasting, positive change in the world. We are dedicated to empowering individuals and communities by providing support and fostering hope. Through our collaborative efforts, we strive to address pressing social, environmental, and economic challenges"
+              "Our mission at GAU is to create lasting, positive change in the world. We are dedicated to empowering individuals and communities by providing support and fostering hope. Through our collaborative efforts, we strive to address pressing social, environmental, and economic challenges."
             )}
-            .
           </Text>
           <Group>
             <Button
