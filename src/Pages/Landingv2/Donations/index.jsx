@@ -1,7 +1,7 @@
 import { List, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import React from "react";
-import InputField from "../../../components/InputField";
-import Button from "../../../components/Button";
+import InputField from "../../../Components/InputField";
+import Button from "../../../Components/Button";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import { useMediaQuery } from "@mantine/hooks";
