@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import About from "./About";
-import { Box } from "@mantine/core";
+// import { Box } from "@mantine/core";
 import Services from "./Services";
-import Header from "../../components/LandingHeaderv2";
+import Header from "../../Components/LandingHeaderv2";
 import { useDisclosure } from "@mantine/hooks";
 import Download from "./Download";
 import AppReviews from "./AppReviews";

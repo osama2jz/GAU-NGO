@@ -6,6 +6,7 @@ import mobile1 from "../../../assets/mobile1.png";
 import mobile2 from "../../../assets/mobile2.png";
 import mobile3 from "../../../assets/mobile3.png";
 import mobile4 from "../../../assets/mobile4.png";
+import mobile5 from "../../../assets/mobile5.png";
 import { Box, Stack, Text, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useStyles } from "../styles";
@@ -22,7 +23,7 @@ const AppScreenshots = () => {
     { key: 2, content: <img src={mobile2} height={"100%"} key={2} /> },
     { key: 3, content: <img src={mobile3} height={"100%"} key={3} /> },
     { key: 4, content: <img src={mobile4} height={"100%"} key={4} /> },
-    { key: 5, content: <img src={mobile2} height={"100%"} key={4} /> },
+    { key: 5, content: <img src={mobile5} height={"100%"} key={4} /> },
   ]);
   const cardss = cards.map((element, index) => {
     return { ...element, onClick: () => setGoToSlide(index) };
