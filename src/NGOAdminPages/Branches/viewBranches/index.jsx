@@ -96,7 +96,7 @@ export const ViewBranches = () => {
 
   //API call for fetching all branches
   const { data, status } = useQuery(
-    ["fetchBranches",activePage],
+    ["fetchBranches", activePage],
     () => {
       return axios.get(
         `${
@@ -132,7 +132,7 @@ export const ViewBranches = () => {
           return branch;
         });
         setRowData(data);
-        setTotalPages(Math.ceil(data?.length / 10));
+        setTotalPages(response?.data?.totalPages);
 
         // setTotalPages(response.data.totalPages);
       },
@@ -196,7 +196,7 @@ export const ViewBranches = () => {
     const a = filtered?.map((item, ind) => {
       return {
         ...item,
-        sr: ind + 1,
+        sr: (activePage - 1) * 10 + (ind + 1),
       };
     });
     return a;
@@ -249,7 +249,7 @@ export const ViewBranches = () => {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={3} md={3} >
+          <Grid.Col sm={6} lg={3} md={3}>
             <Button
               label={"Add Branch"}
               bg={true}
@@ -258,7 +258,7 @@ export const ViewBranches = () => {
               onClick={() => navigate(routeNames.ngoAdmin.addBranch)}
             />
           </Grid.Col>
-          <Grid.Col style={{marginLeft:"auto"}}>
+          <Grid.Col style={{ marginLeft: "auto" }}>
             <DownloadPdf
               headCells={headerData}
               data={filteredItem}
@@ -267,7 +267,7 @@ export const ViewBranches = () => {
             />
           </Grid.Col>
         </Grid>
-      
+
         {status == "loading" ? (
           <Loader />
         ) : (

@@ -108,7 +108,7 @@ const AppReviews = () => {
       <Title align="center">{translate("USERS REVIEWS")}</Title>
       <Text align="center" w={isMobile ? "90%" : "50%"} m="auto">
         {translate(
-          "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour,available"
+          "We believe in the power of feedback, and our reviews section serves as a platform for sharing opinions, experiences, and recommendations. Whether you're looking for validation or seeking a different perspective, our reviews section is the perfect place to find authentic feedback and connect with our community."
         )}
       </Text>
 

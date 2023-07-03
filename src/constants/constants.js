@@ -1,4 +1,5 @@
-export const backendUrl = "https://backend-gau.herokuapp.com";
+export const backendUrl = "https://backend-gau.herokuapp.com"; // for DEV
+// export const backendUrl = "https://gau-prod.herokuapp.com"; // for Prod / build
 
 //Live Url:https://gau-prod.herokuapp.com
 //Production Url:https://backend-gau.herokuapp.com
@@ -35,4 +36,3 @@ export const slots = [
   { value: "22:00-23:00", label: "22:00-23:00" },
   { value: "23:00-24:00", label: "23:00-24:00" },
 ];
-
