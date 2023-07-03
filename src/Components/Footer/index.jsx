@@ -51,15 +51,15 @@ const Footer = () => {
           <Flex gap={"lg"}>
             <Phone className={classes.icon} size={"50px"} />
             <Text>
-              +86-432-423443
+              +34641854490
               <br />
-              +86-432-423443
+              +34641854490
             </Text>
           </Flex>
           <Flex gap={"lg"}>
             <Mail className={classes.icon} size={"50px"} />
             <Text>
-              mailto:gau@gmail.com
+              info@gauapp.es
               <br /> https://gauapp.es/
             </Text>
           </Flex>

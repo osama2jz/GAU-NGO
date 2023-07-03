@@ -66,9 +66,9 @@ const Home = () => {
             />
           </Group>
           <Flex justify={"space-around"} gap={"lg"}>
-            <Card icon={"people2"} label={"Users"} value={"1000"} />
-            <Card icon={"globe"} label={"Cases"} value={"5000"} />
-            <Card icon={"branch2"} label={"Branches"} value={"99"} />
+            <Card icon={"people2"} label={"Users"} value={"+3600"} />
+            <Card icon={"globe"} label={"Cases"} value={"+12000"} />
+            <Card icon={"branch2"} label={"Branches"} value={"+14"} />
           </Flex>
         </Stack>
       </Grid.Col>

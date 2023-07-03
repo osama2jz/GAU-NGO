@@ -31,7 +31,7 @@ const Projects = () => {
           {count && (
             <CountUp
               start={0}
-              end={5}
+              end={1}
               duration={2}
               style={{ fontSize: "60px", fontWeight: 1000 }}
             />
@@ -48,7 +48,7 @@ const Projects = () => {
           {count && (
             <CountUp
               start={0}
-              end={10}
+              end={80}
               duration={2}
               style={{ fontSize: "60px", fontWeight: 1000 }}
             />
@@ -65,7 +65,7 @@ const Projects = () => {
           {count && (
             <CountUp
               start={0}
-              end={20}
+              end={3600}
               duration={2}
               style={{ fontSize: "60px", fontWeight: 1000 }}
             />
@@ -82,7 +82,7 @@ const Projects = () => {
           {count && (
             <CountUp
               start={0}
-              end={5}
+              end={150}
               duration={2}
               style={{ fontSize: "60px", fontWeight: 1000 }}
             />
