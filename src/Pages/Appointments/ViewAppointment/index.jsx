@@ -53,7 +53,9 @@ function ViewAppointments() {
               : "Lawyer",
           type: obj.reportType === "private" ? "Private" : "Public",
           comments: obj?.reportComments,
-          file: obj?.reportFile ? obj?.reportFile : "",
+          file: obj?.reportFile
+            ? "http://report.gauapp.es/reports/" + obj?.reportFile
+            : "",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
         };
         return appointment;
@@ -266,7 +268,7 @@ function ViewAppointments() {
                       {translate(editData?.status)}
                     </Badge>
                   </Text>
-                  {editData?.otherPersonName !=="N/A" && (
+                  {editData?.otherPersonName !== "N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Name")}
@@ -288,7 +290,7 @@ function ViewAppointments() {
                       </Text>
                     </>
                   )}
-                  {editData?.otherPersonImage !=="N/A" && (
+                  {editData?.otherPersonImage !== "N/A" && (
                     <>
                       <Text className={classes.textheading}>
                         {translate("Attended Person Image")}

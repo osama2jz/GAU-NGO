@@ -379,11 +379,11 @@ const Table = ({
                                 });
                                 return;
                               }
-                              if(setEditNgo){
-                                navigate(`/edit-ngo`,{
-                                  state:{
-                                    editData:row
-                                  }
+                              if (setEditNgo) {
+                                navigate(`/edit-ngo`, {
+                                  state: {
+                                    editData: row,
+                                  },
                                 });
                                 return;
                               }
@@ -598,7 +598,7 @@ const Table = ({
                     <td key={index}>
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
-                          {translate("View All")}
+                          {translate("View")}
                         </Anchor>
                       ) : (
                         <Text>{translate("No File")}</Text>
