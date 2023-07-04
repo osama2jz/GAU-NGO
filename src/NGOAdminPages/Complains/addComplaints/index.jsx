@@ -148,7 +148,6 @@ export const AddComplains = () => {
     </div>
   );
 
- 
   return (
     <Container className={classes.addUser} size="xl">
       <ContainerHeader label={"Add Complaint"} />
@@ -190,8 +189,20 @@ export const AddComplains = () => {
             required={"true"}
           />
           <Group position="right" mt="sm">
-            <Button label="Cancel" onClick={() => form.reset()} />
-            <Button label={"Add Complaint"} bg={true} type="submit" loading={handleAddComplaint.isLoading} leftIcon={"plus"}/>
+            <Button
+              label="Cancel"
+              onClick={() => {
+                form.reset();
+                navigate(routeNames.user.complaints);
+              }}
+            />
+            <Button
+              label={"Add Complaint"}
+              bg={true}
+              type="submit"
+              loading={handleAddComplaint.isLoading}
+              leftIcon={"plus"}
+            />
           </Group>
         </Container>
       </form>
