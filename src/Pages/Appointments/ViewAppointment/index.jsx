@@ -53,9 +53,7 @@ function ViewAppointments() {
               : "Lawyer",
           type: obj.reportType === "private" ? "Private" : "Public",
           comments: obj?.reportComments,
-          file: obj?.reportFile
-            ? "http://report.gauapp.es/reports/" + obj?.reportFile
-            : "",
+          file: obj?.reportFile ? obj?.reportFile : "",
           date: new moment(obj?.createdDate).format("DD-MMM-YYYY"),
         };
         return appointment;

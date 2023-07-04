@@ -47,7 +47,6 @@ const MyDocs = () => {
     (deleteId) => {
       return axios.get(
         `${backendUrl + `/api/lookup/deleteGeneralDocument/${deleteID}`}`,
-        {},
         {
           headers: {
             "x-access-token": user.token,
@@ -64,7 +63,7 @@ const MyDocs = () => {
             color: "green.0",
           });
           setOpenDeleteModal(false);
-          queryClient.invalidateQueries("fetchUserSingle");
+          queryClient.invalidateQueries("fetchMe");
         } else {
           showNotification({
             title: translate("Failed"),

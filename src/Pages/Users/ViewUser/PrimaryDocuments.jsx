@@ -1,47 +1,42 @@
 import {
   ActionIcon,
   Anchor,
-  Avatar,
   Container,
+  Divider,
   FileInput,
-  Flex,
   Grid,
   Group,
-  SimpleGrid,
-  Text,
   Table,
-  Divider,
+  Text,
 } from "@mantine/core";
 
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import ReactInputMask from "react-input-mask";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { CircleX, FileUpload, Trash, Upload } from "tabler-icons-react";
+import { FileUpload, Trash } from "tabler-icons-react";
 import Button from "../../../Components/Button";
+import DeleteModal from "../../../Components/DeleteModal";
 import InputField from "../../../Components/InputField";
+import routeNames from "../../../Routes/routeNames";
 import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
-import DeleteModal from "../../../Components/DeleteModal";
 
 const MyDocs = ({ userDocs, Data, loader }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  let userData = JSON.parse(localStorage.getItem("userData"));
+
   const { user, translate } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteID, setDeleteID] = useState("");
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
   const [verifyId, setVerifyId] = useState("");
- 
-
+  console.log("saa", user, userData);
   const [docs, setDocs] = useState([
     {
       documentTitle: "",
@@ -54,7 +49,6 @@ const MyDocs = ({ userDocs, Data, loader }) => {
     (deleteId) => {
       return axios.get(
         `${backendUrl + `/api/lookup/deleteGeneralDocument/${deleteID}`}`,
-        {},
         {
           headers: {
             "x-access-token": user.token,

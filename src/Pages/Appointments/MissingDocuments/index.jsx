@@ -32,8 +32,11 @@ const MissingDocuments = () => {
     "fetchAllAppointmentsData",
     () => {
       return axios.get(
-        `${backendUrl + `/api/appointment/listUserAppointments/all/0/0
-        `}`,
+        `${
+          backendUrl +
+          `/api/appointment/listUserAppointments/all/0/0
+        `
+        }`,
         {
           headers: {
             "x-access-token": user.token,
@@ -77,7 +80,12 @@ const MissingDocuments = () => {
               // doc: obj?.documents,
               docs: obj?.documents.filter((obj) => obj.documentURL.length < 1)
                 .length,
-              reportData: obj?.reports,
+              reportData: obj?.reports?.map((obj) => {
+                return {
+                  ...obj,
+                  reportFile: `http://report.gauapp.es/reports/${obj.reportFile}`,
+                };
+              }),
               image: obj?.appointmentUserImage,
               primaryDoc: obj?.primaryDocuments,
 
@@ -86,7 +94,7 @@ const MissingDocuments = () => {
                 ...doc,
                 status: doc.documentURL === "" ? true : false, // Add the desired status value
               })),
-              
+
               refer: obj?.refered === true ? "Refered" : "New",
               otherPersonName: obj?.otherUserName,
               otherPersonImage: obj?.otherUserImage,
@@ -133,7 +141,7 @@ const MissingDocuments = () => {
       numeric: false,
       disablePadding: true,
       label: "Role",
-      translate:true
+      translate: true,
     },
     {
       id: "date",
