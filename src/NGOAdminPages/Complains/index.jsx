@@ -160,10 +160,11 @@ export const ViewComplains = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={6}>
+          <Grid.Col sm={4}>
             <InputField
               placeholder="Search"
               leftIcon="search"
+              value={search}
               pb="0"
               onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}
@@ -195,7 +196,7 @@ export const ViewComplains = () => {
           <Grid.Col sm={3} ml="auto">
             {user.role === "User" && (
               <Button
-                label={"Add Complain"}
+                label={"Add Complaint"}
                 bg={true}
                 leftIcon={"plus"}
                 styles={{ float: "right" }}
@@ -203,7 +204,7 @@ export const ViewComplains = () => {
               />
             )}
           </Grid.Col>
-          <Grid.Col sm={4} lg={4} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} md={4} lg={12} style={{ textAlign: "end" }}>
             <DownloadPdf
               headCells={headerData}
               data={filteredItem}

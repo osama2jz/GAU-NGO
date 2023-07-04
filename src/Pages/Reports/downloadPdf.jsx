@@ -49,7 +49,6 @@ function DownloadPdf({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   // var menuItem="hello"
-  
 
   // console.log("data", data);
   const today = moment();
@@ -64,7 +63,6 @@ function DownloadPdf({
     status: translate(person?.status),
     type: translate(person?.type),
     userType: translate(person?.userType),
-    
   }));
 
   const filteredDaily = data
@@ -78,7 +76,6 @@ function DownloadPdf({
       status: translate(person?.status),
       type: translate(person?.type),
       userType: translate(person?.userType),
-
     }));
 
   let currentLanguage = localStorage.getItem("lang") || "spanish";
@@ -140,7 +137,7 @@ function DownloadPdf({
   // console.log("CustomDate",CustomDate)
 
   const filter = (name) => {
-      if (name === "all") {
+    if (name === "all") {
       AllData.length === 0
         ? showNotification({
             title: translate("No Data"),
@@ -291,7 +288,7 @@ function DownloadPdf({
   };
 
   return (
-    <Container>
+    <Container size="xl" px="30px">
       <Menu shadow="md" width={"target"} className={classes.export}>
         <Menu.Target>
           <Flex

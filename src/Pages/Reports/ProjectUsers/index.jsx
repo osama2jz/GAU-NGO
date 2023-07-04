@@ -134,12 +134,12 @@ function ProjectUsers() {
             phone: obj?.phoneNumber,
             documentURL: obj?.documentURL,
             address: obj?.address,
-            documentType:"Identity"
-              // obj?.documentType === "nationalId"
-              //   ? "National ID"
-              //   : obj?.documentType === "residentialId"
-              //   ? "Residential id"
-              //   : "Passport",
+            documentType: "Identity",
+            // obj?.documentType === "nationalId"
+            //   ? "National ID"
+            //   : obj?.documentType === "residentialId"
+            //   ? "Residential id"
+            //   : "Passport",
           };
           return report;
         });
@@ -227,7 +227,7 @@ function ProjectUsers() {
       </Text>
       <Container size={"xl"} p={"xs"} className={classes.innerContainer}>
         <Grid align={"center"} py="md">
-          <Grid.Col sm={12} lg={4} md={6}>
+          <Grid.Col sm={12} md={5} lg={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -236,34 +236,7 @@ function ProjectUsers() {
               value={search}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={2} md={3}>
-            <SelectMenu
-              placeholder="Filter by Country"
-              pb="0px"
-              value={filter1}
-              setData={setFilter1}
-              data={[
-                { label: "All", value: "" },
-                { label: "Spain", value: "Spain" },
-                { label: "Pakistan", value: "Pakistan" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={2} md={3}>
-            <SelectMenu
-              placeholder="Filter by City"
-              pb="0px"
-              value={filter2}
-              setData={setFilter2}
-              data={[
-                { label: "All", value: "" },
-                { label: "Paris", value: "Paris" },
-                { label: "Lahore", value: "Lahore" },
-                { label: "Madrid", value: "Madrid" },
-              ]}
-            />
-          </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={8} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} md={3} lg={2} style={{ textAlign: "end" }}>
             <Button
               label={translate("Clear Filter")}
               onClick={() => {
@@ -273,7 +246,7 @@ function ProjectUsers() {
               }}
             />
           </Grid.Col>
-          <Grid.Col sm={3} ml="auto">
+          <Grid.Col sm={3} lg={4}>
             <DownloadPdf
               headCells={headerData}
               setdata={setRowData}
@@ -292,7 +265,6 @@ function ProjectUsers() {
             setViewModalState={setOpenViewModal}
             setReportData={setReportData}
             title="Project Users"
-
           />
         )}
         {totalPages > 1 && (

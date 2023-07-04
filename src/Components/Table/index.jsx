@@ -254,9 +254,10 @@ const Table = ({
                           : "130px",
                     }}
                     spacing={3}
-                    align={"center"}
+                    position="center"
+                    mx="sm"
                   >
-                    <Text align="center">{translate(head?.label)}</Text>
+                    <Text>{translate(head?.label)}</Text>
                     {head.id !== "actions" &&
                       head.id !== "image" &&
                       (!sorted.reversed === true &&
@@ -663,7 +664,7 @@ const Table = ({
                         }}
                         defaultChecked={row[head?.id] === "active"}
                         color={"green.9"}
-                        w="50%"
+                        w="60%"
                         styles={{
                           track: { backgroundColor: theme.colors.red },
                         }}
@@ -705,7 +706,9 @@ const Table = ({
                           setDeleteData(row.case);
                         }}
                         compact={true}
-                        disabled={row.status === "closed"}
+                        disabled={
+                          row.status === "closed" || row.status === "cancelled" || row.status === "finished"
+                        }
                       />
                     </td>
                   ) : head.id === "start" ? (
@@ -781,6 +784,7 @@ const Table = ({
                       <Tooltip label={row[head?.id]}>
                         <Text
                           lineClamp={1}
+                          align="center"
                           color={head.id === "docs" && "red.9"}
                           fw={head.id === "docs" && 1000}
                         >

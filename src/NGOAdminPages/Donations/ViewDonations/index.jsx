@@ -157,6 +157,7 @@ export const ViewDonations = () => {
             <InputField
               placeholder="Search"
               leftIcon="search"
+              value={search}
               pb="0"
               onChange={(v) => setSearch(v.target.value)}
               onKeyDown={(v) => v.key === "Enter" && setSearch(v.target.value)}

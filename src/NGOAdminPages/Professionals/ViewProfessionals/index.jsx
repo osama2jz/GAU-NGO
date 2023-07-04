@@ -213,7 +213,7 @@ export const ViewProfessionals = () => {
 
       <Container className={classes.innerContainer} size="xl">
         <Grid align={"center"} py="md">
-          <Grid.Col sm={5} lg={5} md={6}>
+          <Grid.Col sm={5} lg={4} md={6}>
             <InputField
               placeholder="Search"
               leftIcon="search"
@@ -236,7 +236,7 @@ export const ViewProfessionals = () => {
               ]}
             />
           </Grid.Col>
-          <Grid.Col sm={6} lg={1} md={3} style={{ textAlign: "end" }}>
+          <Grid.Col sm={6} lg={2} md={3} style={{ textAlign: "end" }}>
             <Button
               label={"Clear Filters"}
               onClick={() => {
