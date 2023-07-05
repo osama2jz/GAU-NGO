@@ -463,7 +463,7 @@ const Table = ({
                         {/* {row.image && ( */}
                         <Avatar src={row.image} width="30px" radius={"xl"}>
                           {row[head?.id][0]?.toUpperCase() +
-                            row[head?.id].split(" ")[1][0]?.toUpperCase()}
+                            row[head?.id].split(" ")[1]?.[0]?.toUpperCase()}
                         </Avatar>
                         {/* )} */}
                         <Tooltip label={row[head?.id]}>
@@ -654,7 +654,7 @@ const Table = ({
                         }}
                         defaultChecked={row[head?.id] === "active"}
                         color={"green.9"}
-                        w="60%"
+                        w="40%"
                         styles={{
                           track: { backgroundColor: theme.colors.red },
                         }}
@@ -780,7 +780,7 @@ const Table = ({
                           color={head.id === "docs" && "red.9"}
                           fw={head.id === "docs" && 1000}
                         >
-                          {row[head?.id]?.length
+                          {row[head?.id]?.length || row[head?.id]
                             ? row[head?.id]?.length > 100
                               ? row[head?.id]?.substring(0, 20) + "..."
                               : row[head?.id]
