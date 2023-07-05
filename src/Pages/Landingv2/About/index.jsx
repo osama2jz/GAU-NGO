@@ -7,7 +7,7 @@ import {
   Title,
 } from "@mantine/core";
 import React from "react";
-import img from "../../../assets/about1.jpg";
+import img from "../../../assets/AboutUS.png";
 import { useStyles } from "../styles";
 import Projects from "./Projects";
 import { useMediaQuery } from "@mantine/hooks";
@@ -35,7 +35,7 @@ const About = () => {
         spacing={"xl"}
         style={{ marginInline: "auto", marginBlock: "20px" }}
       >
-        <img src={img} width={"100%"} />
+        <img src={img} width={"80%"}/>
         <Stack justify="center">
           <Title>{translate("Help Is Our Main goal")}</Title>
           <Text align="justify">

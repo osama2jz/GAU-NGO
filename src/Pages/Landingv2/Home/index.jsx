@@ -32,7 +32,7 @@ const Home = () => {
       pb="50px"
       m="0px"
     >
-      <Grid.Col lg={8}>
+      <Grid.Col sm={8}>
         <Stack spacing={"50px"} style={{ marginTop: "auto" }}>
           <Text
             fz={isMobile ? "40px" : "60px"}
@@ -71,11 +71,11 @@ const Home = () => {
           </Flex>
         </Stack>
       </Grid.Col>
-      {isWeb && (
-        <Grid.Col lg={4}>
-          <img src={img1} width={"100%"} />
-        </Grid.Col>
-      )}
+      {/* {isWeb && ( */}
+      <Grid.Col lg={4} xs={4} m={"auto"}>
+        <img src={img1} width={"100%"} />
+      </Grid.Col>
+      {/* )} */}
     </Grid>
   );
 };

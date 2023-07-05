@@ -1,15 +1,15 @@
 * {
-  font-family: Poppins, sans-serif !important;
+  font-family: Poppins !important;
   box-sizing: border-box;
 }
 .wrapperClassName {
-  border: 1px solid rgb(0,0,0,0.1);
+  border: 1px solid rgb(0, 0, 0, 0.1);
   border-radius: 5px;
 }
-.editorClassName{
+.editorClassName {
   height: 200px;
 }
-.fio-modal-content{
+.fio-modal-content {
   left: 60% !important;
 }
 
@@ -26,9 +26,9 @@
   background: rgb(190, 190, 190);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(190, 190, 190,0.5);
+  background: rgb(190, 190, 190, 0.5);
   cursor: pointer;
 }
-.mantine-1682jzp{
+.mantine-1682jzp {
   padding: 0;
 }

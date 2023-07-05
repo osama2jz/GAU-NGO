@@ -20,7 +20,7 @@ const Donations = () => {
       spacing={"100px"}
     >
       <form style={{ width: "90%", margin: "auto" }}>
-        <Title align="center">Make A Donation</Title>
+        <Title align="center">{translate("Make A Donation")}</Title>
         <InputField placeholder={"Full Name"} />
         <InputField placeholder={"Email"} />
         <InputField placeholder={"Contact Number"} />

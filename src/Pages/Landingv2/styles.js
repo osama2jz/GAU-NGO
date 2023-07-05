@@ -13,7 +13,9 @@ export const useStyles = createStyles((theme, props) => ({
     marginBottom: "20px",
     ":after": {
       content: '""',
-      backgroundColor: "rgb(45, 62, 80)",
+      background:
+        "linear-gradient(to right, rgb(4, 143, 200) , rgb(3, 189, 238))",
+      // backgroundColor: "rgb(4, 143, 200)",
       position: "absolute",
       width: "100%",
       height: "78%",
@@ -95,7 +97,8 @@ export const useStyles = createStyles((theme, props) => ({
     position: "absolute",
     width: "80%",
     "& > img": {
-      width: "200px",
+      width: "90px",
+      height: "90px !important",
       padding: "10px",
       backgroundColor: theme.colors.green,
       borderRadius: "30% 30% 0% 30%",
@@ -187,6 +190,7 @@ export const useStyles = createStyles((theme, props) => ({
     padding: "10px",
     cursor: "pointer",
     transition: "0.5s ease all",
+    zIndex: 999,
     ":hover": {
       opacity: 0.9,
     },

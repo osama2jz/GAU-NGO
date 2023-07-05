@@ -26,7 +26,9 @@ const Header = ({ opened, toggle, onClick }) => {
         position: "sticky",
         paddingBlock: isMobile ? "10px" : "20px",
         zIndex: "11",
-        backgroundColor: "rgb(45, 62, 80)",
+        background:
+          "linear-gradient(to right, rgb(4, 143, 200) , rgb(3, 189, 238))",
+        // backgroundColor: "rgb(4, 143, 200)",
       }}
     >
       <Flex
