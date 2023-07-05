@@ -462,8 +462,8 @@ const Table = ({
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {/* {row.image && ( */}
                         <Avatar src={row.image} width="30px" radius={"xl"}>
-                          {row[head?.id][0].toUpperCase() +
-                            row[head?.id].split(" ")[1][0].toUpperCase()}
+                          {row[head?.id][0]?.toUpperCase() +
+                            row[head?.id].split(" ")[1][0]?.toUpperCase()}
                         </Avatar>
                         {/* )} */}
                         <Tooltip label={row[head?.id]}>
