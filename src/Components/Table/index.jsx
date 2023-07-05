@@ -239,21 +239,10 @@ const Table = ({
                           ? "50px"
                           : head.id === "name"
                           ? "200px"
-                          : head.id === "accStatus" ||
-                            head.id === "userVerify" ||
-                            head.id === "start" ||
-                            // head.id === "time" ||
-                            head.id === "refer" ||
-                            head.id === "reply" ||
-                            head.id === "branchName" ||
-                            head.id === "branchAddress" ||
-                            head.id === "appointmentWithName" ||
-                            head.id === "complementaryTraining" ||
-                            head.id === "completionYear"
-                          ? "auto"
-                          : "130px",
+                          : "auto",
                     }}
                     spacing={3}
+                    px="md"
                     position="center"
                     mx="sm"
                   >
@@ -283,7 +272,7 @@ const Table = ({
                 {headCells?.map((head, index) => {
                   return head.id === "actions" ? (
                     <td key={index}>
-                      <Flex gap={"sm"}>
+                      <Flex gap={"sm"} justify={"center"}>
                         {head.verify && (
                           <ActionIcon
                             onClick={() => {
@@ -449,7 +438,7 @@ const Table = ({
                       </Flex>
                     </td>
                   ) : head.id === "status" ? (
-                    <td key={index}>
+                    <td key={index} align="center">
                       <Badge
                         radius="xs"
                         color={
@@ -473,7 +462,8 @@ const Table = ({
                       <Flex gap={"sm"} p="0px" m="0px" align={"center"}>
                         {/* {row.image && ( */}
                         <Avatar src={row.image} width="30px" radius={"xl"}>
-                          {row[head?.id][0] + row[head?.id][1]}
+                          {row[head?.id][0].toUpperCase() +
+                            row[head?.id].split(" ")[1][0].toUpperCase()}
                         </Avatar>
                         {/* )} */}
                         <Tooltip label={row[head?.id]}>
@@ -596,7 +586,7 @@ const Table = ({
                       </Flex>
                     </td>
                   ) : head.id === "file" ? (
-                    <td key={index}>
+                    <td key={index} align="center">
                       {row?.file !== "" ? (
                         <Anchor href={row?.file} target={"_blank"}>
                           {translate("View")}
@@ -671,7 +661,7 @@ const Table = ({
                       />
                     </td>
                   ) : head.id === "userVerify" ? (
-                    <td key={index}>
+                    <td key={index} align="center">
                       <Button
                         label={
                           row.status === "unverified" ? "Verify" : "Verified"
@@ -707,7 +697,9 @@ const Table = ({
                         }}
                         compact={true}
                         disabled={
-                          row.status === "closed" || row.status === "cancelled" || row.status === "finished"
+                          row.status === "closed" ||
+                          row.status === "cancelled" ||
+                          row.status === "finished"
                         }
                       />
                     </td>
@@ -788,9 +780,11 @@ const Table = ({
                           color={head.id === "docs" && "red.9"}
                           fw={head.id === "docs" && 1000}
                         >
-                          {row[head?.id]?.length > 100
-                            ? row[head?.id]?.substring(0, 10) + "..."
-                            : row[head?.id]}
+                          {row[head?.id]?.length
+                            ? row[head?.id]?.length > 100
+                              ? row[head?.id]?.substring(0, 20) + "..."
+                              : row[head?.id]
+                            : "--"}
                         </Text>
                       </Tooltip>
                     </td>
