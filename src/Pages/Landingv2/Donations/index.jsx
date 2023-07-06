@@ -1,7 +1,16 @@
-import { List, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Group,
+  List,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import React from "react";
 import InputField from "../../../Components/InputField";
 import Button from "../../../Components/Button";
+import donation from "../../../assets/donation.png";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import { useMediaQuery } from "@mantine/hooks";
@@ -13,27 +22,28 @@ const Donations = () => {
     <SimpleGrid
       style={{ backgroundColor: "#f0f0f0", marginBlock: "50px" }}
       breakpoints={[
-        { minWidth: "sm", cols: 1 },
-        { minWidth: "md", cols: 2 },
+        { minWidth: "xs", cols: 1 },
+        { minWidth: "sm", cols: 2 },
       ]}
       p="xl"
       spacing={"100px"}
     >
-      <form style={{ width: "90%", margin: "auto" }}>
+      {/* <form style={{ width: "90%", margin: "auto" }}>
         <Title align="center">{translate("Make A Donation")}</Title>
         <InputField placeholder={"Full Name"} />
         <InputField placeholder={"Email"} />
         <InputField placeholder={"Contact Number"} />
         <InputField placeholder={"Amount"} />
         <Button label={"Donate"} primary={true} />
-      </form>
+      </form> */}
+
       <Stack spacing={"20px"} w={"100%"}>
         <Title order={1} mt="0px">
           {translate(
             "Empower the Gypsy Community Donate and Make a Lasting Impact"
           )}
         </Title>
-        <Text>
+        <Text align="justify">
           {translate(
             "Ignite hope. Unleash compassion. Support the Gypsy community. Your donation breathes life into forgotten dreams, breaking chains of marginalization. Together, we create a symphony of transformation, painting a brighter future. Let love and understanding guide our path, rewriting their story with unwavering kindness. Make an indelible mark of empathy, for every heartfelt gift shapes their lives"
           )}
@@ -66,6 +76,9 @@ const Donations = () => {
           </List.Item>
         </List>
       </Stack>
+      <Group position="center" ml={"md"}>
+        <img src={donation} width="380px" />
+      </Group>
     </SimpleGrid>
   );
 };

@@ -48,11 +48,9 @@ const Footer = () => {
         </Stack>
         <Stack spacing={"xl"} mx="auto">
           <Title>{translate("Contact Us")}</Title>
-          <Flex gap={"lg"}>
+          <Flex gap={"lg"} align={"center"}>
             <Phone className={classes.icon} size={"50px"} />
             <Text>
-              +34641854490
-              <br />
               +34641854490
             </Text>
           </Flex>
@@ -63,22 +61,21 @@ const Footer = () => {
               <br /> https://gauapp.es/
             </Text>
           </Flex>
-          <Flex gap={"lg"}>
+          <Flex gap={"lg"} align={"center"}>
             <MapPin className={classes.icon} size={"50px"} />
             <Text>
               Madrid, Spain
-              <br /> Madrid, Spain
             </Text>
           </Flex>
         </Stack>
       </SimpleGrid>
       <Title order={2}>{translate("VISIT US ON")}</Title>
       <Flex gap={"lg"}>
-        <BrandFacebook className={classes.socialIcon} />
+        {/* <BrandFacebook className={classes.socialIcon} /> */}
         <BrandInstagram className={classes.socialIcon} />
-        <BrandGoogle className={classes.socialIcon} />
+        {/* <BrandGoogle className={classes.socialIcon} /> */}
         <BrandTwitter className={classes.socialIcon} />
-        <BrandYoutube className={classes.socialIcon} />
+        {/* <BrandYoutube className={classes.socialIcon} /> */}
       </Flex>
       <Text>Copyright © {new Date().getFullYear()} | GAU</Text>
     </Box>

@@ -54,9 +54,9 @@ const Header = ({ opened, toggle, onClick }) => {
         <Link className={classes.link} onClick={() => onClick("download")}>
           {translate("Download")}
         </Link>
-        <Link className={classes.link} onClick={() => onClick("reviews")}>
+        {/* <Link className={classes.link} onClick={() => onClick("reviews")}>
           {translate("Reviews")}
-        </Link>
+        </Link> */}
         <Link className={classes.link} onClick={() => onClick("donate")}>
           {translate("Donations")}
         </Link>

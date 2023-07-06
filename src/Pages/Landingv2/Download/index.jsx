@@ -24,14 +24,14 @@ const Download = () => {
           <BrandApple fill="white" size={"50px"} />
           <Text>
             {translate("Available on the")} <br />
-            <b>{translate("App Store")}</b>
+            <b>App Store</b>
           </Text>
         </Flex>
         <Flex className={classes.storeButton} gap={"lg"}>
           <BrandGooglePlay size={"50px"} />
           <Text>
             {translate("Available on the")} <br />
-            <b>{translate("Play Store")}</b>
+            <b>Play Store</b>
           </Text>
         </Flex>
       </Group>

@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text } from "@mantine/core";
+import { Box, Flex, SimpleGrid, Text } from "@mantine/core";
 import React, { useContext, useState } from "react";
 import CountUp from "react-countup";
 import ScrollTrigger from "react-scroll-trigger";
@@ -28,14 +28,17 @@ const Projects = () => {
       >
         <Box className={classes.projectsDiv}>
           <img src={GroupIcon} />
-          {count && (
-            <CountUp
-              start={0}
-              end={1}
-              duration={2}
-              style={{ fontSize: "60px", fontWeight: 1000 }}
-            />
-          )}
+          <Flex align={"center"} fz="40px">
+            <Text>+</Text>
+            {count && (
+              <CountUp
+                start={0}
+                end={1}
+                duration={2}
+                style={{ fontSize: "60px", fontWeight: 1000 }}
+              />
+            )}
+          </Flex>
           <Text size={"xl"}>{translate("Years of Operations")}</Text>
           <Text size={"xs"} align="center">
             {translate(
@@ -45,14 +48,17 @@ const Projects = () => {
         </Box>
         <Box className={classes.projectsDiv}>
           <img src={PatternIcon} />
-          {count && (
-            <CountUp
-              start={0}
-              end={80}
-              duration={2}
-              style={{ fontSize: "60px", fontWeight: 1000 }}
-            />
-          )}
+          <Flex align={"center"} fz="40px">
+            <Text>+</Text>
+            {count && (
+              <CountUp
+                start={0}
+                end={80}
+                duration={2}
+                style={{ fontSize: "60px", fontWeight: 1000 }}
+              />
+            )}
+          </Flex>
           <Text size={"xl"}>{translate("Completed Projects")}</Text>
           <Text size={"xs"} align="center">
             {translate(
@@ -62,14 +68,17 @@ const Projects = () => {
         </Box>
         <Box className={classes.projectsDiv}>
           <img src={PeopleIcon} />
-          {count && (
-            <CountUp
-              start={0}
-              end={3600}
-              duration={2}
-              style={{ fontSize: "60px", fontWeight: 1000 }}
-            />
-          )}
+          <Flex align={"center"} fz="40px">
+            <Text>+</Text>
+            {count && (
+              <CountUp
+                start={0}
+                end={3600}
+                duration={2}
+                style={{ fontSize: "60px", fontWeight: 1000 }}
+              />
+            )}
+          </Flex>
           <Text size={"xl"}>{translate("Loyal Clients")}</Text>
           <Text size={"xs"} align="center">
             {translate(
@@ -79,14 +88,17 @@ const Projects = () => {
         </Box>
         <Box className={classes.projectsDiv}>
           <img src={LaptopIcon} />
-          {count && (
-            <CountUp
-              start={0}
-              end={150}
-              duration={2}
-              style={{ fontSize: "60px", fontWeight: 1000 }}
-            />
-          )}
+          <Flex align={"center"} fz="40px">
+            <Text>+</Text>
+            {count && (
+              <CountUp
+                start={0}
+                end={150}
+                duration={2}
+                style={{ fontSize: "60px", fontWeight: 1000 }}
+              />
+            )}
+          </Flex>
           <Text size={"xl"}>{translate("New Projects")}</Text>
           <Text size={"xs"} align="center">
             {translate(

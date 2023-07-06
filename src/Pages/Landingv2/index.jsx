@@ -20,6 +20,14 @@ const Landing = () => {
   const scrollToDiv = (target) => {
     var targetElement = document.getElementById(target);
     targetElement.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      var scrollTop =
+        targetElement.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({
+        top: scrollTop,
+        behavior: "smooth",
+      });
+    }, 100);
   };
 
   //   const scrolled = document.documentElement.scrollTop;
@@ -66,9 +74,9 @@ const Landing = () => {
       <div id="download">
         <Download />
       </div>
-      <div id="reviews">
+      {/* <div id="reviews">
         <AppReviews />
-      </div>
+      </div> */}
       <div id="donate">
         <Donations />
       </div>

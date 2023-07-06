@@ -23,7 +23,7 @@ const Home = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { translate } = useContext(UserContext);
-  const isMobile = useMediaQuery("(max-width: 820px)");
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const isWeb = useMediaQuery("(min-width: 1200px)");
   return (
     <Grid
@@ -32,7 +32,7 @@ const Home = () => {
       pb="50px"
       m="0px"
     >
-      <Grid.Col sm={8}>
+      <Grid.Col sm={8} order={isMobile && 2}>
         <Stack spacing={"50px"} style={{ marginTop: "auto" }}>
           <Text
             fz={isMobile ? "40px" : "60px"}
@@ -73,7 +73,7 @@ const Home = () => {
       </Grid.Col>
       {/* {isWeb && ( */}
       <Grid.Col lg={4} xs={4} m={"auto"}>
-        <img src={img1} width={"100%"} />
+        <img src={img1} width={isMobile ? "100%" : "400px"} />
       </Grid.Col>
       {/* )} */}
     </Grid>

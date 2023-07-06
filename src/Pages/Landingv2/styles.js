@@ -108,7 +108,8 @@ export const useStyles = createStyles((theme, props) => ({
       width: "100%",
       padding: "10px",
       "& > img": {
-        width: "40px",
+        width: "50px",
+        height: "50px !important",
         padding: "10px",
         backgroundColor: theme.colors.green,
         // borderRadius: "30% 30% 0% 30%",
