@@ -1,4 +1,4 @@
-import { Box, Burger, Container, Flex, Text } from "@mantine/core";
+import { Box, Burger, Container, Flex, Switch, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import logo from "../../assets/Gau.png";
 import { UserContext } from "../../contexts/UserContext";
 import Button from "../Button";
 import { useStyles } from "./styles";
+import { World } from "tabler-icons-react";
 
 const Header = ({ opened, toggle, onClick }) => {
   const isMobile = useMediaQuery("(max-width: 1100px)");
@@ -27,7 +28,7 @@ const Header = ({ opened, toggle, onClick }) => {
         paddingBlock: isMobile ? "10px" : "20px",
         zIndex: "11",
         background:
-          "linear-gradient(to right, rgb(4, 143, 200) , rgb(3, 189, 238))",
+          "linear-gradient(to right, rgb(4, 143, 200) , rgb(101, 230, 223))",
         // backgroundColor: "rgb(4, 143, 200)",
       }}
     >
@@ -66,6 +67,21 @@ const Header = ({ opened, toggle, onClick }) => {
         <Link className={classes.link} onClick={() => onClick("footer")}>
           {translate("Contact Us")}
         </Link>
+        <Switch
+          onLabel={<Text style={{ color: "gray" }}>SP</Text>}
+          offLabel={"EN"}
+          color="white"
+          size="lg"
+          checked={user.lang === "spanish" ? true : false}
+          thumbIcon={<World size={"sm"} color="green" />}
+          onChange={() => {
+            localStorage.setItem(
+              "lang",
+              user.lang === "spanish" ? "english" : "spanish"
+            );
+            window.location.reload();
+          }}
+        />
       </Flex>
       {/* {!user?.role ? (
         <Flex gap="md">

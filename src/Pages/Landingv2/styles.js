@@ -14,7 +14,7 @@ export const useStyles = createStyles((theme, props) => ({
     ":after": {
       content: '""',
       background:
-        "linear-gradient(to right, rgb(4, 143, 200) , rgb(3, 189, 238))",
+        "linear-gradient(to right, rgb(4, 143, 200) , rgb(101, 230, 223))",
       // backgroundColor: "rgb(4, 143, 200)",
       position: "absolute",
       width: "100%",

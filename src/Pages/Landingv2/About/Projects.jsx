@@ -27,7 +27,7 @@ const Projects = () => {
         className={classes.projects}
       >
         <Box className={classes.projectsDiv}>
-          <img src={GroupIcon} />
+          <img src={GroupIcon} width={"100px"} />
           <Flex align={"center"} fz="40px">
             <Text>+</Text>
             {count && (
@@ -47,7 +47,7 @@ const Projects = () => {
           </Text>
         </Box>
         <Box className={classes.projectsDiv}>
-          <img src={PatternIcon} />
+          <img src={PatternIcon} width={"100px"} />
           <Flex align={"center"} fz="40px">
             <Text>+</Text>
             {count && (
@@ -67,7 +67,7 @@ const Projects = () => {
           </Text>
         </Box>
         <Box className={classes.projectsDiv}>
-          <img src={PeopleIcon} />
+          <img src={PeopleIcon} width={"100px"} />
           <Flex align={"center"} fz="40px">
             <Text>+</Text>
             {count && (
@@ -87,7 +87,7 @@ const Projects = () => {
           </Text>
         </Box>
         <Box className={classes.projectsDiv}>
-          <img src={LaptopIcon} />
+          <img src={LaptopIcon} width={"100px"} />
           <Flex align={"center"} fz="40px">
             <Text>+</Text>
             {count && (
