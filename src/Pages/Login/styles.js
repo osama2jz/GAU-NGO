@@ -7,7 +7,8 @@ export const useStyles = createStyles((theme) => ({
   },
   form: {
     margin: "auto",
-    overflow:"scroll",
+    overflowY: "scroll",
+    overflowX:"hidden",
     width: "70%",
     [`@media (max-width: 600px)`]: {
       width: "90%",
@@ -20,11 +21,11 @@ export const useStyles = createStyles((theme) => ({
     // alignItems: "center",
     gap: "5px",
     [`@media (max-width: 600px)`]: {
-      background: "rgb(255, 255, 255, 0.6) url(/src/assets/login.png)" ,
-      backgroundPosition:"bottom",
+      background: "rgb(255, 255, 255, 0.6) url(/src/assets/login.png)",
+      backgroundPosition: "bottom",
       backgroundBlendMode: "lighten",
-      backgroundSize:"350px",
-      backgroundRepeat:'no-repeat'
+      backgroundSize: "350px",
+      backgroundRepeat: "no-repeat",
     },
   },
   img: {

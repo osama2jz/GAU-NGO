@@ -72,7 +72,7 @@ const Header = ({ opened, toggle, onClick }) => {
           offLabel={"EN"}
           color="white"
           size="lg"
-          checked={user.lang === "spanish" ? true : false}
+          checked={user?.lang === "spanish" ? true : false}
           thumbIcon={<World size={"sm"} color="green" />}
           onChange={() => {
             localStorage.setItem(

@@ -170,7 +170,7 @@ const Index = ({}) => {
                 onClick={() => {
                   setUser(null);
                   localStorage.removeItem("userData");
-                  navigate(routeNames.general.login);
+                  navigate(routeNames.general.landing);
                 }}
               >
                 <Flex gap={"md"} align="center">
