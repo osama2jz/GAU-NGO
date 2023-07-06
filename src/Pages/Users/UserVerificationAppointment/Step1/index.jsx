@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Container,
   Divider,
   Group,
@@ -72,19 +73,21 @@ const Step1 = ({
   //   }
   // );
 
-   //all users
-   const { data: usersa, status2 } = useQuery(
+  //all users
+  const { data: usersa, status2 } = useQuery(
     "fetchUsers",
     () => {
-      return axios.get(backendUrl + "/api/user/verificationScheduledUsers/none", {
-        headers: {
-          "x-access-token": usertoken?.token,
-        },
-      });
+      return axios.get(
+        backendUrl + "/api/user/verificationScheduledUsers/none",
+        {
+          headers: {
+            "x-access-token": usertoken?.token,
+          },
+        }
+      );
     },
     {
       onSuccess: (response) => {
-        console.log("response",response)
         let data = response.data.data.map((obj, ind) => {
           if (obj.userStatus === "active") {
             let user = {
@@ -169,35 +172,35 @@ const Step1 = ({
   }
 
   return (
-    <Container p={"0px"} size="xl">
+    <Container p={"0px"} w="auto">
       <Text fz={20} fw="bolder" align="center">
-        {usertoken.role === "User" ? translate("Personal Information") : translate("Select User")}
+        {usertoken.role === "User"
+          ? translate("Personal Information")
+          : translate("Select User")}
       </Text>
-      <Container>
-        <Container w="36rem">
-          <SelectMenu
-            searchable={true}
-            itemComponent={SelectItem}
-            placeholder="Enter User name or Id"
-            clearable={true}
-            setData={setUser}
-            value={user}
-            label="Search User"
-            data={userData}
-          />
-        </Container>
+      <Box>
+        <SelectMenu
+          searchable={true}
+          itemComponent={SelectItem}
+          placeholder="Enter User name or Id"
+          clearable={true}
+          setData={setUser}
+          value={user}
+          label="Search User"
+          data={userData}
+        />
         {userFetching === "loading" ? (
           <Container mt={"xl"}>
             <Loader minHeight="40px" />
           </Container>
         ) : selectedUser ? (
-          <Container mt={"md"} w={"36rem"} >
+          <Box mt={"md"}>
             <UserInfo userData={selectedUser} loading={userFetching} />
-          </Container>
+          </Box>
         ) : (
           ""
         )}
-      </Container>
+      </Box>
     </Container>
   );
 };

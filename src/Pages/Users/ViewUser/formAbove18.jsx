@@ -16,7 +16,7 @@ import InputMask from "react-input-mask";
 import Datepicker from "../../../Components/Datepicker";
 import { UserContext } from "../../../contexts/UserContext";
 
-export const AgeFormAbove = ({ data }) => {
+export const AgeFormAbove = ({ data, compRef }) => {
   const { classes } = useStyles();
   const { translate } = useContext(UserContext);
 
@@ -25,7 +25,7 @@ export const AgeFormAbove = ({ data }) => {
   useEffect(() => {
     if (data) {
       form.setValues(data);
-      form.setFieldValue("over18StartDate",new Date(data?.over18StartDate));
+      form.setFieldValue("over18StartDate", new Date(data?.over18StartDate));
     }
   }, [data]);
 
@@ -167,7 +167,7 @@ export const AgeFormAbove = ({ data }) => {
   });
 
   return (
-    <Container size="lg">
+    <Container size="lg" ref={compRef}>
       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
         {translate("Psychology Form Over 18")}
       </Text>
@@ -330,7 +330,6 @@ export const AgeFormAbove = ({ data }) => {
               form={form}
               readOnly={true}
               validateName="over18StartDate"
-              
             />
             <InputField
               label="Duration Of Problem"
@@ -1103,7 +1102,6 @@ export const AgeFormAbove = ({ data }) => {
             />
           </SimpleGrid>
         </Card>
-        
       </form>
     </Container>
   );

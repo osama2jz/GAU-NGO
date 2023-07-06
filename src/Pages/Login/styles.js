@@ -7,6 +7,7 @@ export const useStyles = createStyles((theme) => ({
   },
   form: {
     margin: "auto",
+    overflow:"scroll",
     width: "70%",
     [`@media (max-width: 600px)`]: {
       width: "90%",

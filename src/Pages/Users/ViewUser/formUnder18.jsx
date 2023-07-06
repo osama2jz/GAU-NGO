@@ -17,15 +17,14 @@ import Datepicker from "../../../Components/Datepicker";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 
-export const AgeForm = ({ data }) => {
+export const AgeForm = ({ data, compRef }) => {
   const { classes } = useStyles();
   const { translate } = useContext(UserContext);
 
   useEffect(() => {
     if (data) {
       form.setValues(data);
-      form.setFieldValue("under18StartDate",new Date(data?.under18StartDate));
-
+      form.setFieldValue("under18StartDate", new Date(data?.under18StartDate));
     }
   }, [data]);
 
@@ -146,7 +145,7 @@ export const AgeForm = ({ data }) => {
     },
   });
   return (
-    <Container size="lg">
+    <Container size="lg" ref={compRef}>
       <Text fz={20} fw="bolder" align="center" mb={"xl"}>
         {translate("Psychology Form Under 18")}
       </Text>
@@ -926,7 +925,6 @@ export const AgeForm = ({ data }) => {
             />
           </SimpleGrid>
         </Card>
-       
       </form>
     </Container>
   );

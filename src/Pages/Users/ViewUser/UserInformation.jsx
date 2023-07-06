@@ -39,23 +39,6 @@ function ViewUserPersonalInformation({ componentRef }) {
 
   const [workData, setWorkData] = useState([]);
 
-  const printPageArea = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  const downloadPDF = () => {
-    const capture = document.getElementById("pdf");
-    // setLoader(true);
-    html2canvas(capture).then((canvas) => {
-      const imgData = canvas.toDataURL("img/png");
-      const doc = new jsPDF("p", "mm", "a4");
-      const componentWidth = doc.internal.pageSize.getWidth();
-      const componentHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
-      // setLoader(false);
-      doc.save("receipt.pdf");
-    });
-  };
 
   const { data1, status } = useQuery(
     "fetchUsertoViewData",

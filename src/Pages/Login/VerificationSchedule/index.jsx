@@ -26,7 +26,6 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   const [slotId, setSlotId] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("all");
   const [referedToId, setReferedToId] = useState(null);
-  
 
   useEffect(() => {
     getSchedule.mutate();
@@ -137,21 +136,25 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
       <Text fz={32} fw="bolder" align="center">
         {translate("Book An Appointment")}
       </Text>
-      <Text fz={15} align="center" mb={"md"}>
-        {translate(
-          "Your profile is not verified yet, please schedule a meeting for your account verification"
-        )}
-        .
-      </Text>
-      <Button
-        label={"Log Out"}
-        onClick={() => {
-          localStorage.clear();
-          setUser();
-          navigate(routeNames.general.login);
-        }}
-        styles={{ display: "flex", marginLeft: "auto" }}
-      />
+      {user.role === "user" && (
+        <Text fz={15} align="center" mb={"md"}>
+          {translate(
+            "Your profile is not verified yet, please schedule a meeting for your account verification"
+          )}
+          .
+        </Text>
+      )}
+      {user.role === "user" && (
+        <Button
+          label={"Log Out"}
+          onClick={() => {
+            localStorage.clear();
+            setUser();
+            navigate(routeNames.general.login);
+          }}
+          styles={{ display: "flex", marginLeft: "auto" }}
+        />
+      )}
       <Grid align={"center"} py="md">
         <Grid.Col sm={6}>
           <InputField

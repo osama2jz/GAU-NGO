@@ -46,6 +46,7 @@ function ViewUser() {
   const componentRef = useRef();
   const agreementSignatures = useRef();
   const consentSignatures = useRef();
+  const userForm = useRef();
   const [activeTab, setActiveTab] = useState(1);
 
 
@@ -58,6 +59,9 @@ function ViewUser() {
     }
     if (activeTab === 3) {
       agreementPrint();
+    }
+    if (activeTab === 5) {
+      formPrint();
     }
   };
   const printPageArea = useReactToPrint({
@@ -72,19 +76,11 @@ function ViewUser() {
     content: () => agreementSignatures.current,
   });
 
-  const downloadPDF = () => {
-    const capture = document.getElementById("pdf");
-    // setLoader(true);
-    html2canvas(capture).then((canvas) => {
-      const imgData = canvas.toDataURL("img/png");
-      const doc = new jsPDF("p", "mm", "a4");
-      const componentWidth = doc.internal.pageSize.getWidth();
-      const componentHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
-      // setLoader(false);
-      doc.save("receipt.pdf");
-    });
-  };
+  const formPrint = useReactToPrint({
+    content: () => userForm.current,
+  });
+
+
 
   const { data1, status } = useQuery(
     "fetchUsertoViewData",
@@ -130,103 +126,6 @@ function ViewUser() {
     }
   );
 
-  // console.log(data);
-  let headerData = [
-    {
-      id: "fullName",
-      numeric: false,
-      disablePadding: true,
-      label: "Name",
-    },
-    {
-      id: "email",
-      numeric: false,
-      disablePadding: true,
-      label: "Email",
-    },
-    {
-      id: "phone",
-      numeric: false,
-      disablePadding: true,
-      label: "Phone",
-    },
-    {
-      id: "center",
-      numeric: false,
-      disablePadding: true,
-      label: "Center",
-    },
-    {
-      id: "relation",
-      numeric: false,
-      disablePadding: true,
-      label: "Relation",
-    },
-  ];
-  let headerData2 = [
-    {
-      id: "position",
-      numeric: false,
-      disablePadding: true,
-      label: "Position",
-    },
-    {
-      id: "contract",
-      numeric: false,
-      disablePadding: true,
-      label: "Job Type",
-    },
-    {
-      id: "enterprise",
-      numeric: false,
-      disablePadding: true,
-      label: "Enterprise",
-    },
-    {
-      id: "duration",
-      numeric: false,
-      disablePadding: true,
-      label: "Duration",
-    },
-    {
-      id: "startDate",
-      numeric: false,
-      disablePadding: true,
-      label: "Start Date",
-    },
-    {
-      id: "endDate",
-      numeric: false,
-      disablePadding: true,
-      label: "End Date",
-    },
-  ];
-  let headerData3 = [
-    {
-      id: "educationLevel",
-      numeric: false,
-      disablePadding: true,
-      label: "Education Level",
-    },
-    {
-      id: "specialization",
-      numeric: false,
-      disablePadding: true,
-      label: "Specialization",
-    },
-    {
-      id: "complementaryTraining",
-      numeric: false,
-      disablePadding: true,
-      label: "Complementary Training",
-    },
-    {
-      id: "completionYear",
-      numeric: false,
-      disablePadding: true,
-      label: "Completion Year",
-    },
-  ];
 
   return (
     <>
@@ -304,9 +203,9 @@ function ViewUser() {
 
         <Tabs.Panel value="5" pt="xs">
           {data?.userConsentForm?.personalInformation?.age < 18 ? (
-            <AgeForm data={formsData} />
+            <AgeForm data={formsData} compRef={userForm}/>
           ) : (
-            <AgeFormAbove data={formsData} />
+            <AgeFormAbove data={formsData} compRef={userForm}/>
           )}
         </Tabs.Panel>
       </Tabs>

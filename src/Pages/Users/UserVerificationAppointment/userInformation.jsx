@@ -7,7 +7,7 @@ import { UserContext } from "../../../contexts/UserContext";
 export const UserInfo = ({ userData, loading }) => {
   const matches = useMediaQuery("(min-width: 640px)");
   const [data, setData] = useState([]);
-  const {user, translate} =useContext(UserContext)
+  const { user, translate } = useContext(UserContext);
 
   useEffect(() => {
     setData([
@@ -50,15 +50,25 @@ export const UserInfo = ({ userData, loading }) => {
         border: `0.5px solid rgb(0,0,0,0.1)`,
       }}
     >
-      <img width={user.role==="User"?"250px":"200px"} src={userData?.data?.data?.profileImage || userImage} alt="img" style={{padding:"20px" }} />
+      <img
+        width={user.role === "User" ? "250px" : "200px"}
+        src={userData?.data?.data?.profileImage || userImage}
+        alt="img"
+        style={{ padding: "20px" }}
+      />
       <Container w="100%">
         {data.map((obj) => {
           return (
-            <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"20px"}>
-              <Text fz={matches?16:12} fw={"bold"}>
+            <Flex justify={"space-between"} w={"100%"} mb="sm" gap={"10px"}>
+              <Text fz={matches ? 16 : 12} fw={"bold"}>
                 {translate(obj.key)}
               </Text>
-              <Text opacity={"40%"} fz={matches?16:12} fw={"bold"} ml="20px">
+              <Text
+                opacity={"40%"}
+                fz={matches ? 16 : 12}
+                fw={"bold"}
+                ml="20px"
+              >
                 {translate(obj.value)}
               </Text>
             </Flex>
