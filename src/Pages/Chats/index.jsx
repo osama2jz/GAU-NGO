@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { useState } from "react";
 import { Send, UserCircle } from "tabler-icons-react";
-import Chat from "./chat";
+import Chat from "./Chat";
 
 const Chats = () => {
   const { classes } = useStyles();
