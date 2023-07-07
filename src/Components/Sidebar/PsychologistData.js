@@ -2,6 +2,7 @@ import {
   CalendarEvent,
   CalendarTime,
   LayoutDashboard,
+  Message,
   Power,
   Report,
   Settings,
@@ -17,9 +18,7 @@ export const psychSideBarData = [
   {
     label: "User",
     icon: Users,
-    links: [
-      { label: "View Users", link: routeNames.pysch.allUsers },
-    ],
+    links: [{ label: "View Users", link: routeNames.pysch.allUsers }],
   },
   {
     label: "Appointment",
@@ -53,9 +52,9 @@ export const psychSideBarData = [
       { label: "Private", link: routeNames.pysch.privateReport },
       { label: "Public", link: routeNames.pysch.publicReport },
       { label: "Project Reports", link: routeNames.pysch.allProjects },
-     
     ],
   },
+  { label: "Chats", icon: Message, link: routeNames.pysch.chat },
 ];
 
 export const bottom = [

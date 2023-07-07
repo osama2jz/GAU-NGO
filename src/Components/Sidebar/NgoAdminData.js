@@ -14,6 +14,7 @@ import {
   FileBarcode,
   Language,
   ClipboardTypography,
+  Message,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 
@@ -105,7 +106,6 @@ export const ngoAdminSideBarData = [
     label: "Appointment",
     icon: CalendarEvent,
     links: [
-     
       {
         label: "Appointment Schedule",
         link: routeNames.ngoAdmin.scheduledAppointments,
@@ -168,15 +168,6 @@ export const ngoAdminSideBarData = [
       { label: "View Dictionary", link: routeNames.ngoAdmin.ViewDictionary },
     ],
   },
+  { label: "Chats", icon: Message, link: routeNames.ngoAdmin.chat },
   { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
-];
-
-//not using for now
-export const bottom = [
-  { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
-  {
-    label: "Log Out",
-    link: routeNames.general.login,
-    icon: Power,
-  },
 ];

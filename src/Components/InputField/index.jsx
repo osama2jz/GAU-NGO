@@ -38,10 +38,11 @@ const InputField = ({
   maxLength,
   component,
   mb,
-  readOnly=false
+  readOnly = false,
+  ...props
 }) => {
   const { classes, cx } = useStyles({ borderWhite, disabled });
-  const {translate}=useContext(UserContext)
+  const { translate } = useContext(UserContext);
   return (
     <TextInput
       withAsterisk={required ? true : false}
@@ -75,6 +76,7 @@ const InputField = ({
         label: classes.label,
       }}
       placeholder={translate(placeholder)}
+      {...props}
     />
   );
 };

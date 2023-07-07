@@ -67,6 +67,7 @@ import { AboutUs } from "./Pages/Landing/AboutUs";
 import { Donation } from "./Pages/Landing/Donation";
 import AddNgo from "./SuperAdmin/NGO/AddNgo";
 import AllNgo from "./SuperAdmin/NGO/AllNgo";
+import Chats from "./Pages/Chats";
 
 function App() {
   return (
@@ -324,7 +325,8 @@ function App() {
           <Route path={routeNames.ngoAdmin.userForms} element={<UserForms />} />
           <Route path={routeNames.superAdmin.addNgo} element={<AddNgo />} />
           <Route path={routeNames.superAdmin.allNgo} element={<AllNgo />} />
-          <Route path={routeNames.superAdmin.editNgo} element={<AddNgo/>}/>
+          <Route path={routeNames.superAdmin.editNgo} element={<AddNgo />} />
+          <Route path={routeNames.ngoAdmin.chat} element={<Chats />} />
         </Route>
 
         <Route

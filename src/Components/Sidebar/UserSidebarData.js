@@ -2,10 +2,9 @@ import {
   CalendarEvent,
   CalendarTime,
   LayoutDashboard,
+  Message,
   Power,
-  Report,
   Settings,
-  Users,
 } from "tabler-icons-react";
 import routeNames from "../../Routes/routeNames";
 export const UserSidebarData = [
@@ -46,6 +45,7 @@ export const UserSidebarData = [
     ],
   },
   { label: "Settings", icon: Settings, link: routeNames.user.settings },
+  { label: "Chats", icon: Message, link: routeNames.user.chat },
 ];
 
 export const bottom = [

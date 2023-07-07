@@ -148,6 +148,7 @@ export function LinksGroup({
       >
         <Group
           position="apart"
+          noWrap
           spacing={0}
           onClick={() => link && navigate(link)}
         >

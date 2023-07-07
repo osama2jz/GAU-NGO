@@ -49,6 +49,7 @@ const routeNames = {
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
     caseAppointments: "/case-appointments",
+    chat: "/messages",
   },
   pysch: {
     dashboard: "/",
@@ -81,6 +82,7 @@ const routeNames = {
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
     caseAppointments: "/case-appointments",
+    chat: "/messages",
   },
   lawyer: {
     dashboard: "/",
@@ -113,6 +115,7 @@ const routeNames = {
     allProjects: "/all-projects",
     projectAppointments: "/project-appointments",
     caseAppointments: "/case-appointments",
+    chat: "/messages",
   },
   ngoAdmin: {
     dashboard: "/",
@@ -168,6 +171,7 @@ const routeNames = {
     userForms: "/user-forms",
     addDictionary: "/add-dictionary",
     ViewDictionary: "/view-dictionary",
+    chat: "/messages",
   },
 
   user: {
@@ -187,11 +191,12 @@ const routeNames = {
     projectCases: "/project-cases",
     caseAppointments: "/case-appointments",
     projectAppointments: "/project-appointments",
+    chat: "/messages",
   },
   superAdmin: {
     dashboard: "/",
     addNgo: "/add-ngo",
-    editNgo:"/edit-ngo",
+    editNgo: "/edit-ngo",
     allNgo: "/all-ngo",
     settings: "/settings",
   },

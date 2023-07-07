@@ -2,6 +2,7 @@ import {
   CalendarEvent,
   CalendarTime,
   LayoutDashboard,
+  Message,
   Power,
   Report,
   Settings,
@@ -50,9 +51,9 @@ export const LawyerSidebarData = [
       { label: "Private", link: routeNames.lawyer.privateReport },
       { label: "Public", link: routeNames.lawyer.publicReport },
       { label: "Project Reports", link: routeNames.lawyer.allProjects },
-     
     ],
   },
+  { label: "Chats", icon: Message, link: routeNames.lawyer.chat },
 ];
 
 export const bottom = [
