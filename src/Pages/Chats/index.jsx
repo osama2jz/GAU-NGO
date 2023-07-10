@@ -10,28 +10,29 @@ import { UserContext } from "../../contexts/UserContext";
 import { useState } from "react";
 import { Send, UserCircle } from "tabler-icons-react";
 import Chat from "./Chat";
+import NewChat from "./NewChat";
 
 const Chats = () => {
   const { classes } = useStyles();
   const { translate } = useContext(UserContext);
+  const [opened, setOpened] = useState(false);
   const [activeChat, setActiveChat] = useState(null);
   return (
     <Box className={classes.chatsMain}>
       <ContainerHeader label={"Chats"} />
       <Container fluid className={classes.subChat}>
         <Stack className={classes.chats}>
-          <Button label={"Start Chat"} bg={true} />
+          <Button
+            label={"Start Chat"}
+            leftIcon={"plus"}
+            bg={true}
+            onClick={() => setOpened(true)}
+          />
           <InputField placeholder={"Search in chat"} leftIcon={"search"} />
-          <ChatHeads isActive={true} />
-          <Box onClick={() => setActiveChat("1")}>
-            <ChatHeads />
-          </Box>
-          <Box onClick={() => setActiveChat("2")}>
-            <ChatHeads />
-          </Box>
-          <Box onClick={() => setActiveChat("2")}>
-            <ChatHeads />
-          </Box>
+          <ChatHeads isActive={true} onClick={() => setActiveChat("1")} />
+          <ChatHeads onClick={() => setActiveChat("2")} />
+          <ChatHeads onClick={() => setActiveChat("3")} />
+          <ChatHeads onClick={() => setActiveChat("4")} />
         </Stack>
         {true ? (
           <Container fluid className={classes.chat}>
@@ -63,6 +64,7 @@ const Chats = () => {
           </Container>
         )}
       </Container>
+      <NewChat opened={opened} setOpened={setOpened} />
     </Box>
   );
 };

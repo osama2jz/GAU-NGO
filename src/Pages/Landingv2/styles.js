@@ -100,7 +100,9 @@ export const useStyles = createStyles((theme, props) => ({
       width: "90px",
       height: "90px !important",
       padding: "10px",
-      backgroundColor: theme.colors.green,
+      borderWidth: "2px",
+      borderStyle: "solid",
+      borderColor: theme.colors.green,
       borderRadius: "30% 30% 0% 30%",
     },
     [`@media (max-width: 992px)`]: {

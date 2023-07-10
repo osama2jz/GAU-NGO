@@ -1,12 +1,12 @@
 import { Container, Flex, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
-import education from "../../../assets/education.svg";
-import food from "../../../assets/food.svg";
-import funding from "../../../assets/funding.svg";
-import health from "../../../assets/health.svg";
-import shelter from "../../../assets/shelter.svg";
-import surgery from "../../../assets/surgery.svg";
+import traceability from "../../../assets/traceability.png";
+import security from "../../../assets/security.png";
+import ngo from "../../../assets/ngo.png";
+import beneficiary from "../../../assets/beneficiary.png";
+import administration from "../../../assets/administration.png";
+import effectivness from "../../../assets/effectiveness.png";
 import { useStyles } from "../styles";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext";
@@ -48,79 +48,79 @@ const Services = () => {
         )}
         <Container className={classes.servicesSub}>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={education} height={"100%"} />
+            <img src={effectivness} height={"100%"} width={"190px"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Education")}
+                {translate("EFFECTIVENESS")}
               </Text>
               <Text>
                 {translate(
-                  "GAU is committed to providing quality education and improving access to education for underprivileged children and marginalized communities."
+                  "It allows changes or updates made in the app to be instantly reflected in the system. We avoid duplication of data."
                 )}
               </Text>
             </Stack>
           </Flex>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={surgery} height={"100%"} />
+            <img src={traceability} height={"100%"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Surgery")}
+                {translate("TRACEABILITY")}
               </Text>
               <Text>
                 {translate(
-                  "The organization recognizes that access to quality surgical care is essential for improving health outcomes and enhancing the overall well-being of individuals."
+                  "GAU APP guarantees transparency and traceability by providing a detailed record of all online interactions and services. It allows changes or updates made to the app to be instantly reflected in the system. We avoid duplication of data."
                 )}
               </Text>
             </Stack>
           </Flex>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={health} height={"100%"} />
+            <img src={security} height={"100%"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Health")}
+                {translate("SECURITY")}
               </Text>
               <Text>
                 {translate(
-                  "GAU believes in the power of health education and awareness in preventing diseases and promoting healthy lifestyles."
+                  "We comply with applicable data protection laws and regulations. We encrypt sensitive data avoiding infringement by external agents."
                 )}
               </Text>
             </Stack>
           </Flex>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={food} height={"100%"} />
+            <img src={ngo} height={"100%"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Food")}
+                {translate("NGOs")}
               </Text>
               <Text>
                 {translate(
-                  "GAU recognizes that access to nutritious food is a basic human right and plays a crucial role in promoting health and well-being"
+                  "We apply a rigorous protocol in all our efforts, guaranteeing transparency, traceability and high ethical standards."
                 )}
               </Text>
             </Stack>
           </Flex>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={shelter} height={"100%"} />
+            <img src={beneficiary} height={"100%"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Shelter")}
+                {translate("BENEFICIARIES")}
               </Text>
               <Text>
                 {translate(
-                  "We believe that everyone deserves a place to call home and strives to provide not only shelter but also the necessary support to help individuals overcome homelessness."
+                  "We offer tools, resources and opportunities to boost your personal and professional growth. We want you to feel empowered, inspired and confident to create a bright future."
                 )}
               </Text>
             </Stack>
           </Flex>
           <Flex gap={"xl"} className={classes.cat}>
-            <img src={funding} height={"100%"} />
+            <img src={administration} height={"100%"} />
             <Stack spacing={"0px"}>
               <Text fw={"bold"} fz="lg">
-                {translate("Funding")}
+                {translate("ADMINISTRATIONS")}
               </Text>
               <Text>
                 {translate(
-                  "The organization actively seeks funding from various sources to ensure the sustainability and effectiveness of its programs."
+                  "At GAU, we are committed to promoting traceability and transparency in all our activities to ensure strong collaboration with government authorities. "
                 )}
               </Text>
             </Stack>

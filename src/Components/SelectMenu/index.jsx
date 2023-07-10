@@ -39,6 +39,7 @@ const SelectMenu = ({
   validateName,
   itemComponent,
   ml,
+  ...props
 }) => {
   const { translate } = useContext(UserContext);
   const { classes, cx } = useStyles({ borderWhite });
@@ -83,6 +84,7 @@ const SelectMenu = ({
         label: classes.label,
       }}
       placeholder={translate(placeholder)}
+      {...props}
     />
   );
 };

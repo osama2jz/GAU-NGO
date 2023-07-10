@@ -28,12 +28,17 @@ export const useStyles = createStyles((theme, props) => ({
   chats: {
     padding: "5px",
     width: "350px",
-    borderRight: "1px solid rgb(0,0,0,0.3)",
+    // borderRight: "1px solid rgb(0,0,0,0.3)",
   },
   chat: {
     display: "flex",
     flexDirection: "column",
     width: "70%",
+  },
+  messageMain: {
+    display: "flex",
+    gap: "5px",
+    flexDirection: props?.type === "sent" ? "row-reverse" : "row",
   },
   message: {
     backgroundColor:
@@ -50,12 +55,11 @@ export const useStyles = createStyles((theme, props) => ({
     borderBottom: "1px solid rgb(0,0,0,0.3)",
     marginBottom: "5px",
   },
-  noChat:{
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
-    color:"gray",
-  }
+  noChat: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "gray",
+  },
 }));
-
