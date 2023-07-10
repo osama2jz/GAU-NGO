@@ -34,6 +34,11 @@ export const useStyles = createStyles((theme, props) => ({
     display: "flex",
     flexDirection: "column",
     width: "70%",
+    height: "68vh",
+    [`@media (max-width: 820px)`]: {
+      width: "100%",
+      padding: "0px",
+    },
   },
   messageMain: {
     display: "flex",
@@ -61,5 +66,11 @@ export const useStyles = createStyles((theme, props) => ({
     justifyContent: "center",
     alignItems: "center",
     color: "gray",
+  },
+  tabs: {
+    backgroundColor: "rgb(0,0,0,0.1)",
+    "&:hover": {
+      backgroundColor: theme.colors.blue[1],
+    },
   },
 }));
