@@ -95,7 +95,7 @@ export const useStyles = createStyles((theme, props) => ({
   },
   cat: {
     position: "absolute",
-    width: "80%",
+    width: "90%",
     "& > img": {
       width: "90px",
       height: "90px !important",
