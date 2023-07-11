@@ -117,7 +117,6 @@ export const ViewDocuments = () => {
     (values) => {
       return axios.get(
         `${backendUrl + `/api/lookup/deleteGeneralDocument/${deleteID}`}`,
-        {},
         {
           headers: {
             "x-access-token": user.token,

@@ -19,7 +19,7 @@ import { UserContext } from "../../contexts/UserContext";
 const Login = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { setUser, translate } = useContext(UserContext);
+  const { user, setUser, translate } = useContext(UserContext);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -75,6 +75,7 @@ const Login = () => {
           !response?.data?.appointmentBooked
         ) {
           localStorage.setItem("userData", JSON.stringify(response?.data));
+          // setUser((p) => ({ /response?.data, role: "User" }));
           navigate(routeNames.general.verificationSchedule);
         } else if (
           response?.data?.verificationStatus === "unverified" &&
@@ -145,7 +146,10 @@ const Login = () => {
       />
       <Flex justify="space-between" mt="md">
         <Checkbox label={translate("Remember me")} />
-        <Anchor onClick={() => navigate(routeNames.general.forgetPassword)}>
+        <Anchor
+          fz={"sm"}
+          onClick={() => navigate(routeNames.general.forgetPassword)}
+        >
           {translate("Forgot Password")}
         </Anchor>
       </Flex>

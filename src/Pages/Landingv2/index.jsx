@@ -28,6 +28,7 @@ const Landing = () => {
         behavior: "smooth",
       });
     }, 100);
+    toggle();
   };
 
   //   const scrolled = document.documentElement.scrollTop;

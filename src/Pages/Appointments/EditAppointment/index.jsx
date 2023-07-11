@@ -26,11 +26,14 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
 import Select from "../../../Components/SelectMenu";
+import { useMediaQuery } from "@mantine/hooks";
 
 function EditAppointments() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const [primaryDoc, setPrimaryDoc] = useState([]);
+
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const { user, translate } = useContext(UserContext);
   const [otherDocument, setOtherDocument] = useState([
@@ -41,13 +44,10 @@ function EditAppointments() {
     },
   ]);
 
-  console.log("Other Document", otherDocument);
   const [fileLoader, setFileLoader] = useState(false);
   let { state } = useLocation();
 
   const { editData } = state ?? "";
-  // console.log(editData);
-  // console.log(otherDocument[0].status);
 
   useEffect(() => {
     let data = editData?.primaryDoc?.map((item) => {
@@ -323,56 +323,61 @@ function EditAppointments() {
                 mih={50}
                 // bg={"red"}
                 mt={"md"}
-                gap={"xl"}
+                gap={isMobile ? "0px" : "xl"}
                 justify="flex-start"
                 align="center"
-                direction="row"
+                direction={isMobile ? "column" : "row"}
                 // wrap="wrap-reverse"
               >
-                <Text>{translate("Document")}</Text>
+                {/* <Text>{translate("Document")}</Text> */}
                 <InputField
                   placeholder="Enter document name"
-                  // disabled={i?.documentName}
+                  label={"Document"}
                   value={i?.documentName}
+                  w={isMobile ? "100%" : "auto"}
                   onChange={(e) => {
                     // update value at current index in other document array
                     otherDocument[index].documentName = e.target.value;
-                    // update array (pass by value) for re-render
                     setOtherDocument([...otherDocument]);
                   }}
                 />
-
-                <FileInput
-                  placeholder={
-                    i?.documentURL ? translate("Uploaded") : translate("Upload")
-                  }
-                  // mb="md"
-                  // ml={"0px"}
-                  accept="file/pdf"
-                  color="black"
-                  styles={(theme) => ({
-                    root: {
-                      // margin: "auto",
-                    },
-                    input: {
-                      border: "1px solid rgb(0, 0, 0, 0.5)",
-                      borderRadius: "5px",
-                      width: "150px",
-                    },
-                    placeholder: {
-                      color: "black !important",
-                    },
-                  })}
-                  icon={<FileUpload size={20} color="green" />}
-                  onChange={(e) => handleFileInput(e, index)}
-                />
-
-                {/* {i.status(
-                  <>
+                <Flex gap="xs">
+                  <FileInput
+                    placeholder={
+                      i?.documentURL
+                        ? translate("Uploaded")
+                        : translate("Upload")
+                    }
+                    // mt="md"
+                    size="md"
+                    // ml={"0px"}
+                    accept="file/pdf"
+                    color="black"
+                    styles={(theme) => ({
+                      root: {
+                        // margin: "auto",
+                      },
+                      input: {
+                        border: "1px solid rgb(0, 0, 0, 0.1)",
+                        borderRadius: "5px",
+                        width: isMobile ? "130px" : "150px",
+                      },
+                      placeholder: {
+                        color: "black !important",
+                      },
+                    })}
+                    icon={<FileUpload size={20} color="green" />}
+                    onChange={(e) => handleFileInput(e, index)}
+                  />
+                  {i?.status && !isMobile && (
                     <Divider orientation="vertical" label={"Or"} />
+                  )}
 
+                  {i?.status && (
                     <Select
-                      placeholder="Select"
+                      placeholder={
+                        primaryDoc.length > 0 ? "Select" : "No Document"
+                      }
                       size="md"
                       data={primaryDoc}
                       onChange={(e) =>
@@ -383,35 +388,9 @@ function EditAppointments() {
                           setOtherDocument([...otherDocument]);
                         }
                       }
-
-                      // onChange={(e) => {set}
-                      // setData={setPrimaryDoc}
-                      // data={[
-                      //   { label: "verified", value: "verified" },
-                      //   { label: "Pending", value: "pending" },
-                      // ]}
                     />
-                  </>
-                )} */}
-                {i?.status && <Divider orientation="vertical" label={"Or"} />}
-
-                {i?.status && (
-                  <Select
-                    placeholder={
-                      primaryDoc.length > 0 ? "Select" : "No Document"
-                    }
-                    size="md"
-                    data={primaryDoc}
-                    onChange={(e) =>
-                      // update value at current index in other document array
-                      {
-                        otherDocument[index].documentURL = e;
-                        // update array (pass by value) for re-render
-                        setOtherDocument([...otherDocument]);
-                      }
-                    }
-                  />
-                )}
+                  )}
+                </Flex>
               </Flex>
             ))}
 
@@ -419,6 +398,8 @@ function EditAppointments() {
             label={"Add Document"}
             onClick={() => addInputField()}
             bg={true}
+            leftIcon={"plus"}
+            mt="md"
           />
         </Container>
         <Group position="right" mt="sm">

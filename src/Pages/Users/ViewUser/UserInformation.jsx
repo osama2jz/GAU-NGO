@@ -3,42 +3,34 @@ import {
   Avatar,
   Container,
   Flex,
-  Group,
   SimpleGrid,
-  Tabs,
   Text,
 } from "@mantine/core";
 import axios from "axios";
 import moment from "moment/moment";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
-import { useLocation, useNavigate } from "react-router-dom";
-import ContainerHeader from "../../../Components/ContainerHeader";
+import { useLocation } from "react-router-dom";
+import Loader from "../../../Components/Loader";
 import Table from "../../../Components/Table";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import { useStyles } from "./styles";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import Button from "../../../Components/Button";
-import Loader from "../../../Components/Loader";
-import { ArrowNarrowLeft } from "tabler-icons-react";
-import { useReactToPrint } from "react-to-print";
+import { useMediaQuery } from "@mantine/hooks";
 
 function ViewUserPersonalInformation({ componentRef }) {
   const { classes } = useStyles();
   const { state } = useLocation();
+  const isMobile = useMediaQuery("(max-width: 820px)");
   const { userData } = state ?? "";
   const { user, translate } = useContext(UserContext);
   const [data, setData] = useState();
   const [docs, setDocs] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [removeAnchor, setRemoveAnchor] = useState(false);
-  const navigate = useNavigate();
+
   // const componentRef = useRef();
 
   const [workData, setWorkData] = useState([]);
-
 
   const { data1, status } = useQuery(
     "fetchUsertoViewData",
@@ -134,7 +126,7 @@ function ViewUserPersonalInformation({ componentRef }) {
       label: "Enterprise",
     },
     {
-      id:"noOfYears",
+      id: "noOfYears",
       numeric: false,
       disablePadding: true,
       label: "Years",
@@ -199,8 +191,8 @@ function ViewUserPersonalInformation({ componentRef }) {
         {loader ? (
           <Loader />
         ) : (
-          <Container className={classes.innerContainer} size="xl">
-            <Container className={classes.inputContainer} size="xl">
+          <Container className={classes.innerContainer} size="xl" p="xs">
+            <Container className={classes.inputContainer} size="xl" px="0px">
               <Text
                 align="center"
                 fz={"lg"}
@@ -211,7 +203,11 @@ function ViewUserPersonalInformation({ componentRef }) {
               >
                 {translate("Personal Information")}
               </Text>
-              <Flex gap={"xl"} justify="space-between">
+              <Flex
+                direction={isMobile ? "column" : "row"}
+                gap={"xl"}
+                justify="space-between"
+              >
                 <Avatar
                   size={180}
                   radius="xl"
@@ -223,7 +219,7 @@ function ViewUserPersonalInformation({ componentRef }) {
                   }
                 />
                 <SimpleGrid
-                  w={"75%"}
+                  w={isMobile ? "100%" : "75%"}
                   breakpoints={[
                     { minWidth: "md", cols: 4 },
                     { minWidth: "lg", cols: 4 },

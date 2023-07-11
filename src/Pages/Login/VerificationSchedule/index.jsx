@@ -144,7 +144,8 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
           .
         </Text>
       )}
-      {user.role === "user" && (
+      {console.log(user)}
+      {user.role === "User" && (
         <Button
           label={"Log Out"}
           onClick={() => {

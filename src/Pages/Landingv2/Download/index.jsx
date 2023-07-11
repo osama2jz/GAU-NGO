@@ -14,7 +14,7 @@ const Download = () => {
       <Title align="center" order={isMobile ? 2 : 1}>
         {translate("Download Our Latest App")}
       </Title>
-      <Text align="center" w={isMobile ? "90%" : "50%"}>
+      <Text align="justify" w={isMobile ? "90%" : "50%"}>
         {translate(
           "Stay connected with GAU NGO and access our services conveniently with our latest mobile app. Whether you're a volunteer, donor, or someone in need of assistance, our app is designed to provide a seamless and user-friendly experience."
         )}

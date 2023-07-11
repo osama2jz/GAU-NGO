@@ -20,9 +20,11 @@ import Loader from "../../../Components/Loader";
 import moment from "moment";
 import Button from "../../../Components/Button";
 import LeaveModal from "./LeaveModal";
+import { useMediaQuery } from "@mantine/hooks";
 
 const MySchedule = () => {
   const { classes } = useStyles();
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const { user, translate } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState([]);
@@ -95,8 +97,8 @@ const MySchedule = () => {
       </Text>
       <Container className={classes.innerContainer} size="xl" p={"0px"}>
         <Group position="center" pt="10px">
-          <Text>{translate("Guidlines for Calender Colors")}: </Text>
-          <ColorSwatch color="green " />
+          <Text align="center">{translate("Guidlines for Calender Colors")}: </Text>
+          <ColorSwatch color="green" />
           <Text>{translate("Duty Assigned.")}</Text>
           <ColorSwatch color="white" />
           <Text>{translate("No Duty.")}</Text>

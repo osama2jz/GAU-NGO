@@ -26,7 +26,7 @@ const Services = () => {
       <SimpleGrid
         breakpoints={[
           { minWidth: "sm", cols: 1 },
-          { minWidth: "md", cols: 2 },
+          { minWidth: "lg", cols: 2 },
         ]}
       >
         {true && (

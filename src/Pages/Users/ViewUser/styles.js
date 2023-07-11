@@ -10,10 +10,10 @@ export const useStyles = createStyles((theme) => ({
   innerContainer: {
     backgroundColor: theme.colors.white,
     padding: "20px",
+    overflowX: "scroll",
     borderRadius: "20px",
     width: "99%",
     marginTop: "20px",
-
   },
   dp: {
     display: "flex",
@@ -37,7 +37,7 @@ export const useStyles = createStyles((theme) => ({
     fontSize: "15px",
     fontWeight: 500,
     color: "#373A40",
-    marginLeft: '20px'
+    marginLeft: "20px",
   },
   back: {
     marginRight: "auto",
@@ -45,14 +45,13 @@ export const useStyles = createStyles((theme) => ({
     alignItems: "center",
   },
   sign: {
-    border: '1px solid rgb(0,0,0,0.3)',
-    borderRadius: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'rgb(0,0,0,0.05)',
-    padding: '30px',
-
+    border: "1px solid rgb(0,0,0,0.3)",
+    borderRadius: "10px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "rgb(0,0,0,0.05)",
+    padding: "30px",
   },
   tabs: {
     backgroundColor: "white",
@@ -64,5 +63,4 @@ export const useStyles = createStyles((theme) => ({
     textAlign: "center",
     fontWeight: "bold",
   },
-
 }));

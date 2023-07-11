@@ -94,7 +94,7 @@ function ViewUserModal({
           <Badge
             variant="outline"
             color={reportData?.accStatus === "inactive" ? "red.0" : "green.0"}
-            w={"150px"}
+            w={"140px"}
             ml="20px"
           >
             {translate(reportData?.accStatus)}
@@ -107,7 +107,7 @@ function ViewUserModal({
             color={reportData?.status === "unverified" ? "red.0" : "green.0"}
             radius="md"
             ml="20px"
-            w={"150px"}
+            w={"140px"}
           >
             {translate(reportData?.status)}
           </Badge>

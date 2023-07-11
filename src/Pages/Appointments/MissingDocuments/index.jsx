@@ -225,7 +225,7 @@ const MissingDocuments = () => {
             <InputField
               placeholder="Search Name"
               leftIcon="search"
-              pb="0"
+              pb="0px"
               value={search}
               onChange={(v) => setSearch(v.target.value)}
             />

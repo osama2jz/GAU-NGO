@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Anchor,
+  Box,
   Container,
   Divider,
   FileInput,
@@ -36,7 +37,6 @@ const MyDocs = ({ userDocs, Data, loader }) => {
   const [fileLoader, setFileLoader] = useState(false);
   const [oldDocs, setOldDocs] = useState([]);
   const [verifyId, setVerifyId] = useState("");
-  console.log("saa", user, userData);
   const [docs, setDocs] = useState([
     {
       documentTitle: "",
@@ -283,28 +283,6 @@ const MyDocs = ({ userDocs, Data, loader }) => {
           "Add your frequently used documents here. These documents are public and can be viewed by all the professional users."
         )}
       </Text>
-      {/* <ol>
-        {oldDocs.map((obj) => {
-          return (
-            <li>
-              <Flex justify={"space-between"} maw="300px" pl="lg">
-                <Anchor href={obj.documentURL} target="_blank">
-                  {obj.documentTitle}
-                </Anchor>
-                <ActionIcon>
-                  <Trash
-                    color="red"
-                    onClick={() => {
-                      setOpenDeleteModal(true);
-                      setDeleteID(obj._id);
-                    }}
-                  />
-                </ActionIcon>
-              </Flex>
-            </li>
-          );
-        })}
-      </ol> */}
 
       <Grid mt={"xl"}>
         {docs?.map((i, index) => (
@@ -398,10 +376,13 @@ const MyDocs = ({ userDocs, Data, loader }) => {
       <Text align="center" size={"xl"} mt={"sm"} mb={"sm"}>
         {translate("All Documents")}
       </Text>
-      <Table striped highlightOnHover withBorder>
-        <thead>{ths}</thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      <Box w="100%" style={{ overflow: "scroll" }}>
+        <Table striped highlightOnHover withBorder>
+          <thead>{ths}</thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </Box>
+
       <DeleteModal
         opened={openDeleteModal}
         setOpened={setOpenDeleteModal}

@@ -32,6 +32,7 @@ import { useStyles } from "../styles";
 import { UserInfo } from "../userInformation";
 import InputMask from "react-input-mask";
 import { showNotification } from "@mantine/notifications";
+import { useMediaQuery } from "@mantine/hooks";
 
 const Step1 = ({
   setSelectedUser,
@@ -59,6 +60,7 @@ const Step1 = ({
   setProjects,
 }) => {
   const { state } = useLocation();
+  const matches = useMediaQuery("(min-width: 640px)");
 
   const { classes } = useStyles();
   const { user: usertoken, translate } = useContext(UserContext);
@@ -76,7 +78,6 @@ const Step1 = ({
   const [disabledCameraBtn, setDisabledCameraBtn] = useState(false);
   const webcamRef = useRef(null);
   const verifyRef = useRef(null);
-
 
   const videoConstraints = {
     width: 420,
@@ -495,13 +496,15 @@ const Step1 = ({
           />
         )}
 
-        <Divider
-          label="OR"
-          labelPosition="center"
-          orientation="vertical"
-          color={"rgb(0,0,0,0.5)"}
-          // my="md"
-        />
+        {matches && (
+          <Divider
+            label="OR"
+            labelPosition="center"
+            orientation="vertical"
+            color={"rgb(0,0,0,0.5)"}
+            // my="md"
+          />
+        )}
         {showCamera && (
           <Flex direction={"column"}>
             <InputField

@@ -88,7 +88,7 @@ export const useStyles = createStyles((theme, props) => ({
     position: "relative",
     width: "90%",
     height: "1000px",
-    [`@media (max-width: 1020px)`]: {
+    [`@media (max-width: 1200px)`]: {
       height: "100%",
     },
     // backgroundColor: "red",
@@ -105,7 +105,7 @@ export const useStyles = createStyles((theme, props) => ({
       borderColor: theme.colors.green,
       borderRadius: "30% 30% 0% 30%",
     },
-    [`@media (max-width: 992px)`]: {
+    [`@media (max-width: 1200px)`]: {
       position: "static",
       width: "100%",
       padding: "10px",
@@ -154,6 +154,7 @@ export const useStyles = createStyles((theme, props) => ({
     backgroundSize: "cover",
     position: "relative",
     zIndex: -1,
+    paddingBottom: "10px",
     color: "white",
     ":after": {
       content: '""',

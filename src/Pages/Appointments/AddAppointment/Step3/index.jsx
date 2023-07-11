@@ -15,6 +15,7 @@ import InputField from "../../../../Components/InputField";
 import { s3Config } from "../../../../constants/constants";
 import { UserContext } from "../../../../contexts/UserContext";
 import DoubleTabs from "./Tabs";
+import { useMediaQuery } from "@mantine/hooks";
 
 const Step3 = ({
   selectedUser,
@@ -34,6 +35,7 @@ const Step3 = ({
   setAttachedDocs,
 }) => {
   const { user, translate } = useContext(UserContext);
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const addInputField = () => {
     if (
@@ -174,6 +176,7 @@ const Step3 = ({
             styles={(theme) => ({
               root: {
                 margin: "auto",
+                width: isMobile ? "100%" : "50%",
               },
               input: {
                 border: "1px solid rgb(0, 0, 0, 0.5)",
@@ -191,6 +194,7 @@ const Step3 = ({
       ))}
       <Button
         label={"Add Document"}
+        mt="10px"
         onClick={() => addInputField()}
         bg={true}
       />

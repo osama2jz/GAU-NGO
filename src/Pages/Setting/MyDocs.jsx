@@ -1,30 +1,25 @@
 import {
   ActionIcon,
   Anchor,
-  Avatar,
   Container,
   FileInput,
   Flex,
   Grid,
   Group,
-  SimpleGrid,
-  Text,
+  Text
 } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import ReactInputMask from "react-input-mask";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
-import { CircleX, FileUpload, Trash, Upload } from "tabler-icons-react";
+import { FileUpload, Trash } from "tabler-icons-react";
 import Button from "../../Components/Button";
 import DeleteModal from "../../Components/DeleteModal";
 import InputField from "../../Components/InputField";
+import routeNames from "../../Routes/routeNames";
 import { backendUrl, s3Config } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
-import routeNames from "../../Routes/routeNames";
 import { useStyles } from "./styles";
 
 const MyDocs = () => {
@@ -233,7 +228,7 @@ const MyDocs = () => {
                 label="Select File"
                 required
                 ml={"0px"}
-                accept="file/pdf"
+                accept="file/pdf image/png image/jpeg"
                 disabled={docs[index].documentTitle === ""}
                 styles={(theme) => ({
                   root: {

@@ -67,10 +67,10 @@ const Index = ({}) => {
           style={{ margin: matches2 && "auto" }}
           align="center"
         >
-          <Flex gap={"xs"}>
+          <Flex gap={"3px"}>
             <Text
               fw={"bolder"}
-              fz={matches2 && "xl"}
+              fz={matches ? "xl" : "sm"}
               color={
                 user.role === "User"
                   ? "green.0"
@@ -81,7 +81,7 @@ const Index = ({}) => {
             >
               {translate(user.role)}
             </Text>
-            <Text fw={"bolder"} fz={matches2 && "xl"}>
+            <Text fw={"bolder"} fz={matches ? "xl" : "sm"}>
               {translate("Dashboard")}
             </Text>
           </Flex>

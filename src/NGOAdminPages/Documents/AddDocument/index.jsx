@@ -24,12 +24,13 @@ import { backendUrl, s3Config } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import { useStyles } from "./styles";
+import { useMediaQuery } from "@mantine/hooks";
 
 export const AddDocument = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const { user,translate } = useContext(UserContext);
-  const [documents, setDocuments] = useState([]);
+  const isMobile = useMediaQuery("(max-width: 640px)");
+  const { user, translate } = useContext(UserContext);
   const [filerror, setFileError] = useState("");
   const [fileUploading, setFileUploading] = useState(false);
 
@@ -78,7 +79,7 @@ export const AddDocument = () => {
         if (response.data.status) {
           showNotification({
             title: translate("Document Created"),
-            message:translate("New Document Created Successfully!"),
+            message: translate("New Document Created Successfully!"),
             color: "green.0",
           });
           navigate(routeNames.ngoAdmin.viewDocuments);
@@ -195,10 +196,16 @@ export const AddDocument = () => {
           form={form}
           validateName="documentTitle"
         />
-        <SimpleGrid cols={2}>
+        <SimpleGrid
+          breakpoints={[
+            { minWidth: "md", cols: 2 },
+            { minWidth: "xs", cols: 1 },
+          ]}
+        >
           <Datepicker
             label={"Expiry Date"}
             form={form}
+            dropdownType={isMobile ? "modal" : "popover"}
             validateName="expiryDate"
           />
           <Input.Wrapper error={filerror} size={"md"}>

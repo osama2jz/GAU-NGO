@@ -10,13 +10,14 @@ const ViewModal = ({ opened, setOpened, children, title, size = "500px" }) => {
       fontWeight: "bold",
       color: "#5C5F66",
       // marginLeft:"150px"
+      [`@media (max-width: 620px)`]: {
+        fontSize: "18px",
+      },
     },
-    root:{
-    
-    }
+    root: {},
   }));
   const { classes } = useStyles();
-  const {translate}=useContext(UserContext)
+  const { translate } = useContext(UserContext);
   return (
     <ModalMantine
       title={translate(title)}

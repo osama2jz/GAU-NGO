@@ -46,7 +46,6 @@ export const UserProvider = ({ children }) => {
   const value = { user, setUser, lang, translate };
 
   function translate(value) {
-    // if (value?.split(" ").length === 1) {
     const lowerCaseValue = value?.toLowerCase();
     for (const key in lang) {
       if (key.toLowerCase() === lowerCaseValue) {
@@ -54,14 +53,6 @@ export const UserProvider = ({ children }) => {
       }
     }
     return value;
-    // } else {
-    //   let other = "";
-    //   value?.split(" ").forEach((i) => {
-    //     let a = translate(i);
-    //     other = other + " " + a;
-    //   });
-    //   return other;
-    // }
   }
 
   //logded in user information
@@ -89,7 +80,21 @@ export const UserProvider = ({ children }) => {
           name: user?.firstName + " " + user?.lastName,
           phoneNumber: user?.phoneNumber,
           profileImage: user?.profileImage,
-          documents: response.data.documents,
+          documents: response?.data.documents,
+          role:
+            user?.userType === "socialWorker"
+              ? "Social Worker"
+              : user?.userType === "psychologist"
+              ? "Psychologist"
+              : user?.userType === "lawyer"
+              ? "Lawyer"
+              : user?.userType === "ngoadmin"
+              ? "Admin"
+              : user?.userType === "user"
+              ? "User"
+              : user?.userType === "admin"
+              ? "Super Admin"
+              : "",
         }));
       },
       enabled: !!userData?.token,

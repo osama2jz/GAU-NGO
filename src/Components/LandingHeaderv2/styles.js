@@ -10,13 +10,13 @@ export const useStyles = createStyles((theme, { opened }) => ({
     textDecoration: "none",
     color: "white",
     fontWeight: "600",
-    [`@media (max-width: 820px)`]: {
+    [`@media (max-width: 1100px)`]: {
       color: "black",
     },
     "&:hover": {
       cursor: "pointer",
-      scale:'1.1',
-      textShadow:'2px 2px rgb(0,0,0,0.4)'
+      scale: "1.1",
+      textShadow: "2px 2px rgb(0,0,0,0.4)",
     },
   },
   navigationBar: {

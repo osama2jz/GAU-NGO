@@ -156,7 +156,12 @@ export const AddComplains = () => {
         onSubmit={form.onSubmit((values) => handleAddComplaint.mutate(values))}
       >
         <Container className={classes.innerContainer} size="xl">
-          <SimpleGrid cols={2}>
+          <SimpleGrid
+            breakpoints={[
+              { minWidth: "md", cols: 2 },
+              { minWidth: "xs", cols: 1 },
+            ]}
+          >
             <InputField
               label="Subject"
               placeholder="Subject"
