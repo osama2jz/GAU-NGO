@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
         ? "Admin"
         : userData?.userType === "user"
         ? "User"
-        : userData?.userType === "admin"
+        : userData?.userType === "superadmin"
         ? "Super Admin"
         : "",
     profileImage: userData?.profileImage,

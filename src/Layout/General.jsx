@@ -47,7 +47,6 @@ const Layout = () => {
       navigate(-1);
     }
   };
-
   return user?.role && user?.token ? (
     <AppShell
       styles={{
@@ -103,7 +102,7 @@ const Layout = () => {
         </Group>
         <Container
           bg={theme.colors.container}
-          size="xl"
+          size="lg"
           style={{ borderRadius: "20px", border: "1px solid rgb(0,0,0,0.1)" }}
         >
           {allowed() && <Outlet />}
