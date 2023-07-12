@@ -54,7 +54,7 @@ export const psychSideBarData = [
       { label: "Project Reports", link: routeNames.pysch.allProjects },
     ],
   },
-  { label: "Chats", icon: Message, link: routeNames.pysch.chat },
+  // { label: "Chats", icon: Message, link: routeNames.pysch.chat },
 ];
 
 export const bottom = [

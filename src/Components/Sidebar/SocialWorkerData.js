@@ -73,7 +73,7 @@ export const socialSideBarData = [
       { label: "Project Reports", link: routeNames.socialWorker.allProjects },
     ],
   },
-  { label: "Chats", icon: Message, link: routeNames.socialWorker.chat },
+  // { label: "Chats", icon: Message, link: routeNames.socialWorker.chat },
 ];
 
 export const bottom = [

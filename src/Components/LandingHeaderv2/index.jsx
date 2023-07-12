@@ -78,7 +78,7 @@ const Header = ({ opened, toggle, onClick }) => {
           onChange={() => {
             localStorage.setItem(
               "lang",
-              user.lang === "spanish" ? "english" : "spanish"
+              user?.lang === "spanish" ? "english" : "spanish"
             );
             window.location.reload();
           }}

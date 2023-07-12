@@ -168,6 +168,6 @@ export const ngoAdminSideBarData = [
       { label: "View Dictionary", link: routeNames.ngoAdmin.ViewDictionary },
     ],
   },
-  { label: "Chats", icon: Message, link: routeNames.ngoAdmin.chat },
+  // { label: "Chats", icon: Message, link: routeNames.ngoAdmin.chat },
   { label: "Settings", icon: Settings, link: routeNames.socialWorker.settings },
 ];

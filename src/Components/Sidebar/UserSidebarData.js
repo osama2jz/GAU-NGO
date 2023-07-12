@@ -45,7 +45,7 @@ export const UserSidebarData = [
     ],
   },
   { label: "Settings", icon: Settings, link: routeNames.user.settings },
-  { label: "Chats", icon: Message, link: routeNames.user.chat },
+  // { label: "Chats", icon: Message, link: routeNames.user.chat },
 ];
 
 export const bottom = [

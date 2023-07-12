@@ -53,7 +53,7 @@ export const LawyerSidebarData = [
       { label: "Project Reports", link: routeNames.lawyer.allProjects },
     ],
   },
-  { label: "Chats", icon: Message, link: routeNames.lawyer.chat },
+  // { label: "Chats", icon: Message, link: routeNames.lawyer.chat },
 ];
 
 export const bottom = [
