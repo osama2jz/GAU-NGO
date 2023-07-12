@@ -6,7 +6,7 @@ import {
   Flex,
   Grid,
   Group,
-  Text
+  Text,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -228,7 +228,7 @@ const MyDocs = () => {
                 label="Select File"
                 required
                 ml={"0px"}
-                accept="file/pdf image/png image/jpeg"
+                accept="file/pdf, image/png, image/jpeg"
                 disabled={docs[index].documentTitle === ""}
                 styles={(theme) => ({
                   root: {

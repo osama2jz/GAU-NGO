@@ -16,7 +16,7 @@ const Auth = () => {
   const navigate = useNavigate();
 
   const allowed = () => {
-    if (user?.role) {
+    if (user?.role && user?.verificationStatus !== "unverified") {
       navigate(routeNames.socialWorker.dashboard);
     } else {
       return true;

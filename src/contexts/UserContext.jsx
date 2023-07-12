@@ -42,6 +42,7 @@ export const UserProvider = ({ children }) => {
     token: userData?.token,
     ngoName: userData?.ngoId?.ngoName,
     documents: [],
+    verificationStatus: userData?.verificationStatus,
   });
   const value = { user, setUser, lang, translate };
 

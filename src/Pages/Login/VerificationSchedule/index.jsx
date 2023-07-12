@@ -16,7 +16,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import routeNames from "../../../Routes/routeNames";
 import SelectMenu from "../../../Components/SelectMenu";
 
-const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
+const VerificationSchedule = ({ socialWorkerVerification = false, userId }) => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const { user, setUser, translate } = useContext(UserContext);
@@ -68,7 +68,6 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
   //create appointment
   const handleCreateAppointment = useMutation(
     (values) => {
-      console.log("here", user);
       return axios.post(
         `${backendUrl + "/api/user/scheduleVerification"}`,
         {
@@ -89,6 +88,7 @@ const VerificationSchedule = ({ socialWorkerVerification, userId }) => {
     {
       onSuccess: (response) => {
         if (response.data.status) {
+          setUser((p) => ({ ...p, verificationStatus: "unverified" }));
           showNotification({
             title: translate("Appointment Created"),
             message: translate("Appointment Created Successfully"),

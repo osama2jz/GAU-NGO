@@ -119,7 +119,6 @@ function ProjectAppointments() {
     },
     {
       onSuccess: (response) => {
-        console.log(response?.data?.data);
         let data = response?.data?.data?.map((obj, ind) => {
           let appointment = {
             id: obj.appointmentId,
@@ -149,7 +148,12 @@ function ProjectAppointments() {
             doc: obj?.documents,
             docs: obj?.documents?.filter((obj) => obj.documentURL.length < 1)
               .length,
-            reportData: obj?.reports,
+            reportData: obj?.reports?.map((obj) => {
+              return {
+                ...obj,
+                reportFile: `http://report.gauapp.es/reports/${obj.reportFile}`,
+              };
+            }),
             image: obj?.appointmentUserImage
               ? obj?.appointmentUserImage
               : userlogo,

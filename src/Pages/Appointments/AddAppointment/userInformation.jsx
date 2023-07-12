@@ -57,6 +57,7 @@ export const UserInfo = ({ userData, loading }) => {
         width={"180px"}
         src={userData?.data?.data?.profileImage || userImage}
         alt="img"
+        style={{margin:'auto'}}
       />
       <Container w="100%">
         {data.map((obj) => {

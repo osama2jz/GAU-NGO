@@ -16,8 +16,7 @@ const VerificationPending = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  console.log(state);
-  const { setUser, translate,user } = useContext(UserContext);
+  const { setUser, translate, user } = useContext(UserContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   //API call for Cancel Appointments
@@ -39,49 +38,56 @@ const VerificationPending = () => {
           message: translate("Appointment Cancelled Successfully"),
           color: "green.0",
         });
+        setUser((p) => ({ ...p, role: "User" }));
         // navigate(routeNames.socialWorker.allAppointments);
-        navigate(routeNames.general.verificationSchedule)
+        navigate(routeNames.general.verificationSchedule);
         setOpenDeleteModal(false);
       },
     }
   );
+  // console.log(user);
   return (
     <Flex direction={"column"} align="center" w={"70%"} m="auto" gap={"md"}>
       <img src={pending} width="60%" />
       <Text align="center">
-        {translate("Your appointment for account verification has been scheduled. Please visit on site to verify your account")}.
+        {translate(
+          "Your appointment for account verification has been scheduled. Please visit on site to verify your account"
+        )}
+        .
       </Text>
       <Text>
         <b>{translate("NGO")}:</b> {state?.data?.otherInfo?.ngoName}
         <br />
         <b>{translate("Branch")}:</b> {state?.data?.otherInfo?.branchName}
         <br />
-        <b>{translate("Branch Address")}:</b> {state?.data?.otherInfo?.branchAddress}
+        <b>{translate("Branch Address")}:</b>{" "}
+        {state?.data?.otherInfo?.branchAddress}
         <br />
-        <b>{translate("Appointment With")}:</b> {state?.data?.otherInfo?.professionalName}
+        <b>{translate("Appointment With")}:</b>{" "}
+        {state?.data?.otherInfo?.professionalName}
         <br />
         <b>{translate("Appointment Date")}:</b> {state?.data.appointmentDate}
         <br />
         <b>{translate("Appointment Time")}:</b> {state?.data.appointmentTime}
       </Text>
       <Group>
-      <Button
-        label={"Log Out"}
-        onClick={() => {
-          localStorage.clear();
-          navigate(routeNames.general.login);
-          setUser();
-        }}
-      />
-       <Button
-        label={"Cancel"}
-        onClick={() => {
-          setOpenDeleteModal(true);
-        }}
-      />
+        <Button
+          label={"Log Out"}
+          onClick={() => {
+            localStorage.clear();
+            navigate(routeNames.general.login);
+            setUser();
+          }}
+        />
+        <Button
+          label={"Cancel"}
+          onClick={() => {
+            setOpenDeleteModal(true);
+          }}
+        />
       </Group>
-     
-       {/* <Button
+
+      {/* <Button
         label={"Reschedule"}
         onClick={() => {
           localStorage.clear();
@@ -94,7 +100,7 @@ const VerificationPending = () => {
         setOpened={setOpenDeleteModal}
         onCancel={() => setOpenDeleteModal(false)}
         onDelete={() => {
-          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);  
+          CancelAppointments.mutate(state?.data?.otherInfo?.appointmentId);
         }}
         cancel={"No"}
         deletee={"Yes"}
@@ -103,7 +109,6 @@ const VerificationPending = () => {
         message="Do you really want to cancel this appointment?"
       />
     </Flex>
-    
   );
 };
 export default VerificationPending;

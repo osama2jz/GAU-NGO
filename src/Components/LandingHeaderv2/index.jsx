@@ -72,6 +72,7 @@ const Header = ({ opened, toggle, onClick }) => {
           offLabel={"EN"}
           color="white"
           size="lg"
+          styles={{ track: { cursor: "pointer" } }}
           checked={user?.lang === "spanish" ? true : false}
           thumbIcon={<World size={"sm"} color="green" />}
           onChange={() => {
